@@ -63,13 +63,15 @@
       <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Identificador de Asesor / Captador *</label>
-          <select id="idAsesor" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
-            <option value="">Selecciona tu usuario...</option>
-            <option value="ADV-01">ADV-01 | Martín Nava</option>
-          </select>
-        </div>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor / Captador *</label>
+            <input type="text" id="nombreAsesor" required placeholder="Ej: Martín Nava" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
+            <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+          </div>
 
         <div>
           <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
@@ -220,21 +222,22 @@ async function procesarCarga(e) {
     const fotosPromesas = Array.from(filesInput).map(file => fileToBase64(file));
     const fotosBase64 = await Promise.all(fotosPromesas);
 
-    const payload = {
-      action: "CREAR_PROPIEDAD",
-      id_asesor: document.getElementById("idAsesor").value,
-      operacion: document.getElementById("operacion").value,
-      tipo: document.getElementById("tipo").value,
-      precio: document.getElementById("precio").value,
-      titulo: document.getElementById("titulo").value,
-      ubicacion: document.getElementById("ubicacion").value,
-      habitaciones: document.getElementById("habitaciones").value,
-      banos: document.getElementById("banos").value,
-      estacionamientos: document.getElementById("estacionamientos").value,
-      metros: document.getElementById("metros").value,
-      descripcion: document.getElementById("descripcion").value,
-      fotosArchivos: fotosBase64 // Se envía el array con los archivos adjuntos
-    };
+const payload = {
+          action: "CREAR_PROPIEDAD",
+          nombre_asesor: document.getElementById("nombreAsesor").value,
+          telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
+          operacion: document.getElementById("operacion").value,
+          tipo: document.getElementById("tipo").value,
+          precio: document.getElementById("precio").value,
+          titulo: document.getElementById("titulo").value,
+          ubicacion: document.getElementById("ubicacion").value,
+          habitaciones: document.getElementById("habitaciones").value,
+          banos: document.getElementById("banos").value,
+          estacionamientos: document.getElementById("estacionamientos").value,
+          metros: document.getElementById("metros").value,
+          descripcion: document.getElementById("descripcion").value,
+          fotosArchivos: fotosBase64
+        };
 
     await fetch(API_URL, {
       method: "POST",
