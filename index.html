@@ -173,70 +173,80 @@
       }
     }
 
-    function renderizarTarjetas(lista) {
-      const grid = document.getElementById("propsGrid");
-      const countLabel = document.getElementById("propCount");
-      const noRes = document.getElementById("noResults");
+function renderizarTarjetas(lista) {
+  const grid = document.getElementById("propsGrid");
+  const countLabel = document.getElementById("propCount");
+  const noRes = document.getElementById("noResults");
 
-      grid.innerHTML = "";
-      countLabel.textContent = `${lista.length} propiedad(es)`;
+  grid.innerHTML = "";
+  countLabel.textContent = `${lista.length} propiedad(es)`;
 
-      if (lista.length === 0) {
-        grid.classList.add("hidden");
-        noRes.classList.remove("hidden");
-        return;
-      }
+  if (lista.length === 0) {
+    grid.classList.add("hidden");
+    noRes.classList.remove("hidden");
+    return;
+  }
 
-      noRes.classList.add("hidden");
-      grid.classList.remove("hidden");
+  noRes.classList.add("hidden");
+  grid.classList.remove("hidden");
 
-      lista.forEach(p => {
-        const fotoPrincipal = (p.fotos && p.fotos.length > 0 && p.fotos[0] !== "") 
-          ? p.fotos[0] 
-          : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+  lista.forEach(p => {
+    const fotoPrincipal = (p.fotos && p.fotos.length > 0 && p.fotos[0] !== "") 
+      ? p.fotos[0] 
+      : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
 
-        const esDestacado = p.destacado && p.destacado.toUpperCase() === "SI";
+    const esDestacado = p.destacado === "SI";
+    const waNumber = p.asesor ? p.asesor.whatsapp : "584140000000";
+    const nombreAsesor = p.asesor ? p.asesor.nombre : "Asesor EcoNexus";
+    const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ID: ${p.id} (${p.titulo}). ¿Podría darme más detalles?`);
 
-        const cardHTML = `
-          <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-            <div class="relative h-56 overflow-hidden group">
-              <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <div class="absolute top-3 left-3 flex space-x-2">
-                <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                  ${p.operacion}
-                </span>
-                ${esDestacado ? `<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow"><i class="fa-solid fa-star mr-1"></i>Destacado</span>` : ''}
-              </div>
-              <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-lg">
-                ID: ${p.id}
-              </div>
+    const cardHTML = `
+      <div class="bg-white rounded-2xl overflow-hidden border ${esDestacado ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
+        <div class="relative h-56 overflow-hidden group">
+          <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+          <div class="absolute top-3 left-3 flex space-x-2">
+            <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+              ${p.operacion}
+            </span>
+            ${esDestacado ? `<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow flex items-center"><i class="fa-solid fa-star mr-1"></i> VIP</span>` : ''}
+          </div>
+          <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-lg">
+            ID: ${p.id}
+          </div>
+        </div>
+
+        <div class="p-5 flex-grow flex flex-col justify-between">
+          <div>
+            <div class="text-xs font-semibold text-econexus uppercase tracking-wider mb-1">${p.tipo} • ${p.ubicacion}</div>
+            <h3 class="font-bold text-gray-900 text-lg mb-2 line-clamp-2">${p.titulo}</h3>
+            <div class="text-2xl font-black text-econexus mb-4">
+              $${Number(p.precio).toLocaleString('en-US')}
             </div>
 
-            <div class="p-5 flex-grow flex flex-col justify-between">
-              <div>
-                <div class="text-xs font-semibold text-econexus uppercase tracking-wider mb-1">${p.tipo} • ${p.ubicacion}</div>
-                <h3 class="font-bold text-gray-900 text-lg mb-2 line-clamp-2">${p.titulo}</h3>
-                <div class="text-2xl font-black text-econexus mb-4">
-                  $${Number(p.precio).toLocaleString('en-US')}
-                </div>
-
-                <div class="grid grid-cols-4 gap-2 text-center text-xs text-gray-600 bg-econexus-soft p-3 rounded-xl mb-4 border border-green-100">
-                  <div><i class="fa-solid fa-bed text-econexus block text-sm mb-1"></i>${p.habitaciones} Hab</div>
-                  <div><i class="fa-solid fa-bath text-econexus block text-sm mb-1"></i>${p.banos} Baños</div>
-                  <div><i class="fa-solid fa-car text-econexus block text-sm mb-1"></i>${p.estacionamientos} Pst</div>
-                  <div><i class="fa-solid fa-ruler-combined text-econexus block text-sm mb-1"></i>${p.metros} m²</div>
-                </div>
-              </div>
-
-              <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
-                Ver Ficha Completa <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-              </button>
+            <div class="grid grid-cols-4 gap-2 text-center text-xs text-gray-600 bg-econexus-soft p-3 rounded-xl mb-4 border border-green-100">
+              <div><i class="fa-solid fa-bed text-econexus block text-sm mb-1"></i>${p.habitaciones} Hab</div>
+              <div><i class="fa-solid fa-bath text-econexus block text-sm mb-1"></i>${p.banos} Baños</div>
+              <div><i class="fa-solid fa-car text-econexus block text-sm mb-1"></i>${p.estacionamientos} Pst</div>
+              <div><i class="fa-solid fa-ruler-combined text-econexus block text-sm mb-1"></i>${p.metros} m²</div>
             </div>
           </div>
-        `;
-        grid.innerHTML += cardHTML;
-      });
-    }
+
+          <!-- BOTONES DE ACCIÓN: FICHA COMPLETA + WHATSAPP DIRECTO DEL ASESOR -->
+          <div class="space-y-2">
+            <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
+              Ver Ficha Completa <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+            </button>
+            
+            <a href="https://wa.me/${waNumber}?text=${msjWA}" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
+              <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar a ${nombreAsesor.split(' ')[0]}
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+    grid.innerHTML += cardHTML;
+  });
+}
 
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
