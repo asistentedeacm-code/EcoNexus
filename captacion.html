@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoNexus | Registro de Inmuebles para Agentes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+
+  <!-- HEADER -->
+  <header class="bg-econexus text-white py-4 px-6 shadow-md flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+      <i class="fa-solid fa-tree text-2xl text-green-300"></i>
+      <span class="text-xl font-bold tracking-wide">EcoNexus Agent Portal</span>
+    </div>
+    <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga de Propiedades</span>
+  </header>
+
+  <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
+
+    <!-- INSTRUCCIONES Y FUNCIONAMIENTO -->
+    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
+      <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
+        <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga e Instrucciones
+      </h2>
+      <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
+        <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong> claras en formato horizontal (.jpg o .png).</li>
+        <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien (ej: <em>Galpón Industrial, Anexo, Penthouse, Hotel, Terreno Comercial</em>).</li>
+        <li><strong>Directo a tu WhatsApp:</strong> Asegúrate de seleccionar tu código de asesor para que los clientes te contacten directamente a tu chat.</li>
+        <li><strong>Vigencia Automática:</strong> Tu publicación estará activa por <strong>90 días</strong> de forma totalmente gratuita.</li>
+      </ul>
+    </div>
+
+    <!-- SECCIÓN INFORMATIVA: DESTACADOS VIP -->
+    <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-2xl p-6 shadow-md mb-6 relative overflow-hidden">
+      <div class="relative z-10 flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <span class="bg-black/30 text-amber-200 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider mb-2 inline-block">Posicionamiento VIP</span>
+          <h3 class="text-xl font-extrabold">¿Quieres vender o alquilar más rápido?</h3>
+          <p class="text-xs text-amber-100 max-w-md mt-1">Destaca tu inmueble en la cima del portal web con la etiqueta dorada VIP y recibe hasta 5 veces más contactos directos.</p>
+        </div>
+        <a href="https://wa.me/584140000000?text=Hola,%20deseo%20solicitar%20información%20para%20destacar%20un%20inmueble%20VIP" target="_blank" class="bg-white text-amber-700 hover:bg-amber-50 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow flex items-center">
+          <i class="fa-brands fa-whatsapp text-base mr-2 text-green-600"></i> Solicitar VIP
+        </a>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DE CARGA -->
+    <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
+      <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Identificador de Asesor / Captador *</label>
+          <select id="idAsesor" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
+            <option value="">Selecciona tu usuario...</option>
+            <option value="ADV-01">ADV-01 | Martín Nava</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
+          <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
+            <option value="Venta">Venta</option>
+            <option value="Alquiler">Alquiler</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble (Campo Libre) *</label>
+          <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Anexo, Hotel, Local..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
+          <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
+        <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial en Zona Industrial Norte" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
+        <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+      </div>
+
+      <!-- CARACTERÍSTICAS TÉCNICAS -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones / Ofic.</label>
+          <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
+          <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
+          <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
+          <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
+        <textarea id="descripcion" rows="4" required placeholder="Detalla acabados, servicios, condiciones comerciales y ventajas..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
+      </div>
+
+      <!-- CARGA DE FOTOS CON LÍMITE DE 5 -->
+      <div>
+        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Enlaces de Fotos (Máximo 5 URLs separadas por coma) *</label>
+        <textarea id="fotos" rows="2" required placeholder="Pega los enlaces públicos de tus fotos (ImgBB, Google Drive, etc.). Ejemplo: https://i.ibb.co/foto1.jpg, https://i.ibb.co/foto2.jpg" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
+        <span class="text-xs text-gray-400">Máximo 5 imágenes permitidas por publicación.</span>
+      </div>
+
+      <!-- DESCARGO DE RESPONSABILIDAD LEGAL (EULA / TERMOS AGENTE) -->
+      <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
+        <h4 class="font-bold text-gray-800 uppercase">Términos, Condiciones y Descargo de Responsabilidad</h4>
+        <p>
+          Al hacer clic en "Publicar Inmueble", el usuario/agente declara ser el autorizado o captador legítimo del bien y asume total responsabilidad sobre la veracidad de la información, el estado legal de la propiedad y el cumplimiento de las normativas vigentes.
+        </p>
+        <p>
+          <strong>EcoNexus</strong> opera únicamente como un directorio e infraestructura tecnológica de exhibición publicitaria. La plataforma y sus creadores quedan eximidos de cualquier responsabilidad civil, penal, administrativa o mercantil derivada de las negociaciones, visitas, cobros, contratos o compromisos celebrados entre las partes.
+        </p>
+        <label class="flex items-start space-x-2 pt-2 cursor-pointer">
+          <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
+          <span class="font-bold text-gray-800">Acepto expresamente los términos, normas de publicación y el descargo de responsabilidad legal de EcoNexus.</span>
+        </label>
+      </div>
+
+      <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
+        Publicar Inmueble en EcoNexus
+      </button>
+    </form>
+  </main>
+
+  <footer class="bg-econexus-dark text-white py-4 text-center text-xs">
+    EcoNexus Real Estate Tech • Plataforma Exclusiva para Agentes
+  </footer>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbz2pGlVI-58NPPtsBdve5pl0KxhFRDuI6kHR4xHCx5aoyHCWkGPp2BcRHLYRr-tTQpN/exec";
+
+    async function procesarCarga(e) {
+      e.preventDefault();
+      
+      const fotosInput = document.getElementById("fotos").value.split(",");
+      if (fotosInput.length > 5) {
+        alert("Atención: Has superado el límite permitido. Por favor coloca un máximo de 5 fotos.");
+        return;
+      }
+
+      const btn = document.getElementById("btnSubmit");
+      btn.disabled = true;
+      btn.textContent = "Procesando y guardando inmueble...";
+
+      const payload = {
+        action: "CREAR_PROPIEDAD",
+        id_asesor: document.getElementById("idAsesor").value,
+        operacion: document.getElementById("operacion").value,
+        tipo: document.getElementById("tipo").value,
+        precio: document.getElementById("precio").value,
+        titulo: document.getElementById("titulo").value,
+        ubicacion: document.getElementById("ubicacion").value,
+        habitaciones: document.getElementById("habitaciones").value,
+        banos: document.getElementById("banos").value,
+        estacionamientos: document.getElementById("estacionamientos").value,
+        metros: document.getElementById("metros").value,
+        descripcion: document.getElementById("descripcion").value,
+        fotos: fotosInput.map(f => f.trim()).filter(f => f !== "").slice(0, 5).join(",")
+      };
+
+      try {
+        await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        alert("¡Inmueble publicado con éxito! Ya se encuentra disponible en la red de EcoNexus.");
+        document.getElementById("formCaptacion").reset();
+      } catch (err) {
+        alert("Ocurrió un error al procesar la publicación. Revisa tu conexión a internet.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Publicar Inmueble en EcoNexus";
+      }
+    }
+  </script>
+</body>
+</html>
