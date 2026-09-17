@@ -127,12 +127,24 @@
         <textarea id="descripcion" rows="4" required placeholder="Detalla acabados, servicios, condiciones comerciales y ventajas..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
       </div>
 
-      <!-- CARGA DE FOTOS CON LÍMITE DE 5 -->
-      <div>
-        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Enlaces de Fotos (Máximo 5 URLs separadas por coma) *</label>
-        <textarea id="fotos" rows="2" required placeholder="Pega los enlaces públicos de tus fotos (ImgBB, Google Drive, etc.). Ejemplo: https://i.ibb.co/foto1.jpg, https://i.ibb.co/foto2.jpg" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
-        <span class="text-xs text-gray-400">Máximo 5 imágenes permitidas por publicación.</span>
-      </div>
+<!-- CARGA DIRECTA DE ARCHIVOS (MÁXIMO 5 FOTOS DESDE LA GALERÍA) -->
+<div>
+  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
+    Fotos del Inmueble (Selecciona hasta 5 fotos desde tu dispositivo) *
+  </label>
+  <input 
+    type="file" 
+    id="fotosFiles" 
+    accept="image/png, image/jpeg, image/jpg, image/webp" 
+    multiple 
+    required
+    onchange="validarLimiteFotos(this)"
+    class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1"
+  />
+  <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">
+    Puedes seleccionar hasta 5 fotos (.jpg, .png).
+  </span>
+</div>
 
       <!-- DESCARGO DE RESPONSABILIDAD LEGAL (EULA / TERMOS AGENTE) -->
       <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
