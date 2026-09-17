@@ -174,52 +174,85 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbz2pGlVI-58NPPtsBdve5pl0KxhFRDuI6kHR4xHCx5aoyHCWkGPp2BcRHLYRr-tTQpN/exec";
 
-    async function procesarCarga(e) {
-      e.preventDefault();
-      
-      const fotosInput = document.getElementById("fotos").value.split(",");
-      if (fotosInput.length > 5) {
-        alert("Atención: Has superado el límite permitido. Por favor coloca un máximo de 5 fotos.");
-        return;
-      }
+// Validar que no seleccione más de 5 fotos
+function validarLimiteFotos(input) {
+  const countLabel = document.getElementById("labelFotosCount");
+  if (input.files.length > 5) {
+    alert("Atención: Solo puedes seleccionar un máximo de 5 fotos.");
+    input.value = "";
+    countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+    countLabel.className = "text-xs text-red-500 font-bold mt-1 block";
+  } else {
+    countLabel.textContent = `${input.files.length} foto(s) seleccionada(s) (Máximo 5).`;
+    countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
+  }
+}
 
-      const btn = document.getElementById("btnSubmit");
-      btn.disabled = true;
-      btn.textContent = "Procesando y guardando inmueble...";
+// Convertir archivo a cadena Base64
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve({
+      nombre: file.name,
+      tipo: file.type,
+      base64: reader.result.split(',')[1] // Extrae los datos puros
+    });
+    reader.onerror = error => reject(error);
+  });
+}
 
-      const payload = {
-        action: "CREAR_PROPIEDAD",
-        id_asesor: document.getElementById("idAsesor").value,
-        operacion: document.getElementById("operacion").value,
-        tipo: document.getElementById("tipo").value,
-        precio: document.getElementById("precio").value,
-        titulo: document.getElementById("titulo").value,
-        ubicacion: document.getElementById("ubicacion").value,
-        habitaciones: document.getElementById("habitaciones").value,
-        banos: document.getElementById("banos").value,
-        estacionamientos: document.getElementById("estacionamientos").value,
-        metros: document.getElementById("metros").value,
-        descripcion: document.getElementById("descripcion").value,
-        fotos: fotosInput.map(f => f.trim()).filter(f => f !== "").slice(0, 5).join(",")
-      };
+async function procesarCarga(e) {
+  e.preventDefault();
+  
+  const filesInput = document.getElementById("fotosFiles").files;
+  if (filesInput.length === 0 || filesInput.length > 5) {
+    alert("Por favor selecciona entre 1 y 5 fotos.");
+    return;
+  }
 
-      try {
-        await fetch(API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
+  const btn = document.getElementById("btnSubmit");
+  btn.disabled = true;
+  btn.textContent = "Subiendo imágenes y publicando...";
 
-        alert("¡Inmueble publicado con éxito! Ya se encuentra disponible en la red de EcoNexus.");
-        document.getElementById("formCaptacion").reset();
-      } catch (err) {
-        alert("Ocurrió un error al procesar la publicación. Revisa tu conexión a internet.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Publicar Inmueble en EcoNexus";
-      }
-    }
+  try {
+    // Convertir todos los archivos a formato Base64 para transmitirlos a Google Apps Script
+    const fotosPromesas = Array.from(filesInput).map(file => fileToBase64(file));
+    const fotosBase64 = await Promise.all(fotosPromesas);
+
+    const payload = {
+      action: "CREAR_PROPIEDAD",
+      id_asesor: document.getElementById("idAsesor").value,
+      operacion: document.getElementById("operacion").value,
+      tipo: document.getElementById("tipo").value,
+      precio: document.getElementById("precio").value,
+      titulo: document.getElementById("titulo").value,
+      ubicacion: document.getElementById("ubicacion").value,
+      habitaciones: document.getElementById("habitaciones").value,
+      banos: document.getElementById("banos").value,
+      estacionamientos: document.getElementById("estacionamientos").value,
+      metros: document.getElementById("metros").value,
+      descripcion: document.getElementById("descripcion").value,
+      fotosArchivos: fotosBase64 // Se envía el array con los archivos adjuntos
+    };
+
+    await fetch(API_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+
+    alert("¡Inmueble publicado con éxito! Las fotos se han procesado en tu Google Drive y la propiedad ya está disponible.");
+    document.getElementById("formCaptacion").reset();
+    document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+  } catch (err) {
+    alert("Ocurrió un error al procesar la publicación. Inténtalo nuevamente.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Publicar Inmueble en EcoNexus";
+  }
+}
   </script>
 </body>
 </html>
