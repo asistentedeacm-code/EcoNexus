@@ -7,12 +7,12 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1e4d2e; /* Verde corporativo de EcoNexus */
+            background-color: #1e4d2e;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh; /* Ajustado para que el texto extra quepa bien */
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
@@ -44,16 +44,51 @@
         .btn:active {
             transform: scale(0.98);
         }
+        /* Estilos de la tarjeta informativa */
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            max-width: 400px;
+            text-align: left;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .info-card h3 {
+            margin-top: 0;
+            color: #a8d5ba;
+            font-size: 1.2rem;
+        }
+        .info-card p, .info-card ul {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .info-card ul {
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Asegúrate de que el nombre del archivo coincida exactamente con tu imagen cargada -->
-    <img src="1002053750.png" alt="Logo EcoNexus" class="logo">
+    <!-- Imagen actualizada con el nombre exacto que tienes en GitHub -->
+    <img src="Black And White Modern Marketing Agency Round Stamp Business Logo_20260917_185324_0000.png" alt="Logo EcoNexus" class="logo">
 
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
+    </div>
+
+    <!-- Tarjeta informativa integrada -->
+    <div class="info-card">
+        <h3>¿Por qué EcoNexus?</h3>
+        <p>Somos la red inmobiliaria inteligente que elimina los intermediarios. ¿Qué consigues aquí?</p>
+        <ul>
+            <li><strong>Contacto Directo:</strong> Cada inmueble va directo al WhatsApp del asesor. Cero desvíos.</li>
+            <li><strong>Sin Inventario Fantasma:</strong> Catálogo 100% real y actualizado.</li>
+            <li><strong>Publicación Ágil y Gratuita:</strong> Sube propiedades en 3 minutos sin pagar mensualidades obligatorias.</li>
+        </ul>
     </div>
 
 </body>
