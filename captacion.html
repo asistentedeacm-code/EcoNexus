@@ -34,6 +34,27 @@
 
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
 
+    <!-- === ACORDEÓN DE GESTIÓN / RETIRO DE INMUEBLES === -->
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
+      <button onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
+        <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> ¿Necesitas retirar o gestionar tus inmuebles antes de tiempo?</span>
+        <i id="iconoAcordeonGestion" class="fa-solid fa-chevron-down transition-transform"></i>
+      </button>
+      <div id="cuerpoAcordeonGestion" class="hidden p-6 bg-gray-50 border-t border-gray-200 space-y-4">
+        <p class="text-xs text-gray-600">
+          Ingresa el <strong>Nombre y Apellido</strong> tal como lo registraste al subir tus propiedades para buscarlas y poder retirarlas del sistema si es necesario.
+        </p>
+        <div class="flex gap-2">
+          <input type="text" id="busquedaNombreAsesor" placeholder="Ej: Martín Nava" class="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+          <button onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition">
+            Buscar
+          </button>
+        </div>
+        <!-- Contenedor dinámico de resultados -->
+        <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
+      </div>
+    </div>
+
     <!-- INSTRUCCIONES Y FUNCIONAMIENTO -->
     <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
       <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
@@ -66,7 +87,6 @@
       <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
         <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor / Captador *</label>
             <input type="text" id="nombreAsesor" required placeholder="Ej: Martín Nava" class="w-full border border-gray-300 rounded-xl px-3 p-2">
@@ -132,26 +152,26 @@
         <textarea id="descripcion" rows="4" required placeholder="Detalla acabados, servicios, condiciones comerciales y ventajas..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
       </div>
 
-<!-- CARGA DIRECTA DE ARCHIVOS (MÁXIMO 5 FOTOS DESDE LA GALERÍA) -->
-<div>
-  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
-    Fotos del Inmueble (Selecciona hasta 5 fotos desde tu dispositivo) *
-  </label>
-  <input 
-    type="file" 
-    id="fotosFiles" 
-    accept="image/png, image/jpeg, image/jpg, image/webp" 
-    multiple 
-    required
-    onchange="validarLimiteFotos(this)"
-    class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1"
-  />
-  <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">
-    Puedes seleccionar hasta 5 fotos (.jpg, .png).
-  </span>
-</div>
+      <!-- CARGA DIRECTA DE ARCHIVOS -->
+      <div>
+        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
+          Fotos del Inmueble (Selecciona hasta 5 fotos desde tu dispositivo) *
+        </label>
+        <input 
+          type="file" 
+          id="fotosFiles" 
+          accept="image/png, image/jpeg, image/jpg, image/webp" 
+          multiple 
+          required
+          onchange="validarLimiteFotos(this)"
+          class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1"
+        />
+        <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">
+          Puedes seleccionar hasta 5 fotos (.jpg, .png).
+        </span>
+      </div>
 
-      <!-- DESCARGO DE RESPONSABILIDAD LEGAL (EULA / TERMOS AGENTE) -->
+      <!-- DESCARGO DE RESPONSABILIDAD LEGAL -->
       <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
         <h4 class="font-bold text-gray-800 uppercase">Términos, Condiciones y Descargo de Responsabilidad</h4>
         <p>
@@ -179,53 +199,129 @@
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbz2pGlVI-58NPPtsBdve5pl0KxhFRDuI6kHR4xHCx5aoyHCWkGPp2BcRHLYRr-tTQpN/exec";
 
-// Validar que no seleccione más de 5 fotos
-function validarLimiteFotos(input) {
-  const countLabel = document.getElementById("labelFotosCount");
-  if (input.files.length > 5) {
-    alert("Atención: Solo puedes seleccionar un máximo de 5 fotos.");
-    input.value = "";
-    countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
-    countLabel.className = "text-xs text-red-500 font-bold mt-1 block";
-  } else {
-    countLabel.textContent = `${input.files.length} foto(s) seleccionada(s) (Máximo 5).`;
-    countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
-  }
-}
+    // Función para desplegar/contraer el acordeón de gestión
+    function toggleAcordeonGestion() {
+      const cuerpo = document.getElementById("cuerpoAcordeonGestion");
+      const icono = document.getElementById("iconoAcordeonGestion");
+      cuerpo.classList.toggle("hidden");
+      icono.classList.toggle("rotate-180");
+    }
 
-// Convertir archivo a cadena Base64
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve({
-      nombre: file.name,
-      tipo: file.type,
-      base64: reader.result.split(',')[1] // Extrae los datos puros
-    });
-    reader.onerror = error => reject(error);
-  });
-}
+    // Validar que no seleccione más de 5 fotos
+    function validarLimiteFotos(input) {
+      const countLabel = document.getElementById("labelFotosCount");
+      if (input.files.length > 5) {
+        alert("Atención: Solo puedes seleccionar un máximo de 5 fotos.");
+        input.value = "";
+        countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+        countLabel.className = "text-xs text-red-500 font-bold mt-1 block";
+      } else {
+        countLabel.textContent = `${input.files.length} foto(s) seleccionada(s) (Máximo 5).`;
+        countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
+      }
+    }
 
-async function procesarCarga(e) {
-  e.preventDefault();
-  
-  const filesInput = document.getElementById("fotosFiles").files;
-  if (filesInput.length === 0 || filesInput.length > 5) {
-    alert("Por favor selecciona entre 1 y 5 fotos.");
-    return;
-  }
+    // Convertir archivo a cadena Base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve({
+          nombre: file.name,
+          tipo: file.type,
+          base64: reader.result.split(',')[1]
+        });
+        reader.onerror = error => reject(error);
+      });
+    }
 
-  const btn = document.getElementById("btnSubmit");
-  btn.disabled = true;
-  btn.textContent = "Subiendo imágenes y publicando...";
+    // Buscar mis inmuebles registrados
+    async function buscarMisInmuebles() {
+      const nombre = document.getElementById("busquedaNombreAsesor").value.trim();
+      const contenedor = document.getElementById("resultadoMisInmuebles");
 
-  try {
-    // Convertir todos los archivos a formato Base64 para transmitirlos a Google Apps Script
-    const fotosPromesas = Array.from(filesInput).map(file => fileToBase64(file));
-    const fotosBase64 = await Promise.all(fotosPromesas);
+      if (!nombre) {
+        alert("Por favor ingresa tu nombre y apellido para realizar la búsqueda.");
+        return;
+      }
 
-const payload = {
+      contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
+
+      try {
+        const response = await fetch(`${API_URL}?action=BUSCAR_PROPIEDADES&nombre=${encodeURIComponent(nombre)}`);
+        const data = await response.json();
+
+        contenedor.innerHTML = "";
+        if (!data || data.length === 0) {
+          contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">No se encontraron propiedades registradas con ese nombre.</p>`;
+          return;
+        }
+
+        data.forEach(item => {
+          const card = document.createElement("div");
+          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center text-xs";
+          card.innerHTML = `
+            <div>
+              <p class="font-bold text-econexus text-sm">${item.titulo}</p>
+              <p class="text-gray-500">Ref: $${item.precio} | Ubicación: ${item.ubicacion}</p>
+            </div>
+            <button onclick="eliminarInmueble('${item.id}', '${item.folderId}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
+              <i class="fa-solid fa-trash-can mr-1"></i> Retirar
+            </button>
+          `;
+          contenedor.appendChild(card);
+        });
+
+      } catch (err) {
+        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error al conectar con el servidor.</p>`;
+      }
+    }
+
+    // Eliminar inmueble (Fila en Sheets y Carpeta en Drive)
+    async function eliminarInmueble(idInmueble, folderId) {
+      if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente? Se borrarán sus datos y su carpeta de fotos en Google Drive.")) {
+        return;
+      }
+
+      try {
+        const payload = {
+          action: "ELIMINAR_PROPIEDAD",
+          id: idInmueble,
+          folderId: folderId
+        };
+
+        await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        alert("Solicitud de eliminación procesada con éxito.");
+        buscarMisInmuebles(); // Refrescar la lista automáticamente
+      } catch (err) {
+        alert("Ocurrió un error al intentar eliminar la propiedad.");
+      }
+    }
+
+    async function procesarCarga(e) {
+      e.preventDefault();
+      
+      const filesInput = document.getElementById("fotosFiles").files;
+      if (filesInput.length === 0 || filesInput.length > 5) {
+        alert("Por favor selecciona entre 1 y 5 fotos.");
+        return;
+      }
+
+      const btn = document.getElementById("btnSubmit");
+      btn.disabled = true;
+      btn.textContent = "Subiendo imágenes y publicando...";
+
+      try {
+        const fotosPromesas = Array.from(filesInput).map(file => fileToBase64(file));
+        const fotosBase64 = await Promise.all(fotosPromesas);
+
+        const payload = {
           action: "CREAR_PROPIEDAD",
           nombre_asesor: document.getElementById("nombreAsesor").value,
           telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
@@ -242,23 +338,23 @@ const payload = {
           fotosArchivos: fotosBase64
         };
 
-    await fetch(API_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(payload)
-    });
+        await fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
 
-    alert("¡Inmueble publicado con éxito! Las fotos se han procesado en tu Google Drive y la propiedad ya está disponible.");
-    document.getElementById("formCaptacion").reset();
-    document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
-  } catch (err) {
-    alert("Ocurrió un error al procesar la publicación. Inténtalo nuevamente.");
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Publicar Inmueble en EcoNexus";
-  }
-}
+        alert("¡Inmueble publicado con éxito! Las fotos se han procesado en tu Google Drive y la propiedad ya está disponible.");
+        document.getElementById("formCaptacion").reset();
+        document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+      } catch (err) {
+        alert("Ocurrió un error al procesar la publicación. Inténtalo nuevamente.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Publicar Inmueble en EcoNexus";
+      }
+    }
   </script>
 </body>
 </html>
