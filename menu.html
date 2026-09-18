@@ -22,7 +22,7 @@
         /* --- CONTENEDOR DEL LOGO Y PALABRAS FLOTANTES --- */
         .logo-wrapper {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 50px; /* Un poco más de margen abajo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,41 +33,41 @@
             width: 180px;
             height: auto;
             position: relative;
-            z-index: 2; /* Mantiene el logo por encima de las palabras */
+            z-index: 2; 
         }
 
-        /* Estilos de las palabras flotantes (sin recuadro) */
+        /* Estilos de las palabras flotantes (ajustadas para mejor contraste) */
         .floating-word {
             position: absolute;
-            color: #a8d5ba; /* Verde claro corporativo */
+            color: #a8d5ba; 
             font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             opacity: 0;
-            pointer-events: none; /* Evita que estorben si el usuario toca la pantalla */
+            pointer-events: none; 
             animation: orbital-float 6s ease-in-out infinite;
             z-index: 1;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            text-shadow: 0 2px 6px rgba(0,0,0,0.6); /* Sombra más fuerte para que se lean bien */
+            white-space: nowrap; /* Evita que las palabras se partan en dos líneas */
         }
 
-        /* Posiciones y tiempos independientes para cada palabra */
-        .w1 { top: 5%; left: -45px; animation-delay: 0s; }
-        .w2 { top: 40%; right: -55px; animation-delay: 1.2s; }
-        .w3 { bottom: 15%; left: -50px; animation-delay: 2.4s; }
-        .w4 { bottom: 25%; right: -40px; animation-delay: 3.6s; }
-        .w5 { top: -15px; right: 10px; animation-delay: 4.8s; }
-        .w6 { bottom: -20px; left: 20px; animation-delay: 6.0s; }
+        /* Distancias ampliadas para evitar chocar con el logo */
+        .w1 { top: 15%; left: -80px; animation-delay: 0s; }
+        .w2 { top: 35%; right: -120px; animation-delay: 1.2s; }
+        .w3 { bottom: 25%; left: -100px; animation-delay: 2.4s; }
+        .w4 { bottom: 25%; right: -100px; animation-delay: 3.6s; }
+        .w5 { top: -25px; right: 0px; animation-delay: 4.8s; }
+        .w6 { bottom: -45px; left: 10px; animation-delay: 6.0s; }
 
-        /* Animación orbital de aparición y desaparición de las palabras */
         @keyframes orbital-float {
             0% { opacity: 0; transform: translateY(10px) scale(0.9); }
-            30% { opacity: 0.7; transform: translateY(0) scale(1.05); }
-            70% { opacity: 0.7; transform: translateY(-10px) scale(1); }
+            30% { opacity: 0.8; transform: translateY(0) scale(1.05); }
+            70% { opacity: 0.8; transform: translateY(-10px) scale(1); }
             100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
         }
         
-        /* --- RESTO DE LA INTERFAZ --- */
+        /* --- BOTONES --- */
         .menu-container {
             display: flex;
             flex-direction: column;
@@ -94,7 +94,7 @@
             transform: scale(0.95);
         }
 
-        /* Contenedor que maneja el flote constante de la tarjeta */
+        /* --- NUBES DE BENEFICIOS --- */
         .benefits-wrapper {
             margin-top: 40px;
             width: 100%;
@@ -108,20 +108,20 @@
             animation: float-gentle 4s ease-in-out infinite alternate;
         }
 
-        /* Tarjeta que maneja exclusivamente el desvanecimiento */
         .cloud-card {
             position: absolute;
             width: 100%;
             box-sizing: border-box;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.02));
+            /* Fondo oscurecido para aumentar drásticamente la legibilidad del texto blanco */
+            background: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 20px;
             padding: 25px;
             color: white;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             
             opacity: 0;
             transform: scale(0.95);
@@ -140,13 +140,15 @@
             font-size: 1.25rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         .cloud-card p {
             margin: 0;
             font-size: 1rem;
             line-height: 1.4;
-            font-weight: 300;
+            font-weight: 400;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
 
         @keyframes float-gentle {
@@ -157,7 +159,6 @@
 </head>
 <body>
 
-    <!-- Logo central envuelto con las palabras flotantes -->
     <div class="logo-wrapper">
         <span class="floating-word w1">Casas</span>
         <span class="floating-word w2">Apartamentos</span>
@@ -169,13 +170,11 @@
         <img src="logo.png.png" alt="Logo EcoNexus" class="logo">
     </div>
 
-    <!-- Botones de Acción -->
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
     </div>
 
-    <!-- Nubes de beneficios -->
     <div class="benefits-wrapper">
         <div class="cloud-card" id="cloud-card">
             <h3 id="cloud-title"></h3>
@@ -214,21 +213,16 @@
         let currentIndex = 0;
         
         function animateClouds() {
-            // Fade out
             cloudCard.classList.remove('active');
             
-            // Espera 1 segundo a que desaparezca
             setTimeout(() => {
-                // Cambia el texto
                 cloudTitle.innerText = benefits[currentIndex].title;
                 cloudText.innerText = benefits[currentIndex].text;
                 
-                // Fade in
                 cloudCard.classList.add('active');
                 
                 currentIndex = (currentIndex + 1) % benefits.length;
                 
-                // Mantiene el texto 7 segundos
                 setTimeout(animateClouds, 7000);
                 
             }, 1000); 
