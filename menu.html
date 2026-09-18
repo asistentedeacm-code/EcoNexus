@@ -16,7 +16,7 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            overflow: hidden; /* Evita que la pantalla salte con las animaciones */
+            overflow: hidden;
         }
         
         .logo {
@@ -52,20 +52,21 @@
             transform: scale(0.95);
         }
 
-        /* --- CONTENEDOR DE LAS NUBES FLOTANTES --- */
+        /* Contenedor que maneja el flote constante sin interrumpirse */
         .benefits-wrapper {
             margin-top: 40px;
             width: 100%;
             max-width: 380px;
-            height: 160px; /* Altura fija para mantener estabilidad visual */
+            height: 160px;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 5;
+            animation: float-gentle 4s ease-in-out infinite alternate;
         }
 
-        /* Estilo de la Nube (Cristal Esmerilado) */
+        /* Tarjeta que maneja exclusivamente el desvanecimiento */
         .cloud-card {
             position: absolute;
             width: 100%;
@@ -80,18 +81,16 @@
             text-align: center;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             
-            /* Estado inicial (oculto y ligeramente más pequeño) */
             opacity: 0;
-            transform: translateY(20px) scale(0.95);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: scale(0.95);
+            /* Transición alargada a 1 segundo para mayor suavidad */
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             pointer-events: none;
         }
 
-        /* Estado Activo (visible y con animación de flote infinito) */
         .cloud-card.active {
             opacity: 1;
-            transform: translateY(0) scale(1);
-            animation: float-gentle 3s ease-in-out infinite alternate;
+            transform: scale(1);
         }
 
         .cloud-card h3 {
@@ -109,25 +108,21 @@
             font-weight: 300;
         }
 
-        /* Animación para que la nube flote suavemente hacia arriba y abajo */
         @keyframes float-gentle {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-8px) scale(1.02); }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Tu logo con el nombre exacto -->
     <img src="logo.png.png" alt="Logo EcoNexus" class="logo">
 
-    <!-- Botones principales -->
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
     </div>
 
-    <!-- Contenedor Inteligente de Beneficios -->
     <div class="benefits-wrapper">
         <div class="cloud-card" id="cloud-card">
             <h3 id="cloud-title"></h3>
@@ -135,9 +130,7 @@
         </div>
     </div>
 
-    <!-- Script de Inteligencia y Bucle -->
     <script>
-        // Aquí están tus beneficios con ortografía impecable
         const benefits = [
             { 
                 title: "Contacto Directo", 
@@ -168,28 +161,26 @@
         let currentIndex = 0;
         
         function animateClouds() {
-            // 1. Ocultar la nube actual
+            // 1. Inicia el desvanecimiento (fade out)
             cloudCard.classList.remove('active');
             
-            // 2. Esperar a que termine la transición de ocultado (800ms)
+            // 2. Espera 1 segundo a que la tarjeta esté completamente invisible
             setTimeout(() => {
-                // 3. Cambiar los textos al siguiente beneficio
+                // 3. Cambia el contenido
                 cloudTitle.innerText = benefits[currentIndex].title;
                 cloudText.innerText = benefits[currentIndex].text;
                 
-                // 4. Mostrar la nueva nube
+                // 4. Aparece de nuevo (fade in)
                 cloudCard.classList.add('active');
                 
-                // 5. Preparar el índice para la próxima vuelta (bucle infinito)
                 currentIndex = (currentIndex + 1) % benefits.length;
                 
-                // 6. Dar tiempo al usuario para leer (5 segundos) y repetir
-                setTimeout(animateClouds, 5000);
+                // 5. Mantiene el texto visible durante 7 segundos antes de repetir
+                setTimeout(animateClouds, 7000);
                 
-            }, 800); // 800ms = tiempo que tarda en desvanecerse
+            }, 1000); 
         }
 
-        // Iniciar la animación medio segundo después de que cargue la página
         setTimeout(animateClouds, 500);
     </script>
 
