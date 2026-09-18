@@ -12,23 +12,29 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh; /* Ajustado para que el texto extra quepa bien */
+            min-height: 100vh;
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            overflow: hidden; /* Evita que la pantalla salte con las animaciones */
         }
+        
         .logo {
             width: 180px;
             height: auto;
             margin-bottom: 40px;
+            z-index: 10;
         }
+        
         .menu-container {
             display: flex;
             flex-direction: column;
             width: 100%;
             max-width: 350px;
             gap: 20px;
+            z-index: 10;
         }
+        
         .btn {
             background-color: #ffffff;
             color: #1e4d2e;
@@ -38,60 +44,154 @@
             text-align: center;
             font-weight: bold;
             font-size: 1.1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+        
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.95);
         }
-        /* Estilos de la tarjeta informativa */
-        .info-card {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
+
+        /* --- CONTENEDOR DE LAS NUBES FLOTANTES --- */
+        .benefits-wrapper {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 380px;
+            height: 160px; /* Altura fija para mantener estabilidad visual */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+        }
+
+        /* Estilo de la Nube (Cristal Esmerilado) */
+        .cloud-card {
+            position: absolute;
+            width: 100%;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.02));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
             padding: 25px;
-            border-radius: 15px;
-            margin-top: 30px;
-            max-width: 400px;
-            text-align: left;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            
+            /* Estado inicial (oculto y ligeramente más pequeño) */
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
         }
-        .info-card h3 {
-            margin-top: 0;
+
+        /* Estado Activo (visible y con animación de flote infinito) */
+        .cloud-card.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: float-gentle 3s ease-in-out infinite alternate;
+        }
+
+        .cloud-card h3 {
+            margin: 0 0 10px 0;
             color: #a8d5ba;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .info-card p, .info-card ul {
-            font-size: 0.95rem;
-            line-height: 1.5;
+
+        .cloud-card p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.4;
+            font-weight: 300;
         }
-        .info-card ul {
-            padding-left: 20px;
+
+        /* Animación para que la nube flote suavemente hacia arriba y abajo */
+        @keyframes float-gentle {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-8px) scale(1.02); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Imagen actualizada con el nombre exacto que tienes en GitHub -->
+    <!-- Tu logo con el nombre exacto -->
     <img src="logo.png.png" alt="Logo EcoNexus" class="logo">
 
+    <!-- Botones principales -->
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
     </div>
 
-    <!-- Tarjeta informativa integrada -->
-    <div class="info-card">
-        <h3>¿Por qué EcoNexus?</h3>
-        <p>Somos la red inmobiliaria inteligente que elimina los intermediarios. ¿Qué consigues aquí?</p>
-        <ul>
-            <li><strong>Contacto Directo:</strong> Cada inmueble va directo al WhatsApp del asesor. Cero desvíos.</li>
-            <li><strong>Sin Inventario Fantasma:</strong> Catálogo 100% real y actualizado, olvidate de el: °Le gusto a mi cliente pero ya lo vendieron°.</li>
-            <li><strong>PUBLICACIONES VIP:</strong> Destaca la Propiedad que necesitas vender en segundos y obten 5 veces mas vistas e interacción.</li>
-            <li><strong>Publicación Ágil y Gratuita:</strong> Sube propiedades en 30 segundos sin pagar mensualidades obligatorias.</li>
-            <li><strong>Sistema Ágil y Eficiente de Busqueda:</strong> Encuentra el inmueble que buscas en segundos, alternando entre nuestros filtros inteligentes de busqueda avanzada.</li>
-        </ul>
+    <!-- Contenedor Inteligente de Beneficios -->
+    <div class="benefits-wrapper">
+        <div class="cloud-card" id="cloud-card">
+            <h3 id="cloud-title"></h3>
+            <p id="cloud-text"></p>
+        </div>
     </div>
+
+    <!-- Script de Inteligencia y Bucle -->
+    <script>
+        // Aquí están tus beneficios con ortografía impecable
+        const benefits = [
+            { 
+                title: "Contacto Directo", 
+                text: "Cada inmueble va directo al WhatsApp del asesor. Cero desvíos." 
+            },
+            { 
+                title: "Cero Inventario Fantasma", 
+                text: "Catálogo 100% real y actualizado. Olvídate del: 'Le gustó a mi cliente, pero ya lo vendieron'." 
+            },
+            { 
+                title: "Publicaciones VIP", 
+                text: "Destaca la propiedad que necesitas vender en segundos y obtén 5 veces más vistas e interacción." 
+            },
+            { 
+                title: "Publicación Gratuita", 
+                text: "Sube propiedades en 30 segundos sin pagar mensualidades obligatorias." 
+            },
+            { 
+                title: "Búsqueda Inteligente", 
+                text: "Encuentra el inmueble que buscas en segundos, alternando entre nuestros filtros avanzados." 
+            }
+        ];
+
+        const cloudCard = document.getElementById('cloud-card');
+        const cloudTitle = document.getElementById('cloud-title');
+        const cloudText = document.getElementById('cloud-text');
+        
+        let currentIndex = 0;
+        
+        function animateClouds() {
+            // 1. Ocultar la nube actual
+            cloudCard.classList.remove('active');
+            
+            // 2. Esperar a que termine la transición de ocultado (800ms)
+            setTimeout(() => {
+                // 3. Cambiar los textos al siguiente beneficio
+                cloudTitle.innerText = benefits[currentIndex].title;
+                cloudText.innerText = benefits[currentIndex].text;
+                
+                // 4. Mostrar la nueva nube
+                cloudCard.classList.add('active');
+                
+                // 5. Preparar el índice para la próxima vuelta (bucle infinito)
+                currentIndex = (currentIndex + 1) % benefits.length;
+                
+                // 6. Dar tiempo al usuario para leer (5 segundos) y repetir
+                setTimeout(animateClouds, 5000);
+                
+            }, 800); // 800ms = tiempo que tarda en desvanecerse
+        }
+
+        // Iniciar la animación medio segundo después de que cargue la página
+        setTimeout(animateClouds, 500);
+    </script>
 
 </body>
 </html>
