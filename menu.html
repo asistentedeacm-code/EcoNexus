@@ -19,13 +19,55 @@
             overflow: hidden;
         }
         
+        /* --- CONTENEDOR DEL LOGO Y PALABRAS FLOTANTES --- */
+        .logo-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
         .logo {
             width: 180px;
             height: auto;
-            margin-bottom: 40px;
-            z-index: 10;
+            position: relative;
+            z-index: 2; /* Mantiene el logo por encima de las palabras */
+        }
+
+        /* Estilos de las palabras flotantes (sin recuadro) */
+        .floating-word {
+            position: absolute;
+            color: #a8d5ba; /* Verde claro corporativo */
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0;
+            pointer-events: none; /* Evita que estorben si el usuario toca la pantalla */
+            animation: orbital-float 6s ease-in-out infinite;
+            z-index: 1;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        /* Posiciones y tiempos independientes para cada palabra */
+        .w1 { top: 5%; left: -45px; animation-delay: 0s; }
+        .w2 { top: 40%; right: -55px; animation-delay: 1.2s; }
+        .w3 { bottom: 15%; left: -50px; animation-delay: 2.4s; }
+        .w4 { bottom: 25%; right: -40px; animation-delay: 3.6s; }
+        .w5 { top: -15px; right: 10px; animation-delay: 4.8s; }
+        .w6 { bottom: -20px; left: 20px; animation-delay: 6.0s; }
+
+        /* Animación orbital de aparición y desaparición de las palabras */
+        @keyframes orbital-float {
+            0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+            30% { opacity: 0.7; transform: translateY(0) scale(1.05); }
+            70% { opacity: 0.7; transform: translateY(-10px) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(0.9); }
         }
         
+        /* --- RESTO DE LA INTERFAZ --- */
         .menu-container {
             display: flex;
             flex-direction: column;
@@ -52,7 +94,7 @@
             transform: scale(0.95);
         }
 
-        /* Contenedor que maneja el flote constante sin interrumpirse */
+        /* Contenedor que maneja el flote constante de la tarjeta */
         .benefits-wrapper {
             margin-top: 40px;
             width: 100%;
@@ -83,7 +125,6 @@
             
             opacity: 0;
             transform: scale(0.95);
-            /* Transición alargada a 1 segundo para mayor suavidad */
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             pointer-events: none;
         }
@@ -116,13 +157,25 @@
 </head>
 <body>
 
-    <img src="logo.png.png" alt="Logo EcoNexus" class="logo">
+    <!-- Logo central envuelto con las palabras flotantes -->
+    <div class="logo-wrapper">
+        <span class="floating-word w1">Casas</span>
+        <span class="floating-word w2">Apartamentos</span>
+        <span class="floating-word w3">Townhouses</span>
+        <span class="floating-word w4">Edificios</span>
+        <span class="floating-word w5">Locales</span>
+        <span class="floating-word w6">Y más...</span>
+        
+        <img src="logo.png.png" alt="Logo EcoNexus" class="logo">
+    </div>
 
+    <!-- Botones de Acción -->
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
     </div>
 
+    <!-- Nubes de beneficios -->
     <div class="benefits-wrapper">
         <div class="cloud-card" id="cloud-card">
             <h3 id="cloud-title"></h3>
@@ -161,21 +214,21 @@
         let currentIndex = 0;
         
         function animateClouds() {
-            // 1. Inicia el desvanecimiento (fade out)
+            // Fade out
             cloudCard.classList.remove('active');
             
-            // 2. Espera 1 segundo a que la tarjeta esté completamente invisible
+            // Espera 1 segundo a que desaparezca
             setTimeout(() => {
-                // 3. Cambia el contenido
+                // Cambia el texto
                 cloudTitle.innerText = benefits[currentIndex].title;
                 cloudText.innerText = benefits[currentIndex].text;
                 
-                // 4. Aparece de nuevo (fade in)
+                // Fade in
                 cloudCard.classList.add('active');
                 
                 currentIndex = (currentIndex + 1) % benefits.length;
                 
-                // 5. Mantiene el texto visible durante 7 segundos antes de repetir
+                // Mantiene el texto 7 segundos
                 setTimeout(animateClouds, 7000);
                 
             }, 1000); 
