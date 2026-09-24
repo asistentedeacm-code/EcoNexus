@@ -32,7 +32,7 @@
           <span class="block text-xs text-green-200 tracking-wider font-light">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      <a href="https://wa.me/584140000000" id="btnHeaderWa" target="_blank" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow">
+      <a href="https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios." id="btnHeaderWa" target="_blank" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow">
         <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contacto Directo
       </a>
     </div>
@@ -79,7 +79,7 @@
       </div>
     </div>
   </section>
-
+ 
   <!-- GRILLA DE PROPIEDADES -->
   <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
     <div class="flex justify-between items-center mb-6">
@@ -96,13 +96,20 @@
     
     <div id="propsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></div>
     
+    <!-- BOTÓN PAGINACIÓN (CARGAR MÁS) -->
+    <div id="loadMoreContainer" class="text-center mt-10 hidden">
+      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-8 py-3 rounded-xl transition shadow-md inline-flex items-center">
+        <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
+      </button>
+    </div>
+
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
       <p class="text-gray-500 text-sm max-w-md mx-auto">Prueba ajustando los filtros de búsqueda.</p>
     </div>
   </main>
-
+ 
   <!-- MODAL -->
   <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
@@ -112,14 +119,14 @@
       <div id="modalContent"></div>
     </div>
   </div>
-
+ 
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-xs text-green-300 mb-2">EcoNexus Real Estate Platform</p>
       <p class="text-xs text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
-
+ 
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -127,22 +134,34 @@
     // Alias único de cliente para prevenir conflictos globales
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let todasLasPropiedades = [];
+    
+    // Variables de paginación
+    const PAGE_SIZE = 12;
+    let pageOffset = 0;
+    let hayMasPaginas = true;
 
     document.addEventListener("DOMContentLoaded", function() {
       cargarPropiedades();
     });
-
+ 
     async function cargarPropiedades() {
       try {
+        // Selección selectiva de campos y rango inicial (0 a 11)
         const { data, error } = await dbClient
           .from('propiedades')
-          .select('*')
+          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor')
           .eq('estatus', 'Disponible')
-          .order('destacado', { ascending: false });
+          .order('destacado', { ascending: false })
+          .range(pageOffset, pageOffset + PAGE_SIZE - 1);
           
         if (error) throw error;
         
-        todasLasPropiedades = data || [];
+        const nuevosInmuebles = data || [];
+        if (nuevosInmuebles.length < PAGE_SIZE) {
+          hayMasPaginas = false;
+        }
+
+        todasLasPropiedades = [...todasLasPropiedades, ...nuevosInmuebles];
         renderizarTarjetas(todasLasPropiedades);
       } catch (err) {
         showError("No se pudo conectar con la base de datos de Supabase. Revisa los permisos.");
@@ -152,21 +171,43 @@
       }
     }
 
+    async function cargarMasPropiedades() {
+      if (!hayMasPaginas) return;
+      const btn = document.getElementById("btnLoadMore");
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando...`;
+
+      pageOffset += PAGE_SIZE;
+      await cargarPropiedades();
+
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
+    }
+ 
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
       const noRes = document.getElementById("noResults");
+      const loadMoreBtn = document.getElementById("loadMoreContainer");
+      
       grid.innerHTML = "";
       countLabel.textContent = `${lista.length} propiedad(es)`;
       
       if (lista.length === 0) {
         grid.classList.add("hidden");
         noRes.classList.remove("hidden");
+        loadMoreBtn.classList.add("hidden");
         return;
       }
       
       noRes.classList.add("hidden");
       grid.classList.remove("hidden");
+
+      if (hayMasPaginas && document.getElementById("filterOperacion").value === "TODOS" && document.getElementById("filterTipo").value === "TODOS" && !document.getElementById("filterText").value.trim() && !document.getElementById("filterPrecio").value) {
+        loadMoreBtn.classList.remove("hidden");
+      } else {
+        loadMoreBtn.classList.add("hidden");
+      }
       
       lista.forEach(p => {
         const fotoPrincipal = (p.fotos && p.fotos.length > 0) 
@@ -218,7 +259,7 @@
         grid.innerHTML += cardHTML;
       });
     }
-
+ 
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value;
@@ -234,7 +275,7 @@
       });
       renderizarTarjetas(filtradas);
     }
-
+ 
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "TODOS";
@@ -242,10 +283,16 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
-
-    function abrirModal(id) {
+ 
+    async function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
+      
+      // Solicitar únicamente la descripción bajo demanda para ahorrar transferencia previa de ancho de banda
+      if (!p.descripcion) {
+        const { data } = await dbClient.from('propiedades').select('descripcion').eq('id', id).single();
+        p.descripcion = data ? data.descripcion : "Sin descripción disponible.";
+      }
       
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
@@ -309,11 +356,11 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
-
+ 
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
-
+ 
     async function enviarLead(e, idProp) {
       e.preventDefault();
       const btn = document.getElementById("btnLeadSubmit");
@@ -341,7 +388,7 @@
         btn.textContent = "Enviar Solicitud";
       }
     }
-
+ 
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
