@@ -80,7 +80,6 @@
       </div>
     </div>
   </section>
-
   <!-- CONTENIDO PRINCIPAL / GRILLA DE PROPIEDADES -->
   <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
     <div class="flex justify-between items-center mb-6">
@@ -103,7 +102,6 @@
       <p class="text-gray-500 text-sm max-w-md mx-auto">Prueba ajustando los filtros de búsqueda o eliminando las restricciones de precio.</p>
     </div>
   </main>
-
   <!-- MODAL DE DETALLE DE PROPIEDAD -->
   <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
@@ -113,7 +111,6 @@
       <div id="modalContent"></div>
     </div>
   </div>
-
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <div class="flex items-center justify-center space-x-2 mb-2">
@@ -123,27 +120,22 @@
       <p class="text-xs text-gray-400">© 2026 EcoNexus Real Estate. Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script>
     // Inicialización de Supabase
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let todasLasPropiedades = [];
-
     document.addEventListener("DOMContentLoaded", function() {
       cargarPropiedades();
     });
-
     async function cargarPropiedades() {
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('propiedades')
           .select('*')
           .eq('estatus', 'Disponible')
           .order('destacado', { ascending: false });
-
         if (error) throw error;
         
         todasLasPropiedades = data;
@@ -155,7 +147,6 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
-
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
@@ -224,7 +215,6 @@
         grid.innerHTML += cardHTML;
       });
     }
-
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value;
@@ -240,7 +230,6 @@
       });
       renderizarTarjetas(filtradas);
     }
-
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "TODOS";
@@ -248,7 +237,6 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
-
     function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
@@ -321,11 +309,9 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
-
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
-
     async function enviarLead(e, idProp) {
       e.preventDefault();
       const btn = document.getElementById("btnLeadSubmit");
@@ -338,9 +324,8 @@
         telefono_cliente: document.getElementById("leadTel").value,
         mensaje: document.getElementById("leadMensaje").value
       };
-
       try {
-        const { error } = await supabase.from('leads').insert([payload]);
+        const { error } = await supabaseClient.from('leads').insert([payload]);
         if (error) throw error;
         
         alert("¡Solicitud enviada con éxito! Un asesor se pondrá en contacto contigo a la brevedad.");
@@ -353,7 +338,6 @@
         btn.textContent = "Enviar Solicitud";
       }
     }
-
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
