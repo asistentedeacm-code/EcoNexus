@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EcoNexus | Registro de Inmuebles para Agentes</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SDK de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -19,187 +21,205 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
-
   <!-- HEADER -->
   <header class="bg-econexus text-white py-4 px-6 shadow-md flex justify-between items-center">
     <div class="flex items-center space-x-3">
-      <img src="logo.png.png" 
-     alt="EcoNexus Logo" 
-     class="h-10 w-auto object-contain drop-shadow" 
-     onerror="this.src='logo.png'" />
       <span class="text-xl font-bold tracking-wide">EcoNexus Agent Portal</span>
     </div>
-    <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga de Propiedades</span>
+    <div class="flex items-center gap-4">
+       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga de Propiedades</span>
+       <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
+    </div>
   </header>
 
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
+    
+    <!-- SECCIÓN DE AUTENTICACIÓN (Requerida por RLS de Supabase) -->
+    <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
+      <h2 class="text-xl font-bold text-econexus mb-2">Acceso de Asesores</h2>
+      <p class="text-sm text-gray-600 mb-4">Inicia sesión o regístrate para gestionar tu inventario.</p>
+      <div class="flex flex-col gap-3 max-w-sm mx-auto">
+        <input type="email" id="authEmail" placeholder="Correo Electrónico" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+        <input type="password" id="authPassword" placeholder="Contraseña" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+        <div class="flex gap-2 mt-2">
+          <button onclick="iniciarSesion()" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-sm">Entrar</button>
+          <button onclick="registrarse()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded-xl transition text-sm">Registrarse</button>
+        </div>
+        <p id="authMessage" class="text-xs text-red-600 font-semibold mt-2 hidden"></p>
+      </div>
+    </div>
 
-    <!-- === ACORDEÓN DE GESTIÓN / RETIRO DE INMUEBLES === -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
-      <button onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
-        <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> ¿Necesitas retirar o gestionar tus inmuebles antes de tiempo?</span>
-        <i id="iconoAcordeonGestion" class="fa-solid fa-chevron-down transition-transform"></i>
-      </button>
-      <div id="cuerpoAcordeonGestion" class="hidden p-6 bg-gray-50 border-t border-gray-200 space-y-4">
-        <p class="text-xs text-gray-600">
-          Ingresa el <strong>Nombre y Apellido</strong> tal como lo registraste al subir tus propiedades para buscarlas y poder retirarlas del sistema si es necesario.
-        </p>
-        <div class="flex gap-2">
-          <input type="text" id="busquedaNombreAsesor" placeholder="Ej: Ana Súarez" class="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
-          <button onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition">
-            Buscar
+    <!-- CONTENEDOR PRINCIPAL (Oculto hasta autenticarse) -->
+    <div id="mainAppContainer" class="hidden">
+        <!-- ACORDEÓN DE GESTIÓN / RETIRO -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
+          <button onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
+            <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> Mis Inmuebles Publicados</span>
+            <i id="iconoAcordeonGestion" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
+          <div id="cuerpoAcordeonGestion" class="hidden p-6 bg-gray-50 border-t border-gray-200 space-y-4">
+            <button onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition w-full">
+              Cargar Mis Publicaciones
+            </button>
+            <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
+          </div>
         </div>
-        <!-- Contenedor dinámico de resultados -->
-        <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
-      </div>
-    </div>
 
-    <!-- INSTRUCCIONES Y FUNCIONAMIENTO -->
-    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
-      <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
-        <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga e Instrucciones
-      </h2>
-      <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
-        <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong> claras en formato horizontal (.jpg o .png).</li>
-        <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien (ej: <em>Galpón Industrial, Anexo, Penthouse, Hotel, Terreno Comercial</em>).</li>
-        <li><strong>Directo a tu WhatsApp:</strong> Asegúrate de seleccionar tu código de asesor para que los clientes te contacten directamente a tu chat.</li>
-        <li><strong>Vigencia Automática:</strong> Tu publicación estará activa por <strong>90 días</strong> de forma totalmente gratuita.</li>
-      </ul>
-    </div>
-
-    <!-- SECCIÓN INFORMATIVA: DESTACADOS VIP -->
-    <div class="bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-2xl p-6 shadow-md mb-6 relative overflow-hidden">
-      <div class="relative z-10 flex flex-col md:flex-row justify-between items-center">
-        <div class="mb-4 md:mb-0">
-          <span class="bg-black/30 text-amber-200 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider mb-2 inline-block">Posicionamiento VIP</span>
-          <h3 class="text-xl font-extrabold">¿Quieres vender o alquilar más rápido?</h3>
-          <p class="text-xs text-amber-100 max-w-md mt-1">Destaca tu inmueble en la cima del portal web con la etiqueta dorada VIP y recibe hasta 5 veces más contactos directos.</p>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
+          <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
+            <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga
+          </h2>
+          <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
+            <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong> claras.</li>
+            <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
+          </ul>
         </div>
-        <a href="https://wa.me/584140000000?text=Hola,%20deseo%20solicitar%20información%20para%20destacar%20un%20inmueble%20VIP" target="_blank" class="bg-white text-amber-700 hover:bg-amber-50 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow flex items-center">
-          <i class="fa-brands fa-whatsapp text-base mr-2 text-green-600"></i> Solicitar VIP
-        </a>
-      </div>
-    </div>
 
-    <!-- FORMULARIO DE CARGA -->
-    <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
-      <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor / Captador *</label>
-            <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+        <!-- FORMULARIO DE CARGA -->
+        <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
+          <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
+                <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
+                <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
+              <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
+                <option value="Venta">Venta</option>
+                <option value="Alquiler">Alquiler</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
+              <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
+              <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+            </div>
           </div>
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-            <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
+            <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
+            <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+          </div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones / Ofic.</label>
+              <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
+              <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
+              <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
+              <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
+            <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
+          </div>
+          
+          <div>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
+              Fotos del Inmueble (Selecciona hasta 5 fotos) *
+            </label>
+            <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
+            <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
 
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
-          <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
-            <option value="Venta">Venta</option>
-            <option value="Alquiler">Alquiler</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble (Campo Libre) *</label>
-          <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Anexo, Hotel, Local..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
-          <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
-        <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial en Zona Industrial Norte" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
-        <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-      </div>
-
-      <!-- CARACTERÍSTICAS TÉCNICAS -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones / Ofic.</label>
-          <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
-          <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
-          <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
-          <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
-        <textarea id="descripcion" rows="4" required placeholder="Detalla acabados, servicios, condiciones comerciales y ventajas..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
-      </div>
-
-      <!-- CARGA DIRECTA DE ARCHIVOS -->
-      <div>
-        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
-          Fotos del Inmueble (Selecciona hasta 5 fotos desde tu dispositivo) *
-        </label>
-        <input 
-          type="file" 
-          id="fotosFiles" 
-          accept="image/png, image/jpeg, image/jpg, image/webp" 
-          multiple 
-          required
-          onchange="validarLimiteFotos(this)"
-          class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1"
-        />
-        <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">
-          Puedes seleccionar hasta 5 fotos (.jpg, .png).
-        </span>
-      </div>
-
-      <!-- DESCARGO DE RESPONSABILIDAD LEGAL -->
-      <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
-        <h4 class="font-bold text-gray-800 uppercase">Términos, Condiciones y Descargo de Responsabilidad</h4>
-        <p>
-          Al hacer clic en "Publicar Inmueble", el usuario/agente declara ser el autorizado o captador legítimo del bien y asume total responsabilidad sobre la veracidad de la información, el estado legal de la propiedad y el cumplimiento de las normativas vigentes.
-        </p>
-        <p>
-          <strong>EcoNexus</strong> opera únicamente como un directorio e infraestructura tecnológica de exhibición publicitaria. La plataforma y sus creadores quedan eximidos de cualquier responsabilidad civil, penal, administrativa o mercantil derivada de las negociaciones, visitas, cobros, contratos o compromisos celebrados entre las partes.
-        </p>
-        <label class="flex items-start space-x-2 pt-2 cursor-pointer">
-          <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
-          <span class="font-bold text-gray-800">Acepto expresamente los términos, normas de publicación y el descargo de responsabilidad legal de EcoNexus.</span>
-        </label>
-      </div>
-
-      <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
-        Publicar Inmueble en EcoNexus
-      </button>
-    </form>
+          <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
+            <label class="flex items-start space-x-2 pt-2 cursor-pointer">
+              <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
+              <span class="font-bold text-gray-800">Acepto expresamente los términos, normas de publicación y el descargo de responsabilidad legal.</span>
+            </label>
+          </div>
+          <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
+            Publicar Inmueble en EcoNexus
+          </button>
+        </form>
+    </div>
   </main>
 
-  <footer class="bg-econexus-dark text-white py-4 text-center text-xs">
-    EcoNexus Real Estate Tech • Plataforma Exclusiva para Agentes
-  </footer>
-
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbz2pGlVI-58NPPtsBdve5pl0KxhFRDuI6kHR4xHCx5aoyHCWkGPp2BcRHLYRr-tTQpN/exec";
+    // Inicialización de Supabase
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let usuarioActual = null;
 
-    // Función para desplegar/contraer el acordeón de gestión
+    // Verificar sesión al cargar
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        usuarioActual = session.user;
+        mostrarApp();
+      }
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        usuarioActual = session.user;
+        mostrarApp();
+      } else {
+        usuarioActual = null;
+        ocultarApp();
+      }
+    });
+
+    function mostrarApp() {
+      document.getElementById('authContainer').classList.add('hidden');
+      document.getElementById('mainAppContainer').classList.remove('hidden');
+      document.getElementById('btnLogout').classList.remove('hidden');
+    }
+
+    function ocultarApp() {
+      document.getElementById('authContainer').classList.remove('hidden');
+      document.getElementById('mainAppContainer').classList.add('hidden');
+      document.getElementById('btnLogout').classList.add('hidden');
+    }
+
+    async function iniciarSesion() {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) document.getElementById('authMessage').textContent = "Error: " + error.message;
+      else document.getElementById('authMessage').classList.add('hidden');
+    }
+
+    async function registrarse() {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) {
+        document.getElementById('authMessage').textContent = error.message;
+        document.getElementById('authMessage').classList.remove('hidden');
+      } else {
+        alert("Registro exitoso. Ahora estás conectado.");
+      }
+    }
+
+    async function cerrarSesion() {
+      await supabase.auth.signOut();
+    }
+
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
@@ -207,7 +227,6 @@
       icono.classList.toggle("rotate-180");
     }
 
-    // Validar que no seleccione más de 5 fotos
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -221,135 +240,129 @@
       }
     }
 
-    // Convertir archivo a cadena Base64
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve({
-          nombre: file.name,
-          tipo: file.type,
-          base64: reader.result.split(',')[1]
-        });
-        reader.onerror = error => reject(error);
-      });
-    }
-
-    // Buscar mis inmuebles registrados
+    // Buscar propiedades creadas por el usuario autenticado
     async function buscarMisInmuebles() {
-      const nombre = document.getElementById("busquedaNombreAsesor").value.trim();
       const contenedor = document.getElementById("resultadoMisInmuebles");
-
-      if (!nombre) {
-        alert("Por favor ingresa tu nombre y apellido para realizar la búsqueda.");
-        return;
-      }
-
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
-
+      
       try {
-        const response = await fetch(`${API_URL}?action=BUSCAR_PROPIEDADES&nombre=${encodeURIComponent(nombre)}`);
-        const data = await response.json();
-
+        const { data, error } = await supabase
+          .from('propiedades')
+          .select('*')
+          .eq('user_id', usuarioActual.id);
+          
+        if (error) throw error;
+        
         contenedor.innerHTML = "";
         if (!data || data.length === 0) {
-          contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">No se encontraron propiedades registradas con ese nombre.</p>`;
+          contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-2 font-semibold">No tienes propiedades registradas.</p>`;
           return;
         }
-
+        
         data.forEach(item => {
           const card = document.createElement("div");
           card.className = "bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center text-xs";
           card.innerHTML = `
             <div>
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
-              <p class="text-gray-500">Ref: $${item.precio} | Ubicación: ${item.ubicacion}</p>
+              <p class="text-gray-500">Ref: $${item.precio} | Código: ${item.codigo_eco}</p>
             </div>
-            <button onclick="eliminarInmueble('${item.id}', '${item.folderId}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
+            <button onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
               <i class="fa-solid fa-trash-can mr-1"></i> Retirar
             </button>
           `;
           contenedor.appendChild(card);
         });
-
       } catch (err) {
-        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error al conectar con el servidor.</p>`;
+        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión.</p>`;
       }
     }
 
-    // Eliminar inmueble (Fila en Sheets y Carpeta en Drive)
-    async function eliminarInmueble(idInmueble, folderId) {
-      if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente? Se borrarán sus datos y su carpeta de fotos en Google Drive.")) {
-        return;
-      }
-
+    // Eliminar Propiedad e Imágenes de Storage
+    async function eliminarInmueble(id, codigoEco) {
+      if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente?")) return;
+      
       try {
-        const payload = {
-          action: "ELIMINAR_PROPIEDAD",
-          id: idInmueble,
-          folderId: folderId
-        };
-
-        await fetch(API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
-
-        alert("Solicitud de eliminación procesada con éxito.");
-        buscarMisInmuebles(); // Refrescar la lista automáticamente
+        // 1. Eliminar fotos del bucket
+        const { data: files } = await supabase.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
+        if (files && files.length > 0) {
+           const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
+           await supabase.storage.from('econexus-fotos').remove(rutasFiles);
+        }
+        
+        // 2. Eliminar de Base de Datos
+        const { error } = await supabase.from('propiedades').delete().eq('id', id);
+        if (error) throw error;
+        
+        alert("Inmueble eliminado con éxito.");
+        buscarMisInmuebles();
       } catch (err) {
         alert("Ocurrió un error al intentar eliminar la propiedad.");
+        console.error(err);
       }
     }
 
+    // Procesar carga e insertar en base de datos
     async function procesarCarga(e) {
       e.preventDefault();
-      
       const filesInput = document.getElementById("fotosFiles").files;
       if (filesInput.length === 0 || filesInput.length > 5) {
         alert("Por favor selecciona entre 1 y 5 fotos.");
         return;
       }
-
+      
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
-      btn.textContent = "Subiendo imágenes y publicando...";
-
+      btn.textContent = "Subiendo imágenes a Supabase...";
+      
       try {
-        const fotosPromesas = Array.from(filesInput).map(file => fileToBase64(file));
-        const fotosBase64 = await Promise.all(fotosPromesas);
+        const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
+        let urlsPublicas = [];
 
+        // Subir al Storage de Supabase
+        for (let i = 0; i < filesInput.length; i++) {
+          const file = filesInput[i];
+          const fileName = `${Date.now()}_${i}.${file.name.split('.').pop()}`;
+          const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
+          
+          const { error: uploadError } = await supabase.storage.from('econexus-fotos').upload(filePath, file);
+          if (uploadError) throw uploadError;
+
+          const { data: urlData } = supabase.storage.from('econexus-fotos').getPublicUrl(filePath);
+          urlsPublicas.push(urlData.publicUrl);
+        }
+
+        btn.textContent = "Guardando base de datos...";
+
+        // Insertar en la tabla "propiedades"
         const payload = {
-          action: "CREAR_PROPIEDAD",
+          codigo_eco: codigoUnico,
+          titulo: document.getElementById("titulo").value,
+          tipo: document.getElementById("tipo").value,
+          operacion: document.getElementById("operacion").value,
+          precio: document.getElementById("precio").value,
+          ubicacion: document.getElementById("ubicacion").value,
+          habitaciones: document.getElementById("habitaciones").value || 0,
+          banos: document.getElementById("banos").value || 0,
+          estacionamientos: document.getElementById("estacionamientos").value || 0,
+          metros: document.getElementById("metros").value || 0,
+          descripcion: document.getElementById("descripcion").value,
           nombre_asesor: document.getElementById("nombreAsesor").value,
           telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
-          operacion: document.getElementById("operacion").value,
-          tipo: document.getElementById("tipo").value,
-          precio: document.getElementById("precio").value,
-          titulo: document.getElementById("titulo").value,
-          ubicacion: document.getElementById("ubicacion").value,
-          habitaciones: document.getElementById("habitaciones").value,
-          banos: document.getElementById("banos").value,
-          estacionamientos: document.getElementById("estacionamientos").value,
-          metros: document.getElementById("metros").value,
-          descripcion: document.getElementById("descripcion").value,
-          fotosArchivos: fotosBase64
+          fotos: urlsPublicas,
+          user_id: usuarioActual.id
         };
 
-        await fetch(API_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(payload)
-        });
+        const { error: dbError } = await supabase.from('propiedades').insert([payload]);
+        if (dbError) throw dbError;
 
-        alert("¡Inmueble publicado con éxito! Las fotos se han procesado en tu Google Drive y la propiedad ya está disponible.");
+        alert("¡Inmueble publicado con éxito! Las fotos se han procesado en Supabase.");
         document.getElementById("formCaptacion").reset();
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+        
       } catch (err) {
-        alert("Ocurrió un error al procesar la publicación. Inténtalo nuevamente.");
+        alert("Ocurrió un error al procesar la publicación. Revisa la consola.");
+        console.error(err);
       } finally {
         btn.disabled = false;
         btn.textContent = "Publicar Inmueble en EcoNexus";
