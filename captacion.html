@@ -152,59 +152,72 @@
         </form>
     </div>
   </main>
-  <script>
-    // Inicialización de Supabase
-    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    let usuarioActual = null;
-    // Verificar sesión al cargar
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        usuarioActual = session.user;
-        mostrarApp();
-      }
-    });
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        usuarioActual = session.user;
-        mostrarApp();
-      } else {
-        usuarioActual = null;
-        ocultarApp();
-      }
-    });
-    function mostrarApp() {
-      document.getElementById('authContainer').classList.add('hidden');
-      document.getElementById('mainAppContainer').classList.remove('hidden');
-      document.getElementById('btnLogout').classList.remove('hidden');
+<script>
+  // Inicialización de Supabase con alias limpio
+  const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+  
+  // Se utiliza supabaseClient para no colisionar con window.supabase de la CDN
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  
+  let usuarioActual = null;
+
+  // Escuchar estado de sesión
+  supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+      usuarioActual = session.user;
+      mostrarApp();
     }
-    function ocultarApp() {
-      document.getElementById('authContainer').classList.remove('hidden');
-      document.getElementById('mainAppContainer').classList.add('hidden');
-      document.getElementById('btnLogout').classList.add('hidden');
+  });
+
+  supabaseClient.auth.onAuthStateChange((_event, session) => {
+    if (session) {
+      usuarioActual = session.user;
+      mostrarApp();
+    } else {
+      usuarioActual = null;
+      ocultarApp();
     }
-    async function iniciarSesion() {
-      const email = document.getElementById('authEmail').value;
-      const password = document.getElementById('authPassword').value;
-      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-      if (error) document.getElementById('authMessage').textContent = "Error: " + error.message;
-      else document.getElementById('authMessage').classList.add('hidden');
+  });
+
+  function mostrarApp() {
+    document.getElementById('authContainer').classList.add('hidden');
+    document.getElementById('mainAppContainer').classList.remove('hidden');
+    document.getElementById('btnLogout').classList.remove('hidden');
+  }
+
+  function ocultarApp() {
+    document.getElementById('authContainer').classList.remove('hidden');
+    document.getElementById('mainAppContainer').classList.add('hidden');
+    document.getElementById('btnLogout').classList.add('hidden');
+  }
+
+  async function iniciarSesion() {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) {
+      const msg = document.getElementById('authMessage');
+      msg.textContent = "Error: " + error.message;
+      msg.classList.remove('hidden');
     }
-    async function registrarse() {
-      const email = document.getElementById('authEmail').value;
-      const password = document.getElementById('authPassword').value;
-      const { error } = await supabaseClient.auth.signUp({ email, password });
-      if (error) {
-        document.getElementById('authMessage').textContent = error.message;
-        document.getElementById('authMessage').classList.remove('hidden');
-      } else {
-        alert("Registro exitoso. Ahora estás conectado.");
-      }
+  }
+
+  async function registrarse() {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const { error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) {
+      const msg = document.getElementById('authMessage');
+      msg.textContent = error.message;
+      msg.classList.remove('hidden');
+    } else {
+      alert("Registro exitoso. Revisa tu correo o inicia sesión.");
     }
-    async function cerrarSesion() {
-      await supabaseClient.auth.signOut();
+  }
+
+  async function cerrarSesion() {
+    await supabaseClient.auth.signOut();
     }
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
