@@ -31,7 +31,6 @@
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
     </div>
   </header>
-
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
     
     <!-- SECCIÓN DE AUTENTICACIÓN (Requerida por RLS de Supabase) -->
@@ -48,7 +47,6 @@
         <p id="authMessage" class="text-xs text-red-600 font-semibold mt-2 hidden"></p>
       </div>
     </div>
-
     <!-- CONTENEDOR PRINCIPAL (Oculto hasta autenticarse) -->
     <div id="mainAppContainer" class="hidden">
         <!-- ACORDEÓN DE GESTIÓN / RETIRO -->
@@ -64,7 +62,6 @@
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
-
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga
@@ -74,7 +71,6 @@
             <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
           </ul>
         </div>
-
         <!-- FORMULARIO DE CARGA -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
@@ -144,7 +140,6 @@
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
-
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
             <label class="flex items-start space-x-2 pt-2 cursor-pointer">
               <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
@@ -157,24 +152,21 @@
         </form>
     </div>
   </main>
-
   <script>
     // Inicialización de Supabase
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let usuarioActual = null;
-
     // Verificar sesión al cargar
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         usuarioActual = session.user;
         mostrarApp();
       }
     });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
+    supabaseClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         usuarioActual = session.user;
         mostrarApp();
@@ -183,31 +175,27 @@
         ocultarApp();
       }
     });
-
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
       document.getElementById('btnLogout').classList.remove('hidden');
     }
-
     function ocultarApp() {
       document.getElementById('authContainer').classList.remove('hidden');
       document.getElementById('mainAppContainer').classList.add('hidden');
       document.getElementById('btnLogout').classList.add('hidden');
     }
-
     async function iniciarSesion() {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
       if (error) document.getElementById('authMessage').textContent = "Error: " + error.message;
       else document.getElementById('authMessage').classList.add('hidden');
     }
-
     async function registrarse() {
       const email = document.getElementById('authEmail').value;
       const password = document.getElementById('authPassword').value;
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabaseClient.auth.signUp({ email, password });
       if (error) {
         document.getElementById('authMessage').textContent = error.message;
         document.getElementById('authMessage').classList.remove('hidden');
@@ -215,18 +203,15 @@
         alert("Registro exitoso. Ahora estás conectado.");
       }
     }
-
     async function cerrarSesion() {
-      await supabase.auth.signOut();
+      await supabaseClient.auth.signOut();
     }
-
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
     }
-
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -239,14 +224,13 @@
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
     }
-
     // Buscar propiedades creadas por el usuario autenticado
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
       
       try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('propiedades')
           .select('*')
           .eq('user_id', usuarioActual.id);
@@ -277,21 +261,20 @@
         contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión.</p>`;
       }
     }
-
     // Eliminar Propiedad e Imágenes de Storage
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente?")) return;
       
       try {
         // 1. Eliminar fotos del bucket
-        const { data: files } = await supabase.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
+        const { data: files } = await supabaseClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
         if (files && files.length > 0) {
            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
-           await supabase.storage.from('econexus-fotos').remove(rutasFiles);
+           await supabaseClient.storage.from('econexus-fotos').remove(rutasFiles);
         }
         
         // 2. Eliminar de Base de Datos
-        const { error } = await supabase.from('propiedades').delete().eq('id', id);
+        const { error } = await supabaseClient.from('propiedades').delete().eq('id', id);
         if (error) throw error;
         
         alert("Inmueble eliminado con éxito.");
@@ -301,7 +284,6 @@
         console.error(err);
       }
     }
-
     // Procesar carga e insertar en base de datos
     async function procesarCarga(e) {
       e.preventDefault();
@@ -318,22 +300,18 @@
       try {
         const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
-
         // Subir al Storage de Supabase
         for (let i = 0; i < filesInput.length; i++) {
           const file = filesInput[i];
           const fileName = `${Date.now()}_${i}.${file.name.split('.').pop()}`;
           const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
           
-          const { error: uploadError } = await supabase.storage.from('econexus-fotos').upload(filePath, file);
+          const { error: uploadError } = await supabaseClient.storage.from('econexus-fotos').upload(filePath, file);
           if (uploadError) throw uploadError;
-
-          const { data: urlData } = supabase.storage.from('econexus-fotos').getPublicUrl(filePath);
+          const { data: urlData } = supabaseClient.storage.from('econexus-fotos').getPublicUrl(filePath);
           urlsPublicas.push(urlData.publicUrl);
         }
-
         btn.textContent = "Guardando base de datos...";
-
         // Insertar en la tabla "propiedades"
         const payload = {
           codigo_eco: codigoUnico,
@@ -352,10 +330,8 @@
           fotos: urlsPublicas,
           user_id: usuarioActual.id
         };
-
-        const { error: dbError } = await supabase.from('propiedades').insert([payload]);
+        const { error: dbError } = await supabaseClient.from('propiedades').insert([payload]);
         if (dbError) throw dbError;
-
         alert("¡Inmueble publicado con éxito! Las fotos se han procesado en Supabase.");
         document.getElementById("formCaptacion").reset();
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
