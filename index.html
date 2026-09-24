@@ -6,7 +6,7 @@
   <title>EcoNexus | Red Inmobiliaria Inteligente</title>
   <meta name="theme-color" content="#1E3F20" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Integración del SDK de Supabase -->
+  <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     tailwind.config = {
@@ -40,10 +40,9 @@
   
   <!-- HERO SECTION -->
   <section class="bg-econexus text-white py-12 px-4 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
     <div class="max-w-4xl mx-auto text-center relative z-10">
       <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Conectamos Personas con Oportunidades Exclusivas</h1>
-      <p class="text-green-100 text-base md:text-lg mb-8 max-w-2xl mx-auto">Explora nuestro catálogo de inmuebles y contacta directamente con su captador en segundos, más que inmuebles conectamos sueños.</p>
+      <p class="text-green-100 text-base md:text-lg mb-8 max-w-2xl mx-auto">Explora nuestro catálogo de inmuebles y contacta directamente con su captador en segundos.</p>
       
       <!-- BARRA DE BÚSQUEDA Y FILTROS -->
       <div class="bg-white text-gray-800 rounded-2xl p-4 md:p-6 shadow-2xl">
@@ -80,7 +79,8 @@
       </div>
     </div>
   </section>
-  <!-- CONTENIDO PRINCIPAL / GRILLA DE PROPIEDADES -->
+
+  <!-- GRILLA DE PROPIEDADES -->
   <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold text-econexus flex items-center">
@@ -99,10 +99,11 @@
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
-      <p class="text-gray-500 text-sm max-w-md mx-auto">Prueba ajustando los filtros de búsqueda o eliminando las restricciones de precio.</p>
+      <p class="text-gray-500 text-sm max-w-md mx-auto">Prueba ajustando los filtros de búsqueda.</p>
     </div>
   </main>
-  <!-- MODAL DE DETALLE DE PROPIEDAD -->
+
+  <!-- MODAL -->
   <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
       <button onclick="cerrarModal()" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
@@ -111,42 +112,46 @@
       <div id="modalContent"></div>
     </div>
   </div>
+
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
-      <div class="flex items-center justify-center space-x-2 mb-2">
-        <span class="text-lg font-bold">EcoNexus</span>
-      </div>
-      <p class="text-xs text-green-300 mb-4">Plataforma Inmobiliaria &amp; Integral</p>
-      <p class="text-xs text-gray-400">© 2026 EcoNexus Real Estate. Todos los derechos reservados.</p>
+      <p class="text-xs text-green-300 mb-2">EcoNexus Real Estate Platform</p>
+      <p class="text-xs text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
+
   <script>
-    // Inicialización de Supabase
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Alias único de cliente para prevenir conflictos globales
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let todasLasPropiedades = [];
+
     document.addEventListener("DOMContentLoaded", function() {
       cargarPropiedades();
     });
+
     async function cargarPropiedades() {
       try {
-        const { data, error } = await supabaseClient
+        const { data, error } = await dbClient
           .from('propiedades')
           .select('*')
           .eq('estatus', 'Disponible')
           .order('destacado', { ascending: false });
+          
         if (error) throw error;
         
-        todasLasPropiedades = data;
+        todasLasPropiedades = data || [];
         renderizarTarjetas(todasLasPropiedades);
       } catch (err) {
-        showError("No se pudo conectar con la base de datos Supabase.");
-        console.error(err);
+        showError("No se pudo conectar con la base de datos de Supabase. Revisa los permisos.");
+        console.error("Error al cargar propiedades:", err);
       } finally {
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
+
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
@@ -171,19 +176,17 @@
         const esDestacado = p.destacado === true;
         const waNumber = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
         const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-        const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}). ¿Podría darme más detalles?`);
+        const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
         
         const cardHTML = `
-          <div class="bg-white rounded-2xl overflow-hidden border ${esDestacado ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
+          <div class="bg-white rounded-2xl overflow-hidden border ${esDestacado ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
             <div class="relative h-56 overflow-hidden group">
               <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
               <div class="absolute top-3 left-3 flex space-x-2">
-                <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                  ${p.operacion}
-                </span>
-                ${esDestacado ? `<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow flex items-center"><i class="fa-solid fa-star mr-1"></i> VIP</span>` : ''}
+                <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow">${p.operacion}</span>
+                ${esDestacado ? `<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow flex items-center"><i class="fa-solid fa-star mr-1"></i> VIP</span>` : ''}
               </div>
-              <div class="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-lg font-bold">
+              <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-lg font-bold">
                 ID: ${p.codigo_eco}
               </div>
             </div>
@@ -206,7 +209,7 @@
                   Ver Ficha Completa <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                 </button>
                 <a href="https://wa.me/${waNumber}?text=${msjWA}" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
-                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar a ${nombreAsesor.split(' ')[0]}
+                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar Asesor
                 </a>
               </div>
             </div>
@@ -215,6 +218,7 @@
         grid.innerHTML += cardHTML;
       });
     }
+
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value;
@@ -230,6 +234,7 @@
       });
       renderizarTarjetas(filtradas);
     }
+
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "TODOS";
@@ -237,13 +242,14 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
+
     function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
       
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-      const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}). ¿Podrías brindarme más información?`);
+      const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       
       const modalContent = document.getElementById("modalContent");
@@ -258,13 +264,13 @@
             $${Number(p.precio).toLocaleString('en-US')}
           </div>
           <div class="space-y-3 mb-6">
-            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200 shadow-inner">
-              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-all duration-300" />
+            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
+              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
             </div>
             ${fotosArray.length > 1 ? `
               <div class="flex space-x-2 overflow-x-auto pb-2 snap-x">
                 ${fotosArray.map(urlFoto => `
-                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0 snap-start shadow-sm" />
+                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0" />
                 `).join('')}
               </div>
             ` : ''}
@@ -282,24 +288,18 @@
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
             <div class="flex items-center justify-between mb-4 border-b pb-4">
               <div>
-                <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor / Captador Responsable</span>
+                <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor Responsable</span>
                 <strong class="text-gray-800 text-base">${nombreAsesor}</strong>
               </div>
               <a href="https://wa.me/${whatsappAsesor}?text=${mensajeWA}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center shadow">
                 <i class="fa-brands fa-whatsapp text-base mr-1.5"></i> Chat Directo
               </a>
             </div>
-            <h4 class="font-bold text-gray-900 text-sm mb-3">Solicitar Visita o Información</h4>
+            <h4 class="font-bold text-gray-900 text-sm mb-3">Solicitar Información</h4>
             <form id="leadForm" onsubmit="enviarLead(event, '${p.id}')" class="space-y-3">
-              <div>
-                <input type="text" id="leadNombre" required placeholder="Tu Nombre Completo" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
-              </div>
-              <div>
-                <input type="tel" id="leadTel" required placeholder="Número de Teléfono / WhatsApp" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
-              </div>
-              <div>
-                <textarea id="leadMensaje" rows="2" placeholder="¿Cuándo te gustaría visitar esta propiedad?" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus"></textarea>
-              </div>
+              <input type="text" id="leadNombre" required placeholder="Tu Nombre Completo" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
+              <input type="tel" id="leadTel" required placeholder="Número de Teléfono / WhatsApp" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
+              <textarea id="leadMensaje" rows="2" placeholder="¿Cuándo te gustaría visitar esta propiedad?" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus"></textarea>
               <button type="submit" id="btnLeadSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
                 Enviar Solicitud
               </button>
@@ -309,9 +309,11 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
+
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
+
     async function enviarLead(e, idProp) {
       e.preventDefault();
       const btn = document.getElementById("btnLeadSubmit");
@@ -324,11 +326,12 @@
         telefono_cliente: document.getElementById("leadTel").value,
         mensaje: document.getElementById("leadMensaje").value
       };
+      
       try {
-        const { error } = await supabaseClient.from('leads').insert([payload]);
+        const { error } = await dbClient.from('leads').insert([payload]);
         if (error) throw error;
         
-        alert("¡Solicitud enviada con éxito! Un asesor se pondrá en contacto contigo a la brevedad.");
+        alert("¡Solicitud enviada con éxito!");
         cerrarModal();
       } catch (err) {
         alert("Ocurrió un error al enviar tu solicitud. Intenta contactar por WhatsApp.");
@@ -338,6 +341,7 @@
         btn.textContent = "Enviar Solicitud";
       }
     }
+
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
