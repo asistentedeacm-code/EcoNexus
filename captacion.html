@@ -31,9 +31,9 @@
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
     </div>
   </header>
+
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
-    
-    <!-- SECCIÓN DE AUTENTICACIÓN (Requerida por RLS de Supabase) -->
+    <!-- SECCIÓN DE AUTENTICACIÓN -->
     <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
       <h2 class="text-xl font-bold text-econexus mb-2">Acceso de Asesores</h2>
       <p class="text-sm text-gray-600 mb-4">Inicia sesión o regístrate para gestionar tu inventario.</p>
@@ -41,48 +41,51 @@
         <input type="email" id="authEmail" placeholder="Correo Electrónico" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
         <input type="password" id="authPassword" placeholder="Contraseña" class="border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
         <div class="flex gap-2 mt-2">
-          <button onclick="iniciarSesion()" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-sm">Entrar</button>
-          <button onclick="registrarse()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded-xl transition text-sm">Registrarse</button>
+          <button type="button" onclick="iniciarSesion()" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-sm">Entrar</button>
+          <button type="button" onclick="registrarse()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded-xl transition text-sm">Registrarse</button>
         </div>
         <p id="authMessage" class="text-xs text-red-600 font-semibold mt-2 hidden"></p>
       </div>
     </div>
-    <!-- CONTENEDOR PRINCIPAL (Oculto hasta autenticarse) -->
+
+    <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
-        <!-- ACORDEÓN DE GESTIÓN / RETIRO -->
+        <!-- ACORDEÓN DE GESTIÓN -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
-          <button onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
+          <button type="button" onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
             <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> Mis Inmuebles Publicados</span>
             <i id="iconoAcordeonGestion" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
           <div id="cuerpoAcordeonGestion" class="hidden p-6 bg-gray-50 border-t border-gray-200 space-y-4">
-            <button onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition w-full">
+            <button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition w-full">
               Cargar Mis Publicaciones
             </button>
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
+
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga
           </h2>
           <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
-            <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong> claras.</li>
+            <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong>.</li>
             <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
           </ul>
         </div>
+
         <!-- FORMULARIO DE CARGA -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
-                <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-                <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
-              </div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
+              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+            </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
+              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+            </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
               <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
@@ -112,7 +115,7 @@
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones / Ofic.</label>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label>
               <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
             </div>
             <div>
@@ -134,16 +137,14 @@
           </div>
           
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">
-              Fotos del Inmueble (Selecciona hasta 5 fotos) *
-            </label>
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Fotos del Inmueble (Máximo 5) *</label>
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
             <label class="flex items-start space-x-2 pt-2 cursor-pointer">
               <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
-              <span class="font-bold text-gray-800">Acepto expresamente los términos, normas de publicación y el descargo de responsabilidad legal.</span>
+              <span class="font-bold text-gray-800">Acepto los términos y normas de publicación.</span>
             </label>
           </div>
           <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
@@ -152,79 +153,96 @@
         </form>
     </div>
   </main>
-<script>
-  // Inicialización de Supabase con alias limpio
-  const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-  
-  // Se utiliza supabaseClient para no colisionar con window.supabase de la CDN
-  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  
-  let usuarioActual = null;
 
-  // Escuchar estado de sesión
-  supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    if (session) {
-      usuarioActual = session.user;
-      mostrarApp();
+  <script>
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    
+    // Se renombra a dbClient para no pisar la variable global window.supabase
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let usuarioActual = null;
+
+    dbClient.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        usuarioActual = session.user;
+        mostrarApp();
+      }
+    });
+
+    dbClient.auth.onAuthStateChange((_event, session) => {
+      if (session) {
+        usuarioActual = session.user;
+        mostrarApp();
+      } else {
+        usuarioActual = null;
+        ocultarApp();
+      }
+    });
+
+    function mostrarApp() {
+      document.getElementById('authContainer').classList.add('hidden');
+      document.getElementById('mainAppContainer').classList.remove('hidden');
+      document.getElementById('btnLogout').classList.remove('hidden');
     }
-  });
 
-  supabaseClient.auth.onAuthStateChange((_event, session) => {
-    if (session) {
-      usuarioActual = session.user;
-      mostrarApp();
-    } else {
-      usuarioActual = null;
-      ocultarApp();
+    function ocultarApp() {
+      document.getElementById('authContainer').classList.remove('hidden');
+      document.getElementById('mainAppContainer').classList.add('hidden');
+      document.getElementById('btnLogout').classList.add('hidden');
     }
-  });
 
-  function mostrarApp() {
-    document.getElementById('authContainer').classList.add('hidden');
-    document.getElementById('mainAppContainer').classList.remove('hidden');
-    document.getElementById('btnLogout').classList.remove('hidden');
-  }
-
-  function ocultarApp() {
-    document.getElementById('authContainer').classList.remove('hidden');
-    document.getElementById('mainAppContainer').classList.add('hidden');
-    document.getElementById('btnLogout').classList.add('hidden');
-  }
-
-  async function iniciarSesion() {
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) {
+    async function iniciarSesion() {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
-      msg.textContent = "Error: " + error.message;
-      msg.classList.remove('hidden');
-    }
-  }
+      msg.classList.add('hidden');
 
-  async function registrarse() {
-    const email = document.getElementById('authEmail').value;
-    const password = document.getElementById('authPassword').value;
-    const { error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) {
+      if(!email || !password) {
+        msg.textContent = "Por favor, ingresa correo y contraseña.";
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      const { error } = await dbClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        msg.textContent = "Error: " + error.message;
+        msg.classList.remove('hidden');
+      }
+    }
+
+    async function registrarse() {
+      const email = document.getElementById('authEmail').value;
+      const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
-      msg.textContent = error.message;
-      msg.classList.remove('hidden');
-    } else {
-      alert("Registro exitoso. Revisa tu correo o inicia sesión.");
-    }
-  }
+      msg.classList.add('hidden');
 
-  async function cerrarSesion() {
-    await supabaseClient.auth.signOut();
+      if(!email || !password) {
+        msg.textContent = "Por favor, ingresa correo y contraseña.";
+        msg.classList.remove('hidden');
+        return;
+      }
+
+      const { error } = await dbClient.auth.signUp({ email, password });
+      if (error) {
+        msg.textContent = "Error: " + error.message;
+        msg.classList.remove('hidden');
+      } else {
+        alert("Registro exitoso. Si tienes verificación por correo activa, revísalo; de lo contrario, inicia sesión directamente.");
+      }
     }
+
+    async function cerrarSesion() {
+      await dbClient.auth.signOut();
+    }
+
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
     }
+
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -237,13 +255,13 @@
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
     }
-    // Buscar propiedades creadas por el usuario autenticado
+
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
       
       try {
-        const { data, error } = await supabaseClient
+        const { data, error } = await dbClient
           .from('propiedades')
           .select('*')
           .eq('user_id', usuarioActual.id);
@@ -264,30 +282,29 @@
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
               <p class="text-gray-500">Ref: $${item.precio} | Código: ${item.codigo_eco}</p>
             </div>
-            <button onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
+            <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
               <i class="fa-solid fa-trash-can mr-1"></i> Retirar
             </button>
           `;
           contenedor.appendChild(card);
         });
       } catch (err) {
-        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión.</p>`;
+        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión al cargar propiedades.</p>`;
+        console.error(err);
       }
     }
-    // Eliminar Propiedad e Imágenes de Storage
+
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente?")) return;
       
       try {
-        // 1. Eliminar fotos del bucket
-        const { data: files } = await supabaseClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
+        const { data: files } = await dbClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
         if (files && files.length > 0) {
            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
-           await supabaseClient.storage.from('econexus-fotos').remove(rutasFiles);
+           await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
         }
         
-        // 2. Eliminar de Base de Datos
-        const { error } = await supabaseClient.from('propiedades').delete().eq('id', id);
+        const { error } = await dbClient.from('propiedades').delete().eq('id', id);
         if (error) throw error;
         
         alert("Inmueble eliminado con éxito.");
@@ -297,7 +314,7 @@
         console.error(err);
       }
     }
-    // Procesar carga e insertar en base de datos
+
     async function procesarCarga(e) {
       e.preventDefault();
       const filesInput = document.getElementById("fotosFiles").files;
@@ -313,45 +330,49 @@
       try {
         const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
-        // Subir al Storage de Supabase
+
         for (let i = 0; i < filesInput.length; i++) {
           const file = filesInput[i];
           const fileName = `${Date.now()}_${i}.${file.name.split('.').pop()}`;
           const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
           
-          const { error: uploadError } = await supabaseClient.storage.from('econexus-fotos').upload(filePath, file);
+          const { error: uploadError } = await dbClient.storage.from('econexus-fotos').upload(filePath, file);
           if (uploadError) throw uploadError;
-          const { data: urlData } = supabaseClient.storage.from('econexus-fotos').getPublicUrl(filePath);
+
+          const { data: urlData } = dbClient.storage.from('econexus-fotos').getPublicUrl(filePath);
           urlsPublicas.push(urlData.publicUrl);
         }
+
         btn.textContent = "Guardando base de datos...";
-        // Insertar en la tabla "propiedades"
+
         const payload = {
           codigo_eco: codigoUnico,
           titulo: document.getElementById("titulo").value,
           tipo: document.getElementById("tipo").value,
           operacion: document.getElementById("operacion").value,
-          precio: document.getElementById("precio").value,
+          precio: Number(document.getElementById("precio").value),
           ubicacion: document.getElementById("ubicacion").value,
-          habitaciones: document.getElementById("habitaciones").value || 0,
-          banos: document.getElementById("banos").value || 0,
-          estacionamientos: document.getElementById("estacionamientos").value || 0,
-          metros: document.getElementById("metros").value || 0,
+          habitaciones: Number(document.getElementById("habitaciones").value) || 0,
+          banos: Number(document.getElementById("banos").value) || 0,
+          estacionamientos: Number(document.getElementById("estacionamientos").value) || 0,
+          metros: Number(document.getElementById("metros").value) || 0,
           descripcion: document.getElementById("descripcion").value,
           nombre_asesor: document.getElementById("nombreAsesor").value,
           telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
           fotos: urlsPublicas,
           user_id: usuarioActual.id
         };
-        const { error: dbError } = await supabaseClient.from('propiedades').insert([payload]);
+
+        const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
         if (dbError) throw dbError;
-        alert("¡Inmueble publicado con éxito! Las fotos se han procesado en Supabase.");
+
+        alert("¡Inmueble publicado con éxito!");
         document.getElementById("formCaptacion").reset();
-        document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+        document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
         
       } catch (err) {
         alert("Ocurrió un error al procesar la publicación. Revisa la consola.");
-        console.error(err);
+        console.error("Error en procesarCarga:", err);
       } finally {
         btn.disabled = false;
         btn.textContent = "Publicar Inmueble en EcoNexus";
