@@ -7,6 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Librería para compresión de imágenes en el cliente -->
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.mjs" type="module"></script>
+  
   <script>
     tailwind.config = {
       theme: {
@@ -325,21 +329,38 @@
       
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
-      btn.textContent = "Subiendo imágenes a Supabase...";
+      btn.textContent = "Comprimiendo y subiendo imágenes...";
       
       try {
         const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
 
+        // Configuración de compresión previa a la subida
+        const options = {
+          maxSizeMB: 0.2,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true
+        };
+
         for (let i = 0; i < filesInput.length; i++) {
-          const file = filesInput[i];
-          const fileName = `${Date.now()}_${i}.${file.name.split('.').pop()}`;
+          const fileOriginal = filesInput[i];
+          
+          // Compresión en el cliente antes de subir
+          const fileComprimido = await imageCompression(fileOriginal, options);
+          
+          const fileName = `${Date.now()}_${i}.jpg`;
           const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
           
-          const { error: uploadError } = await dbClient.storage.from('econexus-fotos').upload(filePath, file);
+          const { error: uploadError } = await dbClient.storage
+            .from('econexus-fotos')
+            .upload(filePath, fileComprimido);
+            
           if (uploadError) throw uploadError;
 
-          const { data: urlData } = dbClient.storage.from('econexus-fotos').getPublicUrl(filePath);
+          const { data: urlData } = dbClient.storage
+            .from('econexus-fotos')
+            .getPublicUrl(filePath);
+
           urlsPublicas.push(urlData.publicUrl);
         }
 
