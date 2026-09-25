@@ -23,14 +23,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
 
-  <!-- MODAL DE APERTURA INSTANTÁNEA (LITERAL Y OBLIGATORIO) -->
+  <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-red-600 animate-fade-in">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
       <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
-      <div class="flex items-center space-x-2 text-red-600 font-bold mb-3">
-        <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+      <div class="flex items-center space-x-2 text-econexus font-bold mb-3">
+        <i class="fa-solid fa-scale-balanced text-xl"></i>
         <span class="text-sm uppercase tracking-wide">Aviso Importante</span>
       </div>
       <p class="text-sm font-semibold text-gray-800 leading-relaxed mb-4">
@@ -40,7 +40,7 @@
         <button onclick="cerrarAvisoInstantaneo(); toggleLegalDisclaimer();" class="text-xs text-econexus font-bold underline hover:text-econexus-light">
           Ver términos y condiciones completos dentro de la plataforma...
         </button>
-        <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-econexus-light transition">
+        <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-lg transition">
           Entendido / Avanzar
         </button>
       </div>
@@ -70,22 +70,22 @@
       </button>
     </div>
 
-    <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
-    <div id="legalDisclaimerDropdown" class="hidden bg-white text-gray-800 border-b-2 border-red-500 shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
-      <p class="font-bold text-red-600 mb-3 text-sm">
+    <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA (VERDE CON LETRAS BLANCAS) -->
+    <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
+      <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
         "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
       </p>
       
-      <div class="legal-text-body space-y-3 text-xs text-gray-700 leading-relaxed">
-        <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
+      <div class="legal-text-body space-y-3 text-xs text-green-100 leading-relaxed">
+        <p><strong class="text-white">1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
 
-        <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
+        <p><strong class="text-white">2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
 
-        <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
+        <p><strong class="text-white">3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
 
-        <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
+        <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
 
-        <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes[cite: 1]. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes[cite: 1]. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
       </div>
     </div>
   </header>
