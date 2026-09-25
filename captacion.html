@@ -24,7 +24,7 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative pb-20">
   <!-- HEADER -->
   <header class="bg-econexus text-white py-4 px-6 shadow-md flex justify-between items-center">
     <div class="flex items-center space-x-3">
@@ -76,6 +76,34 @@
             <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong>.</li>
             <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
           </ul>
+        </div>
+
+        <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA (SUPERIOR AL FORMULARIO) -->
+        <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+          <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
+            <span>⚖️ Declaración Jurada del Asesor, Términos y Protocolos de Ciberseguridad</span>
+            <i id="iconoLegalDropdown" class="fa-solid fa-chevron-down transition-transform"></i>
+          </button>
+          <div id="bodyLegalDropdown" class="hidden p-5 border-t border-gray-200 bg-white">
+            <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
+            <div class="legal-disclaimer-dropdown">
+              <p class="font-bold text-red-600 mb-2">
+                "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
+              </p>
+              
+              <div class="legal-text-body space-y-3 text-xs text-gray-700">
+                <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
+                
+                <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
+                
+                <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
+
+                <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
+
+                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes[cite: 1]. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- FORMULARIO DE CARGA -->
@@ -145,18 +173,40 @@
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
-          <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-600 space-y-2">
-            <label class="flex items-start space-x-2 pt-2 cursor-pointer">
-              <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus" />
-              <span class="font-bold text-gray-800">Acepto los términos y normas de publicación.</span>
+
+          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA CON TEXTO LITERAL DE APERTURA INSTANTÁNEA -->
+          <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
+            <label class="flex items-start space-x-2 cursor-pointer">
+              <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
+              <span class="leading-relaxed">
+                <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
+              </span>
             </label>
+            <div class="pt-1">
+              <button type="button" onclick="toggleLegalDropdown()" class="text-econexus hover:underline font-bold text-xs">
+                [Ver términos y protocolos de ciberseguridad completos]
+              </button>
+            </div>
           </div>
+
           <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
             Publicar Inmueble en EcoNexus
           </button>
         </form>
     </div>
   </main>
+
+  <!-- BOTÓN FLOTANTE AL ABRIR PORTAL -->
+  <div class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
+    <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm">
+      <p class="leading-tight flex-grow">
+        <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
+      </p>
+      <button type="button" onclick="toggleLegalDropdown()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-3 py-2 rounded-xl text-xs whitespace-nowrap transition shadow flex-shrink-0">
+        Ver Términos
+      </button>
+    </div>
+  </div>
 
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
@@ -166,14 +216,12 @@
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let usuarioActual = null;
-
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         usuarioActual = session.user;
         mostrarApp();
       }
     });
-
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         usuarioActual = session.user;
@@ -201,13 +249,11 @@
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-
       if(!email || !password) {
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-
       const { error } = await dbClient.auth.signInWithPassword({ email, password });
       if (error) {
         msg.textContent = "Error: " + error.message;
@@ -220,13 +266,11 @@
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-
       if(!email || !password) {
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-
       const { error } = await dbClient.auth.signUp({ email, password });
       if (error) {
         msg.textContent = "Error: " + error.message;
@@ -245,6 +289,16 @@
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
+    }
+
+    function toggleLegalDropdown() {
+      const body = document.getElementById("bodyLegalDropdown");
+      const icono = document.getElementById("iconoLegalDropdown");
+      body.classList.toggle("hidden");
+      if (icono) icono.classList.toggle("rotate-180");
+      if (!body.classList.contains("hidden")) {
+        body.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     }
 
     function validarLimiteFotos(input) {
@@ -334,14 +388,12 @@
       try {
         const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
-
         // Configuración de compresión previa a la subida
         const options = {
           maxSizeMB: 0.2,
           maxWidthOrHeight: 1200,
           useWebWorker: true
         };
-
         for (let i = 0; i < filesInput.length; i++) {
           const fileOriginal = filesInput[i];
           
@@ -356,16 +408,12 @@
             .upload(filePath, fileComprimido);
             
           if (uploadError) throw uploadError;
-
           const { data: urlData } = dbClient.storage
             .from('econexus-fotos')
             .getPublicUrl(filePath);
-
           urlsPublicas.push(urlData.publicUrl);
         }
-
         btn.textContent = "Guardando base de datos...";
-
         const payload = {
           codigo_eco: codigoUnico,
           titulo: document.getElementById("titulo").value,
@@ -383,10 +431,8 @@
           fotos: urlsPublicas,
           user_id: usuarioActual.id
         };
-
         const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
         if (dbError) throw dbError;
-
         alert("¡Inmueble publicado con éxito!");
         document.getElementById("formCaptacion").reset();
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
