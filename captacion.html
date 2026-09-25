@@ -197,9 +197,14 @@
   </main>
 
   <!-- BOTÓN FLOTANTE AL ABRIR PORTAL -->
-  <div class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
-    <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm">
-      <p class="leading-tight flex-grow">
+  <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
+    <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
+      <!-- Botón X para cerrar banner (visible únicamente cuando hay sesión iniciada) -->
+      <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="hidden absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
+        &times;
+      </button>
+
+      <p class="leading-tight flex-grow pr-2">
         <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
       </p>
       <button type="button" id="btnBannerTerminos" onclick="accionBannerTerminos()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-3 py-2 rounded-xl text-xs whitespace-nowrap transition shadow flex-shrink-0">
@@ -241,6 +246,12 @@
       if (btnBanner) {
         btnBanner.textContent = "Abrir Términos";
       }
+
+      // Mostrar el botón 'X' para quitar el aviso flotante al haber iniciado sesión
+      const btnCloseBanner = document.getElementById('btnCloseBanner');
+      if (btnCloseBanner) {
+        btnCloseBanner.classList.remove('hidden');
+      }
     }
 
     function ocultarApp() {
@@ -251,6 +262,23 @@
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) {
         btnBanner.textContent = "Al Ingresar Ver Términos";
+      }
+
+      // Ocultar el botón 'X' y asegurar que el banner sea visible en la pantalla de inicio de sesión
+      const btnCloseBanner = document.getElementById('btnCloseBanner');
+      if (btnCloseBanner) {
+        btnCloseBanner.classList.add('hidden');
+      }
+      const bannerContainer = document.getElementById('bannerFlotanteContainer');
+      if (bannerContainer) {
+        bannerContainer.classList.remove('hidden');
+      }
+    }
+
+    function cerrarBannerFlotante() {
+      const bannerContainer = document.getElementById('bannerFlotanteContainer');
+      if (bannerContainer) {
+        bannerContainer.classList.add('hidden');
       }
     }
 
