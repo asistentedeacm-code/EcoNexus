@@ -133,7 +133,15 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Tipo de Inmueble</label>
-            <input type="text" id="filterTipo" oninput="aplicarFiltros()" placeholder="Ej: Apartamento, Casa, Quinta..." class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
+            <select id="filterTipo" onchange="aplicarFiltros()" class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus">
+              <option value="TODOS">Todos los Tipos</option>
+              <option value="Apartamento">Apartamento</option>
+              <option value="Casa">Casa</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Local">Local Comercial</option>
+              <option value="Oficina">Oficina</option>
+              <option value="Terreno">Terreno / Galpón</option>
+            </select>
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Ubicación / Código</label>
@@ -304,7 +312,7 @@
       
       noRes.classList.add("hidden");
       grid.classList.remove("hidden");
-      if (hayMasPaginas && document.getElementById("filterOperacion").value === "TODOS" && !document.getElementById("filterTipo").value.trim() && !document.getElementById("filterText").value.trim() && !document.getElementById("filterPrecio").value) {
+      if (hayMasPaginas && document.getElementById("filterOperacion").value === "TODOS" && document.getElementById("filterTipo").value === "TODOS" && !document.getElementById("filterText").value.trim() && !document.getElementById("filterPrecio").value) {
         loadMoreBtn.classList.remove("hidden");
       } else {
         loadMoreBtn.classList.add("hidden");
@@ -376,13 +384,13 @@
 
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
-      const tipo = document.getElementById("filterTipo").value.toLowerCase().trim();
+      const tipo = document.getElementById("filterTipo").value;
       const texto = document.getElementById("filterText").value.toLowerCase().trim();
       const precioMax = parseFloat(document.getElementById("filterPrecio").value) || Infinity;
       
       const filtradas = todasLasPropiedades.filter(p => {
         const matchOp = (operacion === "TODOS" || p.operacion.toUpperCase() === operacion.toUpperCase());
-        const matchTipo = (!tipo || (p.tipo && p.tipo.toLowerCase().includes(tipo)));
+        const matchTipo = (tipo === "TODOS" || p.tipo.toUpperCase() === tipo.toUpperCase());
         const matchTexto = (p.titulo.toLowerCase().includes(texto) || p.ubicacion.toLowerCase().includes(texto) || p.codigo_eco.toLowerCase().includes(texto));
         const matchPrecio = (Number(p.precio) <= precioMax);
         return matchOp && matchTipo && matchTexto && matchPrecio;
@@ -392,7 +400,7 @@
 
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
-      document.getElementById("filterTipo").value = "";
+      document.getElementById("filterTipo").value = "TODOS";
       document.getElementById("filterText").value = "";
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
