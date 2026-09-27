@@ -35,7 +35,6 @@
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
     </div>
   </header>
-
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
     <!-- SECCIÓN DE AUTENTICACIÓN -->
     <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
@@ -48,7 +47,9 @@
           <button type="button" onclick="iniciarSesion()" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-sm">Entrar</button>
           <button type="button" onclick="registrarse()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded-xl transition text-sm">Registrarse</button>
         </div>
-        <p id="authMessage" class="text-xs text-red-600 font-semibold mt-2 hidden"></p>
+        
+        <!-- MENSAJE DE ESTADO / DENEGACIÓN O BLOQUEO -->
+        <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
       </div>
     </div>
 
@@ -67,7 +68,6 @@
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
-
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
@@ -78,7 +78,6 @@
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
-
         <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
@@ -97,27 +96,22 @@
                 <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
                 
                 <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
-
                 <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
-
                 <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
               </div>
             </div>
           </div>
         </div>
-
         <!-- FORMULARIO DE CARGA / EDICIÓN -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <!-- Campo oculto para saber si se está creando o editando -->
           <input type="hidden" id="editInmuebleId" value="" />
-
           <div class="flex justify-between items-center border-b pb-3">
             <h2 id="tituloFormulario" class="text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
             <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition">
               <i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición
             </button>
           </div>
-
           <!-- DATOS DEL ASESOR Y AGENCIA -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -129,7 +123,6 @@
               <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
           </div>
-
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
@@ -143,7 +136,6 @@
               <input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
           </div>
-
           <!-- DATOS DEL INMUEBLE -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -158,7 +150,6 @@
               <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
           </div>
-
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
@@ -169,7 +160,6 @@
               <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
           </div>
-
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
             <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
@@ -193,7 +183,6 @@
               <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
             </div>
           </div>
-
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
             <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
@@ -204,7 +193,6 @@
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
-
           <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA -->
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
             <label class="flex items-start space-x-2 cursor-pointer">
@@ -219,7 +207,6 @@
               </button>
             </div>
           </div>
-
           <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
             Publicar Inmueble en EcoNexus
           </button>
@@ -233,7 +220,6 @@
       <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="hidden absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
         &times;
       </button>
-
       <p class="leading-tight flex-grow pr-2">
         <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
       </p>
@@ -247,28 +233,71 @@
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     
-    // Se renombra a dbClient para no pisar la variable global window.supabase
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let usuarioActual = null;
-    let fotosActualesEdicion = []; // Almacena temporalmente las fotos existentes durante la edición
+    let fotosActualesEdicion = [];
 
+    // Inicialización y verificación de estado al cargar la página
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        usuarioActual = session.user;
-        mostrarApp();
+        verificarEstatusYMostrar(session.user);
       }
     });
 
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        usuarioActual = session.user;
-        mostrarApp();
+        verificarEstatusYMostrar(session.user);
       } else {
         usuarioActual = null;
         ocultarApp();
       }
     });
+
+    // Función que verifica si el perfil está 'Aprobado'
+    async function verificarEstatusYMostrar(user) {
+      const msg = document.getElementById('authMessage');
+      try {
+        const { data: perfil, error } = await dbClient
+          .from('perfiles')
+          .select('estatus_agente')
+          .eq('id', user.id)
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error("Error al consultar perfil:", error);
+        }
+
+        const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
+
+        if (estatus === 'Aprobado') {
+          usuarioActual = user;
+          msg.classList.add('hidden');
+          mostrarApp();
+        } else {
+          // Si es 'Pendiente' o 'Denegado', se bloquea el acceso
+          await dbClient.auth.signOut();
+          usuarioActual = null;
+          ocultarApp();
+
+          msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-amber-50 border-amber-300 text-amber-900";
+          const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${user.email}. Solicito la aprobación de mi cuenta de Asesor.`);
+          
+          msg.innerHTML = `
+            <div class="font-bold text-sm mb-1 flex items-center text-amber-800">
+              <i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación
+            </div>
+            <p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${estatus}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p>
+            <a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition">
+              <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar
+            </a>
+          `;
+          msg.classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error("Error en validación de perfil:", err);
+      }
+    }
 
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
@@ -277,7 +306,6 @@
       
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
-
       const btnCloseBanner = document.getElementById('btnCloseBanner');
       if (btnCloseBanner) btnCloseBanner.classList.remove('hidden');
     }
@@ -289,10 +317,8 @@
       
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Al Ingresar Ver Términos";
-
       const btnCloseBanner = document.getElementById('btnCloseBanner');
       if (btnCloseBanner) btnCloseBanner.classList.add('hidden');
-
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
@@ -312,38 +338,58 @@
     }
 
     async function iniciarSesion() {
-      const email = document.getElementById('authEmail').value;
+      const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-      if(!email || !password) {
+
+      if (!email || !password) {
+        msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-      const { error } = await dbClient.auth.signInWithPassword({ email, password });
+
+      const { data, error } = await dbClient.auth.signInWithPassword({ email, password });
       if (error) {
+        msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Error: " + error.message;
         msg.classList.remove('hidden');
+      } else if (data.user) {
+        await verificarEstatusYMostrar(data.user);
       }
     }
 
+    // Registro de usuario + Creación de Perfil con estatus por defecto
     async function registrarse() {
-      const email = document.getElementById('authEmail').value;
+      const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-      if(!email || !password) {
+
+      if (!email || !password) {
+        msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-      const { error } = await dbClient.auth.signUp({ email, password });
+
+      const { data, error } = await dbClient.auth.signUp({ email, password });
       if (error) {
+        msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Error: " + error.message;
         msg.classList.remove('hidden');
-      } else {
-        alert("Registro exitoso. Si tienes verificación por correo activa, revísalo; de lo contrario, inicia sesión directamente.");
+      } else if (data.user) {
+        // Se crea el perfil inicial en la tabla con estatus 'Pendiente'
+        await dbClient.from('perfiles').insert([
+          { id: data.user.id, email: email, estatus_agente: 'Pendiente' }
+        ]);
+
+        alert("¡Registro completado! Serás redirigido a WhatsApp para validar tu cuenta de asesor y gestionar tu aprobación.");
+        const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${email}. Solicito la aprobación de mi cuenta de Asesor.`);
+        window.open(`https://wa.me/584244466115?text=${msjWA}`, '_blank');
+
+        await verificarEstatusYMostrar(data.user);
       }
     }
 
@@ -372,7 +418,6 @@
       const selectTipo = document.getElementById("tipoAsesor").value;
       const containerAgencia = document.getElementById("containerNombreAgencia");
       const inputAgencia = document.getElementById("nombreAgencia");
-
       if (selectTipo === "Agencia") {
         containerAgencia.classList.remove("hidden");
         inputAgencia.setAttribute("required", "true");
@@ -421,7 +466,6 @@
           
           const esAgencia = item.tipo_asesor === 'Agencia';
           const infoAsesor = esAgencia ? `Agencia: ${item.nombre_agencia || 'Sin Nombre'}` : `Agente Independiente`;
-
           card.innerHTML = `
             <div class="space-y-1">
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
@@ -452,11 +496,9 @@
           .select('*')
           .eq('id', id)
           .single();
-
         if (error) throw error;
         if (!data) return;
 
-        // Cargar datos en el formulario
         document.getElementById("editInmuebleId").value = data.id;
         document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
         document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
@@ -466,7 +508,6 @@
         if (data.tipo_asesor === 'Agencia') {
           document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
         }
-
         document.getElementById("operacion").value = data.operacion || 'Venta';
         document.getElementById("tipo").value = data.tipo || '';
         document.getElementById("precio").value = data.precio || '';
@@ -478,7 +519,6 @@
         document.getElementById("metros").value = data.metros || 0;
         document.getElementById("descripcion").value = data.descripcion || '';
 
-        // Guardar referencia de fotos actuales y quitar obligatoriedad del input de fotos en modo edición
         fotosActualesEdicion = data.fotos || [];
         const fotosInput = document.getElementById("fotosFiles");
         fotosInput.removeAttribute("required");
@@ -487,17 +527,13 @@
         document.getElementById("labelFotosTitle").innerHTML = `Fotos del Inmueble (Opcional) <span class="text-xs text-gray-500 font-normal">(Si no seleccionas fotos, se conservarán las ${fotosActualesEdicion.length} actuales)</span>`;
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos para reemplazar las actuales.";
 
-        // Marcar checkbox automáticamente en edición
         document.getElementById("checkAcepto").checked = true;
 
-        // Ajustar interfaz
         document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
         document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
         document.getElementById("btnCancelarEdicion").classList.remove("hidden");
 
-        // Desplazar suavemente hasta el formulario
         document.getElementById("formCaptacion").scrollIntoView({ behavior: 'smooth', block: 'start' });
-
       } catch (err) {
         alert("Error al cargar la información para editar.");
         console.error(err);
@@ -509,17 +545,14 @@
       document.getElementById("editInmuebleId").value = "";
       fotosActualesEdicion = [];
 
-      // Restaurar obligatoriedad de fotos para registros nuevos
       const fotosInput = document.getElementById("fotosFiles");
       fotosInput.setAttribute("required", "true");
       
       document.getElementById("labelFotosTitle").textContent = "Fotos del Inmueble (Máximo 5) *";
       document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
-
       document.getElementById("tituloFormulario").textContent = "Datos de la Propiedad";
       document.getElementById("btnSubmit").textContent = "Publicar Inmueble en EcoNexus";
       document.getElementById("btnCancelarEdicion").classList.add("hidden");
-
       toggleTipoAsesor();
     }
 
@@ -551,7 +584,6 @@
       const esEdicion = Boolean(editId);
       const filesInput = document.getElementById("fotosFiles").files;
 
-      // Validación de cantidad de fotos
       if (!esEdicion && (filesInput.length === 0 || filesInput.length > 5)) {
         alert("Por favor selecciona entre 1 y 5 fotos.");
         return;
@@ -568,23 +600,19 @@
       try {
         let urlsPublicas = [];
         let codigoUnico = '';
-
         if (esEdicion) {
-          // Obtener código existente si editamos
           const { data: propActual } = await dbClient.from('propiedades').select('codigo_eco').eq('id', editId).single();
           codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
         } else {
           codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         }
 
-        // Procesar nuevas imágenes si el usuario seleccionó archivos
         if (filesInput.length > 0) {
           const options = {
             maxSizeMB: 0.2,
             maxWidthOrHeight: 1200,
             useWebWorker: true
           };
-
           for (let i = 0; i < filesInput.length; i++) {
             const fileOriginal = filesInput[i];
             const fileComprimido = await imageCompression(fileOriginal, options);
@@ -597,15 +625,12 @@
               .upload(filePath, fileComprimido, { upsert: true });
               
             if (uploadError) throw uploadError;
-
             const { data: urlData } = dbClient.storage
               .from('econexus-fotos')
               .getPublicUrl(filePath);
-
             urlsPublicas.push(urlData.publicUrl);
           }
         } else if (esEdicion) {
-          // Si edita y no sube nuevas fotos, se mantienen las fotos existentes
           urlsPublicas = fotosActualesEdicion;
         }
 
@@ -631,28 +656,21 @@
         };
 
         if (esEdicion) {
-          // UPDATE
           const { error: updateError } = await dbClient
             .from('propiedades')
             .update(payload)
             .eq('id', editId);
-
           if (updateError) throw updateError;
           alert("¡Publicación actualizada con éxito!");
         } else {
-          // INSERT
           payload.codigo_eco = codigoUnico;
           payload.user_id = usuarioActual.id;
-
           const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
           if (dbError) throw dbError;
           alert("¡Inmueble publicado con éxito!");
         }
 
-        // Restablecer formulario
         cancelarEdicion();
-
-        // Si el acordeón de mis inmuebles está abierto, recargar lista
         const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
         if (!cuerpoGestion.classList.contains("hidden")) {
           buscarMisInmuebles();
