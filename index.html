@@ -47,6 +47,30 @@
     </div>
   </div>
 
+  <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
+  <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
+      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="flex items-center space-x-2 text-green-700 font-bold mb-3">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <span class="text-sm uppercase tracking-wide">Contacto Directo vía WhatsApp</span>
+      </div>
+      <p class="text-xs text-gray-700 leading-relaxed mb-5 bg-amber-50 border border-amber-200 p-3 rounded-xl">
+        "Estás por contactar directamente a un Asesor Inmobiliario o al Captador. EcoNexus no se hace responsable por negociaciones, acuerdos, visitas agendadas o pagos directos. no somos participes bajo ningún contexto de los acuerdos y negociaciones generados entre las partes y al hacer clic en contactar acepta de su exclusiva responsabilidad."
+      </p>
+      <div class="flex flex-col sm:flex-row gap-2 justify-end">
+        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition">
+          Cancelar
+        </button>
+        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow">
+          <i class="fa-brands fa-whatsapp text-sm"></i> Entendido y Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- HEADER / NAVBAR -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -57,9 +81,9 @@
           <span class="block text-xs text-green-200 tracking-wider font-light">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      <a href="https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios." id="btnHeaderWa" target="_blank" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow">
+      <button onclick="confirmarIrAWhatsApp('584244466115', 'Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow cursor-pointer">
         <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contacto Directo
-      </a>
+      </button>
     </div>
 
     <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
@@ -70,7 +94,7 @@
       </button>
     </div>
 
-    <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA (VERDE CON LETRAS BLANCAS) -->
+    <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
     <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
       <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
         "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
@@ -85,7 +109,7 @@
 
         <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
 
-        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes[cite: 1]. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
       </div>
     </div>
   </header>
@@ -154,6 +178,7 @@
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
       </button>
     </div>
+
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
@@ -190,6 +215,9 @@
     let pageOffset = 0;
     let hayMasPaginas = true;
 
+    // Variable global para URL pendiente de WhatsApp
+    let waUrlPendiente = '';
+
     document.addEventListener("DOMContentLoaded", function() {
       cargarPropiedades();
     });
@@ -205,12 +233,36 @@
       dropdown.classList.toggle("hidden");
       arrow.classList.toggle("rotate-180");
     }
- 
+
+    // Modal de Confirmación para WhatsApp
+    function confirmarIrAWhatsApp(numero, mensaje) {
+      waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
+      const modal = document.getElementById("modalConfirmarWhatsApp");
+      if (modal) {
+        modal.classList.remove("hidden");
+      }
+    }
+
+    function cerrarModalWhatsApp() {
+      const modal = document.getElementById("modalConfirmarWhatsApp");
+      if (modal) {
+        modal.classList.add("hidden");
+      }
+      waUrlPendiente = '';
+    }
+
+    function aceptarYContinuarWhatsApp() {
+      if (waUrlPendiente) {
+        window.open(waUrlPendiente, '_blank');
+      }
+      cerrarModalWhatsApp();
+    }
+
     async function cargarPropiedades() {
       try {
         const { data, error } = await dbClient
           .from('propiedades')
-          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor')
+          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia')
           .eq('estatus', 'Disponible')
           .order('destacado', { ascending: false })
           .range(pageOffset, pageOffset + PAGE_SIZE - 1);
@@ -241,7 +293,7 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
- 
+
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
@@ -276,6 +328,10 @@
         const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
         const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
         
+        // Determinar Agencia o Independiente
+        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+
         const cardHTML = `
           <div class="bg-white rounded-2xl overflow-hidden border ${esDestacado ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
             <div class="relative h-56 overflow-hidden group">
@@ -291,9 +347,18 @@
             <div class="p-5 flex-grow flex flex-col justify-between">
               <div>
                 <div class="text-xs font-semibold text-econexus uppercase tracking-wider mb-1">${p.tipo} • ${p.ubicacion}</div>
+                <div class="inline-flex items-center gap-1.5 text-[11px] font-medium text-gray-600 bg-gray-100 px-2 py-0.5 rounded border border-gray-200 mb-2">
+                  <i class="fa-solid fa-building-user text-econexus"></i>
+                  <span>${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}</span>
+                </div>
                 <h3 class="font-bold text-gray-900 text-lg mb-2 line-clamp-2">${p.titulo}</h3>
-                <div class="text-2xl font-black text-econexus mb-4">
-                  $${Number(p.precio).toLocaleString('en-US')}
+                <div class="mb-4">
+                  <div class="text-2xl font-black text-econexus">
+                    $${Number(p.precio).toLocaleString('en-US')}
+                  </div>
+                  <p class="text-[10px] text-gray-500 font-normal mt-0.5 leading-tight">
+                    *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
+                  </p>
                 </div>
                 <div class="grid grid-cols-4 gap-2 text-center text-xs text-gray-600 bg-econexus-soft p-3 rounded-xl mb-4 border border-green-100">
                   <div><i class="fa-solid fa-bed text-econexus block text-sm mb-1"></i>${p.habitaciones} Hab</div>
@@ -303,12 +368,12 @@
                 </div>
               </div>
               <div class="space-y-2">
-                <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
+                <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow cursor-pointer">
                   Ver Ficha Completa <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
                 </button>
-                <a href="https://wa.me/${waNumber}?text=${msjWA}" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow">
+                <button onclick="confirmarIrAWhatsApp('${waNumber}', '${msjWA}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow cursor-pointer">
                   <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar Asesor
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -316,7 +381,7 @@
         grid.innerHTML += cardHTML;
       });
     }
- 
+
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value;
@@ -332,7 +397,7 @@
       });
       renderizarTarjetas(filtradas);
     }
- 
+
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "TODOS";
@@ -340,7 +405,7 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
- 
+
     async function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
@@ -355,17 +420,31 @@
       const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       
+      // Determinar Agencia o Independiente
+      const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-6 md:p-8">
           <div class="flex items-center space-x-2 text-xs font-bold text-econexus uppercase mb-2">
             <span>${p.tipo}</span> • <span>${p.operacion}</span> • <span>ID: ${p.codigo_eco}</span>
           </div>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-4">${p.titulo}</h2>
-          
-          <div class="text-3xl font-black text-econexus mb-6">
-            $${Number(p.precio).toLocaleString('en-US')}
+          <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">${p.titulo}</h2>
+          <div class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg mb-4 border border-gray-200">
+            <i class="fa-solid fa-building-user text-econexus"></i>
+            <span>${esAgencia ? 'Agencia Inmobiliaria: ' + agenciaDisplay : 'Captador / Agente Independiente'}</span>
           </div>
+          
+          <div class="mb-6">
+            <div class="text-3xl font-black text-econexus">
+              $${Number(p.precio).toLocaleString('en-US')}
+            </div>
+            <p class="text-[10px] text-gray-500 font-normal mt-0.5 leading-tight">
+              *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
+            </p>
+          </div>
+
           <div class="space-y-3 mb-6">
             <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
@@ -388,63 +467,34 @@
             <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
             <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion}</p>
           </div>
+          
+          <!-- SECCIÓN DE CONTACTO DIRECTO ASESOR / AGENCIA -->
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-            <div class="flex items-center justify-between mb-4 border-b pb-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 border-b border-gray-200 pb-4">
               <div>
                 <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor Responsable</span>
-                <strong class="text-gray-800 text-base">${nombreAsesor}</strong>
+                <strong class="text-gray-800 text-base block">${nombreAsesor}</strong>
+                <span class="text-xs text-econexus font-medium inline-flex items-center gap-1 mt-0.5">
+                  <i class="fa-solid fa-building-user"></i> ${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}
+                </span>
               </div>
-              <a href="https://wa.me/${whatsappAsesor}?text=${mensajeWA}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center shadow">
-                <i class="fa-brands fa-whatsapp text-base mr-1.5"></i> Chat Directo
-              </a>
-            </div>
-            <h4 class="font-bold text-gray-900 text-sm mb-3">Solicitar Información</h4>
-            <form id="leadForm" onsubmit="enviarLead(event, '${p.id}')" class="space-y-3">
-              <input type="text" id="leadNombre" required placeholder="Tu Nombre Completo" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
-              <input type="tel" id="leadTel" required placeholder="Número de Teléfono / WhatsApp" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
-              <textarea id="leadMensaje" rows="2" placeholder="¿Cuándo te gustaría visitar esta propiedad?" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus"></textarea>
-              <button type="submit" id="btnLeadSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition text-sm shadow">
-                Enviar Solicitud
+              <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${mensajeWA}')" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center shadow w-full sm:w-auto cursor-pointer">
+                <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar por WhatsApp
               </button>
-            </form>
+            </div>
+            <p class="text-[11px] text-gray-500 leading-relaxed">
+              <i class="fa-solid fa-circle-info text-econexus mr-1"></i> EcoNexus opera exclusivamente como vitrina inmobiliaria multiagente independiente. Contacto directo sin intermediación de la plataforma.
+            </p>
           </div>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
- 
+
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
- 
-    async function enviarLead(e, idProp) {
-      e.preventDefault();
-      const btn = document.getElementById("btnLeadSubmit");
-      btn.disabled = true;
-      btn.textContent = "Registrando solicitud...";
-      
-      const payload = {
-        id_propiedad: idProp,
-        nombre_cliente: document.getElementById("leadNombre").value,
-        telefono_cliente: document.getElementById("leadTel").value,
-        mensaje: document.getElementById("leadMensaje").value
-      };
-      
-      try {
-        const { error } = await dbClient.from('leads').insert([payload]);
-        if (error) throw error;
-        
-        alert("¡Solicitud enviada con éxito!");
-        cerrarModal();
-      } catch (err) {
-        alert("Ocurrió un error al enviar tu solicitud. Intenta contactar por WhatsApp.");
-        console.error(err);
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "Enviar Solicitud";
-      }
-    }
- 
+
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
