@@ -31,7 +31,7 @@
       <span class="text-xl font-bold tracking-wide">EcoNexus Agent Portal</span>
     </div>
     <div class="flex items-center gap-4">
-       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga de Propiedades</span>
+       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga y Gestión de Propiedades</span>
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
     </div>
   </header>
@@ -54,7 +54,7 @@
 
     <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
-        <!-- ACORDEÓN DE GESTIÓN -->
+        <!-- ACORDEÓN DE GESTIÓN (LISTAR, EDITAR Y ELIMINAR) -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
           <button type="button" onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
             <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> Mis Inmuebles Publicados</span>
@@ -70,22 +70,22 @@
 
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
-            <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga
+            <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
           </h2>
           <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
             <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong>.</li>
-            <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
+            <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien (ej: Apartamento, Galpón, Townhouse).</li>
+            <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
 
-        <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA (SUPERIOR AL FORMULARIO) -->
+        <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
             <span>⚖️ Declaración Jurada del Asesor, Términos y Protocolos de Ciberseguridad</span>
             <i id="iconoLegalDropdown" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
           <div id="bodyLegalDropdown" class="hidden p-5 border-t border-gray-200 bg-white">
-            <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
             <div class="legal-disclaimer-dropdown">
               <p class="font-bold text-red-600 mb-2">
                 "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
@@ -100,49 +100,79 @@
 
                 <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
 
-                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- FORMULARIO DE CARGA -->
+        <!-- FORMULARIO DE CARGA / EDICIÓN -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
-          <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
+          <!-- Campo oculto para saber si se está creando o editando -->
+          <input type="hidden" id="editInmuebleId" value="" />
+
+          <div class="flex justify-between items-center border-b pb-3">
+            <h2 id="tituloFormulario" class="text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
+            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition">
+              <i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición
+            </button>
+          </div>
+
+          <!-- DATOS DEL ASESOR Y AGENCIA -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
-              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
+              <select id="tipoAsesor" required onchange="toggleTipoAsesor()" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+                <option value="Independiente" selected>Agente Independiente</option>
+                <option value="Agencia">Agencia Inmobiliaria</option>
+              </select>
+            </div>
+            <div id="containerNombreAgencia" class="hidden">
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
+              <input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+            </div>
+          </div>
+
+          <!-- DATOS DEL INMUEBLE -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
-              <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
+              <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
                 <option value="Venta">Venta</option>
                 <option value="Alquiler">Alquiler</option>
               </select>
             </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
-              <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+              <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
               <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
+            <div>
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
+              <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+            </div>
           </div>
+
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
             <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
-            <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
           </div>
           
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -163,18 +193,19 @@
               <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
             </div>
           </div>
+
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
             <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
           </div>
           
           <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Fotos del Inmueble (Máximo 5) *</label>
+            <label id="labelFotosTitle" class="block text-xs font-bold uppercase text-gray-600 mb-1">Fotos del Inmueble (Máximo 5) *</label>
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
 
-          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA CON TEXTO LITERAL DE APERTURA INSTANTÁNEA -->
+          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA -->
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
             <label class="flex items-start space-x-2 cursor-pointer">
               <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
@@ -199,7 +230,6 @@
   <!-- BOTÓN FLOTANTE AL ABRIR PORTAL -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
-      <!-- Botón X para cerrar banner (visible únicamente cuando hay sesión iniciada) -->
       <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="hidden absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
         &times;
       </button>
@@ -221,12 +251,15 @@
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let usuarioActual = null;
+    let fotosActualesEdicion = []; // Almacena temporalmente las fotos existentes durante la edición
+
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         usuarioActual = session.user;
         mostrarApp();
       }
     });
+
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         usuarioActual = session.user;
@@ -243,15 +276,10 @@
       document.getElementById('btnLogout').classList.remove('hidden');
       
       const btnBanner = document.getElementById('btnBannerTerminos');
-      if (btnBanner) {
-        btnBanner.textContent = "Abrir Términos";
-      }
+      if (btnBanner) btnBanner.textContent = "Abrir Términos";
 
-      // Mostrar el botón 'X' para quitar el aviso flotante al haber iniciado sesión
       const btnCloseBanner = document.getElementById('btnCloseBanner');
-      if (btnCloseBanner) {
-        btnCloseBanner.classList.remove('hidden');
-      }
+      if (btnCloseBanner) btnCloseBanner.classList.remove('hidden');
     }
 
     function ocultarApp() {
@@ -260,26 +288,18 @@
       document.getElementById('btnLogout').classList.add('hidden');
       
       const btnBanner = document.getElementById('btnBannerTerminos');
-      if (btnBanner) {
-        btnBanner.textContent = "Al Ingresar Ver Términos";
-      }
+      if (btnBanner) btnBanner.textContent = "Al Ingresar Ver Términos";
 
-      // Ocultar el botón 'X' y asegurar que el banner sea visible en la pantalla de inicio de sesión
       const btnCloseBanner = document.getElementById('btnCloseBanner');
-      if (btnCloseBanner) {
-        btnCloseBanner.classList.add('hidden');
-      }
+      if (btnCloseBanner) btnCloseBanner.classList.add('hidden');
+
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
-      if (bannerContainer) {
-        bannerContainer.classList.remove('hidden');
-      }
+      if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
 
     function cerrarBannerFlotante() {
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
-      if (bannerContainer) {
-        bannerContainer.classList.add('hidden');
-      }
+      if (bannerContainer) bannerContainer.classList.add('hidden');
     }
 
     function accionBannerTerminos() {
@@ -348,6 +368,21 @@
       }
     }
 
+    function toggleTipoAsesor() {
+      const selectTipo = document.getElementById("tipoAsesor").value;
+      const containerAgencia = document.getElementById("containerNombreAgencia");
+      const inputAgencia = document.getElementById("nombreAgencia");
+
+      if (selectTipo === "Agencia") {
+        containerAgencia.classList.remove("hidden");
+        inputAgencia.setAttribute("required", "true");
+      } else {
+        containerAgencia.classList.add("hidden");
+        inputAgencia.removeAttribute("required");
+        inputAgencia.value = "";
+      }
+    }
+
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -355,7 +390,7 @@
         input.value = "";
         countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
         countLabel.className = "text-xs text-red-500 font-bold mt-1 block";
-      } else {
+      } else if (input.files.length > 0) {
         countLabel.textContent = `${input.files.length} foto(s) seleccionada(s) (Máximo 5).`;
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
@@ -369,7 +404,8 @@
         const { data, error } = await dbClient
           .from('propiedades')
           .select('*')
-          .eq('user_id', usuarioActual.id);
+          .eq('user_id', usuarioActual.id)
+          .order('id', { ascending: false });
           
         if (error) throw error;
         
@@ -381,15 +417,25 @@
         
         data.forEach(item => {
           const card = document.createElement("div");
-          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center text-xs";
+          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-xs";
+          
+          const esAgencia = item.tipo_asesor === 'Agencia';
+          const infoAsesor = esAgencia ? `Agencia: ${item.nombre_agencia || 'Sin Nombre'}` : `Agente Independiente`;
+
           card.innerHTML = `
-            <div>
+            <div class="space-y-1">
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
-              <p class="text-gray-500">Ref: $${item.precio} | Código: ${item.codigo_eco}</p>
+              <p class="text-gray-500">Ref: $${item.precio} | Código: <strong>${item.codigo_eco}</strong> | Tipo: ${item.tipo}</p>
+              <p class="text-xs font-semibold text-gray-700"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i> ${infoAsesor}</p>
             </div>
-            <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
-              <i class="fa-solid fa-trash-can mr-1"></i> Retirar
-            </button>
+            <div class="flex gap-2 w-full md:w-auto justify-end">
+              <button type="button" onclick="editarInmueble('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
+              </button>
+              <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-solid fa-trash-can mr-1"></i> Retirar
+              </button>
+            </div>
           `;
           contenedor.appendChild(card);
         });
@@ -399,8 +445,86 @@
       }
     }
 
+    async function editarInmueble(id) {
+      try {
+        const { data, error } = await dbClient
+          .from('propiedades')
+          .select('*')
+          .eq('id', id)
+          .single();
+
+        if (error) throw error;
+        if (!data) return;
+
+        // Cargar datos en el formulario
+        document.getElementById("editInmuebleId").value = data.id;
+        document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
+        document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
+        
+        document.getElementById("tipoAsesor").value = data.tipo_asesor || 'Independiente';
+        toggleTipoAsesor();
+        if (data.tipo_asesor === 'Agencia') {
+          document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
+        }
+
+        document.getElementById("operacion").value = data.operacion || 'Venta';
+        document.getElementById("tipo").value = data.tipo || '';
+        document.getElementById("precio").value = data.precio || '';
+        document.getElementById("ubicacion").value = data.ubicacion || '';
+        document.getElementById("titulo").value = data.titulo || '';
+        document.getElementById("habitaciones").value = data.habitaciones || 0;
+        document.getElementById("banos").value = data.banos || 0;
+        document.getElementById("estacionamientos").value = data.estacionamientos || 0;
+        document.getElementById("metros").value = data.metros || 0;
+        document.getElementById("descripcion").value = data.descripcion || '';
+
+        // Guardar referencia de fotos actuales y quitar obligatoriedad del input de fotos en modo edición
+        fotosActualesEdicion = data.fotos || [];
+        const fotosInput = document.getElementById("fotosFiles");
+        fotosInput.removeAttribute("required");
+        fotosInput.value = "";
+        
+        document.getElementById("labelFotosTitle").innerHTML = `Fotos del Inmueble (Opcional) <span class="text-xs text-gray-500 font-normal">(Si no seleccionas fotos, se conservarán las ${fotosActualesEdicion.length} actuales)</span>`;
+        document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos para reemplazar las actuales.";
+
+        // Marcar checkbox automáticamente en edición
+        document.getElementById("checkAcepto").checked = true;
+
+        // Ajustar interfaz
+        document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
+        document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
+        document.getElementById("btnCancelarEdicion").classList.remove("hidden");
+
+        // Desplazar suavemente hasta el formulario
+        document.getElementById("formCaptacion").scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      } catch (err) {
+        alert("Error al cargar la información para editar.");
+        console.error(err);
+      }
+    }
+
+    function cancelarEdicion() {
+      document.getElementById("formCaptacion").reset();
+      document.getElementById("editInmuebleId").value = "";
+      fotosActualesEdicion = [];
+
+      // Restaurar obligatoriedad de fotos para registros nuevos
+      const fotosInput = document.getElementById("fotosFiles");
+      fotosInput.setAttribute("required", "true");
+      
+      document.getElementById("labelFotosTitle").textContent = "Fotos del Inmueble (Máximo 5) *";
+      document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
+
+      document.getElementById("tituloFormulario").textContent = "Datos de la Propiedad";
+      document.getElementById("btnSubmit").textContent = "Publicar Inmueble en EcoNexus";
+      document.getElementById("btnCancelarEdicion").classList.add("hidden");
+
+      toggleTipoAsesor();
+    }
+
     async function eliminarInmueble(id, codigoEco) {
-      if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente?")) return;
+      if (!confirm(`¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente?`)) return;
       
       try {
         const { data: files } = await dbClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
@@ -422,47 +546,73 @@
 
     async function procesarCarga(e) {
       e.preventDefault();
+      
+      const editId = document.getElementById("editInmuebleId").value;
+      const esEdicion = Boolean(editId);
       const filesInput = document.getElementById("fotosFiles").files;
-      if (filesInput.length === 0 || filesInput.length > 5) {
+
+      // Validación de cantidad de fotos
+      if (!esEdicion && (filesInput.length === 0 || filesInput.length > 5)) {
         alert("Por favor selecciona entre 1 y 5 fotos.");
+        return;
+      }
+      if (esEdicion && filesInput.length > 5) {
+        alert("Puedes subir un máximo de 5 fotos.");
         return;
       }
       
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
-      btn.textContent = "Comprimiendo y subiendo imágenes...";
+      btn.textContent = esEdicion ? "Guardando cambios..." : "Comprimiendo y subiendo imágenes...";
       
       try {
-        const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
-        // Configuración de compresión previa a la subida
-        const options = {
-          maxSizeMB: 0.2,
-          maxWidthOrHeight: 1200,
-          useWebWorker: true
-        };
-        for (let i = 0; i < filesInput.length; i++) {
-          const fileOriginal = filesInput[i];
-          
-          // Compresión en el cliente antes de subir
-          const fileComprimido = await imageCompression(fileOriginal, options);
-          
-          const fileName = `${Date.now()}_${i}.jpg`;
-          const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
-          
-          const { error: uploadError } = await dbClient.storage
-            .from('econexus-fotos')
-            .upload(filePath, fileComprimido);
-            
-          if (uploadError) throw uploadError;
-          const { data: urlData } = dbClient.storage
-            .from('econexus-fotos')
-            .getPublicUrl(filePath);
-          urlsPublicas.push(urlData.publicUrl);
+        let codigoUnico = '';
+
+        if (esEdicion) {
+          // Obtener código existente si editamos
+          const { data: propActual } = await dbClient.from('propiedades').select('codigo_eco').eq('id', editId).single();
+          codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
+        } else {
+          codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         }
-        btn.textContent = "Guardando base de datos...";
+
+        // Procesar nuevas imágenes si el usuario seleccionó archivos
+        if (filesInput.length > 0) {
+          const options = {
+            maxSizeMB: 0.2,
+            maxWidthOrHeight: 1200,
+            useWebWorker: true
+          };
+
+          for (let i = 0; i < filesInput.length; i++) {
+            const fileOriginal = filesInput[i];
+            const fileComprimido = await imageCompression(fileOriginal, options);
+            
+            const fileName = `${Date.now()}_${i}.jpg`;
+            const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
+            
+            const { error: uploadError } = await dbClient.storage
+              .from('econexus-fotos')
+              .upload(filePath, fileComprimido, { upsert: true });
+              
+            if (uploadError) throw uploadError;
+
+            const { data: urlData } = dbClient.storage
+              .from('econexus-fotos')
+              .getPublicUrl(filePath);
+
+            urlsPublicas.push(urlData.publicUrl);
+          }
+        } else if (esEdicion) {
+          // Si edita y no sube nuevas fotos, se mantienen las fotos existentes
+          urlsPublicas = fotosActualesEdicion;
+        }
+
+        const selectTipoAsesor = document.getElementById("tipoAsesor").value;
+        const nombreAgenciaVal = selectTipoAsesor === 'Agencia' ? document.getElementById("nombreAgencia").value : null;
+
         const payload = {
-          codigo_eco: codigoUnico,
           titulo: document.getElementById("titulo").value,
           tipo: document.getElementById("tipo").value,
           operacion: document.getElementById("operacion").value,
@@ -475,21 +625,45 @@
           descripcion: document.getElementById("descripcion").value,
           nombre_asesor: document.getElementById("nombreAsesor").value,
           telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
-          fotos: urlsPublicas,
-          user_id: usuarioActual.id
+          tipo_asesor: selectTipoAsesor,
+          nombre_agencia: nombreAgenciaVal,
+          fotos: urlsPublicas
         };
-        const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
-        if (dbError) throw dbError;
-        alert("¡Inmueble publicado con éxito!");
-        document.getElementById("formCaptacion").reset();
-        document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
+
+        if (esEdicion) {
+          // UPDATE
+          const { error: updateError } = await dbClient
+            .from('propiedades')
+            .update(payload)
+            .eq('id', editId);
+
+          if (updateError) throw updateError;
+          alert("¡Publicación actualizada con éxito!");
+        } else {
+          // INSERT
+          payload.codigo_eco = codigoUnico;
+          payload.user_id = usuarioActual.id;
+
+          const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
+          if (dbError) throw dbError;
+          alert("¡Inmueble publicado con éxito!");
+        }
+
+        // Restablecer formulario
+        cancelarEdicion();
+
+        // Si el acordeón de mis inmuebles está abierto, recargar lista
+        const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
+        if (!cuerpoGestion.classList.contains("hidden")) {
+          buscarMisInmuebles();
+        }
         
       } catch (err) {
         alert("Ocurrió un error al procesar la publicación. Revisa la consola.");
         console.error("Error en procesarCarga:", err);
       } finally {
         btn.disabled = false;
-        btn.textContent = "Publicar Inmueble en EcoNexus";
+        btn.textContent = esEdicion ? "Guardar Cambios en el Inmueble" : "Publicar Inmueble en EcoNexus";
       }
     }
   </script>
