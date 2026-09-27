@@ -24,19 +24,19 @@
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative pb-20">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative pb-24">
   <!-- HEADER -->
-  <header class="bg-econexus text-white py-4 px-6 shadow-md flex justify-between items-center">
+  <header class="bg-econexus text-white py-4 px-6 shadow-md flex justify-between items-center sticky top-0 z-50">
     <div class="flex items-center space-x-3">
       <span class="text-xl font-bold tracking-wide">EcoNexus Agent Portal</span>
     </div>
     <div class="flex items-center gap-4">
-       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga de Propiedades</span>
-       <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
+       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold hidden md:inline-block">Carga de Propiedades</span>
+       <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1.5 rounded-full font-semibold hover:bg-red-700 transition">Cerrar Sesión</button>
     </div>
   </header>
 
-  <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
+  <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-4 flex-grow">
     <!-- SECCIÓN DE AUTENTICACIÓN -->
     <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
       <h2 class="text-xl font-bold text-econexus mb-2">Acceso de Asesores</h2>
@@ -52,9 +52,9 @@
       </div>
     </div>
 
-    <!-- CONTENEDOR PRINCIPAL -->
+    <!-- CONTENEDOR PRINCIPAL DE LA APLICACIÓN -->
     <div id="mainAppContainer" class="hidden">
-        <!-- ACORDEÓN DE GESTIÓN -->
+        <!-- ACORDEÓN DE GESTIÓN DE MIS INMUEBLES -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
           <button type="button" onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
             <span class="flex items-center"><i class="fa-solid fa-folder-open mr-2"></i> Mis Inmuebles Publicados</span>
@@ -68,56 +68,60 @@
           </div>
         </div>
 
+        <!-- GUÍA RÁPIDA DE CARGA -->
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga
           </h2>
           <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
-            <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong>.</li>
-            <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien.</li>
+            <li><strong>Imágenes:</strong> Puedes subir hasta <strong>5 fotografías</strong> en formato PNG, JPG o WebP. Las imágenes se comprimirán automáticamente para optimizar la velocidad.</li>
+            <li><strong>Autonomía:</strong> Asegúrate de proporcionar datos reales de contacto directos para la derivación de clientes.</li>
           </ul>
         </div>
 
-        <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA (SUPERIOR AL FORMULARIO) -->
+        <!-- DESPLEGABLE DE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
             <span>⚖️ Declaración Jurada del Asesor, Términos y Protocolos de Ciberseguridad</span>
             <i id="iconoLegalDropdown" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
           <div id="bodyLegalDropdown" class="hidden p-5 border-t border-gray-200 bg-white">
-            <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
             <div class="legal-disclaimer-dropdown">
-              <p class="font-bold text-red-600 mb-2">
+              <p class="font-bold text-red-600 mb-2 text-xs md:text-sm">
                 "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
               </p>
               
-              <div class="legal-text-body space-y-3 text-xs text-gray-700">
+              <div class="legal-text-body space-y-3 text-xs text-gray-700 leading-relaxed">
                 <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
                 
                 <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
                 
                 <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
-
+                
                 <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
-
-                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulenta, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+                
+                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- FORMULARIO DE CARGA -->
+        <!-- FORMULARIO DE CARGA DE PROPIEDAD -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <h2 class="text-xl font-bold text-gray-900 border-b pb-3">Datos de la Propiedad</h2>
+          
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
-              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 p-2">
+              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
             </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
               <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none">
@@ -125,21 +129,21 @@
                 <option value="Alquiler">Alquiler</option>
               </select>
             </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
-              <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+              <input type="text" id="tipo" required placeholder="Ej: Apartamento, Galpón, Casa..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
               <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
           </div>
+
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
-            <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+            <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial en Zona Norte" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
           </div>
+
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
             <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
@@ -148,24 +152,25 @@
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label>
-              <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+              <input type="number" id="habitaciones" value="0" min="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-econexus" />
             </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
-              <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+              <input type="number" id="banos" value="0" min="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-econexus" />
             </div>
             <div>
               <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
-              <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+              <input type="number" id="estacionamientos" value="0" min="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-econexus" />
             </div>
             <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
-              <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m²)</label>
+              <input type="number" id="metros" value="0" min="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-econexus" />
             </div>
           </div>
+
           <div>
             <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
-            <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
+            <textarea id="descripcion" rows="4" required placeholder="Escribe las características detalladas del inmueble..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
           </div>
           
           <div>
@@ -174,7 +179,7 @@
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
 
-          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA CON TEXTO LITERAL DE APERTURA INSTANTÁNEA -->
+          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA DE LA DECLARACIÓN JURADA -->
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
             <label class="flex items-start space-x-2 cursor-pointer">
               <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
@@ -196,14 +201,13 @@
     </div>
   </main>
 
-  <!-- BOTÓN FLOTANTE AL ABRIR PORTAL -->
+  <!-- BANNER FLOTANTE (INFERIOR) -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
-      <!-- Botón X para cerrar banner (visible únicamente cuando hay sesión iniciada) -->
+      <!-- Botón 'X' para cerrar banner (visible únicamente con sesión iniciada) -->
       <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="hidden absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
         &times;
       </button>
-
       <p class="leading-tight flex-grow pr-2">
         <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
       </p>
@@ -213,20 +217,30 @@
     </div>
   </div>
 
+  <footer class="bg-econexus-dark text-white py-6 border-t border-green-900 text-center text-xs">
+    <p class="text-green-300">EcoNexus Real Estate Agent Portal</p>
+    <p class="text-gray-400 mt-1">© 2026 Todos los derechos reservados.</p>
+  </footer>
+
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     
-    // Se renombra a dbClient para no pisar la variable global window.supabase
+    // Instancia del cliente Supabase
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let usuarioActual = null;
+
+    // Control de Estado de Autenticación
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         usuarioActual = session.user;
         mostrarApp();
+      } else {
+        ocultarApp();
       }
     });
+
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         usuarioActual = session.user;
@@ -247,7 +261,7 @@
         btnBanner.textContent = "Abrir Términos";
       }
 
-      // Mostrar el botón 'X' para quitar el aviso flotante al haber iniciado sesión
+      // Habilitar la visibilidad de la 'X' para cerrar el banner con sesión activa
       const btnCloseBanner = document.getElementById('btnCloseBanner');
       if (btnCloseBanner) {
         btnCloseBanner.classList.remove('hidden');
@@ -264,7 +278,7 @@
         btnBanner.textContent = "Al Ingresar Ver Términos";
       }
 
-      // Ocultar el botón 'X' y asegurar que el banner sea visible en la pantalla de inicio de sesión
+      // Ocultar la 'X' de cierre y mostrar el banner si no hay sesión
       const btnCloseBanner = document.getElementById('btnCloseBanner');
       if (btnCloseBanner) {
         btnCloseBanner.classList.add('hidden');
@@ -296,11 +310,13 @@
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-      if(!email || !password) {
+
+      if (!email || !password) {
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
+
       const { error } = await dbClient.auth.signInWithPassword({ email, password });
       if (error) {
         msg.textContent = "Error: " + error.message;
@@ -313,17 +329,19 @@
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-      if(!email || !password) {
+
+      if (!email || !password) {
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
+
       const { error } = await dbClient.auth.signUp({ email, password });
       if (error) {
         msg.textContent = "Error: " + error.message;
         msg.classList.remove('hidden');
       } else {
-        alert("Registro exitoso. Si tienes verificación por correo activa, revísalo; de lo contrario, inicia sesión directamente.");
+        alert("Registro exitoso. Si la confirmación por correo está activa, por favor revísala; de lo contrario, inicia sesión directamente.");
       }
     }
 
@@ -353,7 +371,7 @@
       if (input.files.length > 5) {
         alert("Atención: Solo puedes seleccionar un máximo de 5 fotos.");
         input.value = "";
-        countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png).";
+        countLabel.textContent = "Puedes seleccionar hasta 5 fotos (.jpg, .png, .webp).";
         countLabel.className = "text-xs text-red-500 font-bold mt-1 block";
       } else {
         countLabel.textContent = `${input.files.length} foto(s) seleccionada(s) (Máximo 5).`;
@@ -363,7 +381,7 @@
 
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
-      contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
+      contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Buscando tus propiedades...</p>`;
       
       try {
         const { data, error } = await dbClient
@@ -381,20 +399,20 @@
         
         data.forEach(item => {
           const card = document.createElement("div");
-          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center text-xs";
+          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex justify-between items-center text-xs shadow-sm";
           card.innerHTML = `
             <div>
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
-              <p class="text-gray-500">Ref: $${item.precio} | Código: ${item.codigo_eco}</p>
+              <p class="text-gray-500">Ref: $${Number(item.precio).toLocaleString('en-US')} | Código: ${item.codigo_eco}</p>
             </div>
-            <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition">
+            <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition shadow">
               <i class="fa-solid fa-trash-can mr-1"></i> Retirar
             </button>
           `;
           contenedor.appendChild(card);
         });
       } catch (err) {
-        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión al cargar propiedades.</p>`;
+        contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión al cargar tus propiedades.</p>`;
         console.error(err);
       }
     }
@@ -403,12 +421,14 @@
       if (!confirm("¿Estás seguro de retirar este inmueble de forma permanente?")) return;
       
       try {
+        // 1. Limpiar imágenes del bucket en Storage
         const { data: files } = await dbClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
         if (files && files.length > 0) {
            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
            await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
         }
         
+        // 2. Eliminar el registro en la base de datos
         const { error } = await dbClient.from('propiedades').delete().eq('id', id);
         if (error) throw error;
         
@@ -430,21 +450,23 @@
       
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
-      btn.textContent = "Comprimiendo y subiendo imágenes...";
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Comprimiendo y subiendo imágenes...`;
       
       try {
         const codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         let urlsPublicas = [];
-        // Configuración de compresión previa a la subida
+
+        // Opciones de compresión client-side (máx 1200px / ~200KB)
         const options = {
           maxSizeMB: 0.2,
           maxWidthOrHeight: 1200,
           useWebWorker: true
         };
+
         for (let i = 0; i < filesInput.length; i++) {
           const fileOriginal = filesInput[i];
           
-          // Compresión en el cliente antes de subir
+          // Compresión previa a la carga
           const fileComprimido = await imageCompression(fileOriginal, options);
           
           const fileName = `${Date.now()}_${i}.jpg`;
@@ -455,12 +477,16 @@
             .upload(filePath, fileComprimido);
             
           if (uploadError) throw uploadError;
+
           const { data: urlData } = dbClient.storage
             .from('econexus-fotos')
             .getPublicUrl(filePath);
+
           urlsPublicas.push(urlData.publicUrl);
         }
-        btn.textContent = "Guardando base de datos...";
+
+        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Guardando registro en la red...`;
+
         const payload = {
           codigo_eco: codigoUnico,
           titulo: document.getElementById("titulo").value,
@@ -478,14 +504,16 @@
           fotos: urlsPublicas,
           user_id: usuarioActual.id
         };
+
         const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
         if (dbError) throw dbError;
-        alert("¡Inmueble publicado con éxito!");
+
+        alert("¡Inmueble publicado con éxito en EcoNexus!");
         document.getElementById("formCaptacion").reset();
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos.";
         
       } catch (err) {
-        alert("Ocurrió un error al procesar la publicación. Revisa la consola.");
+        alert("Ocurrió un error al procesar la publicación. Revisa la consola o intenta nuevamente.");
         console.error("Error en procesarCarga:", err);
       } finally {
         btn.disabled = false;
