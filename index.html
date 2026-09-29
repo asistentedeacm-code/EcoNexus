@@ -22,7 +22,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
-
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
@@ -85,7 +84,6 @@
         <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contacto Directo
       </button>
     </div>
-
     <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
     <div class="bg-econexus-dark border-t border-green-900 py-1.5 px-4 text-center">
       <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1">
@@ -93,7 +91,6 @@
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
     </div>
-
     <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN - VISTA PÚBLICA -->
     <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
       <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
@@ -102,13 +99,9 @@
       
       <div class="legal-text-body space-y-3 text-xs text-green-100 leading-relaxed">
         <p><strong class="text-white">1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
-
         <p><strong class="text-white">2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
-
         <p><strong class="text-white">3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
-
         <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
-
         <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
       </div>
     </div>
@@ -170,7 +163,6 @@
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
       </button>
     </div>
-
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
@@ -206,26 +198,62 @@
     const PAGE_SIZE = 12;
     let pageOffset = 0;
     let hayMasPaginas = true;
-
     // Variable global para URL pendiente de WhatsApp
     let waUrlPendiente = '';
 
-    document.addEventListener("DOMContentLoaded", function() {
-      cargarPropiedades();
+    document.addEventListener("DOMContentLoaded", async function() {
+      await cargarPropiedades();
+      verificarParametrosURL();
     });
+
+    // Detecta parámetros en la URL (?codigo=ECO-101 o ?asesor=58414...)
+    async function verificarParametrosURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const codigoParam = urlParams.get('codigo');
+      const asesorParam = urlParams.get('asesor');
+
+      if (codigoParam) {
+        const codigoLimpio = codigoParam.trim().toUpperCase();
+        let p = todasLasPropiedades.find(item => item.codigo_eco && item.codigo_eco.toUpperCase() === codigoLimpio);
+        
+        if (!p) {
+          try {
+            const { data, error } = await dbClient
+              .from('propiedades')
+              .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
+              .eq('codigo_eco', codigoLimpio)
+              .single();
+
+            if (data && !error) {
+              p = data;
+              todasLasPropiedades.unshift(p);
+              renderizarTarjetas(todasLasPropiedades);
+            }
+          } catch (err) {
+            console.error("Error buscando inmueble por código de URL:", err);
+          }
+        }
+
+        if (p) {
+          abrirModal(p.id);
+        }
+      } else if (asesorParam) {
+        const asesorLimpio = asesorParam.trim().toLowerCase();
+        document.getElementById("filterText").value = asesorLimpio;
+        aplicarFiltros();
+      }
+    }
 
     // Funciones del Modal y Desplegable Legal
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
     }
-
     function toggleLegalDisclaimer() {
       const dropdown = document.getElementById("legalDisclaimerDropdown");
       const arrow = document.getElementById("legalArrow");
       dropdown.classList.toggle("hidden");
       arrow.classList.toggle("rotate-180");
     }
-
     // Modal de Confirmación para WhatsApp
     function confirmarIrAWhatsApp(numero, mensaje) {
       waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
@@ -234,7 +262,6 @@
         modal.classList.remove("hidden");
       }
     }
-
     function cerrarModalWhatsApp() {
       const modal = document.getElementById("modalConfirmarWhatsApp");
       if (modal) {
@@ -242,14 +269,12 @@
       }
       waUrlPendiente = '';
     }
-
     function aceptarYContinuarWhatsApp() {
       if (waUrlPendiente) {
         window.open(waUrlPendiente, '_blank');
       }
       cerrarModalWhatsApp();
     }
-
     async function cargarPropiedades() {
       try {
         const { data, error } = await dbClient
@@ -274,7 +299,6 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
-
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -285,7 +309,6 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
-
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
@@ -323,7 +346,6 @@
         // Determinar Agencia o Independiente
         const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
         const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-
         const cardHTML = `
           <div class="bg-white rounded-2xl overflow-hidden border ${esDestacado ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
             <div class="relative h-56 overflow-hidden group">
@@ -373,7 +395,6 @@
         grid.innerHTML += cardHTML;
       });
     }
-
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value.toLowerCase().trim();
@@ -383,13 +404,18 @@
       const filtradas = todasLasPropiedades.filter(p => {
         const matchOp = (operacion === "TODOS" || p.operacion.toUpperCase() === operacion.toUpperCase());
         const matchTipo = (!tipo || (p.tipo && p.tipo.toLowerCase().includes(tipo)));
-        const matchTexto = (p.titulo.toLowerCase().includes(texto) || p.ubicacion.toLowerCase().includes(texto) || p.codigo_eco.toLowerCase().includes(texto));
+        const matchTexto = (
+          p.titulo.toLowerCase().includes(texto) || 
+          p.ubicacion.toLowerCase().includes(texto) || 
+          p.codigo_eco.toLowerCase().includes(texto) ||
+          (p.telefono_asesor && p.telefono_asesor.includes(texto)) ||
+          (p.nombre_asesor && p.nombre_asesor.toLowerCase().includes(texto))
+        );
         const matchPrecio = (Number(p.precio) <= precioMax);
         return matchOp && matchTipo && matchTexto && matchPrecio;
       });
       renderizarTarjetas(filtradas);
     }
-
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "";
@@ -397,7 +423,6 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
-
     async function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
@@ -415,7 +440,6 @@
       // Determinar Agencia o Independiente
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-6 md:p-8">
@@ -436,7 +460,6 @@
               *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
             </p>
           </div>
-
           <div class="space-y-3 mb-6">
             <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
@@ -482,11 +505,9 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
-
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
-
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
