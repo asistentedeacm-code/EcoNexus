@@ -35,7 +35,6 @@
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700 transition">Cerrar Sesión</button>
     </div>
   </header>
-
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
     <!-- SECCIÓN DE AUTENTICACIÓN -->
     <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
@@ -53,7 +52,6 @@
         <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
       </div>
     </div>
-
     <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
         <!-- ACORDEÓN DE GESTIÓN (LISTAR, EDITAR Y ELIMINAR) -->
@@ -74,7 +72,6 @@
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
-
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
@@ -85,7 +82,6 @@
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
-
         <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
@@ -108,7 +104,6 @@
             </div>
           </div>
         </div>
-
         <!-- FORMULARIO DE CARGA / EDICIÓN -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <!-- Campo oculto para saber si se está creando o editando -->
@@ -220,7 +215,6 @@
         </form>
     </div>
   </main>
-
   <!-- BANNER FLOTANTE AL ABRIR PORTAL -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
@@ -235,7 +229,6 @@
       </button>
     </div>
   </div>
-
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -248,14 +241,12 @@
     let usuarioActual = null;
     let fotosActualesEdicion = [];
     let misInmueblesCargados = []; // Arreglo en memoria para compartir individualmente o catálogo completo
-
     // Inicialización y verificación de estado al cargar la página
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
       }
     });
-
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
@@ -264,7 +255,6 @@
         ocultarApp();
       }
     });
-
     // Función que verifica si el perfil está 'Aprobado'
     async function verificarEstatusYMostrar(user) {
       const msg = document.getElementById('authMessage');
@@ -274,11 +264,9 @@
           .select('estatus_agente')
           .eq('id', user.id)
           .single();
-
         if (error && error.code !== 'PGRST116') {
           console.error("Error al consultar perfil:", error);
         }
-
         const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
         if (estatus === 'Aprobado') {
           usuarioActual = user;
@@ -307,7 +295,6 @@
         console.error("Error en validación de perfil:", err);
       }
     }
-
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
@@ -316,7 +303,6 @@
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
     }
-
     function ocultarApp() {
       document.getElementById('authContainer').classList.remove('hidden');
       document.getElementById('mainAppContainer').classList.add('hidden');
@@ -327,12 +313,10 @@
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
-
     function cerrarBannerFlotante() {
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.add('hidden');
     }
-
     // ACCIÓN CORREGIDA: Cierra el aviso flotante y despliega los términos permitiendo entrar o registrarse libremente
     function accionBannerTerminos() {
       cerrarBannerFlotante();
@@ -341,20 +325,17 @@
         document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-
     async function iniciarSesion() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-
       if (!email || !password) {
         msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-
       const { data, error } = await dbClient.auth.signInWithPassword({ email, password });
       if (error) {
         msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
@@ -364,21 +345,18 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
-
     // Registro de usuario + Creación de Perfil con estatus por defecto
     async function registrarse() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
       const msg = document.getElementById('authMessage');
       msg.classList.add('hidden');
-
       if (!email || !password) {
         msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
         msg.textContent = "Por favor, ingresa correo y contraseña.";
         msg.classList.remove('hidden');
         return;
       }
-
       const { data, error } = await dbClient.auth.signUp({ email, password });
       if (error) {
         msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold";
@@ -395,18 +373,15 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
-
     async function cerrarSesion() {
       await dbClient.auth.signOut();
     }
-
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
     }
-
     function toggleLegalDropdown() {
       const body = document.getElementById("bodyLegalDropdown");
       const icono = document.getElementById("iconoLegalDropdown");
@@ -416,7 +391,6 @@
         body.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-
     function toggleTipoAsesor() {
       const selectTipo = document.getElementById("tipoAsesor").value;
       const containerAgencia = document.getElementById("containerNombreAgencia");
@@ -430,7 +404,6 @@
         inputAgencia.value = "";
       }
     }
-
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -443,7 +416,6 @@
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
     }
-
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
@@ -496,10 +468,8 @@
         console.error(err);
       }
     }
-
     // --- FUNCIONALIDADES INTEGRADAS DE WHATSAPP Y ENLACES AL FRONTEND ---
-
-    // 1. Enviar Inmueble Individual priorizando enlace web
+    // 1. Enviar Inmueble Individual (Abre el selector de contactos de WhatsApp)
     function compartirInmuebleWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) {
@@ -508,10 +478,8 @@
       }
       
       const urlInmueble = `${URL_BASE_FRONTEND}?codigo=${encodeURIComponent(p.codigo_eco)}`;
-      const numWA = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : '';
       const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
       const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
-
       const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*
 ----------------------------------------
 🏡 *${p.titulo}*
@@ -523,23 +491,19 @@
 🛏️ *Habitaciones:* ${p.habitaciones || 0} | 🚿 *Baños:* ${p.banos || 0} | 🚗 *Puestos:* ${p.estacionamientos || 0}
 👤 *Asesor:* ${p.nombre_asesor || 'Asesor EcoNexus'}
 🏢 *Agencia/Estatus:* ${agenciaStr}
-
 📝 *Descripción:*
 ${p.descripcion || 'Sin descripción detallada.'}
-
 🔗 *Ver ficha interactiva y fotos en la web:*
 ${urlInmueble}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-
-      window.open(`https://wa.me/${numWA}?text=${encodeURIComponent(texto)}`, '_blank');
+      // Al no especificar número destinatario, WhatsApp abre el selector para elegir cualquier cliente
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
-
-    // 2. Enviar Catálogo Completo del Asesor priorizando enlace web
+    // 2. Enviar Catálogo Completo (Abre el selector de contactos de WhatsApp)
     async function compartirInventarioWA() {
       let lista = misInmueblesCargados;
       
-      // Si el catálogo en memoria está vacío, consultar una sola vez a Supabase
       if (!lista || lista.length === 0) {
         try {
           const { data } = await dbClient
@@ -565,12 +529,10 @@ ${urlInmueble}
       const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
       const agencia = esAgencia ? primerInmueble.nombre_agencia : "Independiente";
       const urlCatalogo = `${URL_BASE_FRONTEND}?asesor=${encodeURIComponent(numLimpio)}`;
-
       let listaTexto = "";
       lista.forEach((item, index) => {
         listaTexto += `${index + 1}. *[${item.codigo_eco}]* ${item.titulo}\n   💰 $${Number(item.precio).toLocaleString('en-US')} - 📍 ${item.ubicacion} (${item.operacion})\n\n`;
       });
-
       const texto = `📋 *CATÁLOGO INMOBILIARIO EXCLUSIVO*
 ----------------------------------------
 👤 *Asesor:* ${nombreAsesor}
@@ -581,10 +543,9 @@ ${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*
 ${urlCatalogo}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-
-      window.open(`https://wa.me/${numLimpio}?text=${encodeURIComponent(texto)}`, '_blank');
+      // Se omite el destinatario para permitir seleccionar el chat/contacto deseado
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
-
     async function editarInmueble(id) {
       try {
         const { data, error } = await dbClient
@@ -594,7 +555,6 @@ ${urlCatalogo}
           .single();
         if (error) throw error;
         if (!data) return;
-
         document.getElementById("editInmuebleId").value = data.id;
         document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
         document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
@@ -604,7 +564,6 @@ ${urlCatalogo}
         if (data.tipo_asesor === 'Agencia') {
           document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
         }
-
         document.getElementById("operacion").value = data.operacion || 'Venta';
         document.getElementById("tipo").value = data.tipo || '';
         document.getElementById("precio").value = data.precio || '';
@@ -615,7 +574,6 @@ ${urlCatalogo}
         document.getElementById("estacionamientos").value = data.estacionamientos || 0;
         document.getElementById("metros").value = data.metros || 0;
         document.getElementById("descripcion").value = data.descripcion || '';
-
         fotosActualesEdicion = data.fotos || [];
         const fotosInput = document.getElementById("fotosFiles");
         fotosInput.removeAttribute("required");
@@ -623,7 +581,6 @@ ${urlCatalogo}
         
         document.getElementById("labelFotosTitle").innerHTML = `Fotos del Inmueble (Opcional) <span class="text-xs text-gray-500 font-normal">(Si no seleccionas fotos, se conservarán las ${fotosActualesEdicion.length} actuales)</span>`;
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos para reemplazar las actuales.";
-
         document.getElementById("checkAcepto").checked = true;
         document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
         document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
@@ -634,7 +591,6 @@ ${urlCatalogo}
         console.error(err);
       }
     }
-
     function cancelarEdicion() {
       document.getElementById("formCaptacion").reset();
       document.getElementById("editInmuebleId").value = "";
@@ -649,7 +605,6 @@ ${urlCatalogo}
       document.getElementById("btnCancelarEdicion").classList.add("hidden");
       toggleTipoAsesor();
     }
-
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm(`¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente?`)) return;
       
@@ -670,14 +625,12 @@ ${urlCatalogo}
         console.error(err);
       }
     }
-
     async function procesarCarga(e) {
       e.preventDefault();
       
       const editId = document.getElementById("editInmuebleId").value;
       const esEdicion = Boolean(editId);
       const filesInput = document.getElementById("fotosFiles").files;
-
       if (!esEdicion && (filesInput.length === 0 || filesInput.length > 5)) {
         alert("Por favor selecciona entre 1 y 5 fotos.");
         return;
@@ -694,21 +647,18 @@ ${urlCatalogo}
       try {
         let urlsPublicas = [];
         let codigoUnico = '';
-
         if (esEdicion) {
           const { data: propActual } = await dbClient.from('propiedades').select('codigo_eco').eq('id', editId).single();
           codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
         } else {
           codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         }
-
         if (filesInput.length > 0) {
           const options = {
             maxSizeMB: 0.2,
             maxWidthOrHeight: 1200,
             useWebWorker: true
           };
-
           for (let i = 0; i < filesInput.length; i++) {
             const fileOriginal = filesInput[i];
             const fileComprimido = await imageCompression(fileOriginal, options);
@@ -721,20 +671,16 @@ ${urlCatalogo}
               .upload(filePath, fileComprimido, { upsert: true });
               
             if (uploadError) throw uploadError;
-
             const { data: urlData } = dbClient.storage
               .from('econexus-fotos')
               .getPublicUrl(filePath);
-
             urlsPublicas.push(urlData.publicUrl);
           }
         } else if (esEdicion) {
           urlsPublicas = fotosActualesEdicion;
         }
-
         const selectTipoAsesor = document.getElementById("tipoAsesor").value;
         const nombreAgenciaVal = selectTipoAsesor === 'Agencia' ? document.getElementById("nombreAgencia").value : null;
-
         const payload = {
           titulo: document.getElementById("titulo").value,
           tipo: document.getElementById("tipo").value,
@@ -752,7 +698,6 @@ ${urlCatalogo}
           nombre_agencia: nombreAgenciaVal,
           fotos: urlsPublicas
         };
-
         if (esEdicion) {
           const { error: updateError } = await dbClient
             .from('propiedades')
@@ -769,7 +714,6 @@ ${urlCatalogo}
           if (dbError) throw dbError;
           alert("¡Inmueble publicado con éxito!");
         }
-
         cancelarEdicion();
         
         const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
