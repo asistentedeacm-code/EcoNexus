@@ -32,9 +32,10 @@
     </div>
     <div class="flex items-center gap-4">
        <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Carga y Gestión de Propiedades</span>
-       <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700">Cerrar Sesión</button>
+       <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700 transition">Cerrar Sesión</button>
     </div>
   </header>
+
   <main class="max-w-3xl mx-auto w-full p-4 md:p-6 my-6">
     <!-- SECCIÓN DE AUTENTICACIÓN -->
     <div id="authContainer" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 text-center mb-6">
@@ -62,12 +63,18 @@
             <i id="iconoAcordeonGestion" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
           <div id="cuerpoAcordeonGestion" class="hidden p-6 bg-gray-50 border-t border-gray-200 space-y-4">
-            <button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition w-full">
-              Cargar Mis Publicaciones
-            </button>
+            <div class="flex flex-col sm:flex-row gap-2">
+              <button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition flex-1 flex items-center justify-center">
+                <i class="fa-solid fa-rotate-right mr-2"></i> Cargar Mis Publicaciones
+              </button>
+              <button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition flex-1 flex items-center justify-center">
+                <i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo Completo
+              </button>
+            </div>
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
+
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
@@ -78,6 +85,7 @@
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
+
         <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
@@ -92,9 +100,7 @@
               
               <div class="legal-text-body space-y-3 text-xs text-gray-700">
                 <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
-                
                 <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
-                
                 <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
                 <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
                 <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
@@ -102,6 +108,7 @@
             </div>
           </div>
         </div>
+
         <!-- FORMULARIO DE CARGA / EDICIÓN -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
           <!-- Campo oculto para saber si se está creando o editando -->
@@ -214,10 +221,10 @@
     </div>
   </main>
 
-  <!-- BOTÓN FLOTANTE AL ABRIR PORTAL -->
+  <!-- BANNER FLOTANTE AL ABRIR PORTAL -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
-      <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="hidden absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
+      <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50">
         &times;
       </button>
       <p class="leading-tight flex-grow pr-2">
@@ -235,8 +242,12 @@
     
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
+    // Configuración dinámica de URL para enlazar directamente con index.html
+    const URL_BASE_FRONTEND = window.location.origin + window.location.pathname.replace(/captacion\.html$/i, '') + 'index.html';
+    
     let usuarioActual = null;
     let fotosActualesEdicion = [];
+    let misInmueblesCargados = []; // Arreglo en memoria para compartir individualmente o catálogo completo
 
     // Inicialización y verificación de estado al cargar la página
     dbClient.auth.getSession().then(({ data: { session } }) => {
@@ -269,7 +280,6 @@
         }
 
         const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
-
         if (estatus === 'Aprobado') {
           usuarioActual = user;
           msg.classList.add('hidden');
@@ -279,7 +289,6 @@
           await dbClient.auth.signOut();
           usuarioActual = null;
           ocultarApp();
-
           msg.className = "text-xs p-3 rounded-xl border mt-3 text-left bg-amber-50 border-amber-300 text-amber-900";
           const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${user.email}. Solicito la aprobación de mi cuenta de Asesor.`);
           
@@ -306,8 +315,6 @@
       
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
-      const btnCloseBanner = document.getElementById('btnCloseBanner');
-      if (btnCloseBanner) btnCloseBanner.classList.remove('hidden');
     }
 
     function ocultarApp() {
@@ -317,8 +324,6 @@
       
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Al Ingresar Ver Términos";
-      const btnCloseBanner = document.getElementById('btnCloseBanner');
-      if (btnCloseBanner) btnCloseBanner.classList.add('hidden');
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
@@ -328,12 +333,12 @@
       if (bannerContainer) bannerContainer.classList.add('hidden');
     }
 
+    // ACCIÓN CORREGIDA: Cierra el aviso flotante y despliega los términos permitiendo entrar o registrarse libremente
     function accionBannerTerminos() {
+      cerrarBannerFlotante();
+      toggleLegalDropdown();
       if (!usuarioActual) {
-        alert("Debes iniciar sesión o registrarte primero para poder desplegar los términos y usar las funciones del portal.");
         document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        toggleLegalDropdown();
       }
     }
 
@@ -384,11 +389,9 @@
         await dbClient.from('perfiles').insert([
           { id: data.user.id, email: email, estatus_agente: 'Pendiente' }
         ]);
-
         alert("¡Registro completado! Serás redirigido a WhatsApp para validar tu cuenta de asesor y gestionar tu aprobación.");
         const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${email}. Solicito la aprobación de mi cuenta de Asesor.`);
         window.open(`https://wa.me/584244466115?text=${msjWA}`, '_blank');
-
         await verificarEstatusYMostrar(data.user);
       }
     }
@@ -454,6 +457,8 @@
           
         if (error) throw error;
         
+        misInmueblesCargados = data || []; // Guardar copia global
+        
         contenedor.innerHTML = "";
         if (!data || data.length === 0) {
           contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-2 font-semibold">No tienes propiedades registradas.</p>`;
@@ -469,10 +474,13 @@
           card.innerHTML = `
             <div class="space-y-1">
               <p class="font-bold text-econexus text-sm">${item.titulo}</p>
-              <p class="text-gray-500">Ref: $${item.precio} | Código: <strong>${item.codigo_eco}</strong> | Tipo: ${item.tipo}</p>
+              <p class="text-gray-500">Ref: $${Number(item.precio).toLocaleString('en-US')} | Código: <strong>${item.codigo_eco}</strong> | Tipo: ${item.tipo}</p>
               <p class="text-xs font-semibold text-gray-700"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i> ${infoAsesor}</p>
             </div>
-            <div class="flex gap-2 w-full md:w-auto justify-end">
+            <div class="flex flex-wrap gap-2 w-full md:w-auto justify-end">
+              <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-brands fa-whatsapp mr-1 text-sm"></i> Compartir
+              </button>
               <button type="button" onclick="editarInmueble('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-1.5 rounded-lg transition flex items-center">
                 <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
               </button>
@@ -487,6 +495,94 @@
         contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-2 font-semibold">Error de conexión al cargar propiedades.</p>`;
         console.error(err);
       }
+    }
+
+    // --- FUNCIONALIDADES INTEGRADAS DE WHATSAPP Y ENLACES AL FRONTEND ---
+
+    // 1. Enviar Inmueble Individual priorizando enlace web
+    function compartirInmuebleWA(id) {
+      const p = misInmueblesCargados.find(item => item.id == id);
+      if (!p) {
+        alert("No se encontró la información de la propiedad.");
+        return;
+      }
+      
+      const urlInmueble = `${URL_BASE_FRONTEND}?codigo=${encodeURIComponent(p.codigo_eco)}`;
+      const numWA = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : '';
+      const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
+      const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
+
+      const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*
+----------------------------------------
+🏡 *${p.titulo}*
+🆔 *Código:* ${p.codigo_eco}
+💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}
+📍 *Ubicación:* ${p.ubicacion}
+🏷️ *Operación:* ${p.operacion}
+📐 *Construcción:* ${p.metros || 0} m²
+🛏️ *Habitaciones:* ${p.habitaciones || 0} | 🚿 *Baños:* ${p.banos || 0} | 🚗 *Puestos:* ${p.estacionamientos || 0}
+👤 *Asesor:* ${p.nombre_asesor || 'Asesor EcoNexus'}
+🏢 *Agencia/Estatus:* ${agenciaStr}
+
+📝 *Descripción:*
+${p.descripcion || 'Sin descripción detallada.'}
+
+🔗 *Ver ficha interactiva y fotos en la web:*
+${urlInmueble}
+----------------------------------------
+*EcoNexus - Red Inmobiliaria Inteligente*`;
+
+      window.open(`https://wa.me/${numWA}?text=${encodeURIComponent(texto)}`, '_blank');
+    }
+
+    // 2. Enviar Catálogo Completo del Asesor priorizando enlace web
+    async function compartirInventarioWA() {
+      let lista = misInmueblesCargados;
+      
+      // Si el catálogo en memoria está vacío, consultar una sola vez a Supabase
+      if (!lista || lista.length === 0) {
+        try {
+          const { data } = await dbClient
+            .from('propiedades')
+            .select('*')
+            .eq('user_id', usuarioActual.id)
+            .order('id', { ascending: false });
+          lista = data || [];
+          misInmueblesCargados = lista;
+        } catch (err) {
+          console.error("Error al cargar inventario:", err);
+        }
+      }
+      
+      if (!lista || lista.length === 0) {
+        alert("No tienes propiedades cargadas actualmente para compartir.");
+        return;
+      }
+      
+      const primerInmueble = lista[0];
+      const numLimpio = primerInmueble.telefono_asesor ? primerInmueble.telefono_asesor.replace(/[^0-9]/g, '') : '';
+      const nombreAsesor = primerInmueble.nombre_asesor || "Asesor EcoNexus";
+      const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
+      const agencia = esAgencia ? primerInmueble.nombre_agencia : "Independiente";
+      const urlCatalogo = `${URL_BASE_FRONTEND}?asesor=${encodeURIComponent(numLimpio)}`;
+
+      let listaTexto = "";
+      lista.forEach((item, index) => {
+        listaTexto += `${index + 1}. *[${item.codigo_eco}]* ${item.titulo}\n   💰 $${Number(item.precio).toLocaleString('en-US')} - 📍 ${item.ubicacion} (${item.operacion})\n\n`;
+      });
+
+      const texto = `📋 *CATÁLOGO INMOBILIARIO EXCLUSIVO*
+----------------------------------------
+👤 *Asesor:* ${nombreAsesor}
+🏢 *Agencia/Estatus:* ${agencia}
+📊 *Total Propiedades Disponibles:* ${lista.length}
+----------------------------------------
+${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*
+${urlCatalogo}
+----------------------------------------
+*EcoNexus - Red Inmobiliaria Inteligente*`;
+
+      window.open(`https://wa.me/${numLimpio}?text=${encodeURIComponent(texto)}`, '_blank');
     }
 
     async function editarInmueble(id) {
@@ -508,6 +604,7 @@
         if (data.tipo_asesor === 'Agencia') {
           document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
         }
+
         document.getElementById("operacion").value = data.operacion || 'Venta';
         document.getElementById("tipo").value = data.tipo || '';
         document.getElementById("precio").value = data.precio || '';
@@ -528,11 +625,9 @@
         document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 5 fotos para reemplazar las actuales.";
 
         document.getElementById("checkAcepto").checked = true;
-
         document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
         document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
         document.getElementById("btnCancelarEdicion").classList.remove("hidden");
-
         document.getElementById("formCaptacion").scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (err) {
         alert("Error al cargar la información para editar.");
@@ -544,7 +639,6 @@
       document.getElementById("formCaptacion").reset();
       document.getElementById("editInmuebleId").value = "";
       fotosActualesEdicion = [];
-
       const fotosInput = document.getElementById("fotosFiles");
       fotosInput.setAttribute("required", "true");
       
@@ -600,6 +694,7 @@
       try {
         let urlsPublicas = [];
         let codigoUnico = '';
+
         if (esEdicion) {
           const { data: propActual } = await dbClient.from('propiedades').select('codigo_eco').eq('id', editId).single();
           codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
@@ -613,6 +708,7 @@
             maxWidthOrHeight: 1200,
             useWebWorker: true
           };
+
           for (let i = 0; i < filesInput.length; i++) {
             const fileOriginal = filesInput[i];
             const fileComprimido = await imageCompression(fileOriginal, options);
@@ -625,9 +721,11 @@
               .upload(filePath, fileComprimido, { upsert: true });
               
             if (uploadError) throw uploadError;
+
             const { data: urlData } = dbClient.storage
               .from('econexus-fotos')
               .getPublicUrl(filePath);
+
             urlsPublicas.push(urlData.publicUrl);
           }
         } else if (esEdicion) {
@@ -660,17 +758,20 @@
             .from('propiedades')
             .update(payload)
             .eq('id', editId);
+            
           if (updateError) throw updateError;
           alert("¡Publicación actualizada con éxito!");
         } else {
           payload.codigo_eco = codigoUnico;
           payload.user_id = usuarioActual.id;
+          
           const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
           if (dbError) throw dbError;
           alert("¡Inmueble publicado con éxito!");
         }
 
         cancelarEdicion();
+        
         const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
         if (!cuerpoGestion.classList.contains("hidden")) {
           buscarMisInmuebles();
