@@ -46,7 +46,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
+  <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP (PARA ASESORES / CAPTADORES) -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
       <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
@@ -80,7 +80,7 @@
           <span class="block text-xs text-green-200 tracking-wider font-light">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      <button onclick="confirmarIrAWhatsApp('584244466115', 'Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow cursor-pointer">
+      <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.', '_blank')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow cursor-pointer">
         <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contacto Directo
       </button>
     </div>
@@ -211,7 +211,6 @@
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
       const asesorParam = urlParams.get('asesor');
-
       if (codigoParam) {
         const codigoLimpio = codigoParam.trim().toUpperCase();
         let p = todasLasPropiedades.find(item => item.codigo_eco && item.codigo_eco.toUpperCase() === codigoLimpio);
@@ -223,7 +222,6 @@
               .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
               .eq('codigo_eco', codigoLimpio)
               .single();
-
             if (data && !error) {
               p = data;
               todasLasPropiedades.unshift(p);
@@ -233,7 +231,6 @@
             console.error("Error buscando inmueble por código de URL:", err);
           }
         }
-
         if (p) {
           abrirModal(p.id);
         }
@@ -248,13 +245,15 @@
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
     }
+
     function toggleLegalDisclaimer() {
       const dropdown = document.getElementById("legalDisclaimerDropdown");
       const arrow = document.getElementById("legalArrow");
       dropdown.classList.toggle("hidden");
       arrow.classList.toggle("rotate-180");
     }
-    // Modal de Confirmación para WhatsApp
+
+    // Modal de Confirmación para WhatsApp (Contacto con Asesores)
     function confirmarIrAWhatsApp(numero, mensaje) {
       waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
       const modal = document.getElementById("modalConfirmarWhatsApp");
@@ -262,6 +261,7 @@
         modal.classList.remove("hidden");
       }
     }
+
     function cerrarModalWhatsApp() {
       const modal = document.getElementById("modalConfirmarWhatsApp");
       if (modal) {
@@ -269,12 +269,14 @@
       }
       waUrlPendiente = '';
     }
+
     function aceptarYContinuarWhatsApp() {
       if (waUrlPendiente) {
         window.open(waUrlPendiente, '_blank');
       }
       cerrarModalWhatsApp();
     }
+
     async function cargarPropiedades() {
       try {
         const { data, error } = await dbClient
@@ -299,6 +301,7 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
+
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -309,6 +312,7 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
+
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const countLabel = document.getElementById("propCount");
@@ -395,6 +399,7 @@
         grid.innerHTML += cardHTML;
       });
     }
+
     function aplicarFiltros() {
       const operacion = document.getElementById("filterOperacion").value;
       const tipo = document.getElementById("filterTipo").value.toLowerCase().trim();
@@ -416,6 +421,7 @@
       });
       renderizarTarjetas(filtradas);
     }
+
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "";
@@ -423,6 +429,7 @@
       document.getElementById("filterPrecio").value = "";
       renderizarTarjetas(todasLasPropiedades);
     }
+
     async function abrirModal(id) {
       const p = todasLasPropiedades.find(item => item.id === id);
       if (!p) return;
@@ -505,9 +512,11 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
+
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
+
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
