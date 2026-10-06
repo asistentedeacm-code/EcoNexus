@@ -79,6 +79,7 @@
           <ul class="text-sm text-gray-600 space-y-2 list-disc pl-5">
             <li><strong>Formato de Imágenes:</strong> Selecciona un máximo de <strong>5 fotos</strong>.</li>
             <li><strong>Tipo de Inmueble libre:</strong> Escribe con precisión el tipo de bien (ej: Apartamento, Galpón, Townhouse).</li>
+            <li><strong>Vigencia Automática:</strong> Toda publicación dura 30 días activa. Puedes extenderla en cualquier momento con el botón <em>Renovar 30D</em>.</li>
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
@@ -240,7 +241,39 @@
     
     let usuarioActual = null;
     let fotosActualesEdicion = [];
-    let misInmueblesCargados = []; // Arreglo en memoria para compartir individualmente o catálogo completo
+    let misInmueblesCargados = [];
+
+    // --- FUNCIÓN DE SEGURIDAD XSS (Sanitización de Texto) ---
+    function escapeHTML(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // --- CÁLCULO DE TIEMPO RESTANTE ---
+    function calcularTiempoRestante(fechaFuturaStr) {
+      if (!fechaFuturaStr) return null;
+      const fin = new Date(fechaFuturaStr).getTime();
+      const ahora = new Date().getTime();
+      const diffMs = fin - ahora;
+      
+      if (diffMs <= 0) return { expirado: true, texto: "Expirado" };
+      
+      const dias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      
+      if (dias > 0) {
+        return { expirado: false, texto: `${dias}d ${horas}h restantes` };
+      } else {
+        const mins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+        return { expirado: false, texto: `${horas}h ${mins}m restantes` };
+      }
+    }
+
     // Inicialización y verificación de estado al cargar la página
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
@@ -255,7 +288,7 @@
         ocultarApp();
       }
     });
-    // Función que verifica si el perfil está 'Aprobado'
+
     async function verificarEstatusYMostrar(user) {
       const msg = document.getElementById('authMessage');
       try {
@@ -273,7 +306,6 @@
           msg.classList.add('hidden');
           mostrarApp();
         } else {
-          // Si es 'Pendiente' o 'Denegado', se bloquea el acceso
           await dbClient.auth.signOut();
           usuarioActual = null;
           ocultarApp();
@@ -284,7 +316,7 @@
             <div class="font-bold text-sm mb-1 flex items-center text-amber-800">
               <i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación
             </div>
-            <p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${estatus}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p>
+            <p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${escapeHTML(estatus)}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p>
             <a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition">
               <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar
             </a>
@@ -295,6 +327,7 @@
         console.error("Error en validación de perfil:", err);
       }
     }
+
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
@@ -303,6 +336,7 @@
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
     }
+
     function ocultarApp() {
       document.getElementById('authContainer').classList.remove('hidden');
       document.getElementById('mainAppContainer').classList.add('hidden');
@@ -313,11 +347,12 @@
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
+
     function cerrarBannerFlotante() {
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.add('hidden');
     }
-    // ACCIÓN CORREGIDA: Cierra el aviso flotante y despliega los términos permitiendo entrar o registrarse libremente
+
     function accionBannerTerminos() {
       cerrarBannerFlotante();
       toggleLegalDropdown();
@@ -325,6 +360,7 @@
         document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
+
     async function iniciarSesion() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
@@ -345,7 +381,7 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
-    // Registro de usuario + Creación de Perfil con estatus por defecto
+
     async function registrarse() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
@@ -363,7 +399,6 @@
         msg.textContent = "Error: " + error.message;
         msg.classList.remove('hidden');
       } else if (data.user) {
-        // Se crea el perfil inicial en la tabla con estatus 'Pendiente'
         await dbClient.from('perfiles').insert([
           { id: data.user.id, email: email, estatus_agente: 'Pendiente' }
         ]);
@@ -373,15 +408,18 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
+
     async function cerrarSesion() {
       await dbClient.auth.signOut();
     }
+
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
     }
+
     function toggleLegalDropdown() {
       const body = document.getElementById("bodyLegalDropdown");
       const icono = document.getElementById("iconoLegalDropdown");
@@ -391,6 +429,7 @@
         body.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
+
     function toggleTipoAsesor() {
       const selectTipo = document.getElementById("tipoAsesor").value;
       const containerAgencia = document.getElementById("containerNombreAgencia");
@@ -404,6 +443,7 @@
         inputAgencia.value = "";
       }
     }
+
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -416,6 +456,8 @@
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
     }
+
+    // --- BÚSQUEDA Y RENDERIZADO DE MIS INMUEBLES CON CONTADORES Y PROTECCIÓN XSS ---
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
@@ -429,7 +471,7 @@
           
         if (error) throw error;
         
-        misInmueblesCargados = data || []; // Guardar copia global
+        misInmueblesCargados = data || [];
         
         contenedor.innerHTML = "";
         if (!data || data.length === 0) {
@@ -439,25 +481,55 @@
         
         data.forEach(item => {
           const card = document.createElement("div");
-          card.className = "bg-white p-3 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-xs";
+          card.className = "bg-white p-3.5 rounded-xl border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs shadow-sm";
           
           const esAgencia = item.tipo_asesor === 'Agencia';
-          const infoAsesor = esAgencia ? `Agencia: ${item.nombre_agencia || 'Sin Nombre'}` : `Agente Independiente`;
+          const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
+          
+          // Cálculo de vigencia (30 días)
+          const vigencia = calcularTiempoRestante(item.fecha_expiracion);
+          const vigenciaTexto = vigencia ? (vigencia.expirado ? `<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">Expirado</span>` : `<span class="bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-semibold"><i class="fa-solid fa-clock mr-1"></i>Vigencia: ${vigencia.texto}</span>`) : '';
+          
+          // Cálculo de VIP
+          let vipBadge = '';
+          if (item.destacado && item.fecha_fin_vip) {
+            const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
+            if (vipTime && !vipTime.expirado) {
+              vipBadge = `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold"><i class="fa-solid fa-star mr-1 text-amber-600"></i>VIP: ${vipTime.texto}</span>`;
+            }
+          }
+
           card.innerHTML = `
-            <div class="space-y-1">
-              <p class="font-bold text-econexus text-sm">${item.titulo}</p>
-              <p class="text-gray-500">Ref: $${Number(item.precio).toLocaleString('en-US')} | Código: <strong>${item.codigo_eco}</strong> | Tipo: ${item.tipo}</p>
-              <p class="text-xs font-semibold text-gray-700"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i> ${infoAsesor}</p>
+            <div class="space-y-1.5 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <p class="font-bold text-econexus text-sm">${escapeHTML(item.titulo)}</p>
+                ${vigenciaTexto}
+                ${vipBadge}
+              </div>
+              <p class="text-gray-500">
+                Ref: $${Number(item.precio).toLocaleString('en-US')} | 
+                Código: <strong>${escapeHTML(item.codigo_eco)}</strong> | 
+                Tipo: ${escapeHTML(item.tipo)}
+              </p>
+              <p class="text-xs font-semibold text-gray-700">
+                <i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i> ${infoAsesor}
+              </p>
             </div>
-            <div class="flex flex-wrap gap-2 w-full md:w-auto justify-end">
-              <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center">
+            <div class="flex flex-wrap gap-1.5 w-full md:w-auto justify-end">
+              <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Extiende la vigencia 30 días más" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-solid fa-rotate mr-1"></i> Renovar 30D
+              </button>
+              <button type="button" onclick="solicitarVIPWA('${item.id}')" title="Solicitar destacamiento VIP por WhatsApp" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-solid fa-star mr-1"></i> Solicitar VIP
+              </button>
+              <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
                 <i class="fa-brands fa-whatsapp mr-1 text-sm"></i> Compartir
               </button>
-              <button type="button" onclick="editarInmueble('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-1.5 rounded-lg transition flex items-center">
+              <button type="button" onclick="editarInmueble('${item.id}')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
                 <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
               </button>
-              <button type="button" onclick="eliminarInmueble('${item.id}', '${item.codigo_eco}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-3 py-1.5 rounded-lg transition flex items-center">
-                <i class="fa-solid fa-trash-can mr-1"></i> Retirar
+              <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
+                <i class="fa-solid fa-trash-can mr-1"></i>
               </button>
             </div>
           `;
@@ -468,8 +540,44 @@
         console.error(err);
       }
     }
-    // --- FUNCIONALIDADES INTEGRADAS DE WHATSAPP Y ENLACES AL FRONTEND ---
-    // 1. Enviar Inmueble Individual (Abre el selector de contactos de WhatsApp)
+
+    // --- REESCRITURA DE VIGENCIA (BOTÓN RENOVAR 30 DÍAS) ---
+    async function renovarInmueble(id, codigoEco) {
+      try {
+        const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+        const { error } = await dbClient
+          .from('propiedades')
+          .update({ fecha_expiracion: nuevaExpiracion })
+          .eq('id', id);
+          
+        if (error) throw error;
+        
+        alert(`¡Inmueble ${codigoEco} renovado con éxito por 30 días más desde este momento!`);
+        buscarMisInmuebles();
+      } catch (err) {
+        alert("Ocurrió un error al intentar renovar la publicación.");
+        console.error(err);
+      }
+    }
+
+    // --- SOLICITAR VIP VÍA WHATSAPP (04244466115) ---
+    function solicitarVIPWA(id) {
+      const p = misInmueblesCargados.find(item => item.id == id);
+      if (!p) {
+        alert("No se encontró la información de la propiedad.");
+        return;
+      }
+      const msjVIP = encodeURIComponent(`Hola EcoNexus, deseo solicitar la activación de destacamiento VIP para mi inmueble:
+
+🏡 *${p.titulo}*
+🆔 *Código:* ${p.codigo_eco}
+💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}
+
+Por favor indíquenme las opciones disponibles para promover esta propiedad.`);
+      window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
+    }
+
+    // --- COMPARTIR INMUEBLE INDIVIDUAL (EXCLUYE LA DESCRIPCIÓN) ---
     function compartirInmuebleWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) {
@@ -480,6 +588,8 @@
       const urlInmueble = `${URL_BASE_FRONTEND}?codigo=${encodeURIComponent(p.codigo_eco)}`;
       const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
       const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
+      
+      // Se omite p.descripcion para obligar al usuario a abrir el portal
       const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*
 ----------------------------------------
 🏡 *${p.titulo}*
@@ -491,16 +601,15 @@
 🛏️ *Habitaciones:* ${p.habitaciones || 0} | 🚿 *Baños:* ${p.banos || 0} | 🚗 *Puestos:* ${p.estacionamientos || 0}
 👤 *Asesor:* ${p.nombre_asesor || 'Asesor EcoNexus'}
 🏢 *Agencia/Estatus:* ${agenciaStr}
-📝 *Descripción:*
-${p.descripcion || 'Sin descripción detallada.'}
-🔗 *Ver ficha interactiva y fotos en la web:*
+🔗 *Ver ficha interactiva, galería de fotos y descripción completa:*
 ${urlInmueble}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-      // Al no especificar número destinatario, WhatsApp abre el selector para elegir cualquier cliente
+
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
-    // 2. Enviar Catálogo Completo (Abre el selector de contactos de WhatsApp)
+
+    // --- COMPARTIR CATÁLOGO COMPLETO ---
     async function compartirInventarioWA() {
       let lista = misInmueblesCargados;
       
@@ -543,9 +652,10 @@ ${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*
 ${urlCatalogo}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-      // Se omite el destinatario para permitir seleccionar el chat/contacto deseado
+
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
+
     async function editarInmueble(id) {
       try {
         const { data, error } = await dbClient
@@ -591,6 +701,7 @@ ${urlCatalogo}
         console.error(err);
       }
     }
+
     function cancelarEdicion() {
       document.getElementById("formCaptacion").reset();
       document.getElementById("editInmuebleId").value = "";
@@ -605,6 +716,7 @@ ${urlCatalogo}
       document.getElementById("btnCancelarEdicion").classList.add("hidden");
       toggleTipoAsesor();
     }
+
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm(`¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente?`)) return;
       
@@ -625,6 +737,7 @@ ${urlCatalogo}
         console.error(err);
       }
     }
+
     async function procesarCarga(e) {
       e.preventDefault();
       
@@ -681,6 +794,10 @@ ${urlCatalogo}
         }
         const selectTipoAsesor = document.getElementById("tipoAsesor").value;
         const nombreAgenciaVal = selectTipoAsesor === 'Agencia' ? document.getElementById("nombreAgencia").value : null;
+        
+        // Asignación de 30 días de vigencia en nuevas publicaciones
+        const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+
         const payload = {
           titulo: document.getElementById("titulo").value,
           tipo: document.getElementById("tipo").value,
@@ -698,6 +815,7 @@ ${urlCatalogo}
           nombre_agencia: nombreAgenciaVal,
           fotos: urlsPublicas
         };
+
         if (esEdicion) {
           const { error: updateError } = await dbClient
             .from('propiedades')
@@ -709,10 +827,11 @@ ${urlCatalogo}
         } else {
           payload.codigo_eco = codigoUnico;
           payload.user_id = usuarioActual.id;
+          payload.fecha_expiracion = expiracionCalculada;
           
           const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
           if (dbError) throw dbError;
-          alert("¡Inmueble publicado con éxito!");
+          alert("¡Inmueble publicado con éxito por 30 días!");
         }
         cancelarEdicion();
         
