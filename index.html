@@ -3,8 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoNexus | Red Inmobiliaria Inteligente</title>
+  
+  <!-- Título y Descripción Primaria para SEO -->
+  <title>EcoNexus | Red Inmobiliaria Inteligente en Venezuela</title>
+  <meta name="description" content="Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional." />
+  <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus" />
+  <meta name="author" content="EcoNexus Real Estate" />
+
+  <!-- Control de Rastreo e Indexación -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="canonical" href="https://asistentedeacm-code.github.io/EcoNexus/" />
+
+  <!-- Geotagging y SEO Local/Nacional (Venezuela) -->
+  <meta name="geo.region" content="VE" />
+  <meta name="geo.placename" content="Venezuela" />
+
+  <!-- Open Graph (Vistas previas en WhatsApp, Facebook y Redes Sociales) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
+  <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
+  <meta property="og:url" content="https://asistentedeacm-code.github.io/EcoNexus/" />
+  <meta property="og:site_name" content="EcoNexus" />
+  <meta property="og:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
+  <meta property="og:locale" content="es_VE" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
+  <meta name="twitter:description" content="Catálogo e inventario de inmuebles en venta y alquiler en toda Venezuela." />
+  <meta name="twitter:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
+
   <meta name="theme-color" content="#1E3F20" />
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -20,6 +51,31 @@
     }
   </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- DATOS ESTRUCTURADOS (Schema.org / JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "EcoNexus",
+    "image": "https://asistentedeacm-code.github.io/EcoNexus/logo.png.png",
+    "@id": "https://asistentedeacm-code.github.io/EcoNexus/#organization",
+    "url": "https://asistentedeacm-code.github.io/EcoNexus/",
+    "telephone": "+584244466115",
+    "priceRange": "$$",
+    "description": "Red inmobiliaria inteligente y vitrina publicitaria de propiedades en venta y alquiler en Venezuela.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "VE"
+    },
+    "areaServed": [
+      "Carabobo",
+      "Distrito Capital",
+      "Zulia",
+      "Venezuela"
+    ]
+  }
+  </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
@@ -45,7 +101,6 @@
       </div>
     </div>
   </div>
-
   <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
@@ -69,7 +124,6 @@
       </div>
     </div>
   </div>
-
   <!-- HEADER / NAVBAR -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -84,7 +138,6 @@
         <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publicalo
       </button>
     </div>
-
     <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
     <div class="bg-econexus-dark border-t border-green-900 py-1.5 px-4 text-center">
       <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1">
@@ -92,7 +145,6 @@
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
     </div>
-
     <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN -->
     <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
       <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
@@ -202,13 +254,11 @@
     let propiedadesCargadas = [];
     let waUrlPendiente = '';
     let debounceTimer = null;
-
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
     });
-
     // 1. CONSULTA DE CONTADOR TOTAL DIRECTO A SUPABASE (HEAD: TRUE - 0 BYTES DE PAYLOAD)
     async function obtenerTotalContadorSupabase() {
       try {
@@ -223,14 +273,12 @@
         console.error("Error consultando contador en Supabase:", e);
       }
     }
-
     // 2. DETECCIÓN DE PARÁMETROS EN LA URL (CÓDIGO, ASESOR Y AGENCIA)
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
       const asesorParam = urlParams.get('asesor');
       const agenciaParam = urlParams.get('agencia');
-
       if (codigoParam) {
         const codigoLimpio = codigoParam.trim().toUpperCase();
         try {
@@ -255,7 +303,6 @@
         aplicarFiltros();
       }
     }
-
     // 3. CARGA DE PROPIEDADES DIRECTO DESDE SUPABASE
     async function cargarPropiedades(reset = false) {
       if (reset) {
@@ -275,13 +322,11 @@
         
         const urlParams = new URLSearchParams(window.location.search);
         const agenciaParam = urlParams.get('agencia');
-
         // Consulta sobre la Vista Dinámica v_propiedades_catalogo
         let query = dbClient
           .from('v_propiedades_catalogo')
           .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
           .eq('estatus', 'Disponible');
-
         // Filtros en servidor (Supabase)
         if (operacion && operacion !== "TODOS") {
           query = query.eq('operacion', operacion);
@@ -297,13 +342,11 @@
         } else if (agenciaParam) {
           query = query.ilike('nombre_agencia', `%${agenciaParam.trim()}%`);
         }
-
         // Ordenamiento: Primero VIP Activos, luego fecha de publicación más reciente
         query = query
           .order('vip_activo', { ascending: false })
           .order('fecha_publicacion', { ascending: false, nullsFirst: false })
           .range(pageOffset, pageOffset + PAGE_SIZE - 1);
-
         const { data, error } = await query;
         if (error) throw error;
         const nuevosInmuebles = data || [];
@@ -319,7 +362,6 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
-
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -330,7 +372,6 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
-
     // 4. RENDERIZACIÓN DE TARJETAS CON RECONOCIMIENTO VIP
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
@@ -410,7 +451,6 @@
         grid.innerHTML += cardHTML;
       });
     }
-
     // 5. MANEJO DE FILTROS Y DEBOUNCE
     function aplicarFiltros() {
       cargarPropiedades(true);
@@ -431,7 +471,6 @@
       }
       cargarPropiedades(true);
     }
-
     // 6. MANEJO DE MODALES
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
