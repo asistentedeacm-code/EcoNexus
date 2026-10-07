@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Vista Pública Principal -->
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Módulo de Captación / Registro de Agentes -->
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/captacion.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Menú / Portal -->
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/menu.html</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
