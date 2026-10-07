@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Rápido | EcoNexus</title>
+
+    <!-- Configuración PWA / PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e4d2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EcoNexus">
+    <link rel="apple-touch-icon" href="logo.png.png">
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -173,6 +182,8 @@
     <div class="menu-container">
         <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Publicar un Inmueble</a>
         <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ir Al Sistema</a>
+        <!-- Botón Dinámico de Instalación PWA -->
+        <button id="btnInstalar" class="btn" style="display: none; cursor: pointer; border: none; font-family: inherit;" onclick="instalarApp()">📲 Instalar Aplicación</button>
     </div>
 
     <div class="benefits-wrapper">
@@ -229,6 +240,39 @@
         }
 
         setTimeout(animateClouds, 500);
+
+        /* --- LÓGICA Y REGISTRO DE INSTALACIÓN PWA --- */
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker registrado correctamente', reg))
+                    .catch(err => console.error('Error al registrar Service Worker', err));
+            });
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const btnInstalar = document.getElementById('btnInstalar');
+            if (btnInstalar) {
+                btnInstalar.style.display = 'block';
+            }
+        });
+
+        function instalarApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('El usuario aceptó la instalación.');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('Para instalar en iPhone/iPad: toca el botón "Compartir" de Safari y selecciona "Agregar a inicio".');
+            }
+        }
     </script>
 
 </body>
