@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil de Asesor | EcoNexus Real Estate</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- HEADER SLIM -->
+  <header class="bg-econexus text-white py-3 px-4 shadow-md">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="window.location.href='index.html'">
+        <img src="logo.png.png" alt="EcoNexus" class="h-7 w-auto" onerror="this.src='logo.png'" />
+        <span class="font-extrabold tracking-wide text-sm">EcoNexus</span>
+      </div>
+      <span class="text-[11px] bg-green-900/60 text-green-200 px-3 py-1 rounded-full border border-green-700">Tarjeta Profesional de Asesor</span>
+    </div>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
+    
+    <!-- TARJETA DEL AGENTE -->
+    <div id="agenteCard" class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 text-center relative overflow-hidden">
+      <div id="loadingAgente" class="py-10">
+        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-econexus mb-2"></i>
+        <p class="text-xs text-gray-500">Cargando perfil profesional...</p>
+      </div>
+      
+      <div id="contentAgente" class="hidden">
+        <!-- Badge de Agencia / Independiente -->
+        <span id="badgeTipoAgente" class="inline-block text-[11px] font-bold text-econexus bg-econexus-soft px-3 py-1 rounded-full mb-3 border border-green-100"></span>
+        
+        <h1 id="nombreAgente" class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-1"></h1>
+        <p id="agenciaAgente" class="text-xs text-gray-500 mb-4 font-medium"></p>
+        
+        <!-- Botones de Acción Principal -->
+        <div class="flex flex-wrap justify-center gap-3 max-w-md mx-auto mb-6">
+          <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[200px] bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-base"></i> Contactar por WhatsApp
+          </a>
+          
+          <!-- REAPROVECHAMIENTO DEL FRONTEND PÚBLICO -->
+          <a id="btnVerInventarioWeb" href="#" class="flex-1 min-w-[200px] bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
+            <i class="fa-solid fa-list-check"></i> Ver mi inventario completo
+          </a>
+        </div>
+
+        <!-- MÓDULO PASIVO DE CAPTACIÓN -->
+        <div class="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-300 max-w-lg mx-auto text-left flex items-center justify-between gap-3">
+          <div>
+            <p class="text-xs font-bold text-gray-800">¿Deseas vender o alquilar una propiedad?</p>
+            <p class="text-[11px] text-gray-500">Consígnala directamente con este asesor autorizado.</p>
+          </div>
+          <a id="btnConsignar" href="#" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-2 rounded-lg text-xs transition whitespace-nowrap shadow-sm">
+            Consignar
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- INMUEBLES DESTACADOS DEL AGENTE -->
+    <div class="mb-6 flex justify-between items-center">
+      <h2 class="text-lg font-bold text-gray-900 flex items-center">
+        <i class="fa-solid fa-house-circle-check text-econexus mr-2"></i> Portafolio Destacado
+      </h2>
+      <span id="inmueblesCount" class="text-xs text-gray-500 bg-gray-200 px-2.5 py-1 rounded-full font-semibold">0 Propiedades</span>
+    </div>
+
+    <div id="gridInmueblesAgente" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    
+    <div id="noInmuebles" class="hidden text-center py-12 bg-white rounded-2xl border border-gray-200">
+      <i class="fa-solid fa-building-circle-xmark text-4xl text-gray-300 mb-2"></i>
+      <p class="text-sm font-semibold text-gray-600">Este asesor no tiene propiedades disponibles en este momento.</p>
+    </div>
+  </main>
+
+  <footer class="bg-econexus-dark text-white py-6 border-t border-green-900 mt-auto text-center text-xs text-gray-400">
+    <p>© 2026 EcoNexus Real Estate Platform • Vitrina Publicitaria Inmobiliaria</p>
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryParam = urlParams.get('u');
+
+      if (!queryParam) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      await cargarPerfilYPropiedades(queryParam.trim());
+    });
+
+    async function cargarPerfilYPropiedades(param) {
+      try {
+        // Consultar propiedades que coincidan por teléfono o por ID de usuario
+        let query = dbClient
+          .from('v_propiedades_catalogo')
+          .select('*')
+          .eq('estatus', 'Disponible');
+
+        if (/^\d+$/.test(param)) {
+          // Si es un número (teléfono)
+          query = query.eq('telefono_asesor', param);
+        } else {
+          // Si es un UUID (user_id)
+          query = query.eq('user_id', param);
+        }
+
+        const { data, error } = await query.order('fecha_publicacion', { ascending: false });
+
+        if (error) throw error;
+
+        document.getElementById('loadingAgente').classList.add('hidden');
+
+        if (!data || data.length === 0) {
+          document.getElementById('contentAgente').classList.remove('hidden');
+          document.getElementById('nombreAgente').textContent = "Asesor Inmobiliario";
+          document.getElementById('noInmuebles').classList.remove('hidden');
+          return;
+        }
+
+        // Tomar datos del Asesor del primer inmueble disponible
+        const primerInmueble = data[0];
+        const nombreAsesor = primerInmueble.nombre_asesor || "Asesor EcoNexus";
+        const telefonoAsesor = primerInmueble.telefono_asesor || "";
+        const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
+        const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Agente Independiente";
+
+        // Renderizar datos del perfil
+        document.getElementById('nombreAgente').textContent = nombreAsesor;
+        document.getElementById('agenciaAgente').textContent = agenciaStr;
+        document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
+        document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
+
+        // Enlaces de Acción
+        const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, vi tu tarjeta digital en EcoNexus y quisiera consultar tu inventario.`);
+        document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesor}?text=${msjWA}`;
+        
+        // REAPROVECHAR INDEX.HTML CON EL FILTRO DEL ASESOR
+        document.getElementById('btnVerInventarioWeb').href = `index.html?asesor=${telefonoAsesor}`;
+        document.getElementById('btnConsignar').href = `index_captacion.html`;
+
+        document.getElementById('contentAgente').classList.remove('hidden');
+
+        // Renderizar Tarjetas de Inmuebles Limpias
+        renderGridAgente(data);
+
+      } catch (err) {
+        console.error("Error cargando perfil del agente:", err);
+      }
+    }
+
+    function renderGridAgente(lista) {
+      const grid = document.getElementById('gridInmueblesAgente');
+      grid.innerHTML = "";
+
+      lista.forEach(p => {
+        const fotoPrincipal = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+        const urlFichaPublica = `index.html?codigo=${encodeURIComponent(p.codigo_eco)}`;
+
+        const cardHTML = `
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="relative h-48 overflow-hidden">
+                <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover" />
+                <span class="absolute top-3 left-3 bg-econexus text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">${p.operacion}</span>
+                <span class="absolute bottom-3 right-3 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">${p.codigo_eco}</span>
+              </div>
+              <div class="p-4">
+                <div class="text-[11px] font-bold text-econexus uppercase mb-1">${p.tipo} • ${p.ubicacion}</div>
+                <h3 class="font-bold text-gray-900 text-sm mb-2 line-clamp-1">${p.titulo}</h3>
+                <div class="text-xl font-black text-econexus mb-3">$${Number(p.precio).toLocaleString('en-US')}</div>
+                
+                <div class="grid grid-cols-3 gap-1 text-center text-[11px] text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">
+                  <div>🛏️ ${p.habitaciones || 0} Hab</div>
+                  <div>🚿 ${p.banos || 0} Baños</div>
+                  <div>📐 ${p.metros || 0} m²</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 pt-0">
+              <a href="${urlFichaPublica}" target="_blank" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1">
+                Ver Detalles <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </a>
+            </div>
+          </div>
+        `;
+        grid.innerHTML += cardHTML;
+      });
+    }
+  </script>
+</body>
+</html>
