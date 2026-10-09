@@ -10,6 +10,11 @@
   
   <!-- Librería para compresión de imágenes en el cliente -->
   <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
+
+  <!-- Librerías de Generación PDF y Canvas Imagen (Costo $0) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   
   <script>
     tailwind.config = {
@@ -52,8 +57,29 @@
         <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
       </div>
     </div>
+
     <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
+        
+        <!-- MÓDULO INTELIGENTE DE FOTO DE PERFIL DEL AGENTE -->
+        <div id="containerPerfilFoto" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-6">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <img id="imgPerfilPreview" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-14 h-14 rounded-full object-cover border-2 border-econexus shadow-sm" />
+              <div>
+                <h3 class="text-sm font-bold text-gray-900" id="txtPerfilFotoEstado">Foto de Perfil de Asesor</h3>
+                <p class="text-[11px] text-gray-500" id="txtPerfilFotoDesc">Aparecerá en tu Mini Web y en las Fichas PDF.</p>
+              </div>
+            </div>
+            <div>
+              <label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-3 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-camera"></i> <span id="lblBtnFotoText">Subir Foto</span>
+              </label>
+              <input type="file" id="inputFotoPerfilAgente" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="guardarFotoPerfilAgente(this)" />
+            </div>
+          </div>
+        </div>
+
         <!-- ACORDEÓN DE GESTIÓN (LISTAR, EDITAR Y ELIMINAR) -->
         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
           <button type="button" onclick="toggleAcordeonGestion()" class="w-full p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus">
@@ -65,13 +91,17 @@
               <button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2 rounded-xl text-sm font-bold transition flex-1 flex items-center justify-center">
                 <i class="fa-solid fa-rotate-right mr-2"></i> Cargar Mis Publicaciones
               </button>
+              <button type="button" onclick="obtenerEnlaceMiniWeb()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition flex-1 flex items-center justify-center">
+                <i class="fa-solid fa-id-card mr-2"></i> Copiar Mi Mini Web
+              </button>
               <button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl text-sm font-bold transition flex-1 flex items-center justify-center">
-                <i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo Completo
+                <i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Catálogo
               </button>
             </div>
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
+
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
@@ -83,6 +113,7 @@
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
+
         <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
@@ -105,9 +136,9 @@
             </div>
           </div>
         </div>
+
         <!-- FORMULARIO DE CARGA / EDICIÓN -->
         <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
-          <!-- Campo oculto para saber si se está creando o editando -->
           <input type="hidden" id="editInmuebleId" value="" />
           <div class="flex justify-between items-center border-b pb-3">
             <h2 id="tituloFormulario" class="text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
@@ -196,6 +227,7 @@
             <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
             <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
           </div>
+
           <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA -->
           <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
             <label class="flex items-start space-x-2 cursor-pointer">
@@ -216,6 +248,7 @@
         </form>
     </div>
   </main>
+
   <!-- BANNER FLOTANTE AL ABRIR PORTAL -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
@@ -230,20 +263,55 @@
       </button>
     </div>
   </div>
+
+  <!-- PLANTILLA OCULTA CANVAS HISTORIA DE INSTAGRAM (1080x1920) -->
+  <div id="story-canvas-template" style="position: absolute; left: -9999px; top: -9999px; width: 1080px; height: 1920px; background: #0b132b; color: #ffffff; font-family: sans-serif; box-sizing: border-box; padding: 60px; display: flex; flex-direction: column; justify-content: space-between;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="display: flex; items-center; gap: 20px;">
+        <img id="story-agente-foto" src="" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #38bdf8; display: none;">
+        <div>
+          <h3 id="story-agente" style="margin: 0; font-size: 38px; color: #ffffff; font-weight: 700;"></h3>
+          <p id="story-telefono" style="margin: 5px 0 0 0; font-size: 26px; color: #38bdf8;"></p>
+        </div>
+      </div>
+      <div id="story-badge-operacion" style="padding: 12px 30px; border-radius: 50px; font-size: 30px; font-weight: bold; text-transform: uppercase;"></div>
+    </div>
+
+    <!-- MOSAICO DE FOTOS -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px; width: 960px; height: 960px; border-radius: 24px; overflow: hidden; background: #1c2541; margin: 0 auto;">
+      <img id="story-img-1" style="width: 100%; height: 100%; object-fit: cover;">
+      <img id="story-img-2" style="width: 100%; height: 100%; object-fit: cover;">
+      <img id="story-img-3" style="width: 100%; height: 100%; object-fit: cover;">
+      <img id="story-img-4" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+
+    <div style="background: #1c2541; padding: 40px; border-radius: 24px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h1 id="story-precio" style="font-size: 58px; margin: 0; color: #4ade80; font-weight: 800;"></h1>
+        <div style="font-size: 28px; color: #94a3b8;" id="story-specs"></div>
+      </div>
+      <h2 id="story-titulo" style="font-size: 36px; margin: 0 0 10px 0; color: #ffffff; font-weight: 600;"></h2>
+      <p id="story-ubicacion" style="font-size: 28px; color: #cbd5e1; margin: 0;"></p>
+    </div>
+
+    <div style="text-align: center; border-top: 2px solid #1e293b; padding-top: 25px;">
+      <p style="margin: 0 0 10px 0; font-size: 32px; font-weight: 600; color: #38bdf8;">📲 Escríbeme al WhatsApp para detalles</p>
+      <p style="margin: 0; font-size: 22px; color: #64748b; font-weight: 500;">Publicado vía EcoNexus Real Estate Platform</p>
+    </div>
+  </div>
+
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    // Configuración dinámica de URL para enlazar directamente con index.html
     const URL_BASE_FRONTEND = window.location.origin + window.location.pathname.replace(/captacion\.html$/i, '') + 'index.html';
     
     let usuarioActual = null;
     let fotosActualesEdicion = [];
     let misInmueblesCargados = [];
+    let fotoPerfilActual = null;
 
-    // --- FUNCIÓN DE SEGURIDAD XSS (Sanitización de Texto) ---
     function escapeHTML(str) {
       if (str === null || str === undefined) return '';
       return String(str)
@@ -254,7 +322,6 @@
         .replace(/'/g, "&#039;");
     }
 
-    // --- CÁLCULO DE TIEMPO RESTANTE ---
     function calcularTiempoRestante(fechaFuturaStr) {
       if (!fechaFuturaStr) return null;
       const fin = new Date(fechaFuturaStr).getTime();
@@ -274,12 +341,12 @@
       }
     }
 
-    // Inicialización y verificación de estado al cargar la página
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
       }
     });
+
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
@@ -294,17 +361,32 @@
       try {
         const { data: perfil, error } = await dbClient
           .from('perfiles')
-          .select('estatus_agente')
+          .select('estatus_agente, foto_perfil')
           .eq('id', user.id)
           .single();
-        if (error && error.code !== 'PGRST116') {
-          console.error("Error al consultar perfil:", error);
-        }
+
         const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
+
         if (estatus === 'Aprobado') {
           usuarioActual = user;
           msg.classList.add('hidden');
           mostrarApp();
+
+          // EVALUACIÓN DE FOTO DE PERFIL EXISTENTE
+          if (perfil && perfil.foto_perfil) {
+            fotoPerfilActual = perfil.foto_perfil;
+            document.getElementById('imgPerfilPreview').src = fotoPerfilActual;
+            document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Registrada";
+            document.getElementById('txtPerfilFotoDesc').textContent = "Tu foto está activa en tu Mini Web y Fichas PDF.";
+            document.getElementById('lblBtnFotoText').textContent = "Cambiar Foto";
+          } else {
+            fotoPerfilActual = null;
+            document.getElementById('imgPerfilPreview').src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+            document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Pendiente";
+            document.getElementById('txtPerfilFotoDesc').textContent = "Sube tu foto para personalizar tus fichas y Mini Web.";
+            document.getElementById('lblBtnFotoText').textContent = "Subir Foto";
+          }
+
         } else {
           await dbClient.auth.signOut();
           usuarioActual = null;
@@ -328,11 +410,59 @@
       }
     }
 
+    // SUBIR O CAMBIAR FOTO DE PERFIL DEL AGENTE
+    async function guardarFotoPerfilAgente(input) {
+      if (!input.files || input.files.length === 0) return;
+      
+      const fileOriginal = input.files[0];
+      const btnText = document.getElementById('lblBtnFotoText');
+      btnText.textContent = "Procesando...";
+
+      try {
+        const options = { maxSizeMB: 0.15, maxWidthOrHeight: 600, useWebWorker: true };
+        const fileComprimido = await imageCompression(fileOriginal, options);
+        
+        const filePath = `${usuarioActual.id}/perfil/avatar_${Date.now()}.jpg`;
+
+        const { error: uploadError } = await dbClient.storage
+          .from('econexus-fotos')
+          .upload(filePath, fileComprimido, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data: urlData } = dbClient.storage
+          .from('econexus-fotos')
+          .getPublicUrl(filePath);
+
+        const nuevaUrlFoto = urlData.publicUrl;
+
+        // Guardar URL en la tabla perfiles
+        const { error: dbError } = await dbClient
+          .from('perfiles')
+          .update({ foto_perfil: nuevaUrlFoto })
+          .eq('id', usuarioActual.id);
+
+        if (dbError) throw dbError;
+
+        fotoPerfilActual = nuevaUrlFoto;
+        document.getElementById('imgPerfilPreview').src = nuevaUrlFoto;
+        document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Registrada";
+        document.getElementById('txtPerfilFotoDesc').textContent = "Tu foto está activa en tu Mini Web y Fichas PDF.";
+        document.getElementById('lblBtnFotoText').textContent = "Cambiar Foto";
+
+        alert("¡Foto de perfil actualizada con éxito!");
+      } catch (err) {
+        alert("Ocurrió un error al subir tu foto de perfil.");
+        console.error(err);
+      } finally {
+        input.value = "";
+      }
+    }
+
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
       document.getElementById('btnLogout').classList.remove('hidden');
-      
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
     }
@@ -341,7 +471,6 @@
       document.getElementById('authContainer').classList.remove('hidden');
       document.getElementById('mainAppContainer').classList.add('hidden');
       document.getElementById('btnLogout').classList.add('hidden');
-      
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Al Ingresar Ver Términos";
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
@@ -402,7 +531,7 @@
         await dbClient.from('perfiles').insert([
           { id: data.user.id, email: email, estatus_agente: 'Pendiente' }
         ]);
-        alert("¡Registro completado! Serás redirigido a WhatsApp para validar tu cuenta de asesor y gestionar tu aprobación.");
+        alert("¡Registro completado! Serás redirigido a WhatsApp para validar tu cuenta de asesor.");
         const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${email}. Solicito la aprobación de mi cuenta de Asesor.`);
         window.open(`https://wa.me/584244466115?text=${msjWA}`, '_blank');
         await verificarEstatusYMostrar(data.user);
@@ -457,7 +586,6 @@
       }
     }
 
-    // --- BÚSQUEDA Y RENDERIZADO DE MIS INMUEBLES CON CONTADORES Y PROTECCIÓN XSS ---
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
@@ -470,7 +598,6 @@
           .order('id', { ascending: false });
           
         if (error) throw error;
-        
         misInmueblesCargados = data || [];
         
         contenedor.innerHTML = "";
@@ -486,11 +613,9 @@
           const esAgencia = item.tipo_asesor === 'Agencia';
           const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
           
-          // Cálculo de vigencia (30 días)
           const vigencia = calcularTiempoRestante(item.fecha_expiracion);
           const vigenciaTexto = vigencia ? (vigencia.expirado ? `<span class="bg-red-100 text-red-700 px-2 py-0.5 rounded font-bold">Expirado</span>` : `<span class="bg-blue-50 text-blue-800 px-2 py-0.5 rounded font-semibold"><i class="fa-solid fa-clock mr-1"></i>Vigencia: ${vigencia.texto}</span>`) : '';
           
-          // Cálculo de VIP
           let vipBadge = '';
           if (item.destacado && item.fecha_fin_vip) {
             const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
@@ -516,19 +641,25 @@
               </p>
             </div>
             <div class="flex flex-wrap gap-1.5 w-full md:w-auto justify-end">
-              <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Extiende la vigencia 30 días más" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
-                <i class="fa-solid fa-rotate mr-1"></i> Renovar 30D
+              <button type="button" onclick="descargarPDFFormal('${item.id}')" title="Descargar Ficha PDF Impecable" class="bg-red-700 hover:bg-red-800 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-solid fa-file-pdf mr-1"></i> PDF
               </button>
-              <button type="button" onclick="solicitarVIPWA('${item.id}')" title="Solicitar destacamiento VIP por WhatsApp" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
-                <i class="fa-solid fa-star mr-1"></i> Solicitar VIP
+              <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" title="Descargar Imagen para Historia de IG" class="bg-purple-700 hover:bg-purple-800 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-solid fa-camera mr-1"></i> Historia IG
               </button>
-              <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
-                <i class="fa-brands fa-whatsapp mr-1 text-sm"></i> Compartir
+              <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Extiende la vigencia 30 días más" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-solid fa-rotate mr-1"></i> Renovar
               </button>
-              <button type="button" onclick="editarInmueble('${item.id}')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
-                <i class="fa-solid fa-pen-to-square mr-1"></i> Editar
+              <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-solid fa-star mr-1"></i> VIP
               </button>
-              <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-2.5 py-1.5 rounded-lg transition flex items-center">
+              <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-brands fa-whatsapp mr-1"></i> Compartir
+              </button>
+              <button type="button" onclick="editarInmueble('${item.id}')" class="bg-gray-700 hover:bg-gray-800 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
+                <i class="fa-solid fa-pen-to-square mr-1"></i>
+              </button>
+              <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-red-500 hover:bg-red-600 text-white font-bold px-2 py-1.5 rounded-lg transition text-[11px] flex items-center">
                 <i class="fa-solid fa-trash-can mr-1"></i>
               </button>
             </div>
@@ -541,7 +672,166 @@
       }
     }
 
-    // --- REESCRITURA DE VIGENCIA (BOTÓN RENOVAR 30 DÍAS) ---
+    // OBTENER Y COPIAR ENLACE A LA MINI WEB
+    function obtenerEnlaceMiniWeb() {
+      if (!usuarioActual) return;
+      const urlMiniWeb = `${window.location.origin}${window.location.pathname.replace(/index_captacion\.html$/i, '')}agente.html?u=${usuarioActual.id}`;
+      navigator.clipboard.writeText(urlMiniWeb);
+      alert(`¡Enlace a tu Mini Web copiado al portapapeles!\n\n${urlMiniWeb}`);
+    }
+
+    // CONVERSIÓN DE FOTO A BASE64 PARA PDF Y CANVAS
+    async function urlToBase64(url) {
+      if (!url) return null;
+      try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        });
+      } catch (e) {
+        console.error("Error convirtiendo foto a base64:", e);
+        return null;
+      }
+    }
+
+    // GENERADOR FICHA PDF
+    async function descargarPDFFormal(id) {
+      const p = misInmueblesCargados.find(item => item.id == id);
+      if (!p) return alert("Propiedad no encontrada.");
+
+      alert("Generando Ficha Técnica PDF... Por favor espera un segundo.");
+
+      const fotos = p.fotos || [];
+      const fotosBase64 = await Promise.all(fotos.slice(0, 5).map(u => urlToBase64(u)));
+      const fotoPrincipal = fotosBase64[0] || null;
+      const fotosMosaico = fotosBase64.slice(1, 5).filter(f => f !== null);
+
+      const fotoAgenteBase64 = fotoPerfilActual ? await urlToBase64(fotoPerfilActual) : null;
+
+      const docDefinition = {
+        pageSize: 'LETTER',
+        pageMargins: [35, 30, 35, 40],
+        footer: function(currentPage, pageCount) {
+          return {
+            columns: [
+              { text: `Ficha emitida por: ${p.nombre_asesor || 'Asesor EcoNexus'}`, fontSize: 8, color: '#64748b', margin: [35, 0, 0, 0] },
+              { text: 'Documento respaldado por EcoNexus Real Estate Platform', fontSize: 8, color: '#1E3F20', alignment: 'right', margin: [0, 0, 35, 0], bold: true }
+            ]
+          };
+        },
+        content: [
+          {
+            columns: [
+              fotoAgenteBase64 ? { image: fotoAgenteBase64, width: 45, height: 45, margin: [0, 0, 10, 0] } : {},
+              {
+                width: '*',
+                text: [
+                  { text: `${p.nombre_asesor || 'Asesor Inmobiliario'}\n`, fontSize: 13, bold: true, color: '#0f172a' },
+                  { text: `${p.tipo_asesor === 'Agencia' ? p.nombre_agencia : 'Agente Independiente'}\n`, fontSize: 9, color: '#475569' },
+                  { text: `📞 WhatsApp: ${p.telefono_asesor}`, fontSize: 9, color: '#16a34a', bold: true }
+                ]
+              },
+              {
+                width: 'auto',
+                text: [
+                  { text: `${(p.operacion || 'VENTA').toUpperCase()}\n`, fontSize: 14, bold: true, color: p.operacion === 'Alquiler' ? '#d97706' : '#16a34a', alignment: 'right' },
+                  { text: `CÓDIGO: ${p.codigo_eco}`, fontSize: 9, color: '#64748b', alignment: 'right' }
+                ]
+              }
+            ]
+          },
+          { canvas: [{ type: 'line', x1: 0, y1: 8, x2: 542, y2: 8, lineWidth: 1, lineColor: '#e2e8f0' }], margin: [0, 0, 0, 12] },
+
+          fotoPrincipal ? { image: fotoPrincipal, width: 542, height: 210, margin: [0, 0, 0, 4] } : {},
+          fotosMosaico.length > 0 ? {
+            columns: fotosMosaico.map(img => ({ image: img, width: (530 / fotosMosaico.length), height: 70 })),
+            columnGap: 4,
+            margin: [0, 0, 0, 12]
+          } : {},
+
+          {
+            columns: [
+              { text: p.titulo, fontSize: 13, bold: true, color: '#0f172a', width: '*' },
+              { text: `$${Number(p.precio).toLocaleString('en-US')}`, fontSize: 15, bold: true, color: '#1E3F20', alignment: 'right', width: 'auto' }
+            ],
+            margin: [0, 0, 0, 4]
+          },
+          { text: `📍 Ubicación: ${p.ubicacion}`, fontSize: 9.5, color: '#475569', margin: [0, 0, 0, 10] },
+
+          {
+            table: {
+              widths: ['*', '*', '*', '*'],
+              body: [
+                [
+                  { text: 'Habitaciones', style: 'tableHeader' },
+                  { text: 'Baños', style: 'tableHeader' },
+                  { text: 'Estacionamiento', style: 'tableHeader' },
+                  { text: 'Área', style: 'tableHeader' }
+                ],
+                [
+                  { text: `${p.habitaciones || 0}`, alignment: 'center', fontSize: 9, bold: true },
+                  { text: `${p.banos || 0}`, alignment: 'center', fontSize: 9, bold: true },
+                  { text: `${p.estacionamientos || 0}`, alignment: 'center', fontSize: 9, bold: true },
+                  { text: `${p.metros || 0} m²`, alignment: 'center', fontSize: 9, bold: true }
+                ]
+              ]
+            },
+            layout: { fillColor: () => '#f8fafc', hLineWidth: () => 0.5, vLineWidth: () => 0, hLineColor: () => '#cbd5e1' },
+            margin: [0, 0, 0, 12]
+          },
+
+          { text: 'Descripción del Inmueble:', fontSize: 10, bold: true, color: '#1e293b', margin: [0, 0, 0, 4] },
+          { text: p.descripcion || 'Sin descripción.', fontSize: 8.5, color: '#334155', leading: 1.2 }
+        ],
+        styles: { tableHeader: { bold: true, fontSize: 8, color: '#64748b', alignment: 'center' } }
+      };
+
+      pdfMake.createPdf(docDefinition).download(`Ficha_${p.codigo_eco}.pdf`);
+    }
+
+    // GENERADOR CANVAS HISTORIAS INSTAGRAM (1080x1920)
+    async function descargarHistoriaCanvas(id) {
+      const p = misInmueblesCargados.find(item => item.id == id);
+      if (!p) return alert("Propiedad no encontrada.");
+
+      const fotos = p.fotos || [];
+      document.getElementById('story-img-1').src = fotos[0] || '';
+      document.getElementById('story-img-2').src = fotos[1] || fotos[0] || '';
+      document.getElementById('story-img-3').src = fotos[2] || fotos[0] || '';
+      document.getElementById('story-img-4').src = fotos[3] || fotos[0] || '';
+
+      const imgAgente = document.getElementById('story-agente-foto');
+      if (fotoPerfilActual) {
+        imgAgente.src = fotoPerfilActual;
+        imgAgente.style.display = 'block';
+      } else {
+        imgAgente.style.display = 'none';
+      }
+
+      document.getElementById('story-agente').textContent = p.nombre_asesor || "Asesor Inmobiliario";
+      document.getElementById('story-telefono').textContent = `📞 ${p.telefono_asesor}`;
+      
+      const badge = document.getElementById('story-badge-operacion');
+      badge.textContent = p.operacion;
+      badge.style.background = p.operacion === 'Alquiler' ? '#f59e0b' : '#16a34a';
+
+      document.getElementById('story-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
+      document.getElementById('story-titulo').textContent = p.titulo;
+      document.getElementById('story-ubicacion').textContent = `📍 ${p.ubicacion}`;
+      document.getElementById('story-specs').textContent = `🛏️ ${p.habitaciones || 0}  |  🚿 ${p.banos || 0}  |  📐 ${p.metros || 0}m²`;
+
+      const container = document.getElementById('story-canvas-template');
+      const canvas = await html2canvas(container, { useCORS: true, scale: 1 });
+
+      const link = document.createElement('a');
+      link.download = `Historia_${p.codigo_eco}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
     async function renovarInmueble(id, codigoEco) {
       try {
         const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -551,8 +841,7 @@
           .eq('id', id);
           
         if (error) throw error;
-        
-        alert(`¡Inmueble ${codigoEco} renovado con éxito por 30 días más desde este momento!`);
+        alert(`¡Inmueble ${codigoEco} renovado con éxito por 30 días más!`);
         buscarMisInmuebles();
       } catch (err) {
         alert("Ocurrió un error al intentar renovar la publicación.");
@@ -560,36 +849,24 @@
       }
     }
 
-    // --- SOLICITAR VIP VÍA WHATSAPP (04244466115) ---
     function solicitarVIPWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
-      if (!p) {
-        alert("No se encontró la información de la propiedad.");
-        return;
-      }
+      if (!p) return alert("No se encontró la información de la propiedad.");
       const msjVIP = encodeURIComponent(`Hola EcoNexus, deseo solicitar la activación de destacamiento VIP para mi inmueble:
-
 🏡 *${p.titulo}*
 🆔 *Código:* ${p.codigo_eco}
 💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}
-
 Por favor indíquenme las opciones disponibles para promover esta propiedad.`);
       window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
     }
 
-    // --- COMPARTIR INMUEBLE INDIVIDUAL (EXCLUYE LA DESCRIPCIÓN) ---
     function compartirInmuebleWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
-      if (!p) {
-        alert("No se encontró la información de la propiedad.");
-        return;
-      }
-      
+      if (!p) return alert("No se encontró la información de la propiedad.");
       const urlInmueble = `${URL_BASE_FRONTEND}?codigo=${encodeURIComponent(p.codigo_eco)}`;
       const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
       const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
       
-      // Se omite p.descripcion para obligar al usuario a abrir el portal
       const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*
 ----------------------------------------
 🏡 *${p.titulo}*
@@ -605,14 +882,11 @@ Por favor indíquenme las opciones disponibles para promover esta propiedad.`);
 ${urlInmueble}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
 
-    // --- COMPARTIR CATÁLOGO COMPLETO ---
     async function compartirInventarioWA() {
       let lista = misInmueblesCargados;
-      
       if (!lista || lista.length === 0) {
         try {
           const { data } = await dbClient
@@ -626,11 +900,7 @@ ${urlInmueble}
           console.error("Error al cargar inventario:", err);
         }
       }
-      
-      if (!lista || lista.length === 0) {
-        alert("No tienes propiedades cargadas actualmente para compartir.");
-        return;
-      }
+      if (!lista || lista.length === 0) return alert("No tienes propiedades cargadas actualmente para compartir.");
       
       const primerInmueble = lista[0];
       const numLimpio = primerInmueble.telefono_asesor ? primerInmueble.telefono_asesor.replace(/[^0-9]/g, '') : '';
@@ -652,7 +922,6 @@ ${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*
 ${urlCatalogo}
 ----------------------------------------
 *EcoNexus - Red Inmobiliaria Inteligente*`;
-
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
 
@@ -668,7 +937,6 @@ ${urlCatalogo}
         document.getElementById("editInmuebleId").value = data.id;
         document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
         document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
-        
         document.getElementById("tipoAsesor").value = data.tipo_asesor || 'Independiente';
         toggleTipoAsesor();
         if (data.tipo_asesor === 'Agencia') {
@@ -719,17 +987,14 @@ ${urlCatalogo}
 
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm(`¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente?`)) return;
-      
       try {
         const { data: files } = await dbClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
         if (files && files.length > 0) {
            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
            await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
         }
-        
         const { error } = await dbClient.from('propiedades').delete().eq('id', id);
         if (error) throw error;
-        
         alert("Inmueble eliminado con éxito.");
         buscarMisInmuebles();
       } catch (err) {
@@ -740,18 +1005,11 @@ ${urlCatalogo}
 
     async function procesarCarga(e) {
       e.preventDefault();
-      
       const editId = document.getElementById("editInmuebleId").value;
       const esEdicion = Boolean(editId);
       const filesInput = document.getElementById("fotosFiles").files;
-      if (!esEdicion && (filesInput.length === 0 || filesInput.length > 5)) {
-        alert("Por favor selecciona entre 1 y 5 fotos.");
-        return;
-      }
-      if (esEdicion && filesInput.length > 5) {
-        alert("Puedes subir un máximo de 5 fotos.");
-        return;
-      }
+      if (!esEdicion && (filesInput.length === 0 || filesInput.length > 5)) return alert("Por favor selecciona entre 1 y 5 fotos.");
+      if (esEdicion && filesInput.length > 5) return alert("Puedes subir un máximo de 5 fotos.");
       
       const btn = document.getElementById("btnSubmit");
       btn.disabled = true;
@@ -767,15 +1025,10 @@ ${urlCatalogo}
           codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
         }
         if (filesInput.length > 0) {
-          const options = {
-            maxSizeMB: 0.2,
-            maxWidthOrHeight: 1200,
-            useWebWorker: true
-          };
+          const options = { maxSizeMB: 0.2, maxWidthOrHeight: 1200, useWebWorker: true };
           for (let i = 0; i < filesInput.length; i++) {
             const fileOriginal = filesInput[i];
             const fileComprimido = await imageCompression(fileOriginal, options);
-            
             const fileName = `${Date.now()}_${i}.jpg`;
             const filePath = `${usuarioActual.id}/${codigoUnico}/${fileName}`;
             
@@ -792,12 +1045,11 @@ ${urlCatalogo}
         } else if (esEdicion) {
           urlsPublicas = fotosActualesEdicion;
         }
+
         const selectTipoAsesor = document.getElementById("tipoAsesor").value;
         const nombreAgenciaVal = selectTipoAsesor === 'Agencia' ? document.getElementById("nombreAgencia").value : null;
-        
-        // Asignación de 30 días de vigencia en nuevas publicaciones
         const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-
+        
         const payload = {
           titulo: document.getElementById("titulo").value,
           tipo: document.getElementById("tipo").value,
@@ -821,7 +1073,6 @@ ${urlCatalogo}
             .from('propiedades')
             .update(payload)
             .eq('id', editId);
-            
           if (updateError) throw updateError;
           alert("¡Publicación actualizada con éxito!");
         } else {
@@ -841,7 +1092,7 @@ ${urlCatalogo}
         }
         
       } catch (err) {
-        alert("Ocurrió un error al procesar la publicación. Revisa la consola.");
+        alert("Ocurrió un error al procesar la publicación.");
         console.error("Error en procesarCarga:", err);
       } finally {
         btn.disabled = false;
