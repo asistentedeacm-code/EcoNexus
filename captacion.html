@@ -296,7 +296,7 @@
 
     <div style="text-align: center; border-top: 2px solid #1e293b; padding-top: 25px;">
       <p style="margin: 0 0 10px 0; font-size: 32px; font-weight: 600; color: #38bdf8;">📲 Escríbeme al WhatsApp para detalles</p>
-      <p style="margin: 0; font-size: 22px; color: #64748b; font-weight: 500;">Generado a través de EcoNexus CRM Platform / Uso de responsabilidad expresa de parte del Agente solicitante</p>
+      <p style="margin: 0; font-size: 22px; color: #64748b; font-weight: 500;">Publicado vía EcoNexus Real Estate Platform</p>
     </div>
   </div>
 
@@ -675,7 +675,7 @@
     // OBTENER Y COPIAR ENLACE A LA MINI WEB
     function obtenerEnlaceMiniWeb() {
       if (!usuarioActual) return;
-      const urlMiniWeb = `${window.location.origin}${window.location.pathname.replace(/}agente.html?u=${usuarioActual.id}`;
+      const urlMiniWeb = `${window.location.origin}${window.location.pathname.replace(/index_captacion\.html$/i, '')}agente.html?u=${usuarioActual.id}`;
       navigator.clipboard.writeText(urlMiniWeb);
       alert(`¡Enlace a tu Mini Web copiado al portapapeles!\n\n${urlMiniWeb}`);
     }
@@ -718,7 +718,7 @@
           return {
             columns: [
               { text: `Ficha emitida por: ${p.nombre_asesor || 'Asesor EcoNexus'}`, fontSize: 8, color: '#64748b', margin: [35, 0, 0, 0] },
-              { text: 'Documento generado a través de EcoNexus CRM Platform. Uso de responsabilidad expresa de parte del Agente solicitante', fontSize: 8, color: '#1E3F20', alignment: 'right', margin: [0, 0, 35, 0], bold: true }
+              { text: 'Documento respaldado por EcoNexus Real Estate Platform', fontSize: 8, color: '#1E3F20', alignment: 'right', margin: [0, 0, 35, 0], bold: true }
             ]
           };
         },
