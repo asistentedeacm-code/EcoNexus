@@ -1,4 +1,4 @@
-const CACHE_NAME = 'econexus-v2';
+const CACHE_NAME = 'econexus-v3';
 const urlsToCache = [
   '/EcoNexus/',
   '/EcoNexus/index.html',
