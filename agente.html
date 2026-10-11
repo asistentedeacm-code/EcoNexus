@@ -41,7 +41,7 @@
     <!-- TARJETA PRINCIPAL DEL AGENTE -->
     <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 text-center relative overflow-hidden">
       
-      <!-- BOTÓN FLOTANTE DE EDICIÓN (SOLO VISIBLE SI EL DUEÑO ESTÁ LOGUEADO) -->
+      <!-- BOTÓN FLOTANTE DE EDICIÓN (ESTRICTAMENTE OCULTO POR DEFECTO PARA VISITANTES) -->
       <div id="containerBtnEditarPerfil" class="absolute top-4 right-4 hidden">
         <button onclick="abrirModalPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow flex items-center gap-1.5">
           <i class="fa-solid fa-pen-to-square"></i> Editar Presentación
@@ -70,7 +70,7 @@
           <h1 id="nombreAgente" class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-0.5"></h1>
           <p id="agenciaAgente" class="text-xs text-gray-500 mb-3 font-medium"></p>
 
-          <!-- SOBRE MÍ / PRESENTACIÓN CORTA (CONDICIONAL) -->
+          <!-- SOBRE MÍ / PRESENTACIÓN CORTA (VISIBLE PÚBLICAMENTE PARA CUALQUIER VISITANTE SI EXISTE) -->
           <div id="containerSobreMi" class="hidden max-w-lg mx-auto mb-5 px-4">
             <p id="txtSobreMi" class="text-xs md:text-sm text-gray-600 italic bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed"></p>
           </div>
@@ -127,7 +127,7 @@
           <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Sobre Mí (Presentación Corta)</label>
           <textarea id="inputSobreMiModal" rows="4" maxlength="550" oninput="actualizarContadorCaracteres(this)" placeholder="Ej: Abogado y Asesor Inmobiliario con más de 5 años de experiencia en Valencia..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
           <div class="flex justify-between items-center mt-1">
-            <span class="text-[10px] text-gray-400">Máximo 550 caracteres.</span>
+            <span class="text-[10px] text-gray-400">Máximo 550 caracteres. (Dejar en blanco para borrar)</span>
             <span id="contadorCaracteres" class="text-[10px] font-bold text-gray-500">0/550</span>
           </div>
         </div>
@@ -222,7 +222,10 @@
         const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
         document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
 
+        // CARGA PÚBLICA DEL "SOBRE MÍ" PARA CUALQUIER VISITANTE
         await cargarSobreMi(uuidAsesorReal);
+        
+        // VERIFICACIÓN ESTRICTA DE DUEÑO PARA EL BOTÓN DE EDICIÓN
         await verificarSiEsDuenoSeguro(uuidAsesorReal);
 
         document.getElementById('contentAgente').classList.remove('hidden');
@@ -251,17 +254,13 @@
           document.getElementById('agenciaAgente').textContent = "Agente Independiente";
           if (perfilData.foto_perfil) document.getElementById('fotoAgentePerfil').src = perfilData.foto_perfil;
           
-          if (perfilData.sobre_mi) {
-            document.getElementById('txtSobreMi').textContent = perfilData.sobre_mi;
-            document.getElementById('containerSobreMi').classList.remove('hidden');
-          }
-          
           const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
           if (telefonoAsesorGlobal) {
             document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}`;
             document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
           }
           
+          await cargarSobreMi(uuidAsesorReal);
           await verificarSiEsDuenoSeguro(uuidAsesorReal);
         }
         document.getElementById('contentAgente').classList.remove('hidden');
@@ -286,23 +285,32 @@
           document.getElementById('containerSobreMi').classList.remove('hidden');
           document.getElementById('inputSobreMiModal').value = data.sobre_mi;
           actualizarContadorCaracteres(document.getElementById('inputSobreMiModal'));
+        } else {
+          document.getElementById('containerSobreMi').classList.add('hidden');
         }
       } catch (e) {
         console.error("No se pudo cargar el campo sobre_mi:", e);
+        document.getElementById('containerSobreMi').classList.add('hidden');
       }
     }
 
     async function verificarSiEsDuenoSeguro(uuidPerfilMostrado) {
       try {
         const { data: { session } } = await dbClient.auth.getSession();
-        if (!session || !session.user) return;
+        if (!session || !session.user) {
+          document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
+          return;
+        }
 
         const userIdLogueado = session.user.id;
         if (userIdLogueado === uuidPerfilMostrado) {
           document.getElementById('containerBtnEditarPerfil').classList.remove('hidden');
+        } else {
+          document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
         }
       } catch (e) {
         console.error("Error en validación de sesión segura:", e);
+        document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
       }
     }
 
@@ -325,7 +333,6 @@
         return alert("La presentación no puede superar los 550 caracteres.");
       }
 
-      // SANITIZACIÓN CRÍTICA: Limpia cualquier intento de inyección HTML/Script
       const nuevoTexto = escaparHTML(textoBruto);
 
       try {
@@ -349,6 +356,7 @@
           document.getElementById('txtSobreMi').textContent = nuevoTexto;
           document.getElementById('containerSobreMi').classList.remove('hidden');
         } else {
+          document.getElementById('txtSobreMi').textContent = '';
           document.getElementById('containerSobreMi').classList.add('hidden');
         }
 
