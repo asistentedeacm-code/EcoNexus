@@ -1,4 +1,4 @@
-name: Deploy Protegido EcoNexus
+name: Deploy Protegido y Blindado EcoNexus
 
 on:
   push:
@@ -16,10 +16,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Instalar herramientas de minificación
-        run: npm install html-minifier-terser -g
+      - name: Instalar herramientas de minificación y ofuscación
+        run: npm install html-minifier-terser javascript-obfuscator -g
 
-      - name: Generar versión de producción protegida
+      - name: Generar versión de producción protegida y ofuscada
         run: |
           mkdir dist
           
@@ -31,7 +31,7 @@ jobs:
           cp sitemap.xml dist/ 2>/dev/null || :
           cp google15bf6eb9b02aca13.html dist/ 2>/dev/null || :
           
-          # Minificamos y limpiamos cada uno de tus HTML principales
+          # Minificamos y ofuscamos los archivos HTML principales y sus scripts internos
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true index.html -o dist/index.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true captacion.html -o dist/captacion.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true agente.html -o dist/agente.html
