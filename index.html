@@ -162,7 +162,6 @@
       </div>
     </div>
   </header>
-
   <!-- BOTÓN DE ACCESO AL MAPA (FUERA DEL STICKY, QUEDA ARRIBA AL DESLIZAR PARA NO RESTAR ESPACIO) -->
   <div class="bg-econexus-dark/95 border-b border-green-900/60 py-2.5 px-4 text-center shadow-sm">
     <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-5 py-2 rounded-xl text-xs font-bold transition inline-flex items-center shadow cursor-pointer">
@@ -269,9 +268,9 @@
           0 propiedades ubicadas
         </span>
       </div>
-      <!-- CONTENEDOR DEL MAPA Y PANEL DE LEYENDA DE ZONAS -->
-      <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
-        <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200"></div>
+      <!-- CONTENEDOR DEL MAPA Y PANEL DE LEYENDA DE ZONAS (RESPONSIVE MÓVIL Y DESKTOP) -->
+      <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-y-auto md:overflow-hidden relative">
+        <div id="contenedorMapaLeaflet" class="md:col-span-2 h-[350px] md:h-full w-full z-10 bg-gray-200 shrink-0"></div>
         
         <!-- PANEL LATERAL CON LEYENDA DE ZONAS DETECTADAS Y PAGINACIÓN 10 EN 10 -->
         <div class="p-4 bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto space-y-3 flex flex-col justify-between">
@@ -311,6 +310,18 @@
     let mapaFichaModal = null;
     let listaGlobalInmueblesMapa = [];
     let limiteZonasMostradas = 10; // Paginación de 10 en 10 para la leyenda
+
+    // BASE DE DATOS DE BONDADES POR ZONA/SECTOR
+    const BONDADES_ZONAS = {
+      "trigal": "Excelente acceso a la autopista, cercanía a centros comerciales tradicionales, vigilancia privada, alta revalorización y suministro constante de servicios básicos.",
+      "viñedo": "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, clínicas, hoteles y centros corporativos cercanos.",
+      "naguanagua": "Zona universitaria y residencial por excelencia, clima fresco de montaña, cercanía a centros comerciales de gran escala y amplias avenidas.",
+      "san diego": "Municipio residencial caracterizado por un alto nivel de orden urbano, parques naturales, excelentes servicios públicos y ambiente seguro para familias.",
+      "guataparo": "Zona residencial exclusiva, alto estándar de seguridad, cercanía al club de golf, vista al lago y acabados de lujo.",
+      "mañongo": "Excelente conectividad vial, desarrollo de torres modernas, centros comerciales de vanguardia y gran demanda de alquiler profesional.",
+      "chacao": "Eje financiero y cultural de Caracas, máxima seguridad urbana, transporte integrado y altísima liquidez inmobiliaria.",
+      "maracaibo": "Eje comercial petrolero y empresarial, avenidas amplias, zona de alta actividad económica e infraestructura médica de primer nivel."
+    };
 
     // COORDENADAS BASE REALES POR DEFECTO (CENTRO DE VENEZUELA)
     const COORDS_DEFAULT = [6.4238, -66.5897];
@@ -575,12 +586,21 @@
       }
     }
 
+    // OBTENCIÓN DE BONDADES SEGÚN UBICACIÓN
+    function obtenerBondadesSegunUbicacion(ubicacionTexto) {
+      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
+      const texto = ubicacionTexto.toLowerCase();
+      for (const [clave, descripcion] of Object.entries(BONDADES_ZONAS)) {
+        if (texto.includes(clave)) return descripcion;
+      }
+      return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, conectividad con áreas comerciales y excelente oportunidad de inversión.`;
+    }
+
     // OBTENCIÓN DE COORDENADAS REALES DESDE LA BASE DE DATOS O DERIVADAS
     function obtenerCoordenadasExactas(p) {
       if (p.lat && p.lng) {
         return [parseFloat(p.lat), parseFloat(p.lng)];
       }
-      // Derivación determinista basada en el texto exacto cargado por el cliente (sin filtros ni mock arbitrario)
       let hash = 0;
       const str = p.ubicacion || "Venezuela";
       for (let i = 0; i < str.length; i++) {
@@ -599,6 +619,7 @@
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
       const coordsFicha = obtenerCoordenadasExactas(p);
+      const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
       
       const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
       const renderFotoAsesorHTML = fotoAsesor 
@@ -647,13 +668,22 @@
             <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
             <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
           </div>
-          <!-- UBICACIÓN EXACTA SEGÚN CARGA DEL CLIENTE -->
-          <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl">
-            <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-2">
-              <i class="fa-solid fa-location-dot text-base text-econexus-accent"></i>
-              <span>Ubicación Exacta Registrada</span>
+          <!-- UBICACIÓN EXACTA Y LEYENDA DE BONDADES DE LA ZONA -->
+          <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl space-y-3">
+            <div>
+              <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-1">
+                <i class="fa-solid fa-location-dot text-base text-econexus-accent"></i>
+                <span>Ubicación Exacta Registrada</span>
+              </div>
+              <p class="text-xs text-gray-700 leading-relaxed font-semibold">${p.ubicacion}</p>
             </div>
-            <p class="text-xs text-gray-700 leading-relaxed font-semibold">${p.ubicacion}</p>
+            <div class="border-t border-emerald-200/60 pt-3">
+              <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-1">
+                <i class="fa-solid fa-tree-city text-base text-econexus-accent"></i>
+                <span>Bondades y Ventajas del Sector</span>
+              </div>
+              <p class="text-xs text-gray-700 leading-relaxed">${bondadesSector}</p>
+            </div>
           </div>
           <!-- MAPA DE UBICACIÓN -->
           <div class="mb-6">
@@ -708,7 +738,7 @@
     // 7. FUNCIONES DEL MAPA GLOBAL Y LEYENDA DE ZONAS (PAGINACIÓN 10 EN 10)
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
-      limiteZonasMostradas = 10; // Reiniciar paginación al abrir
+      limiteZonasMostradas = 10;
       
       setTimeout(async () => {
         if (!mapaGlobal) {
@@ -719,6 +749,7 @@
           }).addTo(mapaGlobal);
           capaMarcadores = L.layerGroup().addTo(mapaGlobal);
         }
+        mapaGlobal.invalidateSize(); // Asegura que Leaflet renderice bien en móviles al abrir el modal
         await cargarInmueblesYGenerarMapa();
       }, 300);
     }
@@ -783,7 +814,6 @@
     function generarLeyendaZonas(lista) {
       const panel = document.getElementById("panelDetalleZona");
       
-      // Agrupar propiedades por su ubicación exacta cargada
       const conteoZonas = {};
       lista.forEach(p => {
         const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar";
@@ -810,7 +840,7 @@
           <span class="text-[10px] uppercase font-bold text-econexus block">Leyenda de Zonas Detectadas</span>
           <p class="text-[11px] text-gray-600">Total de sectores activos: <strong>${totalZonas}</strong></p>
         </div>
-        <div class="space-y-2 overflow-y-auto max-h-[60vh] pr-1">
+        <div class="space-y-2 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">
       `;
 
       zonasVisibles.forEach(([zona, cantidad]) => {
@@ -826,7 +856,7 @@
 
       if (limiteZonasMostradas < totalZonas) {
         html += `
-          <button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-econexus text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1">
+          <button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-econexus text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1 cursor-pointer">
             <i class="fa-solid fa-plus"></i> Cargar más zonas (10 en 10)
           </button>
         `;
