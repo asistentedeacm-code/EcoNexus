@@ -255,9 +255,9 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <!-- BOTÓN PARA ACOPLAR/DESACOPLAR LEYENDA EN MÓVIL -->
-          <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-econexus-accent text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer">
-            <i id="iconoToggleLeyenda" class="fa-solid fa-list"></i> <span id="txtBtnToggleLeyenda">Ver Zonas</span>
+          <!-- BOTÓN PARA DESPLEGAR/CERRAR LEYENDA EN MÓVIL CON ESTILO CLARO -->
+          <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-amber-500 hover:bg-amber-600 text-gray-900 px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow cursor-pointer">
+            <i id="iconoToggleLeyenda" class="fa-solid fa-list"></i> <span id="txtBtnToggleLeyenda">Zonas</span>
           </button>
           <button onclick="cerrarModalMapaGlobal()" class="text-gray-300 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
             <i class="fa-solid fa-xmark text-lg"></i>
@@ -278,12 +278,14 @@
       <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
         <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
         
-        <!-- PANEL LATERAL CON LEYENDA DE ZONAS DETECTADAS Y PAGINACIÓN 10 EN 10 (ABIERTO POR DEFECTO, ACOPLABLE) -->
-        <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-12 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto space-y-3 flex flex-col justify-between z-20 transition-all duration-300 transform translate-y-0">
+        <!-- PANEL LATERAL CON LEYENDA DE ZONAS DETECTADAS Y PAGINACIÓN 10 EN 10 (ABIERTO POR DEFECTO, CON BOTÓN X DE CIERRE) -->
+        <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-12 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto space-y-3 flex flex-col justify-between z-20 transition-all duration-300 transform translate-y-0 shadow-2xl md:shadow-none">
           <div class="p-4 space-y-3 flex-grow overflow-y-auto">
-            <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2">
-              <span class="font-bold text-xs text-econexus uppercase">Leyenda de Zonas</span>
-              <button onclick="togglePanelLeyendaMovil()" class="text-gray-500 hover:text-gray-800 text-xs font-bold"><i class="fa-solid fa-xmark text-sm"></i> Cerrar Panel</button>
+            <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2 mb-2">
+              <span class="font-bold text-xs text-econexus uppercase flex items-center gap-1"><i class="fa-solid fa-list-check"></i> Leyenda de Zonas</span>
+              <button onclick="togglePanelLeyendaMovil()" class="text-gray-500 hover:text-red-600 bg-gray-100 hover:bg-red-50 rounded-full w-7 h-7 flex items-center justify-center font-bold transition text-xs cursor-pointer">
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
             </div>
             <div id="panelDetalleZona" class="space-y-3">
               <div class="text-center py-8 text-gray-400">
@@ -324,19 +326,19 @@
     let limiteZonasMostradas = 10; // Paginación de 10 en 10 para la leyenda
     let leyendaAbiertaMovil = true; // Por defecto abierto
 
-    // BASE DE DATOS AMPLIADA Y PRECISA DE BONDADES Y COORDENADAS POR SECTOR/MUNICIPIO EN VENEZUELA
+    // BASE DE DATOS AMPLIADA Y ENRIQUECIDA DE BONDADES, COLEGIOS, COMERCIOS Y COORDENADAS POR SECTOR EN VENEZUELA
     const REFERENCIAS_GEOGRAFICAS = {
-      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, centros comerciales tradicionales, colegios de prestigio, clínicas, vigilancia privada y suministro constante." },
-      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica y comercial de alto nivel en Valencia, cercanía a hoteles, centros corporativos, clínicas y colegios exclusivos." },
-      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Zona universitaria, clima fresco de montaña, cercanía a centros comerciales de gran escala, supermercados y amplias avenidas." },
-      "san diego": { coords: [10.23151, -67.95412], bondades: "Municipio residencial con alto orden urbano, parques naturales, colegios, centros comerciales, excelentes servicios públicos y ambiente familiar." },
-      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona residencial exclusiva, alto estándar de seguridad, cercanía al club de golf, áreas verdes y acabados residenciales de lujo." },
-      "mañongo": { coords: [10.24121, -68.00512], bondades: "Excelente conectividad vial, desarrollo de torres modernas, centros comerciales de vanguardia y gran demanda de servicios profesionales." },
-      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal del estado Carabobo, alta actividad económica, transporte integrado y servicios médicos." },
-      "carabobo": { coords: [10.18000, -68.00000], bondades: "Estado industrial y estratégico con amplia conectividad vial, centros educativos, comercios e infraestructura consolidada." },
-      "chacao": { coords: [10.49121, -66.85212], bondades: "Eje financiero y cultural de Caracas, máxima seguridad urbana, centros comerciales, estaciones de metro y altísima liquidez." },
-      "caracas": { coords: [10.48059, -66.90360], bondades: "Distrito Capital, centro político y financiero del país, amplia red de transporte, comercios, colegios y servicios médicos." },
-      "maracaibo": { coords: [10.64270, -71.61250], bondades: "Eje comercial petrolero y empresarial del Zulia, avenidas principales, centros comerciales e infraestructura médica de primer nivel." }
+      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, cercanía a centros comerciales tradicionales (C.C. Trigal), colegios de prestigio, clínicas, farmacias, vigilancia privada y suministro constante de servicios." },
+      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, cercanía a hoteles, centros corporativos, clínicas exclusivas y colegios." },
+      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Zona universitaria y residencial, clima fresco de montaña, cercanía a centros comerciales de gran escala (Sambil), supermercados, farmacias y amplias avenidas." },
+      "san diego": { coords: [10.23151, -67.95412], bondades: "Municipio residencial con alto orden urbano, parques naturales, colegios, centros comerciales (San Diego), excelentes servicios públicos y ambiente seguro para familias." },
+      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona residencial exclusiva, alto estándar de seguridad, cercanía al club de golf, áreas verdes, vistas panorámicas y acabados residenciales de lujo." },
+      "mañongo": { coords: [10.24121, -68.00512], bondades: "Excelente conectividad vial, desarrollo de torres modernas, centros comerciales de vanguardia, restaurantes y gran demanda de servicios profesionales." },
+      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal del estado Carabobo, alta actividad económica, transporte integrado, centros educativos y servicios médicos." },
+      "carabobo": { coords: [10.18000, -68.00000], bondades: "Estado industrial y estratégico con amplia conectividad vial, centros educativos, comercios, clínicas y completa infraestructura consolidada." },
+      "chacao": { coords: [10.49121, -66.85212], bondades: "Eje financiero y cultural de Caracas, máxima seguridad urbana, centros comerciales, estaciones de metro, colegios y altísima liquidez inmobiliaria." },
+      "caracas": { coords: [10.48059, -66.90360], bondades: "Distrito Capital, centro político y financiero del país, amplia red de transporte subterráneo, comercios, colegios de alto nivel y servicios médicos." },
+      "maracaibo": { coords: [10.64270, -71.61250], bondades: "Eje comercial petrolero y empresarial del Zulia, avenidas principales, centros comerciales, farmacias y centros de salud de primer nivel." }
     };
 
     // COORDENADA BASE POR DEFECTO (CENTRO DE VENEZUELA)
@@ -602,13 +604,13 @@
       }
     }
 
-    // OBTENCIÓN DE BONDADES PRECISAS CON COLEGIOS, COMERCIOS Y SERVICIOS
+    // OBTENCIÓN DE BONDADES ENRIQUECIDAS CON COLEGIOS, COMERCIOS Y SERVICIOS
     function obtenerBondadesSegunUbicacion(ubicacionTexto) {
       if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios, farmacias, colegios y servicios locales esenciales.";
       const texto = ubicacionTexto.toLowerCase();
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
         if (texto.includes(clave)) {
-          return `${datos.bondades} Ubicación estratégica cercana a centros comerciales, comercios y colegios de la zona.`;
+          return `${datos.bondades} Conectividad óptima y cercanía a comercios y puntos clave de la zona.`;
         }
       }
       return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, colegios, comercios locales y conectividad urbana.`;
@@ -622,7 +624,6 @@
       const textoUbi = (p.ubicacion || "").toLowerCase();
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
         if (textoUbi.includes(clave)) {
-          // Pequeño desplazamiento determinista para separar puntos múltiples en la misma zona exacta
           let hash = 0;
           for (let i = 0; i < (p.codigo_eco || "").length; i++) {
             hash = p.codigo_eco.charCodeAt(i) + ((hash << 5) - hash);
@@ -632,7 +633,6 @@
           return [datos.coords[0] + latOffset, datos.coords[1] + lngOffset];
         }
       }
-      // Coordenada por defecto si no coincide con ninguna clave conocida
       return COORDS_DEFAULT;
     }
 
@@ -693,7 +693,7 @@
             <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
             <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
           </div>
-          <!-- UBICACIÓN EXACTA Y LEYENDA DE BONDADES PRECISAS -->
+          <!-- UBICACIÓN EXACTA Y LEYENDA DE BONDADES ENRIQUECIDAS -->
           <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl space-y-3">
             <div>
               <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-1">
@@ -760,7 +760,7 @@
       document.getElementById("propModal").classList.add("hidden");
     }
 
-    // 7. FUNCIONES DEL MAPA GLOBAL, LEYENDA Y ACOPLE MÓVIL
+    // 7. FUNCIONES DEL MAPA GLOBAL, LEYENDA Y MENÚ DESPLEGABLE CON BOTÓN CERRAR (X)
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
       limiteZonasMostradas = 10;
@@ -785,7 +785,7 @@
       document.getElementById("mapaGlobalModal").classList.add("hidden");
     }
 
-    // CONTROL DE VISIBILIDAD DEL PANEL DE LEYENDA EN MÓVIL
+    // CONTROL DE VISIBILIDAD DEL PANEL DE LEYENDA EN MÓVIL (DESPLEGABLE CON X)
     function togglePanelLeyendaMovil() {
       leyendaAbiertaMovil = !leyendaAbiertaMovil;
       actualizarEstadoPanelLeyendaMovil();
@@ -799,12 +799,12 @@
       if (leyendaAbiertaMovil) {
         panel.classList.remove("translate-y-full", "opacity-0", "pointer-events-none");
         panel.classList.add("translate-y-0", "opacity-100");
-        txtBtn.textContent = "Ver Mapa";
-        icono.className = "fa-solid fa-map";
+        txtBtn.textContent = "Cerrar Zonas";
+        icono.className = "fa-solid fa-xmark";
       } else {
         panel.classList.add("translate-y-full", "opacity-0", "pointer-events-none");
         panel.classList.remove("translate-y-0", "opacity-100");
-        txtBtn.textContent = "Ver Zonas";
+        txtBtn.textContent = "Zonas";
         icono.className = "fa-solid fa-list";
         if (mapaGlobal) mapaGlobal.invalidateSize();
       }
@@ -924,7 +924,6 @@
 
     function filtrarZonaDesdeLeyenda(nombreZona) {
       document.getElementById("inputBuscarZonaMapa").value = nombreZona;
-      // En móvil, al hacer clic en una zona, acoplamos la leyenda para ver el mapa directamente
       if (window.innerWidth < 768) {
         leyendaAbiertaMovil = false;
         actualizarEstadoPanelLeyendaMovil();
