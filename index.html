@@ -29,7 +29,6 @@
   <meta name="twitter:description" content="Catálogo e inventario de inmuebles en venta y alquiler en toda Venezuela." />
   <meta name="twitter:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
   <meta name="theme-color" content="#1E3F20" />
-
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- SDK de Supabase -->
@@ -40,7 +39,6 @@
   <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-
   <script>
     tailwind.config = {
       theme: {
@@ -52,7 +50,6 @@
       }
     }
   </script>
-
   <!-- DATOS ESTRUCTURADOS -->
   <script type="application/ld+json">
   {
@@ -79,7 +76,6 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
-
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
@@ -103,7 +99,6 @@
       </div>
     </div>
   </div>
-
   <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
@@ -127,7 +122,6 @@
       </div>
     </div>
   </div>
-
   <!-- HEADER / NAVBAR -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -139,9 +133,6 @@
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center shadow cursor-pointer">
-          <i class="fa-solid fa-map-location-dot text-sm mr-1.5"></i> Ver Mapa & Zonas
-        </button>
         <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.', '_blank')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition flex items-center shadow cursor-pointer">
           <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publicalo
         </button>
@@ -153,6 +144,13 @@
       <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1">
         ⚖️ Términos de Uso & Condiciones, Exoneración de Responsabilidad Legal
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
+      </button>
+    </div>
+
+    <!-- BOTÓN DE ACCESO AL MAPA REUBICADO ELEGANTEMENTE DEBAJO DE LA BARRA LEGAL -->
+    <div class="bg-econexus-dark/95 border-t border-green-900/60 py-2 px-4 text-center">
+      <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold transition inline-flex items-center shadow cursor-pointer">
+        <i class="fa-solid fa-map-location-dot text-sm mr-2"></i> Explorar Mapa & Zonas Inteligentes
       </button>
     </div>
     
@@ -228,7 +226,6 @@
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
       </button>
     </div>
-
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
@@ -245,7 +242,6 @@
       <div id="modalContent"></div>
     </div>
   </div>
-
   <!-- MODAL DE MAPA INTERACTIVO GLOBAL Y BUSCADOR INTELIGENTE DE ZONAS -->
   <div id="mapaGlobalModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
     <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
@@ -256,25 +252,23 @@
           <i class="fa-solid fa-map-location-dot text-amber-400 text-xl"></i>
           <div>
             <h3 class="font-bold text-base leading-tight">Mapa de Presencia Real EcoNexus</h3>
-            <p class="text-[11px] text-green-200">Buscador Inteligente de Zonas & Bondades del Sector</p>
+            <p class="text-[11px] text-green-200">Buscador Inteligente de Zonas, Títulos, Descripciones y Fichas</p>
           </div>
         </div>
         <button onclick="cerrarModalMapaGlobal()" class="text-gray-300 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition">
           <i class="fa-solid fa-xmark text-lg"></i>
         </button>
       </div>
-
       <!-- BUSCADOR INTELIGENTE DE ZONAS DENTRO DEL MAPA -->
       <div class="p-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Escribe una urbanización o sector (ej: Trigal, Naguanagua, San Diego, Chacao)..." class="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
+          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Busca por urbanización, descripción, calle secundaria, código (ej: Trigal, ECO-101)..." class="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
         </div>
         <span id="lblMarcadoresCount" class="text-xs bg-econexus-soft text-econexus font-bold px-3 py-2 rounded-xl border border-green-200 flex items-center justify-center whitespace-nowrap">
           0 propiedades ubicadas
         </span>
       </div>
-
       <!-- CONTENEDOR DEL MAPA Y PANEL DE BONDADES -->
       <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
         <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200"></div>
@@ -284,21 +278,19 @@
           <div id="panelDetalleZona" class="space-y-3">
             <div class="text-center py-8 text-gray-400">
               <i class="fa-solid fa-compass text-4xl mb-2 text-econexus-light"></i>
-              <p class="text-xs font-semibold">Selecciona un marcador en el mapa o busca un sector para explorar las bondades de la zona y los inmuebles disponibles.</p>
+              <p class="text-xs font-semibold">Selecciona un marcador en el mapa o busca un sector/referencia para explorar las bondades de la zona y los inmuebles disponibles.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-xs text-green-300 mb-2">EcoNexus Real Estate Platform</p>
       <p class="text-xs text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
-
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -312,12 +304,10 @@
     let propiedadesCargadas = [];
     let waUrlPendiente = '';
     let debounceTimer = null;
-
     // VARIABLES DE MAPA LEAFLET
     let mapaGlobal = null;
     let capaMarcadores = null;
     let mapaFichaModal = null;
-
     // BASE DE DATOS DE BONDADES POR ZONA/SECTOR (VALENCIA, NAGUANAGUA, SAN DIEGO, CARACAS, ZULIA, ETC.)
     const BONDADES_ZONAS = {
       "trigal": "Excelente acceso a la autopista, cercanía a centros comerciales tradicionales, vigilancia privada, alta revalorización y suministro constante de servicios básicos.",
@@ -329,7 +319,6 @@
       "chacao": "Eje financiero y cultural de Caracas, máxima seguridad urbana, transporte integrado y altísima liquidez inmobiliaria.",
       "maracaibo": "Eje comercial petrolero y empresarial, avenidas amplias, zona de alta actividad económica e infraestructura médica de primer nivel."
     };
-
     // COORDENADAS DE REFERENCIA APROXIMADAS POR ZONAS (PRESERVA PRIVACIDAD OMITIENDO DIRECCIÓN EXACTA)
     const COORDENADAS_REFERENCIA = {
       "valencia": [10.16202, -68.00765],
@@ -343,13 +332,11 @@
       "chacao": [10.49121, -66.85212],
       "maracaibo": [10.64270, -71.61250]
     };
-
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
     });
-
     // 1. CONSULTA DE CONTADOR TOTAL DIRECTO A SUPABASE
     async function obtenerTotalContadorSupabase() {
       try {
@@ -364,7 +351,6 @@
         console.error("Error consultando contador en Supabase:", e);
       }
     }
-
     // 2. DETECCIÓN DE PARÁMETROS EN LA URL
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
@@ -376,7 +362,7 @@
         try {
           const { data, error } = await dbClient
             .from('v_propiedades_catalogo')
-            .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
+            .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion, foto_asesor')
             .eq('codigo_eco', codigoLimpio)
             .single();
           if (data && !error) {
@@ -395,7 +381,6 @@
         aplicarFiltros();
       }
     }
-
     // 3. CARGA DE PROPIEDADES DIRECTO DESDE SUPABASE
     async function cargarPropiedades(reset = false) {
       if (reset) {
@@ -418,9 +403,8 @@
         
         let query = dbClient
           .from('v_propiedades_catalogo')
-          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
+          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion, foto_asesor')
           .eq('estatus', 'Disponible');
-
         if (operacion && operacion !== "TODOS") {
           query = query.eq('operacion', operacion);
         }
@@ -431,7 +415,7 @@
           query = query.lte('precio', precioMax);
         }
         if (texto) {
-          query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
+          query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%,descripcion.ilike.%${texto}%`);
         } else if (agenciaParam) {
           query = query.ilike('nombre_agencia', `%${agenciaParam.trim()}%`);
         }
@@ -440,7 +424,6 @@
           .order('vip_activo', { ascending: false })
           .order('fecha_publicacion', { ascending: false, nullsFirst: false })
           .range(pageOffset, pageOffset + PAGE_SIZE - 1);
-
         const { data, error } = await query;
         if (error) throw error;
         const nuevosInmuebles = data || [];
@@ -456,7 +439,6 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
-
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -467,7 +449,6 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
-
     // 4. RENDERIZACIÓN DE TARJETAS
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
@@ -498,7 +479,6 @@
         const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
         const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
         const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-
         const cardHTML = `
           <div class="bg-white rounded-2xl overflow-hidden border ${esVip ? 'border-amber-400 ring-2 ring-amber-400/20 shadow-amber-100' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
             <div class="relative h-56 overflow-hidden group">
@@ -548,7 +528,6 @@
         grid.innerHTML += cardHTML;
       });
     }
-
     // 5. MANEJO DE FILTROS
     function aplicarFiltros() {
       cargarPropiedades(true);
@@ -569,7 +548,6 @@
       }
       cargarPropiedades(true);
     }
-
     // 6. MANEJO DE MODALES
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
@@ -600,14 +578,12 @@
       }
       cerrarModalWhatsApp();
     }
-
     function abrirModal(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (p) {
         abrirModalDirecto(p);
       }
     }
-
     function obtenerBondadesSegunUbicacion(ubicacionTexto) {
       if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
       const texto = ubicacionTexto.toLowerCase();
@@ -616,7 +592,6 @@
       }
       return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, conectividad con áreas comerciales y excelente oportunidad de inversión.`;
     }
-
     function obtenerCoordenadasAproximadas(ubicacionTexto) {
       if (!ubicacionTexto) return COORDENADAS_REFERENCIA["valencia"];
       const texto = ubicacionTexto.toLowerCase();
@@ -625,7 +600,6 @@
       }
       return COORDENADAS_REFERENCIA["valencia"];
     }
-
     function abrirModalDirecto(p) {
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
@@ -633,9 +607,14 @@
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-
       const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
       const coordsFicha = obtenerCoordenadasAproximadas(p.ubicacion);
+      
+      // FOTO INTELIGENTE DEL ASESOR / PERFIL SI ESTÁ CONFIGURADA (FALLBACK POR DEFECTO SI NO LA TIENE)
+      const fotoAsesor = p.foto_asesor || p.avatar_url || '';
+      const renderFotoAsesorHTML = fotoAsesor 
+        ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-12 h-12 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
+        : `<div class="w-12 h-12 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-base border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
 
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
@@ -657,7 +636,6 @@
               *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
             </p>
           </div>
-
           <div class="space-y-3 mb-6">
             <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
@@ -670,19 +648,16 @@
               </div>
             ` : ''}
           </div>
-
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-green-100 text-center">
             <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
             <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
             <div><span class="block text-gray-500 text-xs">Estacionamiento</span><strong class="text-gray-900 text-lg">${p.estacionamientos}</strong></div>
             <div><span class="block text-gray-500 text-xs">Construcción</span><strong class="text-gray-900 text-lg">${p.metros} m²</strong></div>
           </div>
-
           <div class="mb-6">
             <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
             <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
           </div>
-
           <!-- BLOQUE DE BONDADES DE LA ZONA SELECCIONADA -->
           <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl">
             <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-2">
@@ -691,7 +666,6 @@
             </div>
             <p class="text-xs text-gray-700 leading-relaxed">${bondadesSector}</p>
           </div>
-
           <!-- MAPA REFERENCIAL DE LA ZONA (COSTO CERO) -->
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
@@ -702,15 +676,17 @@
             </div>
             <div id="mapaModalInmueble" class="h-48 w-full rounded-2xl border border-gray-200 overflow-hidden bg-gray-100"></div>
           </div>
-
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 border-b border-gray-200 pb-4">
-              <div>
-                <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor Responsable</span>
-                <strong class="text-gray-800 text-base block">${nombreAsesor}</strong>
-                <span class="text-xs text-econexus font-medium inline-flex items-center gap-1 mt-0.5">
-                  <i class="fa-solid fa-building-user"></i> ${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}
-                </span>
+              <div class="flex items-center space-x-3">
+                ${renderFotoAsesorHTML}
+                <div>
+                  <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor Responsable</span>
+                  <strong class="text-gray-800 text-base block">${nombreAsesor}</strong>
+                  <span class="text-xs text-econexus font-medium inline-flex items-center gap-1 mt-0.5">
+                    <i class="fa-solid fa-building-user"></i> ${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}
+                  </span>
+                </div>
               </div>
               <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${mensajeWA}')" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center shadow w-full sm:w-auto cursor-pointer">
                 <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar por WhatsApp
@@ -723,7 +699,6 @@
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
-
       // RENDERIZAR MINI MAPA REFERENCIAL DE LA ZONA
       setTimeout(() => {
         if (mapaFichaModal) {
@@ -734,7 +709,6 @@
           maxZoom: 18,
           attribution: '© OpenStreetMap'
         }).addTo(mapaFichaModal);
-
         // CIRCULO PERIMETRAL DE ZONA (PROTEGE LA DIRECCIÓN EXACTA)
         L.circle(coordsFicha, {
           color: '#1E3F20',
@@ -744,12 +718,10 @@
         }).addTo(mapaFichaModal);
       }, 300);
     }
-
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
-
-    // 7. FUNCIONES DEL MAPA GLOBAL Y BUSCADOR INTELIGENTE DE ZONAS
+    // 7. FUNCIONES DEL MAPA GLOBAL Y BÚSQUEDA INTELIGENTE EXTENDIDA
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
       
@@ -765,38 +737,38 @@
         await renderizarMarcadoresMapaGlobal();
       }, 300);
     }
-
     function cerrarModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.add("hidden");
     }
-
-    async function renderizarMarcadoresMapaGlobal(filtroZona = "") {
+    async function renderizarMarcadoresMapaGlobal(filtroQuery = "") {
       if (!capaMarcadores) return;
       capaMarcadores.clearLayers();
-
       // CONSULTAR TODOS LOS INMUEBLES REALES DE SUPABASE
       const { data: listaPropiedades, error } = await dbClient
         .from('v_propiedades_catalogo')
         .select('*')
         .eq('estatus', 'Disponible');
-
       if (error || !listaPropiedades) return;
-
+      
       let filtradas = listaPropiedades;
-      if (filtroZona.trim() !== "") {
-        const queryLimpia = filtroZona.toLowerCase().trim();
-        filtradas = listaPropiedades.filter(p => p.ubicacion && p.ubicacion.toLowerCase().includes(queryLimpia));
+      if (filtroQuery.trim() !== "") {
+        const queryLimpia = filtroQuery.toLowerCase().trim();
+        // BÚSQUEDA INTELIGENTE EXTENDIDA: Escanea ubicación, título, descripción y código de ficha en tiempo real
+        filtradas = listaPropiedades.filter(p => {
+          const ubi = p.ubicacion ? p.ubicacion.toLowerCase() : '';
+          const tit = p.titulo ? p.titulo.toLowerCase() : '';
+          const desc = p.descripcion ? p.descripcion.toLowerCase() : '';
+          const cod = p.codigo_eco ? p.codigo_eco.toLowerCase() : '';
+          return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || desc.includes(queryLimpia) || cod.includes(queryLimpia);
+        });
       }
-
       document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} propiedad(es) ubicadas`;
-
       filtradas.forEach(p => {
         const coords = obtenerCoordenadasAproximadas(p.ubicacion);
         
         // VARIACIÓN ALEATORIA LEVE PARA EVITAR SUPERPOSICIÓN DE PUNTOS
         const lat = coords[0] + (Math.random() - 0.5) * 0.008;
         const lng = coords[1] + (Math.random() - 0.5) * 0.008;
-
         const popupHTML = `
           <div class="p-2 text-xs font-sans max-w-[200px]">
             <strong class="text-econexus text-xs block mb-1">${p.titulo}</strong>
@@ -805,44 +777,38 @@
             <button onclick="abrirModalDirectoDesdeMapa('${p.id}')" class="mt-2 w-full bg-econexus text-white text-[11px] font-bold py-1 rounded transition">Ver Ficha</button>
           </div>
         `;
-
         const marker = L.marker([lat, lng]).bindPopup(popupHTML);
         capaMarcadores.addLayer(marker);
       });
-
-      if (filtradas.length > 0 && filtroZona.trim() !== "") {
+      if (filtradas.length > 0 && filtroQuery.trim() !== "") {
         const primeraCoords = obtenerCoordenadasAproximadas(filtradas[0].ubicacion);
         mapaGlobal.setView(primeraCoords, 14);
         actualizarPanelBondadesZona(filtradas[0].ubicacion, filtradas.length);
       }
     }
-
     function buscarZonaEnMapa(query) {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         renderizarMarcadoresMapaGlobal(query);
       }, 350);
     }
-
     function actualizarPanelBondadesZona(nombreZona, totalInmuebles) {
       const bondad = obtenerBondadesSegunUbicacion(nombreZona);
       const panel = document.getElementById("panelDetalleZona");
       
       panel.innerHTML = `
         <div class="bg-econexus-soft border border-green-200 p-3 rounded-xl">
-          <span class="text-[10px] uppercase font-bold text-econexus block">Zona Seleccionada</span>
+          <span class="text-[10px] uppercase font-bold text-econexus block">Zona o Coincidencia Seleccionada</span>
           <h4 class="font-extrabold text-gray-900 text-sm mb-1">${nombreZona}</h4>
-          <span class="inline-block bg-green-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">${totalInmuebles} Inmuebles Disponibles</span>
+          <span class="inline-block bg-green-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">${totalInmuebles} Inmuebles Relacionados</span>
           <p class="text-xs text-gray-700 leading-relaxed mt-1">${bondad}</p>
         </div>
       `;
     }
-
     function abrirModalDirectoDesdeMapa(id) {
       cerrarModalMapaGlobal();
       abrirModal(id);
     }
-
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
