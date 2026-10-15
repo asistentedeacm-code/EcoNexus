@@ -146,7 +146,6 @@
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
     </div>
-
     <!-- BOTÓN DE ACCESO AL MAPA REUBICADO ELEGANTEMENTE DEBAJO DE LA BARRA LEGAL -->
     <div class="bg-econexus-dark/95 border-t border-green-900/60 py-2 px-4 text-center">
       <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-4 py-2 rounded-xl text-xs font-bold transition inline-flex items-center shadow cursor-pointer">
@@ -308,7 +307,7 @@
     let mapaGlobal = null;
     let capaMarcadores = null;
     let mapaFichaModal = null;
-    // BASE DE DATOS DE BONDADES POR ZONA/SECTOR (VALENCIA, NAGUANAGUA, SAN DIEGO, CARACAS, ZULIA, ETC.)
+    // BASE DE DATOS DE BONDADES POR ZONA/SECTOR
     const BONDADES_ZONAS = {
       "trigal": "Excelente acceso a la autopista, cercanía a centros comerciales tradicionales, vigilancia privada, alta revalorización y suministro constante de servicios básicos.",
       "viñedo": "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, clínicas, hoteles y centros corporativos cercanos.",
@@ -319,7 +318,7 @@
       "chacao": "Eje financiero y cultural de Caracas, máxima seguridad urbana, transporte integrado y altísima liquidez inmobiliaria.",
       "maracaibo": "Eje comercial petrolero y empresarial, avenidas amplias, zona de alta actividad económica e infraestructura médica de primer nivel."
     };
-    // COORDENADAS DE REFERENCIA APROXIMADAS POR ZONAS (PRESERVA PRIVACIDAD OMITIENDO DIRECCIÓN EXACTA)
+    // COORDENADAS DE REFERENCIA APROXIMADAS POR ZONAS
     const COORDENADAS_REFERENCIA = {
       "valencia": [10.16202, -68.00765],
       "trigal": [10.20311, -68.00142],
@@ -362,7 +361,7 @@
         try {
           const { data, error } = await dbClient
             .from('v_propiedades_catalogo')
-            .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion, foto_asesor')
+            .select('*')
             .eq('codigo_eco', codigoLimpio)
             .single();
           if (data && !error) {
@@ -403,7 +402,7 @@
         
         let query = dbClient
           .from('v_propiedades_catalogo')
-          .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion, foto_asesor')
+          .select('*')
           .eq('estatus', 'Disponible');
         if (operacion && operacion !== "TODOS") {
           query = query.eq('operacion', operacion);
@@ -610,8 +609,8 @@
       const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
       const coordsFicha = obtenerCoordenadasAproximadas(p.ubicacion);
       
-      // FOTO INTELIGENTE DEL ASESOR / PERFIL SI ESTÁ CONFIGURADA (FALLBACK POR DEFECTO SI NO LA TIENE)
-      const fotoAsesor = p.foto_asesor || p.avatar_url || '';
+      // FOTO INTELIGENTE DEL ASESOR LEYENDO 'foto_perfil' / 'foto_asesor' DE LA TABLA PERFILES
+      const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
       const renderFotoAsesorHTML = fotoAsesor 
         ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-12 h-12 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
         : `<div class="w-12 h-12 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-base border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
