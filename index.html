@@ -9,16 +9,13 @@
   <meta name="description" content="Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional." />
   <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus" />
   <meta name="author" content="EcoNexus Real Estate" />
-
   <!-- Control de Rastreo e Indexación -->
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
   <link rel="canonical" href="https://asistentedeacm-code.github.io/EcoNexus/" />
-
   <!-- Geotagging y SEO Local/Nacional (Venezuela) -->
   <meta name="geo.region" content="VE" />
   <meta name="geo.placename" content="Venezuela" />
-
-  <!-- Open Graph (Vistas previas en WhatsApp, Facebook y Redes Sociales) -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
   <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
@@ -26,19 +23,24 @@
   <meta property="og:site_name" content="EcoNexus" />
   <meta property="og:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
   <meta property="og:locale" content="es_VE" />
-
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
   <meta name="twitter:description" content="Catálogo e inventario de inmuebles en venta y alquiler en toda Venezuela." />
   <meta name="twitter:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
-
   <meta name="theme-color" content="#1E3F20" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -50,9 +52,8 @@
       }
     }
   </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- DATOS ESTRUCTURADOS (Schema.org / JSON-LD) -->
+  <!-- DATOS ESTRUCTURADOS -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -78,6 +79,7 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
@@ -101,6 +103,7 @@
       </div>
     </div>
   </div>
+
   <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
@@ -124,6 +127,7 @@
       </div>
     </div>
   </div>
+
   <!-- HEADER / NAVBAR -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -134,10 +138,16 @@
           <span class="block text-xs text-green-200 tracking-wider font-light">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.', '_blank')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center shadow cursor-pointer">
-        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publicalo
-      </button>
+      <div class="flex items-center gap-2">
+        <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-3 py-2 rounded-lg text-xs font-bold transition flex items-center shadow cursor-pointer">
+          <i class="fa-solid fa-map-location-dot text-sm mr-1.5"></i> Ver Mapa & Zonas
+        </button>
+        <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.', '_blank')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition flex items-center shadow cursor-pointer">
+          <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publicalo
+        </button>
+      </div>
     </div>
+    
     <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
     <div class="bg-econexus-dark border-t border-green-900 py-1.5 px-4 text-center">
       <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1">
@@ -145,6 +155,7 @@
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
     </div>
+    
     <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN -->
     <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
       <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
@@ -153,10 +164,10 @@
       
       <div class="legal-text-body space-y-3 text-xs text-green-100 leading-relaxed">
         <p><strong class="text-white">1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
-        <p><strong class="text-white">2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
-        <p><strong class="text-white">3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes. La verificación legal y financiera del inmueble y de los contratantes es responsabilidad exclusiva e ineludible de las partes involucradas en la negociación.</p>
-        <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, en estricto apego a la Ley Especial contra los Delitos Informáticos de la República Bolivariana de Venezuela e instrumentos de ciberseguridad internacional, la plataforma queda absolutamente exonerada de toda responsabilidad civil, penal o administrativa ante vulneraciones de ciberseguridad, ataques DDoSs, accesos no autorizados, hackeos, infecciones por malware, suplantación de identidad (phishing), clonación de la interfaz o del proyecto, así como por la interceptación indebida de comunicaciones.</p>
-        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos, ofertas fraudulentas, permisos de propietarios inexistentes, ni por la clonación o uso no autorizado de fotografías, vídeos o datos técnicos por parte de terceros o agentes anunciantes. Toda responsabilidad penal derivada de estafas (Arts. 462 y ss. del Código Penal) o delitos cibernéticos recaerá directa e individualmente sobre la persona natural o jurídica que emitió la publicación.</p>
+        <p><strong class="text-white">2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes.</p>
+        <p><strong class="text-white">3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes.</p>
+        <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, la plataforma queda absolutamente exonerada de toda responsabilidad ante vulneraciones de ciberseguridad, ataques DDoSs o accesos no autorizados.</p>
+        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos o permisos inexistentes. Toda responsabilidad penal recaerá directa e individualmente sobre el anunciante.</p>
       </div>
     </div>
   </header>
@@ -187,7 +198,7 @@
             <input type="text" id="filterText" oninput="aplicarFiltrosDebounced()" placeholder="Ej: Valencia, ECO-101..." class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">    Precio Máximo ($)</label>
+            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Precio Máximo ($)</label>
             <input type="number" id="filterPrecio" oninput="aplicarFiltrosDebounced()" placeholder="Ej: 100000" class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
           </div>
         </div>
@@ -211,12 +222,13 @@
     
     <div id="propsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></div>
     
-    <!-- BOTÓN PAGINACIÓN (CARGAR MÁS) -->
+    <!-- BOTÓN PAGINACIÓN -->
     <div id="loadMoreContainer" class="text-center mt-10 hidden">
       <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-8 py-3 rounded-xl transition shadow-md inline-flex items-center">
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
       </button>
     </div>
+
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
@@ -233,14 +245,60 @@
       <div id="modalContent"></div>
     </div>
   </div>
- 
+
+  <!-- MODAL DE MAPA INTERACTIVO GLOBAL Y BUSCADOR INTELIGENTE DE ZONAS -->
+  <div id="mapaGlobalModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
+    <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
+      
+      <!-- HEADER MAPA -->
+      <div class="bg-econexus text-white p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-map-location-dot text-amber-400 text-xl"></i>
+          <div>
+            <h3 class="font-bold text-base leading-tight">Mapa de Presencia Real EcoNexus</h3>
+            <p class="text-[11px] text-green-200">Buscador Inteligente de Zonas & Bondades del Sector</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalMapaGlobal()" class="text-gray-300 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- BUSCADOR INTELIGENTE DE ZONAS DENTRO DEL MAPA -->
+      <div class="p-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Escribe una urbanización o sector (ej: Trigal, Naguanagua, San Diego, Chacao)..." class="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
+        </div>
+        <span id="lblMarcadoresCount" class="text-xs bg-econexus-soft text-econexus font-bold px-3 py-2 rounded-xl border border-green-200 flex items-center justify-center whitespace-nowrap">
+          0 propiedades ubicadas
+        </span>
+      </div>
+
+      <!-- CONTENEDOR DEL MAPA Y PANEL DE BONDADES -->
+      <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
+        <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200"></div>
+        
+        <!-- PANEL LATERAL DE BONDADES Y DETALLES DE LA ZONA SELECCIONADA -->
+        <div class="p-4 bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto space-y-3">
+          <div id="panelDetalleZona" class="space-y-3">
+            <div class="text-center py-8 text-gray-400">
+              <i class="fa-solid fa-compass text-4xl mb-2 text-econexus-light"></i>
+              <p class="text-xs font-semibold">Selecciona un marcador en el mapa o busca un sector para explorar las bondades de la zona y los inmuebles disponibles.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-xs text-green-300 mb-2">EcoNexus Real Estate Platform</p>
       <p class="text-xs text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
- 
+
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -254,12 +312,45 @@
     let propiedadesCargadas = [];
     let waUrlPendiente = '';
     let debounceTimer = null;
+
+    // VARIABLES DE MAPA LEAFLET
+    let mapaGlobal = null;
+    let capaMarcadores = null;
+    let mapaFichaModal = null;
+
+    // BASE DE DATOS DE BONDADES POR ZONA/SECTOR (VALENCIA, NAGUANAGUA, SAN DIEGO, CARACAS, ZULIA, ETC.)
+    const BONDADES_ZONAS = {
+      "trigal": "Excelente acceso a la autopista, cercanía a centros comerciales tradicionales, vigilancia privada, alta revalorización y suministro constante de servicios básicos.",
+      "viñedo": "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, clínicas, hoteles y centros corporativos cercanos.",
+      "naguanagua": "Zona universitaria y residencial por excelencia, clima fresco de montaña, cercanía a centros comerciales de gran escala y amplias avenidas.",
+      "san diego": "Municipio residencial caracterizado por un alto nivel de orden urbano, parques naturales, excelentes servicios públicos y ambiente seguro para familias.",
+      "guataparo": "Zona residencial exclusiva, alto estándar de seguridad, cercanía al club de golf, vista al lago y acabados de lujo.",
+      "mañongo": "Excelente conectividad vial, desarrollo de torres modernas, centros comerciales de vanguardia y gran demanda de alquiler profesional.",
+      "chacao": "Eje financiero y cultural de Caracas, máxima seguridad urbana, transporte integrado y altísima liquidez inmobiliaria.",
+      "maracaibo": "Eje comercial petrolero y empresarial, avenidas amplias, zona de alta actividad económica e infraestructura médica de primer nivel."
+    };
+
+    // COORDENADAS DE REFERENCIA APROXIMADAS POR ZONAS (PRESERVA PRIVACIDAD OMITIENDO DIRECCIÓN EXACTA)
+    const COORDENADAS_REFERENCIA = {
+      "valencia": [10.16202, -68.00765],
+      "trigal": [10.20311, -68.00142],
+      "viñedo": [10.21852, -68.00621],
+      "naguanagua": [10.25412, -68.01123],
+      "san diego": [10.23151, -67.95412],
+      "mañongo": [10.24121, -68.00512],
+      "guataparo": [10.21151, -68.03123],
+      "caracas": [10.48059, -66.90360],
+      "chacao": [10.49121, -66.85212],
+      "maracaibo": [10.64270, -71.61250]
+    };
+
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
     });
-    // 1. CONSULTA DE CONTADOR TOTAL DIRECTO A SUPABASE (HEAD: TRUE - 0 BYTES DE PAYLOAD)
+
+    // 1. CONSULTA DE CONTADOR TOTAL DIRECTO A SUPABASE
     async function obtenerTotalContadorSupabase() {
       try {
         const { count, error } = await dbClient
@@ -273,7 +364,8 @@
         console.error("Error consultando contador en Supabase:", e);
       }
     }
-    // 2. DETECCIÓN DE PARÁMETROS EN LA URL (CÓDIGO, ASESOR Y AGENCIA)
+
+    // 2. DETECCIÓN DE PARÁMETROS EN LA URL
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
@@ -303,6 +395,7 @@
         aplicarFiltros();
       }
     }
+
     // 3. CARGA DE PROPIEDADES DIRECTO DESDE SUPABASE
     async function cargarPropiedades(reset = false) {
       if (reset) {
@@ -322,12 +415,12 @@
         
         const urlParams = new URLSearchParams(window.location.search);
         const agenciaParam = urlParams.get('agencia');
-        // Consulta sobre la Vista Dinámica v_propiedades_catalogo
+        
         let query = dbClient
           .from('v_propiedades_catalogo')
           .select('id, titulo, precio, operacion, tipo, ubicacion, fotos, codigo_eco, destacado, vip_activo, habitaciones, banos, estacionamientos, metros, telefono_asesor, nombre_asesor, tipo_asesor, nombre_agencia, descripcion')
           .eq('estatus', 'Disponible');
-        // Filtros en servidor (Supabase)
+
         if (operacion && operacion !== "TODOS") {
           query = query.eq('operacion', operacion);
         }
@@ -342,11 +435,12 @@
         } else if (agenciaParam) {
           query = query.ilike('nombre_agencia', `%${agenciaParam.trim()}%`);
         }
-        // Ordenamiento: Primero VIP Activos, luego fecha de publicación más reciente
+        
         query = query
           .order('vip_activo', { ascending: false })
           .order('fecha_publicacion', { ascending: false, nullsFirst: false })
           .range(pageOffset, pageOffset + PAGE_SIZE - 1);
+
         const { data, error } = await query;
         if (error) throw error;
         const nuevosInmuebles = data || [];
@@ -362,6 +456,7 @@
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
     }
+
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -372,7 +467,8 @@
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
-    // 4. RENDERIZACIÓN DE TARJETAS CON RECONOCIMIENTO VIP
+
+    // 4. RENDERIZACIÓN DE TARJETAS
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const noRes = document.getElementById("noResults");
@@ -395,13 +491,14 @@
         const fotoPrincipal = (p.fotos && p.fotos.length > 0) 
           ? p.fotos[0] 
           : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-        // Evaluación de Estatus VIP Vigente
+        
         const esVip = p.vip_activo === true;
         const waNumber = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
         const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
         const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
         const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
         const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+
         const cardHTML = `
           <div class="bg-white rounded-2xl overflow-hidden border ${esVip ? 'border-amber-400 ring-2 ring-amber-400/20 shadow-amber-100' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
             <div class="relative h-56 overflow-hidden group">
@@ -451,7 +548,8 @@
         grid.innerHTML += cardHTML;
       });
     }
-    // 5. MANEJO DE FILTROS Y DEBOUNCE
+
+    // 5. MANEJO DE FILTROS
     function aplicarFiltros() {
       cargarPropiedades(true);
     }
@@ -471,6 +569,7 @@
       }
       cargarPropiedades(true);
     }
+
     // 6. MANEJO DE MODALES
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
@@ -501,12 +600,32 @@
       }
       cerrarModalWhatsApp();
     }
+
     function abrirModal(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (p) {
         abrirModalDirecto(p);
       }
     }
+
+    function obtenerBondadesSegunUbicacion(ubicacionTexto) {
+      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
+      const texto = ubicacionTexto.toLowerCase();
+      for (const [clave, descripcion] of Object.entries(BONDADES_ZONAS)) {
+        if (texto.includes(clave)) return descripcion;
+      }
+      return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, conectividad con áreas comerciales y excelente oportunidad de inversión.`;
+    }
+
+    function obtenerCoordenadasAproximadas(ubicacionTexto) {
+      if (!ubicacionTexto) return COORDENADAS_REFERENCIA["valencia"];
+      const texto = ubicacionTexto.toLowerCase();
+      for (const [clave, coords] of Object.entries(COORDENADAS_REFERENCIA)) {
+        if (texto.includes(clave)) return coords;
+      }
+      return COORDENADAS_REFERENCIA["valencia"];
+    }
+
     function abrirModalDirecto(p) {
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
@@ -514,6 +633,10 @@
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+
+      const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
+      const coordsFicha = obtenerCoordenadasAproximadas(p.ubicacion);
+
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-6 md:p-8">
@@ -534,6 +657,7 @@
               *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
             </p>
           </div>
+
           <div class="space-y-3 mb-6">
             <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
@@ -546,17 +670,39 @@
               </div>
             ` : ''}
           </div>
+
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-green-100 text-center">
             <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
             <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
             <div><span class="block text-gray-500 text-xs">Estacionamiento</span><strong class="text-gray-900 text-lg">${p.estacionamientos}</strong></div>
             <div><span class="block text-gray-500 text-xs">Construcción</span><strong class="text-gray-900 text-lg">${p.metros} m²</strong></div>
           </div>
-          <div class="mb-8">
+
+          <div class="mb-6">
             <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
             <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
           </div>
-          
+
+          <!-- BLOQUE DE BONDADES DE LA ZONA SELECCIONADA -->
+          <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl">
+            <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-2">
+              <i class="fa-solid fa-tree-city text-base text-econexus-accent"></i>
+              <span>Bondades y Ventajas del Sector (${p.ubicacion})</span>
+            </div>
+            <p class="text-xs text-gray-700 leading-relaxed">${bondadesSector}</p>
+          </div>
+
+          <!-- MAPA REFERENCIAL DE LA ZONA (COSTO CERO) -->
+          <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+              <h3 class="font-bold text-gray-900 text-sm flex items-center">
+                <i class="fa-solid fa-map-pin text-econexus mr-1.5"></i> Referencia de Zona (Ubicación General)
+              </h3>
+              <span class="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded font-medium">Protección de Dirección Exacta</span>
+            </div>
+            <div id="mapaModalInmueble" class="h-48 w-full rounded-2xl border border-gray-200 overflow-hidden bg-gray-100"></div>
+          </div>
+
           <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
             <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 border-b border-gray-200 pb-4">
               <div>
@@ -571,16 +717,132 @@
               </button>
             </div>
             <p class="text-[11px] text-gray-500 leading-relaxed">
-              <i class="fa-solid fa-circle-info text-econexus mr-1"></i> EcoNexus opera exclusivamente como vitrina inmobiliaria multiagente independiente. Contacto directo sin intermediación de la plataforma.
+              <i class="fa-solid fa-circle-info text-econexus mr-1"></i> EcoNexus opera exclusivamente como vitrina inmobiliaria multiagente independiente.
             </p>
           </div>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
+
+      // RENDERIZAR MINI MAPA REFERENCIAL DE LA ZONA
+      setTimeout(() => {
+        if (mapaFichaModal) {
+          mapaFichaModal.remove();
+        }
+        mapaFichaModal = L.map('mapaModalInmueble').setView(coordsFicha, 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          attribution: '© OpenStreetMap'
+        }).addTo(mapaFichaModal);
+
+        // CIRCULO PERIMETRAL DE ZONA (PROTEGE LA DIRECCIÓN EXACTA)
+        L.circle(coordsFicha, {
+          color: '#1E3F20',
+          fillColor: '#388E3C',
+          fillOpacity: 0.25,
+          radius: 600
+        }).addTo(mapaFichaModal);
+      }, 300);
     }
+
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
+
+    // 7. FUNCIONES DEL MAPA GLOBAL Y BUSCADOR INTELIGENTE DE ZONAS
+    async function abrirModalMapaGlobal() {
+      document.getElementById("mapaGlobalModal").classList.remove("hidden");
+      
+      setTimeout(async () => {
+        if (!mapaGlobal) {
+          mapaGlobal = L.map('contenedorMapaLeaflet').setView([10.20311, -68.00142], 12);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap'
+          }).addTo(mapaGlobal);
+          capaMarcadores = L.layerGroup().addTo(mapaGlobal);
+        }
+        await renderizarMarcadoresMapaGlobal();
+      }, 300);
+    }
+
+    function cerrarModalMapaGlobal() {
+      document.getElementById("mapaGlobalModal").classList.add("hidden");
+    }
+
+    async function renderizarMarcadoresMapaGlobal(filtroZona = "") {
+      if (!capaMarcadores) return;
+      capaMarcadores.clearLayers();
+
+      // CONSULTAR TODOS LOS INMUEBLES REALES DE SUPABASE
+      const { data: listaPropiedades, error } = await dbClient
+        .from('v_propiedades_catalogo')
+        .select('*')
+        .eq('estatus', 'Disponible');
+
+      if (error || !listaPropiedades) return;
+
+      let filtradas = listaPropiedades;
+      if (filtroZona.trim() !== "") {
+        const queryLimpia = filtroZona.toLowerCase().trim();
+        filtradas = listaPropiedades.filter(p => p.ubicacion && p.ubicacion.toLowerCase().includes(queryLimpia));
+      }
+
+      document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} propiedad(es) ubicadas`;
+
+      filtradas.forEach(p => {
+        const coords = obtenerCoordenadasAproximadas(p.ubicacion);
+        
+        // VARIACIÓN ALEATORIA LEVE PARA EVITAR SUPERPOSICIÓN DE PUNTOS
+        const lat = coords[0] + (Math.random() - 0.5) * 0.008;
+        const lng = coords[1] + (Math.random() - 0.5) * 0.008;
+
+        const popupHTML = `
+          <div class="p-2 text-xs font-sans max-w-[200px]">
+            <strong class="text-econexus text-xs block mb-1">${p.titulo}</strong>
+            <span class="bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${Number(p.precio).toLocaleString('en-US')}
+            <p class="text-[10px] text-gray-500 mt-1">📍 ${p.ubicacion}</p>
+            <button onclick="abrirModalDirectoDesdeMapa('${p.id}')" class="mt-2 w-full bg-econexus text-white text-[11px] font-bold py-1 rounded transition">Ver Ficha</button>
+          </div>
+        `;
+
+        const marker = L.marker([lat, lng]).bindPopup(popupHTML);
+        capaMarcadores.addLayer(marker);
+      });
+
+      if (filtradas.length > 0 && filtroZona.trim() !== "") {
+        const primeraCoords = obtenerCoordenadasAproximadas(filtradas[0].ubicacion);
+        mapaGlobal.setView(primeraCoords, 14);
+        actualizarPanelBondadesZona(filtradas[0].ubicacion, filtradas.length);
+      }
+    }
+
+    function buscarZonaEnMapa(query) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        renderizarMarcadoresMapaGlobal(query);
+      }, 350);
+    }
+
+    function actualizarPanelBondadesZona(nombreZona, totalInmuebles) {
+      const bondad = obtenerBondadesSegunUbicacion(nombreZona);
+      const panel = document.getElementById("panelDetalleZona");
+      
+      panel.innerHTML = `
+        <div class="bg-econexus-soft border border-green-200 p-3 rounded-xl">
+          <span class="text-[10px] uppercase font-bold text-econexus block">Zona Seleccionada</span>
+          <h4 class="font-extrabold text-gray-900 text-sm mb-1">${nombreZona}</h4>
+          <span class="inline-block bg-green-800 text-white text-[10px] font-bold px-2 py-0.5 rounded-full mb-2">${totalInmuebles} Inmuebles Disponibles</span>
+          <p class="text-xs text-gray-700 leading-relaxed mt-1">${bondad}</p>
+        </div>
+      `;
+    }
+
+    function abrirModalDirectoDesdeMapa(id) {
+      cerrarModalMapaGlobal();
+      abrirModal(id);
+    }
+
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
