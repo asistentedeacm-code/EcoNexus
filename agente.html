@@ -35,6 +35,7 @@
       <span class="text-[11px] bg-green-900/60 text-green-200 px-3 py-1 rounded-full border border-green-700 font-medium">Realtor business card</span>
     </div>
   </header>
+
   <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
   <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
     
@@ -47,6 +48,7 @@
           <i class="fa-solid fa-pen-to-square"></i> Editar Presentación
         </button>
       </div>
+
       <!-- INDICADOR DE CARGA -->
       <div id="loadingAgente" class="py-10">
         <i class="fa-solid fa-circle-notch fa-spin text-3xl text-econexus mb-2"></i>
@@ -57,8 +59,12 @@
       <div id="contentAgente" class="hidden">
         <div class="flex flex-col items-center">
           
-          <!-- Foto de Perfil del Asesor -->
-          <img id="fotoAgentePerfil" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Asesor Inmobiliario" class="w-24 h-24 rounded-full object-cover border-4 border-econexus-soft shadow-md mb-3" />
+          <!-- Foto de Perfil del Asesor con Fallback Robusto -->
+          <img id="fotoAgentePerfil" 
+               src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
+               alt="Asesor Inmobiliario" 
+               onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png';"
+               class="w-24 h-24 rounded-full object-cover border-4 border-econexus-soft shadow-md mb-3" />
           
           <!-- Badge de Tipo de Agente -->
           <span id="badgeTipoAgente" class="inline-block text-[11px] font-bold text-econexus bg-econexus-soft px-3 py-1 rounded-full mb-1 border border-green-100">
@@ -68,9 +74,10 @@
           <!-- Nombre y Agencia -->
           <h1 id="nombreAgente" class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-0.5"></h1>
           <p id="agenciaAgente" class="text-xs text-gray-500 mb-3 font-medium"></p>
+
           <!-- SOBRE MÍ / PRESENTACIÓN CORTA (VISIBLE PÚBLICAMENTE PARA CUALQUIER VISITANTE SI EXISTE) -->
           <div id="containerSobreMi" class="hidden max-w-lg mx-auto mb-5 px-4">
-            <p id="txtSobreMi" class="text-xs md:text-sm text-gray-600 italic bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed"></p>
+            <p id="txtSobreMi" class="text-xs md:text-sm text-gray-600 italic bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed whitespace-pre-line"></p>
           </div>
           
           <!-- Botones de Acción Principal -->
@@ -83,6 +90,7 @@
               <i class="fa-solid fa-list-check"></i> Ver mi inventario completo
             </a>
           </div>
+
           <!-- MÓDULO PASIVO DE CAPTACIÓN -->
           <div class="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-300 w-full max-w-lg text-left flex items-center justify-between gap-3">
             <div>
@@ -96,6 +104,7 @@
         </div>
       </div>
     </div>
+
     <!-- SECCIÓN DE INMUEBLES DESTACADOS DEL AGENTE -->
     <div class="mb-6 flex justify-between items-center">
       <h2 class="text-lg font-bold text-gray-900 flex items-center">
@@ -103,6 +112,7 @@
       </h2>
       <span id="inmueblesCount" class="text-xs text-gray-500 bg-gray-200 px-2.5 py-1 rounded-full font-semibold">0 Propiedades</span>
     </div>
+
     <!-- GRILLA DE TARJETAS -->
     <div id="gridInmueblesAgente" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     
@@ -112,6 +122,7 @@
       <p class="text-sm font-semibold text-gray-600">Este asesor no tiene propiedades disponibles en este momento.</p>
     </div>
   </main>
+
   <!-- MODAL INTELIGENTE DE EDICIÓN DE PRESENTACIÓN -->
   <div id="modalEditarPerfil" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200">
@@ -135,10 +146,12 @@
       </div>
     </div>
   </div>
+
   <!-- FOOTER -->
   <footer class="bg-econexus-dark text-white py-6 border-t border-green-900 mt-auto text-center text-xs text-gray-400">
     <p>© 2026 EcoNexus Real Estate Platform • Red Inmobiliaria Inteligente</p>
   </footer>
+
   <!-- SCRIPT LÓGICA DE CONSULTA, SEGURIDAD Y EDICIÓN DESDE SUPABASE -->
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
@@ -149,17 +162,6 @@
     let uuidAsesorReal = null;
     let telefonoAsesorGlobal = '';
     let nombreAsesorGlobal = '';
-
-    // Función de sanitización para convertir caracteres a texto plano puro e impedir XSS
-    function escaparHTML(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
 
     document.addEventListener("DOMContentLoaded", async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -178,7 +180,9 @@
           .select('*')
           .eq('estatus', 'Disponible');
         
-        if (/^\d+$/.test(param)) {
+        const esTelefono = /^\+?\d+$/.test(param.replace(/[\s-]/g, ''));
+        
+        if (esTelefono) {
           query = query.eq('telefono_asesor', param);
         } else {
           query = query.eq('user_id', param);
@@ -201,10 +205,10 @@
         const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
         const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Agente Independiente";
         
-        // CORRECCIÓN INTEGRADA: Lectura segura de la foto del asesor (vía alias de vista 'foto_asesor' o respaldo directo)
-        const fotoFinalAsesor = primerInmueble.foto_asesor || primerInmueble.foto_perfil;
-        if (fotoFinalAsesor) {
-          document.getElementById('fotoAgentePerfil').src = fotoFinalAsesor;
+        // Asignación segura de foto inicial desde catálogo
+        const fotoInicial = primerInmueble.foto_asesor || primerInmueble.foto_perfil;
+        if (fotoInicial && fotoInicial.trim() !== '') {
+          document.getElementById('fotoAgentePerfil').src = fotoInicial;
         }
         
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
@@ -212,19 +216,20 @@
         document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
         document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
         
+        const telSanitizado = telefonoAsesorGlobal.replace(/\D/g, '');
         const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu tarjeta digital en EcoNexus y quisiera consultar tu inventario.`);
-        document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjWA}`;
-        document.getElementById('btnVerInventarioWeb').href = `index.html?asesor=${telefonoAsesorGlobal}`;
+        document.getElementById('btnWhatsApp').href = `https://wa.me/${telSanitizado}?text=${msjWA}`;
+        document.getElementById('btnVerInventarioWeb').href = `index.html?asesor=${encodeURIComponent(telefonoAsesorGlobal)}`;
         
         const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
-        document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
+        document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telSanitizado}?text=${msjConsignar}`;
 
-        // CARGA PÚBLICA DE DATOS ADICIONALES (FOTO Y SOBRE MÍ) DIRECTAMENTE DESDE LA TABLA PERFILES
+        // Carga pública de datos de perfil (foto definitiva y sobre_mi) desde la tabla 'perfiles'
         await cargarDatosPerfilExtra(uuidAsesorReal);
         
-        // VERIFICACIÓN ESTRICTA DE DUEÑO PARA EL BOTÓN DE EDICIÓN
+        // Verificación estricta de propietario de la sesión
         await verificarSiEsDuenoSeguro(uuidAsesorReal);
-
+        
         document.getElementById('contentAgente').classList.remove('hidden');
         renderGridAgente(data);
       } catch (err) {
@@ -235,12 +240,14 @@
     async function cargarPerfilSinPropiedades(param) {
       try {
         let queryPerfil = dbClient.from('perfiles').select('*');
-        if (/^\d+$/.test(param)) {
+        const esTelefono = /^\+?\d+$/.test(param.replace(/[\s-]/g, ''));
+        
+        if (esTelefono) {
           queryPerfil = queryPerfil.eq('telefono', param);
         } else {
           queryPerfil = queryPerfil.eq('id', param);
         }
-        const { data: perfilData } = await queryPerfil.single();
+        const { data: perfilData } = await queryPerfil.maybeSingle();
         
         if (perfilData) {
           uuidAsesorReal = perfilData.id;
@@ -250,14 +257,18 @@
           document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
           document.getElementById('agenciaAgente').textContent = "Agente Independiente";
           
-          if (perfilData.foto_perfil) {
+          if (perfilData.foto_perfil && perfilData.foto_perfil.trim() !== '') {
             document.getElementById('fotoAgentePerfil').src = perfilData.foto_perfil;
           }
           
+          const telSanitizado = telefonoAsesorGlobal.replace(/\D/g, '');
+          const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu tarjeta digital en EcoNexus.`);
           const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
+          
           if (telefonoAsesorGlobal) {
-            document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}`;
-            document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
+            document.getElementById('btnWhatsApp').href = `https://wa.me/${telSanitizado}?text=${msjWA}`;
+            document.getElementById('btnVerInventarioWeb').href = `index.html?asesor=${encodeURIComponent(telefonoAsesorGlobal)}`;
+            document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telSanitizado}?text=${msjConsignar}`;
           }
           
           await cargarDatosPerfilExtra(uuidAsesorReal);
@@ -272,42 +283,51 @@
       }
     }
 
-    // FUNCIÓN DE REFUERZO PARA SINCRONIZAR FOTO Y SOBRE MÍ DESDE LA TABLA PERFILES
+    // Sincroniza directamente la foto actualizada y el texto 'sobre_mi' de la tabla perfiles
     async function cargarDatosPerfilExtra(userId) {
+      if (!userId) return;
       try {
         const { data, error } = await dbClient
           .from('perfiles')
           .select('foto_perfil, sobre_mi')
           .eq('id', userId)
-          .single();
+          .maybeSingle();
         
         if (data) {
-          if (data.foto_perfil) {
+          if (data.foto_perfil && data.foto_perfil.trim() !== '') {
             document.getElementById('fotoAgentePerfil').src = data.foto_perfil;
           }
-          if (data.sobre_mi) {
+          if (data.sobre_mi && data.sobre_mi.trim() !== '') {
             document.getElementById('txtSobreMi').textContent = data.sobre_mi;
             document.getElementById('containerSobreMi').classList.remove('hidden');
-            document.getElementById('inputSobreMiModal').value = data.sobre_mi;
-            actualizarContadorCaracteres(document.getElementById('inputSobreMiModal'));
+            const inputModal = document.getElementById('inputSobreMiModal');
+            if (inputModal) {
+              inputModal.value = data.sobre_mi;
+              actualizarContadorCaracteres(inputModal);
+            }
           } else {
             document.getElementById('containerSobreMi').classList.add('hidden');
+            const inputModal = document.getElementById('inputSobreMiModal');
+            if (inputModal) inputModal.value = '';
           }
         }
       } catch (e) {
-        console.error("No se pudieron cargar los datos extra del perfil:", e);
+        console.error("Error al sincronizar datos adicionales del perfil:", e);
       }
     }
 
     async function verificarSiEsDuenoSeguro(uuidPerfilMostrado) {
+      if (!uuidPerfilMostrado) {
+        document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
+        return;
+      }
       try {
         const { data: { session } } = await dbClient.auth.getSession();
         if (!session || !session.user) {
           document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
           return;
         }
-        const userIdLogueado = session.user.id;
-        if (userIdLogueado === uuidPerfilMostrado) {
+        if (session.user.id === uuidPerfilMostrado) {
           document.getElementById('containerBtnEditarPerfil').classList.remove('hidden');
         } else {
           document.getElementById('containerBtnEditarPerfil').classList.add('hidden');
@@ -336,7 +356,7 @@
       if (textoBruto.length > 550) {
         return alert("La presentación no puede superar los 550 caracteres.");
       }
-      const nuevoTexto = escaparHTML(textoBruto);
+
       try {
         const { data: { session } } = await dbClient.auth.getSession();
         if (!session || !session.user) {
@@ -345,18 +365,23 @@
         if (session.user.id !== uuidAsesorReal) {
           return alert("Acción denegada. No tienes privilegios para modificar este perfil.");
         }
+
+        // Se actualiza la cadena de texto plano directo a Supabase
         const { error } = await dbClient
           .from('perfiles')
-          .update({ sobre_mi: nuevoTexto })
+          .update({ sobre_mi: textoBruto })
           .eq('id', session.user.id);
+
         if (error) throw error;
-        if (nuevoTexto) {
-          document.getElementById('txtSobreMi').textContent = nuevoTexto;
+
+        if (textoBruto) {
+          document.getElementById('txtSobreMi').textContent = textoBruto;
           document.getElementById('containerSobreMi').classList.remove('hidden');
         } else {
           document.getElementById('txtSobreMi').textContent = '';
           document.getElementById('containerSobreMi').classList.add('hidden');
         }
+
         alert("¡Presentación actualizada con éxito!");
         cerrarModalPerfil();
       } catch (err) {
