@@ -34,7 +34,6 @@ jobs:
           # Minificamos y ofuscamos los archivos HTML principales y sus scripts internos
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true index.html -o dist/index.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true captacion.html -o dist/captacion.html
-          html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true agente.html -o dist/agente.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true menu.html -o dist/menu.html
 
       - name: Desplegar a GitHub Pages
