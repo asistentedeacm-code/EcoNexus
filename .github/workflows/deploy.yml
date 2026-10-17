@@ -29,7 +29,7 @@ jobs:
           cp sw.js dist/ 2>/dev/null || :
           cp robots.txt dist/ 2>/dev/null || :
           cp sitemap.xml dist/ 2>/dev/null || :
-          cp google15bf6eb9b02aca13.html dist/ 2>/dev/null || :
+          cp google15bf6eb9b02aca13.html dist/ 2>/dev/null || : 
           
           # Minificamos y ofuscamos los archivos HTML principales y sus scripts internos
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true index.html -o dist/index.html
