@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil Profesional de Realtor | EcoNexus</title>
+  <title>Perfil Profesional de Realtor | EcoNexus.CRM</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -59,7 +59,7 @@
       <div id="contentAgente" class="hidden">
         <div class="flex flex-col items-center">
           
-          <!-- Foto de Perfil del Asesor con Fallback Robusto -->
+          <!-- Foto de Perfil del Asesor -->
           <img id="fotoAgentePerfil" 
                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
                alt="Asesor Inmobiliario" 
@@ -121,7 +121,7 @@
     </div>
   </main>
 
-  <!-- MODAL DE EDICIÓN -->
+  <!-- MODAL DE EDICIÓN DE PRESENTACIÓN -->
   <div id="modalEditarPerfil" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200">
       <div class="flex justify-between items-center mb-4 border-b pb-3">
@@ -145,6 +145,7 @@
     </div>
   </div>
 
+  <!-- FOOTER -->
   <footer class="bg-econexus-dark text-white py-6 border-t border-green-900 mt-auto text-center text-xs text-gray-400">
     <p>© 2026 EcoNexus Real Estate Platform • Red Inmobiliaria Inteligente</p>
   </footer>
@@ -171,10 +172,9 @@
 
     async function cargarPerfilYPropiedades(param) {
       try {
-        // Resolver directamente el UUID y los datos del perfil primero para garantizar la foto e identidad
-        let perfilDirecto = null;
         const esUuid = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(param);
         
+        // 1. Cargar datos directos de 'perfiles' (foto, sobre_mi, nombre, telefono)
         let queryPerfil = dbClient.from('perfiles').select('*');
         if (esUuid) {
           queryPerfil = queryPerfil.eq('id', param);
@@ -205,7 +205,7 @@
           }
         }
 
-        // Consultar propiedades del catálogo
+        // 2. Cargar catálogo de inmuebles disponibles
         let queryProp = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
         if (esUuid) {
           queryProp = queryProp.eq('user_id', uuidAsesorReal || param);
@@ -229,7 +229,6 @@
           document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
           document.getElementById('inmueblesCount').textContent = `${propData.length} Propiedad(es)`;
           
-          // Si el catálogo trae una foto actualizada, asegurarla
           const fotoCat = primerInmueble.foto_asesor || primerInmueble.foto_perfil;
           if (fotoCat && fotoCat.trim() !== '') {
             document.getElementById('fotoAgentePerfil').src = fotoCat;
@@ -241,7 +240,7 @@
           document.getElementById('inmueblesCount').textContent = `0 Propiedades`;
         }
 
-        // Enlaces de WhatsApp
+        // 3. Sanitización e inyección de botones de acción
         const telSanitizado = telefonoAsesorGlobal.replace(/\D/g, '');
         if (telSanitizado) {
           const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu tarjeta digital en EcoNexus y quisiera consultar tu inventario.`);
@@ -252,7 +251,7 @@
           document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telSanitizado}?text=${msjConsignar}`;
         }
 
-        // Sincronizar datos extra por si acaso y verificar sesión del dueño
+        // 4. Sincronización secundaria y verificación de sesión del dueño
         await cargarDatosPerfilExtra(uuidAsesorReal);
         await verificarSiEsDuenoSeguro(uuidAsesorReal);
         
@@ -276,7 +275,10 @@
         
         if (data) {
           if (data.foto_perfil && data.foto_perfil.trim() !== '') {
-            document.getElementById('fotoAgentePerfil').src = data.foto_perfil;
+            const imgElement = document.getElementById('fotoAgentePerfil');
+            if (imgElement) {
+              imgElement.src = data.foto_perfil;
+            }
           }
           if (data.sobre_mi && data.sobre_mi.trim() !== '') {
             document.getElementById('txtSobreMi').textContent = data.sobre_mi;
