@@ -2,7 +2,7 @@ name: Deploy Protegido y Blindado EcoNexus
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ] 
 
 jobs:
   build-and-deploy:
