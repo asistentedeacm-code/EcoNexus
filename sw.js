@@ -1,10 +1,10 @@
-const CACHE_NAME = 'econexus-v-dinamica';
+const CACHE_NAME = 'econexus-v-dinamica-v3';
 const urlsToCache = [
   '/EcoNexus/',
   '/EcoNexus/logo.png.png'
 ];
 
-// Instalación inicial ligera
+// Instalación inicial
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
@@ -14,38 +14,38 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activación inmediata y limpieza de versiones viejas
+// Activación inmediata y purga estricta de versiones antiguas
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          return caches.delete(cacheName); // Limpia cualquier caché anterior
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
         })
       );
     }).then(() => self.clients.claim())
   );
 });
 
-// Estrategia inteligente de peticiones
+// Estrategia Network-First para HTML y Cache-First para estáticos
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // SI ES UNA PAGINA HTML: Intentamos buscar primero en la red (GitHub)
-  // Así los cambios de código o la foto de perfil se reflejan al instante.
+  // Para navegaciones y documentos HTML: Siempre buscar directamente en la red
   if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/EcoNexus/')) {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-cache' })
         .then((response) => {
           return response;
         })
         .catch(() => {
-          // Si el usuario está totalmente sin internet, se le muestra lo que esté en caché
           return caches.match(event.request);
         })
     );
   } else {
-    // PARA IMÁGENES O RECURSOS: Usamos caché primero para velocidad
+    // Para imágenes y recursos estáticos: Usar caché primero para mayor velocidad
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
         return cachedResponse || fetch(event.request);
