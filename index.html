@@ -950,5 +950,26 @@
       grid.classList.remove("hidden");
     }
   </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/EcoNexus/sw.js').then((registration) => {
+        registration.onupdatefound = () => {
+          const installingWorker = registration.installing;
+          if (installingWorker != null) {
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  // Se detectó una nueva versión instalada: recarga para aplicar cambios inmediatos
+                  window.location.reload();
+                }
+              }
+            };
+          }
+        };
+      });
+    });
+  }
+</script>
 </body>
 </html>
