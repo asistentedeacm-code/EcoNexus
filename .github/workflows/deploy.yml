@@ -19,12 +19,13 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Instalar herramientas de minificación y ofuscación
+      - name: Instalar herramientas de minificación
         run: npm install html-minifier-terser javascript-obfuscator -g
 
       - name: Generar versión de producción protegida y ofuscada
         run: |
-          mkdir dist
+          rm -rf dist
+          mkdir -p dist
           
           # Copiamos archivos estáticos y multimedia esenciales
           cp logo.png.png dist/ 2>/dev/null || :
@@ -34,7 +35,7 @@ jobs:
           cp sitemap.xml dist/ 2>/dev/null || :
           cp google15bf6eb9b02aca13.html dist/ 2>/dev/null || : 
           
-          # Minificamos y ofuscamos los archivos HTML principales y sus scripts internos
+          # Minificamos archivos HTML hacia la carpeta dist
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true index.html -o dist/index.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true captacion.html -o dist/captacion.html
           html-minifier-terser --collapse-whitespace --remove-comments --minify-js true --minify-css true agente.html -o dist/agente.html
