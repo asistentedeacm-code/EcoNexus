@@ -1,7 +1,7 @@
 const CACHE_NAME = 'econexus-v-dinamica';
 const urlsToCache = [
   '/EcoNexus/',
-  '/EcoNexus/logo.png.png' 
+  '/EcoNexus/logo.png.png'
 ];
 
 // Instalación inicial ligera
