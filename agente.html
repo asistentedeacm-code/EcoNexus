@@ -97,7 +97,6 @@
               <i class="fa-brands fa-whatsapp text-base"></i> Contactar por WhatsApp
             </a>
             
-            <!-- AHORA HACE SCROLL HACIA ABAJO, NO REDIRECCIONA -->
             <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
               <i class="fa-solid fa-list-check"></i> Ver mi inventario
             </button>
@@ -134,6 +133,16 @@
       <p class="text-sm font-semibold text-gray-600">Este asesor no tiene propiedades disponibles en este momento.</p>
     </div>
   </main>
+
+  <!-- MODAL DE PROPIEDAD (SE ABRE DIRECTAMENTE AQUÍ) -->
+  <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+      <button onclick="cerrarModalPropiedad()" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
 
   <!-- MODAL INTELIGENTE DE EDICIÓN DE PRESENTACIÓN Y COLORES -->
   <div id="modalEditarPerfil" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
@@ -177,12 +186,12 @@
     </div>
   </div>
 
-  <!-- FOOTER TRADICIONAL VERDE (INDIFERENTE A LA PERSONALIZACIÓN) -->
-  <footer class="bg-[#142B16] text-white py-8 border-t border-[#0f2111] mt-auto text-center">
-    <div class="max-w-4xl mx-auto px-4">
-      <p class="text-xs text-green-100 font-medium mb-3">Enlace Generado a Través de EcoNexus, Red Inmobiliaria Inteligente.</p>
-      <a href="https://asistentedeacm-code.github.io/EcoNexus/menu.html" target="_blank" class="inline-block bg-white/10 hover:bg-white/20 text-white px-5 py-2 rounded-full transition text-[11px] font-bold border border-white/20 shadow-sm">
-        Obtén tu CRM Inmobiliario Aquí
+  <!-- FOOTER TRADICIONAL VERDE DISCRETO Y PROFESIONAL -->
+  <footer class="bg-[#142B16] text-white py-4 border-t border-[#0f2111] mt-auto">
+    <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
+      <p class="text-[10px] text-green-100/70 font-medium m-0">Enlace generado a través de EcoNexus, Red Inmobiliaria Inteligente.</p>
+      <a href="https://asistentedeacm-code.github.io/EcoNexus/menu.html" target="_blank" class="text-[10px] text-white/80 hover:text-white underline decoration-white/30 hover:decoration-white transition">
+        Obtén tu CRM Inmobiliario
       </a>
     </div>
   </footer>
@@ -197,6 +206,7 @@
     let uuidAsesorReal = null;
     let telefonoAsesorGlobal = '';
     let nombreAsesorGlobal = '';
+    let propiedadesCargadas = []; // Variable global para alimentar el modal
 
     function escaparHTML(str) {
       if (!str) return '';
@@ -213,7 +223,6 @@
       await cargarPerfilYPropiedades(queryParam.trim());
     });
 
-    // Función para aplicar colores CSS globalmente en esta vista
     function aplicarEstilosDinamicos(primario, secundario) {
       if(primario && secundario) {
         document.documentElement.style.setProperty('--color-primario', primario);
@@ -226,7 +235,6 @@
       document.getElementById('inputColorSecundario').value = '#388E3C';
     }
 
-    // CARGA DE DATOS EXTRA (Colores, Foto Real y Presentación desde la tabla Perfiles)
     async function cargarDatosPerfilExtra(userId) {
       if (!userId) return;
       try {
@@ -237,12 +245,10 @@
           .single();
         
         if (data) {
-          // Inyectamos la foto en el perfil y en la CABECERA
           const fotoUrlFinal = data.foto_perfil || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
           document.getElementById('fotoAgentePerfil').src = fotoUrlFinal;
           document.getElementById('headerAgentLogo').src = fotoUrlFinal;
 
-          // Inyectamos los colores
           if(data.color_primario && data.color_secundario) {
             aplicarEstilosDinamicos(data.color_primario, data.color_secundario);
             document.getElementById('inputColorPrimario').value = data.color_primario;
@@ -293,9 +299,7 @@
         const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
         const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Agente Independiente";
         
-        // Cabecera Dinámica 
         document.getElementById('headerAgentName').textContent = esAgencia ? primerInmueble.nombre_agencia : nombreAsesorGlobal;
-        
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
         document.getElementById('agenciaAgente').textContent = agenciaStr;
         document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
@@ -307,9 +311,11 @@
         const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
         document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
 
-        // Cargar Extra: Colores, Presentación y Foto Real (asegura el flujo aunque la vista SQL falle al traer foto)
         await cargarDatosPerfilExtra(uuidAsesorReal);
         await verificarSiEsDuenoSeguro(uuidAsesorReal);
+
+        // Guardamos los datos para que el modal funcione sin hacer más consultas
+        propiedadesCargadas = data;
 
         document.getElementById('contentAgente').classList.remove('hidden');
         renderGridAgente(data);
@@ -406,7 +412,6 @@
 
         if (error) throw error;
 
-        // Aplicar cambios en vivo sin recargar la página
         aplicarEstilosDinamicos(colPri, colSec);
         
         if (nuevoTexto) {
@@ -424,12 +429,75 @@
       }
     }
 
+    // LÓGICA DEL MODAL DE PROPIEDADES DIRECTO EN LA MINI WEB
+    function abrirModalPropiedad(id) {
+      const p = propiedadesCargadas.find(item => item.id === id);
+      if (!p) return;
+
+      const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
+      const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
+      const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
+      const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+      const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+      
+      const modalContent = document.getElementById("modalContent");
+      modalContent.innerHTML = `
+        <div class="p-6 md:p-8">
+          <div class="flex items-center space-x-2 text-xs font-bold text-econexus uppercase mb-2">
+            <span>${p.tipo}</span> • <span>${p.operacion}</span> • <span>ID: ${p.codigo_eco}</span>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">${p.titulo}</h2>
+          <div class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg mb-4 border border-gray-200">
+            <i class="fa-solid fa-building-user text-econexus"></i>
+            <span>${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}</span>
+          </div>
+          
+          <div class="mb-6">
+            <div class="text-3xl font-black text-econexus">
+              $${Number(p.precio).toLocaleString('en-US')}
+            </div>
+          </div>
+          <div class="space-y-3 mb-6">
+            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
+              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
+            </div>
+            ${fotosArray.length > 1 ? `
+              <div class="flex space-x-2 overflow-x-auto pb-2 snap-x">
+                ${fotosArray.map(urlFoto => `
+                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0" />
+                `).join('')}
+              </div>
+            ` : ''}
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-gray-100 text-center">
+            <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Estacionamiento</span><strong class="text-gray-900 text-lg">${p.estacionamientos}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Área</span><strong class="text-gray-900 text-lg">${p.metros} m²</strong></div>
+          </div>
+          <div class="mb-8">
+            <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
+            <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
+          </div>
+          <button onclick="window.open('https://wa.me/${whatsappAsesor}?text=${mensajeWA}', '_blank')" class="bg-[#25D366] hover:bg-[#1ebd57] text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center shadow w-full cursor-pointer">
+            <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Solicitar Información
+          </button>
+        </div>
+      `;
+      document.getElementById("propModal").classList.remove("hidden");
+    }
+
+    function cerrarModalPropiedad() {
+      document.getElementById("propModal").classList.add("hidden");
+    }
+
     function renderGridAgente(lista) {
       const grid = document.getElementById('gridInmueblesAgente');
       grid.innerHTML = "";
       lista.forEach(p => {
         const fotoPrincipal = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-        const urlFichaPublica = `index.html?codigo=${encodeURIComponent(p.codigo_eco)}`;
+        
         const cardHTML = `
           <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
             <div>
@@ -451,9 +519,10 @@
               </div>
             </div>
             <div class="p-4 pt-0">
-              <a href="${urlFichaPublica}" target="_blank" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1">
-                Ver Ficha Pública <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </a>
+              <!-- BOTÓN REEMPLAZADO PARA ABRIR EL MODAL INTERNO -->
+              <button onclick="abrirModalPropiedad('${p.id}')" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1">
+                Ver Detalles <i class="fa-solid fa-arrow-right text-[10px]"></i>
+              </button>
             </div>
           </div>
         `;
