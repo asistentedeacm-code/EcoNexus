@@ -153,7 +153,7 @@
         let datosMiembro = null;
         let datosAgencia = null;
 
-        // SISTEMA DE ALERTAS Y CONFIRMACIONES ESTÉTICAS (Reemplazo total de alerts nativos)
+        // SISTEMA DE ALERTAS Y CONFIRMACIONES ESTÉTICAS
         function mostrarAlerta(titulo, mensaje, tipo = 'info', onOk = null) {
             let modalId = 'custom-alert-modal';
             let existing = document.getElementById(modalId);
@@ -215,45 +215,86 @@
             document.getElementById('btn-auth').innerText = modo === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
         }
 
+        // PROCESAR AUTENTICACIÓN Y REGISTRO BLINDADO (Raíz solucionada: ID sincronizado)
         async function procesarAuth(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-auth');
             btn.disabled = true; btn.innerText = "Procesando...";
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
+
             try {
                 if (modoAuthActual === 'login') {
                     const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
                     if (error) throw error;
                 } else {
                     const nombre = document.getElementById('nombre').value.trim();
+                    
+                    // 1. Crear usuario en Auth
                     const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
                     if (authError) throw authError;
+                    
+                    if (!authData.user) throw new Error("No se pudo obtener el ID del usuario registrado.");
+                    const userId = authData.user.id;
+
+                    // 2. Forzar sesión inmediata si viene vacía
+                    if (!authData.session) {
+                        const { error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
+                        if (loginError) throw loginError;
+                    }
+
+                    // 3. Registrar con el ID exacto
                     if (modoAuthActual === 'registro_broker') {
                         const nombreAgencia = document.getElementById('nombre-agencia').value.trim();
                         const colorAgencia = document.getElementById('color-agencia').value;
                         const codigoAleatorio = nombreAgencia.substring(0,4).toUpperCase() + '-' + Math.floor(Math.random() * 10000);
                         
                         const { data: agencia, error: errAgencia } = await supabaseClient.from('saai_agencias').insert([{
-                            nombre_comercial: nombreAgencia, codigo_acceso: codigoAleatorio, color_primario: colorAgencia, broker_id: authData.user.id
+                            nombre_comercial: nombreAgencia, 
+                            codigo_acceso: codigoAleatorio, 
+                            color_primario: colorAgencia, 
+                            broker_id: userId,
+                            estatus: 'Pendiente'
                         }]).select().single();
+                        
                         if (errAgencia) throw errAgencia;
-                        await supabaseClient.from('saai_miembros').insert([{ id: authData.user.id, agencia_id: agencia.id, rol: 'Broker', nombre: nombre, estatus: 'Aprobado' }]);
+
+                        const { error: errMiembro } = await supabaseClient.from('saai_miembros').insert([{ 
+                            id: userId, 
+                            agencia_id: agencia.id, 
+                            rol: 'Broker', 
+                            nombre: nombre, 
+                            estatus: 'aprobado' 
+                        }]);
+                        
+                        if (errMiembro) throw errMiembro;
+
                     } else {
                         const codigoUnion = document.getElementById('codigo-union').value.trim().toUpperCase();
                         const { data: agencia, error: errBusqueda } = await supabaseClient.from('saai_agencias').select('id').eq('codigo_acceso', codigoUnion).single();
+                        
                         if (errBusqueda || !agencia) throw new Error("Código de agencia inválido");
-                        await supabaseClient.from('saai_miembros').insert([{ id: authData.user.id, agencia_id: agencia.id, rol: 'Asesor', nombre: nombre, estatus: 'Pendiente' }]);
+
+                        const { error: errAsesor } = await supabaseClient.from('saai_miembros').insert([{ 
+                            id: userId, 
+                            agencia_id: agencia.id, 
+                            rol: 'Asesor', 
+                            nombre: nombre, 
+                            estatus: 'Pendiente' 
+                        }]);
+                        
+                        if (errAsesor) throw errAsesor;
                     }
                 }
                 iniciarSAAI();
             } catch (err) {
                 mostrarAlerta("Error de Autenticación", err.message, "error");
-                btn.disabled = false; btn.innerText = modoAuthActual === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
+                btn.disabled = false; 
+                btn.innerText = modoAuthActual === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
             }
         }
 
-        // FUNCIÓN BLINDADA CON REINTENTO AUTOMÁTICO PARA EVITAR "PERFIL NO ENCONTRADO"
+        // FUNCIÓN BLINDADA CON REINTENTO AUTOMÁTICO Y VALIDACIÓN DE ESTATUS
         async function iniciarSAAI(intentos = 0) {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) return;
@@ -265,7 +306,7 @@
                 .eq('id', usuarioActual.id)
                 .single();
 
-            // Si el perfil acaba de crearse, RLS/Auth puede demorar una fracción de segundo. Reintentamos hasta 3 veces.
+            // Reintento automático por desfase de RLS / Red
             if ((error || !miembro) && intentos < 3) {
                 await new Promise(r => setTimeout(r, 450));
                 return iniciarSAAI(intentos + 1);
@@ -279,7 +320,7 @@
             datosMiembro = miembro;
             datosAgencia = miembro.saai_agencias;
 
-            // Validación de Agencia (Super Admin) - Insensible a mayúsculas/minúsculas
+            // Validación Agencia (Super Admin) - Insensible a mayúsculas/minúsculas
             if (!datosAgencia || !datosAgencia.estatus || datosAgencia.estatus.toLowerCase() !== 'aprobado') {
                 document.getElementById('auth-section').innerHTML = `
                     <div class="text-center p-4 sm:p-6">
@@ -293,7 +334,7 @@
                 return;
             }
 
-            // Validación de Miembro (Broker / Asesor) - Insensible a mayúsculas/minúsculas
+            // Validación Miembro (Broker / Asesor) - Insensible a mayúsculas/minúsculas
             if (!miembro.estatus || miembro.estatus.toLowerCase() !== 'aprobado') {
                 document.getElementById('auth-section').innerHTML = `
                     <div class="text-center p-4 sm:p-6">
