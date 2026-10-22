@@ -12,93 +12,101 @@
         .bg-brand { background-color: var(--brand-color) !important; color: var(--brand-text) !important; }
         .text-brand { color: var(--brand-color) !important; }
         .border-brand { border-color: var(--brand-color) !important; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex flex-col">
     <!-- HEADER MARCA BLANCA -->
-    <header class="bg-brand py-4 px-6 shadow-md hidden" id="header-saai">
+    <header class="bg-brand py-3 px-4 sm:px-6 shadow-md hidden" id="header-saai">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img id="logo-agencia" src="" class="h-10 rounded-lg bg-white p-1 shadow" onerror="this.style.display='none'">
-                <h1 id="nombre-agencia-header" class="text-xl font-bold tracking-wide">Agencia</h1>
+                <img id="logo-agencia" src="" class="h-9 sm:h-10 rounded-lg bg-white p-1 shadow object-contain" onerror="this.style.display='none'">
+                <h1 id="nombre-agencia-header" class="text-base sm:text-xl font-bold tracking-wide truncate max-w-[180px] sm:max-w-xs">Agencia</h1>
             </div>
-            <div class="flex gap-4">
-                <span id="badge-rol" class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold border border-white/30">Cargando...</span>
-                <button onclick="logout()" class="text-xs font-bold bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg transition">Salir</button>
+            <div class="flex items-center gap-2 sm:gap-4">
+                <span id="badge-rol" class="px-2.5 py-1 bg-white/20 rounded-full text-[10px] sm:text-xs font-bold border border-white/30">Cargando...</span>
+                <button onclick="logout()" class="text-xs font-bold bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg transition shadow">Salir</button>
             </div>
         </div>
     </header>
 
-    <div class="max-w-7xl mx-auto w-full p-4 flex-1 mt-6">
+    <div class="max-w-7xl mx-auto w-full p-3 sm:p-4 flex-1 mt-2 sm:mt-6">
         <!-- SECCIÓN AUTENTICACIÓN / REGISTRO -->
-        <div id="auth-section" class="bg-white p-8 rounded-2xl shadow-xl max-w-md mx-auto border-t-4 border-slate-900">
+        <div id="auth-section" class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md mx-auto border-t-4 border-slate-900 transition-all">
             <div class="text-center mb-6">
                 <h2 class="text-2xl font-bold text-slate-900">SAAI</h2>
                 <p class="text-sm text-gray-500">Sistema Administrativo para Agencias</p>
             </div>
             
-            <div class="flex gap-2 mb-6 bg-gray-100 p-1 rounded-xl">
-                <button onclick="setModoAuth('login')" id="tab-login" class="flex-1 py-2 text-sm font-bold bg-white shadow rounded-lg">Entrar</button>
-                <button onclick="setModoAuth('registro_asesor')" id="tab-asesor" class="flex-1 py-2 text-sm font-bold text-gray-500 rounded-lg">Unirme</button>
-                <button onclick="setModoAuth('registro_broker')" id="tab-broker" class="flex-1 py-2 text-sm font-bold text-gray-500 rounded-lg">Crear Agencia</button>
+            <div class="flex gap-1 sm:gap-2 mb-6 bg-gray-100 p-1 rounded-xl">
+                <button onclick="setModoAuth('login')" id="tab-login" class="flex-1 py-2 text-xs sm:text-sm font-bold bg-white shadow rounded-lg transition">Entrar</button>
+                <button onclick="setModoAuth('registro_asesor')" id="tab-asesor" class="flex-1 py-2 text-xs sm:text-sm font-bold text-gray-500 rounded-lg transition">Unirme</button>
+                <button onclick="setModoAuth('registro_broker')" id="tab-broker" class="flex-1 py-2 text-xs sm:text-sm font-bold text-gray-500 rounded-lg transition">Crear Agencia</button>
             </div>
             <form id="auth-form" onsubmit="procesarAuth(event)" class="space-y-4">
                 <div id="campo-nombre" class="hidden">
-                    <input type="text" id="nombre" placeholder="Nombre Completo" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none">
+                    <input type="text" id="nombre" placeholder="Nombre Completo" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-slate-900 transition">
                 </div>
                 <div id="campo-codigo-agencia" class="hidden">
                     <label class="text-xs font-bold text-gray-500">Código de la Agencia</label>
-                    <input type="text" id="codigo-union" placeholder="Ej: CENTURY21-VAL" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm uppercase outline-none mt-1">
+                    <input type="text" id="codigo-union" placeholder="Ej: CENTURY21-VAL" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm uppercase outline-none mt-1 focus:border-slate-900 transition">
                 </div>
                 <div id="campo-datos-agencia" class="hidden space-y-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
                     <p class="text-xs font-bold text-blue-800 uppercase">Configuración de Nueva Agencia</p>
-                    <input type="text" id="nombre-agencia" placeholder="Nombre Comercial (Ej: Inmoinnova)" class="w-full bg-white border rounded-xl px-3 py-2 text-sm outline-none">
-                    <input type="color" id="color-agencia" value="#1e293b" class="w-full h-10 rounded-xl cursor-pointer" title="Color Institucional">
+                    <input type="text" id="nombre-agencia" placeholder="Nombre Comercial (Ej: Inmoinnova)" class="w-full bg-white border rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500 transition">
+                    <div class="flex items-center justify-between bg-white px-3 py-2 rounded-xl border">
+                        <span class="text-xs font-bold text-gray-600">Color Institucional</span>
+                        <input type="color" id="color-agencia" value="#1e293b" class="w-12 h-8 rounded-lg cursor-pointer border-0 bg-transparent">
+                    </div>
                 </div>
-                <input type="email" id="email" required placeholder="Correo Electrónico" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none">
-                <input type="password" id="password" required placeholder="Contraseña" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none">
-                <button type="submit" id="btn-auth" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl shadow transition">Iniciar Sesión</button>
+                <input type="email" id="email" required placeholder="Correo Electrónico" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-slate-900 transition">
+                <input type="password" id="password" required placeholder="Contraseña" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-slate-900 transition">
+                <button type="submit" id="btn-auth" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-sm">Iniciar Sesión</button>
             </form>
         </div>
 
         <!-- PANEL DASHBOARD -->
         <div id="dashboard-section" class="hidden">
-            <div class="flex gap-2 overflow-x-auto pb-4 mb-4 border-b border-gray-200" id="menu-navegacion"></div>
+            <div class="flex gap-2 overflow-x-auto pb-3 mb-6 border-b border-gray-200 scrollbar-none" id="menu-navegacion"></div>
             
             <!-- VISTA: MIS INMUEBLES -->
             <div id="vista-mis-inmuebles" class="vista-panel hidden">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-brand">Mi Inventario</h2>
-                    <button onclick="abrirModalCarga()" class="bg-brand text-white font-bold px-4 py-2 rounded-xl shadow-md flex items-center gap-2">+ Nuevo Inmueble</button>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <h2 class="text-xl sm:text-2xl font-bold text-brand">Mi Inventario</h2>
+                    <button onclick="abrirModalCarga()" class="bg-brand text-white font-bold px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 text-sm transition hover:opacity-90">+ Nuevo Inmueble</button>
                 </div>
-                <div id="grid-mis-inmuebles" class="grid grid-cols-1 md:grid-cols-3 gap-6">Cargando...</div>
+                <div id="grid-mis-inmuebles" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">Cargando...</div>
             </div>
 
             <!-- VISTA: CATÁLOGO AGENCIA -->
             <div id="vista-catalogo-agencia" class="vista-panel hidden">
-                <h2 class="text-2xl font-bold text-brand mb-6">Catálogo Privado de la Agencia</h2>
-                <div id="grid-catalogo-agencia" class="grid grid-cols-1 md:grid-cols-4 gap-4">Cargando...</div>
+                <h2 class="text-xl sm:text-2xl font-bold text-brand mb-6">Catálogo Privado de la Agencia</h2>
+                <div id="grid-catalogo-agencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">Cargando...</div>
             </div>
 
             <!-- VISTA: GESTIÓN BROKER -->
             <div id="vista-admin-broker" class="vista-panel hidden">
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
                         <h3 class="font-bold text-lg mb-4 text-brand">Solicitudes de Asesores</h3>
                         <div id="lista-agentes" class="space-y-3">Cargando...</div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
                         <h3 class="font-bold text-lg mb-4 text-brand">Configuración Marca Blanca</h3>
                         <div class="space-y-4">
                             <div>
                                 <label class="text-xs font-bold text-gray-500 uppercase">Logo URL</label>
-                                <input type="text" id="config-logo" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm mt-1">
+                                <input type="text" id="config-logo" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm mt-1 focus:outline-none">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-gray-500 uppercase">Color Institucional</label>
-                                <input type="color" id="config-color" class="w-full h-10 rounded-xl cursor-pointer mt-1">
+                                <input type="color" id="config-color" class="w-full h-10 rounded-xl cursor-pointer mt-1 border bg-transparent p-1">
                             </div>
-                            <button onclick="actualizarMarcaBlanca()" class="w-full bg-brand text-white font-bold py-2 rounded-xl">Guardar Estilos</button>
+                            <button onclick="actualizarMarcaBlanca()" class="w-full bg-brand text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Guardar Estilos</button>
                         </div>
                     </div>
                 </div>
@@ -106,33 +114,34 @@
         </div>
     </div>
 
-    <!-- MODAL DE CARGA -->
-    <div id="modal-carga" class="fixed inset-0 bg-black/70 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-2xl">
+    <!-- MODAL DE CARGA DE INMUEBLE -->
+    <div id="modal-carga" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl my-auto animate-fadeIn">
             <h3 class="font-bold text-xl mb-4 border-b pb-2 text-brand">Subir Propiedad</h3>
             <form onsubmit="guardarPropiedad(event)" class="space-y-4">
-                <div class="grid grid-cols-2 gap-4">
-                    <input type="text" id="inm-tipo" required placeholder="Tipo (Ej: Townhouse)" class="bg-gray-50 border rounded-xl px-3 py-2 text-sm">
-                    <input type="number" id="inm-precio" required placeholder="Precio $" class="bg-gray-50 border rounded-xl px-3 py-2 text-sm">
-                    <input type="text" id="inm-ciudad" required placeholder="Ciudad / Zona" class="bg-gray-50 border rounded-xl px-3 py-2 text-sm">
-                    <select id="inm-operacion" class="bg-gray-50 border rounded-xl px-3 py-2 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input type="text" id="inm-tipo" required placeholder="Tipo (Ej: Townhouse)" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
+                    <input type="number" id="inm-precio" required placeholder="Precio $" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
+                    <input type="text" id="inm-ciudad" required placeholder="Ciudad / Zona" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
+                    <select id="inm-operacion" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
                         <option value="Venta">Venta</option>
                         <option value="Alquiler">Alquiler</option>
                     </select>
                 </div>
-                <textarea id="inm-detalles" required rows="3" placeholder="Descripción completa" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm"></textarea>
+                <textarea id="inm-detalles" required rows="3" placeholder="Descripción completa" class="w-full bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none"></textarea>
                 <div>
                     <label class="text-xs font-bold text-gray-500">Fotos (Múltiples, se subirán a Cloudflare R2)</label>
-                    <input type="file" id="inm-fotos" accept="image/*" multiple class="w-full bg-brand text-white p-2 rounded-xl text-xs mt-1">
+                    <input type="file" id="inm-fotos" accept="image/*" multiple class="w-full bg-brand text-white p-2.5 rounded-xl text-xs mt-1 cursor-pointer">
                 </div>
-                <div class="flex justify-end gap-2 mt-4">
-                    <button type="button" onclick="cerrarModalCarga()" class="bg-gray-200 font-bold px-4 py-2 rounded-xl">Cancelar</button>
-                    <button type="submit" id="btn-guardar-inmueble" class="bg-brand text-white font-bold px-4 py-2 rounded-xl shadow">Subir Inmueble</button>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" onclick="cerrarModalCarga()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-4 py-2.5 rounded-xl text-sm transition">Cancelar</button>
+                    <button type="submit" id="btn-guardar-inmueble" class="bg-brand text-white font-bold px-5 py-2.5 rounded-xl shadow text-sm transition">Subir Inmueble</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- SCRIPTS Y SISTEMA DE MODALES ESTÉTICOS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://wbwzphdeqzxljxlbjlch.supabase.co';
@@ -144,15 +153,65 @@
         let datosMiembro = null;
         let datosAgencia = null;
 
+        // SISTEMA DE ALERTAS Y CONFIRMACIONES ESTÉTICAS (Reemplazo total de alerts nativos)
+        function mostrarAlerta(titulo, mensaje, tipo = 'info', onOk = null) {
+            let modalId = 'custom-alert-modal';
+            let existing = document.getElementById(modalId);
+            if (existing) existing.remove();
+
+            let colorBorde = tipo === 'error' ? 'border-red-500' : tipo === 'success' ? 'border-green-500' : 'border-slate-900';
+            let bgColorBtn = tipo === 'error' ? 'bg-red-600 hover:bg-red-700' : tipo === 'success' ? 'bg-green-600 hover:bg-green-700' : 'bg-slate-900 hover:bg-slate-800';
+
+            let html = `
+                <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+                    <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 ${colorBorde} text-center">
+                        <h3 class="font-bold text-lg mb-2 text-slate-900">${titulo}</h3>
+                        <p class="text-sm text-gray-600 mb-6 leading-relaxed">${mensaje}</p>
+                        <button id="alert-btn-ok" class="w-full ${bgColorBtn} text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Aceptar</button>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', html);
+            document.getElementById('alert-btn-ok').onclick = () => {
+                document.getElementById(modalId).remove();
+                if (onOk) onOk();
+            };
+        }
+
+        function mostrarConfirmacion(titulo, mensaje, onConfirm) {
+            let modalId = 'custom-confirm-modal';
+            let existing = document.getElementById(modalId);
+            if (existing) existing.remove();
+
+            let html = `
+                <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
+                    <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 border-amber-500 text-center">
+                        <h3 class="font-bold text-lg mb-2 text-slate-900">${titulo}</h3>
+                        <p class="text-sm text-gray-600 mb-6 leading-relaxed">${mensaje}</p>
+                        <div class="flex gap-3">
+                            <button id="confirm-btn-no" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl transition text-sm">Cancelar</button>
+                            <button id="confirm-btn-yes" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Sí, eliminar</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', html);
+            document.getElementById('confirm-btn-no').onclick = () => document.getElementById(modalId).remove();
+            document.getElementById('confirm-btn-yes').onclick = () => {
+                document.getElementById(modalId).remove();
+                onConfirm();
+            };
+        }
+
         function setModoAuth(modo) {
             modoAuthActual = modo;
             document.getElementById('campo-nombre').classList.toggle('hidden', modo === 'login');
             document.getElementById('campo-codigo-agencia').classList.toggle('hidden', modo !== 'registro_asesor');
             document.getElementById('campo-datos-agencia').classList.toggle('hidden', modo !== 'registro_broker');
             
-            document.getElementById('tab-login').className = `flex-1 py-2 text-sm font-bold rounded-lg ${modo === 'login' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
-            document.getElementById('tab-asesor').className = `flex-1 py-2 text-sm font-bold rounded-lg ${modo === 'registro_asesor' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
-            document.getElementById('tab-broker').className = `flex-1 py-2 text-sm font-bold rounded-lg ${modo === 'registro_broker' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
+            document.getElementById('tab-login').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'login' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
+            document.getElementById('tab-asesor').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_asesor' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
+            document.getElementById('tab-broker').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_broker' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
             document.getElementById('btn-auth').innerText = modo === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
         }
 
@@ -160,20 +219,18 @@
             e.preventDefault();
             const btn = document.getElementById('btn-auth');
             btn.disabled = true; btn.innerText = "Procesando...";
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-
             try {
                 if (modoAuthActual === 'login') {
                     const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
                     if (error) throw error;
                 } else {
-                    const nombre = document.getElementById('nombre').value;
+                    const nombre = document.getElementById('nombre').value.trim();
                     const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
                     if (authError) throw authError;
-
                     if (modoAuthActual === 'registro_broker') {
-                        const nombreAgencia = document.getElementById('nombre-agencia').value;
+                        const nombreAgencia = document.getElementById('nombre-agencia').value.trim();
                         const colorAgencia = document.getElementById('color-agencia').value;
                         const codigoAleatorio = nombreAgencia.substring(0,4).toUpperCase() + '-' + Math.floor(Math.random() * 10000);
                         
@@ -181,43 +238,79 @@
                             nombre_comercial: nombreAgencia, codigo_acceso: codigoAleatorio, color_primario: colorAgencia, broker_id: authData.user.id
                         }]).select().single();
                         if (errAgencia) throw errAgencia;
-
                         await supabaseClient.from('saai_miembros').insert([{ id: authData.user.id, agencia_id: agencia.id, rol: 'Broker', nombre: nombre, estatus: 'Aprobado' }]);
                     } else {
                         const codigoUnion = document.getElementById('codigo-union').value.trim().toUpperCase();
                         const { data: agencia, error: errBusqueda } = await supabaseClient.from('saai_agencias').select('id').eq('codigo_acceso', codigoUnion).single();
                         if (errBusqueda || !agencia) throw new Error("Código de agencia inválido");
-
                         await supabaseClient.from('saai_miembros').insert([{ id: authData.user.id, agencia_id: agencia.id, rol: 'Asesor', nombre: nombre, estatus: 'Pendiente' }]);
                     }
                 }
                 iniciarSAAI();
             } catch (err) {
-                alert("Error: " + err.message);
-                btn.disabled = false; btn.innerText = "Reintentar";
+                mostrarAlerta("Error de Autenticación", err.message, "error");
+                btn.disabled = false; btn.innerText = modoAuthActual === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
             }
         }
 
-        async function iniciarSAAI() {
+        // FUNCIÓN BLINDADA CON REINTENTO AUTOMÁTICO PARA EVITAR "PERFIL NO ENCONTRADO"
+        async function iniciarSAAI(intentos = 0) {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) return;
             usuarioActual = session.user;
 
-            const { data: miembro } = await supabaseClient.from('saai_miembros').select('*, saai_agencias(*)').eq('id', usuarioActual.id).single();
-            if (!miembro) { alert("Perfil no encontrado"); return; }
+            let { data: miembro, error } = await supabaseClient
+                .from('saai_miembros')
+                .select('*, saai_agencias(*)')
+                .eq('id', usuarioActual.id)
+                .single();
+
+            // Si el perfil acaba de crearse, RLS/Auth puede demorar una fracción de segundo. Reintentamos hasta 3 veces.
+            if ((error || !miembro) && intentos < 3) {
+                await new Promise(r => setTimeout(r, 450));
+                return iniciarSAAI(intentos + 1);
+            }
+
+            if (error || !miembro) { 
+                mostrarAlerta("Atención", "Perfil no encontrado en la base de datos. Verifica tus credenciales o contacta al administrador.", "error"); 
+                return; 
+            }
+
             datosMiembro = miembro;
             datosAgencia = miembro.saai_agencias;
 
-            if (miembro.estatus !== 'Aprobado') {
-                document.getElementById('auth-section').innerHTML = `<div class="text-center p-6"><h2 class="text-xl font-bold text-amber-600">Cuenta en Revisión</h2><p class="text-sm mt-2">El Broker debe aprobar tu acceso.</p><button onclick="logout()" class="mt-4 bg-gray-200 px-4 py-2 rounded font-bold">Salir</button></div>`;
+            // Validación de Agencia (Super Admin) - Insensible a mayúsculas/minúsculas
+            if (!datosAgencia || !datosAgencia.estatus || datosAgencia.estatus.toLowerCase() !== 'aprobado') {
+                document.getElementById('auth-section').innerHTML = `
+                    <div class="text-center p-4 sm:p-6">
+                        <h2 class="text-xl font-bold text-amber-600">Agencia en Revisión</h2>
+                        <p class="text-sm mt-2 text-gray-600">Tu inmobiliaria está registrada pero el Super Admin aún debe aprobar su activación general.</p>
+                        <button onclick="logout()" class="mt-4 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow transition">Salir</button>
+                    </div>`;
+                document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('dashboard-section').classList.add('hidden');
+                document.getElementById('header-saai').classList.add('hidden');
                 return;
             }
 
-            document.documentElement.style.setProperty('--brand-color', datosAgencia.color_primario);
+            // Validación de Miembro (Broker / Asesor) - Insensible a mayúsculas/minúsculas
+            if (!miembro.estatus || miembro.estatus.toLowerCase() !== 'aprobado') {
+                document.getElementById('auth-section').innerHTML = `
+                    <div class="text-center p-4 sm:p-6">
+                        <h2 class="text-xl font-bold text-amber-600">Cuenta en Revisión</h2>
+                        <p class="text-sm mt-2 text-gray-600">El Broker de tu agencia debe aprobar tu acceso al inventario.</p>
+                        <button onclick="logout()" class="mt-4 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow transition">Salir</button>
+                    </div>`;
+                document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('dashboard-section').classList.add('hidden');
+                document.getElementById('header-saai').classList.add('hidden');
+                return;
+            }
+
+            document.documentElement.style.setProperty('--brand-color', datosAgencia.color_primario || '#1e293b');
             document.getElementById('nombre-agencia-header').innerText = datosAgencia.nombre_comercial;
             if(datosAgencia.logo_url) document.getElementById('logo-agencia').src = datosAgencia.logo_url;
             document.getElementById('badge-rol').innerText = miembro.rol.toUpperCase();
-
             document.getElementById('auth-section').classList.add('hidden');
             document.getElementById('header-saai').classList.remove('hidden');
             document.getElementById('dashboard-section').classList.remove('hidden');
@@ -227,11 +320,11 @@
         function renderizarMenuRol() {
             const menu = document.getElementById('menu-navegacion');
             menu.innerHTML = `
-                <button onclick="cambiarVista('vista-mis-inmuebles')" class="bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm">Mis Inmuebles</button>
-                <button onclick="cambiarVista('vista-catalogo-agencia')" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500">Catálogo de la Agencia</button>
+                <button onclick="cambiarVista('vista-mis-inmuebles')" class="bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm whitespace-nowrap rounded-t-lg">Mis Inmuebles</button>
+                <button onclick="cambiarVista('vista-catalogo-agencia')" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg">Catálogo de la Agencia</button>
             `;
             if (datosMiembro.rol === 'Broker') {
-                menu.innerHTML += `<button onclick="cambiarVista('vista-admin-broker')" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500">Administración Broker</button>`;
+                menu.innerHTML += `<button onclick="cambiarVista('vista-admin-broker')" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg">Administración Broker</button>`;
                 cargarAgentes();
             }
             cambiarVista('vista-mis-inmuebles');
@@ -256,22 +349,22 @@
 
         function pintarGrid(inmuebles, containerId, esPropio) {
             const container = document.getElementById(containerId);
-            if (!inmuebles || inmuebles.length === 0) { container.innerHTML = '<p class="text-gray-500">Sin registros.</p>'; return; }
+            if (!inmuebles || inmuebles.length === 0) { container.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">Sin registros disponibles.</p>'; return; }
             
             container.innerHTML = inmuebles.map(inm => `
-                <div class="bg-white rounded-xl shadow border border-gray-100 overflow-hidden flex flex-col">
-                    <img src="${inm.fotos_urls[0] || ''}" class="h-40 w-full object-cover bg-gray-200">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition hover:shadow-md">
+                    <img src="${inm.fotos_urls[0] || ''}" class="h-44 w-full object-cover bg-gray-200">
                     <div class="p-4 flex-1 flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] font-bold text-white bg-brand px-2 py-1 rounded uppercase">${inm.operacion}</span>
-                            <h4 class="font-bold text-lg mt-2">${inm.tipo} en ${inm.ciudad}</h4>
-                            <p class="font-bold text-green-600">$${inm.precio}</p>
-                            ${!esPropio ? `<p class="text-xs text-gray-500 mt-2">Captador: ${inm.saai_miembros.nombre}</p>` : ''}
+                            <span class="text-[10px] font-bold text-white bg-brand px-2.5 py-1 rounded-full uppercase tracking-wider">${inm.operacion}</span>
+                            <h4 class="font-bold text-base sm:text-lg mt-2 text-slate-900">${inm.tipo} en ${inm.ciudad}</h4>
+                            <p class="font-bold text-green-600 text-base sm:text-lg">$${inm.precio}</p>
+                            ${!esPropio ? `<p class="text-xs text-gray-500 mt-2 font-medium">Captador: ${inm.saai_miembros.nombre}</p>` : ''}
                         </div>
                         <div class="grid grid-cols-2 gap-2 mt-4 border-t pt-3">
-                            <button onclick='copiarFichaYNavegar(${JSON.stringify(inm.detalles)})' class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg text-xs font-bold transition">📋 Copiar Ficha</button>
-                            <button onclick='descargarLoteFotos(${JSON.stringify(inm.fotos_urls)}, ${JSON.stringify(inm.detalles)})' class="bg-brand text-white py-2 rounded-lg text-xs font-bold transition">⬇️ Bajar Fotos</button>
-                            ${esPropio ? `<button onclick='eliminarInmueble("${inm.id}")' class="col-span-2 bg-red-100 hover:bg-red-200 text-red-700 py-2 rounded-lg text-xs font-bold transition">🗑️ Borrar</button>` : ''}
+                            <button onclick='copiarFichaYNavegar(${JSON.stringify(inm.detalles)})' class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">📋 Copiar Ficha</button>
+                            <button onclick='descargarLoteFotos(${JSON.stringify(inm.fotos_urls)}, ${JSON.stringify(inm.detalles)})' class="bg-brand text-white py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">⬇️ Bajar Fotos</button>
+                            ${esPropio ? `<button onclick='eliminarInmueble("${inm.id}")' class="col-span-2 bg-red-50 hover:bg-red-100 text-red-700 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">🗑️ Eliminar Inmueble</button>` : ''}
                         </div>
                     </div>
                 </div>
@@ -280,14 +373,13 @@
 
         function copiarFichaYNavegar(detalles) {
             navigator.clipboard.writeText(detalles);
-            alert("¡Ficha copiada al portapapeles!");
+            mostrarAlerta("¡Copiado!", "Ficha técnica copiada al portapapeles con éxito.", "success");
         }
 
-        // MOTOR DE DESCARGA DIRECTA A LA GALERÍA
         async function descargarLoteFotos(urls, detalles) {
-            if (!urls || urls.length === 0) { alert("Este inmueble no tiene fotos."); return; }
+            if (!urls || urls.length === 0) { mostrarAlerta("Aviso", "Este inmueble no contiene fotografías registradas.", "info"); return; }
             navigator.clipboard.writeText(detalles);
-            alert(`Ficha copiada. Descargando ${urls.length} fotos a tu galería. Por favor no cierres esta ventana...`);
+            mostrarAlerta("Descargando...", `Ficha copiada. Se están descargando ${urls.length} fotos a tu dispositivo. No cierres la ventana.`, "success");
             
             try {
                 const timestampUnico = Date.now();
@@ -311,9 +403,8 @@
                     window.URL.revokeObjectURL(urlLocal);
                     document.body.removeChild(a);
                 }
-                alert("¡Descarga de fotos completada con éxito!");
             } catch (error) {
-                alert("Hubo un bloqueo en la descarga. Asegúrate de permitir 'descargas múltiples' en tu navegador.");
+                mostrarAlerta("Error", "Bloqueo detectado en la descarga. Asegúrate de permitir descargas múltiples en tu navegador.", "error");
             }
         }
 
@@ -339,11 +430,9 @@
                     });
                     const resFirma = await reqFirma.json();
                     if(resFirma.error) throw new Error(resFirma.error);
-
                     await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
                     fotos_urls.push(resFirma.publicUrl);
                 }
-
                 await supabaseClient.from('saai_inventario').insert([{
                     agencia_id: datosAgencia.id,
                     agente_id: usuarioActual.id,
@@ -357,58 +446,68 @@
                 
                 cerrarModalCarga();
                 cargarMisInmuebles();
+                mostrarAlerta("Éxito", "Inmueble publicado correctamente en el sistema.", "success");
             } catch (err) {
-                alert("Error al subir: " + err.message);
+                mostrarAlerta("Error al subir", err.message, "error");
             } finally {
                 btn.disabled = false; btn.innerText = "Subir Inmueble";
             }
         }
 
         async function eliminarInmueble(id) {
-            if (!confirm("¿Estás seguro de eliminar este inmueble permanentemente?")) return;
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            
-            const { data: inmueble } = await supabaseClient.from('saai_inventario').select('fotos_urls').eq('id', id).single();
-            if (inmueble && inmueble.fotos_urls && inmueble.fotos_urls.length > 0) {
-                await fetch('https://econexus-saai-ap.vercel.app/api/delete', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-                    body: JSON.stringify({ urls: inmueble.fotos_urls })
-                });
-            }
-            await supabaseClient.from('saai_inventario').delete().eq('id', id);
-            cargarMisInmuebles();
+            mostrarConfirmacion("Eliminar Inmueble", "¿Estás seguro de eliminar este inmueble permanentemente del sistema?", async () => {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                
+                const { data: inmueble } = await supabaseClient.from('saai_inventario').select('fotos_urls').eq('id', id).single();
+                if (inmueble && inmueble.fotos_urls && inmueble.fotos_urls.length > 0) {
+                    await fetch('https://econexus-saai-ap.vercel.app/api/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                        body: JSON.stringify({ urls: inmueble.fotos_urls })
+                    });
+                }
+                await supabaseClient.from('saai_inventario').delete().eq('id', id);
+                cargarMisInmuebles();
+                mostrarAlerta("Eliminado", "El inmueble ha sido borrado con éxito.", "success");
+            });
         }
 
         async function cargarAgentes() {
             const { data } = await supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id);
             const container = document.getElementById('lista-agentes');
-            if(!data || data.length === 0) { container.innerHTML = '<p class="text-xs">No hay otros agentes.</p>'; return; }
+            if(!data || data.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 italic">No hay otros agentes registrados en la agencia.</p>'; return; }
             
             container.innerHTML = data.map(ag => `
-                <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-lg">
+                <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-xl">
                     <div>
-                        <p class="font-bold text-sm">${ag.nombre}</p>
-                        <p class="text-xs ${ag.estatus === 'Aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
+                        <p class="font-bold text-sm text-slate-900">${ag.nombre}</p>
+                        <p class="text-xs font-semibold ${ag.estatus && ag.estatus.toLowerCase() === 'aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
                     </div>
-                    ${ag.estatus !== 'Aprobado' ? `<button onclick="aprobarAgente('${ag.id}')" class="bg-brand text-white px-3 py-1 rounded text-xs font-bold">Aprobar</button>` : ''}
+                    ${ag.estatus && ag.estatus.toLowerCase() !== 'aprobado' ? `<button onclick="aprobarAgente('${ag.id}')" class="bg-brand text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition hover:opacity-90">Aprobar</button>` : ''}
                 </div>
             `).join('');
             
-            document.getElementById('config-color').value = datosAgencia.color_primario;
+            document.getElementById('config-color').value = datosAgencia.color_primario || '#1e293b';
             document.getElementById('config-logo').value = datosAgencia.logo_url || '';
         }
 
-        async function aprobarAgente(id) { await supabaseClient.from('saai_miembros').update({ estatus: 'Aprobado' }).eq('id', id); cargarAgentes(); }
+        async function aprobarAgente(id) { 
+            await supabaseClient.from('saai_miembros').update({ estatus: 'Aprobado' }).eq('id', id); 
+            cargarAgentes(); 
+            mostrarAlerta("Aprobado", "El asesor ha sido autorizado con éxito.", "success");
+        }
+
         async function actualizarMarcaBlanca() {
             const color = document.getElementById('config-color').value;
             const logo = document.getElementById('config-logo').value;
             await supabaseClient.from('saai_agencias').update({ color_primario: color, logo_url: logo }).eq('id', datosAgencia.id);
-            alert("Marca Blanca actualizada. Recarga la página."); location.reload();
+            mostrarAlerta("Actualizado", "Marca blanca actualizada correctamente. La página se recargará.", "success", () => location.reload());
         }
+
         function abrirModalCarga() { document.getElementById('modal-carga').classList.replace('hidden', 'flex'); }
         function cerrarModalCarga() { document.getElementById('modal-carga').classList.replace('flex', 'hidden'); }
         async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
+        
         iniciarSAAI();
     </script>
 </body>
