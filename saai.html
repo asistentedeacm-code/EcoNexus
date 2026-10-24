@@ -24,7 +24,7 @@
     <!-- PANTALLA DE CARGA (SPLASH SCREEN) -->
     <div id="splash-screen" class="fixed inset-0 bg-white z-[100] hidden flex-col items-center justify-center animate-fadeIn">
         <div class="flex-1 flex flex-col items-center justify-center w-full px-6 text-center">
-            <img id="splash-logo" class="h-28 sm:h-36 mb-6 object-contain drop-shadow-md hidden" alt="Logo Agencia">
+            <img id="splash-logo" class="h-28 w-28 sm:h-36 sm:w-36 rounded-full border-[3px] border-gray-200/60 mb-6 object-cover drop-shadow-md hidden bg-white" alt="Logo Agencia">
             <h1 id="splash-agencia" class="text-3xl sm:text-4xl font-extrabold text-brand mb-3 leading-tight"></h1>
             <p class="text-gray-500 text-sm sm:text-base font-medium">Bienvenido a su plataforma de gestión inmobiliaria</p>
         </div>
@@ -40,7 +40,7 @@
     <header class="bg-brand py-3 px-4 sm:px-6 shadow-md hidden" id="header-saai">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
-                <img id="logo-agencia" class="h-10 sm:h-12 rounded-lg bg-white p-1 shadow object-contain hidden" alt="Logo">
+                <img id="logo-agencia" class="h-10 w-10 sm:h-12 sm:w-12 rounded-full border-2 border-white/60 bg-white shadow-sm object-cover hidden" alt="Logo">
                 <h1 id="nombre-agencia-header" class="text-lg sm:text-xl font-bold tracking-wide text-center sm:text-left leading-tight">Agencia</h1>
             </div>
             <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-end border-t border-white/10 sm:border-0 pt-3 sm:pt-0">
@@ -100,22 +100,35 @@
             
             <!-- VISTA: CATÁLOGO AGENCIA -->
             <div id="vista-catalogo-agencia" class="vista-panel hidden">
-                <h2 class="text-xl sm:text-2xl font-bold text-brand mb-6">Catálogo Privado de la Agencia</h2>
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-brand">Catálogo Privado de la Agencia</h2>
+                        <p class="text-sm text-gray-500 font-medium mt-1">Total inmuebles: <span id="contador-catalogo" class="font-bold text-brand">0</span></p>
+                    </div>
+                    <div class="w-full sm:w-72">
+                        <input type="text" id="buscador-catalogo" placeholder="🔍 Buscar por zona, tipo o detalles..." class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-brand shadow-sm transition" onkeyup="filtrarCatalogo()">
+                    </div>
+                </div>
                 <div id="grid-catalogo-agencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">Cargando...</div>
+                
+                <!-- BOTÓN PAGINACIÓN -->
+                <div id="contenedor-paginacion" class="mt-8 flex justify-center hidden">
+                    <button onclick="cargarMasCatalogo()" class="bg-white border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold px-8 py-3 rounded-xl text-sm transition shadow-sm">Ver más inmuebles ⬇️</button>
+                </div>
             </div>
             
             <!-- VISTA: GESTIÓN BROKER -->
             <div id="vista-admin-broker" class="vista-panel hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
-                        <h3 class="font-bold text-lg mb-4 text-brand">Solicitudes de Asesores</h3>
+                        <h3 class="font-bold text-lg mb-4 text-brand">Solicitudes y Asesores</h3>
                         <div id="lista-agentes" class="space-y-3">Cargando...</div>
                     </div>
                     <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
                         <h3 class="font-bold text-lg mb-4 text-brand">Configuración Marca Blanca</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase">Logo de la Agencia</label>
+                                <label class="text-xs font-bold text-gray-500 uppercase">Logo de la Agencia (Circular)</label>
                                 <div class="flex gap-2 mt-1">
                                     <input type="text" id="config-logo" placeholder="URL del logo" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm focus:outline-none">
                                     <button onclick="document.getElementById('input-logo').click()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 rounded-xl text-xs font-bold transition shadow-sm">Subir</button>
@@ -127,7 +140,7 @@
                                 <label class="text-xs font-bold text-gray-500 uppercase">Color Institucional</label>
                                 <input type="color" id="config-color" class="w-full h-10 rounded-xl cursor-pointer mt-1 border bg-transparent p-1">
                             </div>
-                            <button onclick="actualizarMarcaBlanca()" class="w-full bg-brand text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Guardar Estilos</button>
+                            <button id="btn-guardar-marca" onclick="actualizarMarcaBlanca()" class="w-full bg-brand text-white font-bold py-2.5 rounded-xl shadow transition text-sm disabled:opacity-50 disabled:cursor-not-allowed">Guardar Estilos</button>
                         </div>
                     </div>
                 </div>
@@ -175,6 +188,12 @@
         let usuarioActual = null;
         let datosMiembro = null;
         let datosAgencia = null;
+
+        // Variables Globales Paginación y Búsqueda
+        let catalogoGlobal = [];
+        let catalogoFiltrado = [];
+        let paginaActualCatalogo = 1;
+        const ITEMS_POR_PAGINA = 12;
 
         // SISTEMA DE ALERTAS Y CONFIRMACIONES ESTÉTICAS
         function mostrarAlerta(titulo, mensaje, tipo = 'info', onOk = null) {
@@ -406,10 +425,46 @@
             pintarGrid(data, 'grid-mis-inmuebles', true);
         }
 
+        // ---------- LÓGICA DE CATÁLOGO (BÚSQUEDA Y PAGINACIÓN) ----------
         async function cargarCatalogoAgencia() {
+            document.getElementById('grid-catalogo-agencia').innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">Cargando base de datos...</p>';
             const { data } = await supabaseClient.from('saai_inventario').select('*, saai_miembros(nombre, telefono)');
-            pintarGrid(data, 'grid-catalogo-agencia', false);
+            catalogoGlobal = data || [];
+            filtrarCatalogo();
         }
+
+        function filtrarCatalogo() {
+            const query = document.getElementById('buscador-catalogo').value.toLowerCase();
+            catalogoFiltrado = catalogoGlobal.filter(inm => 
+                inm.tipo.toLowerCase().includes(query) || 
+                inm.ciudad.toLowerCase().includes(query) || 
+                inm.operacion.toLowerCase().includes(query) || 
+                inm.detalles.toLowerCase().includes(query) ||
+                (inm.precio && inm.precio.toString().includes(query))
+            );
+            
+            document.getElementById('contador-catalogo').innerText = catalogoFiltrado.length;
+            paginaActualCatalogo = 1;
+            renderizarPaginacionCatalogo();
+        }
+
+        function renderizarPaginacionCatalogo() {
+            const itemsAMostrar = catalogoFiltrado.slice(0, paginaActualCatalogo * ITEMS_POR_PAGINA);
+            pintarGrid(itemsAMostrar, 'grid-catalogo-agencia', false);
+            
+            const botonMas = document.getElementById('contenedor-paginacion');
+            if (catalogoFiltrado.length > itemsAMostrar.length) {
+                botonMas.classList.remove('hidden');
+            } else {
+                botonMas.classList.add('hidden');
+            }
+        }
+
+        function cargarMasCatalogo() {
+            paginaActualCatalogo++;
+            renderizarPaginacionCatalogo();
+        }
+        // ----------------------------------------------------------------
 
         // FUNCIONES DE ANTIGÜEDAD Y DIBUJADO
         function calcularAntiguedad(fechaPublicacion) {
@@ -445,7 +500,10 @@
 
         function pintarGrid(inmuebles, containerId, esPropio) {
             const container = document.getElementById(containerId);
-            if (!inmuebles || inmuebles.length === 0) { container.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">Sin registros disponibles.</p>'; return; }
+            if (!inmuebles || inmuebles.length === 0) { 
+                container.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">No se encontraron resultados.</p>'; 
+                return; 
+            }
             
             container.innerHTML = inmuebles.map(inm => {
                 const antiguedad = calcularAntiguedad(inm.fecha_publicacion);
@@ -567,12 +625,10 @@
                 let fotos_urls = [];
                 let huboNuevasFotos = fileInput.files.length > 0;
 
-                // Obligar subir fotos al crear uno nuevo
                 if (!idEdicion && !huboNuevasFotos) {
                     throw new Error("Debes subir al menos una foto para publicar un nuevo inmueble.");
                 }
 
-                // Subir fotos nuevas (aplica para INSERT y UPDATE si subieron algo)
                 if (huboNuevasFotos) {
                     for (let i = 0; i < fileInput.files.length; i++) {
                         let file = fileInput.files[i];
@@ -591,9 +647,7 @@
                 }
 
                 if (idEdicion) { 
-                    // MODO EDICIÓN (UPDATE)
                     let datosUpdate = { operacion, tipo, ciudad, precio, detalles };
-                    
                     if (huboNuevasFotos) {
                         const fotosViejasStr = document.getElementById('inm-fotos-viejas').value;
                         if (fotosViejasStr) {
@@ -613,7 +667,6 @@
                     mostrarAlerta("Éxito", "Inmueble actualizado correctamente.", "success");
                     
                 } else { 
-                    // MODO CREACIÓN (INSERT)
                     const { error: errInsert } = await supabaseClient.from('saai_inventario').insert([{
                         agencia_id: datosAgencia.id,
                         agente_id: usuarioActual.id,
@@ -659,15 +712,35 @@
 
         // FUNCIONES DE BROKER Y MARCA BLANCA
         async function cargarAgentes() {
-            const { data } = await supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id);
+            // Obtenemos los agentes y, simultáneamente, la cantidad de inmuebles por agente para la agencia
+            const [reqAgentes, reqInventario] = await Promise.all([
+                supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id),
+                supabaseClient.from('saai_inventario').select('agente_id').eq('agencia_id', datosAgencia.id)
+            ]);
+
+            const agentes = reqAgentes.data;
+            const inventario = reqInventario.data;
+
+            const conteoPorAgente = {};
+            if (inventario) {
+                inventario.forEach(item => {
+                    conteoPorAgente[item.agente_id] = (conteoPorAgente[item.agente_id] || 0) + 1;
+                });
+            }
+
             const container = document.getElementById('lista-agentes');
-            if(!data || data.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 italic">No hay otros agentes registrados en la agencia.</p>'; return; }
+            if(!agentes || agentes.length === 0) { container.innerHTML = '<p class="text-xs text-gray-500 italic">No hay otros agentes registrados en la agencia.</p>'; return; }
             
-            container.innerHTML = data.map(ag => `
-                <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-xl">
+            container.innerHTML = agentes.map(ag => {
+                const totalInmuebles = conteoPorAgente[ag.id] || 0;
+                return `
+                <div class="flex justify-between items-center p-3 bg-gray-50 border rounded-xl hover:bg-gray-100 transition">
                     <div>
                         <p class="font-bold text-sm text-slate-900">${ag.nombre}</p>
-                        <p class="text-xs font-semibold ${ag.estatus && ag.estatus.toLowerCase() === 'aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <p class="text-xs font-semibold ${ag.estatus && ag.estatus.toLowerCase() === 'aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
+                            <span class="text-[10px] bg-white border border-gray-200 text-slate-700 px-2 py-0.5 rounded-md font-bold shadow-sm">${totalInmuebles} Inmuebles</span>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         ${ag.estatus && ag.estatus.toLowerCase() !== 'aprobado' 
@@ -675,7 +748,7 @@
                             : `<button onclick="cambiarEstatusAgente('${ag.id}', 'Pendiente')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition hover:opacity-90">Suspender</button>`}
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
             
             document.getElementById('config-color').value = datosAgencia.color_primario || '#1e293b';
             document.getElementById('config-logo').value = datosAgencia.logo_url || '';
@@ -691,6 +764,11 @@
             const file = e.target.files[0];
             if (!file) return;
             const estado = document.getElementById('estado-logo');
+            const btnGuardar = document.getElementById('btn-guardar-marca');
+            
+            // Bloqueamos el botón de guardado mientras se sube
+            btnGuardar.disabled = true;
+            btnGuardar.innerText = "Subiendo archivo...";
             estado.innerText = "Subiendo logo a servidor privado...";
 
             try {
@@ -713,6 +791,10 @@
                 estado.innerText = "¡Logo subido! Haz clic en Guardar Estilos.";
             } catch (err) {
                 estado.innerText = "Fallo al subir: " + err.message;
+            } finally {
+                // Desbloqueamos el botón al finalizar el proceso (éxito o error)
+                btnGuardar.disabled = false;
+                btnGuardar.innerText = "Guardar Estilos";
             }
         }
 
