@@ -33,7 +33,6 @@
             </div>
         </div>
     </header>
-
     <div class="max-w-7xl mx-auto w-full p-3 sm:p-4 flex-1 mt-2 sm:mt-6">
         <!-- SECCIÓN AUTENTICACIÓN / REGISTRO -->
         <div id="auth-section" class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md mx-auto border-t-4 border-slate-900 transition-all">
@@ -68,7 +67,6 @@
                 <button type="submit" id="btn-auth" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-sm">Iniciar Sesión</button>
             </form>
         </div>
-
         <!-- PANEL DASHBOARD -->
         <div id="dashboard-section" class="hidden">
             <div class="flex gap-2 overflow-x-auto pb-3 mb-6 border-b border-gray-200 scrollbar-none" id="menu-navegacion"></div>
@@ -81,13 +79,11 @@
                 </div>
                 <div id="grid-mis-inmuebles" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">Cargando...</div>
             </div>
-
             <!-- VISTA: CATÁLOGO AGENCIA -->
             <div id="vista-catalogo-agencia" class="vista-panel hidden">
                 <h2 class="text-xl sm:text-2xl font-bold text-brand mb-6">Catálogo Privado de la Agencia</h2>
                 <div id="grid-catalogo-agencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">Cargando...</div>
             </div>
-
             <!-- VISTA: GESTIÓN BROKER -->
             <div id="vista-admin-broker" class="vista-panel hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -99,8 +95,13 @@
                         <h3 class="font-bold text-lg mb-4 text-brand">Configuración Marca Blanca</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase">Logo URL</label>
-                                <input type="text" id="config-logo" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm mt-1 focus:outline-none">
+                                <label class="text-xs font-bold text-gray-500 uppercase">Logo de la Agencia</label>
+                                <div class="flex gap-2 mt-1">
+                                    <input type="text" id="config-logo" placeholder="URL del logo" class="w-full bg-gray-50 border rounded-xl px-3 py-2 text-sm focus:outline-none">
+                                    <button onclick="document.getElementById('input-logo').click()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 rounded-xl text-xs font-bold transition shadow-sm">Subir</button>
+                                    <input type="file" id="input-logo" accept="image/*" class="hidden" onchange="subirLogoR2(event)">
+                                </div>
+                                <p id="estado-logo" class="text-[10px] text-gray-500 mt-1"></p>
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-gray-500 uppercase">Color Institucional</label>
@@ -113,12 +114,13 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL DE CARGA DE INMUEBLE -->
     <div id="modal-carga" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl my-auto animate-fadeIn">
             <h3 class="font-bold text-xl mb-4 border-b pb-2 text-brand">Subir Propiedad</h3>
             <form onsubmit="guardarPropiedad(event)" class="space-y-4">
+                <input type="hidden" id="inm-id-edicion" value="">
+                <input type="hidden" id="inm-fotos-viejas" value="">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input type="text" id="inm-tipo" required placeholder="Tipo (Ej: Townhouse)" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
                     <input type="number" id="inm-precio" required placeholder="Precio $" class="bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none">
@@ -130,7 +132,7 @@
                 </div>
                 <textarea id="inm-detalles" required rows="3" placeholder="Descripción completa" class="w-full bg-gray-50 border rounded-xl px-3 py-2.5 text-sm outline-none"></textarea>
                 <div>
-                    <label class="text-xs font-bold text-gray-500">Fotos (Múltiples, se subirán a Cloudflare R2)</label>
+                    <label class="text-xs font-bold text-gray-500">Fotos (Múltiples). <span class="text-blue-600">Dejar vacío si no deseas reemplazar las actuales al editar.</span></label>
                     <input type="file" id="inm-fotos" accept="image/*" multiple class="w-full bg-brand text-white p-2.5 rounded-xl text-xs mt-1 cursor-pointer">
                 </div>
                 <div class="flex justify-end gap-3 pt-2">
@@ -140,7 +142,6 @@
             </form>
         </div>
     </div>
-
     <!-- SCRIPTS Y SISTEMA DE MODALES ESTÉTICOS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -158,10 +159,8 @@
             let modalId = 'custom-alert-modal';
             let existing = document.getElementById(modalId);
             if (existing) existing.remove();
-
             let colorBorde = tipo === 'error' ? 'border-red-500' : tipo === 'success' ? 'border-green-500' : 'border-slate-900';
             let bgColorBtn = tipo === 'error' ? 'bg-red-600 hover:bg-red-700' : tipo === 'success' ? 'bg-green-600 hover:bg-green-700' : 'bg-slate-900 hover:bg-slate-800';
-
             let html = `
                 <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
                     <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 ${colorBorde} text-center">
@@ -182,7 +181,6 @@
             let modalId = 'custom-confirm-modal';
             let existing = document.getElementById(modalId);
             if (existing) existing.remove();
-
             let html = `
                 <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fadeIn">
                     <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 border-amber-500 text-center">
@@ -190,7 +188,7 @@
                         <p class="text-sm text-gray-600 mb-6 leading-relaxed">${mensaje}</p>
                         <div class="flex gap-3">
                             <button id="confirm-btn-no" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl transition text-sm">Cancelar</button>
-                            <button id="confirm-btn-yes" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Sí, eliminar</button>
+                            <button id="confirm-btn-yes" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Sí, continuar</button>
                         </div>
                     </div>
                 </div>
@@ -215,35 +213,27 @@
             document.getElementById('btn-auth').innerText = modo === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
         }
 
-        // PROCESAR AUTENTICACIÓN Y REGISTRO BLINDADO (Raíz solucionada: ID sincronizado)
         async function procesarAuth(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-auth');
             btn.disabled = true; btn.innerText = "Procesando...";
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-
             try {
                 if (modoAuthActual === 'login') {
                     const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
                     if (error) throw error;
                 } else {
                     const nombre = document.getElementById('nombre').value.trim();
-                    
-                    // 1. Crear usuario en Auth
                     const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
                     if (authError) throw authError;
                     
                     if (!authData.user) throw new Error("No se pudo obtener el ID del usuario registrado.");
                     const userId = authData.user.id;
-
-                    // 2. Forzar sesión inmediata si viene vacía
                     if (!authData.session) {
                         const { error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
                         if (loginError) throw loginError;
                     }
-
-                    // 3. Registrar con el ID exacto
                     if (modoAuthActual === 'registro_broker') {
                         const nombreAgencia = document.getElementById('nombre-agencia').value.trim();
                         const colorAgencia = document.getElementById('color-agencia').value;
@@ -258,23 +248,20 @@
                         }]).select().single();
                         
                         if (errAgencia) throw errAgencia;
-
                         const { error: errMiembro } = await supabaseClient.from('saai_miembros').insert([{ 
                             id: userId, 
                             agencia_id: agencia.id, 
                             rol: 'Broker', 
                             nombre: nombre, 
-                            estatus: 'aprobado' 
+                            estatus: 'Aprobado' 
                         }]);
                         
                         if (errMiembro) throw errMiembro;
-
                     } else {
                         const codigoUnion = document.getElementById('codigo-union').value.trim().toUpperCase();
                         const { data: agencia, error: errBusqueda } = await supabaseClient.from('saai_agencias').select('id').eq('codigo_acceso', codigoUnion).single();
                         
                         if (errBusqueda || !agencia) throw new Error("Código de agencia inválido");
-
                         const { error: errAsesor } = await supabaseClient.from('saai_miembros').insert([{ 
                             id: userId, 
                             agencia_id: agencia.id, 
@@ -294,33 +281,25 @@
             }
         }
 
-        // FUNCIÓN BLINDADA CON REINTENTO AUTOMÁTICO Y VALIDACIÓN DE ESTATUS
         async function iniciarSAAI(intentos = 0) {
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (!session) return;
             usuarioActual = session.user;
-
             let { data: miembro, error } = await supabaseClient
                 .from('saai_miembros')
                 .select('*, saai_agencias(*)')
                 .eq('id', usuarioActual.id)
                 .single();
-
-            // Reintento automático por desfase de RLS / Red
             if ((error || !miembro) && intentos < 3) {
                 await new Promise(r => setTimeout(r, 450));
                 return iniciarSAAI(intentos + 1);
             }
-
             if (error || !miembro) { 
                 mostrarAlerta("Atención", "Perfil no encontrado en la base de datos. Verifica tus credenciales o contacta al administrador.", "error"); 
                 return; 
             }
-
             datosMiembro = miembro;
             datosAgencia = miembro.saai_agencias;
-
-            // Validación Agencia (Super Admin) - Insensible a mayúsculas/minúsculas
             if (!datosAgencia || !datosAgencia.estatus || datosAgencia.estatus.toLowerCase() !== 'aprobado') {
                 document.getElementById('auth-section').innerHTML = `
                     <div class="text-center p-4 sm:p-6">
@@ -333,8 +312,6 @@
                 document.getElementById('header-saai').classList.add('hidden');
                 return;
             }
-
-            // Validación Miembro (Broker / Asesor) - Insensible a mayúsculas/minúsculas
             if (!miembro.estatus || miembro.estatus.toLowerCase() !== 'aprobado') {
                 document.getElementById('auth-section').innerHTML = `
                     <div class="text-center p-4 sm:p-6">
@@ -347,7 +324,6 @@
                 document.getElementById('header-saai').classList.add('hidden');
                 return;
             }
-
             document.documentElement.style.setProperty('--brand-color', datosAgencia.color_primario || '#1e293b');
             document.getElementById('nombre-agencia-header').innerText = datosAgencia.nombre_comercial;
             if(datosAgencia.logo_url) document.getElementById('logo-agencia').src = datosAgencia.logo_url;
@@ -388,30 +364,72 @@
             pintarGrid(data, 'grid-catalogo-agencia', false);
         }
 
+        // FUNCIONES DE ANTIGÜEDAD Y DIBUJADO
+        function calcularAntiguedad(fechaPublicacion) {
+            const fechaPub = new Date(fechaPublicacion);
+            const ahora = new Date();
+            const difTiempo = Math.abs(ahora - fechaPub);
+            const dias = Math.floor(difTiempo / (1000 * 60 * 60 * 24));
+            
+            let mensaje = "";
+            let sugerencia = "";
+            let colorBadge = "bg-blue-100 text-blue-700";
+
+            if (dias === 0) {
+                mensaje = "Nuevo hoy";
+            } else if (dias === 1) {
+                mensaje = "1 día en mercado";
+            } else {
+                mensaje = `${dias} días en mercado`;
+            }
+
+            if (dias >= 7 && dias < 14) {
+                sugerencia = "Sugerencia: Verifica disponibilidad con el propietario.";
+                colorBadge = "bg-amber-100 text-amber-700";
+            } else if (dias >= 14 && dias < 21) {
+                sugerencia = "Sugerencia: Valida si el precio de mercado ha cambiado.";
+                colorBadge = "bg-orange-100 text-orange-700";
+            } else if (dias >= 21) {
+                sugerencia = "Sugerencia: Considera nuevas fotos o reajuste de estrategia de marketing.";
+                colorBadge = "bg-red-100 text-red-700";
+            }
+            return { mensaje, sugerencia, colorBadge };
+        }
+
         function pintarGrid(inmuebles, containerId, esPropio) {
             const container = document.getElementById(containerId);
             if (!inmuebles || inmuebles.length === 0) { container.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">Sin registros disponibles.</p>'; return; }
             
-            container.innerHTML = inmuebles.map(inm => `
+            container.innerHTML = inmuebles.map(inm => {
+                const antiguedad = calcularAntiguedad(inm.fecha_publicacion);
+                const inmJson = JSON.stringify(inm).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+
+                return `
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition hover:shadow-md">
-                    <img src="${inm.fotos_urls[0] || ''}" class="h-44 w-full object-cover bg-gray-200">
+                    <img src="${inm.fotos_urls && inm.fotos_urls.length > 0 ? inm.fotos_urls[0] : ''}" class="h-44 w-full object-cover bg-gray-200">
                     <div class="p-4 flex-1 flex flex-col justify-between">
                         <div>
-                            <span class="text-[10px] font-bold text-white bg-brand px-2.5 py-1 rounded-full uppercase tracking-wider">${inm.operacion}</span>
+                            <div class="flex justify-between items-start">
+                                <span class="text-[10px] font-bold text-white bg-brand px-2.5 py-1 rounded-full uppercase tracking-wider">${inm.operacion}</span>
+                                <span class="text-[10px] font-bold px-2 py-1 rounded-full ${antiguedad.colorBadge}">${antiguedad.mensaje}</span>
+                            </div>
                             <h4 class="font-bold text-base sm:text-lg mt-2 text-slate-900">${inm.tipo} en ${inm.ciudad}</h4>
                             <p class="font-bold text-green-600 text-base sm:text-lg">$${inm.precio}</p>
                             ${!esPropio ? `<p class="text-xs text-gray-500 mt-2 font-medium">Captador: ${inm.saai_miembros.nombre}</p>` : ''}
+                            ${esPropio && antiguedad.sugerencia ? `<p class="text-[10px] mt-2 italic text-gray-600 border-l-2 border-brand pl-2">${antiguedad.sugerencia}</p>` : ''}
                         </div>
                         <div class="grid grid-cols-2 gap-2 mt-4 border-t pt-3">
                             <button onclick='copiarFichaYNavegar(${JSON.stringify(inm.detalles)})' class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">📋 Copiar Ficha</button>
                             <button onclick='descargarLoteFotos(${JSON.stringify(inm.fotos_urls)}, ${JSON.stringify(inm.detalles)})' class="bg-brand text-white py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">⬇️ Bajar Fotos</button>
-                            ${esPropio ? `<button onclick='eliminarInmueble("${inm.id}")' class="col-span-2 bg-red-50 hover:bg-red-100 text-red-700 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">🗑️ Eliminar Inmueble</button>` : ''}
+                            ${esPropio ? `<button onclick="editarInmueble('${inmJson}')" class="bg-amber-50 hover:bg-amber-100 text-amber-700 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">✏️ Editar</button>` : ''}
+                            ${esPropio ? `<button onclick='eliminarInmueble("${inm.id}")' class="bg-red-50 hover:bg-red-100 text-red-700 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">🗑️ Eliminar</button>` : ''}
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
         }
 
+        // FUNCIONES DE INTERACCIÓN
         function copiarFichaYNavegar(detalles) {
             navigator.clipboard.writeText(detalles);
             mostrarAlerta("¡Copiado!", "Ficha técnica copiada al portapapeles con éxito.", "success");
@@ -449,6 +467,40 @@
             }
         }
 
+        // FUNCIONES DE CARGA Y EDICIÓN DE INMUEBLE
+        function abrirModalCarga() { 
+            document.getElementById('modal-carga').classList.replace('hidden', 'flex'); 
+        }
+
+        function editarInmueble(inmuebleStr) {
+            const inm = JSON.parse(inmuebleStr);
+            document.getElementById('inm-id-edicion').value = inm.id;
+            document.getElementById('inm-fotos-viejas').value = JSON.stringify(inm.fotos_urls || []);
+            
+            document.getElementById('inm-tipo').value = inm.tipo;
+            document.getElementById('inm-precio').value = inm.precio;
+            document.getElementById('inm-ciudad').value = inm.ciudad;
+            document.getElementById('inm-operacion').value = inm.operacion;
+            document.getElementById('inm-detalles').value = inm.detalles;
+            
+            document.querySelector('#modal-carga h3').innerText = "Editar Propiedad";
+            document.getElementById('btn-guardar-inmueble').innerText = "Actualizar Inmueble";
+            abrirModalCarga();
+        }
+
+        function cerrarModalCarga() { 
+            document.getElementById('modal-carga').classList.replace('flex', 'hidden'); 
+            document.getElementById('inm-id-edicion').value = "";
+            document.getElementById('inm-fotos-viejas').value = "";
+            document.getElementById('inm-tipo').value = "";
+            document.getElementById('inm-precio').value = "";
+            document.getElementById('inm-ciudad').value = "";
+            document.getElementById('inm-detalles').value = "";
+            document.getElementById('inm-fotos').value = "";
+            document.querySelector('#modal-carga h3').innerText = "Subir Propiedad";
+            document.getElementById('btn-guardar-inmueble').innerText = "Subir Inmueble";
+        }
+
         async function guardarPropiedad(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-guardar-inmueble');
@@ -458,40 +510,85 @@
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 const token = session.access_token;
                 const fileInput = document.getElementById('inm-fotos');
-                let fotos_urls = [];
+                const idEdicion = document.getElementById('inm-id-edicion').value;
+                const operacion = document.getElementById('inm-operacion').value;
+                const tipo = document.getElementById('inm-tipo').value;
+                const ciudad = document.getElementById('inm-ciudad').value;
+                const precio = document.getElementById('inm-precio').value;
+                const detalles = document.getElementById('inm-detalles').value;
                 
-                for (let i = 0; i < fileInput.files.length; i++) {
-                    let file = fileInput.files[i];
-                    try { file = await imageCompression(file, { maxSizeMB: 0.8, maxWidthOrHeight: 1200, useWebWorker: true }); } catch(err){}
-                    
-                    const reqFirma = await fetch('https://econexus-saai-ap.vercel.app/api/upload', {
-                        method: 'POST', 
-                        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
-                        body: JSON.stringify({ filename: file.name, contentType: file.type })
-                    });
-                    const resFirma = await reqFirma.json();
-                    if(resFirma.error) throw new Error(resFirma.error);
-                    await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
-                    fotos_urls.push(resFirma.publicUrl);
+                let fotos_urls = [];
+                let huboNuevasFotos = fileInput.files.length > 0;
+
+                // Obligar subir fotos al crear uno nuevo
+                if (!idEdicion && !huboNuevasFotos) {
+                    throw new Error("Debes subir al menos una foto para publicar un nuevo inmueble.");
                 }
-                await supabaseClient.from('saai_inventario').insert([{
-                    agencia_id: datosAgencia.id,
-                    agente_id: usuarioActual.id,
-                    operacion: document.getElementById('inm-operacion').value,
-                    tipo: document.getElementById('inm-tipo').value,
-                    ciudad: document.getElementById('inm-ciudad').value,
-                    precio: document.getElementById('inm-precio').value,
-                    detalles: document.getElementById('inm-detalles').value,
-                    fotos_urls: fotos_urls
-                }]);
+
+                // Subir fotos nuevas (aplica para INSERT y UPDATE si subieron algo)
+                if (huboNuevasFotos) {
+                    for (let i = 0; i < fileInput.files.length; i++) {
+                        let file = fileInput.files[i];
+                        try { file = await imageCompression(file, { maxSizeMB: 0.8, maxWidthOrHeight: 1200, useWebWorker: true }); } catch(err){}
+                        
+                        const reqFirma = await fetch('https://econexus-saai-ap.vercel.app/api/upload', {
+                            method: 'POST', 
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }, 
+                            body: JSON.stringify({ filename: file.name, contentType: file.type })
+                        });
+                        const resFirma = await reqFirma.json();
+                        if(resFirma.error) throw new Error(resFirma.error);
+                        await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+                        fotos_urls.push(resFirma.publicUrl);
+                    }
+                }
+
+                if (idEdicion) { 
+                    // MODO EDICIÓN (UPDATE)
+                    let datosUpdate = { operacion, tipo, ciudad, precio, detalles };
+                    
+                    if (huboNuevasFotos) {
+                        const fotosViejasStr = document.getElementById('inm-fotos-viejas').value;
+                        if (fotosViejasStr) {
+                            const fotosViejas = JSON.parse(fotosViejasStr);
+                            if (fotosViejas.length > 0) {
+                                await fetch('https://econexus-saai-ap.vercel.app/api/delete', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                                    body: JSON.stringify({ urls: fotosViejas })
+                                });
+                            }
+                        }
+                        datosUpdate.fotos_urls = fotos_urls;
+                    }
+                    const { error: errUpdate } = await supabaseClient.from('saai_inventario').update(datosUpdate).eq('id', idEdicion);
+                    if(errUpdate) throw errUpdate;
+                    mostrarAlerta("Éxito", "Inmueble actualizado correctamente.", "success");
+                    
+                } else { 
+                    // MODO CREACIÓN (INSERT)
+                    const { error: errInsert } = await supabaseClient.from('saai_inventario').insert([{
+                        agencia_id: datosAgencia.id,
+                        agente_id: usuarioActual.id,
+                        operacion: operacion,
+                        tipo: tipo,
+                        ciudad: ciudad,
+                        precio: precio,
+                        detalles: detalles,
+                        fotos_urls: fotos_urls
+                    }]);
+                    if(errInsert) throw errInsert;
+                    mostrarAlerta("Éxito", "Inmueble publicado correctamente en el sistema.", "success");
+                }
                 
                 cerrarModalCarga();
                 cargarMisInmuebles();
-                mostrarAlerta("Éxito", "Inmueble publicado correctamente en el sistema.", "success");
+                
             } catch (err) {
-                mostrarAlerta("Error al subir", err.message, "error");
+                mostrarAlerta("Error al procesar", err.message, "error");
             } finally {
-                btn.disabled = false; btn.innerText = "Subir Inmueble";
+                btn.disabled = false; 
+                btn.innerText = document.getElementById('inm-id-edicion').value ? "Actualizar Inmueble" : "Subir Inmueble";
             }
         }
 
@@ -513,6 +610,7 @@
             });
         }
 
+        // FUNCIONES DE BROKER Y MARCA BLANCA
         async function cargarAgentes() {
             const { data } = await supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id);
             const container = document.getElementById('lista-agentes');
@@ -524,7 +622,11 @@
                         <p class="font-bold text-sm text-slate-900">${ag.nombre}</p>
                         <p class="text-xs font-semibold ${ag.estatus && ag.estatus.toLowerCase() === 'aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
                     </div>
-                    ${ag.estatus && ag.estatus.toLowerCase() !== 'aprobado' ? `<button onclick="aprobarAgente('${ag.id}')" class="bg-brand text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition hover:opacity-90">Aprobar</button>` : ''}
+                    <div class="flex gap-2">
+                        ${ag.estatus && ag.estatus.toLowerCase() !== 'aprobado' 
+                            ? `<button onclick="cambiarEstatusAgente('${ag.id}', 'Aprobado')" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition hover:opacity-90">Aprobar</button>` 
+                            : `<button onclick="cambiarEstatusAgente('${ag.id}', 'Pendiente')" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition hover:opacity-90">Suspender</button>`}
+                    </div>
                 </div>
             `).join('');
             
@@ -532,10 +634,39 @@
             document.getElementById('config-logo').value = datosAgencia.logo_url || '';
         }
 
-        async function aprobarAgente(id) { 
-            await supabaseClient.from('saai_miembros').update({ estatus: 'Aprobado' }).eq('id', id); 
+        async function cambiarEstatusAgente(id, estatus) { 
+            await supabaseClient.from('saai_miembros').update({ estatus: estatus }).eq('id', id); 
             cargarAgentes(); 
-            mostrarAlerta("Aprobado", "El asesor ha sido autorizado con éxito.", "success");
+            mostrarAlerta("Actualizado", `El estatus del agente cambió a ${estatus}.`, "success");
+        }
+
+        async function subirLogoR2(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const estado = document.getElementById('estado-logo');
+            estado.innerText = "Subiendo logo a servidor privado...";
+
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                let archivoFiltro = file;
+                try { archivoFiltro = await imageCompression(file, { maxSizeMB: 0.3, maxWidthOrHeight: 400, useWebWorker: true }); } catch(err){}
+                
+                const reqFirma = await fetch('https://econexus-saai-ap.vercel.app/api/upload', {
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` }, 
+                    body: JSON.stringify({ filename: 'logo_' + archivoFiltro.name, contentType: archivoFiltro.type })
+                });
+                
+                const resFirma = await reqFirma.json();
+                if(resFirma.error) throw new Error(resFirma.error);
+                
+                await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': archivoFiltro.type }, body: archivoFiltro });
+                
+                document.getElementById('config-logo').value = resFirma.publicUrl;
+                estado.innerText = "¡Logo subido! Haz clic en Guardar Estilos.";
+            } catch (err) {
+                estado.innerText = "Fallo al subir: " + err.message;
+            }
         }
 
         async function actualizarMarcaBlanca() {
@@ -545,10 +676,9 @@
             mostrarAlerta("Actualizado", "Marca blanca actualizada correctamente. La página se recargará.", "success", () => location.reload());
         }
 
-        function abrirModalCarga() { document.getElementById('modal-carga').classList.replace('hidden', 'flex'); }
-        function cerrarModalCarga() { document.getElementById('modal-carga').classList.replace('flex', 'hidden'); }
         async function logout() { await supabaseClient.auth.signOut(); location.reload(); }
         
+        // INICIALIZACIÓN
         iniciarSAAI();
     </script>
 </body>
