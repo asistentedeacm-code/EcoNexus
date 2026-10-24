@@ -20,19 +20,36 @@
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex flex-col">
-    <!-- HEADER MARCA BLANCA -->
+    
+    <!-- PANTALLA DE CARGA (SPLASH SCREEN) -->
+    <div id="splash-screen" class="fixed inset-0 bg-white z-[100] hidden flex-col items-center justify-center animate-fadeIn">
+        <div class="flex-1 flex flex-col items-center justify-center w-full px-6 text-center">
+            <img id="splash-logo" class="h-28 sm:h-36 mb-6 object-contain drop-shadow-md hidden" alt="Logo Agencia">
+            <h1 id="splash-agencia" class="text-3xl sm:text-4xl font-extrabold text-brand mb-3 leading-tight"></h1>
+            <p class="text-gray-500 text-sm sm:text-base font-medium">Bienvenido a su plataforma de gestión inmobiliaria</p>
+        </div>
+        <div class="pb-10 text-center">
+            <p class="text-green-600 font-bold text-sm flex items-center justify-center gap-2 mb-1">
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span> SAAI en línea
+            </p>
+            <p class="text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold">Sistema para agencias de élite</p>
+        </div>
+    </div>
+
+    <!-- HEADER MARCA BLANCA RESPONSIVO -->
     <header class="bg-brand py-3 px-4 sm:px-6 shadow-md hidden" id="header-saai">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img id="logo-agencia" src="" class="h-9 sm:h-10 rounded-lg bg-white p-1 shadow object-contain" onerror="this.style.display='none'">
-                <h1 id="nombre-agencia-header" class="text-base sm:text-xl font-bold tracking-wide truncate max-w-[180px] sm:max-w-xs">Agencia</h1>
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+                <img id="logo-agencia" class="h-10 sm:h-12 rounded-lg bg-white p-1 shadow object-contain hidden" alt="Logo">
+                <h1 id="nombre-agencia-header" class="text-lg sm:text-xl font-bold tracking-wide text-center sm:text-left leading-tight">Agencia</h1>
             </div>
-            <div class="flex items-center gap-2 sm:gap-4">
-                <span id="badge-rol" class="px-2.5 py-1 bg-white/20 rounded-full text-[10px] sm:text-xs font-bold border border-white/30">Cargando...</span>
-                <button onclick="logout()" class="text-xs font-bold bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg transition shadow">Salir</button>
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-end border-t border-white/10 sm:border-0 pt-3 sm:pt-0">
+                <span id="badge-rol" class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold border border-white/30 tracking-wide">Cargando...</span>
+                <button onclick="logout()" class="text-xs font-bold bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg transition shadow-sm">Salir</button>
             </div>
         </div>
     </header>
+
     <div class="max-w-7xl mx-auto w-full p-3 sm:p-4 flex-1 mt-2 sm:mt-6">
         <!-- SECCIÓN AUTENTICACIÓN / REGISTRO -->
         <div id="auth-section" class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md mx-auto border-t-4 border-slate-900 transition-all">
@@ -67,6 +84,7 @@
                 <button type="submit" id="btn-auth" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl shadow transition text-sm">Iniciar Sesión</button>
             </form>
         </div>
+        
         <!-- PANEL DASHBOARD -->
         <div id="dashboard-section" class="hidden">
             <div class="flex gap-2 overflow-x-auto pb-3 mb-6 border-b border-gray-200 scrollbar-none" id="menu-navegacion"></div>
@@ -79,11 +97,13 @@
                 </div>
                 <div id="grid-mis-inmuebles" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">Cargando...</div>
             </div>
+            
             <!-- VISTA: CATÁLOGO AGENCIA -->
             <div id="vista-catalogo-agencia" class="vista-panel hidden">
                 <h2 class="text-xl sm:text-2xl font-bold text-brand mb-6">Catálogo Privado de la Agencia</h2>
                 <div id="grid-catalogo-agencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">Cargando...</div>
             </div>
+            
             <!-- VISTA: GESTIÓN BROKER -->
             <div id="vista-admin-broker" class="vista-panel hidden">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -114,6 +134,7 @@
             </div>
         </div>
     </div>
+    
     <!-- MODAL DE CARGA DE INMUEBLE -->
     <div id="modal-carga" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
         <div class="bg-white rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl my-auto animate-fadeIn">
@@ -142,6 +163,7 @@
             </form>
         </div>
     </div>
+    
     <!-- SCRIPTS Y SISTEMA DE MODALES ESTÉTICOS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -324,14 +346,39 @@
                 document.getElementById('header-saai').classList.add('hidden');
                 return;
             }
+            
+            // CONFIGURACIÓN DE INTERFAZ Y MARCA BLANCA
             document.documentElement.style.setProperty('--brand-color', datosAgencia.color_primario || '#1e293b');
             document.getElementById('nombre-agencia-header').innerText = datosAgencia.nombre_comercial;
-            if(datosAgencia.logo_url) document.getElementById('logo-agencia').src = datosAgencia.logo_url;
+            
+            if(datosAgencia.logo_url) {
+                const logoEl = document.getElementById('logo-agencia');
+                logoEl.src = datosAgencia.logo_url;
+                logoEl.classList.remove('hidden');
+                
+                const splashLogo = document.getElementById('splash-logo');
+                splashLogo.src = datosAgencia.logo_url;
+                splashLogo.classList.remove('hidden');
+            }
+            
             document.getElementById('badge-rol').innerText = miembro.rol.toUpperCase();
             document.getElementById('auth-section').classList.add('hidden');
-            document.getElementById('header-saai').classList.remove('hidden');
-            document.getElementById('dashboard-section').classList.remove('hidden');
-            renderizarMenuRol();
+            
+            // EJECUCIÓN DEL SPLASH SCREEN (3 Segundos)
+            document.getElementById('splash-agencia').innerText = datosAgencia.nombre_comercial;
+            const splash = document.getElementById('splash-screen');
+            splash.classList.remove('hidden');
+            splash.classList.add('flex');
+            
+            // Precargar datos en segundo plano mientras el usuario ve el splash
+            renderizarMenuRol(); 
+            
+            setTimeout(() => {
+                splash.classList.remove('flex');
+                splash.classList.add('hidden');
+                document.getElementById('header-saai').classList.remove('hidden');
+                document.getElementById('dashboard-section').classList.remove('hidden');
+            }, 3000);
         }
 
         function renderizarMenuRol() {
