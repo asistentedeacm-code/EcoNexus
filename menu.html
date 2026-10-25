@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú Rápido | EcoNexus</title>
-
+    <title>Menú Principal | EcoNexus & SAAI</title>
     <!-- Configuración PWA / PWA Settings -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e4d2e">
@@ -12,7 +11,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="EcoNexus">
     <link rel="apple-touch-icon" href="logo.png.png">
-
+    <!-- Tailwind CSS CDN para componentes avanzados y responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,31 +25,28 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
         /* --- CONTENEDOR DEL LOGO Y PALABRAS FLOTANTES --- */
         .logo-wrapper {
             position: relative;
-            margin-bottom: 50px; /* Un poco más de margen abajo */
+            margin-bottom: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
-
         .logo {
-            width: 180px;
+            width: 150px;
             height: auto;
             position: relative;
             z-index: 2; 
         }
-
-        /* Estilos de las palabras flotantes (ajustadas para mejor contraste) */
         .floating-word {
             position: absolute;
             color: #a8d5ba; 
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -57,18 +54,15 @@
             pointer-events: none; 
             animation: orbital-float 6s ease-in-out infinite;
             z-index: 1;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.6); /* Sombra más fuerte para que se lean bien */
-            white-space: nowrap; /* Evita que las palabras se partan en dos líneas */
+            text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+            white-space: nowrap;
         }
-
-        /* Distancias ampliadas para evitar chocar con el logo */
-        .w1 { top: 15%; left: -80px; animation-delay: 0s; }
-        .w2 { top: 35%; right: -120px; animation-delay: 1.2s; }
-        .w3 { bottom: 25%; left: -100px; animation-delay: 2.4s; }
-        .w4 { bottom: 25%; right: -100px; animation-delay: 3.6s; }
-        .w5 { top: -25px; right: 0px; animation-delay: 4.8s; }
-        .w6 { bottom: -45px; left: 10px; animation-delay: 6.0s; }
-
+        .w1 { top: 15%; left: -70px; animation-delay: 0s; }
+        .w2 { top: 35%; right: -100px; animation-delay: 1.2s; }
+        .w3 { bottom: 25%; left: -90px; animation-delay: 2.4s; }
+        .w4 { bottom: 25%; right: -90px; animation-delay: 3.6s; }
+        .w5 { top: -20px; right: 0px; animation-delay: 4.8s; }
+        .w6 { bottom: -35px; left: 10px; animation-delay: 6.0s; }
         @keyframes orbital-float {
             0% { opacity: 0; transform: translateY(10px) scale(0.9); }
             30% { opacity: 0.8; transform: translateY(0) scale(1.05); }
@@ -81,8 +75,8 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 350px;
-            gap: 20px;
+            max-width: 360px;
+            gap: 15px;
             z-index: 10;
         }
         
@@ -90,25 +84,45 @@
             background-color: #ffffff;
             color: #1e4d2e;
             text-decoration: none;
-            padding: 18px 20px;
+            padding: 16px 20px;
             border-radius: 30px;
             text-align: center;
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
         .btn:active {
             transform: scale(0.95);
         }
 
-        /* --- NUBES DE BENEFICIOS --- */
+        /* Botón Especial SAAI con animación en verde claro y punto online */
+        .btn-saai {
+            background-color: #ffffff;
+            color: #1e4d2e;
+            border: 2px solid #a8d5ba;
+            position: relative;
+            overflow: hidden;
+            animation: saai-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes saai-glow {
+            0% { box-shadow: 0 0 5px rgba(168,213,186,0.4), 0 4px 15px rgba(0,0,0,0.3); }
+            50% { box-shadow: 0 0 20px rgba(168,213,186,0.8), 0 4px 20px rgba(0,0,0,0.4); }
+            100% { box-shadow: 0 0 5px rgba(168,213,186,0.4), 0 4px 15px rgba(0,0,0,0.3); }
+        }
+
+        /* --- NUBES DE BENEFICIOS (MENÚ INFERIOR) --- */
         .benefits-wrapper {
-            margin-top: 40px;
+            margin-top: 25px;
             width: 100%;
             max-width: 380px;
-            height: 160px;
+            height: 150px;
             position: relative;
             display: flex;
             justify-content: center;
@@ -116,58 +130,183 @@
             z-index: 5;
             animation: float-gentle 4s ease-in-out infinite alternate;
         }
-
         .cloud-card {
             position: absolute;
             width: 100%;
             box-sizing: border-box;
-            /* Fondo oscurecido para aumentar drásticamente la legibilidad del texto blanco */
-            background: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.15));
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             color: white;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             pointer-events: none;
         }
-
         .cloud-card.active {
             opacity: 1;
             transform: scale(1);
         }
-
         .cloud-card h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
             color: #a8d5ba;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
-
         .cloud-card p {
             margin: 0;
-            font-size: 1rem;
-            line-height: 1.4;
+            font-size: 0.95rem;
+            line-height: 1.35;
             font-weight: 400;
             text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
-
         @keyframes float-gentle {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
+            100% { transform: translateY(-8px); }
         }
     </style>
 </head>
 <body>
 
+    <!-- ========================================== -->
+    <!-- 1. SPLASH SCREEN / BIENVENIDA (3 SEGUNDOS) -->
+    <!-- ========================================== -->
+    <div id="econexus-splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950 text-white transition-opacity duration-700">
+      <div class="relative z-10 flex flex-col items-center text-center px-6 max-w-lg">
+        
+        <!-- Sincronización de Logos (EcoNexus + Agencia / Usuario) -->
+        <div class="flex items-center justify-center gap-4 mb-6">
+          <!-- Logo EcoNexus -->
+          <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-cyan-500 to-emerald-600 p-0.5 shadow-lg shadow-emerald-500/30">
+            <div class="w-full h-full bg-slate-900 rounded-[14px] flex items-center justify-center">
+              <img src="logo.png.png" alt="EcoNexus" class="max-h-full max-w-full object-contain p-1">
+            </div>
+          </div>
+
+          <!-- Animación de 3 puntos / Conexión -->
+          <div class="flex space-x-1 items-center">
+            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0s"></div>
+            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-2 h-2 bg-emerald-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+          </div>
+
+          <!-- Logo Dinámico de la Agencia (Si no hay, carga placeholder corporativo por defecto) -->
+          <div class="w-16 h-16 rounded-2xl bg-slate-800 border border-slate-700/60 p-1 flex items-center justify-center shadow-lg">
+            <img id="splash-agency-logo" src="logo.png.png" alt="Logo Agencia" class="max-h-full max-w-full object-contain rounded-xl">
+          </div>
+        </div>
+
+        <!-- Badge Premium -->
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3 tracking-wide uppercase">
+          Ecosistema Inmobiliario de Élite
+        </span>
+
+        <!-- Título de Bienvenida Dinámico -->
+        <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight text-white mb-2">
+          Bienvenido a <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-300">EcoNexus & SAAI</span>
+        </h1>
+
+        <!-- Texto dinámico cambiante sincronizado en 3 segundos -->
+        <p id="splash-dynamic-text" class="text-emerald-300/90 text-sm font-medium max-w-xs mb-8 h-6 transition-opacity duration-300">
+          Estás entrando a nuestro ecosistema...
+        </p>
+
+        <!-- Barra de Carga (3 Segundos exactos) -->
+        <div class="w-64 bg-slate-800 rounded-full h-1.5 overflow-hidden border border-slate-700/50">
+          <div id="splash-progress-bar" class="bg-gradient-to-r from-emerald-400 to-cyan-500 h-full w-0 transition-all ease-linear duration-[3000ms]"></div>
+        </div>
+
+      </div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.08)_0,transparent_100%)] pointer-events-none"></div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 2. MODAL ONBOARDING / SHOWCASE DESPLAZABLE -->
+    <!-- ========================================== -->
+    <div id="econexus-onboarding-modal" class="fixed inset-0 z-40 flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-md hidden transition-opacity duration-300">
+      <div class="relative w-full max-w-2xl max-h-[85vh] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-100 text-slate-800">
+        
+        <!-- Header del Modal -->
+        <div class="p-5 bg-gradient-to-r from-slate-950 via-[#1e4d2e] to-slate-900 text-white flex justify-between items-center border-b border-slate-800">
+          <div>
+            <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-emerald-400">Plataforma EcoNexus & SAAI</span>
+            <h2 class="text-lg sm:text-xl font-bold">Tu Ecosistema Inmobiliario Inteligente</h2>
+          </div>
+          <button id="close-modal-btn" class="text-slate-300 hover:text-white text-2xl font-bold p-1 transition-colors">✕</button>
+        </div>
+
+        <!-- Body Desplazable con todas las características -->
+        <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm leading-relaxed max-h-[55vh]">
+          
+          <!-- Bloque 1 -->
+          <div class="border-l-4 border-emerald-600 pl-3 py-1 bg-slate-50 rounded-r-lg">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">🚀 CRM/ERP y Herramientas de Marketing</h3>
+            <p class="text-slate-600 mb-1">Gestiona tu inventario con potencia profesional desde tu panel privado:</p>
+            <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+              <li><strong>Fichas PDF Profesionales:</strong> Genera catálogos e información técnica al instante.</li>
+              <li><strong>Flyers Publicitarios:</strong> Crea piezas gráficas atractivas listas para redes sociales.</li>
+              <li><strong>Difusión a WhatsApp:</strong> Comparte fichas y flyers en un solo toque.</li>
+            </ul>
+          </div>
+
+          <!-- Bloque 2 -->
+          <div class="border-l-4 border-cyan-600 pl-3 py-1 bg-slate-50 rounded-r-lg">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">🔄 Inventario Confiable y Posicionamiento VIP</h3>
+            <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+              <li><strong>Contador Automático a 30 Días:</strong> Renovación o borrado automático para mantener el inventario 100% activo y real.</li>
+              <li><strong>Destacamiento VIP:</strong> Coloca tu inmueble en los primeros lugares de búsqueda y obtén hasta 5 veces más visualizaciones.</li>
+            </ul>
+          </div>
+
+          <!-- Bloque 3 -->
+          <div class="border-l-4 border-indigo-600 pl-3 py-1 bg-slate-50 rounded-r-lg">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">🌐 Captación Directa y Presencia Web (White Label)</h3>
+            <ul class="list-disc list-inside space-y-0.5 text-slate-600">
+              <li><strong>Cero Desvío de Leads:</strong> Todos los interesados van directamente al WhatsApp del agente captador con un solo clic.</li>
+              <li><strong>Tu Web Personalizada:</strong> Sitio web propio con los colores de tu marca y tu foto de perfil.</li>
+              <li><strong>SEO y Geolocalización:</strong> Indexado en Google y Safari con mapa inteligente integrado.</li>
+            </ul>
+          </div>
+
+          <!-- Bloque 4: SAAI -->
+          <div class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200">
+            <h3 class="font-bold text-emerald-900 text-sm mb-1">🏢 Programa SAAI (Para Agencias y Brokers)</h3>
+            <p class="text-xs text-slate-600 mb-1">Base de datos inteligente centralizada para administrar a tu equipo de asesores:</p>
+            <ul class="list-disc list-inside space-y-0.5 text-xs text-slate-600">
+              <li>Administra, descarga, edita y comparte inmuebles de todo tu equipo inmobiliario.</li>
+              <li>Despliegue automático hacia la red general de EcoNexus con un solo clic.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Footer del Modal -->
+        <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <label class="flex items-center space-x-2 text-xs text-slate-600 cursor-pointer select-none">
+            <input type="checkbox" id="dont-show-again" class="rounded border-slate-300 text-emerald-700 focus:ring-emerald-600 w-4 h-4">
+            <span>No volver a mostrar esta presentación</span>
+          </label>
+          
+          <button id="accept-modal-btn" class="w-full sm:w-auto px-5 py-2.5 bg-[#1e4d2e] hover:bg-emerald-900 text-white font-medium rounded-xl shadow-md transition-all text-xs">
+            Entendido, ingresar a la plataforma
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 3. INTERFAZ PRINCIPAL DEL MENÚ HTML        -->
+    <!-- ========================================== -->
     <div class="logo-wrapper">
         <span class="floating-word w1">Casas</span>
         <span class="floating-word w2">Apartamentos</span>
@@ -180,12 +319,35 @@
     </div>
 
     <div class="menu-container">
-        <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">Tu CRM Personalizado</a>
-        <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">Ecosistema Inmobiliario</a>
+        <!-- Botón CRM Personalizado -->
+        <a href="https://asistentedeacm-code.github.io/EcoNexus/captacion.html" class="btn">
+            💼 Tu CRM Personalizado
+        </a>
+
+        <!-- Botón Ecosistema Inmobiliario -->
+        <a href="https://asistentedeacm-code.github.io/EcoNexus/" class="btn">
+            🌍 Ecosistema Inmobiliario
+        </a>
+
+        <!-- Botón SAAI (Elegante, moderno, verde claro con punto online) -->
+        <a href="https://asistentedeacm-code.github.io/EcoNexus/saai.html" class="btn btn-saai">
+            <span class="relative flex h-3 w-3 items-center justify-center">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <div class="flex flex-col text-left">
+                <span class="text-xs uppercase tracking-wider text-emerald-800 font-extrabold">SAAI Corporativo</span>
+                <span class="text-sm font-bold leading-tight">Tu inventario al alcance de un clic</span>
+            </div>
+        </a>
+
         <!-- Botón Dinámico de Instalación PWA -->
-        <button id="btnInstalar" class="btn" style="display: none; cursor: pointer; border: none; font-family: inherit;" onclick="instalarApp()">📲 Instalar Aplicación</button>
+        <button id="btnInstalar" class="btn" style="display: none; cursor: pointer; border: none; font-family: inherit;" onclick="instalarApp()">
+            📲 Instalar Aplicación
+        </button>
     </div>
 
+    <!-- Nubes de Beneficios Inferiores -->
     <div class="benefits-wrapper">
         <div class="cloud-card" id="cloud-card">
             <h3 id="cloud-title"></h3>
@@ -193,30 +355,104 @@
         </div>
     </div>
 
+
+    <!-- ========================================== -->
+    <!-- 4. SCRIPT DE CONTROL Y ANIMACIONES         -->
+    <!-- ========================================== -->
     <script>
+        // Textos dinámicos del Splash Screen (3 segundos)
+        const splashTexts = [
+            "Estás entrando a nuestro ecosistema...",
+            "Sincronizando datos...",
+            "Personalizando experiencia...",
+            "Desplegando el entorno inteligente...",
+            "Conectando con tu red..."
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const splashScreen = document.getElementById('econexus-splash-screen');
+            const progressBar = document.getElementById('splash-progress-bar');
+            const splashTextEl = document.getElementById('splash-dynamic-text');
+            const onboardingModal = document.getElementById('econexus-onboarding-modal');
+            const closeBtn = document.getElementById('close-modal-btn');
+            const acceptBtn = document.getElementById('accept-modal-btn');
+            const dontShowCheckbox = document.getElementById('dont-show-again');
+
+            // Cargar logo de agencia guardado en localStorage si existe
+            const savedAgencyLogo = localStorage.getItem('agency_logo_url');
+            if (savedAgencyLogo) {
+                document.getElementById('splash-agency-logo').src = savedAgencyLogo;
+            }
+
+            // Iniciar animación de barra de progreso (3 segundos)
+            setTimeout(() => {
+                progressBar.style.width = '100%';
+            }, 50);
+
+            // Rotar textos del Splash Screen cada 600ms durante los 3 segundos
+            let textIndex = 0;
+            const textInterval = setInterval(() => {
+                textIndex = (textIndex + 1) % splashTexts.length;
+                splashTextEl.style.opacity = '0';
+                setTimeout(() => {
+                    splashTextEl.innerText = splashTexts[textIndex];
+                    splashTextEl.style.opacity = '1';
+                }, 150);
+            }, 600);
+
+            // Finalizar Splash Screen exactamente a los 3 segundos (3000ms)
+            setTimeout(() => {
+                clearInterval(textInterval);
+                splashScreen.classList.add('opacity-0', 'pointer-events-none');
+                
+                setTimeout(() => {
+                    splashScreen.classList.add('hidden');
+
+                    // Evaluar si el usuario marcó "No volver a mostrar" previamente
+                    const hideOnboarding = localStorage.getItem('econexus_hide_onboarding');
+                    if (!hideOnboarding) {
+                        onboardingModal.classList.remove('hidden');
+                    }
+                }, 700); // Duración del fade-out
+
+            }, 3000);
+
+            // Lógica para cerrar el Modal Onboarding y guardar preferencia si marca el checkbox
+            function closeModal() {
+                if (dontShowCheckbox.checked) {
+                    localStorage.setItem('econexus_hide_onboarding', 'true');
+                }
+                onboardingModal.classList.add('hidden');
+            }
+
+            closeBtn.addEventListener('click', closeModal);
+            acceptBtn.addEventListener('click', closeModal);
+        });
+
+        // Rotación de tarjetas de beneficios inferiores
         const benefits = [
             { 
                 title: "Contacto Directo", 
-                text: "Cada inmueble va directo al WhatsApp del asesor. Cero desvíos." 
+                text: "Cada inmueble va directo al WhatsApp del asesor. Cero desvíos de leads." 
             },
             { 
                 title: "Cero Inventario Fantasma", 
-                text: "Catálogo 100% real y actualizado. Olvídate del: 'Le gustó a mi cliente, pero ya lo vendieron'." 
+                text: "Catálogo 100% real y actualizado con limpieza automática a 30 días." 
             },
             { 
                 title: "Publicaciones VIP", 
-                text: "Destaca la propiedad que necesitas vender en segundos y obtén 5 veces más vistas e interacción." 
+                text: "Destaca tu propiedad y obtén hasta 5 veces más visualizaciones." 
             },
             { 
-                title: "Publicación Gratuita", 
-                text: "Sube propiedades en 30 segundos sin pagar mensualidades obligatorias." 
+                title: "Página Web White Label", 
+                text: "Tu sitio web profesional con tu foto y colores corporativos." 
             },
             { 
-                title: "Búsqueda Inteligente", 
-                text: "Encuentra el inmueble que buscas en segundos, alternando entre nuestros filtros avanzados." 
+                title: "Sistema SAAI", 
+                text: "Base de datos inteligente centralizada para Brokers y agencias inmobiliarias." 
             }
         ];
-
+        
         const cloudCard = document.getElementById('cloud-card');
         const cloudTitle = document.getElementById('cloud-title');
         const cloudText = document.getElementById('cloud-text');
@@ -225,48 +461,36 @@
         
         function animateClouds() {
             cloudCard.classList.remove('active');
-            
             setTimeout(() => {
                 cloudTitle.innerText = benefits[currentIndex].title;
                 cloudText.innerText = benefits[currentIndex].text;
-                
                 cloudCard.classList.add('active');
-                
                 currentIndex = (currentIndex + 1) % benefits.length;
-                
-                setTimeout(animateClouds, 7000);
-                
-            }, 1000); 
+                setTimeout(animateClouds, 6000);
+            }, 800); 
         }
+        setTimeout(animateClouds, 3500); // Inicia justo al terminar el splash screen
 
-        setTimeout(animateClouds, 500);
-
-        /* --- LÓGICA Y REGISTRO DE INSTALACIÓN PWA --- */
+        // --- LÓGICA Y REGISTRO DE INSTALACIÓN PWA ---
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker registrado correctamente', reg))
                     .catch(err => console.error('Error al registrar Service Worker', err));
             });
         }
-
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             const btnInstalar = document.getElementById('btnInstalar');
             if (btnInstalar) {
-                btnInstalar.style.display = 'block';
+                btnInstalar.style.display = 'flex';
             }
         });
-
         function instalarApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('El usuario aceptó la instalación.');
-                    }
                     deferredPrompt = null;
                 });
             } else {
@@ -274,6 +498,5 @@
             }
         }
     </script>
-
 </body>
 </html>
