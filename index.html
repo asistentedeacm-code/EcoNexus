@@ -30,6 +30,9 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <!-- THREE.JS (Para Visor 3D Inmersivo a costo 0) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   
   <style>
     .hide-scrollbars::-webkit-scrollbar { display: none; }
@@ -38,7 +41,7 @@
     .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(30, 63, 32, 0.9) !important; color: white !important; font-weight: bold; }
     
     /* Animación del Asistente de Voz */
-    @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); } }
+    @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(56, 142, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0); } }
     .listening-mic { animation: pulse-mic 1.5s infinite; background-color: #ef4444 !important; border-color: #fca5a5 !important; }
   </style>
   <script>
@@ -46,17 +49,17 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
-
+  
   <!-- BOTÓN FLOTANTE: ASISTENTE DE VOZ INTELIGENTE -->
-  <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-blue-700 border-2 border-white/50 cursor-pointer group">
+  <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-econexus-accent text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-green-600 border-2 border-white/50 cursor-pointer group">
     <i class="fa-solid fa-microphone group-hover:scale-110 transition-transform"></i>
   </button>
-
+  
   <!-- PANEL UI DEL ASISTENTE DE VOZ -->
-  <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl z-[90] flex items-center gap-4 w-[90%] max-w-sm transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-gray-700">
+  <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl z-[90] flex items-center gap-4 w-[90%] max-w-sm transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-green-800">
     <div class="relative flex items-center justify-center w-10 h-10 shrink-0">
-      <span class="absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-40 animate-ping"></span>
-      <i class="fa-solid fa-wave-square text-blue-400 text-xl relative z-10"></i>
+      <span class="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-40 animate-ping"></span>
+      <i class="fa-solid fa-wave-square text-green-400 text-xl relative z-10"></i>
     </div>
     <div class="flex-1 overflow-hidden">
       <p class="text-[10px] font-bold text-gray-400 uppercase mb-0.5 tracking-wider">Asistente EcoNexus</p>
@@ -80,17 +83,37 @@
     <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
   </div>
 
-  <!-- MODAL DE BIENVENIDA (TEXTO HERO INCLUIDO) -->
+  <!-- MODAL VISOR 3D INMERSIVO -->
+  <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10000] bg-gradient-to-b from-black/80 to-transparent">
+      <div class="flex items-center gap-3">
+        <span class="text-white text-sm font-bold bg-econexus-accent px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-vr-cardboard"></i> Tour Virtual Activo
+        </span>
+        <span id="contador-3d" class="text-gray-300 text-xs font-semibold">1 / 1</span>
+      </div>
+      <button onclick="cerrarVisor3D()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md cursor-pointer">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+    <div id="canvas-container-3d" class="w-full flex-grow relative overflow-hidden bg-black"></div>
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-[10000] bg-black/50 p-2 rounded-2xl backdrop-blur-md border border-white/10">
+      <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
+      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer min-w-[140px] justify-center">
+        <i class="fa-solid fa-pause"></i> Detener Tour
+      </button>
+      <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <!-- MODAL DE BIENVENIDA -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
       <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-      
-      <!-- HERO TEXT MOVIDO AQUÍ -->
       <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
           <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
           <p class="text-gray-500 text-sm sm:text-base px-2">Explora el catálogo de inmuebles en Venezuela y contacta directamente con su captador en segundos.</p>
       </div>
-
       <div class="flex items-center justify-center space-x-2 text-amber-600 font-bold mb-3">
         <i class="fa-solid fa-scale-balanced text-lg"></i>
         <span class="text-xs uppercase tracking-wide">Aviso Legal Importante</span>
@@ -98,7 +121,6 @@
       <p class="text-[11px] font-semibold text-gray-700 leading-relaxed mb-6 bg-amber-50 p-4 rounded-xl border border-amber-100 text-left">
         "EcoNexus opera exclusivamente como vitrina publicitaria y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
       </p>
-      
       <button onclick="cerrarAvisoInstantaneo()" class="w-full bg-econexus hover:bg-econexus-light text-white text-sm font-bold px-6 py-3.5 rounded-xl transition cursor-pointer shadow-lg flex justify-center items-center gap-2">
         Explorar Catálogo <i class="fa-solid fa-arrow-right"></i>
       </button>
@@ -108,7 +130,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE TÉRMINOS Y CONDICIONES GLOBALES -->
+  <!-- MODAL DE TÉRMINOS GLOBALES -->
   <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
       <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
@@ -129,7 +151,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
+  <!-- MODAL CONFIRMAR WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
       <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -142,23 +164,23 @@
     </div>
   </div>
 
-  <!-- HEADER / NAVBAR (ESTILO SUTIL Y LIMPIO) -->
+  <!-- HEADER RESPONSIVO -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <!-- Logo a la izquierda -->
-      <div class="flex items-center space-x-2.5 cursor-pointer" onclick="resetFiltros()">
-        <img src="logo.png.png" alt="EcoNexus Logo" class="h-8 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
-        <div>
-          <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none block">EcoNexus</span>
+    <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-3">
+      <!-- Logo y Textos -->
+      <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="resetFiltros()">
+        <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
+        <div class="flex flex-col">
+          <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none">EcoNexus</span>
+          <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      
-      <!-- Controles a la derecha en línea sutil -->
-      <div class="flex items-center gap-3 sm:gap-5">
+      <!-- Controles -->
+      <div class="flex items-center gap-2 sm:gap-4 ml-auto">
         <button onclick="abrirModalMapaGlobal()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
           <i class="fa-solid fa-map-location-dot text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Mapa
         </button>
-        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-3 sm:pl-5">
+        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-4">
           <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
         </button>
         <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus...', '_blank')" class="bg-econexus-accent hover:bg-green-600 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[10px] md:text-xs font-bold transition flex items-center shadow cursor-pointer ml-1 sm:ml-2">
@@ -168,7 +190,7 @@
     </div>
   </header>
 
-  <!-- 1. SECCIÓN NUESTROS INMUEBLES VIP -->
+  <!-- 1. SECCIÓN VIP -->
   <section id="seccionVipContainer" class="max-w-7xl mx-auto px-4 py-6 hidden w-full overflow-hidden border-b border-gray-200/50">
     <div class="flex justify-between items-center mb-3">
       <h2 class="text-base md:text-xl font-bold text-econexus flex items-center">
@@ -180,31 +202,31 @@
       </div>
     </div>
     <div id="trackVip" class="flex gap-3 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
-      <!-- Inyectado dinámicamente -->
+      <!-- Dinámico -->
     </div>
   </section>
 
-  <!-- 2. BUSCADOR Y FILTROS COMPACTOS -->
+  <!-- 2. BUSCADOR -->
   <section class="max-w-7xl mx-auto px-4 py-5 w-full">
     <div class="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex flex-col md:flex-row gap-2">
         <div class="flex-1 relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-            <input type="text" id="filterText" oninput="aplicarFiltrosDebounced()" placeholder="Busca zona, código o descripción..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium transition" />
+            <input type="text" id="filterText" oninput="aplicarFiltrosDebounced()" placeholder="Busca zona, código o descripción..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium transition" />
         </div>
         <div class="flex gap-2">
-            <select id="filterOperacion" onchange="aplicarFiltros()" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer font-medium text-gray-700">
+            <select id="filterOperacion" onchange="aplicarFiltros()" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus cursor-pointer font-medium text-gray-700">
               <option value="TODOS">Operación</option><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option>
             </select>
-            <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Tipo (Ej: Casa)" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium" />
+            <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Tipo (Ej: Casa)" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium" />
         </div>
     </div>
   </section>
  
-  <!-- 3. GRILLA DE PROPIEDADES (TARJETAS COMPACTAS) -->
+  <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
   <main class="max-w-7xl mx-auto px-4 pb-12 flex-grow w-full">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-bold text-gray-800">Catálogo Disponible</h2>
-      <span id="propCount" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-bold border border-blue-100">Cargando...</span>
+      <span id="propCount" class="bg-econexus-soft text-econexus px-3 py-1 rounded-full text-[10px] font-bold border border-green-200">Cargando...</span>
     </div>
     
     <div id="loadingSpinner" class="text-center py-20">
@@ -212,7 +234,6 @@
       <p class="text-gray-500 text-sm font-medium">Sincronizando red...</p>
     </div>
     
-    <!-- GRID COMPACTO: 2 columnas en móviles (sm:grid-cols-2) -->
     <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 hidden"></div>
     
     <div id="loadMoreContainer" class="text-center mt-8 hidden">
@@ -235,10 +256,9 @@
     </div>
   </div>
 
-  <!-- MODAL DE MAPA INTERACTIVO GLOBAL Y LEYENDA DE ZONAS -->
+  <!-- MODAL MAPA GLOBAL -->
   <div id="mapaGlobalModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
     <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
-      <!-- HEADER MAPA -->
       <div class="bg-gray-900 text-white p-3 flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-map-location-dot text-amber-400 text-lg"></i>
@@ -251,19 +271,15 @@
           <button onclick="cerrarModalMapaGlobal()" class="text-gray-400 hover:text-white bg-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
       </div>
-      <!-- BUSCADOR ZONAS MAPA -->
       <div class="p-2.5 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
-          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Filtrar mapa (ej: Trigal, Prebo)..." class="w-full bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium">
+          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Filtrar mapa (ej: Trigal, Prebo)..." class="w-full bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
         </div>
-        <span id="lblMarcadoresCount" class="text-[10px] bg-blue-50 text-blue-700 font-bold px-3 py-1.5 rounded-lg border border-blue-200 flex items-center justify-center">0 ubicaciones</span>
+        <span id="lblMarcadoresCount" class="text-[10px] bg-econexus-soft text-econexus font-bold px-3 py-1.5 rounded-lg border border-green-200 flex items-center justify-center">0 ubicaciones</span>
       </div>
-      <!-- CONTENEDOR MAPA Y PANEL -->
       <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
         <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
-        
-        <!-- PANEL LATERAL LEYENDA (PAGINACIÓN 10 EN 10 INTACTA) -->
         <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-0 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto flex flex-col z-20 transition-transform duration-300 transform translate-y-full md:translate-y-0">
           <div class="p-4 flex-grow overflow-y-auto">
             <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2 mb-3">
@@ -290,15 +306,29 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    // Variables de paginación y estado
-    const PAGE_SIZE = 20; // Aumentado porque las tarjetas son más pequeñas
+    const PAGE_SIZE = 20; 
     let pageOffset = 0;
     let hayMasPaginas = true;
     let propiedadesCargadas = [];
     let waUrlPendiente = '';
     let debounceTimer = null;
     
-    // VARIABLES LECTURA Y ASISTENTE VOZ
+    // --- WAKE LOCK API (Mantiene pantalla encendida) ---
+    let wakeLock = null;
+    async function solicitarWakeLock() {
+        if ('wakeLock' in navigator) {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+            } catch (err) { console.warn('WakeLock bloqueado:', err); }
+        }
+    }
+    function liberarWakeLock() {
+        if (wakeLock !== null) {
+            wakeLock.release().then(() => wakeLock = null);
+        }
+    }
+
+    // --- LECTURA Y ASISTENTE VOZ AVANZADO ---
     let synth = window.speechSynthesis;
     let currentFichaText = "";
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -306,33 +336,6 @@
     let estadoVoz = 'IDLE'; 
     let opcionesVoz = [];
 
-    // MAPA Y LEYENDA CLUSTERIZADA
-    let mapaGlobal = null;
-    let capaMarcadoresCluster = null;
-    let mapaFichaModal = null;
-    let listaGlobalInmueblesMapa = [];
-    let limiteZonasMostradas = 10; 
-    let leyendaAbiertaMovil = false; // Modificado: Cerrado por defecto en móvil para dar prioridad al mapa
-    const COORDS_DEFAULT = [10.18000, -68.00000];
-    const REFERENCIAS_GEOGRAFICAS = {
-      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, C.C. Trigal, colegios y clínicas." },
-      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica, hoteles corporativos y clínicas." },
-      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Clima fresco, Sambil, supermercados y avenidas." },
-      "san diego": { coords: [10.23151, -67.95412], bondades: "Parques naturales, colegios, orden urbano seguro." },
-      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona exclusiva, seguridad, club de golf, vistas." },
-      "mañongo": { coords: [10.24121, -68.00512], bondades: "Torres modernas, centros comerciales, restaurantes." },
-      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal." }
-    };
-    
-    // Variables de Modal Fotográfico
-    let fotosActivasModal = [];
-    let indiceFotoActiva = 0;
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let lightboxFotos = [];
-    let lightboxIndex = 0;
-
-    // INICIALIZAR VOZ
     if (SpeechRecognition) {
         reconocimiento = new SpeechRecognition();
         reconocimiento.lang = 'es-VE';
@@ -340,46 +343,60 @@
         reconocimiento.interimResults = false;
         
         reconocimiento.onstart = () => {
+            solicitarWakeLock();
             document.getElementById('btnAsistenteVoz').classList.add('listening-mic');
             if(synth.speaking) synth.cancel();
         };
-
         reconocimiento.onresult = (event) => {
             const transcript = event.results[0][0].transcript.toLowerCase();
-            
             if (estadoVoz === 'SEARCHING') {
-                document.getElementById("filterText").value = transcript;
-                actualizarUIAsistente(`Buscando: "${transcript}"`);
+                let filtroLimpio = procesarTextoVoz(transcript);
+                document.getElementById("filterText").value = filtroLimpio;
+                actualizarUIAsistente(`Buscando: "${filtroLimpio}"`);
                 aplicarFiltrosPorVoz();
             } else if (estadoVoz === 'WAITING_SELECTION') {
                 manejarSeleccionOpcionVoz(transcript);
             }
         };
-
         reconocimiento.onerror = (event) => {
             detenerAsistenteVoz();
-            if(event.error !== 'no-speech') alert("Error de micrófono. Revisa permisos.");
+            if(event.error !== 'no-speech') console.warn("Micrófono:", event.error);
         };
-
         reconocimiento.onend = () => {
             document.getElementById('btnAsistenteVoz').classList.remove('listening-mic');
-            if (estadoVoz === 'IDLE') ocultarUIAsistente();
+            if (estadoVoz === 'IDLE') {
+                ocultarUIAsistente();
+                liberarWakeLock();
+            }
         };
+    }
+
+    function procesarTextoVoz(texto) {
+        let limpio = texto;
+        const stopWords = ['hola', 'econexus', 'busca', 'quiero', 'necesito', 'por favor', 'muéstrame', 'enséñame', 'un', 'una'];
+        stopWords.forEach(word => {
+            const regex = new RegExp(`\\b${word}\\b`, 'gi');
+            limpio = limpio.replace(regex, '');
+        });
+        return limpio.trim();
     }
 
     function iniciarAsistenteVoz() {
-        if (!reconocimiento) { alert("Navegador no soporta voz. Usa Chrome."); return; }
+        if (!reconocimiento) { alert("Tu navegador no soporta búsqueda por voz."); return; }
         estadoVoz = 'SEARCHING';
-        mostrarUIAsistente("EcoNexus busca: ¿Qué inmueble deseas?");
+        mostrarUIAsistente("EcoNexus escucha: ¿Qué buscas?");
         reconocimiento.start();
     }
+    
     function detenerAsistenteVoz() {
         if(reconocimiento) reconocimiento.stop();
         if(synth) synth.cancel();
         estadoVoz = 'IDLE';
         ocultarUIAsistente();
         document.getElementById('btnAsistenteVoz').classList.remove('listening-mic');
+        liberarWakeLock();
     }
+
     function mostrarUIAsistente(texto) {
         const ui = document.getElementById("uiAsistenteVoz");
         document.getElementById("textoAsistenteVoz").textContent = texto;
@@ -392,64 +409,129 @@
         ui.classList.remove("translate-y-0", "opacity-100", "pointer-events-auto");
         ui.classList.add("translate-y-10", "opacity-0", "pointer-events-none");
     }
+    
     function dictarTexto(texto, callbackFin = null) {
         synth.cancel();
+        solicitarWakeLock();
         const utterance = new SpeechSynthesisUtterance(texto);
         utterance.lang = 'es-ES';
-        if (callbackFin) utterance.onend = callbackFin;
+        utterance.onend = () => {
+            if (callbackFin) callbackFin();
+            else liberarWakeLock();
+        };
         synth.speak(utterance);
     }
+
     async function aplicarFiltrosPorVoz() {
         await cargarPropiedades(true);
         if (propiedadesCargadas.length === 0) {
             actualizarUIAsistente("No encontré resultados.");
-            dictarTexto("Lo siento, no encontré propiedades con esa descripción.", detenerAsistenteVoz);
+            dictarTexto("Lo siento, no encontré propiedades con esa descripción. Intenta otra búsqueda.", detenerAsistenteVoz);
             return;
         }
-        opcionesVoz = propiedadesCargadas.slice(0, 3);
-        let mensaje = `Encontré ${propiedadesCargadas.length} opciones. Te leo las primeras. `;
-        opcionesVoz.forEach((p, i) => { mensaje += `Opción ${i + 1}: ${p.tipo} en ${p.ubicacion} por ${p.precio} dólares. `; });
-        mensaje += "¿Cuál te interesa abrir? Di opción uno, dos o tres.";
-        actualizarUIAsistente("¿Cuál te interesa? (Ej: Opción 1)");
+        opcionesVoz = propiedadesCargadas;
+        let total = opcionesVoz.length;
+        let limite = Math.min(total, 3);
+        
+        let mensaje = `Encontré ${total} opciones. Te leo las primeras ${limite}. `;
+        for(let i=0; i<limite; i++) { 
+            mensaje += `Opción ${i + 1}: ${opcionesVoz[i].tipo} en ${opcionesVoz[i].ubicacion} por ${opcionesVoz[i].precio} dólares. `; 
+        }
+        
+        mensaje += (total > 3) 
+            ? "¿Cuál te interesa abrir? Di el número de opción, pide leer más opciones o dame otra característica para filtrar."
+            : "¿Cuál te interesa abrir? Di el número de la opción.";
+
+        actualizarUIAsistente("¿Cuál te interesa? (Ej: Opción 1, o 'filtra por...')");
         
         dictarTexto(mensaje, () => {
             estadoVoz = 'WAITING_SELECTION';
             reconocimiento.start();
         });
     }
+
     function manejarSeleccionOpcionVoz(transcript) {
-        let index = -1;
-        if (transcript.includes('uno') || transcript.includes('1') || transcript.includes('primera')) index = 0;
-        else if (transcript.includes('dos') || transcript.includes('2') || transcript.includes('segunda')) index = 1;
-        else if (transcript.includes('tres') || transcript.includes('3') || transcript.includes('tercera')) index = 2;
+        let texto = transcript.toLowerCase();
         
-        if (index !== -1 && opcionesVoz[index]) {
-            actualizarUIAsistente(`Abriendo opción ${index + 1}...`);
+        if (texto.includes('todas') || texto.includes('más') || texto.includes('leer')) {
+             leerMasOpciones(); return;
+        }
+
+        const nums = { 'uno':1, '1':1, 'primera':1, 'dos':2, '2':2, 'segunda':2, 'tres':3, '3':3, 'tercera':3, 'cuatro':4, '4':4, 'cinco':5, '5':5, 'seis':6, '6':6, 'siete':7, '7':7, 'ocho':8, '8':8, 'nueve':9, '9':9, 'diez':10, '10':10 };
+        let numSeleccionado = -1;
+        
+        for (const [key, val] of Object.entries(nums)) {
+            if (texto.includes(key)) { numSeleccionado = val; break; }
+        }
+
+        if (numSeleccionado !== -1 && numSeleccionado <= opcionesVoz.length) {
+            let index = numSeleccionado - 1;
+            actualizarUIAsistente(`Abriendo opción ${numSeleccionado}...`);
             dictarTexto(`Abriendo ficha.`, () => {
                 detenerAsistenteVoz();
                 abrirModal(opcionesVoz[index].id);
-                setTimeout(toggleLecturaVoz, 800); // Inicia lectura inteligente
+                setTimeout(toggleLecturaVoz, 800); 
             });
         } else {
-            actualizarUIAsistente("Opción no válida. Di 1, 2 o 3.");
-            dictarTexto("No entendí. Di opción uno, dos o tres.", () => reconocimiento.start() );
+            estadoVoz = 'SEARCHING';
+            let nuevoFiltro = procesarTextoVoz(texto);
+            document.getElementById("filterText").value += " " + nuevoFiltro;
+            actualizarUIAsistente(`Filtrando por: "${nuevoFiltro}"`);
+            aplicarFiltrosPorVoz();
         }
     }
+    
+    function leerMasOpciones() {
+        let total = opcionesVoz.length;
+        let limite = Math.min(total, 10);
+        let mensaje = `Claro, te leo hasta un máximo de ${limite} opciones. `;
+        for(let i=3; i<limite; i++) {
+            mensaje += `Opción ${i + 1}: ${opcionesVoz[i].tipo} en ${opcionesVoz[i].ubicacion} por ${opcionesVoz[i].precio} dólares. `;
+        }
+        mensaje += "¿Qué número de opción te interesa?";
+        actualizarUIAsistente("Escuchando opción...");
+        dictarTexto(mensaje, () => {
+            estadoVoz = 'WAITING_SELECTION';
+            reconocimiento.start();
+        });
+    }
 
-    // INICIALIZACIÓN
+    // MAPA Y LEYENDA
+    let mapaGlobal = null;
+    let capaMarcadoresCluster = null;
+    let mapaFichaModal = null;
+    let listaGlobalInmueblesMapa = [];
+    let limiteZonasMostradas = 10; 
+    let leyendaAbiertaMovil = false; 
+    const COORDS_DEFAULT = [10.18000, -68.00000];
+    const REFERENCIAS_GEOGRAFICAS = {
+      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, C.C. Trigal, colegios y clínicas." },
+      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica, hoteles corporativos y clínicas." },
+      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Clima fresco, Sambil, supermercados y avenidas." },
+      "san diego": { coords: [10.23151, -67.95412], bondades: "Parques naturales, colegios, orden urbano seguro." },
+      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona exclusiva, seguridad, club de golf, vistas." },
+      "mañongo": { coords: [10.24121, -68.00512], bondades: "Torres modernas, centros comerciales, restaurantes." },
+      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal." }
+    };
+    
+    let fotosActivasModal = [];
+    let indiceFotoActiva = 0;
+    let touchStartX = 0, touchEndX = 0;
+    let lightboxFotos = [], lightboxIndex = 0;
+
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
     });
-
+    
     async function obtenerTotalContadorSupabase() {
       try {
         const { count, error } = await dbClient.from('v_propiedades_catalogo').select('id', { count: 'exact', head: true }).eq('estatus', 'Disponible');
         if (!error && count !== null) document.getElementById("propCount").textContent = `${count} registradas`;
       } catch (e) { console.error(e); }
     }
-
+    
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
@@ -492,7 +574,7 @@
       } catch (err) { console.error("Error al cargar propiedades:", err); } 
       finally { document.getElementById("loadingSpinner").classList.add("hidden"); }
     }
-
+    
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
       const btn = document.getElementById("btnLoadMore");
@@ -502,7 +584,6 @@
       btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles`;
     }
 
-    // TARJETAS VIP (COMPACTAS)
     function renderizarSeccionVip(lista) {
       const seccionVip = document.getElementById("seccionVipContainer"), trackVip = document.getElementById("trackVip");
       const vips = lista.filter(p => p.vip_activo === true);
@@ -511,14 +592,14 @@
       vips.forEach(p => {
         const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "";
         trackVip.innerHTML += `
-          <div onclick="abrirModal('${p.id}')" class="min-w-[150px] max-w-[150px] md:min-w-[180px] md:max-w-[180px] bg-white rounded-xl overflow-hidden border border-amber-300 shadow hover:shadow-lg transition flex flex-col cursor-pointer flex-shrink-0 snap-start relative">
+          <div onclick="abrirModal('${p.id}')" class="min-w-[150px] max-w-[150px] md:min-w-[180px] md:max-w-[180px] bg-white rounded-xl overflow-hidden border-2 border-amber-400 shadow hover:shadow-lg transition flex flex-col cursor-pointer flex-shrink-0 snap-start relative">
             <div class="h-24 md:h-28 overflow-hidden relative">
               <img src="${foto}" class="w-full h-full object-cover" />
-              <span class="absolute top-1 left-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase">VIP</span>
+              <span class="absolute top-1 left-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase"><i class="fa-solid fa-star"></i> Destacado</span>
             </div>
             <div class="p-2">
-              <div class="text-[8px] md:text-[9px] font-bold text-econexus uppercase truncate mb-0.5">${p.tipo} • ${p.ubicacion}</div>
-              <h4 class="font-bold text-gray-900 text-[10px] md:text-[11px] truncate mb-0.5">${p.titulo}</h4>
+              <div class="text-[8px] md:text-[9px] font-bold text-econexus uppercase mb-0.5 break-words">${p.tipo} • ${p.ubicacion}</div>
+              <h4 class="font-bold text-gray-900 text-[10px] md:text-[11px] mb-0.5 leading-tight">${p.titulo}</h4>
               <div class="text-xs md:text-sm font-black text-econexus">$${p.precio}</div>
             </div>
           </div>
@@ -526,7 +607,6 @@
       });
     }
 
-    // TARJETAS GRILLA PRINCIPAL (MUY COMPACTAS PARA MÓVIL)
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid"), noRes = document.getElementById("noResults"), btnLoad = document.getElementById("loadMoreContainer");
       grid.innerHTML = "";
@@ -537,16 +617,16 @@
       lista.forEach(p => {
         const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "";
         grid.innerHTML += `
-          <div class="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition flex flex-col group relative">
+          <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col group relative">
             <div class="h-32 md:h-40 overflow-hidden relative cursor-pointer" onclick="abrirModal('${p.id}')">
               <img src="${foto}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <span class="absolute top-1.5 left-1.5 bg-black/60 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase backdrop-blur-sm">${p.operacion}</span>
+              <span class="absolute top-1.5 left-1.5 bg-econexus text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase shadow-sm">${p.operacion}</span>
             </div>
             <div class="p-2.5 flex flex-col flex-grow">
-              <div class="text-[9px] font-semibold text-gray-500 uppercase truncate mb-0.5">${p.tipo} • ${p.ubicacion}</div>
-              <h3 class="font-bold text-gray-900 text-[11px] md:text-xs line-clamp-2 leading-tight mb-1 cursor-pointer" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
+              <div class="text-[9px] font-semibold text-gray-500 uppercase mb-0.5 break-words">${p.tipo} • ${p.ubicacion}</div>
+              <h3 class="font-bold text-gray-900 text-[11px] md:text-xs leading-tight mb-1 cursor-pointer" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
               <div class="text-sm md:text-base font-black text-econexus mb-2 mt-auto">$${p.precio}</div>
-              <button onclick="abrirModal('${p.id}')" class="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-1.5 rounded-lg transition text-[10px] border border-blue-100">
+              <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus-soft hover:bg-green-100 text-econexus font-bold py-1.5 rounded-lg transition text-[10px] border border-green-200">
                 Ver Ficha Completa
               </button>
             </div>
@@ -562,7 +642,6 @@
       document.getElementById("filterText").value = ""; cargarPropiedades(true);
     }
     
-    // MODALES Y ALERTAS
     function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
     function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
     function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
@@ -588,12 +667,12 @@
     }
     
     function obtenerBondadesSegunUbicacion(ubicacionTexto) {
-      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales esenciales.";
+      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
       const texto = ubicacionTexto.toLowerCase();
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
-        if (texto.includes(clave)) return `${datos.bondades} Conectividad óptima y cercanía a comercios clave.`;
+        if (texto.includes(clave)) return `${datos.bondades} Conectividad óptima.`;
       }
-      return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías, comercios y conectividad.`;
+      return `Sector posicionado en ${ubicacionTexto}, ofreciendo acceso a vías y comercios.`;
     }
 
     function abrirModal(id) {
@@ -603,14 +682,19 @@
 
     function abrirModalDirecto(p) {
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
-      const msjWA = encodeURIComponent(`Hola ${p.nombre_asesor || 'Asesor'}, info de ID: ${p.codigo_eco} (${p.titulo}).`);
+      const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
+      const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, info de ID: ${p.codigo_eco} (${p.titulo}).`);
       const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
       
       fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : [];
       indiceFotoActiva = 0;
       
-      // Texto preparado para el Asistente de Voz (Lectura Inteligente)
-      currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, y ${p.metros} metros de construcción. Escucha la descripción: ${p.descripcion || 'Sin detalles extra.'}`;
+      currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, y ${p.metros} metros de construcción. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
+      
+      const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
+      const renderFotoAsesorHTML = fotoAsesor 
+        ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-10 h-10 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
+        : `<div class="w-10 h-10 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-lg border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
       
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
@@ -622,7 +706,6 @@
           <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
           <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${p.precio}</div>
           
-          <!-- GALERÍA SWIPE -->
           <div class="mb-4 relative rounded-xl overflow-hidden h-56 md:h-80 bg-gray-900 flex items-center justify-center cursor-zoom-in" id="swipeContainerModal" onclick="abrirLightbox()">
             <img id="modalFotoPrincipal" src="${fotosActivasModal[0] || ''}" class="w-full h-full object-cover transition-opacity duration-300" />
             <button onclick="event.stopPropagation(); cambiarFotoSwipe(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-left"></i></button>
@@ -633,10 +716,15 @@
             <div class="absolute top-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</div>
           </div>
           
-          <!-- BOTÓN LECTURA INTELIGENTE -->
-          <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition mb-4 cursor-pointer">
-             <i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa
-          </button>
+          <div class="flex flex-col md:flex-row gap-2 mb-4">
+            <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="flex-1 bg-econexus-soft hover:bg-green-100 border border-green-200 text-econexus py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+               <i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa
+            </button>
+            ${fotosActivasModal.length > 0 ? `
+            <button onclick="iniciarRecorridoVirtual('${p.id}')" class="flex-1 bg-gray-900 hover:bg-black text-white py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-md">
+              <i class="fa-solid fa-vr-cardboard text-sm"></i> Tour 3D Inmersivo
+            </button>` : ''}
+          </div>
           
           <div class="grid grid-cols-4 gap-2 bg-gray-50 border border-gray-100 p-3 rounded-xl mb-4 text-center text-[10px] md:text-xs text-gray-700">
             <div><i class="fa-solid fa-bed text-gray-400 mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.habitaciones}</strong></div>
@@ -658,12 +746,22 @@
           
           <div class="mb-6">
             <h3 class="font-bold text-gray-900 text-xs mb-2 flex items-center gap-1.5"><i class="fa-solid fa-map text-gray-400"></i> Mapa Referencial</h3>
+            <!-- Se oculta atribución para diseño limpio -->
             <div id="mapaModalInmueble" class="h-40 w-full rounded-xl border border-gray-200 bg-gray-100 z-0 relative"></div>
           </div>
           
-          <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition">
-            <i class="fa-brands fa-whatsapp text-lg"></i> Contactar vía WhatsApp
-          </button>
+          <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+             <div class="flex items-center gap-3 w-full md:w-auto">
+               ${renderFotoAsesorHTML}
+               <div>
+                  <span class="text-[10px] text-gray-500 font-bold uppercase block">Asesor Contacto</span>
+                  <span class="font-bold text-gray-900 text-sm block leading-tight">${nombreAsesor}</span>
+               </div>
+             </div>
+             <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}')" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition">
+               <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
+             </button>
+          </div>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
@@ -671,13 +769,13 @@
       
       setTimeout(() => {
         if(mapaFichaModal) mapaFichaModal.remove();
-        mapaFichaModal = L.map('mapaModalInmueble').setView(obtenerCoordenadasExactas(p), 15);
+        // Atribución de mapa apagada aquí tal como solicitaste
+        mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: false }).setView(obtenerCoordenadasExactas(p), 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaFichaModal);
         L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
       }, 300);
     }
     
-    // GALERÍA Y SWIPE TÁCTIL
     function cambiarFotoSwipe(direccion) {
       if (fotosActivasModal.length <= 1) return;
       indiceFotoActiva += direccion;
@@ -689,6 +787,7 @@
       const dots = document.getElementById("modalDotsContainer");
       if(dots) dots.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===indiceFotoActiva?'bg-white':'bg-white/50'}"></span>`).join('');
     }
+
     function setupSwipeEnFotoModal() {
       const container = document.getElementById("swipeContainerModal");
       if(!container) return;
@@ -700,54 +799,118 @@
       }, {passive: true});
     }
 
-    // CONTROL VOZ BOTÓN FICHA
     function toggleLecturaVoz() {
         const btn = document.getElementById('btnLecturaVozModal');
         if (synth.speaking) {
             synth.cancel();
-            if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-indigo-50', 'bg-blue-50'); btn.classList.replace('text-indigo-700', 'text-blue-700'); }
+            liberarWakeLock();
+            if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); }
         } else if (currentFichaText) {
+            solicitarWakeLock();
             const utterance = new SpeechSynthesisUtterance(currentFichaText);
             utterance.lang = 'es-ES';
-            utterance.onend = () => { if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-indigo-50', 'bg-blue-50'); btn.classList.replace('text-indigo-700', 'text-blue-700'); } };
+            utterance.onend = () => { 
+                liberarWakeLock();
+                if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); } 
+            };
             synth.speak(utterance);
-            if(btn) { btn.innerHTML = '<i class="fa-solid fa-circle-stop text-sm"></i> Detener Lectura'; btn.classList.replace('bg-blue-50', 'bg-indigo-50'); btn.classList.replace('text-blue-700', 'text-indigo-700'); }
+            if(btn) { btn.innerHTML = '<i class="fa-solid fa-circle-stop text-sm"></i> Detener Lectura'; btn.classList.replace('bg-econexus-soft', 'bg-green-100'); btn.classList.replace('text-econexus', 'text-green-800'); }
         }
     }
+
     function cerrarModal() { 
-        if (synth.speaking) synth.cancel(); // MUTE AUTOMÁTICO
+        if (synth.speaking) { synth.cancel(); liberarWakeLock(); } 
         document.getElementById("propModal").classList.add("hidden"); 
     }
 
-    // LIGHTBOX ZOOM
-    function abrirLightbox() {
-      lightboxFotos = fotosActivasModal; lightboxIndex = indiceFotoActiva;
-      document.getElementById('lightboxImg').src = lightboxFotos[lightboxIndex];
-      document.getElementById('modalLightbox').classList.remove('hidden'); document.getElementById('modalLightbox').classList.add('flex');
-      document.getElementById('contador-lightbox').textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
-      document.body.style.overflow = 'hidden';
+    // VISOR 3D INMERSIVO (Integrado sin dañar la grilla compacta)
+    let scene3D, camera3D, renderer3D, planeMesh3D, fotosTour = [], indiceTour = 0, isAutoPlaying = false, tourTime = 0;
+    
+    function iniciarRecorridoVirtual(idInmueble) {
+        const p = propiedadesCargadas.find(item => item.id === idInmueble);
+        if (p && p.fotos && p.fotos.length > 0) {
+            fotosTour = p.fotos; indiceTour = 0;
+            document.getElementById('modal-3d-inmueble').classList.remove('hidden');
+            document.getElementById('modal-3d-inmueble').classList.add('flex');
+            document.getElementById('contador-3d').textContent = `${indiceTour + 1} / ${fotosTour.length}`;
+            if (!scene3D) init3DViewer();
+            actualizarTexturaInmueble(fotosTour[indiceTour]);
+            if (!isAutoPlaying) toggleAutoPlay3D();
+        }
     }
-    function cerrarLightbox() {
-      document.getElementById('modalLightbox').classList.add('hidden'); document.getElementById('modalLightbox').classList.remove('flex');
-      document.body.style.overflow = '';
+    
+    function init3DViewer() {
+        const container = document.getElementById('canvas-container-3d');
+        scene3D = new THREE.Scene();
+        camera3D = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer3D.setSize(window.innerWidth, window.innerHeight);
+        renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer3D.domElement);
+        
+        const geometry = new THREE.PlaneGeometry(12, 8, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+        planeMesh3D = new THREE.Mesh(geometry, material);
+        scene3D.add(planeMesh3D);
+        
+        window.addEventListener('resize', () => {
+            camera3D.aspect = window.innerWidth / window.innerHeight; camera3D.updateProjectionMatrix();
+            renderer3D.setSize(window.innerWidth, window.innerHeight);
+        });
+        animate3D();
     }
-    function navegarLightbox(dir) {
-      lightboxIndex += dir;
-      if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
-      if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
-      document.getElementById('lightboxImg').src = lightboxFotos[lightboxIndex];
-      document.getElementById('contador-lightbox').textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
-      indiceFotoActiva = lightboxIndex;
-      document.getElementById("modalFotoPrincipal").src = lightboxFotos[lightboxIndex];
-      const dots = document.getElementById("modalDotsContainer");
-      if(dots) dots.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===indiceFotoActiva?'bg-white':'bg-white/50'}"></span>`).join('');
+    
+    function actualizarTexturaInmueble(imageUrl) {
+        const loader = new THREE.TextureLoader();
+        loader.load(imageUrl, function(texture) {
+            texture.generateMipmaps = true;
+            if (planeMesh3D) {
+                planeMesh3D.material.map = texture; planeMesh3D.material.needsUpdate = true;
+                tourTime = 0; camera3D.position.set(0, 0, 4.5); camera3D.lookAt(0, 0, 0);
+            }
+        });
+    }
+    
+    function navegarVisor3D(direccion) {
+        if (fotosTour.length === 0) return;
+        indiceTour += direccion;
+        if (indiceTour >= fotosTour.length) indiceTour = 0;
+        if (indiceTour < 0) indiceTour = fotosTour.length - 1;
+        document.getElementById('contador-3d').textContent = `${indiceTour + 1} / ${fotosTour.length}`;
+        actualizarTexturaInmueble(fotosTour[indiceTour]);
+    }
+    
+    function toggleAutoPlay3D() {
+        const btn = document.getElementById('btn-autoplay-3d');
+        isAutoPlaying = !isAutoPlaying;
+        if (isAutoPlaying) {
+            btn.innerHTML = `<i class="fa-solid fa-pause"></i> Detener Tour`; btn.classList.replace('bg-econexus', 'bg-red-600');
+        } else {
+            btn.innerHTML = `<i class="fa-solid fa-play"></i> Continuar Tour`; btn.classList.replace('bg-red-600', 'bg-econexus');
+            camera3D.position.set(0, 0, 4.5); camera3D.lookAt(0, 0, 0);
+        }
+    }
+    
+    function animate3D() {
+        requestAnimationFrame(animate3D);
+        if (isAutoPlaying && planeMesh3D) {
+            tourTime += 0.0025; 
+            camera3D.position.x = Math.sin(tourTime * 0.8) * 1.8; camera3D.position.y = Math.cos(tourTime * 0.5) * 0.8;
+            camera3D.position.z = 4.5 + Math.sin(tourTime * 1.2) * 1.5; 
+            camera3D.lookAt(planeMesh3D.position);
+        }
+        renderer3D.render(scene3D, camera3D);
+    }
+    
+    function cerrarVisor3D() {
+        document.getElementById('modal-3d-inmueble').classList.add('hidden');
+        document.getElementById('modal-3d-inmueble').classList.remove('flex');
+        if (isAutoPlaying) toggleAutoPlay3D(); 
     }
 
-    // MAPA GLOBAL Y LEYENDA CLUSTER (RESTAURADO MILIMÉTRICAMENTE)
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
-      limiteZonasMostradas = 10;
-      leyendaAbiertaMovil = false;
+      limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
       actualizarEstadoPanelLeyendaMovil();
       
       setTimeout(async () => {
@@ -755,14 +918,7 @@
           mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: false }).setView(COORDS_DEFAULT, 7);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaGlobal);
           
-          // Opciones de performance de Cluster restauradas milimétricamente
-          capaMarcadoresCluster = L.markerClusterGroup({
-            chunkedLoading: true,
-            maxClusterRadius: 40,
-            spiderfyOnMaxZoom: true,
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: true
-          });
+          capaMarcadoresCluster = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 40, spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
           mapaGlobal.addLayer(capaMarcadoresCluster);
         }
         mapaGlobal.invalidateSize();
@@ -771,16 +927,9 @@
     }
     
     function cerrarModalMapaGlobal() { document.getElementById("mapaGlobalModal").classList.add("hidden"); }
-    
-    function togglePanelLeyendaMovil() {
-      leyendaAbiertaMovil = !leyendaAbiertaMovil;
-      actualizarEstadoPanelLeyendaMovil();
-    }
-    
+    function togglePanelLeyendaMovil() { leyendaAbiertaMovil = !leyendaAbiertaMovil; actualizarEstadoPanelLeyendaMovil(); }
     function actualizarEstadoPanelLeyendaMovil() {
-      const panel = document.getElementById("panelLeyendaContenedor");
-      const txtBtn = document.getElementById("txtBtnToggleLeyenda");
-      const icono = document.getElementById("iconoToggleLeyenda");
+      const panel = document.getElementById("panelLeyendaContenedor"), txtBtn = document.getElementById("txtBtnToggleLeyenda"), icono = document.getElementById("iconoToggleLeyenda");
       if (leyendaAbiertaMovil) {
         panel.classList.remove("translate-y-full"); panel.classList.add("translate-y-0");
         txtBtn.textContent = "Cerrar Zonas"; icono.className = "fa-solid fa-xmark";
@@ -802,8 +951,7 @@
       if (filtroQuery.trim() !== "") {
         const queryLimpia = filtroQuery.toLowerCase().trim();
         filtradas = listaPropiedades.filter(p => {
-          const ubi = (p.ubicacion || '').toLowerCase(); const tit = (p.titulo || '').toLowerCase();
-          const cod = (p.codigo_eco || '').toLowerCase();
+          const ubi = (p.ubicacion || '').toLowerCase(); const tit = (p.titulo || '').toLowerCase(); const cod = (p.codigo_eco || '').toLowerCase();
           return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || cod.includes(queryLimpia);
         });
       }
@@ -811,79 +959,42 @@
       
       let bounds = [];
       filtradas.forEach(p => {
-        const coords = obtenerCoordenadasExactas(p);
-        bounds.push(coords);
-        const popupHTML = `
-          <div class="p-1 text-xs max-w-[160px]">
-            <strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong>
-            <span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}
-            <button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button>
-          </div>
-        `;
+        const coords = obtenerCoordenadasExactas(p); bounds.push(coords);
+        const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
         const marker = L.marker(coords).bindPopup(popupHTML);
         capaMarcadoresCluster.addLayer(marker);
       });
       
-      // Ajuste de Bounds restaurado milimétricamente
-      if (bounds.length > 0 && filtroQuery.trim() !== "") {
-        mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
-      } else if (bounds.length > 0) {
-        mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
-      }
+      if (bounds.length > 0 && filtroQuery.trim() !== "") mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
+      else if (bounds.length > 0) mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
       generarLeyendaZonas(filtradas);
     }
     
-    // Función original de Leyenda de zonas dinámica RESTAURADA
     function generarLeyendaZonas(lista) {
       const panel = document.getElementById("panelDetalleZona");
       const conteoZonas = {};
-      lista.forEach(p => {
-        const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar";
-        conteoZonas[zona] = (conteoZonas[zona] || 0) + 1;
-      });
+      lista.forEach(p => { const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar"; conteoZonas[zona] = (conteoZonas[zona] || 0) + 1; });
       const zonasArray = Object.entries(conteoZonas).sort((a, b) => b[1] - a[1]);
       const totalZonas = zonasArray.length;
       if (totalZonas === 0) {
-        panel.innerHTML = `<div class="text-center py-8 text-gray-400"><i class="fa-solid fa-map text-3xl mb-2"></i><p class="text-xs font-semibold">No se encontraron zonas.</p></div>`;
-        return;
+        panel.innerHTML = `<div class="text-center py-8 text-gray-400"><i class="fa-solid fa-map text-3xl mb-2"></i><p class="text-xs font-semibold">No se encontraron zonas.</p></div>`; return;
       }
       const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
-      let html = `
-        <div class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-2">
-          <span class="text-[10px] uppercase font-bold text-gray-600 block">Zonas Detectadas</span>
-          <p class="text-[10px] text-gray-500">Total sectores: <strong>${totalZonas}</strong></p>
-        </div>
-        <div class="space-y-1.5 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">
-      `;
+      let html = `<div class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-2"><span class="text-[10px] uppercase font-bold text-gray-600 block">Zonas Detectadas</span><p class="text-[10px] text-gray-500">Total sectores: <strong>${totalZonas}</strong></p></div><div class="space-y-1.5 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">`;
       zonasVisibles.forEach(([zona, cantidad]) => {
-        html += `
-          <div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2 bg-white border border-gray-200 hover:border-blue-300 rounded-lg cursor-pointer transition flex justify-between items-center shadow-sm group">
-            <span class="text-[10px] font-semibold text-gray-700 group-hover:text-blue-600 line-clamp-1"><i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i>${zona}</span>
-            <span class="bg-gray-100 text-gray-600 border border-gray-200 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">${cantidad}</span>
-          </div>
-        `;
+        html += `<div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2 bg-white border border-green-200 hover:border-econexus rounded-lg cursor-pointer transition flex justify-between items-center shadow-sm group"><span class="text-[10px] font-semibold text-gray-700 group-hover:text-econexus line-clamp-1"><i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i>${zona}</span><span class="bg-econexus-soft text-econexus border border-green-200 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">${cantidad}</span></div>`;
       });
       html += `</div>`;
-      if (limiteZonasMostradas < totalZonas) {
-        html += `<button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-bold py-2 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus"></i> Cargar 10 más</button>`;
-      }
+      if (limiteZonasMostradas < totalZonas) html += `<button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-bold py-2 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus"></i> Cargar 10 más</button>`;
       panel.innerHTML = html;
     }
     
-    function cargarMasZonasLeyenda() {
-      limiteZonasMostradas += 10;
-      generarLeyendaZonas(listaGlobalInmueblesMapa);
-    }
-    
+    function cargarMasZonasLeyenda() { limiteZonasMostradas += 10; generarLeyendaZonas(listaGlobalInmueblesMapa); }
     function filtrarZonaDesdeLeyenda(nombreZona) {
       document.getElementById("inputBuscarZonaMapa").value = nombreZona;
-      if (window.innerWidth < 768) {
-        leyendaAbiertaMovil = false;
-        actualizarEstadoPanelLeyendaMovil();
-      }
+      if (window.innerWidth < 768) { leyendaAbiertaMovil = false; actualizarEstadoPanelLeyendaMovil(); }
       cargarInmueblesYGenerarMapa(nombreZona);
     }
-    
     function buscarZonaEnMapa(query) { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); }
   </script>
 </body>
