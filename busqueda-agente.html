@@ -138,9 +138,9 @@
     // Función mágica: Extrae agentes únicos de la vista de propiedades sin alterar la base de datos
     async function cargarAgentesDesdePropiedades() {
       try {
-        // Traemos las propiedades disponibles para extraer a los agentes (limitamos a 1000 para rapidez)
+        // CORRECCIÓN: Usamos select('*') para evitar errores de columnas faltantes
         const { data, error } = await dbClient.from('v_propiedades_catalogo')
-            .select('nombre_asesor, telefono_asesor, foto_perfil, foto_asesor, foto_agente, avatar, avatar_url, tipo_asesor, nombre_agencia')
+            .select('*')
             .eq('estatus', 'Disponible')
             .limit(1000);
 
