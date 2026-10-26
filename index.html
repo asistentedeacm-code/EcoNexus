@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   
   <!-- Título y Descripción Primaria para SEO -->
   <title>EcoNexus | Red Inmobiliaria Inteligente en Venezuela</title>
@@ -37,9 +37,15 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   
-  <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
+  <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  
+  <!-- LEAFLET MARKER CLUSTER (Optimización de Rendimiento para evitar Lag) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
   <!-- THREE.JS (Para Visor 3D Inmersivo a costo 0) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   
@@ -47,6 +53,16 @@
     /* Ocultar barra de desplazamiento manteniendo funcionalidad táctil */
     .hide-scrollbars::-webkit-scrollbar { display: none; }
     .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Personalización del cluster de Leaflet */
+    .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+        background-color: rgba(30, 63, 32, 0.6) !important;
+    }
+    .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div {
+        background-color: rgba(30, 63, 32, 0.9) !important;
+        color: white !important;
+        font-weight: bold;
+    }
   </style>
   <script>
     tailwind.config = {
@@ -59,89 +75,36 @@
       }
     }
   </script>
-  <!-- DATOS ESTRUCTURADOS -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "EcoNexus",
-    "image": "https://asistentedeacm-code.github.io/EcoNexus/logo.png.png",
-    "@id": "https://asistentedeacm-code.github.io/EcoNexus/#organization",
-    "url": "https://asistentedeacm-code.github.io/EcoNexus/",
-    "telephone": "+584244466115",
-    "priceRange": "$$",
-    "description": "Red inmobiliaria inteligente y vitrina publicitaria de propiedades en venta y alquiler en Venezuela.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "VE"
-    },
-    "areaServed": [
-      "Carabobo",
-      "Distrito Capital",
-      "Zulia",
-      "Venezuela"
-    ]
-  }
-  </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
   
-  <!-- MODAL DE DECORADO VIRTUAL (SLIDER ANTES/DESPUÉS INTELIGENTE) -->
-  <div id="modal-decorado-virtual" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col p-4 md:p-10 justify-center items-center">
-    <div class="bg-white rounded-2xl max-w-2xl w-full p-5 shadow-2xl relative flex flex-col max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center mb-3 border-b pb-2">
-        <div>
-          <span class="text-xs font-bold text-econexus uppercase tracking-wider block">Patented Virtual Staging®</span>
-          <h3 class="text-lg font-extrabold text-gray-900">Decorado Virtual (Antes y Después)</h3>
-        </div>
-        <button onclick="cerrarDecoradoVirtual()" class="text-gray-500 hover:text-red-500 bg-gray-100 hover:bg-gray-200 rounded-full w-9 h-9 flex items-center justify-center transition cursor-pointer">
-          <i class="fa-solid fa-xmark text-lg"></i>
+  <!-- MODAL LIGHTBOX (PANTALLA COMPLETA CON ZOOM) -->
+  <div id="modalLightbox" class="fixed inset-0 bg-black/95 z-[99999] hidden flex-col justify-center items-center backdrop-blur-sm">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[100000] bg-gradient-to-b from-black/70 to-transparent">
+        <span class="text-white text-xs font-bold bg-white/20 px-3 py-1.5 rounded-lg backdrop-blur-md" id="contador-lightbox">1 / 1</span>
+        <button onclick="cerrarLightbox()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/30 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md cursor-pointer">
+            <i class="fa-solid fa-xmark text-xl"></i>
         </button>
-      </div>
-      
-      <p class="text-xs text-gray-600 mb-4">Desliza la barra central para comparar el espacio real con la propuesta de diseño interior generada por IA.</p>
-      
-      <!-- CONTENEDOR SLIDER COMPARATIVO -->
-      <div id="sliderComparativoContainer" class="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden select-none border border-gray-200 mb-4 shadow-inner" style="touch-action: none;">
-        <!-- Imagen Original (Fondo) -->
-        <img id="imgOriginalStaging" src="" alt="Espacio Real" class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
-        
-        <!-- Imagen Decorada (Superpuesta con clip-path dinámico) -->
-        <div id="wrapperDecorada" class="absolute inset-0 overflow-hidden pointer-events-none" style="width: 50%;">
-          <img id="imgDecoradaStaging" src="" alt="Espacio Decorado" class="absolute inset-0 w-full h-full object-cover max-w-none" style="width: 100%; height: 100%;" />
-          <span class="absolute top-3 left-3 bg-econexus text-white text-[10px] font-bold px-2.5 py-1 rounded-md shadow">Decorado IA</span>
-        </div>
-        
-        <!-- Barra Divisora Táctil -->
-        <div id="dividerStaging" class="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_10px_rgba(0,0,0,0.5)] cursor-ew-resize" style="left: 50%;">
-          <div class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-econexus text-white flex items-center justify-center shadow-lg border-2 border-white pointer-events-none">
-            <i class="fa-solid fa-arrows-left-right text-xs"></i>
-          </div>
-        </div>
-      </div>
-
-      <!-- Selector de Estilos -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
-        <button onclick="cambiarEstiloStaging('moderno')" class="p-2 rounded-xl border-2 border-econexus bg-green-50 text-econexus text-xs font-bold transition cursor-pointer">Moderno</button>
-        <button onclick="cambiarEstiloStaging('lujoso')" class="p-2 rounded-xl border border-gray-200 hover:border-econexus text-gray-700 text-xs font-bold transition cursor-pointer">Lujoso</button>
-        <button onclick="cambiarEstiloStaging('basico')" class="p-2 rounded-xl border border-gray-200 hover:border-econexus text-gray-700 text-xs font-bold transition cursor-pointer">Básico</button>
-        <button onclick="cambiarEstiloStaging('vacio')" class="p-2 rounded-xl border border-gray-200 hover:border-econexus text-gray-700 text-xs font-bold transition cursor-pointer">Espacio Vacío</button>
-      </div>
-
-      <div class="text-center">
-        <button onclick="cerrarDecoradoVirtual()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-6 py-2.5 rounded-xl text-xs transition shadow cursor-pointer">
-          Finalizar y Volver a la Ficha
-        </button>
-      </div>
     </div>
+    <!-- Contenedor con touch-action para habilitar el Pinch-Zoom nativo del móvil -->
+    <div class="w-full h-full flex items-center justify-center overflow-hidden touch-pan-x touch-pan-y pinch-zoom">
+        <img id="lightboxImg" src="" alt="Vista ampliada" class="max-w-full max-h-[85vh] object-contain transition-opacity duration-300" />
+    </div>
+    <!-- Controles Laterales -->
+    <button onclick="navegarLightbox(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10">
+        <i class="fa-solid fa-chevron-left text-xl"></i>
+    </button>
+    <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10">
+        <i class="fa-solid fa-chevron-right text-xl"></i>
+    </button>
   </div>
 
-  <!-- MODAL VISOR 3D INMERSIVO -->
+  <!-- MODAL VISOR 3D INMERSIVO (EFECTO CINEMÁTICO KEN BURNS) -->
   <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col">
     <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10000] bg-gradient-to-b from-black/80 to-transparent">
       <div class="flex items-center gap-3">
         <span class="text-white text-sm font-bold bg-econexus-accent px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2">
-          <i class="fa-solid fa-cube"></i> Visor 3D Activo
+          <i class="fa-solid fa-vr-cardboard"></i> Tour Virtual Activo
         </span>
         <span id="contador-3d" class="text-gray-300 text-xs font-semibold">1 / 1</span>
       </div>
@@ -149,13 +112,15 @@
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>
-    <div id="canvas-container-3d" class="w-full flex-grow relative cursor-move touch-pan-y"></div>
+    
+    <div id="canvas-container-3d" class="w-full flex-grow relative overflow-hidden bg-black"></div>
+    
     <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-[10000] bg-black/50 p-2 rounded-2xl backdrop-blur-md border border-white/10">
       <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
-      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer">
-        <i class="fa-solid fa-play"></i> Iniciar Auto-Tour
+      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer min-w-[140px] justify-center">
+        <i class="fa-solid fa-pause"></i> Detener Tour
       </button>
       <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-chevron-right"></i>
@@ -163,7 +128,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
+  <!-- MODAL DE APERTURA INSTANTÁNEA (AVISO LEGAL) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
       <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
@@ -178,7 +143,7 @@
       </p>
       <div class="border-t border-gray-100 pt-3 flex items-center justify-between">
         <button onclick="cerrarAvisoInstantaneo(); toggleLegalDisclaimer();" class="text-xs text-econexus font-bold underline hover:text-econexus-light cursor-pointer">
-          Ver términos y condiciones completos dentro de la plataforma...
+          Ver términos y condiciones completos...
         </button>
         <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
           Entendido / Avanzar
@@ -361,7 +326,7 @@
           <i class="fa-solid fa-map-location-dot text-amber-400 text-xl"></i>
           <div>
             <h3 class="font-bold text-base leading-tight">Mapa de Presencia Real EcoNexus</h3>
-            <p class="text-[11px] text-green-200">Ubicación exacta según carga del cliente y Leyenda de Zonas</p>
+            <p class="text-[11px] text-green-200">Ubicación exacta y Leyenda de Zonas</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
@@ -384,7 +349,7 @@
           0 propiedades ubicadas
         </span>
       </div>
-      <!-- CONTENEDOR DEL MAPA Y PANEL DE LEYENDA DE ZONAS (RESPONSIVE MÓVIL Y DESKTOP) -->
+      <!-- CONTENEDOR DEL MAPA Y PANEL DE LEYENDA DE ZONAS -->
       <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
         <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
         
@@ -430,9 +395,9 @@
     let waUrlPendiente = '';
     let debounceTimer = null;
     
-    // VARIABLES DE MAPA LEAFLET Y LEYENDA
+    // VARIABLES DE MAPA LEAFLET Y LEYENDA (CLUSTERIZADO)
     let mapaGlobal = null;
-    let capaMarcadores = null;
+    let capaMarcadoresCluster = null;
     let mapaFichaModal = null;
     let listaGlobalInmueblesMapa = [];
     let limiteZonasMostradas = 10; 
@@ -454,18 +419,20 @@
     };
     const COORDS_DEFAULT = [10.18000, -68.00000];
 
-    // Variables de Estado de Ficha Activa (Swipe en Foto Principal)
+    // Variables de Estado de Ficha Activa (Swipe y Lightbox)
     let fotosActivasModal = [];
     let indiceFotoActiva = 0;
     let touchStartX = 0;
     let touchEndX = 0;
-    let fotoActualStagingUrl = '';
+    
+    // Variables de Lightbox (Zoom)
+    let lightboxFotos = [];
+    let lightboxIndex = 0;
 
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
-      initStagingSlider(); // Inicializar motor de Decorado Virtual Slider
     });
 
     async function obtenerTotalContadorSupabase() {
@@ -559,8 +526,8 @@
         if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
         
         propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
-        renderizarSeccionVip(propiedadesCargadas); // Pinta la barra VIP arriba
-        renderizarTarjetas(propiedadesCargadas); // Pinta la grilla
+        renderizarSeccionVip(propiedadesCargadas); 
+        renderizarTarjetas(propiedadesCargadas);
         
       } catch (err) {
         showError("No se pudo conectar con la base de datos de Supabase. Revisa la configuración.");
@@ -779,14 +746,12 @@
       
       fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       indiceFotoActiva = 0;
-      fotoActualStagingUrl = fotosActivasModal[0];
       
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
       const coordsFicha = obtenerCoordenadasExactas(p);
       const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
       
-      // Preservamos la Foto de Perfil del Agente
       const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
       const renderFotoAsesorHTML = fotoAsesor 
         ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-12 h-12 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
@@ -813,32 +778,29 @@
             </p>
           </div>
           
-          <!-- FOTO PRINCIPAL CON SWIPE DIRECTO Y PUNTOS INDICADORES -->
+          <!-- FOTO PRINCIPAL (Click para abrir Lightbox con Zoom) -->
           <div class="space-y-3 mb-6">
-            <div id="swipeContainerModal" class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-900 border border-gray-200 select-none touch-pan-y flex items-center justify-center">
+            <div id="swipeContainerModal" class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-900 border border-gray-200 select-none touch-pan-y flex items-center justify-center cursor-zoom-in" onclick="abrirLightbox()">
               <img id="modalFotoPrincipal" src="${fotosActivasModal[0]}" alt="${p.titulo}" loading="lazy" class="w-full h-full object-cover transition-opacity duration-300" />
               
               <!-- Botones flotantes sutiles de navegación -->
-              <button onclick="cambiarFotoSwipe(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition z-10">
+              <button onclick="event.stopPropagation(); cambiarFotoSwipe(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition z-10">
                 <i class="fa-solid fa-chevron-left text-sm"></i>
               </button>
-              <button onclick="cambiarFotoSwipe(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition z-10">
+              <button onclick="event.stopPropagation(); cambiarFotoSwipe(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition z-10">
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </button>
 
               <!-- Indicadores de Puntos (Dots) -->
-              <div id="modalDotsContainer" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md z-10">
+              <div id="modalDotsContainer" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md z-10 pointer-events-none">
                 ${fotosActivasModal.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/50'} transition-all"></span>`).join('')}
               </div>
             </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
-              <button id="btnAbrirDecorado" onclick="abrirDecoradoVirtual('${fotoActualStagingUrl}')" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-900 py-3.5 rounded-2xl font-extrabold text-xs flex items-center justify-center gap-2 shadow-xl cursor-pointer hover:scale-[1.02] transition">
-                <i class="fa-solid fa-sliders text-sm"></i> Decorado Virtual (Antes / Después)
-              </button>
+            <div class="pt-2">
               ${fotosActivasModal.length > 0 ? `
-              <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-xl cursor-pointer hover:scale-[1.02] transition">
-                <i class="fa-solid fa-vr-cardboard text-base"></i> Recorrido Virtual 3D
+              <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-xl cursor-pointer hover:scale-[1.02] transition ring-2 ring-gray-900/30">
+                <i class="fa-solid fa-vr-cardboard text-base"></i> Activar Recorrido 3D Inmersivo
               </button>
               ` : ''}
             </div>
@@ -903,7 +865,6 @@
       `;
       document.getElementById("propModal").classList.remove("hidden");
       
-      // Habilitar Swipe y Gestos Táctiles
       setupSwipeEnFotoModal();
       
       setTimeout(() => {
@@ -928,21 +889,15 @@
       if (indiceFotoActiva >= fotosActivasModal.length) indiceFotoActiva = 0;
       if (indiceFotoActiva < 0) indiceFotoActiva = fotosActivasModal.length - 1;
       
-      fotoActualStagingUrl = fotosActivasModal[indiceFotoActiva];
+      const imgUrl = fotosActivasModal[indiceFotoActiva];
       const imgElem = document.getElementById("modalFotoPrincipal");
       imgElem.style.opacity = '0';
       setTimeout(() => {
-        imgElem.src = fotoActualStagingUrl;
+        imgElem.src = imgUrl;
         imgElem.style.opacity = '1';
       }, 150);
 
       actualizarDotsModal();
-      
-      // Actualizar botón de decorado dinámicamente para la nueva foto
-      const btnStaging = document.getElementById("btnAbrirDecorado");
-      if(btnStaging) {
-        btnStaging.setAttribute("onclick", `abrirDecoradoVirtual('${fotoActualStagingUrl}')`);
-      }
     }
 
     function actualizarDotsModal() {
@@ -968,10 +923,10 @@
     function handleSwipeGesture() {
       const threshold = 40;
       if (touchEndX < touchStartX - threshold) {
-        cambiarFotoSwipe(1); // Swipe Izquierda -> Siguiente foto
+        cambiarFotoSwipe(1); // Swipe Izquierda
       }
       if (touchEndX > touchStartX + threshold) {
-        cambiarFotoSwipe(-1); // Swipe Derecha -> Foto anterior
+        cambiarFotoSwipe(-1); // Swipe Derecha
       }
     }
 
@@ -979,63 +934,40 @@
       document.getElementById("propModal").classList.add("hidden");
     }
 
-    /* =======================================================
-       DECORADO VIRTUAL (SLIDER ANTES / DESPUÉS INTELIGENTE)
-       ======================================================= */
-    function abrirDecoradoVirtual(imgUrl) {
-      document.getElementById('imgOriginalStaging').src = imgUrl;
-      document.getElementById('imgDecoradaStaging').src = imgUrl;
-      // Reset filter and slider position
-      document.getElementById('imgDecoradaStaging').style.filter = 'none';
-      document.getElementById('wrapperDecorada').style.width = '50%';
-      document.getElementById('dividerStaging').style.left = '50%';
-      
-      document.getElementById('modal-decorado-virtual').classList.remove('hidden');
-      document.getElementById('modal-decorado-virtual').classList.add('flex');
+    // --- Lógica del Lightbox (Visualización en Pantalla Completa con Zoom Nativo) ---
+    function abrirLightbox() {
+        lightboxFotos = fotosActivasModal;
+        lightboxIndex = indiceFotoActiva;
+        document.getElementById('lightboxImg').src = lightboxFotos[lightboxIndex];
+        document.getElementById('modalLightbox').classList.remove('hidden');
+        document.getElementById('modalLightbox').classList.add('flex');
+        document.getElementById('contador-lightbox').textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
+        // Prevenir scroll de fondo
+        document.body.style.overflow = 'hidden';
     }
 
-    function cerrarDecoradoVirtual() {
-      document.getElementById('modal-decorado-virtual').classList.add('hidden');
-      document.getElementById('modal-decorado-virtual').classList.remove('flex');
+    function cerrarLightbox() {
+        document.getElementById('modalLightbox').classList.add('hidden');
+        document.getElementById('modalLightbox').classList.remove('flex');
+        document.body.style.overflow = '';
     }
 
-    function cambiarEstiloStaging(estilo) {
-      const imgDec = document.getElementById('imgDecoradaStaging');
-      if (estilo === 'vacio') imgDec.style.filter = 'grayscale(100%)';
-      else if (estilo === 'lujoso') imgDec.style.filter = 'contrast(125%) saturate(140%) brightness(105%)';
-      else if (estilo === 'basico') imgDec.style.filter = 'brightness(110%)';
-      else imgDec.style.filter = 'none';
-    }
-
-    function initStagingSlider() {
-      const container = document.getElementById('sliderComparativoContainer');
-      const wrapper = document.getElementById('wrapperDecorada');
-      const divider = document.getElementById('dividerStaging');
-      if (!container) return;
-
-      let isDragging = false;
-
-      function updateSlider(clientX) {
-        const rect = container.getBoundingClientRect();
-        let x = clientX - rect.left;
-        if (x < 0) x = 0;
-        if (x > rect.width) x = rect.width;
-        const percent = (x / rect.width) * 100;
-        wrapper.style.width = `${percent}%`;
-        divider.style.left = `${percent}%`;
-      }
-
-      container.addEventListener('pointerdown', (e) => { isDragging = true; updateSlider(e.clientX); });
-      window.addEventListener('pointermove', (e) => { if (!isDragging) return; updateSlider(e.clientX); });
-      window.addEventListener('pointerup', () => { isDragging = false; });
-      // Soporte táctil
-      container.addEventListener('touchstart', (e) => { isDragging = true; updateSlider(e.touches[0].clientX); }, {passive: true});
-      window.addEventListener('touchmove', (e) => { if (!isDragging) return; updateSlider(e.touches[0].clientX); }, {passive: true});
-      window.addEventListener('touchend', () => { isDragging = false; });
+    function navegarLightbox(dir) {
+        lightboxIndex += dir;
+        if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
+        if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
+        
+        document.getElementById('lightboxImg').src = lightboxFotos[lightboxIndex];
+        document.getElementById('contador-lightbox').textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
+        
+        // Sincronizar con la foto principal de la ficha
+        indiceFotoActiva = lightboxIndex;
+        document.getElementById("modalFotoPrincipal").src = lightboxFotos[lightboxIndex];
+        actualizarDotsModal();
     }
 
     /* =======================================================
-       MAPA GLOBAL & LEYENDA (Paginada a 10)
+       MAPA GLOBAL & LEYENDA (CLUSTERIZADO PARA CERO LAG)
        ======================================================= */
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
@@ -1045,12 +977,21 @@
       
       setTimeout(async () => {
         if (!mapaGlobal) {
-          mapaGlobal = L.map('contenedorMapaLeaflet').setView(COORDS_DEFAULT, 7);
+          mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: false }).setView(COORDS_DEFAULT, 7);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '© OpenStreetMap'
           }).addTo(mapaGlobal);
-          capaMarcadores = L.layerGroup().addTo(mapaGlobal);
+          
+          // Implementación del Marker Cluster para evitar saturación del DOM
+          capaMarcadoresCluster = L.markerClusterGroup({
+            chunkedLoading: true,
+            maxClusterRadius: 40,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true
+          });
+          mapaGlobal.addLayer(capaMarcadoresCluster);
         }
         mapaGlobal.invalidateSize();
         await cargarInmueblesYGenerarMapa();
@@ -1086,8 +1027,8 @@
     }
     
     async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
-      if (!capaMarcadores) return;
-      capaMarcadores.clearLayers();
+      if (!capaMarcadoresCluster) return;
+      capaMarcadoresCluster.clearLayers();
       const { data: listaPropiedades, error } = await dbClient
         .from('v_propiedades_catalogo')
         .select('*')
@@ -1121,7 +1062,7 @@
           </div>
         `;
         const marker = L.marker(coords).bindPopup(popupHTML);
-        capaMarcadores.addLayer(marker);
+        capaMarcadoresCluster.addLayer(marker);
       });
       if (bounds.length > 0 && filtroQuery.trim() !== "") {
         mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
@@ -1211,17 +1152,13 @@
     }
 
     /* =======================================================
-       MÓDULO: MOTOR 3D INMERSIVO (Base del archivo Word)
+       MÓDULO: MOTOR 3D INMERSIVO (Efecto Cinemático Ken Burns)
        ======================================================= */
     let scene3D, camera3D, renderer3D, planeMesh3D;
     let fotosTour = [];
     let indiceTour = 0;
     let isAutoPlaying = false;
-    let autoPlayInterval;
-    
-    let mX = 0, mY = 0;
-    let tX = 0, tY = 0;
-    let whX = window.innerWidth / 2, whY = window.innerHeight / 2;
+    let tourTime = 0;
     
     function iniciarRecorridoVirtual(idInmueble) {
         const p = propiedadesCargadas.find(item => item.id === idInmueble);
@@ -1230,10 +1167,15 @@
             indiceTour = 0;
             document.getElementById('modal-3d-inmueble').classList.remove('hidden');
             document.getElementById('modal-3d-inmueble').classList.add('flex');
-            actualizarUIContador();
+            actualizarUIContadorTour();
             
             if (!scene3D) init3DViewer();
             actualizarTexturaInmueble(fotosTour[indiceTour]);
+            
+            // Forzar inicio automático del recorrido cinemático
+            if (!isAutoPlaying) {
+                toggleAutoPlay3D();
+            }
         }
     }
     
@@ -1241,25 +1183,24 @@
         const container = document.getElementById('canvas-container-3d');
         scene3D = new THREE.Scene();
         camera3D = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera3D.position.z = 5;
         
         renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer3D.setSize(window.innerWidth, window.innerHeight);
         renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer3D.domElement);
         
-        const geometry = new THREE.PlaneGeometry(8, 5, 32, 32);
+        // Plano ampliado para permitir paneo sin que se vean los bordes
+        const geometry = new THREE.PlaneGeometry(12, 8, 32, 32);
         const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
         planeMesh3D = new THREE.Mesh(geometry, material);
         scene3D.add(planeMesh3D);
-        document.addEventListener('mousemove', (e) => { mX = (e.clientX - whX); mY = (e.clientY - whY); });
-        document.addEventListener('touchmove', (e) => { mX = (e.touches[0].clientX - whX); mY = (e.touches[0].clientY - whY); }, {passive: true});
+        
         window.addEventListener('resize', () => {
-            whX = window.innerWidth / 2; whY = window.innerHeight / 2;
             camera3D.aspect = window.innerWidth / window.innerHeight;
             camera3D.updateProjectionMatrix();
             renderer3D.setSize(window.innerWidth, window.innerHeight);
         });
+        
         animate3D();
     }
     
@@ -1268,10 +1209,12 @@
         loader.load(imageUrl, function(texture) {
             texture.generateMipmaps = true;
             if (planeMesh3D) {
-                planeMesh3D.scale.set(0.9, 0.9, 0.9);
                 planeMesh3D.material.map = texture;
                 planeMesh3D.material.needsUpdate = true;
-                setTimeout(() => planeMesh3D.scale.set(1, 1, 1), 50);
+                // Reset de cámara al cambiar de foto
+                tourTime = 0; 
+                camera3D.position.set(0, 0, 4.5);
+                camera3D.lookAt(0, 0, 0);
             }
         });
     }
@@ -1281,49 +1224,57 @@
         indiceTour += direccion;
         if (indiceTour >= fotosTour.length) indiceTour = 0;
         if (indiceTour < 0) indiceTour = fotosTour.length - 1;
-        actualizarUIContador();
+        actualizarUIContadorTour();
         actualizarTexturaInmueble(fotosTour[indiceTour]);
     }
     
-    function actualizarUIContador() {
+    function actualizarUIContadorTour() {
         document.getElementById('contador-3d').textContent = `${indiceTour + 1} / ${fotosTour.length}`;
     }
     
     function toggleAutoPlay3D() {
         const btn = document.getElementById('btn-autoplay-3d');
         isAutoPlaying = !isAutoPlaying;
+        
         if (isAutoPlaying) {
             btn.innerHTML = `<i class="fa-solid fa-pause"></i> Detener Tour`;
             btn.classList.replace('bg-econexus', 'bg-red-600');
-            btn.classList.replace('hover:bg-econexus-light', 'hover:bg-red-700');
-            autoPlayInterval = setInterval(() => {
-                mX = Math.sin(Date.now() * 0.001) * 300;
-                mY = Math.cos(Date.now() * 0.001) * 100;
-                if (Date.now() % 4000 < 50) navegarVisor3D(1);
-            }, 50);
         } else {
-            btn.innerHTML = `<i class="fa-solid fa-play"></i> Iniciar Auto-Tour`;
+            btn.innerHTML = `<i class="fa-solid fa-play"></i> Continuar Tour`;
             btn.classList.replace('bg-red-600', 'bg-econexus');
-            btn.classList.replace('hover:bg-red-700', 'hover:bg-econexus-light');
-            clearInterval(autoPlayInterval);
-            mX = 0; mY = 0;
+            // Retorna al centro suavemente si se detiene
+            camera3D.position.set(0, 0, 4.5);
+            camera3D.lookAt(0, 0, 0);
         }
     }
     
     function animate3D() {
         requestAnimationFrame(animate3D);
-        tX = mX * 0.001; tY = mY * 0.001;
-        if (planeMesh3D) {
-            planeMesh3D.rotation.y += 0.05 * (tX - planeMesh3D.rotation.y);
-            planeMesh3D.rotation.x += 0.05 * (tY - planeMesh3D.rotation.x);
+        
+        // Algoritmo Ken Burns (Paneo y Zoom Cinemático Autónomo)
+        if (isAutoPlaying && planeMesh3D) {
+            tourTime += 0.0025; // Velocidad del recorrido
+            
+            // Movimiento suave en X e Y
+            camera3D.position.x = Math.sin(tourTime * 0.8) * 1.8;
+            camera3D.position.y = Math.cos(tourTime * 0.5) * 0.8;
+            
+            // Acercamiento y alejamiento en Z (Zoom in/out)
+            camera3D.position.z = 4.5 + Math.sin(tourTime * 1.2) * 1.5; 
+            
+            // La cámara siempre mira hacia el centro de la imagen
+            camera3D.lookAt(planeMesh3D.position);
         }
+        
         renderer3D.render(scene3D, camera3D);
     }
     
     function cerrarVisor3D() {
         document.getElementById('modal-3d-inmueble').classList.add('hidden');
         document.getElementById('modal-3d-inmueble').classList.remove('flex');
-        if (isAutoPlaying) toggleAutoPlay3D();
+        if (isAutoPlaying) {
+            toggleAutoPlay3D(); // Detenemos el renderizado de movimiento al cerrar
+        }
     }
   </script>
 </body>
