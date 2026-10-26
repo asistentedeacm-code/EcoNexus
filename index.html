@@ -39,6 +39,16 @@
   <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <!-- THREE.JS (Para Visor 3D Inmersivo a costo 0) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    /* Ocultar barra de desplazamiento manteniendo funcionalidad táctil */
+    .hide-scrollbars::-webkit-scrollbar { display: none; }
+    .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+
   <script>
     tailwind.config = {
       theme: {
@@ -76,6 +86,34 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- MODAL VISOR 3D INMERSIVO -->
+  <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col">
+    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10000] bg-gradient-to-b from-black/80 to-transparent">
+      <div class="flex items-center gap-3">
+        <span class="text-white text-sm font-bold bg-econexus-accent px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-cube"></i> Visor 3D Activo
+        </span>
+        <span id="contador-3d" class="text-gray-300 text-xs font-semibold">1 / 1</span>
+      </div>
+      <button onclick="cerrarVisor3D()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+    </div>
+    <div id="canvas-container-3d" class="w-full flex-grow relative cursor-move touch-pan-y"></div>
+    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-[10000] bg-black/50 p-2 rounded-2xl backdrop-blur-md border border-white/10">
+      <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg">
+        <i class="fa-solid fa-play"></i> Iniciar Auto-Tour
+      </button>
+      <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
@@ -235,7 +273,7 @@
   <!-- MODAL DE PROPIEDAD -->
   <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      <button onclick="cerrarModal()" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
+      <button onclick="cerrarModal()" class="absolute top-4 right-4 z-[60] bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
       <div id="modalContent"></div>
@@ -326,7 +364,7 @@
     let limiteZonasMostradas = 10; // Paginación de 10 en 10 para la leyenda
     let leyendaAbiertaMovil = true; // Por defecto abierto
 
-    // BASE DE DATOS AMPLIADA Y ENRIQUECIDA DE BONDADES, COLEGIOS, COMERCIOS Y COORDENADAS POR SECTOR EN VENEZUELA
+    // BASE DE DATOS AMPLIADA Y ENRIQUECIDA
     const REFERENCIAS_GEOGRAFICAS = {
       "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, cercanía a centros comerciales tradicionales (C.C. Trigal), colegios de prestigio, clínicas, farmacias, vigilancia privada y suministro constante de servicios." },
       "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, cercanía a hoteles, centros corporativos, clínicas exclusivas y colegios." },
@@ -340,9 +378,7 @@
       "caracas": { coords: [10.48059, -66.90360], bondades: "Distrito Capital, centro político y financiero del país, amplia red de transporte subterráneo, comercios, colegios de alto nivel y servicios médicos." },
       "maracaibo": { coords: [10.64270, -71.61250], bondades: "Eje comercial petrolero y empresarial del Zulia, avenidas principales, centros comerciales, farmacias y centros de salud de primer nivel." }
     };
-
-    // COORDENADA BASE POR DEFECTO (CENTRO DE VENEZUELA)
-    const COORDS_DEFAULT = [6.4238, -66.5897];
+    const COORDS_DEFAULT = [10.18000, -68.00000];
 
     document.addEventListener("DOMContentLoaded", async function() {
       await obtenerTotalContadorSupabase();
@@ -350,7 +386,6 @@
       verificarParametrosURL();
     });
 
-    // 1. CONSULTA DE CONTADOR TOTAL DIRECTO A SUPABASE
     async function obtenerTotalContadorSupabase() {
       try {
         const { count, error } = await dbClient
@@ -365,7 +400,6 @@
       }
     }
 
-    // 2. DETECCIÓN DE PARÁMETROS EN LA URL
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
@@ -396,7 +430,6 @@
       }
     }
 
-    // 3. CARGA DE PROPIEDADES DIRECTO DESDE SUPABASE
     async function cargarPropiedades(reset = false) {
       if (reset) {
         pageOffset = 0;
@@ -466,7 +499,6 @@
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
 
-    // 4. RENDERIZACIÓN DE TARJETAS
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid");
       const noRes = document.getElementById("noResults");
@@ -546,15 +578,10 @@
       });
     }
 
-    // 5. MANEJO DE FILTROS
-    function aplicarFiltros() {
-      cargarPropiedades(true);
-    }
+    function aplicarFiltros() { cargarPropiedades(true); }
     function aplicarFiltrosDebounced() {
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        aplicarFiltros();
-      }, 400);
+      debounceTimer = setTimeout(() => { aplicarFiltros(); }, 400);
     }
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
@@ -567,10 +594,7 @@
       cargarPropiedades(true);
     }
 
-    // 6. MANEJO DE MODALES
-    function cerrarAvisoInstantaneo() {
-      document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
-    }
+    function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
     function toggleLegalDisclaimer() {
       const dropdown = document.getElementById("legalDisclaimerDropdown");
       const arrow = document.getElementById("legalArrow");
@@ -580,31 +604,22 @@
     function confirmarIrAWhatsApp(numero, mensaje) {
       waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
       const modal = document.getElementById("modalConfirmarWhatsApp");
-      if (modal) {
-        modal.classList.remove("hidden");
-      }
+      if (modal) modal.classList.remove("hidden");
     }
     function cerrarModalWhatsApp() {
       const modal = document.getElementById("modalConfirmarWhatsApp");
-      if (modal) {
-        modal.classList.add("hidden");
-      }
+      if (modal) modal.classList.add("hidden");
       waUrlPendiente = '';
     }
     function aceptarYContinuarWhatsApp() {
-      if (waUrlPendiente) {
-        window.open(waUrlPendiente, '_blank');
-      }
+      if (waUrlPendiente) window.open(waUrlPendiente, '_blank');
       cerrarModalWhatsApp();
     }
     function abrirModal(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
-      if (p) {
-        abrirModalDirecto(p);
-      }
+      if (p) abrirModalDirecto(p);
     }
 
-    // OBTENCIÓN DE BONDADES ENRIQUECIDAS CON COLEGIOS, COMERCIOS Y SERVICIOS
     function obtenerBondadesSegunUbicacion(ubicacionTexto) {
       if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios, farmacias, colegios y servicios locales esenciales.";
       const texto = ubicacionTexto.toLowerCase();
@@ -616,11 +631,8 @@
       return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, colegios, comercios locales y conectividad urbana.`;
     }
 
-    // OBTENCIÓN DE COORDENADAS PRECISAS BASADAS EN EL SECTOR REAL
     function obtenerCoordenadasExactas(p) {
-      if (p.lat && p.lng) {
-        return [parseFloat(p.lat), parseFloat(p.lng)];
-      }
+      if (p.lat && p.lng) return [parseFloat(p.lat), parseFloat(p.lng)];
       const textoUbi = (p.ubicacion || "").toLowerCase();
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
         if (textoUbi.includes(clave)) {
@@ -650,6 +662,15 @@
       const renderFotoAsesorHTML = fotoAsesor 
         ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-12 h-12 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
         : `<div class="w-12 h-12 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-base border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
+      
+      // Botón 3D Dinámico
+      const btn3D = fotosArray.length > 0 ? `
+        <div class="mt-4 flex justify-center w-full pb-2">
+            <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full sm:w-auto bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-xl ring-2 ring-gray-900/30 hover:scale-[1.02]">
+                <i class="fa-solid fa-vr-cardboard text-lg"></i> Activar Recorrido 3D Inmersivo
+            </button>
+        </div>
+      ` : '';
 
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
@@ -672,16 +693,18 @@
             </p>
           </div>
           <div class="space-y-3 mb-6">
-            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
-              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
+            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200 shadow-inner">
+              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-opacity duration-300" />
             </div>
             ${fotosArray.length > 1 ? `
-              <div class="flex space-x-2 overflow-x-auto pb-2 snap-x">
-                ${fotosArray.map(urlFoto => `
-                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0" />
+              <div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
+                ${fotosArray.map((urlFoto) => `
+                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0 snap-start shadow-sm" />
                 `).join('')}
               </div>
             ` : ''}
+            
+            ${btn3D}
           </div>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-green-100 text-center">
             <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
@@ -760,11 +783,10 @@
       document.getElementById("propModal").classList.add("hidden");
     }
 
-    // 7. FUNCIONES DEL MAPA GLOBAL, LEYENDA Y MENÚ DESPLEGABLE CON BOTÓN CERRAR (X)
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
       limiteZonasMostradas = 10;
-      leyendaAbiertaMovil = true; // Abierto por defecto
+      leyendaAbiertaMovil = true;
       actualizarEstadoPanelLeyendaMovil();
       
       setTimeout(async () => {
@@ -780,17 +802,13 @@
         await cargarInmueblesYGenerarMapa();
       }, 300);
     }
-
     function cerrarModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.add("hidden");
     }
-
-    // CONTROL DE VISIBILIDAD DEL PANEL DE LEYENDA EN MÓVIL (DESPLEGABLE CON X)
     function togglePanelLeyendaMovil() {
       leyendaAbiertaMovil = !leyendaAbiertaMovil;
       actualizarEstadoPanelLeyendaMovil();
     }
-
     function actualizarEstadoPanelLeyendaMovil() {
       const panel = document.getElementById("panelLeyendaContenedor");
       const txtBtn = document.getElementById("txtBtnToggleLeyenda");
@@ -809,11 +827,9 @@
         if (mapaGlobal) mapaGlobal.invalidateSize();
       }
     }
-
     async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
       if (!capaMarcadores) return;
       capaMarcadores.clearLayers();
-
       const { data: listaPropiedades, error } = await dbClient
         .from('v_propiedades_catalogo')
         .select('*')
@@ -821,7 +837,6 @@
       
       if (error || !listaPropiedades) return;
       listaGlobalInmueblesMapa = listaPropiedades;
-
       let filtradas = listaPropiedades;
       if (filtroQuery.trim() !== "") {
         const queryLimpia = filtroQuery.toLowerCase().trim();
@@ -833,9 +848,7 @@
           return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || desc.includes(queryLimpia) || cod.includes(queryLimpia);
         });
       }
-
       document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} propiedad(es) ubicadas`;
-
       let bounds = [];
       filtradas.forEach(p => {
         const coords = obtenerCoordenadasExactas(p);
@@ -852,17 +865,14 @@
         const marker = L.marker(coords).bindPopup(popupHTML);
         capaMarcadores.addLayer(marker);
       });
-
       if (bounds.length > 0 && filtroQuery.trim() !== "") {
         mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
       } else if (bounds.length > 0) {
         mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
       }
-
       generarLeyendaZonas(filtradas);
     }
-
-    // GENERAR LEYENDA DINÁMICA DE ZONAS CON PAGINACIÓN DE 10 EN 10
+    
     function generarLeyendaZonas(lista) {
       const panel = document.getElementById("panelDetalleZona");
       
@@ -871,10 +881,8 @@
         const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar";
         conteoZonas[zona] = (conteoZonas[zona] || 0) + 1;
       });
-
       const zonasArray = Object.entries(conteoZonas).sort((a, b) => b[1] - a[1]);
       const totalZonas = zonasArray.length;
-
       if (totalZonas === 0) {
         panel.innerHTML = `
           <div class="text-center py-8 text-gray-400">
@@ -884,9 +892,7 @@
         `;
         return;
       }
-
       const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
-
       let html = `
         <div class="bg-econexus-soft border border-green-200 p-3 rounded-xl mb-2">
           <span class="text-[10px] uppercase font-bold text-econexus block">Leyenda de Zonas Detectadas</span>
@@ -894,7 +900,6 @@
         </div>
         <div class="space-y-2 overflow-y-auto max-h-[35vh] md:max-h-[60vh] pr-1">
       `;
-
       zonasVisibles.forEach(([zona, cantidad]) => {
         html += `
           <div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2.5 bg-white border border-gray-200 hover:border-econexus rounded-xl cursor-pointer transition flex justify-between items-center shadow-xs group">
@@ -903,9 +908,7 @@
           </div>
         `;
       });
-
       html += `</div>`;
-
       if (limiteZonasMostradas < totalZonas) {
         html += `
           <button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-econexus text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1 cursor-pointer">
@@ -913,15 +916,12 @@
           </button>
         `;
       }
-
       panel.innerHTML = html;
     }
-
     function cargarMasZonasLeyenda() {
       limiteZonasMostradas += 10;
       generarLeyendaZonas(listaGlobalInmueblesMapa);
     }
-
     function filtrarZonaDesdeLeyenda(nombreZona) {
       document.getElementById("inputBuscarZonaMapa").value = nombreZona;
       if (window.innerWidth < 768) {
@@ -930,7 +930,6 @@
       }
       cargarInmueblesYGenerarMapa(nombreZona);
     }
-
     function buscarZonaEnMapa(query) {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
@@ -938,17 +937,134 @@
         cargarInmueblesYGenerarMapa(query);
       }, 350);
     }
-
     function abrirModalDirectoDesdeMapa(id) {
       cerrarModalMapaGlobal();
       abrirModal(id);
     }
-
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
       grid.classList.remove("hidden");
     }
+
+    /* =======================================================
+       MÓDULO: MOTOR 3D INMERSIVO Y RECORRIDO AUTOMÁTICO
+       ======================================================= */
+    let scene3D, camera3D, renderer3D, planeMesh3D;
+    let fotosTour = [];
+    let indiceTour = 0;
+    let isAutoPlaying = false;
+    let autoPlayInterval;
+    
+    // Variables para interactividad (mouse/touch)
+    let mX = 0, mY = 0;
+    let tX = 0, tY = 0;
+    let whX = window.innerWidth / 2, whY = window.innerHeight / 2;
+
+    function iniciarRecorridoVirtual(idInmueble) {
+        const p = propiedadesCargadas.find(item => item.id === idInmueble);
+        if (p && p.fotos && p.fotos.length > 0) {
+            fotosTour = p.fotos;
+            indiceTour = 0;
+            document.getElementById('modal-3d-inmueble').classList.remove('hidden');
+            document.getElementById('modal-3d-inmueble').classList.add('flex');
+            actualizarUIContador();
+            
+            if (!scene3D) init3DViewer();
+            actualizarTexturaInmueble(fotosTour[indiceTour]);
+        }
+    }
+
+    function init3DViewer() {
+        const container = document.getElementById('canvas-container-3d');
+        scene3D = new THREE.Scene();
+        camera3D = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera3D.position.z = 5;
+        
+        renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer3D.setSize(window.innerWidth, window.innerHeight);
+        renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer3D.domElement);
+        
+        const geometry = new THREE.PlaneGeometry(8, 5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+        planeMesh3D = new THREE.Mesh(geometry, material);
+        scene3D.add(planeMesh3D);
+
+        document.addEventListener('mousemove', (e) => { mX = (e.clientX - whX); mY = (e.clientY - whY); });
+        document.addEventListener('touchmove', (e) => { mX = (e.touches[0].clientX - whX); mY = (e.touches[0].clientY - whY); }, {passive: true});
+        window.addEventListener('resize', () => {
+            whX = window.innerWidth / 2; whY = window.innerHeight / 2;
+            camera3D.aspect = window.innerWidth / window.innerHeight;
+            camera3D.updateProjectionMatrix();
+            renderer3D.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate3D();
+    }
+
+    function actualizarTexturaInmueble(imageUrl) {
+        const loader = new THREE.TextureLoader();
+        loader.load(imageUrl, function(texture) {
+            texture.generateMipmaps = true;
+            if (planeMesh3D) {
+                planeMesh3D.scale.set(0.9, 0.9, 0.9);
+                planeMesh3D.material.map = texture;
+                planeMesh3D.material.needsUpdate = true;
+                setTimeout(() => planeMesh3D.scale.set(1, 1, 1), 50);
+            }
+        });
+    }
+
+    function navegarVisor3D(direccion) {
+        if (fotosTour.length === 0) return;
+        indiceTour += direccion;
+        if (indiceTour >= fotosTour.length) indiceTour = 0;
+        if (indiceTour < 0) indiceTour = fotosTour.length - 1;
+        actualizarUIContador();
+        actualizarTexturaInmueble(fotosTour[indiceTour]);
+    }
+
+    function actualizarUIContador() {
+        document.getElementById('contador-3d').textContent = `${indiceTour + 1} / ${fotosTour.length}`;
+    }
+
+    function toggleAutoPlay3D() {
+        const btn = document.getElementById('btn-autoplay-3d');
+        isAutoPlaying = !isAutoPlaying;
+        if (isAutoPlaying) {
+            btn.innerHTML = `<i class="fa-solid fa-pause"></i> Detener Tour`;
+            btn.classList.replace('bg-econexus', 'bg-red-600');
+            btn.classList.replace('hover:bg-econexus-light', 'hover:bg-red-700');
+            autoPlayInterval = setInterval(() => {
+                mX = Math.sin(Date.now() * 0.001) * 300;
+                mY = Math.cos(Date.now() * 0.001) * 100;
+                if (Date.now() % 4000 < 50) navegarVisor3D(1);
+            }, 50);
+        } else {
+            btn.innerHTML = `<i class="fa-solid fa-play"></i> Iniciar Auto-Tour`;
+            btn.classList.replace('bg-red-600', 'bg-econexus');
+            btn.classList.replace('hover:bg-red-700', 'hover:bg-econexus-light');
+            clearInterval(autoPlayInterval);
+            mX = 0; mY = 0;
+        }
+    }
+
+    function animate3D() {
+        requestAnimationFrame(animate3D);
+        tX = mX * 0.001; tY = mY * 0.001;
+        if (planeMesh3D) {
+            planeMesh3D.rotation.y += 0.05 * (tX - planeMesh3D.rotation.y);
+            planeMesh3D.rotation.x += 0.05 * (tY - planeMesh3D.rotation.x);
+        }
+        renderer3D.render(scene3D, camera3D);
+    }
+
+    function cerrarVisor3D() {
+        document.getElementById('modal-3d-inmueble').classList.add('hidden');
+        document.getElementById('modal-3d-inmueble').classList.remove('flex');
+        if (isAutoPlaying) toggleAutoPlay3D();
+    }
   </script>
 </body>
-</html> 
+</html>
