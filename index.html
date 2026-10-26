@@ -39,8 +39,7 @@
   <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <!-- THREE.JS (Para Visor 3D Inmersivo a costo 0) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
   <style>
     /* Ocultar barra de desplazamiento manteniendo funcionalidad táctil */
     .hide-scrollbars::-webkit-scrollbar { display: none; }
@@ -57,38 +56,15 @@
       }
     }
   </script>
-  <!-- DATOS ESTRUCTURADOS -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
-    "name": "EcoNexus",
-    "image": "https://asistentedeacm-code.github.io/EcoNexus/logo.png.png",
-    "@id": "https://asistentedeacm-code.github.io/EcoNexus/#organization",
-    "url": "https://asistentedeacm-code.github.io/EcoNexus/",
-    "telephone": "+584244466115",
-    "priceRange": "$$",
-    "description": "Red inmobiliaria inteligente y vitrina publicitaria de propiedades en venta y alquiler en Venezuela.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "VE"
-    },
-    "areaServed": [
-      "Carabobo",
-      "Distrito Capital",
-      "Zulia",
-      "Venezuela"
-    ]
-  }
-  </script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
-  <!-- MODAL VISOR 3D INMERSIVO -->
-  <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col">
-    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10000] bg-gradient-to-b from-black/80 to-transparent">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+  <!-- MODAL DE RECORRIDO VIRTUAL 3D (CROSS-FADE CINEMATOGRÁFICO SIN ZOOM) -->
+  <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col justify-between p-4 md:p-8">
+    <div class="flex justify-between items-center z-[10000]">
       <div class="flex items-center gap-3">
-        <span class="text-white text-sm font-bold bg-econexus-accent px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2">
-          <i class="fa-solid fa-cube"></i> Visor 3D Activo
+        <span class="text-white text-xs font-bold bg-econexus-accent px-3 py-1.5 rounded-lg shadow flex items-center gap-2">
+          <i class="fa-solid fa-vr-cardboard"></i> Recorrido Virtual Inmersivo
         </span>
         <span id="contador-3d" class="text-gray-300 text-xs font-semibold">1 / 1</span>
       </div>
@@ -96,22 +72,28 @@
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>
-    <div id="canvas-container-3d" class="w-full flex-grow relative cursor-move touch-pan-y"></div>
-    <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-[10000] bg-black/50 p-2 rounded-2xl backdrop-blur-md border border-white/10">
-      <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
-        <i class="fa-solid fa-chevron-left"></i>
+
+    <!-- Contenedor de Imagen con Difuminado (Cross-Fade) -->
+    <div class="relative w-full flex-grow flex items-center justify-center overflow-hidden my-4 rounded-2xl bg-black/50">
+      <img id="imgTourVirtual" src="" alt="Recorrido Inmueble" class="max-h-[75vh] max-w-full object-contain transition-opacity duration-700 opacity-150" />
+    </div>
+
+    <div class="flex items-center justify-center gap-4 z-[10000]">
+      <button onclick="navegarTourVirtual(-1)" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-chevron-left text-lg"></i>
       </button>
-      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer">
+      <button id="btn-autoplay-tour" onclick="toggleAutoPlayTour()" class="px-6 py-2.5 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer">
         <i class="fa-solid fa-play"></i> Iniciar Auto-Tour
       </button>
-      <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
-        <i class="fa-solid fa-chevron-right"></i>
+      <button onclick="navegarTourVirtual(1)" class="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-chevron-right text-lg"></i>
       </button>
     </div>
   </div>
-  <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
+
+  <!-- MODAL DE APERTURA INSTANTÁNEA (AVISO LEGAL) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus">
       <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
@@ -124,7 +106,7 @@
       </p>
       <div class="border-t border-gray-100 pt-3 flex items-center justify-between">
         <button onclick="cerrarAvisoInstantaneo(); toggleLegalDisclaimer();" class="text-xs text-econexus font-bold underline hover:text-econexus-light cursor-pointer">
-          Ver términos y condiciones completos dentro de la plataforma...
+          Ver términos y condiciones completos...
         </button>
         <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
           Entendido / Avanzar
@@ -132,9 +114,10 @@
       </div>
     </div>
   </div>
+
   <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600">
       <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
@@ -143,19 +126,18 @@
         <span class="text-sm uppercase tracking-wide">Contacto Directo vía WhatsApp</span>
       </div>
       <p class="text-xs text-gray-700 leading-relaxed mb-5 bg-amber-50 border border-amber-200 p-3 rounded-xl">
-        "Estás por contactar directamente a un Asesor Inmobiliario o al Captador. EcoNexus no se hace responsable por negociaciones, acuerdos, visitas agendadas o pagos directos. no somos participes bajo ningún contexto de los acuerdos y negociaciones generados entre las partes y al hacer clic en contactar acepta de su exclusiva responsabilidad."
+        "Estás por contactar directamente a un Asesor Inmobiliario o al Captador. EcoNexus no se hace responsable por negociaciones, acuerdos, visitas agendadas o pagos directos. Al hacer clic aceptas su exclusiva responsabilidad."
       </p>
       <div class="flex flex-col sm:flex-row gap-2 justify-end">
-        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">
-          Cancelar
-        </button>
+        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Cancelar</button>
         <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer">
           <i class="fa-brands fa-whatsapp text-sm"></i> Entendido y Continuar
         </button>
       </div>
     </div>
   </div>
-  <!-- HEADER / NAVBAR (STICKY SOLO PARA LOGO Y ACCESOS SUPERIORES) -->
+
+  <!-- HEADER / NAVBAR -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="resetFiltros()">
@@ -166,36 +148,26 @@
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20con%20ustedes%20acerca%20de%20los%20planes%20y%20servicios.', '_blank')" id="btnHeaderWa" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition flex items-center shadow cursor-pointer">
-          <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publicalo
+        <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus%20requiero%20hablar%20acerca%20de%20los%20planes.', '_blank')" class="bg-econexus-accent hover:bg-green-600 text-white px-4 py-2 rounded-lg text-xs md:text-sm font-semibold transition flex items-center shadow cursor-pointer">
+          <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Publícalo
         </button>
       </div>
     </div>
-    
-    <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
     <div class="bg-econexus-dark border-t border-green-900 py-1.5 px-4 text-center">
       <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1 cursor-pointer">
-        ⚖️ Términos de Uso & Condiciones
-        <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
+        ⚖️ Términos de Uso & Condiciones <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
     </div>
-    
-    <!-- DESPLEGABLE DE TÉRMINOS Y EXONERACIÓN -->
     <div id="legalDisclaimerDropdown" class="hidden bg-econexus-dark text-white border-b-2 border-econexus-accent shadow-xl max-w-7xl mx-auto px-6 py-5 overflow-y-auto max-h-96">
-      <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">
-        "EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
-      </p>
-      
-      <div class="legal-text-body space-y-3 text-xs text-green-100 leading-relaxed">
-        <p><strong class="text-white">1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
-        <p><strong class="text-white">2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes.</p>
-        <p><strong class="text-white">3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes.</p>
-        <p><strong class="text-white">4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, la plataforma queda absolutamente exonerada de toda responsabilidad ante vulneraciones de ciberseguridad, ataques DDoSs o accesos no autorizados.</p>
-        <p><strong class="text-white">5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos o permisos inexistentes. Toda responsabilidad penal recaerá directa e individualmente sobre el anunciante.</p>
+      <p class="font-bold text-green-200 mb-3 text-sm border-b border-green-800 pb-2">"EcoNexus opera exclusivamente como vitrina publicitaria independiente."</p>
+      <div class="space-y-3 text-xs text-green-100 leading-relaxed">
+        <p>1. EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria. No somos agencia inmobiliaria ni cobramos comisiones.</p>
+        <p>2. Exención absoluta de responsabilidad por transacciones, tradición legal o estado físico de los inmuebles.</p>
       </div>
     </div>
   </header>
-  <!-- BOTÓN DE ACCESO AL MAPA (FUERA DEL STICKY, QUEDA ARRIBA AL DESLIZAR PARA NO RESTAR ESPACIO) -->
+
+  <!-- BOTÓN DE ACCESO AL MAPA -->
   <div class="bg-econexus-dark/95 border-b border-green-900/60 py-2.5 px-4 text-center shadow-sm">
     <button onclick="abrirModalMapaGlobal()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 px-5 py-2 rounded-xl text-xs font-bold transition inline-flex items-center shadow cursor-pointer">
       <i class="fa-solid fa-map-location-dot text-sm mr-2"></i> Explorar Inmuebles en Mapa & Zonas
@@ -208,7 +180,6 @@
       <h1 class="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">Conectamos Personas con Oportunidades Exclusivas</h1>
       <p class="text-green-100 text-base md:text-lg mb-8 max-w-2xl mx-auto">Explora el catálogo de inmuebles y contacta directamente con su captador en segundos.</p>
       
-      <!-- BARRA DE BÚSQUEDA Y FILTROS DIRECTOS A SUPABASE -->
       <div class="bg-white text-gray-800 rounded-2xl p-4 md:p-6 shadow-2xl">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-left">
           <div>
@@ -221,7 +192,7 @@
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Tipo de Inmueble</label>
-            <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Ej: Apartamento, Casa, Quinta..." class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
+            <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Ej: Apartamento, Casa..." class="w-full bg-gray-100 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus" />
           </div>
           <div>
             <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Ubicación/Asesor/Agencia</label>
@@ -236,23 +207,23 @@
     </div>
   </section>
 
-  <!-- SECCIÓN NUESTROS INMUEBLES VIP (CARRUSEL HORIZONTAL DESLIZABLE) -->
-  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-4 py-8 hidden">
+  <!-- SECCIÓN NUESTROS INMUEBLES VIP (DENTRO DEL MARGEN 7xl) -->
+  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-4 py-8 hidden w-full overflow-hidden">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl md:text-2xl font-bold text-econexus flex items-center">
         <i class="fa-solid fa-star text-amber-500 mr-2"></i> Nuestros Inmuebles VIP
       </h2>
       <div class="flex gap-2">
-        <button onclick="document.getElementById('trackVip').scrollBy({left: -300, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
+        <button onclick="document.getElementById('trackVip').scrollBy({left: -280, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
           <i class="fa-solid fa-chevron-left"></i>
         </button>
-        <button onclick="document.getElementById('trackVip').scrollBy({left: 300, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
+        <button onclick="document.getElementById('trackVip').scrollBy({left: 280, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
           <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
     </div>
     <div id="trackVip" class="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
-      <!-- Las tarjetas VIP pequeñas se inyectarán aquí dinámicamente -->
+      <!-- Inyectado dinámicamente -->
     </div>
   </section>
  
@@ -272,7 +243,6 @@
     
     <div id="propsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 hidden"></div>
     
-    <!-- BOTÓN PAGINACIÓN -->
     <div id="loadMoreContainer" class="text-center mt-10 hidden">
       <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-8 py-3 rounded-xl transition shadow-md inline-flex items-center cursor-pointer">
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
@@ -281,36 +251,33 @@
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-200 shadow-sm">
       <i class="fa-solid fa-magnifying-glass-location text-5xl text-gray-300 mb-4"></i>
       <h3 class="text-xl font-bold text-gray-700 mb-2">No encontramos coincidencias</h3>
-      <p class="text-gray-500 text-sm max-w-md mx-auto">Prueba ajustando los filtros de búsqueda.</p>
     </div>
   </main>
  
-  <!-- MODAL DE PROPIEDAD -->
-  <div id="propModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 hidden">
-    <!-- Botón X con persistencia absoluta (FIXED) -->
-    <button onclick="cerrarModal()" class="fixed top-4 right-4 z-[9999] bg-white hover:bg-red-500 text-gray-800 hover:text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition border border-gray-200 cursor-pointer">
-      <i class="fa-solid fa-xmark text-xl"></i>
+  <!-- MODAL DE PROPIEDAD (PANTALLA COMPLETA FLUIDA SIN CORTES) -->
+  <div id="propModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-3 md:p-6 hidden">
+    <!-- Botón X fijo con visibilidad absoluta -->
+    <button onclick="cerrarModal()" class="fixed top-4 right-4 z-[9999] bg-white hover:bg-red-500 text-gray-800 hover:text-white rounded-full w-12 h-12 flex items-center justify-center shadow-2xl transition border border-gray-200 cursor-pointer">
+      <i class="fa-solid fa-xmark text-2xl"></i>
     </button>
-    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl mt-12 md:mt-0 relative">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[85vh] overflow-y-auto shadow-2xl relative">
       <div id="modalContent"></div>
     </div>
   </div>
-  <!-- MODAL DE MAPA INTERACTIVO GLOBAL Y LEYENDA DE ZONAS -->
+
+  <!-- MODAL DE MAPA GLOBAL -->
   <div id="mapaGlobalModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
     <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
-      
-      <!-- HEADER MAPA -->
       <div class="bg-econexus text-white p-4 flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-map-location-dot text-amber-400 text-xl"></i>
           <div>
             <h3 class="font-bold text-base leading-tight">Mapa de Presencia Real EcoNexus</h3>
-            <p class="text-[11px] text-green-200">Ubicación exacta según carga del cliente y Leyenda de Zonas</p>
+            <p class="text-[11px] text-green-200">Ubicación exacta nacional</p>
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <!-- BOTÓN PARA DESPLEGAR/CERRAR LEYENDA EN MÓVIL CON ESTILO CLARO -->
-          <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-amber-500 hover:bg-amber-600 text-gray-900 px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow cursor-pointer">
+          <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-amber-500 hover:bg-amber-600 text-gray-900 px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
             <i id="iconoToggleLeyenda" class="fa-solid fa-list"></i> <span id="txtBtnToggleLeyenda">Zonas</span>
           </button>
           <button onclick="cerrarModalMapaGlobal()" class="text-gray-300 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
@@ -318,33 +285,21 @@
           </button>
         </div>
       </div>
-      <!-- BUSCADOR INTELIGENTE DE ZONAS DENTRO DEL MAPA -->
       <div class="p-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
         <div class="relative flex-1">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Busca por ubicación exacta, descripción, calle, código (ej: Trigal, ECO-101)..." class="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
+          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Busca por ubicación exacta, calle, código (ej: Trigal, ECO-101)..." class="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
         </div>
-        <span id="lblMarcadoresCount" class="text-xs bg-econexus-soft text-econexus font-bold px-3 py-2 rounded-xl border border-green-200 flex items-center justify-center whitespace-nowrap">
-          0 propiedades ubicadas
-        </span>
+        <span id="lblMarcadoresCount" class="text-xs bg-econexus-soft text-econexus font-bold px-3 py-2 rounded-xl border border-green-200 flex items-center justify-center whitespace-nowrap">0 ubicadas</span>
       </div>
-      <!-- CONTENEDOR DEL MAPA Y PANEL DE LEYENDA DE ZONAS (RESPONSIVE MÓVIL Y DESKTOP) -->
       <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
         <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
-        
-        <!-- PANEL LATERAL CON LEYENDA DE ZONAS DETECTADAS Y PAGINACIÓN 10 EN 10 (ABIERTO POR DEFECTO, CON BOTÓN X DE CIERRE) -->
         <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-12 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto space-y-3 flex flex-col justify-between z-20 transition-all duration-300 transform translate-y-0 shadow-2xl md:shadow-none">
           <div class="p-4 space-y-3 flex-grow overflow-y-auto">
-            <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2 mb-2">
-              <span class="font-bold text-xs text-econexus uppercase flex items-center gap-1"><i class="fa-solid fa-list-check"></i> Leyenda de Zonas</span>
-              <button onclick="togglePanelLeyendaMovil()" class="text-gray-500 hover:text-red-600 bg-gray-100 hover:bg-red-50 rounded-full w-7 h-7 flex items-center justify-center font-bold transition text-xs cursor-pointer">
-                <i class="fa-solid fa-xmark text-sm"></i>
-              </button>
-            </div>
             <div id="panelDetalleZona" class="space-y-3">
               <div class="text-center py-8 text-gray-400">
                 <i class="fa-solid fa-compass text-4xl mb-2 text-econexus-light"></i>
-                <p class="text-xs font-semibold">Cargando leyenda de zonas y ubicaciones exactas...</p>
+                <p class="text-xs font-semibold">Cargando leyenda de zonas...</p>
               </div>
             </div>
           </div>
@@ -352,19 +307,19 @@
       </div>
     </div>
   </div>
+
   <footer class="bg-econexus-dark text-white py-8 border-t border-green-900 mt-auto">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-xs text-green-300 mb-2">EcoNexus Real Estate Platform</p>
       <p class="text-xs text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
+
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    // Variables de paginación y estado
     const PAGE_SIZE = 12;
     let pageOffset = 0;
     let hayMasPaginas = true;
@@ -372,7 +327,6 @@
     let waUrlPendiente = '';
     let debounceTimer = null;
     
-    // VARIABLES DE MAPA LEAFLET Y LEYENDA Y DICCIONARIO DESDE SUPABASE
     let mapaGlobal = null;
     let capaMarcadores = null;
     let mapaFichaModal = null;
@@ -382,6 +336,18 @@
     let REFERENCIAS_GEOGRAFICAS = {};
     const COORDS_DEFAULT = [10.18000, -68.00000];
 
+    // Variables de Estado de Ficha Activa (Swipe en Foto Principal)
+    let fotosActivasModal = [];
+    let indiceFotoActiva = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // Variables de Recorrido Virtual 3D (Cross-Fade)
+    let fotosTourVirtual = [];
+    let indiceTourVirtual = 0;
+    let tourAutoPlayInterval = null;
+    let tourIsPlaying = false;
+
     document.addEventListener("DOMContentLoaded", async function() {
       await cargarDiccionarioGeografico();
       await obtenerTotalContadorSupabase();
@@ -389,7 +355,6 @@
       verificarParametrosURL();
     });
 
-    // CARGA DE ZONAS DESDE SUPABASE (DICCIONARIO DINÁMICO NACIONAL)
     async function cargarDiccionarioGeografico() {
       try {
         const { data, error } = await dbClient.from('diccionario_zonas').select('*');
@@ -398,13 +363,13 @@
             if (zona.sector) {
               REFERENCIAS_GEOGRAFICAS[zona.sector.toLowerCase()] = {
                 coords: [parseFloat(zona.lat), parseFloat(zona.lng)],
-                bondades: zona.bondades || "Zona residencial y comercial consolidada con acceso a servicios esenciales."
+                bondades: zona.bondades || "Zona residencial y comercial consolidada."
               };
             }
           });
         }
       } catch (e) {
-        console.error("Error cargando diccionario geográfico de Supabase:", e);
+        console.error("Error cargando diccionario:", e);
       }
     }
 
@@ -417,38 +382,15 @@
         if (!error && count !== null) {
           document.getElementById("propCount").textContent = `${count} propiedad(es) registradas`;
         }
-      } catch (e) {
-        console.error("Error consultando contador en Supabase:", e);
-      }
+      } catch (e) {}
     }
 
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
-      const asesorParam = urlParams.get('asesor');
-      const agenciaParam = urlParams.get('agencia');
       if (codigoParam) {
-        const codigoLimpio = codigoParam.trim().toUpperCase();
-        try {
-          const { data, error } = await dbClient
-            .from('v_propiedades_catalogo')
-            .select('*')
-            .eq('codigo_eco', codigoLimpio)
-            .single();
-          if (data && !error) {
-            abrirModalDirecto(data);
-          }
-        } catch (err) {
-          console.error("Error buscando inmueble por código de URL:", err);
-        }
-      } else if (asesorParam) {
-        const asesorLimpio = asesorParam.trim().toLowerCase();
-        document.getElementById("filterText").value = asesorLimpio;
-        aplicarFiltros();
-      } else if (agenciaParam) {
-        const agenciaLimpia = agenciaParam.trim();
-        document.getElementById("filterText").value = agenciaLimpia;
-        aplicarFiltros();
+        const { data } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
+        if (data) abrirModalDirecto(data);
       }
     }
 
@@ -468,46 +410,24 @@
         const texto = document.getElementById("filterText").value.trim();
         const precioMax = parseFloat(document.getElementById("filterPrecio").value);
         
-        const urlParams = new URLSearchParams(window.location.search);
-        const agenciaParam = urlParams.get('agencia');
+        let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+        if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
+        if (tipo) query = query.ilike('tipo', `%${tipo}%`);
+        if (!isNaN(precioMax) && precioMax > 0) query = query.lte('precio', precioMax);
+        if (texto) query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
         
-        let query = dbClient
-          .from('v_propiedades_catalogo')
-          .select('*')
-          .eq('estatus', 'Disponible');
-        if (operacion && operacion !== "TODOS") {
-          query = query.eq('operacion', operacion);
-        }
-        if (tipo) {
-          query = query.ilike('tipo', `%${tipo}%`);
-        }
-        if (!isNaN(precioMax) && precioMax > 0) {
-          query = query.lte('precio', precioMax);
-        }
-        if (texto) {
-          query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%,descripcion.ilike.%${texto}%`);
-        } else if (agenciaParam) {
-          query = query.ilike('nombre_agencia', `%${agenciaParam.trim()}%`);
-        }
-        
-        query = query
-          .order('vip_activo', { ascending: false })
-          .order('fecha_publicacion', { ascending: false, nullsFirst: false })
-          .range(pageOffset, pageOffset + PAGE_SIZE - 1);
+        query = query.order('vip_activo', { ascending: false }).order('fecha_publicacion', { ascending: false, nullsFirst: false }).range(pageOffset, pageOffset + PAGE_SIZE - 1);
         const { data, error } = await query;
         if (error) throw error;
+        
         const nuevosInmuebles = data || [];
-        if (nuevosInmuebles.length < PAGE_SIZE) {
-          hayMasPaginas = false;
-        }
+        if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
         propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
         
-        // Renderizar sección VIP y Grilla Principal
         renderizarSeccionVip(propiedadesCargadas);
         renderizarTarjetas(propiedadesCargadas);
       } catch (err) {
-        showError("No se pudo conectar con la base de datos de Supabase. Revisa la configuración.");
-        console.error("Error al cargar propiedades:", err);
+        console.error(err);
       } finally {
         document.getElementById("loadingSpinner").classList.add("hidden");
       }
@@ -515,62 +435,40 @@
 
     async function cargarMasPropiedades() {
       if (!hayMasPaginas) return;
-      const btn = document.getElementById("btnLoadMore");
-      btn.disabled = true;
-      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando...`;
       pageOffset += PAGE_SIZE;
       await cargarPropiedades(false);
-      btn.disabled = false;
-      btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
     }
 
-    // NUEVA FUNCIÓN: RENDERIZAR CARRUSEL DE INMUEBLES VIP
     function renderizarSeccionVip(lista) {
       const seccionVip = document.getElementById("seccionVipContainer");
       const trackVip = document.getElementById("trackVip");
-      
       const vips = lista.filter(p => p.vip_activo === true);
+      
       if (vips.length === 0) {
         seccionVip.classList.add("hidden");
         return;
       }
-      
       seccionVip.classList.remove("hidden");
       trackVip.innerHTML = "";
       
       vips.forEach(p => {
-        const fotoPrincipal = (p.fotos && p.fotos.length > 0) 
-          ? p.fotos[0] 
-          : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-        
-        const cardVipHTML = `
+        const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+        trackVip.innerHTML += `
           <div onclick="abrirModal('${p.id}')" class="min-w-[260px] max-w-[260px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400 shadow-md hover:shadow-xl transition-all flex flex-col cursor-pointer flex-shrink-0 snap-start group">
-            <div class="relative h-40 overflow-hidden">
-              <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <div class="absolute top-2 left-2">
-                <span class="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
-                  <i class="fa-solid fa-star"></i> VIP
-                </span>
-              </div>
-              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">
-                ${p.codigo_eco}
-              </div>
+            <div class="relative h-36 overflow-hidden">
+              <img src="${foto}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <span class="absolute top-2 left-2 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase shadow"><i class="fa-solid fa-star"></i> VIP</span>
+              <span class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">${p.codigo_eco}</span>
             </div>
-            <div class="p-3.5 flex flex-col justify-between flex-grow">
+            <div class="p-3 flex flex-col justify-between flex-grow">
               <div>
                 <span class="text-[10px] font-bold text-econexus uppercase block mb-0.5">${p.tipo} • ${p.ubicacion}</span>
-                <h4 class="font-bold text-gray-900 text-sm line-clamp-1 mb-1">${p.titulo}</h4>
-                <div class="text-lg font-black text-econexus">
-                  $${Number(p.precio).toLocaleString('en-US')}
-                </div>
-              </div>
-              <div class="mt-2 text-center bg-econexus-soft text-econexus text-xs font-bold py-1.5 rounded-lg group-hover:bg-econexus group-hover:text-white transition">
-                Ver Inmueble VIP <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+                <h4 class="font-bold text-gray-900 text-xs line-clamp-1 mb-1">${p.titulo}</h4>
+                <div class="text-base font-black text-econexus">$${Number(p.precio).toLocaleString('en-US')}</div>
               </div>
             </div>
           </div>
         `;
-        trackVip.innerHTML += cardVipHTML;
       });
     }
 
@@ -587,584 +485,357 @@
       }
       noRes.classList.add("hidden");
       grid.classList.remove("hidden");
-      if (hayMasPaginas) {
-        loadMoreBtn.classList.remove("hidden");
-      } else {
-        loadMoreBtn.classList.add("hidden");
-      }
+      loadMoreBtn.classList.toggle("hidden", !hayMasPaginas);
+      
       lista.forEach(p => {
-        const fotoPrincipal = (p.fotos && p.fotos.length > 0) 
-          ? p.fotos[0] 
-          : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-        
+        const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
         const esVip = p.vip_activo === true;
         const waNumber = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
-        const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-        const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
-        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-        const cardHTML = `
-          <div class="bg-white rounded-2xl overflow-hidden border ${esVip ? 'border-amber-400 ring-2 ring-amber-400/20 shadow-amber-100' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition-all flex flex-col">
-            <div class="relative h-56 overflow-hidden group">
-              <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <div class="absolute top-3 left-3 flex space-x-2">
-                <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow">${p.operacion}</span>
-                ${esVip ? `<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase shadow flex items-center"><i class="fa-solid fa-star mr-1"></i> VIP</span>` : ''}
+        const msjWA = encodeURIComponent(`Hola, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
+        
+        grid.innerHTML += `
+          <div class="bg-white rounded-2xl overflow-hidden border ${esVip ? 'border-amber-400 ring-2 ring-amber-400/20' : 'border-gray-100'} shadow-lg hover:shadow-2xl transition flex flex-col">
+            <div class="relative h-52 overflow-hidden group">
+              <img src="${foto}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="bg-econexus text-white text-xs font-bold px-3 py-1 rounded-full uppercase">${p.operacion}</span>
+                ${esVip ? '<span class="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">VIP</span>' : ''}
               </div>
-              <div class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-lg font-bold">
-                ID: ${p.codigo_eco}
-              </div>
+              <span class="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-lg font-bold">${p.codigo_eco}</span>
             </div>
             <div class="p-5 flex-grow flex flex-col justify-between">
               <div>
-                <div class="text-xs font-semibold text-econexus uppercase tracking-wider mb-1">${p.tipo} • ${p.ubicacion}</div>
-                <div class="inline-flex items-center gap-1.5 text-[11px] font-medium text-gray-600 bg-gray-100 px-2 py-0.5 rounded border border-gray-200 mb-2">
-                  <i class="fa-solid fa-building-user text-econexus"></i>
-                  <span>${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}</span>
-                </div>
+                <div class="text-xs font-semibold text-econexus uppercase mb-1">${p.tipo} • ${p.ubicacion}</div>
                 <h3 class="font-bold text-gray-900 text-lg mb-2 line-clamp-2">${p.titulo}</h3>
-                <div class="mb-4">
-                  <div class="text-2xl font-black text-econexus">
-                    $${Number(p.precio).toLocaleString('en-US')}
-                  </div>
-                  <p class="text-[10px] text-gray-500 font-normal mt-0.5 leading-tight">
-                    *Precio expresado en USD. Conforme a la tasa oficial del BCV vigente y las regulaciones legales conducentes.
-                  </p>
-                </div>
-                <div class="grid grid-cols-4 gap-2 text-center text-xs text-gray-600 bg-econexus-soft p-3 rounded-xl mb-4 border border-green-100">
-                  <div><i class="fa-solid fa-bed text-econexus block text-sm mb-1"></i>${p.habitaciones} Hab</div>
-                  <div><i class="fa-solid fa-bath text-econexus block text-sm mb-1"></i>${p.banos} Baños</div>
-                  <div><i class="fa-solid fa-car text-econexus block text-sm mb-1"></i>${p.estacionamientos} Pst</div>
-                  <div><i class="fa-solid fa-ruler-combined text-econexus block text-sm mb-1"></i>${p.metros} m²</div>
+                <div class="text-2xl font-black text-econexus mb-3">$${Number(p.precio).toLocaleString('en-US')}</div>
+                <div class="grid grid-cols-4 gap-1 text-center text-xs text-gray-600 bg-econexus-soft p-2.5 rounded-xl mb-4 border border-green-100">
+                  <div><i class="fa-solid fa-bed text-econexus block text-sm"><span>${p.habitaciones}</span></i>Hab</div>
+                  <div><i class="fa-solid fa-bath text-econexus block text-sm"><span>${p.banos}</span></i>Baños</div>
+                  <div><i class="fa-solid fa-car text-econexus block text-sm"><span>${p.estacionamientos}</span></i>Pst</div>
+                  <div><i class="fa-solid fa-ruler-combined text-econexus block text-sm"><span>${p.metros}</span></i>m²</div>
                 </div>
               </div>
               <div class="space-y-2">
-                <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow cursor-pointer">
-                  Ver Ficha Completa <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
-                </button>
-                <button onclick="confirmarIrAWhatsApp('${waNumber}', '${msjWA}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition flex items-center justify-center text-sm shadow cursor-pointer">
-                  <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar Asesor
-                </button>
+                <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition text-sm shadow cursor-pointer">Ver Ficha Completa</button>
+                <button onclick="confirmarIrAWhatsApp('${waNumber}', '${msjWA}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl transition text-sm shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-lg mr-1"></i> Contactar Asesor</button>
               </div>
             </div>
           </div>
         `;
-        grid.innerHTML += cardHTML;
       });
     }
 
     function aplicarFiltros() { cargarPropiedades(true); }
     function aplicarFiltrosDebounced() {
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => { aplicarFiltros(); }, 400);
+      debounceTimer = setTimeout(() => { cargarPropiedades(true); }, 400);
     }
     function resetFiltros() {
       document.getElementById("filterOperacion").value = "TODOS";
       document.getElementById("filterTipo").value = "";
       document.getElementById("filterText").value = "";
       document.getElementById("filterPrecio").value = "";
-      if (window.location.search) {
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }
       cargarPropiedades(true);
     }
     function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
-    function toggleLegalDisclaimer() {
-      const dropdown = document.getElementById("legalDisclaimerDropdown");
-      const arrow = document.getElementById("legalArrow");
-      dropdown.classList.toggle("hidden");
-      arrow.classList.toggle("rotate-180");
-    }
+    function toggleLegalDisclaimer() { document.getElementById("legalDisclaimerDropdown").classList.toggle("hidden"); }
+    
     function confirmarIrAWhatsApp(numero, mensaje) {
       waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
-      const modal = document.getElementById("modalConfirmarWhatsApp");
-      if (modal) modal.classList.remove("hidden");
+      document.getElementById("modalConfirmarWhatsApp").classList.remove("hidden");
     }
-    function cerrarModalWhatsApp() {
-      const modal = document.getElementById("modalConfirmarWhatsApp");
-      if (modal) modal.classList.add("hidden");
-      waUrlPendiente = '';
-    }
+    function cerrarModalWhatsApp() { document.getElementById("modalConfirmarWhatsApp").classList.add("hidden"); }
     function aceptarYContinuarWhatsApp() {
       if (waUrlPendiente) window.open(waUrlPendiente, '_blank');
       cerrarModalWhatsApp();
     }
+
     function abrirModal(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (p) abrirModalDirecto(p);
     }
 
-    function obtenerBondadesSegunUbicacion(ubicacionTexto) {
-      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios, farmacias, colegios y servicios locales esenciales.";
-      const texto = ubicacionTexto.toLowerCase();
+    function obtenerBondadesSegunUbicacion(ubicacion) {
+      if (!ubicacion) return "Zona consolidada con acceso a servicios esenciales.";
+      const texto = ubicacion.toLowerCase();
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
-        if (texto.includes(clave)) {
-          return `${datos.bondades} Conectividad óptima y cercanía a comercios y puntos clave de la zona.`;
-        }
+        if (texto.includes(clave)) return `${datos.bondades} Cercanía a comercios y vías principales.`;
       }
-      return `Sector estratégicamente posicionado en ${ubicacionTexto}, ofreciendo acceso a vías principales, colegios, comercios locales y conectividad urbana.`;
+      return `Sector estratégicamente posicionado en ${ubicacion}, con excelentes vías de acceso.`;
     }
 
+    /* CORRECCIÓN MILIMÉTRICA DE COORDENADAS (CARABOBO VS ZULIA) */
     function obtenerCoordenadasExactas(p) {
       if (p.lat && p.lng) return [parseFloat(p.lat), parseFloat(p.lng)];
       const textoUbi = (p.ubicacion || "").toLowerCase();
+      
+      if (textoUbi.includes("carabobo") || textoUbi.includes("valencia") || textoUbi.includes("tocuyito") || textoUbi.includes("trigal") || textoUbi.includes("prebo") || textoUbi.includes("san francisco")) {
+        let hash = 0;
+        for (let i = 0; i < (p.codigo_eco || "").length; i++) hash = p.codigo_eco.charCodeAt(i) + ((hash << 5) - hash);
+        return [10.190 + ((hash % 10) * 0.002), -68.000 + (((hash >> 2) % 10) * 0.002)];
+      }
+
       for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
-        if (textoUbi.includes(clave)) {
-          let hash = 0;
-          for (let i = 0; i < (p.codigo_eco || "").length; i++) {
-            hash = p.codigo_eco.charCodeAt(i) + ((hash << 5) - hash);
-          }
-          const latOffset = (hash % 10) * 0.001;
-          const lngOffset = ((hash >> 2) % 10) * 0.001;
-          return [datos.coords[0] + latOffset, datos.coords[1] + lngOffset];
-        }
+        if (textoUbi.includes(clave)) return datos.coords;
       }
       return COORDS_DEFAULT;
     }
 
     function abrirModalDirecto(p) {
-      const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
-      const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-      const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
-      const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-      const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
-      const coordsFicha = obtenerCoordenadasExactas(p);
-      const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
+      const whatsapp = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
+      const asesor = p.nombre_asesor || "Asesor EcoNexus";
+      const msgWA = encodeURIComponent(`Hola ${asesor}, me interesa la propiedad ${p.codigo_eco} (${p.titulo}).`);
       
-      const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
-      const renderFotoAsesorHTML = fotoAsesor 
-        ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-12 h-12 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
-        : `<div class="w-12 h-12 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-base border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
+      fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+      indiceFotoActiva = 0;
+
+      const coords = obtenerCoordenadasExactas(p);
+      const bondades = obtenerBondadesSegunUbicacion(p.ubicacion);
       
-      // Botón 3D Dinámico
-      const btn3D = fotosArray.length > 0 ? `
-        <div class="mt-4 flex justify-center w-full pb-2">
-            <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full sm:w-auto bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-xl ring-2 ring-gray-900/30 hover:scale-[1.02] cursor-pointer">
-                <i class="fa-solid fa-vr-cardboard text-lg"></i> Activar Recorrido 3D Inmersivo
-            </button>
-        </div>
-      ` : '';
-      
-      const modalContent = document.getElementById("modalContent");
-      modalContent.innerHTML = `
+      document.getElementById("modalContent").innerHTML = `
         <div class="p-6 md:p-8">
           <div class="flex items-center space-x-2 text-xs font-bold text-econexus uppercase mb-2">
             <span>${p.tipo}</span> • <span>${p.operacion}</span> • <span>ID: ${p.codigo_eco}</span>
           </div>
           <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">${p.titulo}</h2>
-          <div class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg mb-4 border border-gray-200">
-            <i class="fa-solid fa-building-user text-econexus"></i>
-            <span>${esAgencia ? 'Agencia Inmobiliaria: ' + agenciaDisplay : 'Captador / Agente Independiente'}</span>
-          </div>
+          <div class="text-3xl font-black text-econexus mb-4">$${Number(p.precio).toLocaleString('en-US')}</div>
           
-          <div class="mb-6">
-            <div class="text-3xl font-black text-econexus">
-              $${Number(p.precio).toLocaleString('en-US')}
-            </div>
-            <p class="text-[10px] text-gray-500 font-normal mt-0.5 leading-tight">
-              *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
-            </p>
-          </div>
-          
-          <!-- GALERÍA CON ZOOM Y SWIPE TÁCTIL -->
-          <div class="space-y-3 mb-6 relative">
-            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200 cursor-zoom-in" onclick="this.querySelector('img').classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-in'); this.classList.toggle('cursor-zoom-out');">
-              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-transform duration-500 origin-center" />
-              <div class="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para Zoom</div>
+          <!-- FOTO PRINCIPAL CON SWIPE DIRECTO Y PUNTOS INDICADORES -->
+          <div class="space-y-3 mb-6">
+            <div id="swipeContainerModal" class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-900 border border-gray-200 select-none touch-pan-y flex items-center justify-center">
+              <img id="modalFotoPrincipal" src="${fotosActivasModal[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-opacity duration-300" />
+              
+              <!-- Botones flotantes sutiles de navegación -->
+              <button onclick="cambiarFotoSwipe(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition">
+                <i class="fa-solid fa-chevron-left text-sm"></i>
+              </button>
+              <button onclick="cambiarFotoSwipe(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white w-9 h-9 rounded-full flex items-center justify-center backdrop-blur-md cursor-pointer transition">
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </button>
+
+              <!-- Indicadores de Puntos (Dots) -->
+              <div id="modalDotsContainer" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md">
+                ${fotosActivasModal.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/50'} transition-all"></span>`).join('')}
+              </div>
             </div>
             
-            ${fotosArray.length > 1 ? `
-              <div class="relative group">
-                <button onclick="document.getElementById('track-fotos').scrollBy({left: -200, behavior: 'smooth'})" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-md rounded-full w-8 h-8 flex items-center justify-center z-10 hidden group-hover:flex hover:bg-econexus hover:text-white transition cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
-                
-                <div id="track-fotos" class="flex gap-3 overflow-x-auto pb-2 pt-2 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars px-1">
-                  ${fotosArray.map((urlFoto) => `
-                    <img src="${urlFoto}" onclick="event.stopPropagation(); document.getElementById('modalFotoPrincipal').src='${urlFoto}'; document.getElementById('modalFotoPrincipal').classList.remove('scale-150');" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0 snap-start shadow-sm" />
-                  `).join('')}
-                </div>
-
-                <button onclick="document.getElementById('track-fotos').scrollBy({left: 200, behavior: 'smooth'})" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-md rounded-full w-8 h-8 flex items-center justify-center z-10 hidden group-hover:flex hover:bg-econexus hover:text-white transition cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
-              </div>
-            ` : ''}
-            ${btn3D}
-          </div>
-
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-green-100 text-center">
-            <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Estacionamiento</span><strong class="text-gray-900 text-lg">${p.estacionamientos}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Construcción</span><strong class="text-gray-900 text-lg">${p.metros} m²</strong></div>
-          </div>
-          <div class="mb-6">
-            <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
-            <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
-          </div>
-          <!-- UBICACIÓN EXACTA Y LEYENDA DE BONDADES ENRIQUECIDAS -->
-          <div class="mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 p-5 rounded-2xl space-y-3">
-            <div>
-              <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-1">
-                <i class="fa-solid fa-location-dot text-base text-econexus-accent"></i>
-                <span>Ubicación Exacta Registrada</span>
-              </div>
-              <p class="text-xs text-gray-700 leading-relaxed font-semibold">${p.ubicacion}</p>
-            </div>
-            <div class="border-t border-emerald-200/60 pt-3">
-              <div class="flex items-center space-x-2 text-econexus font-bold text-sm mb-1">
-                <i class="fa-solid fa-tree-city text-base text-econexus-accent"></i>
-                <span>Bondades, Comercios y Colegios Cercanos</span>
-              </div>
-              <p class="text-xs text-gray-700 leading-relaxed">${bondadesSector}</p>
-            </div>
-          </div>
-          <!-- MAPA DE UBICACIÓN (LIMPIO SIN LOGO LEAFLET) -->
-          <div class="mb-6">
-            <div class="flex justify-between items-center mb-2">
-              <h3 class="font-bold text-gray-900 text-sm flex items-center">
-                <i class="fa-solid fa-map-pin text-econexus mr-1.5"></i> Referencia Geográfica del Inmueble
-              </h3>
-            </div>
-            <div id="mapaModalInmueble" class="h-48 w-full rounded-2xl border border-gray-200 overflow-hidden bg-gray-100"></div>
-          </div>
-          <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 border-b border-gray-200 pb-4">
-              <div class="flex items-center space-x-3">
-                ${renderFotoAsesorHTML}
-                <div>
-                  <span class="text-xs text-gray-500 uppercase font-semibold block">Asesor Responsable</span>
-                  <strong class="text-gray-800 text-base block">${nombreAsesor}</strong>
-                  <span class="text-xs text-econexus font-medium inline-flex items-center gap-1 mt-0.5">
-                    <i class="fa-solid fa-building-user"></i> ${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}
-                  </span>
-                </div>
-              </div>
-              <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${mensajeWA}')" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl text-xs font-bold transition flex items-center justify-center shadow w-full sm:w-auto cursor-pointer">
-                <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Contactar por WhatsApp
+            <div class="pt-2">
+              <button onclick="iniciarTourVirtual(${JSON.stringify(fotosActivasModal).replace(/"/g, '&quot;')})" class="w-full bg-gray-900 hover:bg-black text-white py-3.5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 shadow-xl cursor-pointer">
+                <i class="fa-solid fa-person-walking text-amber-400 text-base"></i> Activar Recorrido Virtual en 3D (Animado)
               </button>
             </div>
-            <p class="text-[11px] text-gray-500 leading-relaxed">
-              <i class="fa-solid fa-circle-info text-econexus mr-1"></i> EcoNexus opera exclusivamente como vitrina inmobiliaria multiagente independiente.
-            </p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 text-center">
+            <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-lg">${p.habitaciones}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-lg">${p.banos}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Puestos</span><strong class="text-lg">${p.estacionamientos}</strong></div>
+            <div><span class="block text-gray-500 text-xs">Construcción</span><strong class="text-lg">${p.metros} m²</strong></div>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción</h3>
+            <p class="text-gray-600 text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
+          </div>
+
+          <div class="mb-6 bg-emerald-50 border border-emerald-200 p-4 rounded-xl space-y-2">
+            <div><strong class="text-xs text-econexus uppercase">Ubicación Exacta:</strong> <p class="text-xs text-gray-700">${p.ubicacion}</p></div>
+            <div><strong class="text-xs text-econexus uppercase">Bondades de la Zona:</strong> <p class="text-xs text-gray-700">${bondades}</p></div>
+          </div>
+
+          <div class="mb-6">
+            <h3 class="font-bold text-gray-900 text-sm mb-2"><i class="fa-solid fa-map-pin text-econexus"></i> Mapa de Ubicación</h3>
+            <div id="mapaModalInmueble" class="h-48 w-full rounded-xl border bg-gray-100"></div>
+          </div>
+
+          <div class="bg-gray-50 p-5 rounded-xl border flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <span class="text-xs text-gray-500 uppercase block">Asesor Responsable</span>
+              <strong class="text-base">${asesor}</strong>
+            </div>
+            <button onclick="confirmarIrAWhatsApp('${whatsapp}', '${msgWA}')" class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow cursor-pointer">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Contactar por WhatsApp
+            </button>
           </div>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
+      
+      // Registrar eventos de toque/swipe directo en la foto principal
+      setupSwipeEnFotoModal();
+
       setTimeout(() => {
-        if (mapaFichaModal) {
-          mapaFichaModal.remove();
-        }
-        mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: false }).setView(coordsFicha, 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18
-        }).addTo(mapaFichaModal);
-        L.marker(coordsFicha).addTo(mapaFichaModal)
-          .bindPopup(`<b class="text-xs">${p.codigo_eco}</b><br><span class="text-[10px]">${p.ubicacion}</span>`)
-          .openPopup();
+        if (mapaFichaModal) mapaFichaModal.remove();
+        mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: false }).setView(coords, 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(mapaFichaModal);
+        L.marker(coords).addTo(mapaFichaModal).bindPopup(`<b class="text-xs">${p.codigo_eco}</b>`).openPopup();
       }, 300);
     }
 
-    function cerrarModal() {
-      document.getElementById("propModal").classList.add("hidden");
+    function cambiarFotoSwipe(direccion) {
+      if (fotosActivasModal.length <= 1) return;
+      indiceFotoActiva += direccion;
+      if (indiceFotoActiva >= fotosActivasModal.length) indiceFotoActiva = 0;
+      if (indiceFotoActiva < 0) indiceFotoActiva = fotosActivasModal.length - 1;
+      
+      const imgElem = document.getElementById("modalFotoPrincipal");
+      imgElem.style.opacity = '0';
+      setTimeout(() => {
+        imgElem.src = fotosActivasModal[indiceFotoActiva];
+        imgElem.style.opacity = '1';
+      }, 150);
+
+      actualizarDotsModal();
     }
 
+    function actualizarDotsModal() {
+      const dotsContainer = document.getElementById("modalDotsContainer");
+      if (!dotsContainer) return;
+      dotsContainer.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-2 h-2 rounded-full ${i === indiceFotoActiva ? 'bg-white' : 'bg-white/50'} transition-all"></span>`).join('');
+    }
+
+    function setupSwipeEnFotoModal() {
+      const container = document.getElementById("swipeContainerModal");
+      if (!container) return;
+
+      container.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, {passive: true});
+
+      container.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, {passive: true});
+    }
+
+    function handleSwipeGesture() {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold) {
+        cambiarFotoSwipe(1); // Swipe Izquierda -> Siguiente foto
+      }
+      if (touchEndX > touchStartX + threshold) {
+        cambiarFotoSwipe(-1); // Swipe Derecha -> Foto anterior
+      }
+    }
+
+    function cerrarModal() { document.getElementById("propModal").classList.add("hidden"); }
+
+    /* =======================================================
+       RECORRIDO VIRTUAL 3D (ANIMACIÓN CINEMATOGRÁFICA CROSS-FADE)
+       ======================================================= */
+    function iniciarTourVirtual(fotosArray) {
+      if (!fotosArray || fotosArray.length === 0) return;
+      fotosTourVirtual = fotosArray;
+      indiceTourVirtual = 0;
+      tourIsPlaying = false;
+      
+      const imgElem = document.getElementById("imgTourVirtual");
+      imgElem.src = fotosTourVirtual[0];
+      imgElem.style.opacity = '1';
+      
+      actualizarContadorTour();
+      document.getElementById("modal-3d-inmueble").classList.remove("hidden");
+      document.getElementById("modal-3d-inmueble").classList.add("flex");
+    }
+
+    function cerrarVisor3D() {
+      document.getElementById("modal-3d-inmueble").classList.add("hidden");
+      document.getElementById("modal-3d-inmueble").classList.remove("flex");
+      if (tourIsPlaying) toggleAutoPlayTour();
+    }
+
+    function navegarTourVirtual(dir) {
+      if (fotosTourVirtual.length <= 1) return;
+      indiceTourVirtual += dir;
+      if (indiceTourVirtual >= fotosTourVirtual.length) indiceTourVirtual = 0;
+      if (indiceTourVirtual < 0) indiceTourVirtual = fotosTourVirtual.length - 1;
+
+      const imgElem = document.getElementById("imgTourVirtual");
+      imgElem.style.opacity = '0';
+      setTimeout(() => {
+        imgElem.src = fotosTourVirtual[indiceTourVirtual];
+        imgElem.style.opacity = '1';
+      }, 300);
+
+      actualizarContadorTour();
+    }
+
+    function actualizarContadorTour() {
+      document.getElementById("contador-3d").textContent = `${indiceTourVirtual + 1} / ${fotosTourVirtual.length}`;
+    }
+
+    function toggleAutoPlayTour() {
+      const btn = document.getElementById("btn-autoplay-tour");
+      tourIsPlaying = !tourIsPlaying;
+      if (tourIsPlaying) {
+        btn.innerHTML = `<i class="fa-solid fa-pause"></i> Detener Auto-Tour`;
+        btn.classList.replace("bg-econexus", "bg-red-600");
+        tourAutoPlayInterval = setInterval(() => {
+          navegarTourVirtual(1);
+        }, 3500);
+      } else {
+        btn.innerHTML = `<i class="fa-solid fa-play"></i> Iniciar Auto-Tour`;
+        btn.classList.replace("bg-red-600", "bg-econexus");
+        clearInterval(tourAutoPlayInterval);
+      }
+    }
+
+    /* =======================================================
+       MAPA GLOBAL & LEYENDA
+       ======================================================= */
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
-      limiteZonasMostradas = 10;
-      leyendaAbiertaMovil = true;
-      actualizarEstadoPanelLeyendaMovil();
-      
       setTimeout(async () => {
         if (!mapaGlobal) {
           mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: false }).setView(COORDS_DEFAULT, 7);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18
-          }).addTo(mapaGlobal);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(mapaGlobal);
           capaMarcadores = L.layerGroup().addTo(mapaGlobal);
         }
         mapaGlobal.invalidateSize();
         await cargarInmueblesYGenerarMapa();
       }, 300);
     }
+    function cerrarModalMapaGlobal() { document.getElementById("mapaGlobalModal").classList.add("hidden"); }
 
-    function cerrarModalMapaGlobal() {
-      document.getElementById("mapaGlobalModal").classList.add("hidden");
-    }
-
-    function togglePanelLeyendaMovil() {
-      leyendaAbiertaMovil = !leyendaAbiertaMovil;
-      actualizarEstadoPanelLeyendaMovil();
-    }
-
-    function actualizarEstadoPanelLeyendaMovil() {
-      const panel = document.getElementById("panelLeyendaContenedor");
-      const txtBtn = document.getElementById("txtBtnToggleLeyenda");
-      const icono = document.getElementById("iconoToggleLeyenda");
-      
-      if (leyendaAbiertaMovil) {
-        panel.classList.remove("translate-y-full", "opacity-0", "pointer-events-none");
-        panel.classList.add("translate-y-0", "opacity-100");
-        txtBtn.textContent = "Cerrar Zonas";
-        icono.className = "fa-solid fa-xmark";
-      } else {
-        panel.classList.add("translate-y-full", "opacity-0", "pointer-events-none");
-        panel.classList.remove("translate-y-0", "opacity-100");
-        txtBtn.textContent = "Zonas";
-        icono.className = "fa-solid fa-list";
-        if (mapaGlobal) mapaGlobal.invalidateSize();
-      }
-    }
-
-    async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
+    async function cargarInmueblesYGenerarMapa(filtro = "") {
       if (!capaMarcadores) return;
       capaMarcadores.clearLayers();
-      const { data: listaPropiedades, error } = await dbClient
-        .from('v_propiedades_catalogo')
-        .select('*')
-        .eq('estatus', 'Disponible');
+      const { data } = await dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+      if (!data) return;
       
-      if (error || !listaPropiedades) return;
-      listaGlobalInmueblesMapa = listaPropiedades;
-      let filtradas = listaPropiedades;
-      if (filtroQuery.trim() !== "") {
-        const queryLimpia = filtroQuery.toLowerCase().trim();
-        filtradas = listaPropiedades.filter(p => {
-          const ubi = p.ubicacion ? p.ubicacion.toLowerCase() : '';
-          const tit = p.titulo ? p.titulo.toLowerCase() : '';
-          const desc = p.descripcion ? p.descripcion.toLowerCase() : '';
-          const cod = p.codigo_eco ? p.codigo_eco.toLowerCase() : '';
-          return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || desc.includes(queryLimpia) || cod.includes(queryLimpia);
-        });
+      let filtradas = data;
+      if (filtro.trim() !== "") {
+        const q = filtro.toLowerCase();
+        filtradas = data.filter(p => (p.ubicacion+p.titulo+p.codigo_eco).toLowerCase().includes(q));
       }
-      document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} propiedad(es) ubicadas`;
+      document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} ubicadas`;
+      
       let bounds = [];
       filtradas.forEach(p => {
         const coords = obtenerCoordenadasExactas(p);
         bounds.push(coords);
-        
-        const popupHTML = `
-          <div class="p-2 text-xs font-sans max-w-[200px]">
-            <strong class="text-econexus text-xs block mb-1">${p.titulo}</strong>
-            <span class="bg-gray-100 text-gray-700 px-1.5 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${Number(p.precio).toLocaleString('en-US')}
-            <p class="text-[10px] text-gray-500 mt-1">📍 ${p.ubicacion}</p>
-            <button onclick="abrirModalDirectoDesdeMapa('${p.id}')" class="mt-2 w-full bg-econexus text-white text-[11px] font-bold py-1 rounded transition cursor-pointer">Ver Ficha</button>
-          </div>
-        `;
-        const marker = L.marker(coords).bindPopup(popupHTML);
+        const marker = L.marker(coords).bindPopup(`<b>${p.codigo_eco}</b><br>${p.ubicacion}<br><button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-1 bg-econexus text-white text-[10px] px-2 py-1 rounded">Ver Ficha</button>`);
         capaMarcadores.addLayer(marker);
       });
-      if (bounds.length > 0 && filtroQuery.trim() !== "") {
-        mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
-      } else if (bounds.length > 0) {
-        mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
-      }
+      if (bounds.length > 0) mapaGlobal.fitBounds(bounds, { maxZoom: 14 });
       generarLeyendaZonas(filtradas);
     }
-    
+
     function generarLeyendaZonas(lista) {
       const panel = document.getElementById("panelDetalleZona");
-      
-      const conteoZonas = {};
-      lista.forEach(p => {
-        const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar";
-        conteoZonas[zona] = (conteoZonas[zona] || 0) + 1;
-      });
-      const zonasArray = Object.entries(conteoZonas).sort((a, b) => b[1] - a[1]);
-      const totalZonas = zonasArray.length;
-      if (totalZonas === 0) {
-        panel.innerHTML = `
-          <div class="text-center py-8 text-gray-400">
-            <i class="fa-solid fa-map text-4xl mb-2 text-econexus-light"></i>
-            <p class="text-xs font-semibold">No se encontraron zonas ni inmuebles en este filtro.</p>
-          </div>
-        `;
-        return;
-      }
-      const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
-      let html = `
-        <div class="bg-econexus-soft border border-green-200 p-3 rounded-xl mb-2">
-          <span class="text-[10px] uppercase font-bold text-econexus block">Leyenda de Zonas Detectadas</span>
-          <p class="text-[11px] text-gray-600">Total de sectores activos: <strong>${totalZonas}</strong></p>
+      const conteo = {};
+      lista.forEach(p => { const zona = p.ubicacion || "Sin especificar"; conteo[zona] = (conteo[zona] || 0) + 1; });
+      panel.innerHTML = Object.entries(conteo).map(([zona, cant]) => `
+        <div onclick="cargarInmueblesYGenerarMapa('${zona}')" class="p-2.5 bg-white border rounded-xl cursor-pointer flex justify-between items-center hover:border-econexus">
+          <span class="text-xs font-semibold">${zona}</span>
+          <span class="bg-econexus text-white text-[10px] px-2 py-0.5 rounded-full">${cant} disp.</span>
         </div>
-        <div class="space-y-2 overflow-y-auto max-h-[35vh] md:max-h-[60vh] pr-1">
-      `;
-      zonasVisibles.forEach(([zona, cantidad]) => {
-        html += `
-          <div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2.5 bg-white border border-gray-200 hover:border-econexus rounded-xl cursor-pointer transition flex justify-between items-center shadow-xs group">
-            <span class="text-xs font-semibold text-gray-800 group-hover:text-econexus line-clamp-1"><i class="fa-solid fa-location-dot text-econexus mr-1.5"></i>${zona}</span>
-            <span class="bg-econexus text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">${cantidad} disp.</span>
-          </div>
-        `;
-      });
-      html += `</div>`;
-      if (limiteZonasMostradas < totalZonas) {
-        html += `
-          <button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-econexus text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1 cursor-pointer">
-            <i class="fa-solid fa-plus"></i> Cargar más zonas (10 en 10)
-          </button>
-        `;
-      }
-      panel.innerHTML = html;
+      `).join('');
     }
 
-    function cargarMasZonasLeyenda() {
-      limiteZonasMostradas += 10;
-      generarLeyendaZonas(listaGlobalInmueblesMapa);
-    }
-
-    function filtrarZonaDesdeLeyenda(nombreZona) {
-      document.getElementById("inputBuscarZonaMapa").value = nombreZona;
-      if (window.innerWidth < 768) {
-        leyendaAbiertaMovil = false;
-        actualizarEstadoPanelLeyendaMovil();
-      }
-      cargarInmueblesYGenerarMapa(nombreZona);
-    }
-
-    function buscarZonaEnMapa(query) {
+    function buscarZonaEnMapa(q) {
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        limiteZonasMostradas = 10;
-        cargarInmueblesYGenerarMapa(query);
-      }, 350);
-    }
-
-    function abrirModalDirectoDesdeMapa(id) {
-      cerrarModalMapaGlobal();
-      abrirModal(id);
-    }
-
-    function showError(msg) {
-      const grid = document.getElementById("propsGrid");
-      grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
-      grid.classList.remove("hidden");
-    }
-
-    /* =======================================================
-       MÓDULO: MOTOR 3D INMERSIVO (PAN & DOLLY PARA FOTOS 2D)
-       ======================================================= */
-    let scene3D, camera3D, renderer3D, planeMesh3D;
-    let fotosTour = [];
-    let indiceTour = 0;
-    let isAutoPlaying = false;
-    let autoPlayInterval;
-    
-    let mX = 0, mY = 0;
-    let tX = 0, tY = 0;
-    let whX = window.innerWidth / 2, whY = window.innerHeight / 2;
-
-    function iniciarRecorridoVirtual(idInmueble) {
-        const p = propiedadesCargadas.find(item => item.id === idInmueble);
-        if (p && p.fotos && p.fotos.length > 0) {
-            fotosTour = p.fotos;
-            indiceTour = 0;
-            document.getElementById('modal-3d-inmueble').classList.remove('hidden');
-            document.getElementById('modal-3d-inmueble').classList.add('flex');
-            actualizarUIContador();
-            
-            if (!scene3D) init3DViewer();
-            actualizarTexturaInmueble(fotosTour[indiceTour]);
-        }
-    }
-
-    function init3DViewer() {
-        const container = document.getElementById('canvas-container-3d');
-        scene3D = new THREE.Scene();
-        camera3D = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera3D.position.z = 5;
-        
-        renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer3D.setSize(window.innerWidth, window.innerHeight);
-        renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer3D.domElement);
-        
-        const geometry = new THREE.PlaneGeometry(12, 8, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
-        planeMesh3D = new THREE.Mesh(geometry, material);
-        scene3D.add(planeMesh3D);
-        
-        document.addEventListener('mousemove', (e) => { mX = (e.clientX - whX); mY = (e.clientY - whY); });
-        document.addEventListener('touchmove', (e) => { mX = (e.touches[0].clientX - whX); mY = (e.touches[0].clientY - whY); }, {passive: true});
-        window.addEventListener('resize', () => {
-            whX = window.innerWidth / 2; whY = window.innerHeight / 2;
-            camera3D.aspect = window.innerWidth / window.innerHeight;
-            camera3D.updateProjectionMatrix();
-            renderer3D.setSize(window.innerWidth, window.innerHeight);
-        });
-        animate3D();
-    }
-
-    function actualizarTexturaInmueble(imageUrl) {
-        const loader = new THREE.TextureLoader();
-        loader.load(imageUrl, function(texture) {
-            texture.generateMipmaps = true;
-            if (planeMesh3D) {
-                planeMesh3D.scale.set(0.9, 0.9, 0.9);
-                planeMesh3D.material.map = texture;
-                planeMesh3D.material.needsUpdate = true;
-                setTimeout(() => planeMesh3D.scale.set(1, 1, 1), 50);
-            }
-        });
-    }
-
-    function navegarVisor3D(direccion) {
-        if (fotosTour.length === 0) return;
-        indiceTour += direccion;
-        if (indiceTour >= fotosTour.length) indiceTour = 0;
-        if (indiceTour < 0) indiceTour = fotosTour.length - 1;
-        actualizarUIContador();
-        actualizarTexturaInmueble(fotosTour[indiceTour]);
-    }
-
-    function actualizarUIContador() {
-        document.getElementById('contador-3d').textContent = `${indiceTour + 1} / ${fotosTour.length}`;
-    }
-
-    function toggleAutoPlay3D() {
-        const btn = document.getElementById('btn-autoplay-3d');
-        isAutoPlaying = !isAutoPlaying;
-        if (isAutoPlaying) {
-            btn.innerHTML = `<i class="fa-solid fa-pause"></i> Detener Tour`;
-            btn.classList.replace('bg-econexus', 'bg-red-600');
-            btn.classList.replace('hover:bg-econexus-light', 'hover:bg-red-700');
-            autoPlayInterval = setInterval(() => {
-                mX = Math.sin(Date.now() * 0.001) * 300;
-                mY = Math.cos(Date.now() * 0.001) * 100;
-                if (Date.now() % 4000 < 50) navegarVisor3D(1);
-            }, 50);
-        } else {
-            btn.innerHTML = `<i class="fa-solid fa-play"></i> Iniciar Auto-Tour`;
-            btn.classList.replace('bg-red-600', 'bg-econexus');
-            btn.classList.replace('hover:bg-red-700', 'hover:bg-econexus-light');
-            clearInterval(autoPlayInterval);
-            mX = 0; mY = 0;
-        }
-    }
-
-    function animate3D() {
-        requestAnimationFrame(animate3D);
-        
-        let tiempo = Date.now() * 0.0003;
-        let zoomAutomatico = Math.sin(tiempo) * 0.7; 
-        camera3D.position.z = 4.5 - zoomAutomatico; 
-        
-        tX = mX * 0.0015; 
-        tY = mY * 0.0015;
-
-        if (planeMesh3D) {
-            planeMesh3D.position.x += 0.05 * (-tX - planeMesh3D.position.x);
-            planeMesh3D.position.y += 0.05 * (tY - planeMesh3D.position.y);
-            
-            planeMesh3D.rotation.y += 0.05 * (tX * 0.1 - planeMesh3D.rotation.y);
-            planeMesh3D.rotation.x += 0.05 * (tY * 0.1 - planeMesh3D.rotation.x);
-        }
-        
-        renderer3D.render(scene3D, camera3D);
-    }
-
-    function cerrarVisor3D() {
-        document.getElementById('modal-3d-inmueble').classList.add('hidden');
-        document.getElementById('modal-3d-inmueble').classList.remove('flex');
-        if (isAutoPlaying) toggleAutoPlay3D();
+      debounceTimer = setTimeout(() => { cargarInmueblesYGenerarMapa(q); }, 350);
     }
   </script>
 </body>
