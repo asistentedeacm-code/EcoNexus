@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <title>Directorio de Agentes | EcoNexus</title>
+  <meta name="description" content="Encuentra a los mejores asesores inmobiliarios y realtors en Venezuela a través de EcoNexus." />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SDK de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <style>
+    .hide-scrollbars::-webkit-scrollbar { display: none; }
+    .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } } }
+  </script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+  <!-- MODAL DE TÉRMINOS GLOBALES (EXACTAMENTE IGUAL AL PRINCIPAL) -->
+  <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+        <h3 class="font-bold text-econexus flex items-center gap-2 text-sm md:text-base"><i class="fa-solid fa-scale-balanced"></i> Términos de Uso & Responsabilidad</h3>
+        <button onclick="cerrarModalTerminos()" class="text-gray-400 hover:text-red-500 bg-gray-200 hover:bg-red-50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-4 text-xs md:text-sm text-gray-700 leading-relaxed">
+        <p class="font-bold text-red-600 mb-2 p-3 bg-red-50 rounded-lg border border-red-100">"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre los agentes y clientes."</p>
+        <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria. EcoNexus NO es una agencia inmobiliaria empleadora de los agentes aquí listados.</p>
+        <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones gestionadas por los agentes.</p>
+        <p><strong>3. Relación Directa:</strong> Al contactar a un agente, usted establece una relación directa con él o con la agencia inmobiliaria que representa. EcoNexus no verifica credenciales más allá del registro básico de uso de la plataforma.</p>
+      </div>
+      <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-right">
+        <button onclick="cerrarModalTerminos()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow cursor-pointer">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMAR WHATSAPP (ADAPTADO PARA REALTORS) -->
+  <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
+      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="flex items-center space-x-2 text-green-700 font-bold mb-3"><i class="fa-brands fa-whatsapp text-2xl"></i><span class="text-sm uppercase tracking-wide">Contacto Bajo tu Responsabilidad</span></div>
+      <p class="text-xs text-gray-700 leading-relaxed mb-5 bg-amber-50 border border-amber-200 p-3 rounded-xl">"Estás por contactar directamente a este Asesor Inmobiliario. EcoNexus no es empleador del agente ni se hace responsable por las asesorías, negociaciones, visitas agendadas o honorarios pactados. No somos partícipes bajo ningún contexto de los acuerdos generados. Al hacer clic en contactar, aceptas hacerlo bajo tu exclusiva responsabilidad."</p>
+      <div class="flex flex-col sm:flex-row gap-2 justify-end">
+        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Cancelar</button>
+        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-sm"></i> Entendido, ir a WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER RESPONSIVO -->
+  <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-3">
+      <!-- Logo y Textos -->
+      <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
+        <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
+        <div class="flex flex-col">
+          <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none">EcoNexus</span>
+          <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">DIRECTORIO DE AGENTES</span>
+        </div>
+      </div>
+      <!-- Controles -->
+      <div class="flex items-center gap-2 sm:gap-4 ml-auto">
+        <button onclick="window.location.href='index.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
+          <i class="fa-solid fa-house-chimney text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Ver Inmuebles
+        </button>
+        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-4">
+          <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER HERO -->
+  <section class="bg-econexus-soft border-b border-green-200 py-10 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-2xl md:text-4xl font-extrabold text-econexus mb-3">Encuentra a tu <span class="text-green-600">Realtor Ideal</span></h1>
+      <p class="text-gray-600 text-sm md:text-base font-medium">Contacta directamente con asesores independientes y representantes de las mejores agencias inmobiliarias del país.</p>
+    </div>
+  </section>
+
+  <!-- BÚSQUEDA DE AGENTES -->
+  <section class="max-w-7xl mx-auto px-4 py-5 w-full">
+    <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-6 top-6 text-gray-400"></i>
+        <input type="text" id="filtroAgentes" onkeyup="filtrarAgentes(this.value)" placeholder="Buscar por nombre o agencia..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium transition" />
+    </div>
+  </section>
+
+  <!-- GRILLA DE AGENTES -->
+  <main class="max-w-7xl mx-auto px-4 pb-16 flex-grow w-full">
+    
+    <div id="loadingSpinner" class="text-center py-20">
+      <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
+      <p class="text-gray-500 text-sm font-medium">Cargando directorio de agentes...</p>
+    </div>
+    
+    <div id="gridAgentes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 hidden">
+        <!-- Generado por JS -->
+    </div>
+
+    <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
+      <i class="fa-solid fa-users-slash text-4xl text-gray-300 mb-4"></i>
+      <h3 class="text-lg font-bold text-gray-700 mb-1">No hay agentes encontrados</h3>
+      <p class="text-gray-500 text-xs">Intenta buscar con otro nombre.</p>
+    </div>
+  </main>
+
+  <!-- PIE DE PÁGINA -->
+  <footer class="bg-econexus-dark text-white py-6 mt-auto border-t border-green-900">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-[10px] text-green-300 mb-1">EcoNexus Real Estate Platform</p>
+      <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Conexión a Supabase (Mismas credenciales)
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let todosLosAgentes = [];
+    let waUrlPendiente = '';
+
+    document.addEventListener("DOMContentLoaded", async function() {
+      await cargarAgentesDesdePropiedades();
+    });
+
+    // Función mágica: Extrae agentes únicos de la vista de propiedades sin alterar la base de datos
+    async function cargarAgentesDesdePropiedades() {
+      try {
+        // Traemos las propiedades disponibles para extraer a los agentes (limitamos a 1000 para rapidez)
+        const { data, error } = await dbClient.from('v_propiedades_catalogo')
+            .select('nombre_asesor, telefono_asesor, foto_perfil, foto_asesor, foto_agente, avatar, avatar_url, tipo_asesor, nombre_agencia')
+            .eq('estatus', 'Disponible')
+            .limit(1000);
+
+        if (error) throw error;
+
+        // Usamos un Map para filtrar duplicados usando el número de teléfono como identificador único
+        const mapaAgentes = new Map();
+
+        if (data) {
+            data.forEach(p => {
+                const telefonoRaw = p.telefono_asesor;
+                if (!telefonoRaw) return; // Si no hay teléfono, lo saltamos
+                
+                const telefonoLimpio = telefonoRaw.replace(/[^0-9]/g, '');
+                
+                if (!mapaAgentes.has(telefonoLimpio)) {
+                    // Validar si pertenece a una agencia
+                    const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+                    const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+                    
+                    // Buscar la foto en las múltiples columnas posibles
+                    let fotoUrl = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
+
+                    mapaAgentes.set(telefonoLimpio, {
+                        nombre: p.nombre_asesor || "Asesor Inmobiliario",
+                        telefono: telefonoLimpio,
+                        foto: fotoUrl,
+                        esAgencia: esAgencia,
+                        agenciaDisplay: agenciaDisplay
+                    });
+                }
+            });
+        }
+
+        // Convertir el Map a Array y ordenar alfabéticamente
+        todosLosAgentes = Array.from(mapaAgentes.values()).sort((a, b) => a.nombre.localeCompare(b.nombre));
+        
+        document.getElementById("loadingSpinner").classList.add("hidden");
+        renderizarAgentes(todosLosAgentes);
+
+      } catch (err) {
+        console.error("Error cargando agentes:", err);
+        document.getElementById("loadingSpinner").innerHTML = `<p class="text-red-500 text-sm">Error conectando con la red. Intenta de nuevo.</p>`;
+      }
+    }
+
+    function renderizarAgentes(lista) {
+        const grid = document.getElementById("gridAgentes");
+        const noResults = document.getElementById("noResults");
+        
+        grid.innerHTML = "";
+        
+        if (lista.length === 0) {
+            grid.classList.add("hidden");
+            noResults.classList.remove("hidden");
+            return;
+        }
+
+        noResults.classList.add("hidden");
+        grid.classList.remove("hidden");
+
+        lista.forEach(agente => {
+            // Etiqueta visual: Verde para agencias, Gris para independientes
+            const badgeClass = agente.esAgencia 
+                ? "bg-econexus-soft text-econexus border-green-200" 
+                : "bg-gray-100 text-gray-600 border-gray-200";
+
+            // Foto por defecto si no tiene
+            const fotoHTML = agente.foto 
+                ? `<img src="${agente.foto}" alt="${agente.nombre}" class="w-24 h-24 rounded-full object-cover border-4 border-gray-50 shadow-sm mx-auto mb-3" />`
+                : `<div class="w-24 h-24 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-4 border-gray-50 shadow-sm mx-auto mb-3"><i class="fa-solid fa-user"></i></div>`;
+
+            grid.innerHTML += `
+                <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 p-6 flex flex-col h-full transition duration-300">
+                    <div class="text-center flex-grow">
+                        ${fotoHTML}
+                        <h3 class="font-bold text-gray-900 text-lg leading-tight mb-1">${agente.nombre}</h3>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-4">
+                            <i class="fa-solid fa-building-user"></i> ${agente.agenciaDisplay}
+                        </div>
+                    </div>
+                    <div class="mt-auto pt-2">
+                        <button onclick="prepararContacto('${agente.telefono}', '${agente.nombre}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2.5 rounded-xl shadow transition flex justify-center items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Contactar Realtor
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function filtrarAgentes(texto) {
+        const query = texto.toLowerCase().trim();
+        const filtrados = todosLosAgentes.filter(a => 
+            a.nombre.toLowerCase().includes(query) || 
+            a.agenciaDisplay.toLowerCase().includes(query)
+        );
+        renderizarAgentes(filtrados);
+    }
+
+    // Funciones de Modales Legales
+    function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
+    function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
+
+    function prepararContacto(numero, nombre) {
+      const msjWA = encodeURIComponent(`Hola ${nombre}, requiero tus servicios como realtor.`);
+      waUrlPendiente = `https://wa.me/${numero}?text=${msjWA}`;
+      document.getElementById("modalConfirmarWhatsApp").classList.remove("hidden");
+    }
+
+    function cerrarModalWhatsApp() { 
+        document.getElementById("modalConfirmarWhatsApp").classList.add("hidden"); 
+        waUrlPendiente = ''; 
+    }
+
+    function aceptarYContinuarWhatsApp() { 
+        if(waUrlPendiente) window.open(waUrlPendiente, '_blank'); 
+        cerrarModalWhatsApp(); 
+    }
+  </script>
+</body>
+</html>
