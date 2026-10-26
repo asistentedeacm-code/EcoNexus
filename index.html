@@ -39,16 +39,13 @@
   <!-- LEAFLET MAPS CSS & JS (100% Gratuito y OpenSource - Costo $0) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-
   <!-- THREE.JS (Para Visor 3D Inmersivo a costo 0) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
   <style>
     /* Ocultar barra de desplazamiento manteniendo funcionalidad táctil */
     .hide-scrollbars::-webkit-scrollbar { display: none; }
     .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
-
   <script>
     tailwind.config = {
       theme: {
@@ -86,7 +83,6 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col">
-
   <!-- MODAL VISOR 3D INMERSIVO -->
   <div id="modal-3d-inmueble" class="fixed inset-0 bg-black/95 z-[9999] hidden flex-col">
     <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[10000] bg-gradient-to-b from-black/80 to-transparent">
@@ -96,28 +92,27 @@
         </span>
         <span id="contador-3d" class="text-gray-300 text-xs font-semibold">1 / 1</span>
       </div>
-      <button onclick="cerrarVisor3D()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md">
+      <button onclick="cerrarVisor3D()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md cursor-pointer">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>
     <div id="canvas-container-3d" class="w-full flex-grow relative cursor-move touch-pan-y"></div>
     <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-[10000] bg-black/50 p-2 rounded-2xl backdrop-blur-md border border-white/10">
-      <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+      <button onclick="navegarVisor3D(-1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
-      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg">
+      <button id="btn-autoplay-3d" onclick="toggleAutoPlay3D()" class="px-5 py-2 rounded-xl bg-econexus hover:bg-econexus-light text-white text-xs font-bold transition flex items-center gap-2 shadow-lg cursor-pointer">
         <i class="fa-solid fa-play"></i> Iniciar Auto-Tour
       </button>
-      <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+      <button onclick="navegarVisor3D(1)" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
     </div>
   </div>
-
   <!-- MODAL DE APERTURA INSTANTÁNEA (VERDE ECONEXUS) -->
   <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border-t-4 border-econexus animate-fade-in">
-      <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
+      <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <div class="flex items-center space-x-2 text-econexus font-bold mb-3">
@@ -128,10 +123,10 @@
         "EcoNexus opera exclusivamente como vitrina publicitaria y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
       </p>
       <div class="border-t border-gray-100 pt-3 flex items-center justify-between">
-        <button onclick="cerrarAvisoInstantaneo(); toggleLegalDisclaimer();" class="text-xs text-econexus font-bold underline hover:text-econexus-light">
+        <button onclick="cerrarAvisoInstantaneo(); toggleLegalDisclaimer();" class="text-xs text-econexus font-bold underline hover:text-econexus-light cursor-pointer">
           Ver términos y condiciones completos dentro de la plataforma...
         </button>
-        <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-lg transition">
+        <button onclick="cerrarAvisoInstantaneo()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-lg transition cursor-pointer">
           Entendido / Avanzar
         </button>
       </div>
@@ -140,7 +135,7 @@
   <!-- MODAL DE CONFIRMACIÓN ANTES DE IR A WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
-      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition">
+      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <div class="flex items-center space-x-2 text-green-700 font-bold mb-3">
@@ -151,10 +146,10 @@
         "Estás por contactar directamente a un Asesor Inmobiliario o al Captador. EcoNexus no se hace responsable por negociaciones, acuerdos, visitas agendadas o pagos directos. no somos participes bajo ningún contexto de los acuerdos y negociaciones generados entre las partes y al hacer clic en contactar acepta de su exclusiva responsabilidad."
       </p>
       <div class="flex flex-col sm:flex-row gap-2 justify-end">
-        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition">
+        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">
           Cancelar
         </button>
-        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow">
+        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer">
           <i class="fa-brands fa-whatsapp text-sm"></i> Entendido y Continuar
         </button>
       </div>
@@ -179,7 +174,7 @@
     
     <!-- BOTÓN TÉRMINOS DE USO Y EXONERACIÓN -->
     <div class="bg-econexus-dark border-t border-green-900 py-1.5 px-4 text-center">
-      <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1">
+      <button onclick="toggleLegalDisclaimer()" class="text-xs font-semibold text-green-100 hover:text-white transition inline-flex items-center gap-1 cursor-pointer">
         ⚖️ Términos de Uso & Condiciones
         <i id="legalArrow" class="fa-solid fa-chevron-down text-[10px] ml-1 transition-transform"></i>
       </button>
@@ -240,9 +235,29 @@
       </div>
     </div>
   </section>
+
+  <!-- SECCIÓN NUESTROS INMUEBLES VIP (CARRUSEL HORIZONTAL DESLIZABLE) -->
+  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-4 py-8 hidden">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl md:text-2xl font-bold text-econexus flex items-center">
+        <i class="fa-solid fa-star text-amber-500 mr-2"></i> Nuestros Inmuebles VIP
+      </h2>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('trackVip').scrollBy({left: -300, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button onclick="document.getElementById('trackVip').scrollBy({left: 300, behavior: 'smooth'})" class="w-9 h-9 rounded-full bg-econexus text-white flex items-center justify-center hover:bg-econexus-light transition shadow cursor-pointer">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+    <div id="trackVip" class="flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
+      <!-- Las tarjetas VIP pequeñas se inyectarán aquí dinámicamente -->
+    </div>
+  </section>
  
   <!-- GRILLA DE PROPIEDADES -->
-  <main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
     <div class="flex justify-between items-center mb-6">
       <h2 class="text-2xl font-bold text-econexus flex items-center">
         <i class="fa-solid fa-building-circle-check mr-2"></i> Propiedades Disponibles
@@ -259,7 +274,7 @@
     
     <!-- BOTÓN PAGINACIÓN -->
     <div id="loadMoreContainer" class="text-center mt-10 hidden">
-      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-8 py-3 rounded-xl transition shadow-md inline-flex items-center">
+      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-8 py-3 rounded-xl transition shadow-md inline-flex items-center cursor-pointer">
         <i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles
       </button>
     </div>
@@ -271,11 +286,12 @@
   </main>
  
   <!-- MODAL DE PROPIEDAD -->
-  <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      <button onclick="cerrarModal()" class="absolute top-4 right-4 z-[60] bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
-        <i class="fa-solid fa-xmark text-xl"></i>
-      </button>
+  <div id="propModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 md:p-4 hidden">
+    <!-- Botón X con persistencia absoluta (FIXED) -->
+    <button onclick="cerrarModal()" class="fixed top-4 right-4 z-[9999] bg-white hover:bg-red-500 text-gray-800 hover:text-white rounded-full w-10 h-10 flex items-center justify-center shadow-2xl transition border border-gray-200 cursor-pointer">
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl mt-12 md:mt-0 relative">
       <div id="modalContent"></div>
     </div>
   </div>
@@ -356,35 +372,41 @@
     let waUrlPendiente = '';
     let debounceTimer = null;
     
-    // VARIABLES DE MAPA LEAFLET Y LEYENDA
+    // VARIABLES DE MAPA LEAFLET Y LEYENDA Y DICCIONARIO DESDE SUPABASE
     let mapaGlobal = null;
     let capaMarcadores = null;
     let mapaFichaModal = null;
     let listaGlobalInmueblesMapa = [];
-    let limiteZonasMostradas = 10; // Paginación de 10 en 10 para la leyenda
-    let leyendaAbiertaMovil = true; // Por defecto abierto
-
-    // BASE DE DATOS AMPLIADA Y ENRIQUECIDA
-    const REFERENCIAS_GEOGRAFICAS = {
-      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, cercanía a centros comerciales tradicionales (C.C. Trigal), colegios de prestigio, clínicas, farmacias, vigilancia privada y suministro constante de servicios." },
-      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica y comercial de alto nivel en Valencia, excelente caminabilidad, cercanía a hoteles, centros corporativos, clínicas exclusivas y colegios." },
-      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Zona universitaria y residencial, clima fresco de montaña, cercanía a centros comerciales de gran escala (Sambil), supermercados, farmacias y amplias avenidas." },
-      "san diego": { coords: [10.23151, -67.95412], bondades: "Municipio residencial con alto orden urbano, parques naturales, colegios, centros comerciales (San Diego), excelentes servicios públicos y ambiente seguro para familias." },
-      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona residencial exclusiva, alto estándar de seguridad, cercanía al club de golf, áreas verdes, vistas panorámicas y acabados residenciales de lujo." },
-      "mañongo": { coords: [10.24121, -68.00512], bondades: "Excelente conectividad vial, desarrollo de torres modernas, centros comerciales de vanguardia, restaurantes y gran demanda de servicios profesionales." },
-      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal del estado Carabobo, alta actividad económica, transporte integrado, centros educativos y servicios médicos." },
-      "carabobo": { coords: [10.18000, -68.00000], bondades: "Estado industrial y estratégico con amplia conectividad vial, centros educativos, comercios, clínicas y completa infraestructura consolidada." },
-      "chacao": { coords: [10.49121, -66.85212], bondades: "Eje financiero y cultural de Caracas, máxima seguridad urbana, centros comerciales, estaciones de metro, colegios y altísima liquidez inmobiliaria." },
-      "caracas": { coords: [10.48059, -66.90360], bondades: "Distrito Capital, centro político y financiero del país, amplia red de transporte subterráneo, comercios, colegios de alto nivel y servicios médicos." },
-      "maracaibo": { coords: [10.64270, -71.61250], bondades: "Eje comercial petrolero y empresarial del Zulia, avenidas principales, centros comerciales, farmacias y centros de salud de primer nivel." }
-    };
+    let limiteZonasMostradas = 10;
+    let leyendaAbiertaMovil = true;
+    let REFERENCIAS_GEOGRAFICAS = {};
     const COORDS_DEFAULT = [10.18000, -68.00000];
 
     document.addEventListener("DOMContentLoaded", async function() {
+      await cargarDiccionarioGeografico();
       await obtenerTotalContadorSupabase();
       await cargarPropiedades(true);
       verificarParametrosURL();
     });
+
+    // CARGA DE ZONAS DESDE SUPABASE (DICCIONARIO DINÁMICO NACIONAL)
+    async function cargarDiccionarioGeografico() {
+      try {
+        const { data, error } = await dbClient.from('diccionario_zonas').select('*');
+        if (!error && data) {
+          data.forEach(zona => {
+            if (zona.sector) {
+              REFERENCIAS_GEOGRAFICAS[zona.sector.toLowerCase()] = {
+                coords: [parseFloat(zona.lat), parseFloat(zona.lng)],
+                bondades: zona.bondades || "Zona residencial y comercial consolidada con acceso a servicios esenciales."
+              };
+            }
+          });
+        }
+      } catch (e) {
+        console.error("Error cargando diccionario geográfico de Supabase:", e);
+      }
+    }
 
     async function obtenerTotalContadorSupabase() {
       try {
@@ -479,6 +501,9 @@
           hayMasPaginas = false;
         }
         propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
+        
+        // Renderizar sección VIP y Grilla Principal
+        renderizarSeccionVip(propiedadesCargadas);
         renderizarTarjetas(propiedadesCargadas);
       } catch (err) {
         showError("No se pudo conectar con la base de datos de Supabase. Revisa la configuración.");
@@ -497,6 +522,56 @@
       await cargarPropiedades(false);
       btn.disabled = false;
       btn.innerHTML = `<i class="fa-solid fa-plus-circle mr-2"></i> Cargar más inmuebles`;
+    }
+
+    // NUEVA FUNCIÓN: RENDERIZAR CARRUSEL DE INMUEBLES VIP
+    function renderizarSeccionVip(lista) {
+      const seccionVip = document.getElementById("seccionVipContainer");
+      const trackVip = document.getElementById("trackVip");
+      
+      const vips = lista.filter(p => p.vip_activo === true);
+      if (vips.length === 0) {
+        seccionVip.classList.add("hidden");
+        return;
+      }
+      
+      seccionVip.classList.remove("hidden");
+      trackVip.innerHTML = "";
+      
+      vips.forEach(p => {
+        const fotoPrincipal = (p.fotos && p.fotos.length > 0) 
+          ? p.fotos[0] 
+          : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+        
+        const cardVipHTML = `
+          <div onclick="abrirModal('${p.id}')" class="min-w-[260px] max-w-[260px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400 shadow-md hover:shadow-xl transition-all flex flex-col cursor-pointer flex-shrink-0 snap-start group">
+            <div class="relative h-40 overflow-hidden">
+              <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
+              <div class="absolute top-2 left-2">
+                <span class="bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
+                  <i class="fa-solid fa-star"></i> VIP
+                </span>
+              </div>
+              <div class="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                ${p.codigo_eco}
+              </div>
+            </div>
+            <div class="p-3.5 flex flex-col justify-between flex-grow">
+              <div>
+                <span class="text-[10px] font-bold text-econexus uppercase block mb-0.5">${p.tipo} • ${p.ubicacion}</span>
+                <h4 class="font-bold text-gray-900 text-sm line-clamp-1 mb-1">${p.titulo}</h4>
+                <div class="text-lg font-black text-econexus">
+                  $${Number(p.precio).toLocaleString('en-US')}
+                </div>
+              </div>
+              <div class="mt-2 text-center bg-econexus-soft text-econexus text-xs font-bold py-1.5 rounded-lg group-hover:bg-econexus group-hover:text-white transition">
+                Ver Inmueble VIP <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+              </div>
+            </div>
+          </div>
+        `;
+        trackVip.innerHTML += cardVipHTML;
+      });
     }
 
     function renderizarTarjetas(lista) {
@@ -593,7 +668,6 @@
       }
       cargarPropiedades(true);
     }
-
     function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
     function toggleLegalDisclaimer() {
       const dropdown = document.getElementById("legalDisclaimerDropdown");
@@ -666,12 +740,12 @@
       // Botón 3D Dinámico
       const btn3D = fotosArray.length > 0 ? `
         <div class="mt-4 flex justify-center w-full pb-2">
-            <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full sm:w-auto bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-xl ring-2 ring-gray-900/30 hover:scale-[1.02]">
+            <button onclick="iniciarRecorridoVirtual('${p.id}')" class="w-full sm:w-auto bg-gray-900 hover:bg-black text-white px-6 py-3 rounded-2xl text-sm font-bold transition flex items-center justify-center gap-2 shadow-xl ring-2 ring-gray-900/30 hover:scale-[1.02] cursor-pointer">
                 <i class="fa-solid fa-vr-cardboard text-lg"></i> Activar Recorrido 3D Inmersivo
             </button>
         </div>
       ` : '';
-
+      
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-6 md:p-8">
@@ -692,20 +766,30 @@
               *Precio referencial en USD. Operaciones liquidables en Bolívares conforme a la tasa oficial del BCV vigente al momento del pago.
             </p>
           </div>
-          <div class="space-y-3 mb-6">
-            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200 shadow-inner">
-              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-opacity duration-300" />
+          
+          <!-- GALERÍA CON ZOOM Y SWIPE TÁCTIL -->
+          <div class="space-y-3 mb-6 relative">
+            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200 cursor-zoom-in" onclick="this.querySelector('img').classList.toggle('scale-150'); this.classList.toggle('cursor-zoom-in'); this.classList.toggle('cursor-zoom-out');">
+              <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover transition-transform duration-500 origin-center" />
+              <div class="absolute bottom-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Clic para Zoom</div>
             </div>
+            
             ${fotosArray.length > 1 ? `
-              <div class="flex gap-3 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
-                ${fotosArray.map((urlFoto) => `
-                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0 snap-start shadow-sm" />
-                `).join('')}
+              <div class="relative group">
+                <button onclick="document.getElementById('track-fotos').scrollBy({left: -200, behavior: 'smooth'})" class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-md rounded-full w-8 h-8 flex items-center justify-center z-10 hidden group-hover:flex hover:bg-econexus hover:text-white transition cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
+                
+                <div id="track-fotos" class="flex gap-3 overflow-x-auto pb-2 pt-2 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars px-1">
+                  ${fotosArray.map((urlFoto) => `
+                    <img src="${urlFoto}" onclick="event.stopPropagation(); document.getElementById('modalFotoPrincipal').src='${urlFoto}'; document.getElementById('modalFotoPrincipal').classList.remove('scale-150');" class="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0 snap-start shadow-sm" />
+                  `).join('')}
+                </div>
+
+                <button onclick="document.getElementById('track-fotos').scrollBy({left: 200, behavior: 'smooth'})" class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/90 shadow-md rounded-full w-8 h-8 flex items-center justify-center z-10 hidden group-hover:flex hover:bg-econexus hover:text-white transition cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
               </div>
             ` : ''}
-            
             ${btn3D}
           </div>
+
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-green-100 text-center">
             <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
             <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
@@ -733,7 +817,7 @@
               <p class="text-xs text-gray-700 leading-relaxed">${bondadesSector}</p>
             </div>
           </div>
-          <!-- MAPA DE UBICACIÓN -->
+          <!-- MAPA DE UBICACIÓN (LIMPIO SIN LOGO LEAFLET) -->
           <div class="mb-6">
             <div class="flex justify-between items-center mb-2">
               <h3 class="font-bold text-gray-900 text-sm flex items-center">
@@ -769,16 +853,16 @@
         if (mapaFichaModal) {
           mapaFichaModal.remove();
         }
-        mapaFichaModal = L.map('mapaModalInmueble').setView(coordsFicha, 15);
+        mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: false }).setView(coordsFicha, 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          attribution: '© OpenStreetMap'
+          maxZoom: 18
         }).addTo(mapaFichaModal);
         L.marker(coordsFicha).addTo(mapaFichaModal)
           .bindPopup(`<b class="text-xs">${p.codigo_eco}</b><br><span class="text-[10px]">${p.ubicacion}</span>`)
           .openPopup();
       }, 300);
     }
+
     function cerrarModal() {
       document.getElementById("propModal").classList.add("hidden");
     }
@@ -791,10 +875,9 @@
       
       setTimeout(async () => {
         if (!mapaGlobal) {
-          mapaGlobal = L.map('contenedorMapaLeaflet').setView(COORDS_DEFAULT, 7);
+          mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: false }).setView(COORDS_DEFAULT, 7);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '© OpenStreetMap'
+            maxZoom: 18
           }).addTo(mapaGlobal);
           capaMarcadores = L.layerGroup().addTo(mapaGlobal);
         }
@@ -802,13 +885,16 @@
         await cargarInmueblesYGenerarMapa();
       }, 300);
     }
+
     function cerrarModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.add("hidden");
     }
+
     function togglePanelLeyendaMovil() {
       leyendaAbiertaMovil = !leyendaAbiertaMovil;
       actualizarEstadoPanelLeyendaMovil();
     }
+
     function actualizarEstadoPanelLeyendaMovil() {
       const panel = document.getElementById("panelLeyendaContenedor");
       const txtBtn = document.getElementById("txtBtnToggleLeyenda");
@@ -827,6 +913,7 @@
         if (mapaGlobal) mapaGlobal.invalidateSize();
       }
     }
+
     async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
       if (!capaMarcadores) return;
       capaMarcadores.clearLayers();
@@ -918,10 +1005,12 @@
       }
       panel.innerHTML = html;
     }
+
     function cargarMasZonasLeyenda() {
       limiteZonasMostradas += 10;
       generarLeyendaZonas(listaGlobalInmueblesMapa);
     }
+
     function filtrarZonaDesdeLeyenda(nombreZona) {
       document.getElementById("inputBuscarZonaMapa").value = nombreZona;
       if (window.innerWidth < 768) {
@@ -930,6 +1019,7 @@
       }
       cargarInmueblesYGenerarMapa(nombreZona);
     }
+
     function buscarZonaEnMapa(query) {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
@@ -937,10 +1027,12 @@
         cargarInmueblesYGenerarMapa(query);
       }, 350);
     }
+
     function abrirModalDirectoDesdeMapa(id) {
       cerrarModalMapaGlobal();
       abrirModal(id);
     }
+
     function showError(msg) {
       const grid = document.getElementById("propsGrid");
       grid.innerHTML = `<div class="col-span-3 text-center text-red-600 font-semibold py-10">${msg}</div>`;
@@ -948,7 +1040,7 @@
     }
 
     /* =======================================================
-       MÓDULO: MOTOR 3D INMERSIVO Y RECORRIDO AUTOMÁTICO
+       MÓDULO: MOTOR 3D INMERSIVO (PAN & DOLLY PARA FOTOS 2D)
        ======================================================= */
     let scene3D, camera3D, renderer3D, planeMesh3D;
     let fotosTour = [];
@@ -956,7 +1048,6 @@
     let isAutoPlaying = false;
     let autoPlayInterval;
     
-    // Variables para interactividad (mouse/touch)
     let mX = 0, mY = 0;
     let tX = 0, tY = 0;
     let whX = window.innerWidth / 2, whY = window.innerHeight / 2;
@@ -986,11 +1077,11 @@
         renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         container.appendChild(renderer3D.domElement);
         
-        const geometry = new THREE.PlaneGeometry(8, 5, 32, 32);
+        const geometry = new THREE.PlaneGeometry(12, 8, 32, 32);
         const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
         planeMesh3D = new THREE.Mesh(geometry, material);
         scene3D.add(planeMesh3D);
-
+        
         document.addEventListener('mousemove', (e) => { mX = (e.clientX - whX); mY = (e.clientY - whY); });
         document.addEventListener('touchmove', (e) => { mX = (e.touches[0].clientX - whX); mY = (e.touches[0].clientY - whY); }, {passive: true});
         window.addEventListener('resize', () => {
@@ -999,7 +1090,6 @@
             camera3D.updateProjectionMatrix();
             renderer3D.setSize(window.innerWidth, window.innerHeight);
         });
-
         animate3D();
     }
 
@@ -1052,11 +1142,22 @@
 
     function animate3D() {
         requestAnimationFrame(animate3D);
-        tX = mX * 0.001; tY = mY * 0.001;
+        
+        let tiempo = Date.now() * 0.0003;
+        let zoomAutomatico = Math.sin(tiempo) * 0.7; 
+        camera3D.position.z = 4.5 - zoomAutomatico; 
+        
+        tX = mX * 0.0015; 
+        tY = mY * 0.0015;
+
         if (planeMesh3D) {
-            planeMesh3D.rotation.y += 0.05 * (tX - planeMesh3D.rotation.y);
-            planeMesh3D.rotation.x += 0.05 * (tY - planeMesh3D.rotation.x);
+            planeMesh3D.position.x += 0.05 * (-tX - planeMesh3D.position.x);
+            planeMesh3D.position.y += 0.05 * (tY - planeMesh3D.position.y);
+            
+            planeMesh3D.rotation.y += 0.05 * (tX * 0.1 - planeMesh3D.rotation.y);
+            planeMesh3D.rotation.x += 0.05 * (tY * 0.1 - planeMesh3D.rotation.x);
         }
+        
         renderer3D.render(scene3D, camera3D);
     }
 
