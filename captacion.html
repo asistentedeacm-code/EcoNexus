@@ -59,14 +59,15 @@
     <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
         
-        <!-- MÓDULO INTELIGENTE DE FOTO DE PERFIL DEL AGENTE Y SOBRE MÍ -->
+        <!-- MÓDULO INTELIGENTE DE CONFIGURACIÓN DE PERFIL DEL AGENTE -->
         <div id="containerPerfilFoto" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-6">
+          <!-- Foto de Perfil -->
           <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <img id="imgPerfilPreview" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-14 h-14 rounded-full object-cover border-2 border-econexus shadow-sm" />
               <div>
                 <h3 class="text-sm font-bold text-gray-900" id="txtPerfilFotoEstado">Perfil de Asesor</h3>
-                <p class="text-[11px] text-gray-500" id="txtPerfilFotoDesc">Completa tus datos para tu Mini Web y Fichas PDF.</p>
+                <p class="text-[11px] text-gray-500" id="txtPerfilFotoDesc">Configura tus datos para tu Mini Web y Fichas PDF.</p>
               </div>
             </div>
             <div class="w-full sm:w-auto">
@@ -76,12 +77,43 @@
               <input type="file" id="inputFotoPerfilAgente" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="guardarFotoPerfilAgente(this)" />
             </div>
           </div>
-          <div class="mt-4 pt-4 border-t border-gray-200">
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Presentación Corta / Sobre Mí</label>
-            <textarea id="perfilSobreMi" rows="3" placeholder="Ej: Soy un asesor con amplia experiencia, especializado en inmuebles comerciales..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none resize-none"></textarea>
+          
+          <!-- Datos Básicos y Presentación -->
+          <div class="mt-5 pt-5 border-t border-gray-200 space-y-4">
+            <h4 class="text-xs font-bold text-econexus uppercase tracking-wider"><i class="fa-solid fa-id-card-clip mr-1.5"></i> Datos Públicos</h4>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre y Apellido *</label>
+                <input type="text" id="perfilNombreAgente" placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">WhatsApp de Contacto *</label>
+                <input type="tel" id="perfilTelefono" placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
+                <select id="perfilTipoAsesor" onchange="togglePerfilTipoAsesor()" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+                  <option value="Independiente" selected>Agente Independiente</option>
+                  <option value="Agencia">Agencia Inmobiliaria</option>
+                </select>
+              </div>
+              <div id="containerPerfilAgencia" class="hidden">
+                <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
+                <input type="text" id="perfilNombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Presentación Corta / Sobre Mí</label>
+              <textarea id="perfilSobreMi" rows="3" placeholder="Ej: Soy un asesor con amplia experiencia, especializado en inmuebles comerciales..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none resize-none"></textarea>
+            </div>
+            
             <div class="flex justify-end mt-2">
-              <button type="button" onclick="guardarSobreMi()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm inline-flex items-center">
-                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Presentación
+              <button type="button" onclick="guardarDatosPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm inline-flex items-center">
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Configuración de Perfil
               </button>
             </div>
           </div>
@@ -367,7 +399,7 @@
       try {
         const { data: perfil, error } = await dbClient
           .from('perfiles')
-          .select('estatus_agente, foto_perfil, sobre_mi')
+          .select('estatus_agente, foto_perfil, sobre_mi, nombre_agente, telefono, tipo_asesor, nombre_agencia')
           .eq('id', user.id)
           .single();
         const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
@@ -386,11 +418,33 @@
             fotoPerfilActual = null;
             document.getElementById('imgPerfilPreview').src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
             document.getElementById('txtPerfilFotoEstado').textContent = "Perfil Incompleto";
-            document.getElementById('txtPerfilFotoDesc').textContent = "Sube tu foto y presentación para personalizar tus herramientas.";
+            document.getElementById('txtPerfilFotoDesc').textContent = "Completa tu información para personalizar tus herramientas.";
             document.getElementById('lblBtnFotoText').textContent = "Subir Foto";
           }
-          if (perfil && perfil.sobre_mi) {
-            document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
+          
+          // POBLAR DATOS DEL PANEL DE PERFIL SUPERIOR
+          if (perfil) {
+            if(perfil.nombre_agente) {
+              document.getElementById('perfilNombreAgente').value = perfil.nombre_agente;
+              document.getElementById('nombreAsesor').value = perfil.nombre_agente; // Autocompleta form inmueble
+            }
+            if(perfil.telefono) {
+              document.getElementById('perfilTelefono').value = perfil.telefono;
+              document.getElementById('telefonoAsesor').value = perfil.telefono; // Autocompleta form inmueble
+            }
+            if(perfil.tipo_asesor) {
+              document.getElementById('perfilTipoAsesor').value = perfil.tipo_asesor;
+              togglePerfilTipoAsesor();
+              document.getElementById('tipoAsesor').value = perfil.tipo_asesor; // Autocompleta form inmueble
+              toggleTipoAsesor();
+            }
+            if(perfil.nombre_agencia) {
+              document.getElementById('perfilNombreAgencia').value = perfil.nombre_agencia;
+              document.getElementById('nombreAgencia').value = perfil.nombre_agencia; // Autocompleta form inmueble
+            }
+            if(perfil.sobre_mi) {
+              document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
+            }
           }
         } else {
           await dbClient.auth.signOut();
@@ -452,22 +506,58 @@
         input.value = "";
       }
     }
-    // GUARDAR PRESENTACIÓN CORTA (SOBRE MÍ)
-    async function guardarSobreMi() {
-      const texto = document.getElementById('perfilSobreMi').value.trim();
-      if (!texto) return alert("Por favor ingresa un texto para tu presentación.");
+    
+    // MOSTRAR/OCULTAR INPUT AGENCIA EN PANEL DE PERFIL
+    function togglePerfilTipoAsesor() {
+      const selectTipo = document.getElementById("perfilTipoAsesor").value;
+      const containerAgencia = document.getElementById("containerPerfilAgencia");
+      if (selectTipo === "Agencia") {
+        containerAgencia.classList.remove("hidden");
+      } else {
+        containerAgencia.classList.add("hidden");
+        document.getElementById("perfilNombreAgencia").value = "";
+      }
+    }
+
+    // GUARDAR PRESENTACIÓN Y DATOS DE PERFIL COMPLETOS
+    async function guardarDatosPerfil() {
+      const nombre = document.getElementById('perfilNombreAgente').value.trim();
+      const telefono = document.getElementById('perfilTelefono').value.replace(/[^0-9]/g, '');
+      const tipo = document.getElementById('perfilTipoAsesor').value;
+      const agencia = tipo === 'Agencia' ? document.getElementById('perfilNombreAgencia').value.trim() : null;
+      const sobreMi = document.getElementById('perfilSobreMi').value.trim();
+      
+      if (!nombre) return alert("Por favor ingresa tu nombre y apellido.");
+      if (!telefono) return alert("Por favor ingresa tu número de WhatsApp de contacto.");
+      if (tipo === 'Agencia' && !agencia) return alert("Has seleccionado 'Agencia', por favor ingresa el nombre de la misma.");
+      
       try {
         const { error } = await dbClient
           .from('perfiles')
-          .update({ sobre_mi: texto })
+          .update({ 
+            nombre_agente: nombre,
+            telefono: telefono,
+            tipo_asesor: tipo,
+            nombre_agencia: agencia,
+            sobre_mi: sobreMi 
+          })
           .eq('id', usuarioActual.id);
         if (error) throw error;
-        alert("¡Presentación guardada con éxito en tu perfil!");
+        
+        // Sincronizar con el formulario de Inmuebles para ahorrarle tiempo al usuario
+        document.getElementById('nombreAsesor').value = nombre;
+        document.getElementById('telefonoAsesor').value = telefono;
+        document.getElementById('tipoAsesor').value = tipo;
+        toggleTipoAsesor();
+        if(agencia) document.getElementById('nombreAgencia').value = agencia;
+
+        alert("¡Datos de perfil guardados con éxito! Ahora aparecerán en tu Mini Web.");
       } catch (err) {
-        alert("Error al guardar la presentación.");
+        alert("Error al guardar la configuración de perfil.");
         console.error(err);
       }
     }
+    
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
