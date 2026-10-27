@@ -10,7 +10,6 @@
   
   <!-- Librería para compresión de imágenes en el cliente -->
   <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
-
   <!-- Librerías de Generación PDF y Canvas Imagen (Costo $0) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
@@ -36,7 +35,7 @@
       <span class="text-xl font-bold tracking-wide">EcoNexus Agent Portal</span>
     </div>
     <div class="flex items-center gap-4">
-       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold">Business Agent Command Center</span>
+       <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold hidden md:inline-block">Business Agent Command Center</span>
        <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-xs bg-red-600 text-white px-3 py-1 rounded-full font-semibold hover:bg-red-700 transition">Cerrar Sesión</button>
     </div>
   </header>
@@ -57,25 +56,33 @@
         <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
       </div>
     </div>
-
     <!-- CONTENEDOR PRINCIPAL -->
     <div id="mainAppContainer" class="hidden">
         
-        <!-- MÓDULO INTELIGENTE DE FOTO DE PERFIL DEL AGENTE -->
+        <!-- MÓDULO INTELIGENTE DE FOTO DE PERFIL DEL AGENTE Y SOBRE MÍ -->
         <div id="containerPerfilFoto" class="bg-white rounded-2xl p-5 shadow-sm border border-gray-200 mb-6">
-          <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <img id="imgPerfilPreview" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-14 h-14 rounded-full object-cover border-2 border-econexus shadow-sm" />
               <div>
-                <h3 class="text-sm font-bold text-gray-900" id="txtPerfilFotoEstado">Foto de Perfil de Asesor</h3>
-                <p class="text-[11px] text-gray-500" id="txtPerfilFotoDesc">Aparecerá en tu Mini Web y en las Fichas PDF.</p>
+                <h3 class="text-sm font-bold text-gray-900" id="txtPerfilFotoEstado">Perfil de Asesor</h3>
+                <p class="text-[11px] text-gray-500" id="txtPerfilFotoDesc">Completa tus datos para tu Mini Web y Fichas PDF.</p>
               </div>
             </div>
-            <div>
-              <label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-3 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm">
+            <div class="w-full sm:w-auto">
+              <label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="w-full sm:w-auto text-center justify-center bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-3 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm">
                 <i class="fa-solid fa-camera"></i> <span id="lblBtnFotoText">Subir Foto</span>
               </label>
               <input type="file" id="inputFotoPerfilAgente" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="guardarFotoPerfilAgente(this)" />
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Presentación Corta / Sobre Mí</label>
+            <textarea id="perfilSobreMi" rows="3" placeholder="Ej: Soy un asesor con amplia experiencia, especializado en inmuebles comerciales..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none resize-none"></textarea>
+            <div class="flex justify-end mt-2">
+              <button type="button" onclick="guardarSobreMi()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm inline-flex items-center">
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Presentación
+              </button>
             </div>
           </div>
         </div>
@@ -101,7 +108,6 @@
             <div id="resultadoMisInmuebles" class="space-y-3 mt-3"></div>
           </div>
         </div>
-
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-6">
           <h2 class="text-lg font-bold text-econexus mb-3 flex items-center">
             <i class="fa-solid fa-circle-info mr-2 text-econexus-accent"></i> Guía de Carga / Edición
@@ -113,7 +119,6 @@
             <li><strong>Edición de Fichas:</strong> Puedes modificar cualquier campo desde la sección <em>Mis Inmuebles Publicados</em>. Si no subes fotos nuevas durante la edición, se conservarán las actuales.</li>
           </ul>
         </div>
-
         <!-- BOTÓN Y DESPLEGABLE TÉRMINOS / DECLARACIÓN JURADA -->
         <div class="mb-6 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
           <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-sm transition">
@@ -136,119 +141,130 @@
             </div>
           </div>
         </div>
-
-        <!-- FORMULARIO DE CARGA / EDICIÓN -->
-        <form id="formCaptacion" onsubmit="procesarCarga(event)" class="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-gray-200 space-y-6">
-          <input type="hidden" id="editInmuebleId" value="" />
-          <div class="flex justify-between items-center border-b pb-3">
-            <h2 id="tituloFormulario" class="text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
-            <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition">
-              <i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición
-            </button>
-          </div>
-          <!-- DATOS DEL ASESOR Y AGENCIA -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
-              <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-              <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
-              <select id="tipoAsesor" required onchange="toggleTipoAsesor()" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
-                <option value="Independiente" selected>Agente Independiente</option>
-                <option value="Agencia">Agencia Inmobiliaria</option>
-              </select>
-            </div>
-            <div id="containerNombreAgencia" class="hidden">
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
-              <input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-            </div>
-          </div>
-          <!-- DATOS DEL INMUEBLE -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
-              <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
-                <option value="Venta">Venta</option>
-                <option value="Alquiler">Alquiler</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
-              <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
-              <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
-              <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
-            <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-          </div>
-          
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label>
-              <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
-              <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
-              <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
-              <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
-            <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
-          </div>
-          
-          <div>
-            <label id="labelFotosTitle" class="block text-xs font-bold uppercase text-gray-600 mb-1">Fotos del Inmueble (Máximo 5) *</label>
-            <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
-            <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
-          </div>
-
-          <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA -->
-          <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
-            <label class="flex items-start space-x-2 cursor-pointer">
-              <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
-              <span class="leading-relaxed">
-                <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
-              </span>
-            </label>
-            <div class="pt-1">
-              <button type="button" onclick="toggleLegalDropdown()" class="text-econexus hover:underline font-bold text-xs">
-                [Ver términos y protocolos de ciberseguridad completos]
-              </button>
-            </div>
-          </div>
-          <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
-            Publicar Inmueble en EcoNexus
+        
+        <!-- ACORDEÓN DE FORMULARIO DE CARGA / EDICIÓN -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 mb-6 overflow-hidden">
+          <button type="button" onclick="toggleAcordeonFormulario()" class="w-full p-5 bg-econexus text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus-light">
+            <span class="flex items-center"><i class="fa-solid fa-house-medical mr-2"></i> Publicar / Editar Inmueble</span>
+            <i id="iconoAcordeonFormulario" class="fa-solid fa-chevron-down transition-transform"></i>
           </button>
-        </form>
+          <div id="cuerpoAcordeonFormulario" class="hidden p-6 bg-white border-t border-gray-200">
+            <form id="formCaptacion" onsubmit="procesarCarga(event)" class="space-y-6">
+              <input type="hidden" id="editInmuebleId" value="" />
+              <div class="flex justify-between items-center border-b pb-3">
+                <h2 id="tituloFormulario" class="text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
+                <button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition">
+                  <i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición
+                </button>
+              </div>
+              <!-- DATOS DEL ASESOR Y AGENCIA -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
+                  <input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
+                  <input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
+                  <select id="tipoAsesor" required onchange="toggleTipoAsesor()" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+                    <option value="Independiente" selected>Agente Independiente</option>
+                    <option value="Agencia">Agencia Inmobiliaria</option>
+                  </select>
+                </div>
+                <div id="containerNombreAgencia" class="hidden">
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
+                  <input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
+                </div>
+              </div>
+              <!-- DATOS DEL INMUEBLE -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Operación *</label>
+                  <select id="operacion" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+                    <option value="Venta">Venta</option>
+                    <option value="Alquiler">Alquiler</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
+                  <input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
+                  <input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
+                  <input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
+                <input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+              </div>
+              
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label>
+                  <input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
+                  <input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
+                  <input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
+                  <input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
+                <textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Enlace de Video (Opcional)</label>
+                <input type="url" id="enlaceVideo" placeholder="Ej: https://youtube.com/..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+                <span class="text-[11px] text-gray-500 mt-1 block">Añade el enlace de YouTube, TikTok o Instagram Reels.</span>
+              </div>
+              
+              <div>
+                <label id="labelFotosTitle" class="block text-xs font-bold uppercase text-gray-600 mb-1">Fotos del Inmueble (Máximo 5) *</label>
+                <input type="file" id="fotosFiles" accept="image/png, image/jpeg, image/jpg, image/webp" multiple required onchange="validarLimiteFotos(this)" class="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-econexus file:text-white hover:file:bg-econexus-light cursor-pointer border border-gray-300 rounded-xl p-1" />
+                <span id="labelFotosCount" class="text-xs text-gray-500 mt-1 block">Puedes seleccionar hasta 5 fotos.</span>
+              </div>
+              <!-- CHECKBOX DE ACEPTACIÓN OBLIGATORIA -->
+              <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
+                <label class="flex items-start space-x-2 cursor-pointer">
+                  <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
+                  <span class="leading-relaxed">
+                    <strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
+                  </span>
+                </label>
+                <div class="pt-1">
+                  <button type="button" onclick="toggleLegalDropdown()" class="text-econexus hover:underline font-bold text-xs">
+                    [Ver términos y protocolos de ciberseguridad completos]
+                  </button>
+                </div>
+              </div>
+              <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3 rounded-xl transition text-base shadow-lg">
+                Publicar Inmueble en EcoNexus
+              </button>
+            </form>
+          </div>
+        </div>
     </div>
   </main>
-
   <!-- BANNER FLOTANTE AL ABRIR PORTAL -->
   <div id="bannerFlotanteContainer" class="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto">
     <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-3 text-xs md:text-sm relative">
@@ -263,7 +279,6 @@
       </button>
     </div>
   </div>
-
   <!-- PLANTILLA OCULTA CANVAS HISTORIA DE INSTAGRAM (1080x1920) -->
   <div id="story-canvas-template" style="position: absolute; left: -9999px; top: -9999px; width: 1080px; height: 1920px; background: #0b132b; color: #ffffff; font-family: sans-serif; box-sizing: border-box; padding: 60px; display: flex; flex-direction: column; justify-content: space-between;">
     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -276,7 +291,6 @@
       </div>
       <div id="story-badge-operacion" style="padding: 12px 30px; border-radius: 50px; font-size: 30px; font-weight: bold; text-transform: uppercase;"></div>
     </div>
-
     <!-- MOSAICO DE FOTOS -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px; width: 960px; height: 960px; border-radius: 24px; overflow: hidden; background: #1c2541; margin: 0 auto;">
       <img id="story-img-1" style="width: 100%; height: 100%; object-fit: cover;">
@@ -284,7 +298,6 @@
       <img id="story-img-3" style="width: 100%; height: 100%; object-fit: cover;">
       <img id="story-img-4" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
-
     <div style="background: #1c2541; padding: 40px; border-radius: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h1 id="story-precio" style="font-size: 58px; margin: 0; color: #4ade80; font-weight: 800;"></h1>
@@ -293,13 +306,11 @@
       <h2 id="story-titulo" style="font-size: 36px; margin: 0 0 10px 0; color: #ffffff; font-weight: 600;"></h2>
       <p id="story-ubicacion" style="font-size: 28px; color: #cbd5e1; margin: 0;"></p>
     </div>
-
     <div style="text-align: center; border-top: 2px solid #1e293b; padding-top: 25px;">
       <p style="margin: 0 0 10px 0; font-size: 32px; font-weight: 600; color: #38bdf8;">📲 Escríbeme al WhatsApp para detalles</p>
       <p style="margin: 0; font-size: 22px; color: #64748b; font-weight: 500;"> Inmueble Publicado vía EcoNexus CRM Platform</p>
     </div>
   </div>
-
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -311,7 +322,6 @@
     let fotosActualesEdicion = [];
     let misInmueblesCargados = [];
     let fotoPerfilActual = null;
-
     function escapeHTML(str) {
       if (str === null || str === undefined) return '';
       return String(str)
@@ -321,7 +331,6 @@
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
     }
-
     function calcularTiempoRestante(fechaFuturaStr) {
       if (!fechaFuturaStr) return null;
       const fin = new Date(fechaFuturaStr).getTime();
@@ -340,13 +349,11 @@
         return { expirado: false, texto: `${horas}h ${mins}m restantes` };
       }
     }
-
     dbClient.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
       }
     });
-
     dbClient.auth.onAuthStateChange((_event, session) => {
       if (session) {
         verificarEstatusYMostrar(session.user);
@@ -355,38 +362,36 @@
         ocultarApp();
       }
     });
-
     async function verificarEstatusYMostrar(user) {
       const msg = document.getElementById('authMessage');
       try {
         const { data: perfil, error } = await dbClient
           .from('perfiles')
-          .select('estatus_agente, foto_perfil')
+          .select('estatus_agente, foto_perfil, sobre_mi')
           .eq('id', user.id)
           .single();
-
         const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
-
         if (estatus === 'Aprobado') {
           usuarioActual = user;
           msg.classList.add('hidden');
           mostrarApp();
-
-          // EVALUACIÓN DE FOTO DE PERFIL EXISTENTE
+          // EVALUACIÓN DE FOTO Y DATOS DE PERFIL
           if (perfil && perfil.foto_perfil) {
             fotoPerfilActual = perfil.foto_perfil;
             document.getElementById('imgPerfilPreview').src = fotoPerfilActual;
-            document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Registrada";
-            document.getElementById('txtPerfilFotoDesc').textContent = "Tu foto está activa en tu Mini Web y Fichas PDF.";
+            document.getElementById('txtPerfilFotoEstado').textContent = "Perfil de Asesor Activo";
+            document.getElementById('txtPerfilFotoDesc').textContent = "Tu información está pública en tu Mini Web y Fichas PDF.";
             document.getElementById('lblBtnFotoText').textContent = "Cambiar Foto";
           } else {
             fotoPerfilActual = null;
             document.getElementById('imgPerfilPreview').src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-            document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Pendiente";
-            document.getElementById('txtPerfilFotoDesc').textContent = "Sube tu foto para personalizar tus fichas y Mini Web.";
+            document.getElementById('txtPerfilFotoEstado').textContent = "Perfil Incompleto";
+            document.getElementById('txtPerfilFotoDesc').textContent = "Sube tu foto y presentación para personalizar tus herramientas.";
             document.getElementById('lblBtnFotoText').textContent = "Subir Foto";
           }
-
+          if (perfil && perfil.sobre_mi) {
+            document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
+          }
         } else {
           await dbClient.auth.signOut();
           usuarioActual = null;
@@ -409,7 +414,6 @@
         console.error("Error en validación de perfil:", err);
       }
     }
-
     // SUBIR O CAMBIAR FOTO DE PERFIL DEL AGENTE
     async function guardarFotoPerfilAgente(input) {
       if (!input.files || input.files.length === 0) return;
@@ -417,39 +421,29 @@
       const fileOriginal = input.files[0];
       const btnText = document.getElementById('lblBtnFotoText');
       btnText.textContent = "Procesando...";
-
       try {
         const options = { maxSizeMB: 0.15, maxWidthOrHeight: 600, useWebWorker: true };
         const fileComprimido = await imageCompression(fileOriginal, options);
         
         const filePath = `${usuarioActual.id}/perfil/avatar_${Date.now()}.jpg`;
-
         const { error: uploadError } = await dbClient.storage
           .from('econexus-fotos')
           .upload(filePath, fileComprimido, { upsert: true });
-
         if (uploadError) throw uploadError;
-
         const { data: urlData } = dbClient.storage
           .from('econexus-fotos')
           .getPublicUrl(filePath);
-
         const nuevaUrlFoto = urlData.publicUrl;
-
         // Guardar URL en la tabla perfiles
         const { error: dbError } = await dbClient
           .from('perfiles')
           .update({ foto_perfil: nuevaUrlFoto })
           .eq('id', usuarioActual.id);
-
         if (dbError) throw dbError;
-
         fotoPerfilActual = nuevaUrlFoto;
         document.getElementById('imgPerfilPreview').src = nuevaUrlFoto;
-        document.getElementById('txtPerfilFotoEstado').textContent = "Foto de Perfil Registrada";
-        document.getElementById('txtPerfilFotoDesc').textContent = "Tu foto está activa en tu Mini Web y Fichas PDF.";
+        document.getElementById('txtPerfilFotoEstado').textContent = "Perfil de Asesor Activo";
         document.getElementById('lblBtnFotoText').textContent = "Cambiar Foto";
-
         alert("¡Foto de perfil actualizada con éxito!");
       } catch (err) {
         alert("Ocurrió un error al subir tu foto de perfil.");
@@ -458,7 +452,22 @@
         input.value = "";
       }
     }
-
+    // GUARDAR PRESENTACIÓN CORTA (SOBRE MÍ)
+    async function guardarSobreMi() {
+      const texto = document.getElementById('perfilSobreMi').value.trim();
+      if (!texto) return alert("Por favor ingresa un texto para tu presentación.");
+      try {
+        const { error } = await dbClient
+          .from('perfiles')
+          .update({ sobre_mi: texto })
+          .eq('id', usuarioActual.id);
+        if (error) throw error;
+        alert("¡Presentación guardada con éxito en tu perfil!");
+      } catch (err) {
+        alert("Error al guardar la presentación.");
+        console.error(err);
+      }
+    }
     function mostrarApp() {
       document.getElementById('authContainer').classList.add('hidden');
       document.getElementById('mainAppContainer').classList.remove('hidden');
@@ -466,7 +475,6 @@
       const btnBanner = document.getElementById('btnBannerTerminos');
       if (btnBanner) btnBanner.textContent = "Abrir Términos";
     }
-
     function ocultarApp() {
       document.getElementById('authContainer').classList.remove('hidden');
       document.getElementById('mainAppContainer').classList.add('hidden');
@@ -476,20 +484,23 @@
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.remove('hidden');
     }
-
     function cerrarBannerFlotante() {
       const bannerContainer = document.getElementById('bannerFlotanteContainer');
       if (bannerContainer) bannerContainer.classList.add('hidden');
     }
-
     function accionBannerTerminos() {
       cerrarBannerFlotante();
-      toggleLegalDropdown();
+      const bodyLegal = document.getElementById("bodyLegalDropdown");
+      const iconoLegal = document.getElementById("iconoLegalDropdown");
+      if (bodyLegal.classList.contains("hidden")) {
+        bodyLegal.classList.remove("hidden");
+        iconoLegal.classList.add("rotate-180");
+      }
+      bodyLegal.scrollIntoView({ behavior: 'smooth', block: 'center' });
       if (!usuarioActual) {
         document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-
     async function iniciarSesion() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
@@ -510,7 +521,6 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
-
     async function registrarse() {
       const email = document.getElementById('authEmail').value.trim();
       const password = document.getElementById('authPassword').value;
@@ -537,18 +547,21 @@
         await verificarEstatusYMostrar(data.user);
       }
     }
-
     async function cerrarSesion() {
       await dbClient.auth.signOut();
     }
-
     function toggleAcordeonGestion() {
       const cuerpo = document.getElementById("cuerpoAcordeonGestion");
       const icono = document.getElementById("iconoAcordeonGestion");
       cuerpo.classList.toggle("hidden");
       icono.classList.toggle("rotate-180");
     }
-
+    function toggleAcordeonFormulario() {
+      const cuerpo = document.getElementById("cuerpoAcordeonFormulario");
+      const icono = document.getElementById("iconoAcordeonFormulario");
+      cuerpo.classList.toggle("hidden");
+      icono.classList.toggle("rotate-180");
+    }
     function toggleLegalDropdown() {
       const body = document.getElementById("bodyLegalDropdown");
       const icono = document.getElementById("iconoLegalDropdown");
@@ -558,7 +571,6 @@
         body.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     }
-
     function toggleTipoAsesor() {
       const selectTipo = document.getElementById("tipoAsesor").value;
       const containerAgencia = document.getElementById("containerNombreAgencia");
@@ -572,7 +584,6 @@
         inputAgencia.value = "";
       }
     }
-
     function validarLimiteFotos(input) {
       const countLabel = document.getElementById("labelFotosCount");
       if (input.files.length > 5) {
@@ -585,7 +596,6 @@
         countLabel.className = "text-xs text-green-700 font-semibold mt-1 block";
       }
     }
-
     async function buscarMisInmuebles() {
       const contenedor = document.getElementById("resultadoMisInmuebles");
       contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-2">Buscando tus propiedades...</p>`;
@@ -623,7 +633,6 @@
               vipBadge = `<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold"><i class="fa-solid fa-star mr-1 text-amber-600"></i>VIP: ${vipTime.texto}</span>`;
             }
           }
-
           card.innerHTML = `
             <div class="space-y-1.5 flex-1">
               <div class="flex flex-wrap items-center gap-2">
@@ -671,16 +680,12 @@
         console.error(err);
       }
     }
-
-    // OBTENER Y COPIAR ENLACE A LA MINI WEB
-// OBTENER Y COPIAR ENLACE A LA MINI WEB
     function obtenerEnlaceMiniWeb() {
       if (!usuarioActual) return;
       const urlMiniWeb = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1)}agente.html?u=${usuarioActual.id}`;
       navigator.clipboard.writeText(urlMiniWeb);
       alert(`¡Enlace a tu Mini Web copiado al portapapeles!\n\n${urlMiniWeb}`);
     }
-
     // CONVERSIÓN DE FOTO A BASE64 PARA PDF Y CANVAS
     async function urlToBase64(url) {
       if (!url) return null;
@@ -697,21 +702,16 @@
         return null;
       }
     }
-
     // GENERADOR FICHA PDF
     async function descargarPDFFormal(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) return alert("Propiedad no encontrada.");
-
       alert("Generando Ficha Técnica PDF... Por favor espera un segundo.");
-
       const fotos = p.fotos || [];
       const fotosBase64 = await Promise.all(fotos.slice(0, 5).map(u => urlToBase64(u)));
       const fotoPrincipal = fotosBase64[0] || null;
       const fotosMosaico = fotosBase64.slice(1, 5).filter(f => f !== null);
-
       const fotoAgenteBase64 = fotoPerfilActual ? await urlToBase64(fotoPerfilActual) : null;
-
       const docDefinition = {
         pageSize: 'LETTER',
         pageMargins: [35, 30, 35, 40],
@@ -745,14 +745,12 @@
             ]
           },
           { canvas: [{ type: 'line', x1: 0, y1: 8, x2: 542, y2: 8, lineWidth: 1, lineColor: '#e2e8f0' }], margin: [0, 0, 0, 12] },
-
           fotoPrincipal ? { image: fotoPrincipal, width: 542, height: 210, margin: [0, 0, 0, 4] } : {},
           fotosMosaico.length > 0 ? {
             columns: fotosMosaico.map(img => ({ image: img, width: (530 / fotosMosaico.length), height: 70 })),
             columnGap: 4,
             margin: [0, 0, 0, 12]
           } : {},
-
           {
             columns: [
               { text: p.titulo, fontSize: 13, bold: true, color: '#0f172a', width: '*' },
@@ -761,7 +759,6 @@
             margin: [0, 0, 0, 4]
           },
           { text: `📍 Ubicación: ${p.ubicacion}`, fontSize: 9.5, color: '#475569', margin: [0, 0, 0, 10] },
-
           {
             table: {
               widths: ['*', '*', '*', '*'],
@@ -783,27 +780,22 @@
             layout: { fillColor: () => '#f8fafc', hLineWidth: () => 0.5, vLineWidth: () => 0, hLineColor: () => '#cbd5e1' },
             margin: [0, 0, 0, 12]
           },
-
           { text: 'Descripción del Inmueble:', fontSize: 10, bold: true, color: '#1e293b', margin: [0, 0, 0, 4] },
           { text: p.descripcion || 'Sin descripción.', fontSize: 8.5, color: '#334155', leading: 1.2 }
         ],
         styles: { tableHeader: { bold: true, fontSize: 8, color: '#64748b', alignment: 'center' } }
       };
-
       pdfMake.createPdf(docDefinition).download(`Ficha_${p.codigo_eco}.pdf`);
     }
-
     // GENERADOR CANVAS HISTORIAS INSTAGRAM (1080x1920)
     async function descargarHistoriaCanvas(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) return alert("Propiedad no encontrada.");
-
       const fotos = p.fotos || [];
       document.getElementById('story-img-1').src = fotos[0] || '';
       document.getElementById('story-img-2').src = fotos[1] || fotos[0] || '';
       document.getElementById('story-img-3').src = fotos[2] || fotos[0] || '';
       document.getElementById('story-img-4').src = fotos[3] || fotos[0] || '';
-
       const imgAgente = document.getElementById('story-agente-foto');
       if (fotoPerfilActual) {
         imgAgente.src = fotoPerfilActual;
@@ -811,28 +803,23 @@
       } else {
         imgAgente.style.display = 'none';
       }
-
       document.getElementById('story-agente').textContent = p.nombre_asesor || "Asesor Inmobiliario";
       document.getElementById('story-telefono').textContent = `📞 ${p.telefono_asesor}`;
       
       const badge = document.getElementById('story-badge-operacion');
       badge.textContent = p.operacion;
       badge.style.background = p.operacion === 'Alquiler' ? '#f59e0b' : '#16a34a';
-
       document.getElementById('story-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
       document.getElementById('story-titulo').textContent = p.titulo;
       document.getElementById('story-ubicacion').textContent = `📍 ${p.ubicacion}`;
       document.getElementById('story-specs').textContent = `🛏️ ${p.habitaciones || 0}  |  🚿 ${p.banos || 0}  |  📐 ${p.metros || 0}m²`;
-
       const container = document.getElementById('story-canvas-template');
       const canvas = await html2canvas(container, { useCORS: true, scale: 1 });
-
       const link = document.createElement('a');
       link.download = `Historia_${p.codigo_eco}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     }
-
     async function renovarInmueble(id, codigoEco) {
       try {
         const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -849,7 +836,6 @@
         console.error(err);
       }
     }
-
     function solicitarVIPWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) return alert("No se encontró la información de la propiedad.");
@@ -860,7 +846,6 @@
 Por favor indíquenme las opciones disponibles para promover esta propiedad.`);
       window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
     }
-
     function compartirInmuebleWA(id) {
       const p = misInmueblesCargados.find(item => item.id == id);
       if (!p) return alert("No se encontró la información de la propiedad.");
@@ -885,7 +870,6 @@ ${urlInmueble}
 *EcoNexus - Red Inmobiliaria Inteligente*`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
-
     async function compartirInventarioWA() {
       let lista = misInmueblesCargados;
       if (!lista || lista.length === 0) {
@@ -925,7 +909,6 @@ ${urlCatalogo}
 *EcoNexus - Red Inmobiliaria Inteligente*`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
     }
-
     async function editarInmueble(id) {
       try {
         const { data, error } = await dbClient
@@ -935,6 +918,13 @@ ${urlCatalogo}
           .single();
         if (error) throw error;
         if (!data) return;
+        
+        // Abrir acordeón del formulario si está cerrado
+        const cuerpoForm = document.getElementById("cuerpoAcordeonFormulario");
+        const iconoForm = document.getElementById("iconoAcordeonFormulario");
+        cuerpoForm.classList.remove("hidden");
+        iconoForm.classList.add("rotate-180");
+        
         document.getElementById("editInmuebleId").value = data.id;
         document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
         document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
@@ -953,6 +943,8 @@ ${urlCatalogo}
         document.getElementById("estacionamientos").value = data.estacionamientos || 0;
         document.getElementById("metros").value = data.metros || 0;
         document.getElementById("descripcion").value = data.descripcion || '';
+        document.getElementById("enlaceVideo").value = data.enlace_video || '';
+        
         fotosActualesEdicion = data.fotos || [];
         const fotosInput = document.getElementById("fotosFiles");
         fotosInput.removeAttribute("required");
@@ -964,16 +956,18 @@ ${urlCatalogo}
         document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
         document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
         document.getElementById("btnCancelarEdicion").classList.remove("hidden");
+        
+        // Scrollear hacia el formulario
         document.getElementById("formCaptacion").scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (err) {
         alert("Error al cargar la información para editar.");
         console.error(err);
       }
     }
-
     function cancelarEdicion() {
       document.getElementById("formCaptacion").reset();
       document.getElementById("editInmuebleId").value = "";
+      document.getElementById("enlaceVideo").value = "";
       fotosActualesEdicion = [];
       const fotosInput = document.getElementById("fotosFiles");
       fotosInput.setAttribute("required", "true");
@@ -985,7 +979,6 @@ ${urlCatalogo}
       document.getElementById("btnCancelarEdicion").classList.add("hidden");
       toggleTipoAsesor();
     }
-
     async function eliminarInmueble(id, codigoEco) {
       if (!confirm(`¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente?`)) return;
       try {
@@ -1003,7 +996,6 @@ ${urlCatalogo}
         console.error(err);
       }
     }
-
     async function procesarCarga(e) {
       e.preventDefault();
       const editId = document.getElementById("editInmuebleId").value;
@@ -1046,7 +1038,6 @@ ${urlCatalogo}
         } else if (esEdicion) {
           urlsPublicas = fotosActualesEdicion;
         }
-
         const selectTipoAsesor = document.getElementById("tipoAsesor").value;
         const nombreAgenciaVal = selectTipoAsesor === 'Agencia' ? document.getElementById("nombreAgencia").value : null;
         const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
@@ -1062,13 +1053,13 @@ ${urlCatalogo}
           estacionamientos: Number(document.getElementById("estacionamientos").value) || 0,
           metros: Number(document.getElementById("metros").value) || 0,
           descripcion: document.getElementById("descripcion").value,
+          enlace_video: document.getElementById("enlaceVideo").value.trim(),
           nombre_asesor: document.getElementById("nombreAsesor").value,
           telefono_asesor: document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, ''),
           tipo_asesor: selectTipoAsesor,
           nombre_agencia: nombreAgenciaVal,
           fotos: urlsPublicas
         };
-
         if (esEdicion) {
           const { error: updateError } = await dbClient
             .from('propiedades')
