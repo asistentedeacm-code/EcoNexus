@@ -17,7 +17,6 @@
   <style>
     .hide-scrollbars::-webkit-scrollbar { display: none; }
     .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
-    /* Estrellas doradas */
     .star-rating { color: #F59E0B; }
   </style>
   <script>
@@ -25,6 +24,62 @@
   </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+  <!-- MODAL INICIAL DE ADVERTENCIA LEGAL -->
+  <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
+      <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Directorio de <span class="text-econexus">Agentes</span></h1>
+          <p class="text-gray-500 text-sm sm:text-base px-2">Encuentra a los mejores asesores inmobiliarios evaluados por nuestra comunidad.</p>
+      </div>
+      <div class="flex items-center justify-center space-x-2 text-amber-600 font-bold mb-3">
+        <i class="fa-solid fa-scale-balanced text-lg"></i>
+        <span class="text-xs uppercase tracking-wide">Aviso Legal Importante</span>
+      </div>
+      <p class="text-[11px] font-semibold text-gray-700 leading-relaxed mb-6 bg-amber-50 p-4 rounded-xl border border-amber-100 text-left">
+        "EcoNexus opera exclusivamente como plataforma publicitaria. No participa, avala ni se responsabiliza por las negociaciones, honorarios, acuerdos o citas acordadas entre los agentes y clientes. Todo contacto es bajo su absoluta responsabilidad."
+      </p>
+      <button onclick="cerrarAvisoInstantaneo()" class="w-full bg-econexus hover:bg-econexus-light text-white text-sm font-bold px-6 py-3.5 rounded-xl transition cursor-pointer shadow-lg flex justify-center items-center gap-2">
+        Explorar Directorio <i class="fa-solid fa-arrow-right"></i>
+      </button>
+      <button onclick="cerrarAvisoInstantaneo(); abrirModalTerminos();" class="mt-4 text-xs text-gray-500 font-bold underline hover:text-econexus cursor-pointer">
+        Leer términos completos
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL DE TÉRMINOS GLOBALES -->
+  <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
+      <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+        <h3 class="font-bold text-econexus flex items-center gap-2 text-sm md:text-base"><i class="fa-solid fa-scale-balanced"></i> Términos de Uso & Responsabilidad</h3>
+        <button onclick="cerrarModalTerminos()" class="text-gray-400 hover:text-red-500 bg-gray-200 hover:bg-red-50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <div class="p-5 overflow-y-auto space-y-4 text-xs md:text-sm text-gray-700 leading-relaxed">
+        <p class="font-bold text-red-600 mb-2 p-3 bg-red-50 rounded-lg border border-red-100">"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre los agentes y clientes."</p>
+        <p><strong>1. Naturaleza Jurídica:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo. EcoNexus NO es una agencia inmobiliaria empleadora de los agentes listados.</p>
+        <p><strong>2. Sin Comisiones:</strong> EcoNexus no cobra comisiones ni porcentajes sobre las transacciones gestionadas por los agentes.</p>
+        <p><strong>3. Relación Directa:</strong> Al contactar a un agente, usted establece una relación directa con él o su agencia. EcoNexus no verifica credenciales más allá del registro en la plataforma.</p>
+      </div>
+      <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-right">
+        <button onclick="cerrarModalTerminos()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow cursor-pointer">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE ADVERTENCIA ANTES DE WHATSAPP -->
+  <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
+      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <div class="flex items-center space-x-2 text-green-700 font-bold mb-3"><i class="fa-brands fa-whatsapp text-2xl"></i><span class="text-sm uppercase tracking-wide">Responsabilidad de Contacto</span></div>
+      <p class="text-xs text-gray-700 leading-relaxed mb-5 bg-amber-50 border border-amber-200 p-3 rounded-xl">"Estás por contactar directamente a este Asesor. EcoNexus no es empleador del agente ni se hace responsable por las negociaciones, citas o pagos pactados. Al hacer clic en contactar, aceptas hacerlo bajo tu exclusiva responsabilidad."</p>
+      <div class="flex flex-col sm:flex-row gap-2 justify-end">
+        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Cancelar</button>
+        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-sm"></i> Ir a WhatsApp</button>
+      </div>
+    </div>
+  </div>
 
   <!-- HEADER RESPONSIVO -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
@@ -40,7 +95,10 @@
       <!-- Controles -->
       <div class="flex items-center gap-2 sm:gap-4 ml-auto">
         <button onclick="window.location.href='index.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
-          <i class="fa-solid fa-house-chimney text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Inmuebles
+          <i class="fa-solid fa-house-chimney text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Ver Inmuebles
+        </button>
+        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-4">
+          <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
         </button>
       </div>
     </div>
@@ -62,7 +120,7 @@
     </div>
   </section>
 
-  <!-- GRILLA DE AGENTES RESPONSIVA (2 en Celulares, 3 Tablets, 4 en PC) -->
+  <!-- GRILLA DE AGENTES -->
   <main class="max-w-7xl mx-auto px-4 pb-16 flex-grow w-full">
     
     <div id="loadingSpinner" class="text-center py-20">
@@ -82,7 +140,7 @@
 
   <!-- MODAL DE DATOS DEL AGENTE Y RESEÑAS -->
   <div id="modalAgente" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[70] flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative border-t-4 border-econexus">
       <button onclick="cerrarModalAgente()" class="absolute top-3 right-3 z-[80] bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
       
       <div class="p-6 md:p-8" id="modalAgenteContent">
@@ -100,7 +158,6 @@
   </footer>
 
   <script>
-    // Conexión a Supabase
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -109,23 +166,25 @@
     let reseñasGlobales = [];
     let agenteActivoModal = null;
     let puntajeSeleccionado = 5;
+    let waUrlPendiente = '';
 
     document.addEventListener("DOMContentLoaded", async function() {
       await cargarDatosDirectorio();
     });
 
+    function cerrarAvisoInstantaneo() {
+      document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
+    }
+
     async function cargarDatosDirectorio() {
       try {
-        // 1. Extraemos TODOS los agentes desde la tabla PERFILES directamente
         const { data: perfiles, error: errPerfiles } = await dbClient.from('perfiles').select('*');
         if (errPerfiles) throw errPerfiles;
 
-        // 2. Extraemos TODAS las reseñas públicas
         const { data: reseñas, error: errResenas } = await dbClient.from('resenas_agentes').select('*');
         if (errResenas) throw errResenas;
         reseñasGlobales = reseñas || [];
 
-        // 3. Cruzar Datos y Calcular Promedios
         const agentesMapeados = [];
         
         if (perfiles) {
@@ -133,11 +192,15 @@
                 const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
                 const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
                 
-                // Filtrar reseñas de este agente
                 const resenasAgente = reseñasGlobales.filter(r => r.agente_id === p.id);
                 const totalResenas = resenasAgente.length;
                 const promedio = totalResenas > 0 ? (resenasAgente.reduce((acc, curr) => acc + curr.puntuacion, 0) / totalResenas) : 0;
                 
+                // Algoritmo de completitud del perfil (+1 por foto, +1 por biografía)
+                let completitud = 0;
+                if (p.foto_perfil) completitud += 1;
+                if (p.sobre_mi) completitud += 1;
+
                 agentesMapeados.push({
                     id: p.id,
                     nombre: p.nombre_agente || "Asesor Inmobiliario",
@@ -147,6 +210,7 @@
                     esAgencia: esAgencia,
                     agenciaDisplay: agenciaDisplay,
                     promedio: promedio,
+                    completitud: completitud,
                     porcentaje: (promedio / 5) * 100,
                     totalResenas: totalResenas,
                     resenas: resenasAgente
@@ -154,8 +218,8 @@
             });
         }
 
-        // 4. Ordenar: Primero los de mayor puntuación (Lógica de posicionamiento)
-        todosLosAgentes = agentesMapeados.sort((a, b) => b.promedio - a.promedio || b.totalResenas - a.totalResenas);
+        // Orden de posicionamiento: 1. Puntuación | 2. Completitud del Perfil | 3. Total de Reseñas
+        todosLosAgentes = agentesMapeados.sort((a, b) => b.promedio - a.promedio || b.completitud - a.completitud || b.totalResenas - a.totalResenas);
         
         document.getElementById("loadingSpinner").classList.add("hidden");
         renderizarAgentes(todosLosAgentes);
@@ -166,16 +230,15 @@
       }
     }
 
-    // Funciones de Lógica Visual (Estrellas Inteligentes)
     function generarEstrellasHTML(promedio) {
         let html = '';
         for (let i = 1; i <= 5; i++) {
             if (promedio >= i) {
-                html += '<i class="fa-solid fa-star"></i>'; // Completa
+                html += '<i class="fa-solid fa-star"></i>';
             } else if (promedio >= i - 0.5) {
-                html += '<i class="fa-solid fa-star-half-stroke"></i>'; // Media
+                html += '<i class="fa-solid fa-star-half-stroke"></i>';
             } else {
-                html += '<i class="fa-regular fa-star text-gray-300"></i>'; // Vacía
+                html += '<i class="fa-regular fa-star text-gray-300"></i>';
             }
         }
         return html;
@@ -204,14 +267,19 @@
                 <div onclick="abrirModalAgente('${agente.id}')" class="bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 p-4 flex flex-col h-full transition duration-300 cursor-pointer">
                     <div class="text-center flex-grow">
                         ${fotoHTML}
-                        <h3 class="font-bold text-gray-900 text-xs md:text-sm leading-tight mb-1 truncate">${agente.nombre}</h3>
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[9px] font-bold uppercase border ${badgeClass} mt-1 mb-2 truncate max-w-full">
-                            <i class="fa-solid fa-building-user"></i> <span class="truncate">${agente.agenciaDisplay}</span>
+                        <h3 class="font-bold text-gray-900 text-xs md:text-sm leading-tight mb-1 truncate" title="${agente.nombre}">${agente.nombre}</h3>
+                        <div class="inline-flex items-center justify-center gap-1.5 px-2 py-1 rounded-md text-[9px] md:text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
+                            <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agente.agenciaDisplay}</span>
                         </div>
                         <div class="flex flex-col items-center justify-center gap-0.5 mt-2">
-                            <div class="star-rating text-xs">${generarEstrellasHTML(agente.promedio)}</div>
+                            <div class="star-rating text-xs md:text-sm">${generarEstrellasHTML(agente.promedio)}</div>
                             <span class="text-[10px] text-gray-500 font-bold">${agente.promedio.toFixed(1)}/5 (${agente.totalResenas} reseñas)</span>
                         </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-100">
+                         <button class="w-full bg-econexus-soft text-econexus font-bold py-2 rounded-lg text-xs md:text-sm border border-green-200 transition hover:bg-green-100">
+                             Ver Perfil Completo
+                         </button>
                     </div>
                 </div>
             `;
@@ -226,13 +294,9 @@
         renderizarAgentes(filtrados);
     }
 
-    // MODAL DEL AGENTE Y SISTEMA DE RESEÑAS
     function abrirModalAgente(id) {
         agenteActivoModal = todosLosAgentes.find(a => a.id === id);
         if(!agenteActivoModal) return;
-
-        const msjWA = encodeURIComponent(`Hola ${agenteActivoModal.nombre}, requiero tus servicios como realtor.`);
-        const urlWA = agenteActivoModal.telefono ? `https://wa.me/${agenteActivoModal.telefono}?text=${msjWA}` : '#';
         
         let htmlResenas = '';
         if(agenteActivoModal.resenas.length > 0) {
@@ -249,44 +313,44 @@
 
         const badgeClass = agenteActivoModal.esAgencia ? "bg-econexus-soft text-econexus border-green-200" : "bg-gray-100 text-gray-600 border-gray-200";
         const fotoHTML = agenteActivoModal.foto 
-            ? `<img src="${agenteActivoModal.foto}" class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 shadow-sm" />`
-            : `<div class="w-20 h-20 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-2 border-gray-200 shadow-sm"><i class="fa-solid fa-user"></i></div>`;
+            ? `<img src="${agenteActivoModal.foto}" class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 shadow-sm shrink-0" />`
+            : `<div class="w-20 h-20 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-2 border-gray-200 shadow-sm shrink-0"><i class="fa-solid fa-user"></i></div>`;
 
         document.getElementById("modalAgenteContent").innerHTML = `
             <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6 border-b border-gray-100 pb-6 text-center md:text-left">
                 ${fotoHTML}
-                <div class="flex-1">
-                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900">${agenteActivoModal.nombre}</h2>
-                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2">
-                        <i class="fa-solid fa-building-user"></i> ${agenteActivoModal.agenciaDisplay}
+                <div class="flex-1 overflow-hidden">
+                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 truncate" title="${agenteActivoModal.nombre}">${agenteActivoModal.nombre}</h2>
+                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
+                        <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agenteActivoModal.agenciaDisplay}</span>
                     </div>
-                    <div class="flex items-center justify-center md:justify-start gap-2">
-                        <div class="star-rating text-sm">${generarEstrellasHTML(agenteActivoModal.promedio)}</div>
-                        <span class="text-xs font-bold text-gray-600">${agenteActivoModal.porcentaje.toFixed(0)}% Reputación Positiva</span>
+                    <div class="flex flex-col md:flex-row items-center md:justify-start gap-1 md:gap-3">
+                        <div class="star-rating text-sm md:text-base">${generarEstrellasHTML(agenteActivoModal.promedio)}</div>
+                        <span class="text-[11px] font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-full">${agenteActivoModal.porcentaje.toFixed(0)}% de Satisfacción</span>
                     </div>
                 </div>
             </div>
 
             <div class="mb-6">
                 <h3 class="text-sm font-bold text-gray-900 mb-2">Sobre Mí</h3>
-                <p class="text-xs md:text-sm text-gray-600 leading-relaxed whitespace-pre-line">${agenteActivoModal.sobreMi}</p>
+                <p class="text-xs md:text-sm text-gray-600 leading-relaxed whitespace-pre-line bg-gray-50 p-4 rounded-xl border border-gray-100">${agenteActivoModal.sobreMi}</p>
             </div>
 
-            <!-- Botón de Contacto Exonerado -->
-            <div class="mb-8">
-                <p class="text-[10px] text-gray-500 mb-2 leading-tight text-center md:text-left">*Al hacer clic en contactar, asume la total responsabilidad de las negociaciones, exonerando a EcoNexus de los acuerdos pactados.</p>
-                <button onclick="window.open('${urlWA}', '_blank')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Contactar Realtor
+            <!-- Botón que activa el modal de advertencia de WhatsApp -->
+            <div class="mb-8 bg-green-50/50 p-4 rounded-xl border border-green-100">
+                <p class="text-[10px] text-gray-500 mb-2.5 leading-tight text-center md:text-left"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i>Al hacer clic en contactar asumes la total responsabilidad de la comunicación directa con el agente.</p>
+                <button onclick="prepararContacto('${agenteActivoModal.telefono}', '${agenteActivoModal.nombre}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Contactar vía WhatsApp
                 </button>
             </div>
 
             <!-- Sección de Reseñas -->
-            <div class="bg-white rounded-xl border border-gray-200 p-4 mb-4">
+            <div class="bg-white rounded-xl border border-gray-200 p-4 mb-5 shadow-sm">
                 <h3 class="text-sm font-bold text-gray-900 mb-3 border-b border-gray-100 pb-2">Dejar una Reseña</h3>
                 
-                <div class="flex items-center gap-2 mb-3" id="selectorEstrellas">
-                    <span class="text-xs font-bold text-gray-700">Puntuación:</span>
-                    <div class="star-rating text-lg cursor-pointer flex gap-1">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3" id="selectorEstrellas">
+                    <span class="text-xs font-bold text-gray-700">Calificación:</span>
+                    <div class="star-rating text-xl cursor-pointer flex gap-2 justify-center sm:justify-start">
                         <i class="fa-solid fa-star" onclick="seleccionarEstrellas(1)"></i>
                         <i class="fa-solid fa-star" onclick="seleccionarEstrellas(2)"></i>
                         <i class="fa-solid fa-star" onclick="seleccionarEstrellas(3)"></i>
@@ -297,14 +361,14 @@
                 
                 <textarea id="textoResena" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-econexus mb-3 resize-none h-20" placeholder="¿Cómo fue tu experiencia con este agente? (Opcional)"></textarea>
                 
-                <button onclick="enviarResena()" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-2.5 rounded-xl transition">
-                    Calificar Agente
+                <button onclick="enviarResena()" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-3 rounded-xl transition shadow">
+                    Enviar Calificación Pública
                 </button>
             </div>
 
             <div>
                 <h3 class="text-sm font-bold text-gray-900 mb-3">Reseñas de la Comunidad (${agenteActivoModal.totalResenas})</h3>
-                <div class="max-h-48 overflow-y-auto pr-2">
+                <div class="max-h-56 overflow-y-auto pr-2 custom-scrollbar">
                     ${htmlResenas}
                 </div>
             </div>
@@ -329,13 +393,9 @@
         });
     }
 
-    // Filtro de Seguridad: Sanitización XSS + Palabras Obscenas
     function sanitizarYFiltrarTexto(texto) {
         if (!texto) return "";
-        // 1. Escapar HTML (Previene XSS)
         let limpio = texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        
-        // 2. Diccionario básico de palabras obscenas a censurar
         const groserias = ['mierda', 'puta', 'cabron', 'estafa', 'estafador', 'maldito', 'robo', 'ladron']; 
         groserias.forEach(g => {
             const regex = new RegExp(`\\b${g}s?\\b`, 'gi');
@@ -349,13 +409,12 @@
         
         const btn = event.target;
         btn.disabled = true;
-        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Enviando...`;
+        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Registrando reseña...`;
 
         const textoCrudo = document.getElementById("textoResena").value;
         const textoSeguro = sanitizarYFiltrarTexto(textoCrudo);
 
         try {
-            // Ejecutamos la Función SQL que captura la IP de los Headers automáticamente
             const { error } = await dbClient.rpc('agregar_resena_segura', {
                 p_agente_id: agenteActivoModal.id,
                 p_puntuacion: puntajeSeleccionado,
@@ -363,9 +422,8 @@
             });
 
             if (error) {
-                // Si la BD rebota el intento porque viola el UNIQUE de (agente_id, ip_cliente)
                 if (error.message.includes('unique constraint') || error.code === '23505') {
-                    alert("Ya calificaste a este agente anteriormente.");
+                    alert("Ya calificaste a este agente anteriormente desde tu conexión (IP).");
                 } else {
                     alert("Error al enviar la reseña. Intenta de nuevo.");
                 }
@@ -375,15 +433,39 @@
             alert("¡Reseña guardada con éxito!");
             cerrarModalAgente();
             
-            // Recargar datos en segundo plano para actualizar estrellas
             document.getElementById("loadingSpinner").classList.remove("hidden");
             document.getElementById("gridAgentes").classList.add("hidden");
             await cargarDatosDirectorio();
 
         } catch (e) {
             btn.disabled = false;
-            btn.innerHTML = `Calificar Agente`;
+            btn.innerHTML = `Enviar Calificación Pública`;
         }
+    }
+
+    // Funciones Modales de Advertencia Legal
+    function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
+    function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
+    
+    // Conexión del Botón al Modal de WhatsApp (Corregido)
+    function prepararContacto(numero, nombre) {
+      if(!numero) {
+          alert("Este agente aún no tiene un número telefónico registrado en su perfil.");
+          return;
+      }
+      const msjWA = encodeURIComponent(`Hola ${nombre}, requiero tus servicios como realtor.`);
+      waUrlPendiente = `https://wa.me/${numero}?text=${msjWA}`;
+      document.getElementById("modalConfirmarWhatsApp").classList.remove("hidden");
+    }
+    
+    function cerrarModalWhatsApp() { 
+        document.getElementById("modalConfirmarWhatsApp").classList.add("hidden"); 
+        waUrlPendiente = ''; 
+    }
+    
+    function aceptarYContinuarWhatsApp() { 
+        if(waUrlPendiente) window.open(waUrlPendiente, '_blank'); 
+        cerrarModalWhatsApp(); 
     }
   </script>
 </body>
