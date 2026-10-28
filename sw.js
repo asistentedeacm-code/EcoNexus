@@ -1,4 +1,4 @@
-const CACHE_NAME = 'econexus-v-dinamica';
+const CACHE_NAME = 'econexus-v-dinamica-2';
 const urlsToCache = [
   '/EcoNexus/',
   '/EcoNexus/logo.png.png'
