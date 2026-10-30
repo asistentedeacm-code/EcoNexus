@@ -1,44 +1,22 @@
 /**
  * MÓDULO EXTERNO: ASISTENTE VIRTUAL POR VOZ AVANZADO (EcoNexus)
- * Ubicación recomendada: /js/asistente-voz.js
+ * Ubicación: /js/asistente-voz.js
+ * Optimizado para procesamiento local, bajo consumo de cuotas y máxima precisión.
  */
 
 (function () {
     let synth = window.speechSynthesis;
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let reconocimiento = null;
-    let estadoAsistente = 'IDLE'; // IDLE, SEARCHING, WAITING_SELECTION, CONVERSATIONAL
+    let estadoAsistente = 'IDLE'; // IDLE, SEARCHING, WAITING_SELECTION
     let opcionesVozGlobal = [];
     let loteActualVoz = 0;
     const TAMANO_LOTE_VOZ = 3;
 
-    // Exponer opciones globalmente para que index.html pueda abrirlas
+    // Exponer globalmente
     window.opcionesVozGlobal = [];
 
-    // Diccionario de tipos de inmuebles soportados por voz
-    const TIPOS_INMUEBLE_MAP = {
-        'casa': 'casa',
-        'casas': 'casa',
-        'apartamento': 'apartamento',
-        'apartamentos': 'apartamento',
-        'apto': 'apartamento',
-        'aptos': 'apartamento',
-        'townhouse': 'townhouse',
-        'town houses': 'townhouse',
-        'townhouses': 'townhouse',
-        'local': 'local',
-        'locales': 'local',
-        'galpón': 'galpón',
-        'galpon': 'galpón',
-        'galpón industrial': 'galpón',
-        'terreno': 'terreno',
-        'terrenos': 'terreno',
-        'edificio': 'edificio',
-        'oficina': 'oficina',
-        'oficinas': 'oficina'
-    };
-
-    const SALUDOS = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'hey', 'qué tal'];
+    const SALUDOS = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'saludos', 'hey', 'qué tal', 'ola'];
 
     if (SpeechRecognition) {
         reconocimiento = new SpeechRecognition();
@@ -55,7 +33,7 @@
 
         reconocimiento.onresult = (event) => {
             const transcript = event.results[0][0].transcript.toLowerCase().trim();
-            procesarComandoVoz(transcript);
+            procesarComandoVozAvanzado(transcript);
         };
 
         reconocimiento.onerror = (event) => {
@@ -75,12 +53,12 @@
 
     window.iniciarAsistenteVoz = function () {
         if (!reconocimiento) {
-            alert("Tu navegador no soporta búsqueda inteligente por voz. Te sugerimos usar Google Chrome o Safari.");
+            alert("Tu navegador no soporta búsqueda inteligente por voz. Utiliza Google Chrome o Safari.");
             return;
         }
         estadoAsistente = 'SEARCHING';
-        mostrarUIAsistente("EcoNexus escucha: ¿Qué inmueble buscas?");
-        dictarTextoAsistente("¡Hola! Soy tu asistente virtual EcoNexus. ¿Qué tipo de inmueble, zona o presupuesto deseas buscar hoy?", () => {
+        mostrarUIAsistente("Asistente EcoNexus escuchando...");
+        dictarTextoAsistente("¡Hola! Soy tu asistente virtual EcoNexus. ¿Qué tipo de inmueble, zona o presupuesto deseas buscar?", () => {
             try { reconocimiento.start(); } catch (e) {}
         });
     };
@@ -136,40 +114,42 @@
         synth.speak(utterance);
     }
 
-    async function procesarComandoVoz(transcript) {
-        // 1. Validar saludos
-        const esSaludo = SALUDOS.some(s => transcript.includes(s));
-        if (esSaludo && transcript.split(' ').length <= 3) {
-            actualizarUIAsistente("¡Hola! ¿En qué te puedo ayudar?");
-            dictarTextoAsistente("¡Hola! Cuéntame, ¿qué inmueble o zona estás buscando en Venezuela?", () => {
+    async function procesarComandoVozAvanzado(transcript) {
+        // 1. Reconocimiento de saludos conversacionales
+        const esSaludo = SALUDOS.some(s => transcript === s || transcript.startsWith(s + ' '));
+        if (esSaludo && transcript.split(' ').length <= 4) {
+            actualizarUIAsistente("¡Hola! ¿Qué deseas buscar hoy?");
+            dictarTextoAsistente("¡Hola! Es un placer saludarte. Dime qué zona, tipo de inmueble o precio estás buscando.", () => {
                 try { reconocimiento.start(); } catch(e){}
             });
             return;
         }
 
-        // 2. Si estamos esperando selección numércica o comando de lote
+        // 2. Si el usuario está eligiendo una opción del carrusel dictado
         if (estadoAsistente === 'WAITING_SELECTION') {
-            manejarComandoSeleccion(transcript);
+            manejarSeleccionOpcionVoz(transcript);
             return;
         }
 
-        // 3. Búsqueda y filtrado inteligente
+        // 3. Extracción de filtros y ejecución de búsqueda con cero impacto en cuotas innecesarias
         actualizarUIAsistente(`Buscando: "${transcript}"`);
-        document.getElementById("filterText").value = transcript;
+        const inputFiltro = document.getElementById("filterText");
+        if (inputFiltro) inputFiltro.value = transcript;
 
         if (typeof cargarPropiedades === 'function') {
             await cargarPropiedades(true);
         }
 
-        if (!window.propiedadesCargadas || window.propiedadesCargadas.length === 0) {
-            actualizarUIAsistente("No encontré resultados exactos.");
-            dictarTextoAsistente("Lo siento, no encontré propiedades con esa descripción. Intenta nombrar otra zona o tipo de inmueble.", () => {
+        const listaEncontrada = window.propiedadesCargadas || [];
+        if (listaEncontrada.length === 0) {
+            actualizarUIAsistente("No se encontraron coincidencias.");
+            dictarTextoAsistente("Lo siento, no encontré propiedades con esa descripción exacta. Prueba mencionando otra zona o tipo de inmueble.", () => {
                 detenerAsistenteVoz();
             });
             return;
         }
 
-        opcionesVozGlobal = window.propiedadesCargadas;
+        opcionesVozGlobal = listaEncontrada;
         window.opcionesVozGlobal = opcionesVozGlobal;
         loteActualVoz = 0;
 
@@ -195,14 +175,14 @@
             const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
             
             track.innerHTML += `
-              <div onclick="abrirModal('${p.id}'); cerrarModalCarruselVoz();" class="min-w-[190px] max-w-[190px] bg-gray-800 rounded-xl overflow-hidden border border-emerald-500/40 shadow-lg cursor-pointer flex-shrink-0 snap-start flex flex-col group hover:border-emerald-400 transition">
-                <div class="h-24 overflow-hidden relative">
+              <div onclick="abrirModal('${p.id}'); cerrarModalCarruselVoz();" class="min-w-[200px] max-w-[200px] bg-gray-800/90 rounded-xl overflow-hidden border border-emerald-500/50 shadow-xl cursor-pointer flex-shrink-0 snap-start flex flex-col group hover:border-emerald-400 transition">
+                <div class="h-28 overflow-hidden relative">
                   <img src="${foto}" class="w-full h-full object-cover group-hover:scale-105 transition" />
-                  <span class="absolute top-1 left-1 bg-emerald-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full">Opción ${indexReal}</span>
-                  <span class="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">$${Number(p.precio).toLocaleString('en-US')}</span>
+                  <span class="absolute top-1.5 left-1.5 bg-emerald-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow">Opción ${indexReal}</span>
+                  <span class="absolute bottom-1.5 right-1.5 bg-black/75 text-white text-[9px] px-2 py-0.5 rounded font-black">$${Number(p.precio).toLocaleString('en-US')}</span>
                 </div>
-                <div class="p-2 flex flex-col justify-between flex-grow">
-                  <h5 class="text-[10px] font-bold text-white line-clamp-1">${p.titulo}</h5>
+                <div class="p-2.5 flex flex-col justify-between flex-grow">
+                  <h5 class="text-[10px] font-bold text-white line-clamp-1 mb-0.5">${p.titulo}</h5>
                   <p class="text-[9px] text-emerald-400 truncate"><i class="fa-solid fa-location-dot"></i> ${p.ubicacion}</p>
                 </div>
               </div>
@@ -226,7 +206,7 @@
         const fin = Math.min(inicio + TAMANO_LOTE_VOZ, opcionesVozGlobal.length);
         const loteSlice = opcionesVozGlobal.slice(inicio, fin);
 
-        let mensaje = `Encontré ${opcionesVozGlobal.length} opciones en total. Te presento el lote ${loteActualVoz + 1}. `;
+        let mensaje = `Encontré ${opcionesVozGlobal.length} opciones. Leyendo lote ${loteActualVoz + 1}. `;
         loteSlice.forEach((p, idx) => {
             const numeroOpcion = inicio + idx + 1;
             mensaje += `Opción ${numeroOpcion}: ${p.tipo} en ${p.ubicacion}, por ${Number(p.precio).toLocaleString('en-US')} dólares. `;
@@ -238,20 +218,20 @@
             mensaje += "¿Cuál de estas opciones te interesa abrir? Di el número.";
         }
 
-        actualizarUIAsistente("¿Cuál opción te interesa? (Ej: Opción 1)");
+        actualizarUIAsistente("¿Cuál opción deseas abrir? (Ej: Opción 1)");
         dictarTextoAsistente(mensaje, () => {
             estadoAsistente = 'WAITING_SELECTION';
             try { reconocimiento.start(); } catch(e){}
         });
     }
 
-    function manejarComandoSeleccion(transcript) {
+    function manejarSeleccionOpcionVoz(transcript) {
         const texto = transcript.toLowerCase();
 
-        if (texto.includes('más') || texto.includes('siguiente') || texto.includes('otra') || texto.includes('más opciones')) {
+        if (texto.includes('más') || texto.includes('siguiente') || texto.includes('otra') || texto.includes('lote')) {
             loteActualVoz++;
             if (loteActualVoz * TAMANO_LOTE_VOZ >= opcionesVozGlobal.length) {
-                loteActualVoz = 0; // Vuelve al inicio si llega al final
+                loteActualVoz = 0;
             }
             renderizarModalCarruselVoz();
             narrarLoteActualVoz();
@@ -292,11 +272,11 @@
                 }
             });
         } else {
-            // Si menciona un nuevo filtro de zona o tipo
             estadoAsistente = 'SEARCHING';
-            document.getElementById("filterText").value = transcript;
+            const inputFiltro = document.getElementById("filterText");
+            if (inputFiltro) inputFiltro.value = transcript;
             actualizarUIAsistente(`Filtrando: "${transcript}"`);
-            procesarComandoVoz(transcript);
+            procesarComandoVozAvanzado(transcript);
         }
     }
 })();
