@@ -9,13 +9,13 @@
   <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus" />
   <meta name="author" content="EcoNexus Real Estate" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <link rel="canonical" href="https://asistentedeacm-code.github.io/EcoNexus/" />
+  <link rel="canonical" href="https://econexusplatform.com/" />
   
   <meta property="og:type" content="website" />
   <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
   <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
-  <meta property="og:url" content="https://asistentedeacm-code.github.io/EcoNexus/" />
-  <meta property="og:image" content="https://asistentedeacm-code.github.io/EcoNexus/logo.png.png" />
+  <meta property="og:url" content="https://econexusplatform.com/" />
+  <meta property="og:image" content="https://econexusplatform.com/logo.png.png" />
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -49,6 +49,51 @@
     /* Animación del Asistente de Voz */
     @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(56, 142, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0); } }
     .listening-mic { animation: pulse-mic 1.5s infinite; background-color: #ef4444 !important; border-color: #fca5a5 !important; }
+
+    /* Cursor parpadeante para efectos de escritura secuencial (Header CTA y Banner VIP) */
+    .typewriter-cursor::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 2px;
+      animation: blink-caret 0.75s step-end infinite;
+      color: #a7f3d0;
+      font-weight: 900;
+    }
+    .typewriter-cursor-amber::after {
+      content: '|';
+      display: inline-block;
+      margin-left: 2px;
+      animation: blink-caret 0.75s step-end infinite;
+      color: #f59e0b;
+      font-weight: 900;
+    }
+    @keyframes blink-caret {
+      from, to { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Resplandor elegante para el botón CTA de CRM/ERP y el contenedor VIP */
+    @keyframes cta-pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25); }
+      50% { box-shadow: 0 0 14px 2px rgba(74, 222, 128, 0.55), 0 4px 15px rgba(0, 0, 0, 0.35); }
+    }
+    .btn-cta-crm {
+      animation: cta-pulse-glow 3s infinite ease-in-out;
+    }
+
+    /* Animación cíclica de las características (Hab, Baños, m²) dentro de las tarjetas */
+    @keyframes spec-highlight {
+      0%, 100% { transform: translateY(0) scale(1); background-color: #F4F7F4; border-color: #dcfce7; }
+      50% { transform: translateY(-2px) scale(1.04); background-color: #dcfce7; border-color: #86efac; box-shadow: 0 3px 8px rgba(30, 63, 32, 0.12); }
+    }
+    .spec-pill-1 { animation: spec-highlight 4.5s infinite ease-in-out 0s; }
+    .spec-pill-2 { animation: spec-highlight 4.5s infinite ease-in-out 1.5s; }
+    .spec-pill-3 { animation: spec-highlight 4.5s infinite ease-in-out 3.0s; }
+
+    /* Transición suave para el cambio automático de fotos en tarjetas */
+    .card-slide-img {
+      transition: opacity 0.45s ease-in-out, transform 0.6s ease;
+    }
   </style>
   <script>
     tailwind.config = { theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } } }
@@ -57,23 +102,46 @@
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
   
   <!-- BOTÓN FLOTANTE: ASISTENTE DE VOZ INTELIGENTE -->
-  <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-econexus-accent text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-green-600 border-2 border-white/50 cursor-pointer group">
+  <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" title="Asistente Virtual por Voz EcoNexus" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-econexus-accent text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-green-600 border-2 border-white/50 cursor-pointer group">
     <i class="fa-solid fa-microphone group-hover:scale-110 transition-transform"></i>
   </button>
   
   <!-- PANEL UI DEL ASISTENTE DE VOZ -->
-  <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl z-[90] flex items-center gap-4 w-[90%] max-w-sm transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-green-800">
+  <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl z-[95] flex items-center gap-4 w-[92%] max-w-md transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-green-700">
     <div class="relative flex items-center justify-center w-10 h-10 shrink-0">
       <span class="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-40 animate-ping"></span>
       <i class="fa-solid fa-wave-square text-green-400 text-xl relative z-10"></i>
     </div>
     <div class="flex-1 overflow-hidden">
-      <p class="text-[10px] font-bold text-gray-400 uppercase mb-0.5 tracking-wider">Asistente EcoNexus</p>
-      <p id="textoAsistenteVoz" class="text-sm font-semibold leading-tight line-clamp-2 text-white">Escuchando...</p>
+      <p class="text-[10px] font-bold text-emerald-400 uppercase mb-0.5 tracking-wider">Asistente Virtual EcoNexus</p>
+      <p id="textoAsistenteVoz" class="text-xs sm:text-sm font-semibold leading-tight line-clamp-2 text-white">Escuchando...</p>
     </div>
     <button onclick="detenerAsistenteVoz()" class="text-white hover:text-red-400 shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 pointer-events-auto cursor-pointer transition">
         <i class="fa-solid fa-xmark"></i>
     </button>
+  </div>
+
+  <!-- MODAL CARRUSEL VISUAL DEL ASISTENTE DE VOZ (DESLIZAMIENTO SECUENCIAL EN PANTALLA) -->
+  <div id="modalCarruselVoz" class="fixed inset-x-0 top-20 z-[90] flex justify-center px-4 pointer-events-none hidden">
+    <div class="bg-gray-900/95 backdrop-blur-lg border-2 border-emerald-500/60 rounded-2xl shadow-2xl p-4 w-full max-w-xl pointer-events-auto text-white animate-fade-in">
+      <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-400" id="tituloModalCarruselVoz">Resultados Detectados por Voz</h4>
+        </div>
+        <div class="flex items-center gap-2">
+          <span id="loteIndicadorVoz" class="text-[10px] bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-700 font-bold">Lote 1</span>
+          <button onclick="cerrarModalCarruselVoz()" class="text-gray-400 hover:text-white w-6 h-6 flex items-center justify-center rounded-full bg-gray-800 cursor-pointer"><i class="fa-solid fa-xmark text-xs"></i></button>
+        </div>
+      </div>
+      <!-- Pista deslizable de tarjetas del asistente -->
+      <div id="trackCarruselVoz" class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth hide-scrollbars">
+        <!-- Inyectado dinámicamente por /js/asistente-voz.js -->
+      </div>
+      <div class="mt-2 pt-2 border-t border-gray-800 flex flex-wrap justify-between items-center gap-2 text-[10px] text-gray-300">
+        <span>💡 Di: <strong>"Opción 1"</strong>, <strong>"Leer más"</strong>, <strong>"Leer todas"</strong> o <strong>"Filtra por..."</strong></span>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL LIGHTBOX (ZOOM FOTOGRÁFICO) -->
@@ -129,7 +197,6 @@
         <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos o permisos inexistentes. Toda responsabilidad penal recaerá directa e individualmente sobre el anunciante.</p>
       </div>
       <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-right">
-        <!-- Botón cambiado a verde institucional -->
         <button onclick="cerrarModalTerminos()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow cursor-pointer">Entendido</button>
       </div>
     </div>
@@ -148,9 +215,9 @@
     </div>
   </div>
 
-  <!-- HEADER RESPONSIVO -->
+  <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-3">
+    <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
       <!-- Logo y Textos -->
       <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="resetFiltros()">
         <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
@@ -159,38 +226,70 @@
           <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">RED INMOBILIARIA INTELIGENTE</span>
         </div>
       </div>
-      <!-- Controles -->
-      <div class="flex items-center gap-2 sm:gap-4 ml-auto">
+
+      <!-- Controles y Botón CTA Inteligente Responsivo (PC, Tablet y Móvil) -->
+      <div class="flex items-center gap-2 sm:gap-3.5 ml-auto flex-wrap sm:flex-nowrap justify-end">
         <button onclick="abrirModalMapaGlobal()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
           <i class="fa-solid fa-map-location-dot text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Mapa
         </button>
-        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-4">
+        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
           <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
         </button>
-        <!-- Botón agregado: ¿Buscas Agentes? con enlace de ejemplo -->
-        <button onclick="window.location.href='https://asistentedeacm-code.github.io/EcoNexus/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-4">
-  <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> ¿Buscas Agentes?
-</button>
-        <button onclick="window.open('https://wa.me/584244466115?text=Hola%20EcoNexus...', '_blank')" class="bg-econexus-accent hover:bg-green-600 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-[10px] md:text-xs font-bold transition flex items-center shadow cursor-pointer ml-1 sm:ml-2">
-          Publícalo
+        <button onclick="window.location.href='/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
+          <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> ¿Buscas Agentes?
+        </button>
+        
+        <!-- BOTÓN CTA CON REDACCIÓN SECUENCIAL ADAPTATIVA (CELULAR, TABLET Y PC) -->
+        <button onclick="window.location.href='/captacion.html'" id="btnCtaHeader" class="btn-cta-crm bg-gradient-to-r from-econexus-accent via-emerald-600 to-green-700 hover:from-green-600 hover:to-emerald-500 text-white px-2.5 sm:px-3.5 md:px-4 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-lg cursor-pointer border border-green-300/40 min-w-[155px] sm:min-w-[220px] md:min-w-[275px] max-w-[92vw] justify-center">
+          <i class="fa-solid fa-rocket text-amber-300 animate-bounce text-[10px] md:text-xs shrink-0"></i>
+          <span id="typewriterCrmText" class="typewriter-cursor truncate">Obtén tu CRM/ERP y publica tus inmuebles</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- 1. SECCIÓN VIP -->
-  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-4 py-6 hidden w-full overflow-hidden border-b border-gray-200/50">
-    <div class="flex justify-between items-center mb-3">
-      <h2 class="text-base md:text-xl font-bold text-econexus flex items-center">
-        <i class="fa-solid fa-star text-amber-500 mr-2"></i> Inmuebles Destacados
-      </h2>
-      <div class="flex gap-2">
-        <button onclick="document.getElementById('trackVip').scrollBy({left: -240, behavior: 'smooth'})" class="w-7 h-7 rounded-full bg-gray-200 hover:bg-econexus text-gray-600 hover:text-white flex items-center justify-center transition shadow cursor-pointer"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-        <button onclick="document.getElementById('trackVip').scrollBy({left: 240, behavior: 'smooth'})" class="w-7 h-7 rounded-full bg-gray-200 hover:bg-econexus text-gray-600 hover:text-white flex items-center justify-center transition shadow cursor-pointer"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+  <!-- 1. SECCIÓN VIP ENCERRADA, AUTOMÁTICA Y CON TÍTULO DE DOMINIO DE MERCADO -->
+  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-3 sm:px-4 pt-5 pb-2 hidden w-full">
+    <div class="bg-gradient-to-br from-white via-amber-50/35 to-emerald-50/30 rounded-3xl p-4 sm:p-5 border-2 border-amber-300/80 shadow-lg relative overflow-hidden">
+      <!-- Decoración sutil de fondo -->
+      <div class="absolute -top-12 -right-12 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- Cabecera VIP con Botón/Insignia Dinámica de Escritura Secuencial -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 relative z-10">
+        <div class="flex items-center gap-2.5 bg-gradient-to-r from-econexus-dark via-econexus to-econexus-light text-white px-3.5 sm:px-4 py-2 rounded-2xl shadow-md border border-amber-400/50 w-full sm:w-auto min-h-[42px]">
+          <div class="w-7 h-7 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-crown text-amber-400 text-xs sm:text-sm animate-pulse"></i>
+          </div>
+          <div class="flex flex-col overflow-hidden">
+            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-300 font-bold leading-none mb-0.5">Selección Exclusiva EcoNexus</span>
+            <h2 id="vipTypewriterText" class="text-xs sm:text-sm md:text-base font-extrabold text-white typewriter-cursor-amber truncate">
+              Inmuebles Destacados
+            </h2>
+          </div>
+        </div>
+
+        <!-- Controles del Carrusel VIP y Paginación 10 en 10 -->
+        <div class="flex items-center gap-2 self-end sm:self-center">
+          <span id="vipCounterBadge" class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-1 rounded-full shadow-sm">
+            VIP Activos
+          </span>
+          <button id="btnLoadMoreVip" onclick="cargarMasVips()" class="hidden bg-amber-500 hover:bg-amber-600 text-gray-900 text-[10px] font-extrabold px-3 py-1.5 rounded-xl shadow transition cursor-pointer flex items-center gap-1">
+            <i class="fa-solid fa-plus"></i> +10 VIP
+          </button>
+          <button onclick="moverCarruselVipManual(-280)" title="Anterior" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+          </button>
+          <button onclick="moverCarruselVipManual(280)" title="Siguiente" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer">
+            <i class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
       </div>
-    </div>
-    <div id="trackVip" class="flex gap-3 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars">
-      <!-- Dinámico -->
+
+      <!-- Carrusel Horizontal Automático de Tarjetas VIP -->
+      <div id="trackVip" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars relative z-10">
+        <!-- Dinámico (Lotes de 10 en 10 con fotos secuenciales y specs animados) -->
+      </div>
     </div>
   </section>
 
@@ -213,8 +312,10 @@
   <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
   <main class="max-w-7xl mx-auto px-4 pb-12 flex-grow w-full">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold text-gray-800">Catálogo Disponible</h2>
-      <!-- Elemento cambiado a verde -->
+      <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+        <span class="w-2 h-5 bg-econexus rounded-full inline-block"></span>
+        Catálogo Disponible
+      </h2>
       <span id="propCount" class="bg-econexus-soft text-econexus px-3 py-1 rounded-full text-[10px] font-bold border border-green-200">Cargando...</span>
     </div>
     
@@ -223,10 +324,10 @@
       <p class="text-gray-500 text-sm font-medium">Sincronizando red...</p>
     </div>
     
-    <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 hidden"></div>
+    <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5 md:gap-4 hidden"></div>
     
     <div id="loadMoreContainer" class="text-center mt-8 hidden">
-      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-xl transition border border-gray-300 inline-flex items-center cursor-pointer text-xs md:text-sm">
+      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-xl transition border border-gray-300 inline-flex items-center cursor-pointer text-xs md:text-sm shadow-sm">
         <i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles
       </button>
     </div>
@@ -248,7 +349,6 @@
   <!-- MODAL MAPA GLOBAL -->
   <div id="mapaGlobalModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
     <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
-      <!-- Cabecera del mapa cambiado a verde institucional -->
       <div class="bg-econexus text-white p-3 flex justify-between items-center">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-map-location-dot text-amber-400 text-lg"></i>
@@ -292,16 +392,30 @@
       <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
-
+  <!-- SCRIPT PRINCIPAL DE ECONEXUS (CATÁLOGO, VIP, MAPAS, MODALES Y ANIMACIONES) -->
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
+    // Paginación Catálogo General (20 en 20)
     const PAGE_SIZE = 20; 
     let pageOffset = 0;
     let hayMasPaginas = true;
     let propiedadesCargadas = [];
+
+    // Paginación Inmuebles Destacados VIP (10 en 10)
+    const VIP_PAGE_SIZE = 10;
+    let vipOffset = 0;
+    let hayMasVips = true;
+    let vipsCargados = [];
+    let vipAutoScrollTimer = null;
+    let vipScrollDirection = 1;
+    let vipPausadoPorUsuario = false;
+
+    // Timer de rotación automática de fotos en tarjetas
+    let cardPhotoInterval = null;
+
     let waUrlPendiente = '';
     let debounceTimer = null;
     
@@ -320,175 +434,100 @@
         }
     }
 
-    // --- LECTURA Y ASISTENTE VOZ AVANZADO ---
+    // --- VARIABLES BASE DE SÍNTESIS DE VOZ PARA LA FICHA ---
     let synth = window.speechSynthesis;
     let currentFichaText = "";
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    let reconocimiento = null;
-    let estadoVoz = 'IDLE'; 
-    let opcionesVoz = [];
 
-    if (SpeechRecognition) {
-        reconocimiento = new SpeechRecognition();
-        reconocimiento.lang = 'es-VE';
-        reconocimiento.continuous = false;
-        reconocimiento.interimResults = false;
-        
-        reconocimiento.onstart = () => {
-            solicitarWakeLock();
-            document.getElementById('btnAsistenteVoz').classList.add('listening-mic');
-            if(synth.speaking) synth.cancel();
-        };
-        reconocimiento.onresult = (event) => {
-            const transcript = event.results[0][0].transcript.toLowerCase();
-            if (estadoVoz === 'SEARCHING') {
-                let filtroLimpio = procesarTextoVoz(transcript);
-                document.getElementById("filterText").value = filtroLimpio;
-                actualizarUIAsistente(`Buscando: "${filtroLimpio}"`);
-                aplicarFiltrosPorVoz();
-            } else if (estadoVoz === 'WAITING_SELECTION') {
-                manejarSeleccionOpcionVoz(transcript);
+    // --- EFECTOS DE ESCRITURA SECUENCIAL (HEADER CTA Y BANNER VIP) ---
+    function iniciarEfectosTypewriter() {
+      // 1. Efecto Typewriter en el botón CTA del Header (adaptado a móvil, tablet y PC)
+      const elCrm = document.getElementById('typewriterCrmText');
+      if (elCrm) {
+        const frasesCrmMovil = [
+          "Obtén tu CRM/ERP y publica",
+          "Publica tus inmuebles aquí",
+          "Activa tu CRM Inmobiliario"
+        ];
+        const frasesCrmDesktop = [
+          "Obtén tu CRM/ERP y publica tus inmuebles",
+          "Digitaliza tu inventario con tecnología élite",
+          "Cero desvíos: leads directo a tu WhatsApp"
+        ];
+        let idxFrase = 0;
+        let idxChar = 0;
+        let borrando = false;
+
+        function animarTextoCrm() {
+          const esMovil = window.innerWidth < 640;
+          const listaFrases = esMovil ? frasesCrmMovil : frasesCrmDesktop;
+          const fraseActual = listaFrases[idxFrase % listaFrases.length];
+
+          if (!borrando) {
+            idxChar++;
+            elCrm.textContent = fraseActual.substring(0, idxChar);
+            if (idxChar >= fraseActual.length) {
+              borrando = true;
+              setTimeout(animarTextoCrm, 2600);
+              return;
             }
-        };
-        reconocimiento.onerror = (event) => {
-            detenerAsistenteVoz();
-            if(event.error !== 'no-speech') console.warn("Micrófono:", event.error);
-        };
-        reconocimiento.onend = () => {
-            document.getElementById('btnAsistenteVoz').classList.remove('listening-mic');
-            if (estadoVoz === 'IDLE') {
-                ocultarUIAsistente();
-                liberarWakeLock();
+            setTimeout(animarTextoCrm, 55);
+          } else {
+            idxChar--;
+            elCrm.textContent = fraseActual.substring(0, idxChar);
+            if (idxChar <= 0) {
+              borrando = false;
+              idxFrase++;
+              setTimeout(animarTextoCrm, 300);
+              return;
             }
-        };
-    }
-
-    function procesarTextoVoz(texto) {
-        let limpio = texto;
-        const stopWords = ['hola', 'econexus', 'busca', 'quiero', 'necesito', 'por favor', 'muéstrame', 'enséñame', 'un', 'una'];
-        stopWords.forEach(word => {
-            const regex = new RegExp(`\\b${word}\\b`, 'gi');
-            limpio = limpio.replace(regex, '');
-        });
-        return limpio.trim();
-    }
-
-    function iniciarAsistenteVoz() {
-        if (!reconocimiento) { alert("Tu navegador no soporta búsqueda por voz."); return; }
-        estadoVoz = 'SEARCHING';
-        mostrarUIAsistente("EcoNexus escucha: ¿Qué buscas?");
-        reconocimiento.start();
-    }
-    
-    function detenerAsistenteVoz() {
-        if(reconocimiento) reconocimiento.stop();
-        if(synth) synth.cancel();
-        estadoVoz = 'IDLE';
-        ocultarUIAsistente();
-        document.getElementById('btnAsistenteVoz').classList.remove('listening-mic');
-        liberarWakeLock();
-    }
-
-    function mostrarUIAsistente(texto) {
-        const ui = document.getElementById("uiAsistenteVoz");
-        document.getElementById("textoAsistenteVoz").textContent = texto;
-        ui.classList.remove("translate-y-10", "opacity-0", "pointer-events-none");
-        ui.classList.add("translate-y-0", "opacity-100", "pointer-events-auto");
-    }
-    function actualizarUIAsistente(texto) { document.getElementById("textoAsistenteVoz").textContent = texto; }
-    function ocultarUIAsistente() {
-        const ui = document.getElementById("uiAsistenteVoz");
-        ui.classList.remove("translate-y-0", "opacity-100", "pointer-events-auto");
-        ui.classList.add("translate-y-10", "opacity-0", "pointer-events-none");
-    }
-    
-    function dictarTexto(texto, callbackFin = null) {
-        synth.cancel();
-        solicitarWakeLock();
-        const utterance = new SpeechSynthesisUtterance(texto);
-        utterance.lang = 'es-ES';
-        utterance.onend = () => {
-            if (callbackFin) callbackFin();
-            else liberarWakeLock();
-        };
-        synth.speak(utterance);
-    }
-
-    async function aplicarFiltrosPorVoz() {
-        await cargarPropiedades(true);
-        if (propiedadesCargadas.length === 0) {
-            actualizarUIAsistente("No encontré resultados.");
-            dictarTexto("Lo siento, no encontré propiedades con esa descripción. Intenta otra búsqueda.", detenerAsistenteVoz);
-            return;
+            setTimeout(animarTextoCrm, 28);
+          }
         }
-        opcionesVoz = propiedadesCargadas;
-        let total = opcionesVoz.length;
-        let limite = Math.min(total, 3);
-        
-        let mensaje = `Encontré ${total} opciones. Te leo las primeras ${limite}. `;
-        for(let i=0; i<limite; i++) { 
-            mensaje += `Opción ${i + 1}: ${opcionesVoz[i].tipo} en ${opcionesVoz[i].ubicacion} por ${opcionesVoz[i].precio} dólares. `; 
-        }
-        
-        mensaje += (total > 3) 
-            ? "¿Cuál te interesa abrir? Di el número de opción, pide leer más opciones o dame otra característica para filtrar."
-            : "¿Cuál te interesa abrir? Di el número de la opción.";
+        animarTextoCrm();
+      }
 
-        actualizarUIAsistente("¿Cuál te interesa? (Ej: Opción 1, o 'filtra por...')");
-        
-        dictarTexto(mensaje, () => {
-            estadoVoz = 'WAITING_SELECTION';
-            reconocimiento.start();
-        });
+      // 2. Efecto Typewriter en la insignia de Inmuebles Destacados VIP
+      const elVip = document.getElementById('vipTypewriterText');
+      if (elVip) {
+        const frasesVip = [
+          "Inmuebles Destacados",
+          "Solo lo Mejor del Mercado",
+          "Propiedades de Alta Demanda",
+          "Líderes en Presencia Inmobiliaria",
+          "Oportunidades Exclusivas Verificadas"
+        ];
+        let vFrase = 0;
+        let vChar = 0;
+        let vBorrando = false;
+
+        function animarTextoVip() {
+          const actual = frasesVip[vFrase % frasesVip.length];
+          if (!vBorrando) {
+            vChar++;
+            elVip.textContent = actual.substring(0, vChar);
+            if (vChar >= actual.length) {
+              vBorrando = true;
+              setTimeout(animarTextoVip, 2800);
+              return;
+            }
+            setTimeout(animarTextoVip, 60);
+          } else {
+            vChar--;
+            elVip.textContent = actual.substring(0, vChar);
+            if (vChar <= 0) {
+              vBorrando = false;
+              vFrase++;
+              setTimeout(animarTextoVip, 300);
+              return;
+            }
+            setTimeout(animarTextoVip, 30);
+          }
+        }
+        animarTextoVip();
+      }
     }
 
-    function manejarSeleccionOpcionVoz(transcript) {
-        let texto = transcript.toLowerCase();
-        
-        if (texto.includes('todas') || texto.includes('más') || texto.includes('leer')) {
-             leerMasOpciones(); return;
-        }
-
-        const nums = { 'uno':1, '1':1, 'primera':1, 'dos':2, '2':2, 'segunda':2, 'tres':3, '3':3, 'tercera':3, 'cuatro':4, '4':4, 'cinco':5, '5':5, 'seis':6, '6':6, 'siete':7, '7':7, 'ocho':8, '8':8, 'nueve':9, '9':9, 'diez':10, '10':10 };
-        let numSeleccionado = -1;
-        
-        for (const [key, val] of Object.entries(nums)) {
-            if (texto.includes(key)) { numSeleccionado = val; break; }
-        }
-
-        if (numSeleccionado !== -1 && numSeleccionado <= opcionesVoz.length) {
-            let index = numSeleccionado - 1;
-            actualizarUIAsistente(`Abriendo opción ${numSeleccionado}...`);
-            dictarTexto(`Abriendo ficha.`, () => {
-                detenerAsistenteVoz();
-                abrirModal(opcionesVoz[index].id);
-                setTimeout(toggleLecturaVoz, 800); 
-            });
-        } else {
-            estadoVoz = 'SEARCHING';
-            let nuevoFiltro = procesarTextoVoz(texto);
-            document.getElementById("filterText").value += " " + nuevoFiltro;
-            actualizarUIAsistente(`Filtrando por: "${nuevoFiltro}"`);
-            aplicarFiltrosPorVoz();
-        }
-    }
-    
-    function leerMasOpciones() {
-        let total = opcionesVoz.length;
-        let limite = Math.min(total, 10);
-        let mensaje = `Claro, te leo hasta un máximo de ${limite} opciones. `;
-        for(let i=3; i<limite; i++) {
-            mensaje += `Opción ${i + 1}: ${opcionesVoz[i].tipo} en ${opcionesVoz[i].ubicacion} por ${opcionesVoz[i].precio} dólares. `;
-        }
-        mensaje += "¿Qué número de opción te interesa?";
-        actualizarUIAsistente("Escuchando opción...");
-        dictarTexto(mensaje, () => {
-            estadoVoz = 'WAITING_SELECTION';
-            reconocimiento.start();
-        });
-    }
-
-    // MAPA Y LEYENDA
+    // --- MAPA Y LEYENDA ---
     let mapaGlobal = null;
     let capaMarcadoresCluster = null;
     let mapaFichaModal = null;
@@ -512,8 +551,13 @@
     let lightboxFotos = [], lightboxIndex = 0;
 
     document.addEventListener("DOMContentLoaded", async function() {
+      iniciarEfectosTypewriter();
+      iniciarRotacionFotosTarjetas();
       await obtenerTotalContadorSupabase();
-      await cargarPropiedades(true);
+      await Promise.all([
+        cargarVips(true),
+        cargarPropiedades(true)
+      ]);
       verificarParametrosURL();
     });
     
@@ -527,6 +571,13 @@
     async function verificarParametrosURL() {
       const urlParams = new URLSearchParams(window.location.search);
       const codigoParam = urlParams.get('codigo');
+      const asesorParam = urlParams.get('asesor');
+
+      if (asesorParam) {
+        document.getElementById("filterText").value = asesorParam.trim();
+        await cargarPropiedades(true);
+      }
+
       if (codigoParam) {
         try {
           const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
@@ -535,6 +586,202 @@
       }
     }
 
+    // --- LÓGICA DE CARGA Y PAGINACIÓN DE VIPS (DE 10 EN 10) ---
+    async function cargarVips(reset = false) {
+      if (reset) {
+        vipOffset = 0;
+        hayMasVips = true;
+        vipsCargados = [];
+      }
+      try {
+        const operacion = document.getElementById("filterOperacion").value;
+        const tipo = document.getElementById("filterTipo").value.trim();
+        const texto = document.getElementById("filterText").value.trim();
+
+        let queryVip = dbClient
+          .from('v_propiedades_catalogo')
+          .select('*')
+          .eq('estatus', 'Disponible')
+          .eq('vip_activo', true);
+
+        if (operacion && operacion !== "TODOS") queryVip = queryVip.eq('operacion', operacion);
+        if (tipo) queryVip = queryVip.ilike('tipo', `%${tipo}%`);
+        if (texto) {
+          if (!isNaN(texto) && Number(texto) > 0) {
+            queryVip = queryVip.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
+          } else {
+            queryVip = queryVip.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
+          }
+        }
+
+        queryVip = queryVip
+          .order('fecha_publicacion', { ascending: false })
+          .range(vipOffset, vipOffset + VIP_PAGE_SIZE - 1);
+
+        const { data, error } = await queryVip;
+        if (error) throw error;
+
+        const nuevosVips = data || [];
+        if (nuevosVips.length < VIP_PAGE_SIZE) hayMasVips = false;
+
+        vipsCargados = [...vipsCargados, ...nuevosVips];
+        renderizarSeccionVip(vipsCargados);
+      } catch (err) {
+        console.error("Error cargando VIPs:", err);
+      }
+    }
+
+    async function cargarMasVips() {
+      if (!hayMasVips) return;
+      const btn = document.getElementById("btnLoadMoreVip");
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`;
+      }
+      vipOffset += VIP_PAGE_SIZE;
+      await cargarVips(false);
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-plus"></i> +10 VIP`;
+      }
+    }
+
+    function renderizarSeccionVip(lista) {
+      const seccionVip = document.getElementById("seccionVipContainer");
+      const trackVip = document.getElementById("trackVip");
+      const btnMoreVip = document.getElementById("btnLoadMoreVip");
+      const counterBadge = document.getElementById("vipCounterBadge");
+
+      if (!lista || lista.length === 0) {
+        seccionVip.classList.add("hidden");
+        detenerAutoScrollVip();
+        return;
+      }
+
+      seccionVip.classList.remove("hidden");
+      trackVip.innerHTML = "";
+      if (counterBadge) counterBadge.textContent = `${lista.length} Destacado${lista.length === 1 ? '' : 's'}`;
+      if (btnMoreVip) {
+        if (hayMasVips) btnMoreVip.classList.remove("hidden");
+        else btnMoreVip.classList.add("hidden");
+      }
+
+      lista.forEach(p => {
+        const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+        const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
+        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+        const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
+
+        trackVip.innerHTML += `
+          <div onclick="abrirModal('${p.id}')" class="min-w-[225px] max-w-[225px] sm:min-w-[250px] sm:max-w-[250px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer flex-shrink-0 snap-start relative group hover:-translate-y-1">
+            <div class="h-36 sm:h-40 overflow-hidden relative bg-gray-900">
+              <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none"></div>
+              <span class="absolute top-2 left-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
+                <i class="fa-solid fa-crown text-[8px]"></i> VIP
+              </span>
+              <span class="absolute top-2 right-2 bg-econexus/90 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded-full uppercase">
+                ${p.operacion}
+              </span>
+              ${tieneVideo ? `<span class="absolute bottom-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow"><i class="fa-solid fa-circle-play"></i> Video</span>` : ''}
+              <div class="absolute bottom-2 left-2.5 text-white font-black text-base sm:text-lg drop-shadow">
+                $${Number(p.precio).toLocaleString('en-US')}
+              </div>
+            </div>
+            <div class="p-3 flex flex-col flex-grow justify-between bg-gradient-to-b from-white to-amber-50/20">
+              <div>
+                <div class="text-[9px] font-extrabold text-econexus uppercase mb-0.5 truncate flex items-center gap-1">
+                  <i class="fa-solid fa-location-dot text-amber-500"></i> ${p.tipo} • ${p.ubicacion}
+                </div>
+                <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm mb-1 line-clamp-1 group-hover:text-econexus transition">${p.titulo}</h4>
+                <div class="text-[9px] text-gray-600 font-semibold mb-2 truncate flex items-center gap-1">
+                  <i class="fa-solid fa-building-user text-econexus"></i> ${agenciaDisplay}
+                </div>
+              </div>
+              <!-- Características con animación secuencial -->
+              <div class="grid grid-cols-3 gap-1.5 text-center text-[9px] font-bold text-gray-800 pt-1">
+                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus mr-0.5"></i>${p.habitaciones || 0}</div>
+                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus mr-0.5"></i>${p.banos || 0}</div>
+                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus mr-0.5"></i>${p.metros || 0}m²</div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      configurarAutoScrollVip();
+    }
+
+    function moverCarruselVipManual(distancia) {
+      const track = document.getElementById('trackVip');
+      if (!track) return;
+      vipPausadoPorUsuario = true;
+      track.scrollBy({ left: distancia, behavior: 'smooth' });
+      setTimeout(() => { vipPausadoPorUsuario = false; }, 5000);
+    }
+
+    function configurarAutoScrollVip() {
+      detenerAutoScrollVip();
+      const track = document.getElementById('trackVip');
+      if (!track) return;
+
+      track.onmouseenter = () => { vipPausadoPorUsuario = true; };
+      track.onmouseleave = () => { vipPausadoPorUsuario = false; };
+      track.ontouchstart = () => { vipPausadoPorUsuario = true; };
+      track.ontouchend = () => { setTimeout(() => { vipPausadoPorUsuario = false; }, 4000); };
+
+      vipAutoScrollTimer = setInterval(() => {
+        if (vipPausadoPorUsuario) return;
+        if (track.scrollWidth <= track.clientWidth + 10) return;
+
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (track.scrollLeft >= maxScroll - 5) {
+          vipScrollDirection = -1;
+        } else if (track.scrollLeft <= 5) {
+          vipScrollDirection = 1;
+        }
+        track.scrollBy({ left: 255 * vipScrollDirection, behavior: 'smooth' });
+      }, 3600);
+    }
+
+    function detenerAutoScrollVip() {
+      if (vipAutoScrollTimer) {
+        clearInterval(vipAutoScrollTimer);
+        vipAutoScrollTimer = null;
+      }
+    }
+
+    // --- ROTACIÓN AUTOMÁTICA SECUENCIAL DE FOTOS EN TODAS LAS TARJETAS ---
+    function iniciarRotacionFotosTarjetas() {
+      if (cardPhotoInterval) clearInterval(cardPhotoInterval);
+      cardPhotoInterval = setInterval(() => {
+        const imagenes = document.querySelectorAll('.auto-carousel-img');
+        imagenes.forEach((img) => {
+          try {
+            const raw = img.getAttribute('data-photos');
+            if (!raw) return;
+            const fotos = JSON.parse(decodeURIComponent(raw));
+            if (!fotos || fotos.length <= 1) return;
+
+            // Solo animar si la tarjeta es visible en pantalla para máxima fluidez
+            const rect = img.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+            let idx = parseInt(img.getAttribute('data-idx') || '0', 10);
+            idx = (idx + 1) % fotos.length;
+            img.style.opacity = '0.35';
+            setTimeout(() => {
+              img.src = fotos[idx];
+              img.setAttribute('data-idx', String(idx));
+              img.style.opacity = '1';
+            }, 220);
+          } catch (e) {}
+        });
+      }, 4200);
+    }
+
+    // --- CARGA DEL CATÁLOGO GENERAL ---
     async function cargarPropiedades(reset = false) {
       if (reset) {
         pageOffset = 0; hayMasPaginas = true; propiedadesCargadas = [];
@@ -551,10 +798,10 @@
         if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
         if (tipo) query = query.ilike('tipo', `%${tipo}%`);
         
-        // Búsqueda inteligente mejorada para texto, precios o zonas
+        // Búsqueda inteligente mejorada para texto, precios, zonas o teléfono de asesor
         if (texto) {
           if (!isNaN(texto) && Number(texto) > 0) {
-            query = query.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%`);
+            query = query.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
           } else {
             query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
           }
@@ -569,7 +816,6 @@
         if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
         
         propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
-        renderizarSeccionVip(propiedadesCargadas); 
         renderizarTarjetas(propiedadesCargadas);
       } catch (err) { console.error("Error al cargar propiedades:", err); } 
       finally { document.getElementById("loadingSpinner").classList.add("hidden"); }
@@ -584,33 +830,6 @@
       btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles`;
     }
 
-    function renderizarSeccionVip(lista) {
-      const seccionVip = document.getElementById("seccionVipContainer"), trackVip = document.getElementById("trackVip");
-      const vips = lista.filter(p => p.vip_activo === true);
-      if (vips.length === 0) { seccionVip.classList.add("hidden"); return; }
-      seccionVip.classList.remove("hidden"); trackVip.innerHTML = "";
-      vips.forEach(p => {
-        const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "";
-        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
-
-        trackVip.innerHTML += `
-          <div onclick="abrirModal('${p.id}')" class="min-w-[160px] max-w-[160px] md:min-w-[190px] md:max-w-[190px] bg-white rounded-xl overflow-hidden border-2 border-amber-400 shadow hover:shadow-lg transition flex flex-col cursor-pointer flex-shrink-0 snap-start relative">
-            <div class="h-24 md:h-28 overflow-hidden relative">
-              <img src="${foto}" class="w-full h-full object-cover" />
-              <span class="absolute top-1 left-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase"><i class="fa-solid fa-star"></i> Destacado</span>
-            </div>
-            <div class="p-2">
-              <div class="text-[8px] md:text-[9px] font-bold text-econexus uppercase mb-0.5 break-words">${p.tipo} • ${p.ubicacion}</div>
-              <h4 class="font-bold text-gray-900 text-[10px] md:text-[11px] mb-0.5 leading-tight">${p.titulo}</h4>
-              <div class="text-[8px] text-econexus font-semibold mb-1 truncate"><i class="fa-solid fa-building-user mr-1"></i>${agenciaDisplay}</div>
-              <div class="text-xs md:text-sm font-black text-econexus">$${p.precio}</div>
-            </div>
-          </div>
-        `;
-      });
-    }
-
     function renderizarTarjetas(lista) {
       const grid = document.getElementById("propsGrid"), noRes = document.getElementById("noResults"), btnLoad = document.getElementById("loadMoreContainer");
       grid.innerHTML = "";
@@ -619,31 +838,37 @@
       if (hayMasPaginas) btnLoad.classList.remove("hidden"); else btnLoad.classList.add("hidden");
       
       lista.forEach(p => {
-        const foto = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "";
+        const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+        const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
         const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
         const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+        const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
 
         grid.innerHTML += `
-          <div class="bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition flex flex-col group relative">
-            <div class="h-32 md:h-40 overflow-hidden relative cursor-pointer" onclick="abrirModal('${p.id}')">
-              <img src="${foto}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-              <span class="absolute top-1.5 left-1.5 bg-econexus text-white text-[8px] font-bold px-1.5 py-0.5 rounded uppercase shadow-sm">${p.operacion}</span>
+          <div class="bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group relative hover:-translate-y-1">
+            <div class="h-36 md:h-44 overflow-hidden relative cursor-pointer bg-gray-900" onclick="abrirModal('${p.id}')">
+              <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+              <span class="absolute top-2 left-2 bg-econexus/95 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase shadow-sm">${p.operacion}</span>
+              ${tieneVideo ? `<span class="absolute top-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-play text-[7px]"></i> Video</span>` : ''}
+              <span class="absolute bottom-2 right-2 bg-black/65 backdrop-blur-sm text-white text-[8px] font-bold px-1.5 py-0.5 rounded">${p.codigo_eco}</span>
             </div>
-            <div class="p-2.5 flex flex-col flex-grow">
-              <div class="text-[9px] font-semibold text-gray-500 uppercase mb-0.5 break-words">${p.tipo} • ${p.ubicacion}</div>
-              <h3 class="font-bold text-gray-900 text-[11px] md:text-xs leading-tight mb-1 cursor-pointer" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
-              <div class="text-[9px] text-econexus font-semibold mb-1 truncate"><i class="fa-solid fa-building-user mr-1"></i>${agenciaDisplay}</div>
-              
-              <!-- Características mínimas integradas en tarjeta -->
-              <div class="grid grid-cols-3 gap-1 bg-econexus-soft p-1.5 rounded-lg mb-2 text-center text-[9px] text-gray-700 border border-green-100">
-                <div><i class="fa-solid fa-bed text-econexus"></i> ${p.habitaciones} Hab</div>
-                <div><i class="fa-solid fa-bath text-econexus"></i> ${p.banos} Baños</div>
-                <div><i class="fa-solid fa-ruler-combined text-econexus"></i> ${p.metros}m²</div>
+            <div class="p-3 flex flex-col flex-grow">
+              <div class="text-[9px] font-bold text-econexus uppercase mb-0.5 break-words flex items-center gap-1">
+                <i class="fa-solid fa-location-dot text-econexus-accent"></i> ${p.tipo} • ${p.ubicacion}
               </div>
-
-              <div class="text-sm md:text-base font-black text-econexus mb-2 mt-auto">$${p.precio}</div>
-              <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus-soft hover:bg-green-100 text-econexus font-bold py-1.5 rounded-lg transition text-[10px] border border-green-200">
-                Ver Ficha Completa
+              <h3 class="font-extrabold text-gray-900 text-[11px] md:text-xs leading-snug mb-1 cursor-pointer line-clamp-2 group-hover:text-econexus transition" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
+              <div class="text-[9px] text-gray-500 font-semibold mb-2 truncate"><i class="fa-solid fa-building-user mr-1 text-econexus"></i>${agenciaDisplay}</div>
+              
+              <!-- Características mínimas animadas en tarjeta -->
+              <div class="grid grid-cols-3 gap-1 mb-2.5 text-center text-[9px] font-bold text-gray-700">
+                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus"></i> ${p.habitaciones}</div>
+                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus"></i> ${p.banos}</div>
+                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus"></i> ${p.metros}m²</div>
+              </div>
+              <div class="text-base md:text-lg font-black text-econexus mb-2 mt-auto">$${Number(p.precio).toLocaleString('en-US')}</div>
+              <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-[10px] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                Ver Ficha Completa <i class="fa-solid fa-arrow-right text-[9px]"></i>
               </button>
             </div>
           </div>
@@ -651,11 +876,17 @@
       });
     }
 
-    function aplicarFiltros() { cargarPropiedades(true); }
+    function aplicarFiltros() {
+      cargarVips(true);
+      cargarPropiedades(true);
+    }
     function aplicarFiltrosDebounced() { clearTimeout(debounceTimer); debounceTimer = setTimeout(aplicarFiltros, 400); }
     function resetFiltros() {
-      document.getElementById("filterOperacion").value = "TODOS"; document.getElementById("filterTipo").value = "";
-      document.getElementById("filterText").value = ""; cargarPropiedades(true);
+      document.getElementById("filterOperacion").value = "TODOS";
+      document.getElementById("filterTipo").value = "";
+      document.getElementById("filterText").value = "";
+      cargarVips(true);
+      cargarPropiedades(true);
     }
     
     function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
@@ -691,8 +922,18 @@
       return `Sector posicionado en ${ubicacionTexto}, ofreciendo acceso a vías y comercios.`;
     }
 
-    function abrirModal(id) {
-      const p = propiedadesCargadas.find(item => item.id === id);
+    // Busca tanto en el catálogo cargado como en la lista de VIPs o en resultados de voz
+    async function abrirModal(id) {
+      let p = propiedadesCargadas.find(item => item.id === id) || vipsCargados.find(item => item.id === id);
+      if (!p && window.opcionesVozGlobal) {
+        p = window.opcionesVozGlobal.find(item => item.id === id);
+      }
+      if (!p) {
+        try {
+          const { data } = await dbClient.from('v_propiedades_catalogo').select('*').eq('id', id).single();
+          if (data) p = data;
+        } catch (e) { console.error(e); }
+      }
       if (p) abrirModalDirecto(p);
     }
 
@@ -705,7 +946,7 @@
       fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : [];
       indiceFotoActiva = 0;
       
-      currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, y ${p.metros} metros de construcción. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
+      currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, ${p.estacionamientos || 0} puestos de estacionamiento y ${p.metros} metros cuadrados. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
       
       const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
       const renderFotoAsesorHTML = fotoAsesor 
@@ -715,15 +956,24 @@
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
 
+      // Botón dinámico para ver video si el agente lo subió desde su panel
+      const urlVideoLimpia = (p.enlace_video && p.enlace_video.trim() !== '') ? p.enlace_video.trim() : '';
+      const botonVideoHTML = urlVideoLimpia ? `
+        <a href="${urlVideoLimpia}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer">
+          <i class="fa-solid fa-circle-play text-sm animate-pulse"></i> Ver Video del Inmueble
+        </a>
+      ` : '';
+
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-4 md:p-7">
           <div class="flex flex-wrap items-center gap-2 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase mb-2">
+            <span class="bg-econexus text-white px-2.5 py-0.5 rounded-full">${p.operacion}</span>
             <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${p.tipo}</span> 
             <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">ID: ${p.codigo_eco}</span>
           </div>
           <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
-          <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${p.precio}</div>
+          <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${Number(p.precio).toLocaleString('en-US')}</div>
           
           <div class="mb-4 relative rounded-xl overflow-hidden h-56 md:h-80 bg-gray-900 flex items-center justify-center cursor-zoom-in" id="swipeContainerModal" onclick="abrirLightbox()">
             <img id="modalFotoPrincipal" src="${fotosActivasModal[0] || ''}" class="w-full h-full object-cover transition-opacity duration-300" />
@@ -735,17 +985,19 @@
             <div class="absolute top-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</div>
           </div>
           
-          <div class="mb-4">
-            <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="w-full bg-econexus-soft hover:bg-green-100 border border-green-200 text-econexus py-3 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+          <!-- Barra de botones multimedia: Lectura de Voz + Video del Inmueble (si existe) -->
+          <div class="mb-4 flex flex-col sm:flex-row gap-2.5">
+            <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="flex-1 bg-econexus-soft hover:bg-green-100 border border-green-200 text-econexus py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
                <i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa
             </button>
+            ${botonVideoHTML}
           </div>
           
           <div class="grid grid-cols-4 gap-2 bg-gray-50 border border-gray-100 p-3 rounded-xl mb-4 text-center text-[10px] md:text-xs text-gray-700">
-            <div><i class="fa-solid fa-bed text-gray-400 mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.habitaciones}</strong></div>
-            <div><i class="fa-solid fa-bath text-gray-400 mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.banos}</strong></div>
-            <div><i class="fa-solid fa-car text-gray-400 mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.estacionamientos}</strong></div>
-            <div><i class="fa-solid fa-ruler-combined text-gray-400 mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.metros}m²</strong></div>
+            <div><i class="fa-solid fa-bed text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.habitaciones}</strong>Hab</div>
+            <div><i class="fa-solid fa-bath text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.banos}</strong>Baños</div>
+            <div><i class="fa-solid fa-car text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.estacionamientos}</strong>Puestos</div>
+            <div><i class="fa-solid fa-ruler-combined text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.metros}m²</strong>Área</div>
           </div>
           
           <div class="mb-5">
@@ -784,7 +1036,6 @@
       
       setTimeout(() => {
         if(mapaFichaModal) mapaFichaModal.remove();
-        // Se activa attributionControl para que funcione el diseño sutil en CSS
         mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: true }).setView(obtenerCoordenadasExactas(p), 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaFichaModal);
         L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
@@ -802,6 +1053,7 @@
       const dots = document.getElementById("modalDotsContainer");
       if(dots) dots.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===indiceFotoActiva?'bg-white':'bg-white/50'}"></span>`).join('');
     }
+
     function setupSwipeEnFotoModal() {
       const container = document.getElementById("swipeContainerModal");
       if(!container) return;
@@ -812,6 +1064,39 @@
         if(touchEndX > touchStartX + 30) cambiarFotoSwipe(-1);
       }, {passive: true});
     }
+
+    // --- FUNCIONES DEL MODAL LIGHTBOX (ZOOM FOTOGRÁFICO) ---
+    function abrirLightbox() {
+      if (!fotosActivasModal || fotosActivasModal.length === 0) return;
+      lightboxFotos = fotosActivasModal;
+      lightboxIndex = indiceFotoActiva;
+      actualizarVistaLightbox();
+      const modalLb = document.getElementById("modalLightbox");
+      modalLb.classList.remove("hidden");
+      modalLb.classList.add("flex");
+    }
+
+    function cerrarLightbox() {
+      const modalLb = document.getElementById("modalLightbox");
+      modalLb.classList.add("hidden");
+      modalLb.classList.remove("flex");
+    }
+
+    function navegarLightbox(direccion) {
+      if (lightboxFotos.length <= 1) return;
+      lightboxIndex += direccion;
+      if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
+      if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
+      actualizarVistaLightbox();
+    }
+
+    function actualizarVistaLightbox() {
+      const imgLb = document.getElementById("lightboxImg");
+      const contadorLb = document.getElementById("contador-lightbox");
+      if (imgLb) imgLb.src = lightboxFotos[lightboxIndex];
+      if (contadorLb) contadorLb.textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
+    }
+
     function toggleLecturaVoz() {
         const btn = document.getElementById('btnLecturaVozModal');
         if (synth.speaking) {
@@ -830,11 +1115,13 @@
             if(btn) { btn.innerHTML = '<i class="fa-solid fa-circle-stop text-sm"></i> Detener Lectura'; btn.classList.replace('bg-econexus-soft', 'bg-green-100'); btn.classList.replace('text-econexus', 'text-green-800'); }
         }
     }
+
     function cerrarModal() { 
         if (synth.speaking) { synth.cancel(); liberarWakeLock(); } 
         document.getElementById("propModal").classList.add("hidden"); 
     }
 
+    // --- MAPA GLOBAL Y LEYENDA DE ZONAS ---
     async function abrirModalMapaGlobal() {
       document.getElementById("mapaGlobalModal").classList.remove("hidden");
       limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
@@ -924,5 +1211,8 @@
     }
     function buscarZonaEnMapa(query) { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); }
   </script>
+
+  <!-- MÓDULO EXTERNO DEL ASISTENTE VIRTUAL POR VOZ AVANZADO -->
+  <script src="js/asistente-voz.js"></script>
 </body>
 </html>
