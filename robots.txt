@@ -3,5 +3,6 @@ Allow: /
 Allow: /index.html
 Allow: /captacion.html
 Allow: /menu.html
-
-Sitemap: https://asistentedeacm-code.github.io/EcoNexus/sitemap.xml 
+Allow: /busqueda-agente.html
+Allow: /saai.html
+Sitemap: https://econexusplatform.com/sitemap.xml
