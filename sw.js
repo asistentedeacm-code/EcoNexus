@@ -1,7 +1,8 @@
-const CACHE_NAME = 'econexus-v-dinamica-2';
+const CACHE_NAME = 'econexus-v-dinamica-3';
 const urlsToCache = [
-  '/EcoNexus/',
-  '/EcoNexus/logo.png.png'
+  '/',
+  '/menu.html',
+  '/logo.png.png'
 ];
 
 // Instalación inicial ligera
@@ -20,7 +21,9 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          return caches.delete(cacheName); // Limpia cualquier caché anterior
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
         })
       );
     }).then(() => self.clients.claim())
@@ -30,17 +33,14 @@ self.addEventListener('activate', (event) => {
 // Estrategia inteligente de peticiones
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-
-  // SI ES UNA PAGINA HTML: Intentamos buscar primero en la red (GitHub)
-  // Así los cambios de código o la foto de perfil se reflejan al instante.
-  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/EcoNexus/')) {
+  // SI ES UNA PAGINA HTML: Intentamos buscar primero en la red
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
           return response;
         })
         .catch(() => {
-          // Si el usuario está totalmente sin internet, se le muestra lo que esté en caché
           return caches.match(event.request);
         })
     );
