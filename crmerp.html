@@ -1,1 +1,203 @@
-en construcción....
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoNexus - En Construcción</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(145deg, #040f0a 0%, #0a2618 100%);
+            color: #ffffff;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .screen-container {
+            background: linear-gradient(145deg, #0a2618 0%, #03140c 100%);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.15);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 440px;
+            padding: 35px 24px;
+            position: relative;
+            text-align: center;
+            animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Botón de regreso superior */
+        .btn-regresar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #a7f3d0;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-regresar:hover {
+            background: rgba(16, 185, 129, 0.25);
+            color: #ffffff;
+            border-color: rgba(16, 185, 129, 0.5);
+        }
+
+        /* Insignia */
+        .badge-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15));
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .badge-icon {
+            font-size: 14px;
+        }
+
+        .badge-text {
+            color: #fbbf24;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .screen-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f3f4f6;
+        }
+
+        /* Contenedor de Transcripción Animada */
+        .typing-container {
+            min-height: 100px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        #typing-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d1d5db;
+            margin: 0;
+            display: inline;
+        }
+
+        .cursor {
+            font-size: 14px;
+            font-weight: bold;
+            color: #34d399;
+            animation: blink 0.8s infinite;
+        }
+
+        /* Firma */
+        .screen-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 18px;
+        }
+
+        .brand-signature {
+            font-size: 14px;
+            font-weight: 600;
+            color: #34d399;
+            letter-spacing: 0.3px;
+        }
+
+        .brand-signature small {
+            color: #9ca3af;
+            font-weight: 400;
+            text-transform: lowercase;
+        }
+
+        /* Animaciones */
+        @keyframes scaleUp {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen-container">
+        <!-- Botón superior de regreso -->
+        <button class="btn-regresar" onclick="window.history.back();">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            Volver
+        </button>
+
+        <!-- Insignia superior -->
+        <div class="badge-container">
+            <span class="badge-icon">⚡</span>
+            <span class="badge-text">SUITE PROPTECH EN DESARROLLO</span>
+        </div>
+
+        <!-- Título principal -->
+        <h1 class="screen-title">Centro de Operaciones CRM / ERP</h1>
+
+        <!-- Contenedor del texto con animación de transcripción -->
+        <div class="typing-container">
+            <p id="typing-text"></p>
+            <span class="cursor">|</span>
+        </div>
+
+        <!-- Firma de marca -->
+        <div class="screen-footer">
+            <span class="brand-signature">e-conexus <small>siempre contigo</small></span>
+        </div>
+    </div>
+
+    <script>
+        // Script de Transcripción Animada (Efecto Máquina de Escribir)
+        const mensaje = "Espacio en construcción. No te pierdas las nuevas funciones que estarán acá dentro de muy poco para potenciar aún más tu desarrollo como agente inmobiliario.";
+        const elementoTexto = document.getElementById("typing-text");
+        let index = 0;
+
+        function escribirTexto() {
+            if (index < mensaje.length) {
+                elementoTexto.textContent += mensaje.charAt(index);
+                index++;
+                setTimeout(escribirTexto, 35); // Velocidad de escritura
+            }
+        }
+
+        // Iniciar animación al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(escribirTexto, 300);
+        });
+    </script>
+</body>
+</html>
