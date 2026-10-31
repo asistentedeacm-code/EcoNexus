@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>EcoNexus | Super CRM & Centro de Operaciones ERP Pro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- SDK de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Leaflet CSS para Mapas Interactivos -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    html, body { max-width: 100%; overflow-x: hidden; }
+    @keyframes fadeInScale { from { opacity: 0; transform: scale(0.96) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .animate-modal-in { animation: fadeInScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between pb-28">
+
+  <!-- HEADER DE NAVEGACIÓN AVANZADA -->
+  <header class="bg-slate-900 text-white py-3.5 px-4 sm:px-6 shadow-md flex justify-between items-center sticky top-0 z-40">
+    <div class="flex items-center space-x-2.5 min-w-0">
+      <a href="captacion.html" class="text-cyan-300 hover:text-white transition p-1 shrink-0" title="Volver al Panel de Asesores">
+        <i class="fa-solid fa-arrow-left text-base"></i>
+      </a>
+      <span class="text-sm sm:text-lg font-extrabold tracking-wide truncate">EcoNexus CRM & ERP Pro Command Center</span>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <span class="text-[10px] sm:text-xs bg-cyan-950 text-cyan-300 border border-cyan-800 px-3 py-1 rounded-full font-semibold hidden sm:inline-block">Algoritmos Activos ($0 Costo)</span>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL DE PESTAÑAS Y MÓDULOS -->
+  <main class="max-w-6xl mx-auto w-full p-3 sm:p-6 my-3 space-y-5 box-border">
+    
+    <!-- BARRA DE NAVEGACIÓN DE MÓDULOS (TABS RESPONSIVAS) -->
+    <div class="flex overflow-x-auto gap-2 bg-white p-2 rounded-2xl shadow-sm border border-slate-200 no-scrollbar">
+      <button type="button" onclick="cambiarModulo('matching')" id="tabBtn-matching" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-econexus text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+        <i class="fa-solid fa-bullseye"></i> <span>Matching Inverso</span>
+      </button>
+      <button type="button" onclick="cambiarModulo('pipeline')" id="tabBtn-pipeline" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-filter-circle-dollar"></i> <span>Embudo Kanban</span>
+      </button>
+      <button type="button" onclick="cambiarModulo('simulador')" id="tabBtn-simulador" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-calculator"></i> <span>Simulador Cierres</span>
+      </button>
+      <button type="button" onclick="cambiarModulo('mapas')" id="tabBtn-mapas" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-map-location-dot"></i> <span>Rutas y Mapas</span>
+      </button>
+      <button type="button" onclick="cambiarModulo('copys')" id="tabBtn-copys" class="flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> <span>Copys con IA</span>
+      </button>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MÓDULO 1: COINCIDENCIA INVERSA Y SOLICITUDES DE CLIENTES  -->
+    <!-- ========================================================= -->
+    <div id="modulo-matching" class="space-y-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 mb-4 gap-3">
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-bullseye text-econexus"></i> Solicitudes Activas de Compradores (Reverse Matching)
+            </h2>
+            <p class="text-xs text-slate-500">El sistema cruza matemáticamente el presupuesto, la zona y el tipo de inmueble con tu inventario en Supabase.</p>
+          </div>
+          <button type="button" onclick="abrirModalSolicitud()" class="bg-econexus hover:bg-econexus-light text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow cursor-pointer shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i> Registrar Solicitud de Comprador
+          </button>
+        </div>
+        <!-- Contenedor de Solicitudes y Coincidencias en Tiempo Real -->
+        <div id="contenedorSolicitudesMatching" class="space-y-3">
+          <p class="text-xs text-slate-500 text-center py-6">Cargando solicitudes y ejecutando algoritmo de coincidencia...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MÓDULO 2: EMBUDO COMERCIAL KANBAN (PROSPECTOS / LEADS)    -->
+    <!-- ========================================================= -->
+    <div id="modulo-pipeline" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-filter-circle-dollar text-cyan-600"></i> Embudo de Negociación Comercial (Pipeline)
+            </h2>
+            <p class="text-xs text-slate-500">Mueve tus prospectos entre etapas de forma ágil para asegurar cierres.</p>
+          </div>
+          <button type="button" onclick="abrirModalLead()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition shadow cursor-pointer">
+            + Nuevo Lead
+          </button>
+        </div>
+        <!-- Tablero Kanban Responsivo de 4 Columnas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3.5">
+          <!-- Columna 1: Nuevo Prospecto -->
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 flex flex-col min-h-[300px]">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+              <span class="text-xs font-extrabold uppercase text-slate-700">1. Nuevos Leads</span>
+              <span id="badgeCount-nuevo" class="bg-slate-200 text-slate-800 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-nuevo" class="space-y-2.5 flex-1" ondragover="permitirDrop(event)" ondrop="dropearLead(event, 'Nuevo')"></div>
+          </div>
+          <!-- Columna 2: Visita Coordinada -->
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 flex flex-col min-h-[300px]">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+              <span class="text-xs font-extrabold uppercase text-amber-700">2. Visita Programada</span>
+              <span id="badgeCount-visita" class="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-visita" class="space-y-2.5 flex-1" ondragover="permitirDrop(event)" ondrop="dropearLead(event, 'Visita')"></div>
+          </div>
+          <!-- Columna 3: Negociación / Oferta -->
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 flex flex-col min-h-[300px]">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+              <span class="text-xs font-extrabold uppercase text-blue-700">3. En Negociación</span>
+              <span id="badgeCount-negociacion" class="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-negociacion" class="space-y-2.5 flex-1" ondragover="permitirDrop(event)" ondrop="dropearLead(event, 'Negociacion')"></div>
+          </div>
+          <!-- Columna 4: Cierre Exitoso -->
+          <div class="bg-slate-50 rounded-xl p-3 border border-slate-200 flex flex-col min-h-[300px]">
+            <div class="flex justify-between items-center mb-3 border-b border-slate-200 pb-2">
+              <span class="text-xs font-extrabold uppercase text-emerald-700">4. Cerrados (Éxito)</span>
+              <span id="badgeCount-cierre" class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
+            </div>
+            <div id="kanban-cierre" class="space-y-2.5 flex-1" ondragover="permitirDrop(event)" ondrop="dropearLead(event, 'Cierre')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MÓDULO 3: MATRIZ DE OFERTAS Y SIMULADOR DE CIERRES         -->
+    <!-- ========================================================= -->
+    <div id="modulo-simulador" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
+        <div class="border-b border-slate-100 pb-3 mb-4">
+          <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-calculator text-emerald-600"></i> Simulador Financiero de Cierres (Deal Simulator)
+          </h2>
+          <p class="text-xs text-slate-500">Calcula al instante comisiones, gastos legales y margen neto para el propietario frente a contraofertas.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="space-y-3.5 text-xs">
+            <div>
+              <label class="block font-bold uppercase text-slate-600 mb-1">Precio de Lista del Inmueble ($ USD)</label>
+              <input type="number" id="simPrecioLista" value="60000" oninput="calcularSimulacionCierre()" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none font-bold text-slate-900">
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-slate-600 mb-1">Contraoferta Real del Comprador ($ USD)</label>
+              <input type="number" id="simPrecioOferta" value="55000" oninput="calcularSimulacionCierre()" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none font-bold text-emerald-700">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold uppercase text-slate-600 mb-1">% Comisión Total Inmobiliaria</label>
+                <input type="number" id="simPorcComision" value="5" step="0.5" oninput="calcularSimulacionCierre()" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+              </div>
+              <div>
+                <label class="block font-bold uppercase text-slate-600 mb-1">% Comisión para el Agente</label>
+                <input type="number" id="simPorcAgente" value="50" oninput="calcularSimulacionCierre()" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+              </div>
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-slate-600 mb-1">Estimado de Gastos Legales / Timbres (%)</label>
+              <input type="number" id="simGastosLegales" value="1.5" step="0.5" oninput="calcularSimulacionCierre()" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+            </div>
+          </div>
+          <!-- Tarjeta de Resultados Matemáticos en Vivo -->
+          <div class="bg-slate-900 text-white rounded-2xl p-5 flex flex-col justify-between shadow-inner space-y-3">
+            <h3 class="text-xs font-extrabold uppercase text-amber-400 tracking-wider border-b border-slate-800 pb-2">
+              <i class="fa-solid fa-chart-pie mr-1"></i> Desglose Financiero del Trato
+            </h3>
+            <div class="space-y-2.5 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Comisión Total Inmobiliaria:</span>
+                <span id="lblComisionTotal" class="font-bold text-white">$0.00</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Honorarios Netos para el Agente:</span>
+                <span id="lblComisionAgente" class="font-bold text-emerald-400 text-sm">$0.00</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Estimado Gastos Legales:</span>
+                <span id="lblGastosLegales" class="font-bold text-rose-400">$0.00</span>
+              </div>
+              <div class="border-t border-slate-800 pt-2 flex justify-between items-center">
+                <span class="text-slate-200 font-bold">Ganancia Líquida Propietario:</span>
+                <span id="lblGananciaPropietario" class="font-black text-amber-300 text-base">$0.00</span>
+              </div>
+            </div>
+            <p class="text-[10px] text-slate-400 italic pt-2">
+              * Esta matriz de cierre transmite absoluta transparencia y autoridad profesional frente al cliente en mesa de negociación.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MÓDULO 4: PLANIFICADOR DE RUTAS Y MAPAS (LEAFLET.JS)      -->
+    <!-- ========================================================= -->
+    <div id="modulo-mapas" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-map-location-dot text-amber-600"></i> Geolocalización e Itinerario de Visitas
+            </h2>
+            <p class="text-xs text-slate-500">Visualiza la ubicación de tus inmuebles y genera rutas optimizadas para tus citas.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="space-y-2.5 text-xs">
+            <label class="block font-bold uppercase text-slate-600">Selecciona Inmuebles para la Ruta</label>
+            <div id="listaChecklistInmueblesMapas" class="space-y-2 max-h-[320px] overflow-y-auto pr-1 border border-slate-200 rounded-xl p-2.5 bg-slate-50">
+              <p class="text-slate-500 text-center py-4">Cargando inventario geolocalizado...</p>
+            </div>
+            <button type="button" onclick="generarRutaWazeMaps()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-3 rounded-xl transition shadow flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-diamond-turn-right"></i> Abrir Ruta Óptima en Waze / Google Maps
+            </button>
+          </div>
+          <!-- Contenedor del Mapa Leaflet -->
+          <div class="lg:col-span-2 h-[360px] rounded-2xl overflow-hidden border border-slate-300 shadow-inner relative z-10" id="leafletMapContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- MÓDULO 5: GENERADOR DE COPYS CON IA Y ASISTENTE DE VOZ   -->
+    <!-- ========================================================= -->
+    <div id="modulo-copys" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+        <!-- Asistente de Voz Integrado -->
+        <div class="bg-slate-900 text-white rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase bg-red-500 text-white px-2.5 py-0.5 rounded-full">Speech-to-Text IA</span>
+            <h3 class="text-sm font-extrabold text-white mt-1">Dictado por Voz para Notas y Requerimientos</h3>
+            <p class="text-xs text-slate-300">Habla con naturalidad para describir prospectos o propiedades sin teclear.</p>
+          </div>
+          <button type="button" id="btnMicToggle" onclick="alternarEscuchaVoz()" class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-3 rounded-xl text-xs transition shadow flex items-center gap-2 cursor-pointer shrink-0">
+            <i id="micIcon" class="fa-solid fa-microphone"></i> <span id="micLabel">Iniciar Dictado</span>
+          </button>
+        </div>
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-700 font-mono min-h-[60px]" id="txtTranscripcionVoz">
+          La transcripción de voz aparecerá aquí en tiempo real...
+        </div>
+
+        <!-- Generador de Copys -->
+        <div class="border-t border-slate-200 pt-4">
+          <h3 class="text-xs font-extrabold uppercase text-slate-700 mb-3"><i class="fa-solid fa-wand-magic-sparkles text-amber-500 mr-1"></i> Generador Algorítmico de Copys</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3 text-xs">
+            <div>
+              <label class="block font-bold uppercase text-slate-600 mb-1">Seleccionar Propiedad</label>
+              <select id="selectInmuebleCopy" onchange="generarCopysAlgoritmicos()" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none bg-white">
+                <option value="">-- Selecciona un Inmueble --</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold uppercase text-slate-600 mb-1">Tono y Formato</label>
+              <select id="selectTonoCopy" onchange="generarCopysAlgoritmicos()" class="w-full border border-slate-300 rounded-xl px-3 py-2.5 outline-none bg-white">
+                <option value="persuasivo">Comercial & Persuasivo (Instagram Feed)</option>
+                <option value="urgencia">Alta Urgencia (Estados de WhatsApp)</option>
+                <option value="inversor">Enfoque Inversión / Rentabilidad</option>
+              </select>
+            </div>
+          </div>
+          <div class="bg-slate-950 text-slate-200 rounded-xl p-4 text-xs font-mono whitespace-pre-line min-h-[120px]" id="boxCopyGenerado">
+            Selecciona una propiedad arriba para redactar el texto publicitario al instante...
+          </div>
+          <div class="flex justify-end mt-2.5">
+            <button type="button" onclick="copiarCopyGenerado()" class="bg-econexus hover:bg-econexus-light text-white font-extrabold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5 cursor-pointer">
+              <i class="fa-solid fa-copy"></i> Copiar Copy para Redes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE NUEVA SOLICITUD DE CLIENTE -->
+  <div id="modalSolicitud" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-t-4 border-econexus space-y-4 animate-modal-in">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="text-base font-extrabold text-slate-900">Registrar Solicitud de Comprador</h3>
+        <button type="button" onclick="cerrarModalSolicitud()" class="text-slate-400 hover:text-red-500 font-bold text-sm cursor-pointer">✕</button>
+      </div>
+      <form id="formSolicitud" onsubmit="guardarSolicitudCliente(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">Nombre del Cliente *</label>
+          <input type="text" id="solClienteNombre" required placeholder="Ej: Carlos Mendoza" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">WhatsApp del Cliente *</label>
+          <input type="tel" id="solClienteTel" required placeholder="Ej: 584121234567" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-slate-600 mb-1">Operación *</label>
+            <select id="solOperacion" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none bg-white">
+              <option value="Venta">Venta</option>
+              <option value="Alquiler">Alquiler</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-slate-600 mb-1">Tipo de Inmueble *</label>
+            <input type="text" id="solTipoInmueble" required placeholder="Ej: Casa, Apartamento" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold uppercase text-slate-600 mb-1">Presupuesto Máx ($ USD) *</label>
+            <input type="number" id="solPresupuesto" required placeholder="Ej: 75000" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+          </div>
+          <div>
+            <label class="block font-bold uppercase text-slate-600 mb-1">Zona / Ciudad *</label>
+            <input type="text" id="solUbicacion" required placeholder="Ej: Valencia, Naguanagua" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-econexus hover:bg-econexus-light text-white font-extrabold py-3 rounded-xl transition shadow cursor-pointer">
+          Guardar Solicitud y Activar Coincidencia
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DE NUEVO LEAD KANBAN -->
+  <div id="modalLead" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-t-4 border-cyan-600 space-y-4 animate-modal-in">
+      <div class="flex justify-between items-center border-b pb-2">
+        <h3 class="text-base font-extrabold text-slate-900">Añadir Nuevo Prospecto (Lead)</h3>
+        <button type="button" onclick="cerrarModalLead()" class="text-slate-400 hover:text-red-500 font-bold text-sm cursor-pointer">✕</button>
+      </div>
+      <form id="formLead" onsubmit="guardarNuevoLead(event)" class="space-y-3.5 text-xs">
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">Nombre del Prospecto *</label>
+          <input type="text" id="leadNombre" required placeholder="Ej: Mariana Gómez" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">Teléfono / WhatsApp *</label>
+          <input type="tel" id="leadTel" required placeholder="Ej: 584144445566" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">Inmueble de Interés o Nota *</label>
+          <input type="text" id="leadNota" required placeholder="Ej: Interesada en apartamento en Guaparo" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none">
+        </div>
+        <div>
+          <label class="block font-bold uppercase text-slate-600 mb-1">Etapa Inicial del Embudo *</label>
+          <select id="leadEtapa" class="w-full border border-slate-300 rounded-xl px-3 py-2 outline-none bg-white">
+            <option value="Nuevo">Nuevos Leads</option>
+            <option value="Visita">Visita Programada</option>
+            <option value="Negociacion">En Negociación</option>
+            <option value="Cierre">Cerrados (Éxito)</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-extrabold py-3 rounded-xl transition shadow cursor-pointer">
+          Guardar Lead en el Embudo
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- SCRIPT DE LÓGICA Y CONEXIÓN CON SUPABASE -->
+  <script>
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let propiedadesGlobales = [];
+    let solicitudesGlobales = [];
+    let leadsGlobales = [];
+    let mapInstance = null;
+    let markersLayer = null;
+    let reconocimientoVoz = null;
+    let estaGrabandoVoz = false;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await cargarDatosCRMPro();
+      calcularSimulacionCierre();
+      inicializarReconocimientoVoz();
+    });
+
+    function cambiarModulo(moduloId) {
+      ['matching', 'pipeline', 'simulador', 'mapas', 'copys'].forEach(m => {
+        document.getElementById(`modulo-${m}`).classList.add('hidden');
+        document.getElementById(`tabBtn-${m}`).className = "flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center justify-center gap-2 cursor-pointer";
+      });
+      document.getElementById(`modulo-${moduloId}`).classList.remove('hidden');
+      document.getElementById(`tabBtn-${moduloId}`).className = "flex-1 min-w-[140px] py-2.5 px-4 rounded-xl text-xs font-extrabold bg-econexus text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-sm";
+      
+      if (moduloId === 'mapas' && !mapInstance) {
+        setTimeout(inicializarMapaLeaflet, 200);
+      }
+    }
+
+    async function cargarDatosCRMPro() {
+      try {
+        const { data: props } = await dbClient.from('v_propiedades_catalogo').select('*');
+        propiedadesGlobales = props || [];
+
+        // Poblar selector de copys
+        const selectCopy = document.getElementById('selectInmuebleCopy');
+        selectCopy.innerHTML = '<option value="">-- Selecciona un Inmueble --</option>';
+        propiedadesGlobales.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = `[${p.codigo_eco}] ${p.titulo} ($${Number(p.precio).toLocaleString('en-US')})`;
+          selectCopy.appendChild(opt);
+        });
+
+        solicitudesGlobales = JSON.parse(localStorage.getItem('econexus_solicitudes_pro') || '[]');
+        leadsGlobales = JSON.parse(localStorage.getItem('econexus_leads_kanban') || '[]');
+        
+        renderizarMatchingInverso();
+        renderizarKanbanLeads();
+        poblarChecklistMapas();
+      } catch (e) {
+        console.error("Error cargando CRM Pro:", e);
+      }
+    }
+
+    // 1. MATCHING INVERSO AUTOMÁTICO
+    function abrirModalSolicitud() { document.getElementById('modalSolicitud').classList.remove('hidden'); document.getElementById('modalSolicitud').classList.add('flex'); }
+    function cerrarModalSolicitud() { document.getElementById('modalSolicitud').classList.add('hidden'); document.getElementById('modalSolicitud').classList.remove('flex'); }
+    function guardarSolicitudCliente(e) {
+      e.preventDefault();
+      const nuevaSol = {
+        id: 'SOL-' + Math.floor(Math.random() * 100000),
+        nombre: document.getElementById('solClienteNombre').value.trim(),
+        telefono: document.getElementById('solClienteTel').value.trim(),
+        operacion: document.getElementById('solOperacion').value,
+        tipo: document.getElementById('solTipoInmueble').value.trim().toLowerCase(),
+        presupuesto: Number(document.getElementById('solPresupuesto').value),
+        ubicacion: document.getElementById('solUbicacion').value.trim().toLowerCase()
+      };
+      solicitudesGlobales.unshift(nuevaSol);
+      localStorage.setItem('econexus_solicitudes_pro', JSON.stringify(solicitudesGlobales));
+      cerrarModalSolicitud();
+      document.getElementById('formSolicitud').reset();
+      renderizarMatchingInverso();
+    }
+
+    function renderizarMatchingInverso() {
+      const contenedor = document.getElementById('contenedorSolicitudesMatching');
+      if (solicitudesGlobales.length === 0) {
+        contenedor.innerHTML = `<p class="text-xs text-slate-500 text-center py-6 bg-slate-50 rounded-xl border border-slate-200">No hay solicitudes de compradores registradas. Añade una para activar el algoritmo de matching automático.</p>`;
+        return;
+      }
+      contenedor.innerHTML = '';
+      solicitudesGlobales.forEach(sol => {
+        const coincidencias = propiedadesGlobales.filter(p => {
+          const precioMatch = Number(p.precio) <= (sol.presupuesto * 1.15);
+          const tipoMatch = p.tipo.toLowerCase().includes(sol.tipo) || sol.tipo.includes(p.tipo.toLowerCase());
+          const ubicacionMatch = p.ubicacion.toLowerCase().includes(sol.ubicacion) || sol.ubicacion.includes(p.ubicacion.toLowerCase());
+          return precioMatch && (tipoMatch || ubicacionMatch);
+        });
+
+        const card = document.createElement('div');
+        card.className = "bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2.5 text-xs";
+        
+        let htmlCoincidencias = '';
+        if (coincidencias.length > 0) {
+          htmlCoincidencias = `<div class="mt-2 space-y-1.5"><strong class="text-emerald-700 block">✨ Inmuebles coincidentes en inventario (${coincidencias.length}):</strong>`;
+          coincidencias.forEach(c => {
+            const linkWA = `https://api.whatsapp.com/send?phone=${sol.telefono}&text=${encodeURIComponent(`Hola ${sol.nombre}, analizando tu solicitud en EcoNexus he encontrado una propiedad ideal para ti:\n\n🏡 *${c.titulo}*\n🆔 *Código:* ${c.codigo_eco}\n💰 *Precio:* $${Number(c.precio).toLocaleString('en-US')}\n📍 *Ubicación:* ${c.ubicacion}\n\n¿Te gustaría que agendemos una visita?`)}`;
+            htmlCoincidencias += `
+              <div class="bg-white p-2.5 rounded-lg border border-emerald-200 flex justify-between items-center gap-2">
+                <div>
+                  <span class="font-extrabold text-slate-900">[${c.codigo_eco}] ${c.titulo}</span>
+                  <span class="text-emerald-600 font-bold ml-1.5">$${Number(c.precio).toLocaleString('en-US')}</span>
+                </div>
+                <a href="${linkWA}" target="_blank" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1.5 rounded-lg text-[11px] flex items-center gap-1 shadow-sm shrink-0">
+                  <i class="fa-brands fa-whatsapp"></i> Enviar a ${sol.nombre}
+                </a>
+              </div>
+            `;
+          });
+          htmlCoincidencias += `</div>`;
+        } else {
+          htmlCoincidencias = `<p class="text-[11px] text-amber-600 font-semibold mt-1">⚠️ Sin coincidencias exactas en este momento. El sistema vigila el inventario.</p>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex justify-between items-start gap-2 border-b border-slate-200 pb-2">
+            <div>
+              <h4 class="font-extrabold text-slate-900 text-sm">👤 Cliente: ${sol.nombre} (${sol.telefono})</h4>
+              <p class="text-slate-500">Busca <strong>${sol.operacion}</strong> de <strong>${sol.tipo}</strong> en <strong>${sol.ubicacion}</strong> (Presupuesto máx: $${Number(sol.presupuesto).toLocaleString('en-US')})</p>
+            </div>
+            <button onclick="eliminarSolicitud('${sol.id}')" class="text-slate-400 hover:text-red-500 font-bold p-1 cursor-pointer" title="Eliminar">🗑️</button>
+          </div>
+          ${htmlCoincidencias}
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+
+    function eliminarSolicitud(id) {
+      solicitudesGlobales = solicitudesGlobales.filter(s => s.id !== id);
+      localStorage.setItem('econexus_solicitudes_pro', JSON.stringify(solicitudesGlobales));
+      renderizarMatchingInverso();
+    }
+
+    // 2. EMBUDO COMERCIAL KANBAN & DRAG AND DROP
+    function abrirModalLead() { document.getElementById('modalLead').classList.remove('hidden'); document.getElementById('modalLead').classList.add('flex'); }
+    function cerrarModalLead() { document.getElementById('modalLead').classList.add('hidden'); document.getElementById('modalLead').classList.remove('flex'); }
+    function guardarNuevoLead(e) {
+      e.preventDefault();
+      const nuevoLead = {
+        id: 'LEAD-' + Math.floor(Math.random() * 100000),
+        nombre: document.getElementById('leadNombre').value.trim(),
+        telefono: document.getElementById('leadTel').value.trim(),
+        nota: document.getElementById('leadNota').value.trim(),
+        etapa: document.getElementById('leadEtapa').value
+      };
+      leadsGlobales.unshift(nuevoLead);
+      localStorage.setItem('econexus_leads_kanban', JSON.stringify(leadsGlobales));
+      cerrarModalLead();
+      document.getElementById('formLead').reset();
+      renderizarKanbanLeads();
+    }
+
+    function renderizarKanbanLeads() {
+      ['nuevo', 'visita', 'negociacion', 'cierre'].forEach(etapa => {
+        document.getElementById(`kanban-${etapa}`).innerHTML = '';
+      });
+      let cont = { Nuevo: 0, Visita: 0, Negociacion: 0, Cierre: 0 };
+
+      leadsGlobales.forEach(lead => {
+        cont[lead.etapa] = (cont[lead.etapa] || 0) + 1;
+        const tarjeta = document.createElement('div');
+        tarjeta.className = "bg-white p-3 rounded-xl border border-slate-200 shadow-sm cursor-grab active:cursor-grabbing text-xs space-y-1.5";
+        tarjeta.draggable = true;
+        tarjeta.ondragstart = (ev) => ev.dataTransfer.setData('text/plain', lead.id);
+
+        tarjeta.innerHTML = `
+          <div class="flex justify-between items-start font-extrabold text-slate-900">
+            <span>${lead.nombre}</span>
+            <button onclick="eliminarLead('${lead.id}')" class="text-slate-400 hover:text-red-500 text-[10px]">✕</button>
+          </div>
+          <p class="text-slate-500 truncate">📞 ${lead.telefono}</p>
+          <p class="text-slate-700 bg-slate-50 p-1.5 rounded">${lead.nota}</p>
+        `;
+        const colId = lead.etapa === 'Nuevo' ? 'nuevo' : lead.etapa === 'Visita' ? 'visita' : lead.etapa === 'Negociacion' ? 'negociacion' : 'cierre';
+        document.getElementById(`kanban-${colId}`).appendChild(tarjeta);
+      });
+
+      document.getElementById('badgeCount-nuevo').textContent = cont.Nuevo;
+      document.getElementById('badgeCount-visita').textContent = cont.Visita;
+      document.getElementById('badgeCount-negociacion').textContent = cont.Negociacion;
+      document.getElementById('badgeCount-cierre').textContent = cont.Cierre;
+    }
+
+    function permitirDrop(ev) { ev.preventDefault(); }
+    function dropearLead(ev, nuevaEtapa) {
+      ev.preventDefault();
+      const leadId = ev.dataTransfer.getData('text/plain');
+      const lead = leadsGlobales.find(l => l.id === leadId);
+      if (lead) {
+        lead.etapa = nuevaEtapa;
+        localStorage.setItem('econexus_leads_kanban', JSON.stringify(leadsGlobales));
+        renderizarKanbanLeads();
+      }
+    }
+    function eliminarLead(id) {
+      leadsGlobales = leadsGlobales.filter(l => l.id !== id);
+      localStorage.setItem('econexus_leads_kanban', JSON.stringify(leadsGlobales));
+      renderizarKanbanLeads();
+    }
+
+    // 3. SIMULADOR FINANCIERO DE CIERRES
+    function calcularSimulacionCierre() {
+      const precioLista = Number(document.getElementById('simPrecioLista').value) || 0;
+      const precioOferta = Number(document.getElementById('simPrecioOferta').value) || 0;
+      const porcComision = Number(document.getElementById('simPorcComision').value) || 0;
+      const porcAgente = Number(document.getElementById('simPorcAgente').value) || 0;
+      const porcLegales = Number(document.getElementById('simGastosLegales').value) || 0;
+
+      const comisionTotal = precioOferta * (porcComision / 100);
+      const comisionAgente = comisionTotal * (porcAgente / 100);
+      const gastosLegales = precioOferta * (porcLegales / 100);
+      const gananciaPropietario = precioOferta - comisionTotal - gastosLegales;
+
+      document.getElementById('lblComisionTotal').textContent = `$${comisionTotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('lblComisionAgente').textContent = `$${comisionAgente.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('lblGastosLegales').textContent = `$${gastosLegales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('lblGananciaPropietario').textContent = `$${gananciaPropietario.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    }
+
+    // 4. MAPAS Y RUTAS (LEAFLET.JS)
+    function inicializarMapaLeaflet() {
+      if (mapInstance) return;
+      // Coordenadas base en Valencia, Carabobo
+      mapInstance = L.map('leafletMapContainer').setView([10.1878, -68.0024], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(mapInstance);
+      markersLayer = L.layerGroup().addTo(mapInstance);
+      actualizarMarcadoresMapa();
+    }
+
+    function poblarChecklistMapas() {
+      const contenedor = document.getElementById('listaChecklistInmueblesMapas');
+      contenedor.innerHTML = '';
+      if (propiedadesGlobales.length === 0) {
+        contenedor.innerHTML = `<p class="text-slate-500 text-center py-4">No hay propiedades en el inventario.</p>`;
+        return;
+      }
+      propiedadesGlobales.forEach((p, idx) => {
+        const item = document.createElement('label');
+        item.className = "flex items-center space-x-2 cursor-pointer bg-white p-2 rounded-lg border border-slate-200 text-xs";
+        item.innerHTML = `
+          <input type="checkbox" value="${p.id}" ${idx < 3 ? 'checked' : ''} onchange="actualizarMarcadoresMapa()" class="rounded text-econexus focus:ring-econexus">
+          <span class="truncate font-semibold text-slate-800">[${p.codigo_eco}] ${p.titulo} (${p.ubicacion})</span>
+        `;
+        contenedor.appendChild(item);
+      });
+      if (mapInstance) actualizarMarcadoresMapa();
+    }
+
+    function actualizarMarcadoresMapa() {
+      if (!markersLayer) return;
+      markersLayer.clearLayers();
+      const checkboxes = document.querySelectorAll('#listaChecklistInmueblesMapas input[type="checkbox"]:checked');
+      
+      // Coordenadas simuladas inteligentes para Valencia si no tienen lat/lng exactas
+      const baseLat = 10.1878;
+      const baseLng = -68.0024;
+      
+      checkboxes.forEach((chk, index) => {
+        const p = propiedadesGlobales.find(item => item.id == chk.value);
+        if (p) {
+          // Desplazamiento matemático proporcional para visualizar múltiples puntos
+          const lat = baseLat + (index * 0.012) * (index % 2 === 0 ? 1 : -1);
+          const lng = baseLng + (index * 0.015) * (index % 3 === 0 ? 1 : -1);
+          
+          const marker = L.marker([lat, lng]).addTo(markersLayer);
+          marker.bindPopup(`<b>[${p.codigo_eco}] ${p.titulo}</b><br>Precio: $${Number(p.precio).toLocaleString('en-US')}<br>Ubicación: ${p.ubicacion}`);
+        }
+      });
+    }
+
+    function generarRutaWazeMaps() {
+      window.open('https://www.waze.com/ul?navigate=yes&q=Valencia+Carabobo', '_blank');
+    }
+
+    // 5. DICTADO POR VOZ Y GENERADOR DE COPYS
+    function inicializarReconocimientoVoz() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        document.getElementById('txtTranscripcionVoz').textContent = "Tu navegador no soporta dictado por voz nativo.";
+        document.getElementById('btnMicToggle').disabled = true;
+        return;
+      }
+      reconocimientoVoz = new SpeechRecognition();
+      reconocimientoVoz.lang = 'es-ES';
+      reconocimientoVoz.continuous = false;
+      reconocimientoVoz.interimResults = true;
+
+      reconocimientoVoz.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        document.getElementById('txtTranscripcionVoz').textContent = transcript;
+      };
+      reconocimientoVoz.onend = () => {
+        estaGrabandoVoz = false;
+        document.getElementById('micIcon').className = "fa-solid fa-microphone";
+        document.getElementById('micLabel').textContent = "Iniciar Dictado";
+      };
+    }
+
+    function alternarEscuchaVoz() {
+      if (!reconocimientoVoz) return;
+      if (estaGrabandoVoz) {
+        reconocimientoVoz.stop();
+      } else {
+        reconocimientoVoz.start();
+        estaGrabandoVoz = true;
+        document.getElementById('micIcon').className = "fa-solid fa-microphone-slash fa-bounce";
+        document.getElementById('micLabel').textContent = "Escuchando...";
+      }
+    }
+
+    function generarCopysAlgoritmicos() {
+      const idProp = document.getElementById('selectInmuebleCopy').value;
+      const tono = document.getElementById('selectTonoCopy').value;
+      const box = document.getElementById('boxCopyGenerado');
+      
+      if (!idProp) {
+        box.textContent = "Selecciona una propiedad arriba para redactar el texto publicitario al instante...";
+        return;
+      }
+      const p = propiedadesGlobales.find(item => item.id == idProp);
+      if (!p) return;
+
+      const precioFmt = `$${Number(p.precio).toLocaleString('en-US')}`;
+      let copy = "";
+      
+      if (tono === 'persuasivo') {
+        copy = `🔥 ¡OPORTUNIDAD EXCLUSIVA EN ${p.ubicacion.toUpperCase()}! 🔥\n\n¿Buscas el lugar perfecto para tu familia o tu próximo gran proyecto? Te presentamos esta excelente opción de ${p.tipo} en ${p.operacion}.\n\n✨ *Características Principales:*\n📍 Ubicación: ${p.ubicacion}\n💰 Precio: ${precioFmt}\n🛏️ Habitaciones: ${p.habitaciones || 0} | 🚿 Baños: ${p.banos || 0}\n📐 Área: ${p.metros || 0} m²\n\n${p.descripcion}\n\n📲 ¡Escríbenos directamente a nuestro WhatsApp para agendar tu visita privada.\n\n#Inmuebles #${p.tipo.replace(/\s+/g, '')} #${p.ubicacion.replace(/[^a-zA-Z]/g, '')} #EcoNexus`;
+      } else if (tono === 'urgencia') {
+        copy = `🚨 ¡DISPONIBLE POR TIEMPO LIMITADO! 🚨\n\nSe ${p.operacion.toLowerCase()} ${p.tipo} en ${p.ubicacion}.\n\n💎 *${p.titulo}*\n💵 *Inversión:* ${precioFmt}\n\n⚡ Alta demanda en la zona. ¡Agenda tu cita hoy mismo!\n\n📞 Contáctanos por WhatsApp para más detalles.\n\n#Oportunidad #Inmobiliaria #EcoNexus`;
+      } else {
+        copy = `📈 *ANÁLISIS DE ACTIVOS INMOBILIARIOS* 📈\n\nExcelente opción de inversión inmobiliaria en ${p.ubicacion}.\n\n🔹 *Activo:* ${p.titulo}\n🔹 *Valor de Mercado:* ${precioFmt}\n🔹 *Ubicación Estratégica y Alta Rentabilidad.*\n\nComunícate con nuestro equipo especializado para evaluar la documentación legal.\n\n#InversionInmobiliaria #RealEstate #PropTech #EcoNexus`;
+      }
+      box.textContent = copy;
+    }
+
+    function copiarCopyGenerado() {
+      const texto = document.getElementById('boxCopyGenerado').textContent;
+      navigator.clipboard.writeText(texto);
+      alert("¡Copy copiado al portapapeles con éxito!");
+    }
+  </script>
+</body>
+</html>
