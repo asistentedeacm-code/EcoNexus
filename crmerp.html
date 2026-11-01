@@ -1,203 +1,1648 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoNexus - En Construcción</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background: linear-gradient(145deg, #040f0a 0%, #0a2618 100%);
-            color: #ffffff;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .screen-container {
-            background: linear-gradient(145deg, #0a2618 0%, #03140c 100%);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.15);
-            border-radius: 28px;
-            width: 100%;
-            max-width: 440px;
-            padding: 35px 24px;
-            position: relative;
-            text-align: center;
-            animation: scaleUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Botón de regreso superior */
-        .btn-regresar {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #a7f3d0;
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .btn-regresar:hover {
-            background: rgba(16, 185, 129, 0.25);
-            color: #ffffff;
-            border-color: rgba(16, 185, 129, 0.5);
-        }
-
-        /* Insignia */
-        .badge-container {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: linear-gradient(90deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15));
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            padding: 6px 14px;
-            border-radius: 20px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-        }
-
-        .badge-icon {
-            font-size: 14px;
-        }
-
-        .badge-text {
-            color: #fbbf24;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .screen-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #f3f4f6;
-        }
-
-        /* Contenedor de Transcripción Animada */
-        .typing-container {
-            min-height: 100px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            padding: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        #typing-text {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #d1d5db;
-            margin: 0;
-            display: inline;
-        }
-
-        .cursor {
-            font-size: 14px;
-            font-weight: bold;
-            color: #34d399;
-            animation: blink 0.8s infinite;
-        }
-
-        /* Firma */
-        .screen-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            padding-top: 18px;
-        }
-
-        .brand-signature {
-            font-size: 14px;
-            font-weight: 600;
-            color: #34d399;
-            letter-spacing: 0.3px;
-        }
-
-        .brand-signature small {
-            color: #9ca3af;
-            font-weight: 400;
-            text-transform: lowercase;
-        }
-
-        /* Animaciones */
-        @keyframes scaleUp {
-            from { transform: scale(0.92); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- CANDADO ESTRICTO NO-INDEX: Oculto a Google, Bing y cualquier robot de indexación -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />
+  <title>EcoNexus CRM-ERP | Sala Privada de Cruce y Co-Bróker</title>
+  <!-- Tailwind CSS y FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <!-- SDK Oficial de Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .glass-panel {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.15);
+    }
+    .card-seleccionada {
+      border: 2px solid #10b981 !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+    }
+    /* Scrollbar limpio */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+  </style>
 </head>
-<body>
-
-    <div class="screen-container">
-        <!-- Botón superior de regreso -->
-        <button class="btn-regresar" onclick="window.history.back();">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            Volver
-        </button>
-
-        <!-- Insignia superior -->
-        <div class="badge-container">
-            <span class="badge-icon">⚡</span>
-            <span class="badge-text">SUITE PROPTECH EN DESARROLLO</span>
-        </div>
-
-        <!-- Título principal -->
-        <h1 class="screen-title">Centro de Operaciones CRM / ERP</h1>
-
-        <!-- Contenedor del texto con animación de transcripción -->
-        <div class="typing-container">
-            <p id="typing-text"></p>
-            <span class="cursor">|</span>
-        </div>
-
-        <!-- Firma de marca -->
-        <div class="screen-footer">
-            <span class="brand-signature">e-conexus <small>siempre contigo</small></span>
-        </div>
+<body class="min-h-screen flex flex-col">
+  <!-- =================================================================== -->
+  <!-- PANTALLA DE VERIFICACIÓN DE SEGURIDAD (GUARDIÁN DE ACCESO)          -->
+  <!-- =================================================================== -->
+  <div id="pantallaGuardia" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center p-6 text-center">
+    <div id="guardiaCargando" class="max-w-md w-full glass-panel rounded-2xl p-8 shadow-2xl">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
+        <i class="fas fa-shield-halved text-2xl text-emerald-400 animate-pulse"></i>
+      </div>
+      <h2 class="text-xl font-bold text-white mb-2">Verificando Credenciales de Agente</h2>
+      <p class="text-sm text-slate-400">Comprobando sesión activa y estatus de aprobación en EcoNexus...</p>
     </div>
-
-    <script>
-        // Script de Transcripción Animada (Efecto Máquina de Escribir)
-        const mensaje = "Espacio en construcción. No te pierdas las nuevas funciones que estarán acá dentro de muy poco para potenciar aún más tu desarrollo como agente inmobiliario.";
-        const elementoTexto = document.getElementById("typing-text");
-        let index = 0;
-
-        function escribirTexto() {
-            if (index < mensaje.length) {
-                elementoTexto.textContent += mensaje.charAt(index);
-                index++;
-                setTimeout(escribirTexto, 35); // Velocidad de escritura
-            }
+    <div id="guardiaDenegado" class="hidden max-w-md w-full glass-panel rounded-2xl p-8 shadow-2xl border-red-500/40">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-500/10 border border-red-500/30 flex items-center justify-center">
+        <i class="fas fa-lock text-2xl text-red-400"></i>
+      </div>
+      <h2 id="tituloDenegado" class="text-xl font-bold text-white mb-2">Acceso Restringido</h2>
+      <p id="mensajeDenegado" class="text-sm text-slate-300 mb-6">
+        Este módulo CRM-ERP es exclusivo para agentes inmobiliarios registrados y con estatus Aprobado.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <button onclick="volverUltimaPagina()" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-semibold transition flex items-center justify-center gap-2">
+          <i class="fas fa-arrow-left"></i> Volver a la última página
+        </button>
+        <a href="index.html" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition flex items-center justify-center gap-2">
+          <i class="fas fa-sign-in-alt"></i> Ir al Portal Principal
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- =================================================================== -->
+  <!-- CONTENEDOR PRINCIPAL DEL CRM-ERP (OCULTO HASTA APROBACIÓN)          -->
+  <!-- =================================================================== -->
+  <div id="appCrmErp" class="hidden flex-1 flex flex-col">
+    <!-- BARRA SUPERIOR (HEADER) -->
+    <header class="sticky top-0 z-30 glass-panel border-b border-slate-800 px-4 py-3">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <!-- Botón Volver + Identidad -->
+        <div class="flex items-center gap-3">
+          <button onclick="volverUltimaPagina()" title="Volver a la última página"
+            class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs sm:text-sm font-semibold transition flex items-center gap-2">
+            <i class="fas fa-arrow-left text-emerald-400"></i>
+            <span>Volver</span>
+          </button>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 rounded-md border border-emerald-500/30">
+                CRM-ERP Privado
+              </span>
+              <h1 class="text-base sm:text-lg font-bold text-white tracking-tight">EcoNexus Co-Bróker</h1>
+            </div>
+            <p id="lblAgenteActivo" class="text-xs text-slate-400 truncate max-w-[220px] sm:max-w-xs">Cargando agente...</p>
+          </div>
+        </div>
+        <!-- Navegación de Pestañas del CRM + Campana de Notificaciones -->
+        <div class="flex items-center gap-2">
+          <button onclick="cambiarTabCrm('cruce')" id="tabBtn_cruce"
+            class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white flex items-center gap-2">
+            <i class="fas fa-magnifying-glass-dollar"></i>
+            <span>Cruzar Inventario</span>
+          </button>
+          <button onclick="cambiarTabCrm('espacios')" id="tabBtn_espacios"
+            class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-2">
+            <i class="fas fa-comments"></i>
+            <span>Seguimiento (<span id="badgeEspacios">0</span>)</span>
+          </button>
+          <button onclick="cambiarTabCrm('radar')" id="tabBtn_radar"
+            class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-2">
+            <i class="fas fa-satellite-dish"></i>
+            <span>Radar 30d (<span id="badgeRadar">0</span>)</span>
+          </button>
+          <!-- Botón Caja de Notificaciones -->
+          <button onclick="cambiarTabCrm('notificaciones')" id="tabBtn_notificaciones"
+            class="relative px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-1.5">
+            <i class="fas fa-bell text-amber-400"></i>
+            <span id="badgeNotificaciones" class="hidden px-1.5 py-0.2 bg-red-500 text-white text-[10px] font-bold rounded-full">0</span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 pb-28">
+      <!-- =============================================================== -->
+      <!-- PESTAÑA 1: MOTOR DE CRUCE DE SOLICITUDES E INVENTARIO           -->
+      <!-- =============================================================== -->
+      <section id="vista_cruce" class="space-y-6">
+        <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fas fa-bolt text-emerald-400"></i>
+                1. Datos del Cliente y Requerimiento de Búsqueda
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Cruza la solicitud de tu cliente contra todo el inventario disponible. El sistema limpiará teléfonos y nombres del captador antes de enviar a WhatsApp.
+              </p>
+            </div>
+            <button onclick="limpiarFormularioCruce()" class="self-start sm:self-auto text-xs text-slate-400 hover:text-white flex items-center gap-1">
+              <i class="fas fa-rotate-left"></i> Limpiar filtros
+            </button>
+          </div>
+          <!-- Formulario de Solicitud del Cliente -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Nombre del Cliente -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre de tu Cliente *</label>
+              <input type="text" id="cruceNombreCliente" maxlength="80" placeholder="Ej: Carlos Mendoza"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500" />
+            </div>
+            <!-- WhatsApp del Cliente -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp de tu Cliente (Opcional)</label>
+              <input type="tel" id="cruceTelefonoCliente" maxlength="20" placeholder="Ej: 584121234567"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500" />
+            </div>
+            <!-- Operación -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Operación</label>
+              <select id="cruceOperacion" onchange="ejecutarCruceInventario()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="Venta">Venta</option>
+                <option value="Alquiler">Alquiler</option>
+              </select>
+            </div>
+            <!-- Tipo de Inmueble -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Tipo de Inmueble</label>
+              <select id="cruceTipo" onchange="ejecutarCruceInventario()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="Todos">Todos los tipos</option>
+                <option value="Apartamento">Apartamento</option>
+                <option value="Casa">Casa</option>
+                <option value="Townhouse">Townhouse</option>
+                <option value="Local">Local Comercial</option>
+                <option value="Oficina">Oficina</option>
+                <option value="Terreno">Terreno</option>
+                <option value="Galpon">Galpón</option>
+              </select>
+            </div>
+            <!-- Zona / Sector Clave -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Zona / Sector / Palabra Clave</label>
+              <input type="text" id="cruceUbicacion" maxlength="80" oninput="ejecutarCruceInventario()"
+                placeholder="Ej: Trigaleña, Prebo, El Viñedo..."
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500" />
+            </div>
+            <!-- Presupuesto Máximo -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Presupuesto Máx. USD (+5% tol.)</label>
+              <input type="number" id="crucePrecioMax" min="0" step="1000" oninput="ejecutarCruceInventario()"
+                placeholder="Ej: 45000 (0 = sin límite)"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500" />
+            </div>
+            <!-- Habitaciones Mínimas -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Habitaciones Mínimas</label>
+              <select id="cruceHabitaciones" onchange="ejecutarCruceInventario()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="0">Cualquiera</option>
+                <option value="1">1+ Habitaciones</option>
+                <option value="2">2+ Habitaciones</option>
+                <option value="3">3+ Habitaciones</option>
+                <option value="4">4+ Habitaciones</option>
+              </select>
+            </div>
+            <!-- Baños Mínimos -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Baños Mínimos</label>
+              <select id="cruceBanos" onchange="ejecutarCruceInventario()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500">
+                <option value="0">Cualquiera</option>
+                <option value="1">1+ Baños</option>
+                <option value="2">2+ Baños</option>
+                <option value="3">3+ Baños</option>
+              </select>
+            </div>
+          </div>
+          <!-- Notas adicionales de la solicitud -->
+          <div class="mt-4">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Detalles específicos que pide el cliente (Planta eléctrica, pozo, piso bajo, financiamiento...)</label>
+            <input type="text" id="cruceNotasRequerimiento" maxlength="250"
+              placeholder="Ej: Requiere planta 100% o pozo de agua, piso bajo, acepta crédito..."
+              class="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm text-white focus:outline-none focus:border-emerald-500" />
+          </div>
+          <!-- Botones de Acción del Cruce -->
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800">
+            <div class="flex items-center gap-2 text-xs text-slate-300">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+              <span id="lblContadorCoincidencias">Buscando coincidencias en el inventario...</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5">
+              <button onclick="seleccionarTodasCoincidencias()"
+                class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
+                <i class="fas fa-check-double mr-1 text-emerald-400"></i> Seleccionar visibles
+              </button>
+              <button onclick="guardarSolicitudEnRadar30Dias()"
+                class="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fas fa-satellite-dish"></i>
+                <span>¿No te convencen? Dejar en Radar 30 Días</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- GRILLA DE RESULTADOS DE COINCIDENCIAS -->
+        <div id="gridResultadosCruce" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Renderizado dinámico sanitizado -->
+        </div>
+      </section>
+      <!-- =============================================================== -->
+      <!-- [PUNTO DE INSERCIÓN HTML - ENTREGA 3 Y 4: ESPACIOS, RADAR Y NOTIFICACIONES] -->
+      <!-- =============================================================== -->
+      <!-- =============================================================== -->
+      <!-- PESTAÑA 2: ESPACIOS TIPO CHAT DE SEGUIMIENTO POR CLIENTE        -->
+      <!-- =============================================================== -->
+      <section id="vista_espacios" class="hidden space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 min-h-[640px]">
+          <!-- COLUMNA IZQUIERDA: LISTA DE HILOS / ESPACIOS DE CLIENTES -->
+          <aside class="lg:col-span-4 glass-panel rounded-2xl p-4 flex flex-col h-[640px]">
+            <div class="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-800">
+              <div>
+                <h2 class="text-base font-bold text-white flex items-center gap-2">
+                  <i class="fas fa-comments text-emerald-400"></i> Mis Clientes en Seguimiento
+                </h2>
+                <p class="text-[11px] text-slate-400">Un espacio independiente por cada consulta</p>
+              </div>
+              <button onclick="cambiarTabCrm('cruce')" title="Nueva consulta de cliente"
+                class="px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition">
+                <i class="fas fa-plus"></i> Nuevo
+              </button>
+            </div>
+            <!-- Buscador rápido de clientes -->
+            <div class="mb-3">
+              <div class="relative">
+                <i class="fas fa-search absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                <input type="text" id="inputBuscarEspacio" oninput="filtrarListaEspacios()" maxlength="60"
+                  placeholder="Buscar cliente o zona..."
+                  class="w-full pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500" />
+              </div>
+            </div>
+            <!-- Contenedor scrollable de espacios -->
+            <div id="listaHilosClientes" class="flex-1 overflow-y-auto space-y-2 pr-1">
+              <!-- Renderizado dinámico sanitizado -->
+            </div>
+          </aside>
+          <!-- COLUMNA DERECHA: CONVERSACIÓN DE SEGUIMIENTO E INMUEBLES DEL CLIENTE -->
+          <div class="lg:col-span-8 glass-panel rounded-2xl flex flex-col h-[640px] overflow-hidden">
+            <!-- Estado vacío cuando no se ha seleccionado un cliente -->
+            <div id="espacioDetalleVacio" class="flex-1 flex flex-col items-center justify-center p-8 text-center">
+              <div class="w-16 h-16 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center mb-3">
+                <i class="fas fa-comments text-2xl text-emerald-400"></i>
+              </div>
+              <h3 class="text-base font-bold text-white mb-1">Selecciona un espacio de cliente</h3>
+              <p class="text-xs text-slate-400 max-w-md">
+                Elige un cliente a la izquierda para revisar los inmuebles que le enviaste, contactar a los colegas captadores por fotos o visitas, y actualizar si agendó, reservó o cerró.
+              </p>
+            </div>
+            <!-- Vista activa del espacio del cliente -->
+            <div id="espacioDetalleActivo" class="hidden flex-1 flex flex-col h-full">
+              <!-- Cabecera del Chat del Cliente -->
+              <div class="p-4 bg-slate-900/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 id="chatNombreCliente" class="text-base font-bold text-white">Cliente</h3>
+                    <button onclick="abrirWhatsAppDirectoCliente()" id="btnChatWhatsAppCliente"
+                      class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold flex items-center gap-1 transition">
+                      <i class="fab fa-whatsapp"></i> Escribir al Cliente
+                    </button>
+                  </div>
+                  <p id="chatResumenBusqueda" class="text-xs text-slate-400 mt-0.5"></p>
+                </div>
+                <!-- Estatus del Embudo + Botón Modal Captadores -->
+                <div class="flex flex-wrap items-center gap-2">
+                  <select id="selectEstatusGeneralEspacio" onchange="actualizarEstatusGeneralEspacio()"
+                    class="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 text-xs font-semibold text-white focus:outline-none focus:border-emerald-500">
+                    <option value="En Seguimiento">🟡 En Seguimiento</option>
+                    <option value="Visita Agendada">🔵 Visita Agendada</option>
+                    <option value="Reservado">🟣 Reservado</option>
+                    <option value="Cerrado">🟢 Cerrado (Exitoso)</option>
+                    <option value="Descartado">⚪ Descartado</option>
+                  </select>
+                  <button onclick="abrirModalCaptadoresDelEspacio()"
+                    class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold transition flex items-center gap-1.5 shadow">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Contactar Captadores / Pedir Fotos</span>
+                  </button>
+                  <button onclick="eliminarEspacioClienteActual()" title="Eliminar este espacio"
+                    class="p-1.5 rounded-lg bg-slate-800 hover:bg-red-500/20 text-slate-400 hover:text-red-400 text-xs transition">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- Cuerpo Scrollable: Tarjetas de Inmuebles Enviados + Bitácora tipo Chat -->
+              <div class="flex-1 overflow-y-auto p-4 space-y-4">
+                <div>
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5 flex items-center justify-between">
+                    <span><i class="fas fa-building text-emerald-400 mr-1"></i> Inmuebles enviados en esta consulta</span>
+                    <span class="text-[11px] font-normal text-slate-500">Cambia el estado de cada propiedad según el interés del cliente</span>
+                  </h4>
+                  <div id="listaInmueblesDelEspacio" class="space-y-3">
+                    <!-- Tarjetas de propiedades enviadas -->
+                  </div>
+                </div>
+                <!-- Bitácora de Notas de Seguimiento (Tipo Hilo de Conversación) -->
+                <div class="pt-3 border-t border-slate-800">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
+                    <i class="fas fa-clipboard-list text-amber-400 mr-1"></i> Historial y Notas de Seguimiento
+                  </h4>
+                  <div id="chatBitacoraNotas"
+                    class="bg-slate-950/70 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 whitespace-pre-line min-h-[90px] max-h-[180px] overflow-y-auto">
+                  </div>
+                </div>
+              </div>
+              <!-- Barra Inferior Tipo Chat para Agregar Nota de Seguimiento -->
+              <div class="p-3 bg-slate-900/90 border-t border-slate-800 flex items-center gap-2">
+                <input type="text" id="inputNuevaNotaChat" maxlength="300"
+                  onkeydown="if(event.key==='Enter') agregarNotaAlEspacio()"
+                  placeholder="Escribe un apunte (Ej: Cliente pidió visitar el jueves a las 3pm, ya hablé con el captador)..."
+                  class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500" />
+                <button onclick="agregarNotaAlEspacio()"
+                  class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shrink-0">
+                  <i class="fas fa-paper-plane"></i> Guardar Nota
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- =============================================================== -->
+      <!-- PESTAÑA 3: RADAR DE SOLICITUDES PENDIENTES POR 30 DÍAS           -->
+      <!-- =============================================================== -->
+      <section id="vista_radar" class="hidden space-y-6">
+        <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fas fa-satellite-dish text-amber-400"></i>
+                Solicitudes en Radar Activo (Vigencia 30 Días Renovables)
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Cada vez que un colega publica un inmueble en EcoNexus, el servidor compara automáticamente contra estas búsquedas y te envía una alerta si coincide.
+              </p>
+            </div>
+            <button onclick="cambiarTabCrm('cruce')"
+              class="self-start sm:self-auto px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5">
+              <i class="fas fa-plus"></i> Crear Nueva Solicitud
+            </button>
+          </div>
+          <div id="gridSolicitudesRadar" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Renderizado dinámico sanitizado -->
+          </div>
+        </div>
+      </section>
+      <!-- =============================================================== -->
+      <!-- MODAL PRIVADO DE CO-BRÓKER: INMUEBLES Y CONTACTO AL CAPTADOR    -->
+      <!-- =============================================================== -->
+      <div id="modalCaptadoresCliente" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="max-w-3xl w-full glass-panel rounded-2xl border border-slate-700 shadow-2xl overflow-hidden flex flex-col max-h-[88vh]">
+          <div class="p-4 sm:p-5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <div>
+              <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 rounded border border-amber-500/30">
+                Directorio Privado Co-Bróker
+              </span>
+              <h3 id="tituloModalCaptadores" class="text-base sm:text-lg font-bold text-white mt-1">
+                Inmuebles Enviados y Contacto Directo de sus Captadores
+              </h3>
+              <p class="text-xs text-slate-400">
+                Solicita fotos sin marca de agua o agenda visita directamente con el colega captador enviándole el enlace exacto del inmueble.
+              </p>
+            </div>
+            <button onclick="cerrarModalCaptadores()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div id="cuerpoModalCaptadores" class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+            <!-- Lista de inmuebles con la tarjeta de su captador debajo -->
+          </div>
+          <div class="p-3.5 bg-slate-900 border-t border-slate-800 flex justify-end">
+            <button onclick="cerrarModalCaptadores()" class="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold">
+              Cerrar ventana
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- =============================================================== -->
+      <!-- PESTAÑA 4: CAJA DE NOTIFICACIONES INTERNAS DEL CRM               -->
+      <!-- =============================================================== -->
+      <section id="vista_notificaciones" class="hidden space-y-6">
+        <div class="glass-panel rounded-2xl p-5 sm:p-6 shadow-xl">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 border-b border-slate-800 pb-4">
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <i class="fas fa-bell text-amber-400"></i>
+                Caja de Notificaciones y Alertas de Cruce
+              </h2>
+              <p class="text-xs text-slate-400 mt-0.5">
+                Historial de coincidencias detectadas automáticamente por el servidor cuando un colega publica un inmueble compatible con tu radar.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="marcarTodasNotificacionesLeidas()"
+                class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition">
+                <i class="fas fa-check-double mr-1 text-emerald-400"></i> Marcar todas como leídas
+              </button>
+              <button onclick="solicitarPermisoNotificacionesPush()"
+                class="px-3.5 py-2 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/30 text-emerald-400 text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fas fa-mobile-screen-button"></i> Activar Push al Teléfono
+              </button>
+            </div>
+          </div>
+          <div id="listaCajaNotificaciones" class="space-y-3">
+            <!-- Renderizado dinámico sanitizado -->
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- BARRA FLOTANTE INFERIOR PARA ENVIAR FICHAS LIMPIAS A WHATSAPP -->
+    <div id="barraFlotanteEnvio" class="hidden fixed bottom-0 inset-x-0 z-40 glass-panel border-t border-emerald-500/40 p-3 sm:p-4 shadow-2xl">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold" id="numSeleccionadosBarra">
+            0
+          </div>
+          <div>
+            <p class="text-sm font-bold text-white">Inmuebles seleccionados para enviar al cliente</p>
+            <p class="text-xs text-slate-400">Se eliminarán teléfonos, correos y nombres del captador automáticamente.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2.5 w-full sm:w-auto">
+          <button onclick="limpiarSeleccionInmuebles()" class="px-3.5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+            Cancelar
+          </button>
+          <button onclick="procesarEnvioLimpioWhatsApp()"
+            class="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition">
+            <i class="fab fa-whatsapp text-lg"></i>
+            <span>Enviar Fichas Limpias al Cliente y Crear Seguimiento</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL DE NOTIFICACIÓN RÁPIDA (TOAST) -->
+  <div id="toastCrm" class="hidden fixed top-5 right-5 z-50 max-w-sm glass-panel border-emerald-500/50 rounded-xl p-4 shadow-2xl flex items-center gap-3">
+    <i id="toastIcon" class="fas fa-check-circle text-emerald-400 text-xl"></i>
+    <p id="toastMensaje" class="text-xs sm:text-sm text-white font-medium"></p>
+  </div>
+  <!-- =================================================================== -->
+  <!-- LÓGICA JAVASCRIPT: SEGURIDAD, SANITIZACIÓN Y MOTOR DE CRUCE         -->
+  <!-- =================================================================== -->
+  <script>
+    // 1. CONFIGURACIÓN DE SUPABASE (Conectado a tu proyecto EcoNexus)
+    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+    const EMAIL_ADMIN_MASTER = 'asistentedeacm@gmail.com';
+    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Estado Global del CRM-ERP
+    let usuarioActual = null;
+    let perfilAgenteActual = null;
+    let inventarioDisponible = [];
+    let coincidenciasActuales = [];
+    let inmueblesSeleccionadosIds = new Set();
+    // ===================================================================
+    // 2. MOTOR DE SANITIZACIÓN ANTI-XSS Y LIMPIEZA DE DATA SENSIBLE
+    // ===================================================================
+    /**
+     * Elimina cualquier etiqueta HTML, script, evento inline o carácter de control
+     * antes de enviar datos a Supabase o procesarlos.
+     */
+    function sanitizarTexto(input) {
+      if (input === null || input === undefined) return '';
+      let str = String(input);
+      // Eliminar bloques peligrosos completos
+      str = str.replace(/<\s*(script|style|iframe|object|embed|svg|form|meta|link)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, '');
+      // Eliminar cualquier etiqueta HTML <...>
+      str = str.replace(/<[^>]+>/g, '');
+      // Eliminar esquemas javascript:, data:, vbscript:
+      str = str.replace(/(javascript|vbscript|data\s*:\s*text\/html)\s*:/gi, '');
+      // Eliminar atributos de eventos on*=
+      str = str.replace(/\bon[a-z]+\s*=/gi, '');
+      // Eliminar caracteres de control invisibles
+      str = str.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+      return str.trim();
+    }
+    /**
+     * Escapa caracteres especiales HTML para renderizar de forma 100% segura en el DOM
+     * impidiendo que cualquier texto se ejecute como código HTML/JS.
+     */
+    function escaparHTML(texto) {
+      const limpio = sanitizarTexto(texto);
+      const mapa = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;',
+        '`': '&#x60;'
+      };
+      return limpio.replace(/[&<>"'`]/g, (m) => mapa[m]);
+    }
+    /**
+     * Sanitiza números telefónicos dejando únicamente dígitos para enlaces de WhatsApp
+     */
+    function sanitizarTelefono(telefono) {
+      if (!telefono) return '';
+      return String(telefono).replace(/[^0-9]/g, '');
+    }
+    /**
+     * LIMPIADOR DE DATA SENSIBLE PARA FICHAS TÉCNICAS:
+     * Remueve teléfonos venezolanos/internacionales, correos, usuarios @, URLs
+     * y el nombre/agencia del asesor captador dentro de la descripción del inmueble.
+     */
+    function limpiarDataSensibleFicha(descripcion, nombreCaptador, nombreAgencia) {
+      let texto = sanitizarTexto(descripcion || '');
+      // 1. Eliminar números de teléfono (formatos +58, 0412, 0414, 0424, 0416, 0426, 0241, etc.)
+      texto = texto.replace(/(\+?\d{1,3}[\s\-.)]*)?(\(?\d{3,4}\)?[\s\-.)]*)?\d{3}[\s\-.)]*\d{2}[\s\-.)]*\d{2}/g, '[Contacto Reservado]');
+      texto = texto.replace(/\b\d{7,15}\b/g, '[Contacto Reservado]');
+      // 2. Eliminar correos electrónicos y menciones de redes sociales (@usuario)
+      texto = texto.replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '');
+      texto = texto.replace(/@[a-zA-Z0-9_.\-]+/g, '');
+      // 3. Eliminar enlaces web (http, https, www, wa.me)
+      texto = texto.replace(/https?:\/\/[^\s]+/gi, '');
+      texto = texto.replace(/www\.[^\s]+/gi, '');
+      texto = texto.replace(/wa\.me\/[^\s]+/gi, '');
+      // 4. Eliminar el nombre del asesor captador y su agencia si los escribió en la descripción
+      if (nombreCaptador && nombreCaptador.trim().length > 2) {
+        const regexNombre = new RegExp(nombreCaptador.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        texto = texto.replace(regexNombre, '');
+      }
+      if (nombreAgencia && nombreAgencia.trim().length > 2) {
+        const regexAgencia = new RegExp(nombreAgencia.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+        texto = texto.replace(regexAgencia, '');
+      }
+      return texto.replace(/\s{2,}/g, ' ').trim();
+    }
+    // ===================================================================
+    // 3. NAVEGACIÓN Y GUARDIÁN DE ACCESO (SOLO AGENTES APROBADOS)
+    // ===================================================================
+    function volverUltimaPagina() {
+      if (document.referrer && document.referrer.indexOf(window.location.host) !== -1) {
+        window.history.back();
+      } else if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'index.html';
+      }
+    }
+    function mostrarToast(mensaje, tipo = 'exito') {
+      const toast = document.getElementById('toastCrm');
+      const icon = document.getElementById('toastIcon');
+      const txt = document.getElementById('toastMensaje');
+      txt.textContent = sanitizarTexto(mensaje);
+      if (tipo === 'error') {
+        icon.className = 'fas fa-triangle-exclamation text-red-400 text-xl';
+      } else if (tipo === 'alerta') {
+        icon.className = 'fas fa-bell text-amber-400 text-xl';
+      } else {
+        icon.className = 'fas fa-check-circle text-emerald-400 text-xl';
+      }
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 4200);
+    }
+    async function verificarAccesoAgenteAprobado() {
+      try {
+        const { data: { session }, error: errSession } = await dbClient.auth.getSession();
+        if (errSession || !session || !session.user) {
+          bloquearAcceso(
+            'Sesión No Iniciada',
+            'Debes iniciar sesión con tu cuenta de Agente en EcoNexus para acceder a la sala de Cruce y CRM-ERP.'
+          );
+          return;
         }
-
-        // Iniciar animación al cargar la página
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(escribirTexto, 300);
-        });
-    </script>
+        usuarioActual = session.user;
+        // Consultar estatus del agente en la tabla 'perfiles'
+        const { data: perfil, error: errPerfil } = await dbClient
+          .from('perfiles')
+          .select('id, email, nombre_agente, estatus_agente, telefono, tipo_asesor, nombre_agencia')
+          .eq('id', usuarioActual.id)
+          .single();
+        const esAdminMaster = (usuarioActual.email && usuarioActual.email.toLowerCase() === EMAIL_ADMIN_MASTER.toLowerCase());
+        if (errPerfil || !perfil) {
+          if (!esAdminMaster) {
+            bloquearAcceso(
+              'Perfil No Encontrado',
+              'Tu usuario no cuenta con una ficha de perfil activa en el directorio de agentes.'
+            );
+            return;
+          }
+        }
+        if (!esAdminMaster && perfil.estatus_agente !== 'Aprobado') {
+          bloquearAcceso(
+            'Cuenta Pendiente de Aprobación',
+            `Hola ${sanitizarTexto(perfil.nombre_agente || usuarioActual.email)}, tu estatus actual es "${sanitizarTexto(perfil.estatus_agente)}". Solo los agentes con estatus Aprobado pueden operar el CRM-ERP.`
+          );
+          return;
+        }
+        perfilAgenteActual = perfil || {
+          id: usuarioActual.id,
+          email: usuarioActual.email,
+          nombre_agente: 'Administrador EcoNexus',
+          estatus_agente: 'Aprobado'
+        };
+        // Mostrar interfaz privada
+        document.getElementById('pantallaGuardia').classList.add('hidden');
+        document.getElementById('appCrmErp').classList.remove('hidden');
+        document.getElementById('lblAgenteActivo').textContent =
+          `Agente Aprobado: ${sanitizarTexto(perfilAgenteActual.nombre_agente || usuarioActual.email)}`;
+        // Cargar Inventario para el Cruce e inicializar módulos
+        await cargarInventarioParaCruce();
+        if (typeof inicializarModulosEntrega3y4 === 'function') {
+          await inicializarModulosEntrega3y4();
+        }
+      } catch (err) {
+        console.error('Error en verificación de seguridad:', err);
+        bloquearAcceso('Error de Verificación', 'No se pudo validar tu credencial en este momento.');
+      }
+    }
+    function bloquearAcceso(titulo, mensaje) {
+      document.getElementById('guardiaCargando').classList.add('hidden');
+      document.getElementById('guardiaDenegado').classList.remove('hidden');
+      document.getElementById('tituloDenegado').textContent = sanitizarTexto(titulo);
+      document.getElementById('mensajeDenegado').textContent = sanitizarTexto(mensaje);
+    }
+    function cambiarTabCrm(tab) {
+      const tabs = ['cruce', 'espacios', 'radar', 'notificaciones'];
+      tabs.forEach(t => {
+        const vista = document.getElementById(`vista_${t}`);
+        const btn = document.getElementById(`tabBtn_${t}`);
+        if (vista) vista.classList.toggle('hidden', t !== tab);
+        if (btn) {
+          if (t === tab) {
+            btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white flex items-center gap-2';
+          } else {
+            btn.className = 'px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center gap-2';
+          }
+        }
+      });
+    }
+    // ===================================================================
+    // 4. MOTOR DE CRUCE DE INVENTARIO Y SELECCIÓN DE FICHAS
+    // ===================================================================
+    async function cargarInventarioParaCruce() {
+      try {
+        // Consultamos la vista oficial v_propiedades_catalogo (solo Disponibles y vigentes)
+        const { data, error } = await dbClient
+          .from('v_propiedades_catalogo')
+          .select('*')
+          .order('fecha_publicacion', { ascending: false });
+        if (error) throw error;
+        inventarioDisponible = Array.isArray(data) ? data : [];
+        ejecutarCruceInventario();
+      } catch (e) {
+        console.error('Error cargando inventario:', e);
+        mostrarToast('Error al consultar el inventario de propiedades.', 'error');
+      }
+    }
+    function ejecutarCruceInventario() {
+      const operacion = sanitizarTexto(document.getElementById('cruceOperacion').value);
+      const tipo = sanitizarTexto(document.getElementById('cruceTipo').value);
+      const ubicacionClave = sanitizarTexto(document.getElementById('cruceUbicacion').value).toLowerCase();
+      const precioMax = parseFloat(document.getElementById('crucePrecioMax').value) || 0;
+      const habMin = parseInt(document.getElementById('cruceHabitaciones').value, 10) || 0;
+      const banosMin = parseInt(document.getElementById('cruceBanos').value, 10) || 0;
+      coincidenciasActuales = inventarioDisponible.filter(item => {
+        const opItem = (item.operacion || '').toLowerCase().trim();
+        const tipoItem = (item.tipo || '').toLowerCase().trim();
+        const ubiItem = `${item.ubicacion || ''} ${item.titulo || ''} ${item.codigo_eco || ''}`.toLowerCase();
+        const precioItem = parseFloat(item.precio) || 0;
+        const habItem = parseInt(item.habitaciones, 10) || 0;
+        const banosItem = parseInt(item.banos, 10) || 0;
+        if (operacion && opItem !== operacion.toLowerCase()) return false;
+        if (tipo !== 'Todos' && tipoItem !== tipo.toLowerCase()) return false;
+        if (ubicacionClave && !ubiItem.includes(ubicacionClave)) return false;
+        // Tolerancia comercial del 5% sobre el presupuesto máximo
+        if (precioMax > 0 && precioItem > (precioMax * 1.05)) return false;
+        if (habMin > 0 && habItem < habMin) return false;
+        if (banosMin > 0 && banosItem < banosMin) return false;
+        return true;
+      });
+      renderizarResultadosCruce();
+    }
+    function renderizarResultadosCruce() {
+      const contenedor = document.getElementById('gridResultadosCruce');
+      const lblContador = document.getElementById('lblContadorCoincidencias');
+      lblContador.textContent = `${coincidenciasActuales.length} inmueble(s) coinciden con la solicitud de tu cliente`;
+      if (coincidenciasActuales.length === 0) {
+        contenedor.innerHTML = `
+          <div class="col-span-full glass-panel rounded-2xl p-8 text-center">
+            <i class="fas fa-satellite-dish text-3xl text-amber-400 mb-3"></i>
+            <h3 class="text-base font-bold text-white mb-1">No hay coincidencias exactas en este momento</h3>
+            <p class="text-xs text-slate-400 max-w-md mx-auto mb-4">
+              Puedes dejar esta solicitud activa por 30 días renovables en el Radar. Apenas un colega suba un inmueble compatible, recibirás una notificación Push con el enlace directo.
+            </p>
+            <button onclick="guardarSolicitudEnRadar30Dias()"
+              class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition inline-flex items-center gap-2">
+              <i class="fas fa-bell"></i> Activar Solicitud en Radar por 30 Días
+            </button>
+          </div>
+        `;
+        return;
+      }
+      contenedor.innerHTML = coincidenciasActuales.map(inmueble => {
+        const idSafe = escaparHTML(inmueble.id);
+        const codigoSafe = escaparHTML(inmueble.codigo_eco || 'SIN-COD');
+        const tituloSafe = escaparHTML(inmueble.titulo || 'Inmueble');
+        const ubicacionSafe = escaparHTML(inmueble.ubicacion || 'Valencia');
+        const tipoSafe = escaparHTML(inmueble.tipo || '');
+        const operacionSafe = escaparHTML(inmueble.operacion || '');
+        const precioNum = Number(inmueble.precio || 0).toLocaleString('en-US');
+        const habSafe = Number(inmueble.habitaciones || 0);
+        const banosSafe = Number(inmueble.banos || 0);
+        const metrosSafe = Number(inmueble.metros || 0);
+        const estacSafe = Number(inmueble.estacionamientos || 0);
+        const fotoUrl = (Array.isArray(inmueble.fotos) && inmueble.fotos.length > 0)
+          ? escaparHTML(inmueble.fotos[0])
+          : 'https://via.placeholder.com/600x400/1e293b/10b981?text=EcoNexus';
+        const captadorNombre = escaparHTML(inmueble.nombre_asesor || 'Colega Captador');
+        const captadorAgencia = escaparHTML(inmueble.nombre_agencia || inmueble.tipo_asesor || 'Independiente');
+        const estaSeleccionado = inmueblesSeleccionadosIds.has(inmueble.id);
+        return `
+          <article onclick="toggleSeleccionInmueble('${idSafe}')"
+            class="glass-panel rounded-2xl overflow-hidden cursor-pointer transition hover:border-slate-600 flex flex-col justify-between ${estaSeleccionado ? 'card-seleccionada' : ''}">
+            <div>
+              <div class="relative h-44 bg-slate-900">
+                <img src="${fotoUrl}" alt="${tituloSafe}" class="w-full h-full object-cover" loading="lazy" />
+                <div class="absolute top-3 left-3 flex gap-1.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-950/85 text-emerald-400 text-[11px] font-bold border border-emerald-500/30">
+                    ${codigoSafe}
+                  </span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-950/85 text-white text-[11px] font-semibold">
+                    ${tipoSafe} • ${operacionSafe}
+                  </span>
+                </div>
+                <div class="absolute top-3 right-3">
+                  <div class="w-7 h-7 rounded-lg flex items-center justify-center ${estaSeleccionado ? 'bg-emerald-500 text-slate-950' : 'bg-slate-950/80 text-slate-300 border border-slate-600'}">
+                    <i class="fas ${estaSeleccionado ? 'fa-check' : 'fa-plus'} text-xs"></i>
+                  </div>
+                </div>
+                <div class="absolute bottom-2 right-2 px-3 py-1 rounded-lg bg-emerald-600 text-white font-extrabold text-sm shadow">
+                  $${precioNum}
+                </div>
+              </div>
+              <div class="p-4">
+                <h3 class="text-sm font-bold text-white line-clamp-1 mb-1">${tituloSafe}</h3>
+                <p class="text-xs text-slate-400 mb-3 flex items-center gap-1">
+                  <i class="fas fa-location-dot text-emerald-400"></i> ${ubicacionSafe}
+                </p>
+                <div class="grid grid-cols-4 gap-2 text-center bg-slate-900/70 rounded-xl p-2 text-[11px] text-slate-300 mb-3">
+                  <div><i class="fas fa-bed text-emerald-400 mr-1"></i>${habSafe}</div>
+                  <div><i class="fas fa-bath text-emerald-400 mr-1"></i>${banosSafe}</div>
+                  <div><i class="fas fa-car text-emerald-400 mr-1"></i>${estacSafe}</div>
+                  <div><i class="fas fa-ruler-combined text-emerald-400 mr-1"></i>${metrosSafe}m²</div>
+                </div>
+              </div>
+            </div>
+            <!-- Info interna del Captador (Solo visible para el Agente, NUNCA se envía al cliente) -->
+            <div class="px-4 py-2.5 bg-slate-900/90 border-t border-slate-800 flex items-center justify-between text-[11px]">
+              <div class="truncate text-slate-400">
+                <i class="fas fa-user-tie text-amber-400 mr-1"></i>
+                Captador: <strong class="text-slate-200">${captadorNombre}</strong> (${captadorAgencia})
+              </div>
+              <span class="text-emerald-400 font-semibold ml-2 shrink-0">
+                ${estaSeleccionado ? 'Seleccionado' : 'Elegir'}
+              </span>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+    function toggleSeleccionInmueble(idInmueble) {
+      if (inmueblesSeleccionadosIds.has(idInmueble)) {
+        inmueblesSeleccionadosIds.delete(idInmueble);
+      } else {
+        inmueblesSeleccionadosIds.add(idInmueble);
+      }
+      actualizarBarraFlotanteSeleccion();
+      renderizarResultadosCruce();
+    }
+    function seleccionarTodasCoincidencias() {
+      coincidenciasActuales.forEach(item => inmueblesSeleccionadosIds.add(item.id));
+      actualizarBarraFlotanteSeleccion();
+      renderizarResultadosCruce();
+    }
+    function limpiarSeleccionInmuebles() {
+      inmueblesSeleccionadosIds.clear();
+      actualizarBarraFlotanteSeleccion();
+      renderizarResultadosCruce();
+    }
+    function actualizarBarraFlotanteSeleccion() {
+      const total = inmueblesSeleccionadosIds.size;
+      const barra = document.getElementById('barraFlotanteEnvio');
+      document.getElementById('numSeleccionadosBarra').textContent = total;
+      barra.classList.toggle('hidden', total === 0);
+    }
+    function limpiarFormularioCruce() {
+      document.getElementById('cruceUbicacion').value = '';
+      document.getElementById('crucePrecioMax').value = '';
+      document.getElementById('cruceHabitaciones').value = '0';
+      document.getElementById('cruceBanos').value = '0';
+      document.getElementById('cruceTipo').value = 'Todos';
+      document.getElementById('cruceNotasRequerimiento').value = '';
+      ejecutarCruceInventario();
+    }
+    // ===================================================================
+    // 5. PROCESADOR DE FICHAS LIMPIAS A WHATSAPP + REGISTRO DE SEGUIMIENTO
+    // ===================================================================
+    async function procesarEnvioLimpioWhatsApp() {
+      const nombreCliente = sanitizarTexto(document.getElementById('cruceNombreCliente').value);
+      const telefonoCliente = sanitizarTelefono(document.getElementById('cruceTelefonoCliente').value);
+      if (!nombreCliente) {
+        mostrarToast('Por favor escribe el nombre de tu cliente antes de enviar las fichas.', 'error');
+        document.getElementById('cruceNombreCliente').focus();
+        return;
+      }
+      const inmueblesElegidos = inventarioDisponible.filter(p => inmueblesSeleccionadosIds.has(p.id));
+      if (inmueblesElegidos.length === 0) {
+        mostrarToast('Selecciona al menos un inmueble para compartir.', 'error');
+        return;
+      }
+      // 1. Armar el texto 100% limpio de data sensible del captador para WhatsApp
+      const miNombreAsesor = sanitizarTexto(perfilAgenteActual?.nombre_agente || 'Tu Asesor Inmobiliario');
+      let bloquesTexto = [];
+      bloquesTexto.push(`Hola *${nombreCliente}*, te saluda *${miNombreAsesor}*. He seleccionado ${inmueblesElegidos.length > 1 ? 'estas opciones que cumplen' : 'esta opción que cumple'} con lo que estás buscando:\n`);
+      inmueblesElegidos.forEach((inm, idx) => {
+        const descLimpia = limpiarDataSensibleFicha(inm.descripcion, inm.nombre_asesor, inm.nombre_agencia);
+        const resumenDesc = descLimpia.length > 220 ? descLimpia.substring(0, 220) + '...' : descLimpia;
+        const precioFmt = Number(inm.precio || 0).toLocaleString('en-US');
+        bloquesTexto.push(
+          `🔹 *OPCIÓN ${idx + 1}: ${sanitizarTexto(inm.titulo)}* (Ref: ${sanitizarTexto(inm.codigo_eco)})\n` +
+          `📍 *Ubicación:* ${sanitizarTexto(inm.ubicacion)}\n` +
+          `💰 *Inversión:* $${precioFmt} (${sanitizarTexto(inm.operacion)})\n` +
+          `📐 *Distribución:* ${Number(inm.habitaciones || 0)} Hab | ${Number(inm.banos || 0)} Baños | ${Number(inm.estacionamientos || 0)} Puestos | ${Number(inm.metros || 0)} m²\n` +
+          `📝 *Detalles:* ${resumenDesc}\n`
+        );
+      });
+      bloquesTexto.push(`¿Cuál de estas opciones te gustaría que agendemos para visitar o que te solicite el álbum completo de fotos? Quedo atento.`);
+      const mensajeFinalWhatsApp = bloquesTexto.join('\n');
+      // 2. Registrar en Supabase el Espacio tipo Chat de Seguimiento y los Inmuebles Enviados
+      try {
+        const operacion = sanitizarTexto(document.getElementById('cruceOperacion').value);
+        const tipo = sanitizarTexto(document.getElementById('cruceTipo').value);
+        const ubicacion = sanitizarTexto(document.getElementById('cruceUbicacion').value) || 'Varias zonas';
+        const precioMax = sanitizarTexto(document.getElementById('crucePrecioMax').value);
+        const resumenBusqueda = `${tipo} en ${operacion} • ${ubicacion}${precioMax ? ' • Máx $' + precioMax : ''}`;
+        // Verificar si ya existe un espacio abierto para este mismo cliente
+        let espacioId = null;
+        const { data: espaciosExistentes } = await dbClient
+          .from('crm_espacios_clientes')
+          .select('id')
+          .eq('agente_id', usuarioActual.id)
+          .ilike('nombre_cliente', nombreCliente)
+          .limit(1);
+        if (espaciosExistentes && espaciosExistentes.length > 0) {
+          espacioId = espaciosExistentes[0].id;
+          await dbClient
+            .from('crm_espacios_clientes')
+            .update({ updated_at: new Date().toISOString(), telefono_cliente: telefonoCliente || null })
+            .eq('id', espacioId);
+        } else {
+          const { data: nuevoEspacio, error: errEspacio } = await dbClient
+            .from('crm_espacios_clientes')
+            .insert([{
+              agente_id: usuarioActual.id,
+              nombre_cliente: nombreCliente,
+              telefono_cliente: telefonoCliente || null,
+              resumen_busqueda: resumenBusqueda,
+              estatus_general: 'En Seguimiento',
+              notas_seguimiento: sanitizarTexto(document.getElementById('cruceNotasRequerimiento').value)
+            }])
+            .select()
+            .single();
+          if (errEspacio) throw errEspacio;
+          espacioId = nuevoEspacio.id;
+        }
+        // Insertar los inmuebles enviados con los datos del colega captador para el modal privado
+        const registrosEnvio = inmueblesElegidos.map(inm => ({
+          espacio_id: espacioId,
+          agente_id: usuarioActual.id,
+          propiedad_id: inm.id,
+          codigo_eco: sanitizarTexto(inm.codigo_eco || 'ECO'),
+          titulo_propiedad: sanitizarTexto(inm.titulo),
+          precio: Number(inm.precio || 0),
+          ubicacion: sanitizarTexto(inm.ubicacion),
+          foto_principal: (Array.isArray(inm.fotos) && inm.fotos.length > 0) ? inm.fotos[0] : '',
+          captador_user_id: inm.user_id || null,
+          captador_nombre: sanitizarTexto(inm.nombre_asesor || 'Colega Captador'),
+          captador_telefono: sanitizarTelefono(inm.telefono_asesor || ''),
+          captador_agencia: sanitizarTexto(inm.nombre_agencia || inm.tipo_asesor || 'Independiente'),
+          estatus_inmueble: 'Enviado'
+        }));
+        const { error: errEnvios } = await dbClient
+          .from('crm_propiedades_enviadas')
+          .insert(registrosEnvio);
+        if (errEnvios) throw errEnvios;
+        // 3. Abrir WhatsApp con las fichas limpias listas para enviar al cliente
+        const urlWhatsApp = telefonoCliente
+          ? `https://wa.me/${telefonoCliente}?text=${encodeURIComponent(mensajeFinalWhatsApp)}`
+          : `https://wa.me/?text=${encodeURIComponent(mensajeFinalWhatsApp)}`;
+        window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
+        limpiarSeleccionInmuebles();
+        mostrarToast(`Fichas limpias enviadas y espacio de seguimiento creado para ${nombreCliente}.`);
+        // Actualizar vista de espacios y abrir el hilo del cliente si la Entrega 3 ya está activa
+        if (typeof cargarEspaciosSeguimiento === 'function') {
+          await cargarEspaciosSeguimiento(espacioId);
+          cambiarTabCrm('espacios');
+        }
+      } catch (e) {
+        console.error('Error registrando envío en CRM:', e);
+        mostrarToast('Se preparó el WhatsApp, pero hubo un detalle al guardar el seguimiento.', 'error');
+      }
+    }
+    // ===================================================================
+    // [PUNTO DE INSERCIÓN JS - ENTREGA 3 Y 4: ESPACIOS, MODAL CO-BRÓKER, RADAR 30D Y PUSH]
+    // ===================================================================
+    // ===================================================================
+    // 6. ENTREGA 3: ESPACIOS DE SEGUIMIENTO, MODAL CAPTADOR Y RADAR 30D
+    // ===================================================================
+    let listaEspaciosClientes = [];
+    let espacioActivoId = null;
+    let inmueblesEspacioActivo = [];
+    let listaSolicitudesRadar = [];
+    async function inicializarModulosEntrega3y4() {
+      await Promise.all([
+        cargarEspaciosSeguimiento(),
+        cargarSolicitudesRadar()
+      ]);
+      // Conector listo para cuando agreguemos la Entrega 4 (Notificaciones y Push)
+      if (typeof inicializarModuloEntrega4 === 'function') {
+        await inicializarModuloEntrega4();
+      }
+    }
+    /**
+     * Construye el enlace exacto al inmueble en el portal principal
+     */
+    function obtenerEnlaceDirectoInmueble(codigoEco, propiedadId) {
+      const base = window.location.origin + window.location.pathname.replace(/crmerp\.html$/i, 'index.html');
+      const ref = sanitizarTexto(codigoEco || propiedadId || '');
+      return `${base}?codigo=${encodeURIComponent(ref)}`;
+    }
+    // -------------------------------------------------------------------
+    // A) GESTIÓN DE ESPACIOS DE SEGUIMIENTO POR CLIENTE (TIPO CHAT)
+    // -------------------------------------------------------------------
+    async function cargarEspaciosSeguimiento(abrirEspacioId = null) {
+      try {
+        const { data, error } = await dbClient
+          .from('crm_espacios_clientes')
+          .select('*')
+          .eq('agente_id', usuarioActual.id)
+          .order('updated_at', { ascending: false });
+        if (error) throw error;
+        listaEspaciosClientes = Array.isArray(data) ? data : [];
+        document.getElementById('badgeEspacios').textContent = listaEspaciosClientes.length;
+        renderizarListaEspacios();
+        const idParaAbrir = abrirEspacioId || espacioActivoId;
+        if (idParaAbrir && listaEspaciosClientes.some(e => e.id === idParaAbrir)) {
+          await seleccionarEspacioCliente(idParaAbrir);
+          // Si venimos de un envío recién hecho, abrimos automáticamente el modal de captadores como pediste
+          if (abrirEspacioId) {
+            abrirModalCaptadoresDelEspacio();
+          }
+        }
+      } catch (e) {
+        console.error('Error cargando espacios de clientes:', e);
+      }
+    }
+    function filtrarListaEspacios() {
+      renderizarListaEspacios();
+    }
+    function obtenerBadgeColorEstatus(estatus) {
+      const est = sanitizarTexto(estatus);
+      switch (est) {
+        case 'Visita Agendada': return 'bg-blue-500/20 text-blue-300 border-blue-500/40';
+        case 'Reservado': return 'bg-purple-500/20 text-purple-300 border-purple-500/40';
+        case 'Cerrado': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        case 'Descartado': return 'bg-slate-700/40 text-slate-400 border-slate-600';
+        default: return 'bg-amber-500/20 text-amber-300 border-amber-500/40';
+      }
+    }
+    function renderizarListaEspacios() {
+      const contenedor = document.getElementById('listaHilosClientes');
+      const filtro = sanitizarTexto(document.getElementById('inputBuscarEspacio')?.value || '').toLowerCase();
+      const filtrados = listaEspaciosClientes.filter(esp => {
+        const texto = `${esp.nombre_cliente || ''} ${esp.resumen_busqueda || ''} ${esp.estatus_general || ''}`.toLowerCase();
+        return !filtro || texto.includes(filtro);
+      });
+      if (filtrados.length === 0) {
+        contenedor.innerHTML = `
+          <div class="p-6 text-center text-xs text-slate-500">
+            No tienes clientes en seguimiento todavía. Cruza una solicitud y envía fichas por WhatsApp para abrir el primer espacio.
+          </div>
+        `;
+        return;
+      }
+      contenedor.innerHTML = filtrados.map(esp => {
+        const idSafe = escaparHTML(esp.id);
+        const nombreSafe = escaparHTML(esp.nombre_cliente);
+        const resumenSafe = escaparHTML(esp.resumen_busqueda || 'Consulta de inventario');
+        const estatusSafe = escaparHTML(esp.estatus_general || 'En Seguimiento');
+        const badgeClass = obtenerBadgeColorEstatus(esp.estatus_general);
+        const esActivo = (esp.id === espacioActivoId);
+        const fechaFmt = esp.updated_at ? new Date(esp.updated_at).toLocaleDateString('es-VE', { day: '2-digit', month: 'short' }) : '';
+        return `
+          <div onclick="seleccionarEspacioCliente('${idSafe}')"
+            class="p-3 rounded-xl cursor-pointer transition border ${esActivo ? 'bg-emerald-950/40 border-emerald-500/60' : 'bg-slate-900/60 hover:bg-slate-800/70 border-slate-800'}">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <h4 class="text-xs font-bold text-white truncate">${nombreSafe}</h4>
+              <span class="text-[10px] text-slate-400 shrink-0">${escaparHTML(fechaFmt)}</span>
+            </div>
+            <p class="text-[11px] text-slate-400 truncate mb-2">${resumenSafe}</p>
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded-md text-[10px] font-bold border ${badgeClass}">
+                ${estatusSafe}
+              </span>
+              <span class="text-[11px] text-emerald-400 font-semibold">Abrir hilo <i class="fas fa-chevron-right text-[9px]"></i></span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    async function seleccionarEspacioCliente(espacioId) {
+      espacioActivoId = espacioId;
+      renderizarListaEspacios();
+      const espacio = listaEspaciosClientes.find(e => e.id === espacioId);
+      if (!espacio) return;
+      document.getElementById('espacioDetalleVacio').classList.add('hidden');
+      document.getElementById('espacioDetalleActivo').classList.remove('hidden');
+      document.getElementById('chatNombreCliente').textContent = sanitizarTexto(espacio.nombre_cliente);
+      document.getElementById('chatResumenBusqueda').textContent = sanitizarTexto(espacio.resumen_busqueda || '');
+      document.getElementById('selectEstatusGeneralEspacio').value = sanitizarTexto(espacio.estatus_general || 'En Seguimiento');
+      const notasTexto = sanitizarTexto(espacio.notas_seguimiento || '');
+      document.getElementById('chatBitacoraNotas').textContent = notasTexto || 'Sin apuntes adicionales registrados aún.';
+      // Cargar las propiedades enviadas en este espacio
+      try {
+        const { data, error } = await dbClient
+          .from('crm_propiedades_enviadas')
+          .select('*')
+          .eq('espacio_id', espacioId)
+          .order('fecha_envio', { ascending: false });
+        if (error) throw error;
+        inmueblesEspacioActivo = Array.isArray(data) ? data : [];
+        renderizarInmueblesDelEspacio();
+      } catch (e) {
+        console.error('Error cargando inmuebles del espacio:', e);
+      }
+    }
+    function renderizarInmueblesDelEspacio() {
+      const contenedor = document.getElementById('listaInmueblesDelEspacio');
+      if (inmueblesEspacioActivo.length === 0) {
+        contenedor.innerHTML = `<p class="text-xs text-slate-500">No hay inmuebles registrados en este hilo.</p>`;
+        return;
+      }
+      contenedor.innerHTML = inmueblesEspacioActivo.map(item => {
+        const idEnvioSafe = escaparHTML(item.id);
+        const codigoSafe = escaparHTML(item.codigo_eco);
+        const tituloSafe = escaparHTML(item.titulo_propiedad);
+        const ubicacionSafe = escaparHTML(item.ubicacion);
+        const precioFmt = Number(item.precio || 0).toLocaleString('en-US');
+        const captadorNombre = escaparHTML(item.captador_nombre || 'Colega Captador');
+        const captadorAgencia = escaparHTML(item.captador_agencia || 'Independiente');
+        const estatusInm = sanitizarTexto(item.estatus_inmueble || 'Enviado');
+        const fotoUrl = item.foto_principal
+          ? escaparHTML(item.foto_principal)
+          : 'https://via.placeholder.com/160x120/1e293b/10b981?text=EcoNexus';
+        return `
+          <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="${fotoUrl}" alt="${tituloSafe}" class="w-16 h-14 rounded-lg object-cover shrink-0 border border-slate-700" />
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">${codigoSafe}</span>
+                  <h5 class="text-xs font-bold text-white truncate">${tituloSafe}</h5>
+                </div>
+                <p class="text-[11px] text-slate-400 truncate">${ubicacionSafe} • <strong class="text-emerald-400">$${precioFmt}</strong></p>
+                <p class="text-[11px] text-amber-300/90 truncate mt-0.5">
+                  <i class="fas fa-user-tie mr-1"></i>Captador: <strong>${captadorNombre}</strong> (${captadorAgencia})
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto justify-end shrink-0">
+              <select onchange="cambiarEstatusIndividualInmueble('${idEnvioSafe}', this.value)"
+                class="px-2.5 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-[11px] font-semibold text-slate-200 focus:outline-none focus:border-emerald-500">
+                <option value="Enviado" ${estatusInm === 'Enviado' ? 'selected' : ''}>📤 Enviado</option>
+                <option value="Interesado" ${estatusInm === 'Interesado' ? 'selected' : ''}>⭐ Le gustó / Pide fotos</option>
+                <option value="Visita Agendada" ${estatusInm === 'Visita Agendada' ? 'selected' : ''}>📅 Visita Agendada</option>
+                <option value="Reservado" ${estatusInm === 'Reservado' ? 'selected' : ''}>🟣 Reservado</option>
+                <option value="Cerrado" ${estatusInm === 'Cerrado' ? 'selected' : ''}>🟢 Cerrado</option>
+                <option value="Descartado" ${estatusInm === 'Descartado' ? 'selected' : ''}>❌ Descartado</option>
+              </select>
+              <button onclick="contactarCaptadorWhatsApp('${idEnvioSafe}', 'fotos')" title="Pedir fotos al captador"
+                class="px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fab fa-whatsapp"></i> Fotos
+              </button>
+              <button onclick="contactarCaptadorWhatsApp('${idEnvioSafe}', 'visita')" title="Solicitar visita al captador"
+                class="px-2.5 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-[11px] font-semibold transition flex items-center gap-1">
+                <i class="fas fa-calendar-check"></i> Visita
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    async function actualizarEstatusGeneralEspacio() {
+      if (!espacioActivoId) return;
+      const nuevoEstatus = sanitizarTexto(document.getElementById('selectEstatusGeneralEspacio').value);
+      try {
+        const { error } = await dbClient
+          .from('crm_espacios_clientes')
+          .update({ estatus_general: nuevoEstatus, updated_at: new Date().toISOString() })
+          .eq('id', espacioActivoId)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        mostrarToast(`Estatus del cliente actualizado a: ${nuevoEstatus}`);
+        await cargarEspaciosSeguimiento(espacioActivoId);
+      } catch (e) {
+        console.error('Error actualizando estatus general:', e);
+        mostrarToast('No se pudo actualizar el estatus.', 'error');
+      }
+    }
+    async function cambiarEstatusIndividualInmueble(idEnvio, nuevoEstatus) {
+      const estatusLimpio = sanitizarTexto(nuevoEstatus);
+      try {
+        const { error } = await dbClient
+          .from('crm_propiedades_enviadas')
+          .update({ estatus_inmueble: estatusLimpio })
+          .eq('id', idEnvio)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        // Si el agente marca Visita Agendada, Reservado o Cerrado en un inmueble, sincronizamos el estatus del espacio
+        if (['Visita Agendada', 'Reservado', 'Cerrado'].includes(estatusLimpio) && espacioActivoId) {
+          await dbClient
+            .from('crm_espacios_clientes')
+            .update({ estatus_general: estatusLimpio, updated_at: new Date().toISOString() })
+            .eq('id', espacioActivoId);
+          document.getElementById('selectEstatusGeneralEspacio').value = estatusLimpio;
+        }
+        mostrarToast(`Inmueble marcado como: ${estatusLimpio}`);
+        await cargarEspaciosSeguimiento(espacioActivoId);
+      } catch (e) {
+        console.error('Error cambiando estatus de inmueble:', e);
+        mostrarToast('Error al guardar el estatus del inmueble.', 'error');
+      }
+    }
+    async function agregarNotaAlEspacio() {
+      if (!espacioActivoId) return;
+      const input = document.getElementById('inputNuevaNotaChat');
+      const nuevaNota = sanitizarTexto(input.value);
+      if (!nuevaNota) return;
+      const espacio = listaEspaciosClientes.find(e => e.id === espacioActivoId);
+      const fechaHora = new Date().toLocaleString('es-VE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+      const historialPrevio = sanitizarTexto(espacio?.notas_seguimiento || '');
+      const bloqueActualizado = historialPrevio
+        ? `${historialPrevio}\n[${fechaHora}] ${nuevaNota}`
+        : `[${fechaHora}] ${nuevaNota}`;
+      try {
+        const { error } = await dbClient
+          .from('crm_espacios_clientes')
+          .update({ notas_seguimiento: bloqueActualizado, updated_at: new Date().toISOString() })
+          .eq('id', espacioActivoId)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        input.value = '';
+        await cargarEspaciosSeguimiento(espacioActivoId);
+      } catch (e) {
+        console.error('Error guardando nota:', e);
+        mostrarToast('Error al guardar la nota de seguimiento.', 'error');
+      }
+    }
+    function abrirWhatsAppDirectoCliente() {
+      const espacio = listaEspaciosClientes.find(e => e.id === espacioActivoId);
+      if (!espacio) return;
+      const tel = sanitizarTelefono(espacio.telefono_cliente);
+      const msg = `Hola *${sanitizarTexto(espacio.nombre_cliente)}*, te escribo para conversar sobre las opciones de inmuebles que te compartí.`;
+      const url = tel ? `https://wa.me/${tel}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+    async function eliminarEspacioClienteActual() {
+      if (!espacioActivoId) return;
+      if (!confirm('¿Seguro que deseas eliminar este espacio de seguimiento y su historial?')) return;
+      try {
+        const { error } = await dbClient
+          .from('crm_espacios_clientes')
+          .delete()
+          .eq('id', espacioActivoId)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        espacioActivoId = null;
+        document.getElementById('espacioDetalleActivo').classList.add('hidden');
+        document.getElementById('espacioDetalleVacio').classList.remove('hidden');
+        mostrarToast('Espacio de cliente eliminado.');
+        await cargarEspaciosSeguimiento();
+      } catch (e) {
+        console.error('Error eliminando espacio:', e);
+      }
+    }
+    // -------------------------------------------------------------------
+    // B) MODAL PRIVADO DE CO-BRÓKER: INMUEBLES Y CAPTADOR DEBAJO
+    // -------------------------------------------------------------------
+    function abrirModalCaptadoresDelEspacio() {
+      if (!espacioActivoId || inmueblesEspacioActivo.length === 0) {
+        mostrarToast('Este espacio aún no tiene inmuebles asociados.', 'alerta');
+        return;
+      }
+      const espacio = listaEspaciosClientes.find(e => e.id === espacioActivoId);
+      document.getElementById('tituloModalCaptadores').textContent =
+        `Inmuebles y Captadores para el cliente: ${sanitizarTexto(espacio?.nombre_cliente || '')}`;
+      const contenedor = document.getElementById('cuerpoModalCaptadores');
+      contenedor.innerHTML = inmueblesEspacioActivo.map(item => {
+        const idEnvioSafe = escaparHTML(item.id);
+        const codigoSafe = escaparHTML(item.codigo_eco);
+        const tituloSafe = escaparHTML(item.titulo_propiedad);
+        const ubicacionSafe = escaparHTML(item.ubicacion);
+        const precioFmt = Number(item.precio || 0).toLocaleString('en-US');
+        const captadorNombre = escaparHTML(item.captador_nombre || 'Colega Captador');
+        const captadorTelefono = escaparHTML(item.captador_telefono || 'Sin teléfono');
+        const captadorAgencia = escaparHTML(item.captador_agencia || 'Independiente');
+        const enlaceExacto = escaparHTML(obtenerEnlaceDirectoInmueble(item.codigo_eco, item.propiedad_id));
+        return `
+          <div class="rounded-2xl border border-slate-700 bg-slate-900/90 overflow-hidden shadow-lg">
+            <!-- Bloque Superior: Datos del Inmueble -->
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-bold">${codigoSafe}</span>
+                  <h4 class="text-sm font-bold text-white">${tituloSafe}</h4>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">
+                  <i class="fas fa-location-dot text-emerald-400 mr-1"></i>${ubicacionSafe} • <strong class="text-white">$${precioFmt}</strong>
+                </p>
+              </div>
+              <a href="${enlaceExacto}" target="_blank" rel="noopener noreferrer"
+                class="text-xs text-emerald-400 hover:underline flex items-center gap-1 shrink-0">
+                <i class="fas fa-external-link-alt"></i> Ver ficha pública
+              </a>
+            </div>
+            <!-- Bloque Inferior: Contacto del Captador debajo del Inmueble -->
+            <div class="p-4 bg-slate-950/90 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                  <i class="fas fa-user-tie text-lg"></i>
+                </div>
+                <div>
+                  <p class="text-xs font-bold text-white">Captador: ${captadorNombre}</p>
+                  <p class="text-[11px] text-slate-400">Agencia/Tipo: ${captadorAgencia} • Tel: ${captadorTelefono}</p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button onclick="contactarCaptadorWhatsApp('${idEnvioSafe}', 'fotos')"
+                  class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5">
+                  <i class="fab fa-whatsapp"></i> Pedir Fotos al Privado
+                </button>
+                <button onclick="contactarCaptadorWhatsApp('${idEnvioSafe}', 'visita')"
+                  class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold transition flex items-center gap-1.5">
+                  <i class="fas fa-calendar-check"></i> Solicitar Visita
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('modalCaptadoresCliente').classList.remove('hidden');
+    }
+    function cerrarModalCaptadores() {
+      document.getElementById('modalCaptadoresCliente').classList.add('hidden');
+    }
+    function contactarCaptadorWhatsApp(idEnvio, motivo) {
+      const item = inmueblesEspacioActivo.find(i => i.id === idEnvio);
+      if (!item) return;
+      const telCaptador = sanitizarTelefono(item.captador_telefono);
+      const miNombre = sanitizarTexto(perfilAgenteActual?.nombre_agente || 'Colega en EcoNexus');
+      const nombreCaptador = sanitizarTexto(item.captador_nombre || 'Colega');
+      const codigo = sanitizarTexto(item.codigo_eco);
+      const titulo = sanitizarTexto(item.titulo_propiedad);
+      const ubicacion = sanitizarTexto(item.ubicacion);
+      const precioFmt = Number(item.precio || 0).toLocaleString('en-US');
+      const enlaceExacto = obtenerEnlaceDirectoInmueble(item.codigo_eco, item.propiedad_id);
+      let accionTexto = '';
+      if (motivo === 'fotos') {
+        accionTexto = `Le acabo de presentar la ficha técnica a mi cliente y está interesado. ¿Me podrías compartir por aquí las *fotos del inmueble* para mostrárselas al privado?`;
+      } else {
+        accionTexto = `Mi cliente revisó la ficha técnica y desea *agendar una visita* para conocer el inmueble. ¿Qué disponibilidad tienes para coordinarla?`;
+      }
+      const mensaje =
+        `Hola colega *${nombreCaptador}*, te saluda *${miNombre}* desde el CRM Co-Bróker de EcoNexus.\n\n` +
+        `Te escribo por tu inmueble en cartera:\n` +
+        `🏠 *${titulo}* (Código: *${codigo}*)\n` +
+        `📍 *Ubicación:* ${ubicacion}\n` +
+        `💰 *Precio:* $${precioFmt}\n` +
+        `🔗 *Enlace exacto del inmueble:* ${enlaceExacto}\n\n` +
+        `${accionTexto}`;
+      const urlWhatsApp = telCaptador
+        ? `https://wa.me/${telCaptador}?text=${encodeURIComponent(mensaje)}`
+        : `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
+    }
+    // -------------------------------------------------------------------
+    // C) RADAR DE SOLICITUDES PENDIENTES POR 30 DÍAS RENOVABLES
+    // -------------------------------------------------------------------
+    async function guardarSolicitudEnRadar30Dias() {
+      const nombreCliente = sanitizarTexto(document.getElementById('cruceNombreCliente').value);
+      const telefonoCliente = sanitizarTelefono(document.getElementById('cruceTelefonoCliente').value);
+      const operacion = sanitizarTexto(document.getElementById('cruceOperacion').value);
+      const tipo = sanitizarTexto(document.getElementById('cruceTipo').value);
+      const ubicacionClave = sanitizarTexto(document.getElementById('cruceUbicacion').value);
+      const precioMax = parseFloat(document.getElementById('crucePrecioMax').value) || 0;
+      const habMin = parseInt(document.getElementById('cruceHabitaciones').value, 10) || 0;
+      const banosMin = parseInt(document.getElementById('cruceBanos').value, 10) || 0;
+      const notasReq = sanitizarTexto(document.getElementById('cruceNotasRequerimiento').value);
+      if (!nombreCliente) {
+        mostrarToast('Indica el nombre de tu cliente para guardar su solicitud por 30 días en el Radar.', 'error');
+        document.getElementById('cruceNombreCliente').focus();
+        return;
+      }
+      const fechaExp = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      try {
+        const { error } = await dbClient
+          .from('crm_solicitudes_radar')
+          .insert([{
+            agente_id: usuarioActual.id,
+            nombre_cliente: nombreCliente,
+            telefono_cliente: telefonoCliente || null,
+            tipo: tipo,
+            operacion: operacion,
+            ubicacion_clave: ubicacionClave,
+            precio_max: precioMax,
+            habitaciones_min: habMin,
+            banos_min: banosMin,
+            notas_requerimiento: notasReq,
+            activa: true,
+            fecha_expiracion: fechaExp
+          }]);
+        if (error) throw error;
+        mostrarToast(`Solicitud de ${nombreCliente} activada por 30 días en el Radar.`);
+        await cargarSolicitudesRadar();
+        cambiarTabCrm('radar');
+      } catch (e) {
+        console.error('Error guardando en Radar:', e);
+        mostrarToast('No se pudo registrar la solicitud en el Radar.', 'error');
+      }
+    }
+    async function cargarSolicitudesRadar() {
+      try {
+        const { data, error } = await dbClient
+          .from('crm_solicitudes_radar')
+          .select('*')
+          .eq('agente_id', usuarioActual.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        listaSolicitudesRadar = Array.isArray(data) ? data : [];
+        document.getElementById('badgeRadar').textContent = listaSolicitudesRadar.length;
+        renderizarSolicitudesRadar();
+      } catch (e) {
+        console.error('Error cargando Radar:', e);
+      }
+    }
+    function renderizarSolicitudesRadar() {
+      const contenedor = document.getElementById('gridSolicitudesRadar');
+      if (listaSolicitudesRadar.length === 0) {
+        contenedor.innerHTML = `
+          <div class="col-span-full p-8 text-center text-xs text-slate-400 bg-slate-900/50 rounded-2xl border border-slate-800">
+            No tienes búsquedas pendientes en el Radar. Cuando un cruce no tenga coincidencias o quieras vigilar nuevos ingresos por 30 días, actívalo desde la pestaña "Cruzar Inventario".
+          </div>
+        `;
+        return;
+      }
+      const ahora = Date.now();
+      contenedor.innerHTML = listaSolicitudesRadar.map(sol => {
+        const idSafe = escaparHTML(sol.id);
+        const clienteSafe = escaparHTML(sol.nombre_cliente);
+        const tipoSafe = escaparHTML(sol.tipo);
+        const opSafe = escaparHTML(sol.operacion);
+        const ubiSafe = escaparHTML(sol.ubicacion_clave || 'Cualquier zona');
+        const precioMaxFmt = Number(sol.precio_max || 0) > 0 ? '$' + Number(sol.precio_max).toLocaleString('en-US') : 'Sin tope';
+        const habSafe = Number(sol.habitaciones_min || 0);
+        const banosSafe = Number(sol.banos_min || 0);
+        const notasSafe = escaparHTML(sol.notas_requerimiento || 'Sin notas adicionales');
+        const expMs = sol.fecha_expiracion ? new Date(sol.fecha_expiracion).getTime() : ahora;
+        const diasRestantes = Math.ceil((expMs - ahora) / (1000 * 60 * 60 * 24));
+        const estaVencida = diasRestantes <= 0 || !sol.activa;
+        return `
+          <div class="p-4 rounded-2xl bg-slate-900/90 border ${estaVencida ? 'border-red-500/40' : 'border-slate-800'} flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="px-2.5 py-0.5 rounded-md text-[10px] font-bold ${estaVencida ? 'bg-red-500/20 text-red-300 border border-red-500/30' : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'}">
+                  ${estaVencida ? 'Vencida - Requiere Renovar' : `Activa • Quedan ${diasRestantes} día(s)`}
+                </span>
+                <button onclick="eliminarSolicitudRadar('${idSafe}')" title="Eliminar búsqueda"
+                  class="text-slate-500 hover:text-red-400 text-xs">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+              <h4 class="text-sm font-bold text-white mb-0.5">Cliente: ${clienteSafe}</h4>
+              <p class="text-xs text-amber-400 font-semibold mb-2">${tipoSafe} en ${opSafe} • ${ubiSafe}</p>
+              <div class="grid grid-cols-3 gap-1.5 text-[11px] bg-slate-950/80 p-2 rounded-xl text-slate-300 mb-2">
+                <div><strong>Máx:</strong> ${precioMaxFmt}</div>
+                <div><strong>Hab:</strong> ${habSafe}+</div>
+                <div><strong>Baños:</strong> ${banosSafe}+</div>
+              </div>
+              <p class="text-[11px] text-slate-400 line-clamp-2">${notasSafe}</p>
+            </div>
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-between gap-2">
+              <button onclick="cargarRadarEnBuscador('${idSafe}')"
+                class="flex-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-[11px] font-semibold transition">
+                <i class="fas fa-search mr-1 text-emerald-400"></i> Probar Cruce
+              </button>
+              <button onclick="renovarSolicitudRadar30Dias('${idSafe}')"
+                class="flex-1 px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-[11px] font-bold transition">
+                <i class="fas fa-rotate mr-1"></i> Renovar +30d
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    async function renovarSolicitudRadar30Dias(idSolicitud) {
+      const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      try {
+        const { error } = await dbClient
+          .from('crm_solicitudes_radar')
+          .update({ activa: true, fecha_expiracion: nuevaExpiracion })
+          .eq('id', idSolicitud)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        mostrarToast('Solicitud renovada por 30 días adicionales.');
+        await cargarSolicitudesRadar();
+      } catch (e) {
+        console.error('Error renovando solicitud:', e);
+        mostrarToast('No se pudo renovar la solicitud.', 'error');
+      }
+    }
+    function cargarRadarEnBuscador(idSolicitud) {
+      const sol = listaSolicitudesRadar.find(s => s.id === idSolicitud);
+      if (!sol) return;
+      document.getElementById('cruceNombreCliente').value = sanitizarTexto(sol.nombre_cliente || '');
+      document.getElementById('cruceTelefonoCliente').value = sanitizarTelefono(sol.telefono_cliente || '');
+      document.getElementById('cruceOperacion').value = sanitizarTexto(sol.operacion || 'Venta');
+      document.getElementById('cruceTipo').value = sanitizarTexto(sol.tipo || 'Todos');
+      document.getElementById('cruceUbicacion').value = sanitizarTexto(sol.ubicacion_clave || '');
+      document.getElementById('crucePrecioMax').value = Number(sol.precio_max || 0) > 0 ? Number(sol.precio_max) : '';
+      document.getElementById('cruceHabitaciones').value = String(sol.habitaciones_min || 0);
+      document.getElementById('cruceBanos').value = String(sol.banos_min || 0);
+      document.getElementById('cruceNotasRequerimiento').value = sanitizarTexto(sol.notas_requerimiento || '');
+      cambiarTabCrm('cruce');
+      ejecutarCruceInventario();
+    }
+    async function eliminarSolicitudRadar(idSolicitud) {
+      if (!confirm('¿Eliminar esta solicitud del Radar de 30 días?')) return;
+      try {
+        const { error } = await dbClient
+          .from('crm_solicitudes_radar')
+          .delete()
+          .eq('id', idSolicitud)
+          .eq('agente_id', usuarioActual.id);
+        if (error) throw error;
+        mostrarToast('Solicitud retirada del Radar.');
+        await cargarSolicitudesRadar();
+      } catch (e) {
+        console.error('Error eliminando solicitud del radar:', e);
+      }
+    }
+    // ===================================================================
+    // 7. ENTREGA 4: CAJA DE NOTIFICACIONES Y REGISTRO SERVICE WORKER PUSH
+    // ===================================================================
+    let listaNotificacionesCrm = [];
+    async function inicializarModuloEntrega4() {
+      await cargarNotificacionesCrm();
+      registrarServiceWorkerEcoNexus();
+      // Suscribirse a cambios en tiempo real en la tabla crm_notificaciones vía Supabase Realtime
+      dbClient
+        .channel('public:crm_notificaciones')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'crm_notificaciones', filter: `agente_id=eq.${usuarioActual.id}` }, payload => {
+          if (payload && payload.new) {
+            listaNotificacionesCrm.unshift(payload.new);
+            actualizarContadorNotificacionesUI();
+            renderizarCajaNotificaciones();
+            mostrarToast(`¡Nuevo match en tu radar! ${payload.new.titulo_propiedad}`, 'alerta');
+          }
+        })
+        .subscribe();
+    }
+    async function registrarServiceWorkerEcoNexus() {
+      if ('serviceWorker' in navigator) {
+        try {
+          await navigator.serviceWorker.register('sw.js');
+        } catch (e) {
+          console.error('Error registrando Service Worker:', e);
+        }
+      }
+    }
+    async function solicitarPermisoNotificacionesPush() {
+      if (!('Notification' in window)) {
+        mostrarToast('Tu navegador no soporta notificaciones Push.', 'error');
+        return;
+      }
+      const permiso = await Notification.requestPermission();
+      if (permiso === 'granted') {
+        mostrarToast('¡Notificaciones Push activadas con éxito en tu dispositivo!');
+      } else {
+        mostrarToast('Permiso de notificaciones denegado en el navegador.', 'alerta');
+      }
+    }
+    async function cargarNotificacionesCrm() {
+      try {
+        const { data, error } = await dbClient
+          .from('crm_notificaciones')
+          .select('*')
+          .eq('agente_id', usuarioActual.id)
+          .order('created_at', { ascending: false })
+          .limit(50);
+        if (error) throw error;
+        listaNotificacionesCrm = Array.isArray(data) ? data : [];
+        actualizarContadorNotificacionesUI();
+        renderizarCajaNotificaciones();
+      } catch (e) {
+        console.error('Error cargando notificaciones:', e);
+      }
+    }
+    function actualizarContadorNotificacionesUI() {
+      const noLeidas = listaNotificacionesCrm.filter(n => !n.leida).length;
+      const badge = document.getElementById('badgeNotificaciones');
+      if (noLeidas > 0) {
+        badge.textContent = noLeidas > 9 ? '9+' : noLeidas;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+    function renderizarCajaNotificaciones() {
+      const contenedor = document.getElementById('listaCajaNotificaciones');
+      if (listaNotificacionesCrm.length === 0) {
+        contenedor.innerHTML = `
+          <div class="p-8 text-center text-xs text-slate-400 bg-slate-900/50 rounded-2xl border border-slate-800">
+            No tienes notificaciones en este momento. Las alertas aparecerán aquí automáticamente cuando un inmueble publicado coincida con tu radar.
+          </div>
+        `;
+        return;
+      }
+      contenedor.innerHTML = listaNotificacionesCrm.map(notif => {
+        const idSafe = escaparHTML(notif.id);
+        const mensajeSafe = escaparHTML(notif.mensaje);
+        const codigoSafe = escaparHTML(notif.codigo_eco);
+        const tituloSafe = escaparHTML(notif.titulo_propiedad);
+        const precioFmt = Number(notif.precio || 0).toLocaleString('en-US');
+        const ubicacionSafe = escaparHTML(notif.ubicacion);
+        const enlaceSafe = escaparHTML(notif.enlace_directo || 'index.html');
+        const leida = Boolean(notif.leida);
+        const fechaFmt = notif.created_at ? new Date(notif.created_at).toLocaleString('es-VE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+        return `
+          <div class="p-4 rounded-2xl border ${leida ? 'bg-slate-900/60 border-slate-800' : 'bg-emerald-950/30 border-emerald-500/40'} flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start gap-3 min-w-0">
+              <div class="w-10 h-10 rounded-xl ${leida ? 'bg-slate-800 text-slate-400' : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'} flex items-center justify-center shrink-0 mt-0.5">
+                <i class="fas fa-bell"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-2 mb-0.5">
+                  <span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">${codigoSafe}</span>
+                  <h4 class="text-xs font-bold text-white truncate">${tituloSafe} • <strong class="text-emerald-400">$${precioFmt}</strong></h4>
+                  <span class="text-[10px] text-slate-500 shrink-0">${escaparHTML(fechaFmt)}</span>
+                </div>
+                <p class="text-xs text-slate-300 mb-1">${mensajeSafe}</p>
+                <p class="text-[11px] text-slate-400"><i class="fas fa-location-dot text-emerald-400 mr-1"></i>${ubicacionSafe}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <a href="${enlaceSafe}" target="_blank" rel="noopener noreferrer"
+                onclick="marcarNotificacionLeida('${idSafe}')"
+                class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-1.5 shadow">
+                <i class="fas fa-external-link-alt"></i> Ver Inmueble
+              </a>
+              ${!leida ? `
+                <button onclick="marcarNotificacionLeida('${idSafe}')" title="Marcar como leída"
+                  class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition">
+                  <i class="fas fa-check"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    async function marcarNotificacionLeida(idNotif) {
+      try {
+        await dbClient
+          .from('crm_notificaciones')
+          .update({ leida: true })
+          .eq('id', idNotif)
+          .eq('agente_id', usuarioActual.id);
+        const notif = listaNotificacionesCrm.find(n => n.id === idNotif);
+        if (notif) notif.leida = true;
+        actualizarContadorNotificacionesUI();
+        renderizarCajaNotificaciones();
+      } catch (e) {
+        console.error('Error marcando notificación como leída:', e);
+      }
+    }
+    async function marcarTodasNotificacionesLeidas() {
+      try {
+        await dbClient
+          .from('crm_notificaciones')
+          .update({ leida: true })
+          .eq('agente_id', usuarioActual.id)
+          .eq('leida', false);
+        listaNotificacionesCrm.forEach(n => n.leida = true);
+        actualizarContadorNotificacionesUI();
+        renderizarCajaNotificaciones();
+        mostrarToast('Todas las notificaciones marcadas como leídas.');
+      } catch (e) {
+        console.error('Error marcando todas como leídas:', e);
+      }
+    }
+    // Inicializar al cargar el DOM
+    document.addEventListener('DOMContentLoaded', verificarAccesoAgenteAprobado);
+  </script>
 </body>
 </html>
