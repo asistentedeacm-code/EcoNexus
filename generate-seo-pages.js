@@ -3,7 +3,8 @@ const path = require('path');
 
 const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
-const BASE_URL = 'https://asistentedeacm-code.github.io/EcoNexus';
+// DOMINIO OFICIAL PROPIO
+const BASE_URL = 'https://econexusplatform.com';
 
 async function fetchSupabase(endpoint) {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/${endpoint}`, {
@@ -54,7 +55,7 @@ function generateHTML(prop) {
     <meta name="description" content="${operacionEscapada} de ${tipoEscapado} en ${ubicacionEscapada}. Precio: $${precio} USD. Código: ${prop.codigo_eco}.">
     <link rel="canonical" href="${urlFicha}">
     
-    <!-- METADATOS OPTIMIZADOS PARA CRAWLERS DE WHATSAPP / FACEBOOK / TELEGRAM -->
+    <!-- ETIQUETAS OPEN GRAPH PARA PREVENTAS DE WHATSAPP / FACEBOOK / TELEGRAM -->
     <meta property="og:site_name" content="EcoNexus Red Inmobiliaria">
     <meta property="og:type" content="website">
     <meta property="og:url" content="${urlFicha}">
@@ -89,7 +90,7 @@ function generateHTML(prop) {
     }
     </script>
 
-    <!-- REDIRECCIÓN PWA PARA USUARIOS HUMANOS -->
+    <!-- REDIRECCIÓN PWA PARA VISITANTES HUMANOS -->
     <script>
         window.location.replace("${BASE_URL}/index.html?codigo=${prop.codigo_eco}");
     </script>
@@ -102,7 +103,7 @@ function generateHTML(prop) {
 }
 
 async function run() {
-    console.log("Iniciando generación de Landings SEO, Sitemap.xml y Meta Catalog XML...");
+    console.log("Iniciando generación con dominio propio econexusplatform.com...");
     
     const propiedades = await fetchSupabase('v_propiedades_catalogo?select=codigo_eco,titulo,precio,operacion,tipo,ubicacion,habitaciones,banos,metros,descripcion,fotos,fecha_publicacion&estatus=eq.Disponible');
 
@@ -168,7 +169,7 @@ async function run() {
     fs.writeFileSync('sitemap.xml', sitemapXML);
     fs.writeFileSync('facebook-catalog.xml', metaXML);
 
-    console.log(`Proceso completado. Landings SEO, sitemap.xml y facebook-catalog.xml generados.`);
+    console.log(`Completado. Landings y XMLs generados para ${BASE_URL}.`);
 }
 
 run();
