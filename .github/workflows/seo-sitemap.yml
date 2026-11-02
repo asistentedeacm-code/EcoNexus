@@ -3,7 +3,7 @@ name: Motor SEO EcoNexus
 on:
   schedule:
     - cron: '0 2 * * *' # Ejecución diaria a las 2:00 AM UTC
-  workflow_dispatch: # Permite ejecutarlo manualmente con un clic
+  workflow_dispatch: # Permite ejecución manual
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Ejecutar Generador SEO
+      - name: Ejecutar Generador SEO y Catalogo Meta
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: node generate-seo-pages.js
@@ -29,5 +29,5 @@ jobs:
         run: |
           git config --global user.name "EcoNexus SEO Bot"
           git config --global user.email "seo-bot@econexus.com"
-          git add inmueble/ sitemap.xml
-          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO: Generación de landings y sitemap actualizados" && git push)
+          git add inmueble/ sitemap.xml facebook-catalog.xml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO & Meta Catalog: Generación de landings, sitemap y catalog XML actualizados" && git push)
