@@ -16,6 +16,11 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/busqueda-agente.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://asistentedeacm-code.github.io/EcoNexus/inmueble/eco-984949.html</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -233,6 +238,24 @@
   </url>
   <url>
     <loc>https://asistentedeacm-code.github.io/EcoNexus/inmueble/eco-743913.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/inmueble/eco-862402.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/inmueble/eco-730156.html</loc>
+    <lastmod>2026-11-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://asistentedeacm-code.github.io/EcoNexus/inmueble/eco-683095.html</loc>
     <lastmod>2026-11-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
