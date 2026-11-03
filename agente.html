@@ -52,16 +52,18 @@
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-econexus selection:text-white">
   
   <!-- HEADER / NAVBAR SLIM -->
-  <header class="bg-econexus text-white py-3 px-4 shadow-lg shadow-econexus/20 transition-colors duration-300 border-b border-white/10 z-10 relative">
+  <header class="bg-econexus text-white py-3 px-4 shadow-lg shadow-econexus/20 transition-colors duration-300 border-b border-white/10 z-20 relative">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <div class="flex items-center space-x-3">
-        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="h-9 w-9 rounded-full object-cover border-2 border-white/80 shadow-md transition-transform hover:scale-105" />
-        <span id="headerAgentName" class="font-extrabold tracking-wide text-sm md:text-base truncate max-w-[150px] md:max-w-[250px]">EcoNexus CRM</span>
+      <div class="flex items-center space-x-3 w-full">
+        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-white/80 shadow-md transition-transform hover:scale-105 flex-shrink-0" />
+        <div class="flex flex-col min-w-0">
+          <span id="headerAgentName" class="font-extrabold tracking-wide text-sm md:text-base leading-tight truncate">EcoNexus CRM</span>
+          <!-- BADGE INTERACTIVO DE AUTORIDAD ABAJO DEL NOMBRE -->
+          <span id="headerBadgeContainer" class="text-[10px] md:text-[11px] text-white/80 font-semibold tracking-wider flex items-center mt-0.5">
+            <span id="headerBadgeText">Econexus web</span><span class="cursor-blink"></span>
+          </span>
+        </div>
       </div>
-      <!-- BADGE INTERACTIVO DE AUTORIDAD -->
-      <span id="headerBadgeContainer" class="text-[10px] md:text-[11px] bg-black/30 backdrop-blur-sm text-white px-3 py-1 rounded-full border border-white/20 font-semibold tracking-wider flex items-center shadow-inner">
-        <span id="headerBadgeText">econexus web</span><span class="cursor-blink"></span>
-      </span>
     </div>
   </header>
 
@@ -74,8 +76,8 @@
       <!-- DECORACIÓN DE FONDO (Toque de poder) -->
       <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-econexus/5 to-transparent z-0 pointer-events-none"></div>
 
-      <!-- BOTÓN FLOTANTE DE EDICIÓN -->
-      <div id="containerBtnEditarPerfil" class="absolute top-4 right-4 hidden z-10">
+      <!-- BOTÓN FLOTANTE DE EDICIÓN (Flujo natural para no solapar foto) -->
+      <div id="containerBtnEditarPerfil" class="hidden w-full flex justify-end mb-4 relative z-10">
         <button onclick="abrirModalPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-econexus/30 flex items-center gap-2 hover:-translate-y-0.5">
           <i class="fa-solid fa-pen-to-square"></i> Personalizar Web
         </button>
@@ -96,44 +98,44 @@
             <img id="fotoAgentePerfil" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Asesor Inmobiliario" class="relative w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl" />
           </div>
           
+          <!-- JERARQUÍA DE AGENCIA VS INDEPENDIENTE -->
           <span id="badgeTipoAgente" class="inline-block text-[10px] md:text-[11px] font-black tracking-wider text-econexus bg-econexus/5 px-4 py-1.5 rounded-full mb-2 border border-econexus/10 uppercase shadow-sm">
             AGENTE INDEPENDIENTE
           </span>
+          <h2 id="subtituloAgencia" class="text-sm md:text-base font-bold text-gray-500 mb-1 tracking-wide uppercase hidden"></h2>
+          <h1 id="nombreAgente" class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight"></h1>
           
-          <h1 id="nombreAgente" class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-1 tracking-tight"></h1>
-          <p id="agenciaAgente" class="text-sm text-gray-500 mb-4 font-semibold tracking-wide uppercase"></p>
-          
-          <!-- SOBRE MÍ / TRANSCRIPCIÓN -->
-          <div id="containerSobreMi" class="hidden w-full max-w-2xl mx-auto mb-6 px-2">
-            <div class="bg-gray-50/80 backdrop-blur-sm p-4 md:p-5 rounded-2xl border border-gray-100 shadow-sm relative text-left">
-              <i class="fa-solid fa-quote-left absolute text-3xl text-gray-200 -top-3 -left-2 z-0"></i>
-              <p id="txtSobreMi" class="relative z-10 text-sm md:text-base text-gray-700 font-medium leading-relaxed min-h-[3rem]"></p>
+          <!-- SOBRE MÍ / TRANSCRIPCIÓN BUCLE (Diseño Glassmorphism Moderno) -->
+          <div id="containerSobreMi" class="hidden w-full max-w-2xl mx-auto mb-8 px-2">
+            <div class="bg-white/70 backdrop-blur-xl p-5 md:p-7 rounded-3xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative text-center md:text-left transition-all">
+              <i class="fa-solid fa-quote-left absolute text-3xl text-gray-200/60 -top-3 -left-2 z-0"></i>
+              <p id="txtSobreMi" class="relative z-10 text-sm md:text-base text-gray-800 font-semibold leading-relaxed min-h-[4rem]"></p>
             </div>
           </div>
           
           <!-- Botones de Acción Principal -->
-          <div class="flex flex-wrap justify-center gap-3 w-full max-w-2xl mb-8">
-            <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg hover:shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+          <div class="flex flex-wrap justify-center gap-3 w-full max-w-2xl mb-10">
+            <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg hover:shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
             </a>
             
-            <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[140px] md:min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-econexus/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+            <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[140px] md:min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-econexus/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-solid fa-list-check text-lg"></i> Ver Inventario
             </button>
 
             <!-- BOTÓN DE PUNTUAR ENLAZADO A LA PLATAFORMA -->
-            <a id="btnPuntuar" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-gray-900 hover:bg-black text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-gray-900/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+            <a id="btnPuntuar" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-gray-900 hover:bg-black text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-gray-900/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-solid fa-star-half-stroke text-lg"></i> Calificar Perfil
             </a>
           </div>
           
-          <!-- MÓDULO PASIVO DE CAPTACIÓN -->
-          <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-5 w-full max-w-2xl text-left flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl shadow-gray-900/10">
+          <!-- MÓDULO PASIVO DE CAPTACIÓN (Diseño Ultra Moderno) -->
+          <div class="bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-black p-6 rounded-3xl w-full max-w-2xl text-left flex flex-col md:flex-row items-center justify-between gap-5 shadow-2xl shadow-gray-900/30 border border-gray-800">
             <div>
-              <p class="text-sm md:text-base font-extrabold text-white mb-1">¿Deseas comprar, vender o alquilar?</p>
-              <p class="text-xs text-gray-400 font-medium">Gestión segura, rápida y con dominio total del mercado inmobiliario.</p>
+              <p class="text-sm md:text-base font-extrabold text-white mb-1.5 tracking-wide">¿Deseas comprar, vender o alquilar?</p>
+              <p class="text-xs text-gray-400 font-medium leading-relaxed">Gestión segura, rápida y con dominio total del mercado inmobiliario.</p>
             </div>
-            <a id="btnConsignarWhatsApp" href="#" target="_blank" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-black px-5 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap shadow-lg shadow-amber-500/20 hover:scale-105">
+            <a id="btnConsignarWhatsApp" href="#" target="_blank" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-black px-6 py-3 rounded-xl text-xs transition-all whitespace-nowrap shadow-lg shadow-amber-500/20 hover:scale-105">
               Consignar Inmueble
             </a>
           </div>
@@ -220,16 +222,13 @@
     </div>
   </div>
 
-  <!-- FOOTER ACTUALIZADO A DOMINIO UNIFICADO -->
+  <!-- FOOTER ACTUALIZADO -->
   <footer class="bg-[#0a140b] text-white py-5 mt-auto">
-    <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
-      <div class="flex items-center gap-2">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col items-center justify-center gap-3 text-center">
+      <div class="flex items-center justify-center gap-2">
         <i class="fa-solid fa-shield-halved text-econexus-accent"></i>
-        <p class="text-[11px] text-gray-400 font-semibold tracking-wide m-0">Perfil verificado y protegido por EcoNexus Platform.</p>
+        <p class="text-[11px] text-gray-400 font-semibold tracking-wide m-0">Perfil creado a través de econexusplatform.com/menu</p>
       </div>
-      <a href="https://econexusplatform.com/menu.html" target="_blank" class="text-[11px] font-bold text-white/70 hover:text-econexus-accent transition-colors flex items-center gap-1.5">
-        Únete a la Red Inmobiliaria Inteligente <i class="fa-solid fa-arrow-up-right-from-square"></i>
-      </a>
     </div>
   </footer>
 
@@ -254,8 +253,8 @@
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Efecto de Transcripción Header
-    const phrasesHeader = ["econexus web", "dominio del mercado", "seguridad legal", "tecnología de vanguardia", "líderes inmobiliarios"];
+    // Efecto de Transcripción Header (Frases Específicas)
+    const phrasesHeader = ["Econexus web", "Tecnología de punta", "Dominio total del mercado"];
     let phraseIndex = 0;
     let charIndex = 0;
     let isDeletingHeader = false;
@@ -286,23 +285,35 @@
       setTimeout(typeHeaderEffect, speed);
     }
 
-    // Efecto Transcripción Sobre Mí
-    function typeTextEffect(elementId, text, speed = 15) {
+    // Efecto Transcripción Sobre Mí (En Bucle)
+    let typingTimeout;
+    function startTypingLoop(elementId, text, speed = 25) {
       const element = document.getElementById(elementId);
       if(!element || !text) return;
-      element.innerHTML = '';
       element.classList.add('cursor-blink');
       let i = 0;
-      function type() {
-        if (i < text.length) {
-          element.innerHTML += text.charAt(i);
-          i++;
-          setTimeout(type, speed);
-        } else {
-          element.classList.remove('cursor-blink');
-        }
+      let isDeleting = false;
+      
+      function loop() {
+          if (!isDeleting && i <= text.length) {
+              element.innerHTML = text.substring(0, i);
+              i++;
+              typingTimeout = setTimeout(loop, speed);
+          } else if (isDeleting && i >= 0) {
+              element.innerHTML = text.substring(0, i);
+              i--;
+              typingTimeout = setTimeout(loop, speed / 2); // Borra más rápido
+          } else if (i > text.length) {
+              isDeleting = true;
+              typingTimeout = setTimeout(loop, 5000); // Pausa de 5 segundos para que se lea
+          } else if (i < 0) {
+              isDeleting = false;
+              i = 0;
+              typingTimeout = setTimeout(loop, 1000); // Pausa de 1 seg antes de volver a escribir
+          }
       }
-      setTimeout(type, 500); // Pequeño delay inicial
+      clearTimeout(typingTimeout);
+      loop();
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -351,7 +362,7 @@
           
           if (data.sobre_mi) {
             document.getElementById('containerSobreMi').classList.remove('hidden');
-            typeTextEffect('txtSobreMi', data.sobre_mi); // Efecto de escritura al cargar
+            startTypingLoop('txtSobreMi', data.sobre_mi); // Llama al efecto de mecanografía en bucle
             document.getElementById('inputSobreMiModal').value = data.sobre_mi;
             actualizarContadorCaracteres(document.getElementById('inputSobreMiModal'));
           } else {
@@ -390,13 +401,22 @@
         uuidAsesorReal = primerInmueble.user_id;
         nombreAsesorGlobal = primerInmueble.nombre_asesor || "Asesor Inmobiliario";
         telefonoAsesorGlobal = primerInmueble.telefono_asesor || "";
-        const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
-        const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Especialista Inmobiliario";
         
-        document.getElementById('headerAgentName').textContent = esAgencia ? primerInmueble.nombre_agencia : nombreAsesorGlobal;
+        // LÓGICA DE JERARQUÍA (Agencia vs Independiente)
+        const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
+        
+        if (esAgencia) {
+            document.getElementById('headerAgentName').textContent = primerInmueble.nombre_agencia;
+            document.getElementById('badgeTipoAgente').textContent = "AGENCIA INMOBILIARIA";
+            document.getElementById('subtituloAgencia').textContent = primerInmueble.nombre_agencia;
+            document.getElementById('subtituloAgencia').classList.remove('hidden');
+        } else {
+            document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
+            document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
+            document.getElementById('subtituloAgencia').classList.add('hidden');
+        }
+        
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
-        document.getElementById('agenciaAgente').textContent = agenciaStr;
-        document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
         document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
         
         const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu portafolio digital en EcoNexus y quisiera asesoría.`);
@@ -437,9 +457,10 @@
           nombreAsesorGlobal = perfilData.email ? perfilData.email.split('@')[0] : "Asesor EcoNexus";
           telefonoAsesorGlobal = perfilData.telefono || "";
           
-          document.getElementById('headerAgentName').textContent = nombreAsesorGlobal;
+          document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
+          document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
+          document.getElementById('subtituloAgencia').classList.add('hidden');
           document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
-          document.getElementById('agenciaAgente').textContent = "Especialista Inmobiliario";
           
           const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad con ustedes...`);
           if (telefonoAsesorGlobal) {
@@ -511,7 +532,7 @@
         
         if (nuevoTexto) {
           document.getElementById('containerSobreMi').classList.remove('hidden');
-          typeTextEffect('txtSobreMi', nuevoTexto, 10); // Retranscribir rápido al guardar
+          startTypingLoop('txtSobreMi', nuevoTexto); // Reiniciar el bucle de tipeo al guardar
         } else {
           document.getElementById('containerSobreMi').classList.add('hidden');
         }
@@ -522,7 +543,7 @@
       }
     }
 
-    // MODAL DE PROPIEDADES DIRECTO (Estilo Poderoso)
+    // MODAL DE PROPIEDADES DIRECTO
     function abrirModalPropiedad(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (!p) return;
@@ -600,14 +621,12 @@
       const itemsMostrados = propiedadesCargadas.slice(inicio, fin);
 
       itemsMostrados.forEach(p => {
-        // Slider horizontal de fotos dentro de la card
         let fotosHtml = '';
         if (p.fotos && p.fotos.length > 0) {
           fotosHtml = `
             <div class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full w-full">
               ${p.fotos.map(f => `<img src="${f}" alt="${p.titulo}" loading="lazy" class="snap-center w-full h-full object-cover flex-shrink-0" />`).join('')}
             </div>
-            <!-- Indicador sutil de múltiples fotos -->
             ${p.fotos.length > 1 ? `<div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1 z-10 bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm"><span class="w-1.5 h-1.5 rounded-full bg-white"></span><span class="w-1 h-1 rounded-full bg-white/50"></span><span class="w-1 h-1 rounded-full bg-white/50"></span></div>` : ''}
           `;
         } else {
@@ -635,8 +654,9 @@
               </div>
             </div>
             <div class="p-3 pt-0 md:p-5 md:pt-0 mt-auto">
+              <!-- SE REEMPLAZÓ "EXPLORAR ACTIVO" POR "VER INMUEBLE" -->
               <button onclick="abrirModalPropiedad('${p.id}')" class="w-full bg-gray-50 hover:bg-econexus text-gray-700 hover:text-white text-[10px] md:text-xs font-black py-2.5 md:py-3 rounded-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
-                Explorar Activo <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                Ver Inmueble <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </button>
             </div>
           </div>
