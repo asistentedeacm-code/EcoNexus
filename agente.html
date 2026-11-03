@@ -3,7 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil Profesional de Asesor | EcoNexus</title>
+  <title>Perfil Profesional Inmobiliario | EcoNexus</title>
+  
+  <!-- SEO, OPEN GRAPH Y GEOPRESENCIA (DISEMINACIÓN ECONEXUS PLATFORM) -->
+  <meta name="description" content="Explora el mercado inmobiliario en Venezuela con nuestro especialista. Compra, venta y alquiler de inmuebles con seguridad legal. Una página impulsada por EcoNexus Platform." />
+  <meta name="keywords" content="Bienes Raíces, Inmobiliaria, Venezuela, Valencia, Carabobo, EcoNexus, Comprar Casa, Vender Inmueble, Alquiler, CRM Inmobiliario, Tecnología PropTech" />
+  <meta name="author" content="EcoNexus Platform" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Geopresencia (Venezuela) -->
+  <meta name="geo.region" content="VE" />
+  <meta name="geo.placename" content="Venezuela" />
+  <meta name="geo.position" content="10.1620;-68.0077" /> <!-- Coordenadas base referenciales -->
+  <meta name="ICBM" content="10.1620, -68.0077" />
+
+  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, LinkedIn) -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="EcoNexus Platform" />
+  <meta property="og:title" content="Especialista Inmobiliario | EcoNexus Platform" id="ogTitle" />
+  <meta property="og:description" content="Descubre opciones de inversión, sugiere inmuebles y gestiona tu patrimonio con tecnología de punta. Respaldado por EcoNexus Platform en Venezuela." id="ogDescription" />
+  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="ogImage" />
+  <meta property="og:url" content="https://econexusplatform.com" id="ogUrl" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Especialista Inmobiliario | EcoNexus Platform" />
+  <meta name="twitter:description" content="Gestión segura, rápida y con dominio total del mercado inmobiliario venezolano." />
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -325,6 +350,10 @@
         window.location.href = 'index.html';
         return;
       }
+      
+      // Se actualiza el URL canónico dinámicamente para los motores de búsqueda
+      document.getElementById('ogUrl').setAttribute('content', window.location.href);
+      
       await cargarPerfilYPropiedades(queryParam.trim());
     });
 
@@ -353,6 +382,10 @@
           const fotoUrlFinal = data.foto_perfil || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
           document.getElementById('fotoAgentePerfil').src = fotoUrlFinal;
           document.getElementById('headerAgentLogo').src = fotoUrlFinal;
+          
+          // INYECCIÓN DINÁMICA DE META IMAGEN PARA SCRAPERS
+          const metaImage = document.getElementById('ogImage');
+          if (metaImage) metaImage.setAttribute('content', fotoUrlFinal);
           
           if(data.color_primario && data.color_secundario) {
             aplicarEstilosDinamicos(data.color_primario, data.color_secundario);
@@ -410,11 +443,19 @@
             document.getElementById('badgeTipoAgente').textContent = "AGENCIA INMOBILIARIA";
             document.getElementById('subtituloAgencia').textContent = primerInmueble.nombre_agencia;
             document.getElementById('subtituloAgencia').classList.remove('hidden');
+            
+            // INYECCIÓN DINÁMICA DE META TÍTULO PARA SEO
+            document.title = `${nombreAsesorGlobal} - ${primerInmueble.nombre_agencia} | EcoNexus Platform`;
         } else {
             document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
             document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
             document.getElementById('subtituloAgencia').classList.add('hidden');
+            
+            // INYECCIÓN DINÁMICA DE META TÍTULO PARA SEO
+            document.title = `${nombreAsesorGlobal} - Agente Inmobiliario | EcoNexus Platform`;
         }
+        
+        document.getElementById('ogTitle').setAttribute('content', document.title);
         
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
         document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
@@ -461,6 +502,9 @@
           document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
           document.getElementById('subtituloAgencia').classList.add('hidden');
           document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
+          
+          document.title = `${nombreAsesorGlobal} - Agente Inmobiliario | EcoNexus Platform`;
+          document.getElementById('ogTitle').setAttribute('content', document.title);
           
           const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad con ustedes...`);
           if (telefonoAsesorGlobal) {
@@ -654,7 +698,6 @@
               </div>
             </div>
             <div class="p-3 pt-0 md:p-5 md:pt-0 mt-auto">
-              <!-- SE REEMPLAZÓ "EXPLORAR ACTIVO" POR "VER INMUEBLE" -->
               <button onclick="abrirModalPropiedad('${p.id}')" class="w-full bg-gray-50 hover:bg-econexus text-gray-700 hover:text-white text-[10px] md:text-xs font-black py-2.5 md:py-3 rounded-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
                 Ver Inmueble <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </button>
