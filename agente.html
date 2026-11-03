@@ -23,8 +23,7 @@
       }
     }
   </script>
-
-  <!-- ESTILOS DINÁMICOS PARA PERSONALIZACIÓN DEL AGENTE -->
+  <!-- ESTILOS DINÁMICOS PARA PERSONALIZACIÓN DEL AGENTE Y EXTRAS -->
   <style id="customAgentColors">
     :root {
       --color-primario: #1E3F20;
@@ -34,82 +33,108 @@
     .text-econexus { color: var(--color-primario) !important; }
     .border-econexus { border-color: var(--color-primario) !important; }
     .hover\:bg-econexus-light:hover { background-color: var(--color-secundario) !important; }
-    .bg-econexus-soft { background-color: #f8faf8 !important; } /* Neutro claro para fondos */
+    .bg-econexus-soft { background-color: #f8faf8 !important; }
+    
+    /* Ocultar scrollbar en slider de fotos pero permitir scroll */
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    /* Efecto cursor titilante para transcripción */
+    .cursor-blink::after {
+      content: '|';
+      animation: blink 1s step-end infinite;
+      color: var(--color-primario);
+      font-weight: bold;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-econexus selection:text-white">
   
-  <!-- HEADER / NAVBAR SLIM (PERSONALIZADO AL AGENTE) -->
-  <header class="bg-econexus text-white py-3 px-4 shadow-md transition-colors duration-300">
+  <!-- HEADER / NAVBAR SLIM -->
+  <header class="bg-econexus text-white py-3 px-4 shadow-lg shadow-econexus/20 transition-colors duration-300 border-b border-white/10 z-10 relative">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <!-- Foto y Nombre del Agente / Agencia en Cabecera -->
-        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="h-9 w-9 rounded-full object-cover border-2 border-white/80 shadow-sm" />
+        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="h-9 w-9 rounded-full object-cover border-2 border-white/80 shadow-md transition-transform hover:scale-105" />
         <span id="headerAgentName" class="font-extrabold tracking-wide text-sm md:text-base truncate max-w-[150px] md:max-w-[250px]">EcoNexus CRM</span>
       </div>
-      <span class="text-[10px] md:text-[11px] bg-black/20 text-white px-3 py-1 rounded-full border border-white/20 font-medium">econexusweb</span>
+      <!-- BADGE INTERACTIVO DE AUTORIDAD -->
+      <span id="headerBadgeContainer" class="text-[10px] md:text-[11px] bg-black/30 backdrop-blur-sm text-white px-3 py-1 rounded-full border border-white/20 font-semibold tracking-wider flex items-center shadow-inner">
+        <span id="headerBadgeText">econexus web</span><span class="cursor-blink"></span>
+      </span>
     </div>
   </header>
 
   <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
-  <main class="max-w-4xl mx-auto w-full px-4 py-8 flex-grow">
+  <main class="max-w-5xl mx-auto w-full px-3 md:px-4 py-8 flex-grow">
     
     <!-- TARJETA PRINCIPAL DEL AGENTE -->
-    <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 mb-8 text-center relative overflow-hidden">
+    <div class="bg-white rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8 text-center relative overflow-hidden">
       
+      <!-- DECORACIÓN DE FONDO (Toque de poder) -->
+      <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-econexus/5 to-transparent z-0 pointer-events-none"></div>
+
       <!-- BOTÓN FLOTANTE DE EDICIÓN -->
-      <div id="containerBtnEditarPerfil" class="absolute top-4 right-4 hidden">
-        <button onclick="abrirModalPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow flex items-center gap-1.5">
+      <div id="containerBtnEditarPerfil" class="absolute top-4 right-4 hidden z-10">
+        <button onclick="abrirModalPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-econexus/30 flex items-center gap-2 hover:-translate-y-0.5">
           <i class="fa-solid fa-pen-to-square"></i> Personalizar Web
         </button>
       </div>
-
+      
       <!-- INDICADOR DE CARGA -->
-      <div id="loadingAgente" class="py-10">
-        <i class="fa-solid fa-circle-notch fa-spin text-3xl text-econexus mb-2"></i>
-        <p class="text-xs text-gray-500 font-medium">Sincronizando el perfil profesional...</p>
+      <div id="loadingAgente" class="py-12 z-10 relative">
+        <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
+        <p class="text-sm text-gray-500 font-bold uppercase tracking-widest">Sincronizando Perfil...</p>
       </div>
       
       <!-- CONTENIDO RENDERIZADO DEL PERFIL -->
-      <div id="contentAgente" class="hidden">
+      <div id="contentAgente" class="hidden z-10 relative">
         <div class="flex flex-col items-center">
           
-          <!-- Foto de Perfil del Asesor -->
-          <img id="fotoAgentePerfil" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Asesor Inmobiliario" class="w-24 h-24 rounded-full object-cover border-4 border-gray-100 shadow-md mb-3" />
+          <div class="relative mb-4">
+            <div class="absolute inset-0 bg-econexus rounded-full blur-md opacity-20 transform scale-110"></div>
+            <img id="fotoAgentePerfil" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Asesor Inmobiliario" class="relative w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl" />
+          </div>
           
-          <!-- Badge de Tipo de Agente -->
-          <span id="badgeTipoAgente" class="inline-block text-[11px] font-bold text-econexus bg-gray-100 px-3 py-1 rounded-full mb-1 border border-gray-200">
+          <span id="badgeTipoAgente" class="inline-block text-[10px] md:text-[11px] font-black tracking-wider text-econexus bg-econexus/5 px-4 py-1.5 rounded-full mb-2 border border-econexus/10 uppercase shadow-sm">
             AGENTE INDEPENDIENTE
           </span>
           
-          <!-- Nombre y Agencia -->
-          <h1 id="nombreAgente" class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-0.5"></h1>
-          <p id="agenciaAgente" class="text-xs text-gray-500 mb-3 font-medium"></p>
-
-          <!-- SOBRE MÍ / PRESENTACIÓN CORTA -->
-          <div id="containerSobreMi" class="hidden max-w-lg mx-auto mb-5 px-4">
-            <p id="txtSobreMi" class="text-xs md:text-sm text-gray-600 italic bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed"></p>
+          <h1 id="nombreAgente" class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-1 tracking-tight"></h1>
+          <p id="agenciaAgente" class="text-sm text-gray-500 mb-4 font-semibold tracking-wide uppercase"></p>
+          
+          <!-- SOBRE MÍ / TRANSCRIPCIÓN -->
+          <div id="containerSobreMi" class="hidden w-full max-w-2xl mx-auto mb-6 px-2">
+            <div class="bg-gray-50/80 backdrop-blur-sm p-4 md:p-5 rounded-2xl border border-gray-100 shadow-sm relative text-left">
+              <i class="fa-solid fa-quote-left absolute text-3xl text-gray-200 -top-3 -left-2 z-0"></i>
+              <p id="txtSobreMi" class="relative z-10 text-sm md:text-base text-gray-700 font-medium leading-relaxed min-h-[3rem]"></p>
+            </div>
           </div>
           
           <!-- Botones de Acción Principal -->
-          <div class="flex flex-wrap justify-center gap-3 w-full max-w-md mb-6">
-            <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[180px] bg-[#25D366] hover:bg-[#1ebd57] text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
-              <i class="fa-brands fa-whatsapp text-base"></i> Contactar por WhatsApp
+          <div class="flex flex-wrap justify-center gap-3 w-full max-w-2xl mb-8">
+            <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg hover:shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
             </a>
             
-            <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow flex items-center justify-center gap-2">
-              <i class="fa-solid fa-list-check"></i> Ver mi inventario
+            <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[140px] md:min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-econexus/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+              <i class="fa-solid fa-list-check text-lg"></i> Ver Inventario
             </button>
-          </div>
 
+            <!-- BOTÓN DE PUNTUAR ENLAZADO A LA PLATAFORMA -->
+            <a id="btnPuntuar" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-gray-900 hover:bg-black text-white font-extrabold py-3 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-gray-900/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+              <i class="fa-solid fa-star-half-stroke text-lg"></i> Calificar Perfil
+            </a>
+          </div>
+          
           <!-- MÓDULO PASIVO DE CAPTACIÓN -->
-          <div class="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-300 w-full max-w-lg text-left flex items-center justify-between gap-3">
+          <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-5 w-full max-w-2xl text-left flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl shadow-gray-900/10">
             <div>
-              <p class="text-xs font-bold text-gray-800">¿Deseas comprar, vender o alquilar un inmueble?</p>
-              <p class="text-[11px] text-gray-500">Contáctame y con gusto te ayudo a revisar las mejores opciones de mercado.</p>
+              <p class="text-sm md:text-base font-extrabold text-white mb-1">¿Deseas comprar, vender o alquilar?</p>
+              <p class="text-xs text-gray-400 font-medium">Gestión segura, rápida y con dominio total del mercado inmobiliario.</p>
             </div>
-            <a id="btnConsignarWhatsApp" href="#" target="_blank" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-bold px-3 py-2 rounded-lg text-xs transition whitespace-nowrap shadow-sm">
-              Contáctame
+            <a id="btnConsignarWhatsApp" href="#" target="_blank" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-black px-5 py-2.5 rounded-xl text-xs transition-all whitespace-nowrap shadow-lg shadow-amber-500/20 hover:scale-105">
+              Consignar Inmueble
             </a>
           </div>
         </div>
@@ -117,86 +142,98 @@
     </div>
 
     <!-- SECCIÓN DE INMUEBLES DESTACADOS DEL AGENTE -->
-    <div id="seccionPortafolio" class="mb-6 flex justify-between items-center pt-4">
-      <h2 class="text-lg font-bold text-gray-900 flex items-center">
-        <i class="fa-solid fa-house-circle-check text-econexus mr-2"></i> Mi Portafolio
+    <div id="seccionPortafolio" class="mb-6 flex justify-between items-center pt-2 px-2">
+      <h2 class="text-xl md:text-2xl font-black text-gray-900 flex items-center tracking-tight">
+        <i class="fa-solid fa-house-circle-check text-econexus mr-3"></i> Mi Portafolio
       </h2>
-      <span id="inmueblesCount" class="text-xs text-gray-500 bg-gray-200 px-2.5 py-1 rounded-full font-semibold">0 Propiedades</span>
+      <span id="inmueblesCount" class="text-xs md:text-sm text-econexus bg-econexus/10 px-3 py-1.5 rounded-full font-black border border-econexus/20">0 Propiedades</span>
+    </div>
+    
+    <!-- GRILLA DE TARJETAS (2 Columnas mínimo en móvil) -->
+    <div id="gridInmueblesAgente" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
+    
+    <!-- CONTROLES DE PAGINACIÓN -->
+    <div id="paginacionContainer" class="hidden flex justify-center items-center space-x-2 mt-8 mb-4">
+      <!-- Se inyectan botones vía JS -->
     </div>
 
-    <!-- GRILLA DE TARJETAS -->
-    <div id="gridInmueblesAgente" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    
     <!-- ESTADO SIN RESULTADOS -->
-    <div id="noInmuebles" class="hidden text-center py-12 bg-white rounded-2xl border border-gray-200 shadow-sm">
-      <i class="fa-solid fa-building-circle-xmark text-4xl text-gray-300 mb-2"></i>
-      <p class="text-sm font-semibold text-gray-600">Este asesor no tiene propiedades disponibles en este momento.</p>
+    <div id="noInmuebles" class="hidden text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-50 mb-4">
+        <i class="fa-solid fa-building-circle-xmark text-4xl text-gray-300"></i>
+      </div>
+      <h3 class="text-lg font-bold text-gray-900 mb-1">Sin propiedades disponibles</h3>
+      <p class="text-sm font-medium text-gray-500">Este asesor actualizará su inventario pronto.</p>
     </div>
   </main>
 
-  <!-- MODAL DE PROPIEDAD (SE ABRE DIRECTAMENTE AQUÍ) -->
-  <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      <button onclick="cerrarModalPropiedad()" class="absolute top-4 right-4 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow transition">
-        <i class="fa-solid fa-xmark text-xl"></i>
+  <!-- MODAL DE PROPIEDAD -->
+  <div id="propModal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-50 flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative border border-white/20">
+      <button onclick="cerrarModalPropiedad()" class="absolute top-4 right-4 z-20 bg-gray-900/50 hover:bg-gray-900 backdrop-blur-sm text-white rounded-full w-10 h-10 flex items-center justify-center shadow-lg transition-all">
+        <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <div id="modalContent"></div>
     </div>
   </div>
 
-  <!-- MODAL INTELIGENTE DE EDICIÓN DE PRESENTACIÓN Y COLORES -->
-  <div id="modalEditarPerfil" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-gray-200 overflow-y-auto max-h-[90vh]">
-      <div class="flex justify-between items-center mb-4 border-b pb-3">
-        <h3 class="font-bold text-gray-900 text-base"><i class="fa-solid fa-palette text-econexus mr-2"></i> Personalizar Mi Web</h3>
-        <button onclick="cerrarModalPerfil()" class="text-gray-400 hover:text-gray-700 font-bold text-lg">&times;</button>
+  <!-- MODAL INTELIGENTE DE EDICIÓN -->
+  <div id="modalEditarPerfil" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-gray-100 overflow-y-auto max-h-[90vh]">
+      <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+        <h3 class="font-black text-gray-900 text-lg"><i class="fa-solid fa-palette text-econexus mr-2"></i> Diseño y Presencia</h3>
+        <button onclick="cerrarModalPerfil()" class="text-gray-400 hover:text-gray-900 transition-colors w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
-      <div class="space-y-5">
+      <div class="space-y-6">
         
-        <!-- SELECTOR DE COLORES -->
-        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200">
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-2">Colores de Marca (Agencia/Propios)</label>
+        <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-800 mb-3">Colores de Marca Institucional</label>
           <div class="flex gap-4">
             <div class="flex-1">
-              <label class="block text-[10px] text-gray-500 mb-1">Color Principal</label>
-              <input type="color" id="inputColorPrimario" value="#1E3F20" class="w-full h-10 rounded cursor-pointer border border-gray-300">
+              <label class="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase">Principal</label>
+              <input type="color" id="inputColorPrimario" value="#1E3F20" class="w-full h-12 rounded-xl cursor-pointer border-0 p-0 overflow-hidden shadow-sm">
             </div>
             <div class="flex-1">
-              <label class="block text-[10px] text-gray-500 mb-1">Color Secundario (Hover)</label>
-              <input type="color" id="inputColorSecundario" value="#388E3C" class="w-full h-10 rounded cursor-pointer border border-gray-300">
+              <label class="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase">Secundario</label>
+              <input type="color" id="inputColorSecundario" value="#388E3C" class="w-full h-12 rounded-xl cursor-pointer border-0 p-0 overflow-hidden shadow-sm">
             </div>
           </div>
-          <button type="button" onclick="restablecerColoresDefault()" class="mt-2 text-[10px] text-blue-600 font-semibold hover:underline">Restablecer colores EcoNexus por defecto</button>
+          <button type="button" onclick="restablecerColoresDefault()" class="mt-3 text-[11px] text-econexus font-bold hover:underline flex items-center gap-1"><i class="fa-solid fa-rotate-left"></i> Restablecer EcoNexus</button>
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Sobre Mí (Presentación Corta)</label>
-          <textarea id="inputSobreMiModal" rows="4" maxlength="550" oninput="actualizarContadorCaracteres(this)" placeholder="Ej: Abogado y Asesor Inmobiliario con más de 5 años de experiencia en Valencia..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
-          <div class="flex justify-between items-center mt-1">
-            <span class="text-[10px] text-gray-400">Máximo 550 caracteres.</span>
-            <span id="contadorCaracteres" class="text-[10px] font-bold text-gray-500">0/550</span>
+          <label class="block text-xs font-black uppercase tracking-wider text-gray-800 mb-2">Resumen Profesional (Sobre Mí)</label>
+          <textarea id="inputSobreMiModal" rows="4" maxlength="550" oninput="actualizarContadorCaracteres(this)" placeholder="Ej: Especialista inmobiliario con alto dominio del mercado, enfocado en rentabilidad y seguridad legal..." class="w-full border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 text-sm font-medium focus:ring-2 focus:ring-econexus focus:bg-white outline-none transition-all shadow-inner"></textarea>
+          <div class="flex justify-between items-center mt-2 px-1">
+            <span class="text-[10px] text-gray-400 font-semibold">Destaca tu autoridad en el sector.</span>
+            <span id="contadorCaracteres" class="text-[11px] font-black text-gray-400">0/550</span>
           </div>
         </div>
         
-        <div class="flex gap-2 pt-2">
-          <button type="button" onclick="guardarPresentacionAgente()" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 rounded-xl transition text-xs shadow">Guardar Cambios</button>
-          <button type="button" onclick="cerrarModalPerfil()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2.5 rounded-xl transition text-xs">Cancelar</button>
+        <div class="flex gap-3 pt-4">
+          <button type="button" onclick="cerrarModalPerfil()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl transition text-xs">Cancelar</button>
+          <button type="button" onclick="guardarPresentacionAgente()" class="flex-1 bg-gray-900 hover:bg-black text-white font-bold py-3 rounded-xl transition text-xs shadow-lg">Aplicar Cambios</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER TRADICIONAL VERDE DISCRETO Y PROFESIONAL -->
-  <footer class="bg-[#142B16] text-white py-4 border-t border-[#0f2111] mt-auto">
-    <div class="max-w-4xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
-      <p class="text-[10px] text-green-100/70 font-medium m-0">Enlace generado a través de EcoNexus, Red Inmobiliaria Inteligente.</p>
-      <a href="https://asistentedeacm-code.github.io/EcoNexus/menu.html" target="_blank" class="text-[10px] text-white/80 hover:text-white underline decoration-white/30 hover:decoration-white transition">
-        Obtén tu CRM Inmobiliario
+  <!-- FOOTER ACTUALIZADO A DOMINIO UNIFICADO -->
+  <footer class="bg-[#0a140b] text-white py-5 mt-auto">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved text-econexus-accent"></i>
+        <p class="text-[11px] text-gray-400 font-semibold tracking-wide m-0">Perfil verificado y protegido por EcoNexus Platform.</p>
+      </div>
+      <a href="https://econexusplatform.com/menu.html" target="_blank" class="text-[11px] font-bold text-white/70 hover:text-econexus-accent transition-colors flex items-center gap-1.5">
+        Únete a la Red Inmobiliaria Inteligente <i class="fa-solid fa-arrow-up-right-from-square"></i>
       </a>
     </div>
   </footer>
 
-  <!-- SCRIPT LÓGICA DE CONSULTA, SEGURIDAD Y EDICIÓN DESDE SUPABASE -->
+  <!-- SCRIPT LÓGICA DE CONSULTA, SEGURIDAD Y RENDERIZADO -->
   <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
@@ -206,14 +243,71 @@
     let uuidAsesorReal = null;
     let telefonoAsesorGlobal = '';
     let nombreAsesorGlobal = '';
-    let propiedadesCargadas = []; // Variable global para alimentar el modal
+    let propiedadesCargadas = []; 
+    
+    // Variables Paginación
+    let paginaActual = 1;
+    const itemsPorPagina = 20;
 
     function escaparHTML(str) {
       if (!str) return '';
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
+    // Efecto de Transcripción Header
+    const phrasesHeader = ["econexus web", "dominio del mercado", "seguridad legal", "tecnología de vanguardia", "líderes inmobiliarios"];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeletingHeader = false;
+    
+    function typeHeaderEffect() {
+      const headerBadge = document.getElementById('headerBadgeText');
+      if(!headerBadge) return;
+      const currentPhrase = phrasesHeader[phraseIndex];
+      
+      if (isDeletingHeader) {
+        headerBadge.textContent = currentPhrase.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        headerBadge.textContent = currentPhrase.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      
+      let speed = isDeletingHeader ? 40 : 80;
+      
+      if (!isDeletingHeader && charIndex === currentPhrase.length) {
+        speed = 2500; // Pausa al completar la frase
+        isDeletingHeader = true;
+      } else if (isDeletingHeader && charIndex === 0) {
+        isDeletingHeader = false;
+        phraseIndex = (phraseIndex + 1) % phrasesHeader.length;
+        speed = 500;
+      }
+      setTimeout(typeHeaderEffect, speed);
+    }
+
+    // Efecto Transcripción Sobre Mí
+    function typeTextEffect(elementId, text, speed = 15) {
+      const element = document.getElementById(elementId);
+      if(!element || !text) return;
+      element.innerHTML = '';
+      element.classList.add('cursor-blink');
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else {
+          element.classList.remove('cursor-blink');
+        }
+      }
+      setTimeout(type, 500); // Pequeño delay inicial
+    }
+
     document.addEventListener("DOMContentLoaded", async () => {
+      setTimeout(typeHeaderEffect, 1000); // Iniciar efecto del header
+      
       const urlParams = new URLSearchParams(window.location.search);
       const queryParam = urlParams.get('u');
       if (!queryParam) {
@@ -248,16 +342,16 @@
           const fotoUrlFinal = data.foto_perfil || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
           document.getElementById('fotoAgentePerfil').src = fotoUrlFinal;
           document.getElementById('headerAgentLogo').src = fotoUrlFinal;
-
+          
           if(data.color_primario && data.color_secundario) {
             aplicarEstilosDinamicos(data.color_primario, data.color_secundario);
             document.getElementById('inputColorPrimario').value = data.color_primario;
             document.getElementById('inputColorSecundario').value = data.color_secundario;
           }
-
+          
           if (data.sobre_mi) {
-            document.getElementById('txtSobreMi').textContent = data.sobre_mi;
             document.getElementById('containerSobreMi').classList.remove('hidden');
+            typeTextEffect('txtSobreMi', data.sobre_mi); // Efecto de escritura al cargar
             document.getElementById('inputSobreMiModal').value = data.sobre_mi;
             actualizarContadorCaracteres(document.getElementById('inputSobreMiModal'));
           } else {
@@ -297,7 +391,7 @@
         nombreAsesorGlobal = primerInmueble.nombre_asesor || "Asesor Inmobiliario";
         telefonoAsesorGlobal = primerInmueble.telefono_asesor || "";
         const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
-        const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Agente Independiente";
+        const agenciaStr = esAgencia ? `Agencia: ${primerInmueble.nombre_agencia}` : "Especialista Inmobiliario";
         
         document.getElementById('headerAgentName').textContent = esAgencia ? primerInmueble.nombre_agencia : nombreAsesorGlobal;
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
@@ -305,22 +399,26 @@
         document.getElementById('badgeTipoAgente').textContent = esAgencia ? "AGENCIA INMOBILIARIA" : "AGENTE INDEPENDIENTE";
         document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
         
-        const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu tarjeta digital en EcoNexus y quisiera consultar tu inventario.`);
+        const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu portafolio digital en EcoNexus y quisiera asesoría.`);
         document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjWA}`;
         
-        const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
+        const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad para compra/venta bajo tu gestión.`);
         document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
+        
+        // Asignar link de calificar con el UUID
+        document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agentes.html?agente=${uuidAsesorReal}`;
 
         await cargarDatosPerfilExtra(uuidAsesorReal);
         await verificarSiEsDuenoSeguro(uuidAsesorReal);
-
-        // Guardamos los datos para que el modal funcione sin hacer más consultas
+        
         propiedadesCargadas = data;
-
         document.getElementById('contentAgente').classList.remove('hidden');
-        renderGridAgente(data);
+        
+        // Paginación inicial
+        renderGridAgentePaginado(1);
+
       } catch (err) {
-        console.error("Error cargando perfil del agente desde Supabase:", err);
+        console.error("Error cargando perfil del agente:", err);
       }
     }
 
@@ -341,14 +439,16 @@
           
           document.getElementById('headerAgentName').textContent = nombreAsesorGlobal;
           document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
-          document.getElementById('agenciaAgente').textContent = "Agente Independiente";
+          document.getElementById('agenciaAgente').textContent = "Especialista Inmobiliario";
           
-          const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, me gustaría vender una propiedad con ustedes...`);
+          const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad con ustedes...`);
           if (telefonoAsesorGlobal) {
             document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}`;
             document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
           }
           
+          document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agentes.html?agente=${uuidAsesorReal}`;
+
           await cargarDatosPerfilExtra(uuidAsesorReal);
           await verificarSiEsDuenoSeguro(uuidAsesorReal);
         }
@@ -369,18 +469,17 @@
           document.getElementById('containerBtnEditarPerfil').classList.remove('hidden');
         }
       } catch (e) {
-        console.error("Error en validación de sesión segura:", e);
+        console.error("Error en validación segura:", e);
       }
     }
 
     function abrirModalPerfil() {
       document.getElementById('modalEditarPerfil').classList.remove('hidden');
     }
-
     function cerrarModalPerfil() {
       document.getElementById('modalEditarPerfil').classList.add('hidden');
     }
-
+    
     function actualizarContadorCaracteres(textarea) {
       document.getElementById('contadorCaracteres').textContent = `${textarea.value.length}/550`;
     }
@@ -389,18 +488,15 @@
       const textoBruto = document.getElementById('inputSobreMiModal').value.trim();
       const colPri = document.getElementById('inputColorPrimario').value;
       const colSec = document.getElementById('inputColorSecundario').value;
-
       if (textoBruto.length > 550) {
         return alert("La presentación no puede superar los 550 caracteres.");
       }
-
       const nuevoTexto = escaparHTML(textoBruto);
-
       try {
         const { data: { session } } = await dbClient.auth.getSession();
-        if (!session || !session.user) return alert("Debes iniciar sesión para realizar esta acción.");
-        if (session.user.id !== uuidAsesorReal) return alert("Acción denegada. No tienes privilegios.");
-
+        if (!session || !session.user) return alert("Debes iniciar sesión.");
+        if (session.user.id !== uuidAsesorReal) return alert("Acceso denegado. Sin privilegios.");
+        
         const { error } = await dbClient
           .from('perfiles')
           .update({ 
@@ -409,125 +505,169 @@
             color_secundario: colSec
           })
           .eq('id', session.user.id);
-
+          
         if (error) throw error;
-
         aplicarEstilosDinamicos(colPri, colSec);
         
         if (nuevoTexto) {
-          document.getElementById('txtSobreMi').textContent = nuevoTexto;
           document.getElementById('containerSobreMi').classList.remove('hidden');
+          typeTextEffect('txtSobreMi', nuevoTexto, 10); // Retranscribir rápido al guardar
         } else {
           document.getElementById('containerSobreMi').classList.add('hidden');
         }
-
-        alert("¡Web Personalizada con éxito!");
         cerrarModalPerfil();
       } catch (err) {
-        alert("Ocurrió un error al guardar los datos.");
+        alert("Error de conexión al aplicar los cambios.");
         console.error(err);
       }
     }
 
-    // LÓGICA DEL MODAL DE PROPIEDADES DIRECTO EN LA MINI WEB
+    // MODAL DE PROPIEDADES DIRECTO (Estilo Poderoso)
     function abrirModalPropiedad(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (!p) return;
-
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-      const mensajeWA = encodeURIComponent(`Hola ${nombreAsesor}, estoy interesado en la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
+      const mensajeWA = encodeURIComponent(`Saludos ${nombreAsesor}, exijo información detallada sobre la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Independiente";
+      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Gestión Independiente";
       
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
-        <div class="p-6 md:p-8">
-          <div class="flex items-center space-x-2 text-xs font-bold text-econexus uppercase mb-2">
-            <span>${p.tipo}</span> • <span>${p.operacion}</span> • <span>ID: ${p.codigo_eco}</span>
+        <div class="p-5 md:p-8">
+          <div class="flex flex-wrap items-center gap-2 text-[10px] md:text-xs font-black text-econexus uppercase mb-3 tracking-widest">
+            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.tipo}</span> 
+            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.operacion}</span> 
+            <span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded border border-gray-200">ID: ${p.codigo_eco}</span>
           </div>
-          <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-2">${p.titulo}</h2>
-          <div class="inline-flex items-center gap-2 bg-gray-100 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg mb-4 border border-gray-200">
-            <i class="fa-solid fa-building-user text-econexus"></i>
-            <span>${esAgencia ? 'Agencia: ' + agenciaDisplay : 'Agente Independiente'}</span>
+          <h2 class="text-2xl md:text-4xl font-black text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
+          
+          <div class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-5">
+            <i class="fa-solid fa-shield-halved text-econexus"></i> <span>Asesoría: ${agenciaDisplay}</span>
           </div>
           
           <div class="mb-6">
-            <div class="text-3xl font-black text-econexus">
+            <div class="text-4xl font-black text-gray-900 tracking-tight">
               $${Number(p.precio).toLocaleString('en-US')}
             </div>
           </div>
+          
           <div class="space-y-3 mb-6">
-            <div class="relative rounded-2xl overflow-hidden h-72 md:h-96 bg-gray-100 border border-gray-200">
+            <div class="relative rounded-2xl md:rounded-3xl overflow-hidden h-64 md:h-[450px] bg-gray-100 shadow-inner">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
             </div>
             ${fotosArray.length > 1 ? `
-              <div class="flex space-x-2 overflow-x-auto pb-2 snap-x">
+              <div class="flex space-x-2 overflow-x-auto pb-3 pt-1 snap-x scrollbar-hide">
                 ${fotosArray.map(urlFoto => `
-                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 object-cover rounded-xl cursor-pointer border-2 border-transparent hover:border-econexus transition-all flex-shrink-0" />
+                  <img src="${urlFoto}" onclick="document.getElementById('modalFotoPrincipal').src='${urlFoto}'" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-xl md:rounded-2xl cursor-pointer border-2 border-transparent hover:border-econexus opacity-80 hover:opacity-100 transition-all flex-shrink-0 snap-start shadow-sm" />
                 `).join('')}
               </div>
             ` : ''}
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-econexus-soft p-4 rounded-xl mb-6 border border-gray-100 text-center">
-            <div><span class="block text-gray-500 text-xs">Habitaciones</span><strong class="text-gray-900 text-lg">${p.habitaciones}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Baños</span><strong class="text-gray-900 text-lg">${p.banos}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Estacionamiento</span><strong class="text-gray-900 text-lg">${p.estacionamientos}</strong></div>
-            <div><span class="block text-gray-500 text-xs">Área</span><strong class="text-gray-900 text-lg">${p.metros} m²</strong></div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 bg-gray-50 p-4 md:p-6 rounded-2xl mb-8 border border-gray-100 shadow-sm text-center">
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Habitaciones</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.habitaciones}</strong></div>
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Baños</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.banos}</strong></div>
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Puestos</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.estacionamientos}</strong></div>
+            <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Superficie</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.metros}<span class="text-sm">m²</span></strong></div>
           </div>
-          <div class="mb-8">
-            <h3 class="font-bold text-gray-900 text-lg mb-2">Descripción de la Propiedad</h3>
-            <p class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">${p.descripcion || 'Sin descripción disponible.'}</p>
+          
+          <div class="mb-8 bg-gray-50/50 p-5 md:p-6 rounded-2xl border border-gray-100">
+            <h3 class="font-black text-gray-900 text-lg mb-3 uppercase tracking-wide">Descripción del Activo</h3>
+            <p class="text-gray-700 leading-relaxed text-sm md:text-base font-medium whitespace-pre-line">${p.descripcion || 'Información reservada. Contacte al especialista.'}</p>
           </div>
-          <button onclick="window.open('https://wa.me/${whatsappAsesor}?text=${mensajeWA}', '_blank')" class="bg-[#25D366] hover:bg-[#1ebd57] text-white px-5 py-3 rounded-xl text-sm font-bold transition flex items-center justify-center shadow w-full cursor-pointer">
-            <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Solicitar Información
+          
+          <button onclick="window.open('https://wa.me/${whatsappAsesor}?text=${mensajeWA}', '_blank')" class="bg-gray-900 hover:bg-black text-white px-6 py-4 rounded-2xl text-sm md:text-base font-black uppercase tracking-widest transition-all flex items-center justify-center shadow-xl shadow-gray-900/30 w-full cursor-pointer hover:scale-[1.01]">
+            <i class="fa-brands fa-whatsapp text-xl mr-3 text-[#25D366]"></i> Negociar Propiedad
           </button>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
-
     function cerrarModalPropiedad() {
       document.getElementById("propModal").classList.add("hidden");
     }
 
-    function renderGridAgente(lista) {
+    // RENDERIZADO DE GRILLA CON PAGINACIÓN Y SLIDER DE FOTOS
+    function renderGridAgentePaginado(pagina) {
+      paginaActual = pagina;
       const grid = document.getElementById('gridInmueblesAgente');
       grid.innerHTML = "";
-      lista.forEach(p => {
-        const fotoPrincipal = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+      
+      const inicio = (pagina - 1) * itemsPorPagina;
+      const fin = inicio + itemsPorPagina;
+      const itemsMostrados = propiedadesCargadas.slice(inicio, fin);
+
+      itemsMostrados.forEach(p => {
+        // Slider horizontal de fotos dentro de la card
+        let fotosHtml = '';
+        if (p.fotos && p.fotos.length > 0) {
+          fotosHtml = `
+            <div class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full w-full">
+              ${p.fotos.map(f => `<img src="${f}" alt="${p.titulo}" loading="lazy" class="snap-center w-full h-full object-cover flex-shrink-0" />`).join('')}
+            </div>
+            <!-- Indicador sutil de múltiples fotos -->
+            ${p.fotos.length > 1 ? `<div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1 z-10 bg-black/40 px-2 py-1 rounded-full backdrop-blur-sm"><span class="w-1.5 h-1.5 rounded-full bg-white"></span><span class="w-1 h-1 rounded-full bg-white/50"></span><span class="w-1 h-1 rounded-full bg-white/50"></span></div>` : ''}
+          `;
+        } else {
+          fotosHtml = `<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />`;
+        }
         
         const cardHTML = `
-          <div class="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition flex flex-col justify-between">
+          <div class="bg-white rounded-2xl md:rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
             <div>
-              <div class="relative h-48 overflow-hidden group">
-                <img src="${fotoPrincipal}" alt="${p.titulo}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                <span class="absolute top-3 left-3 bg-econexus text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">${p.operacion}</span>
-                <span class="absolute bottom-3 right-3 bg-black/70 text-white text-[10px] px-2 py-0.5 rounded font-bold">${p.codigo_eco}</span>
+              <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100">
+                ${fotosHtml}
+                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-econexus text-white text-[9px] md:text-[10px] font-black px-2 md:px-3 py-1 rounded-full uppercase tracking-wider shadow-md pointer-events-none">${p.operacion}</span>
+                <span class="absolute top-2 right-2 md:top-3 md:right-3 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] px-2 py-1 rounded-full font-bold pointer-events-none">ID: ${p.codigo_eco}</span>
               </div>
-              <div class="p-4">
-                <div class="text-[11px] font-bold text-econexus uppercase mb-1">${p.tipo} • ${p.ubicacion}</div>
-                <h3 class="font-bold text-gray-900 text-sm mb-2 line-clamp-1">${p.titulo}</h3>
-                <div class="text-xl font-black text-econexus mb-3">$${Number(p.precio).toLocaleString('en-US')}</div>
+              <div class="p-3 md:p-5">
+                <div class="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 line-clamp-1">${p.tipo} • ${p.ubicacion}</div>
+                <h3 class="font-extrabold text-gray-900 text-xs md:text-sm mb-2 line-clamp-2 leading-tight">${p.titulo}</h3>
+                <div class="text-base md:text-xl font-black text-gray-900 mb-3 tracking-tight">$${Number(p.precio).toLocaleString('en-US')}</div>
                 
-                <div class="grid grid-cols-3 gap-1 text-center text-[11px] text-gray-600 bg-gray-50 p-2 rounded-lg border border-gray-100">
-                  <div>🛏️ ${p.habitaciones || 0} Hab</div>
-                  <div>🚿 ${p.banos || 0} Baños</div>
-                  <div>📐 ${p.metros || 0} m²</div>
+                <div class="grid grid-cols-3 gap-1 md:gap-2 text-center text-[9px] md:text-[11px] text-gray-700 bg-gray-50/80 p-1.5 md:p-2 rounded-xl border border-gray-100 font-bold">
+                  <div class="flex flex-col"><span class="text-gray-400 text-[8px] uppercase">Hab</span> ${p.habitaciones || 0}</div>
+                  <div class="flex flex-col border-x border-gray-200"><span class="text-gray-400 text-[8px] uppercase">Baños</span> ${p.banos || 0}</div>
+                  <div class="flex flex-col"><span class="text-gray-400 text-[8px] uppercase">Área</span> ${p.metros || 0}m²</div>
                 </div>
               </div>
             </div>
-            <div class="p-4 pt-0">
-              <!-- BOTÓN REEMPLAZADO PARA ABRIR EL MODAL INTERNO -->
-              <button onclick="abrirModalPropiedad('${p.id}')" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-2 rounded-xl transition flex items-center justify-center gap-1">
-                Ver Detalles <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            <div class="p-3 pt-0 md:p-5 md:pt-0 mt-auto">
+              <button onclick="abrirModalPropiedad('${p.id}')" class="w-full bg-gray-50 hover:bg-econexus text-gray-700 hover:text-white text-[10px] md:text-xs font-black py-2.5 md:py-3 rounded-xl transition-all flex items-center justify-center gap-2 uppercase tracking-wider">
+                Explorar Activo <i class="fa-solid fa-arrow-up-right-from-square"></i>
               </button>
             </div>
           </div>
         `;
         grid.innerHTML += cardHTML;
       }); 
+
+      renderizarControlesPaginacion();
+    }
+
+    function renderizarControlesPaginacion() {
+      const container = document.getElementById('paginacionContainer');
+      const totalPaginas = Math.ceil(propiedadesCargadas.length / itemsPorPagina);
+      
+      if (totalPaginas <= 1) {
+        container.classList.add('hidden');
+        return;
+      }
+      
+      container.classList.remove('hidden');
+      container.innerHTML = '';
+      
+      for (let i = 1; i <= totalPaginas; i++) {
+        const esActiva = i === paginaActual;
+        const btnClase = esActiva 
+          ? "bg-gray-900 text-white font-black shadow-md scale-110" 
+          : "bg-white text-gray-500 hover:bg-gray-100 font-bold border border-gray-200";
+          
+        const btn = `<button onclick="renderGridAgentePaginado(${i}); document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm flex items-center justify-center transition-all ${btnClase}">${i}</button>`;
+        container.innerHTML += btn;
+      }
     }
   </script>
 </body>
