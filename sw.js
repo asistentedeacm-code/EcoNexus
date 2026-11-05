@@ -1,4 +1,4 @@
-const CACHE_NAME = 'econexus-v-dinamica-3';
+const CACHE_NAME = 'econexus-v-dinamica-4';
 const urlsToCache = [
   '/',
   '/menu.html',
