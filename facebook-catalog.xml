@@ -43,48 +43,6 @@
     </address>
   </listing>
   <listing>
-    <home_listing_id>ECO-620393</home_listing_id>
-    <name>Casa en Venta de 2 Plantas Una Oportunidad ideal para tu Inversión </name>
-    <description>🏡INMOINNOVA REAL ESTATE 🏡. OFRECE EN VENTA O ALQUILER CON OPCIÓN A COMPRA  CASA DE 2 PLANTAS DE OPORTUNIDAD EN URB. VILLA JARDIN.   *BAJANDO PRECIO  A 37.000$*   *Canon 350$ c/mes*   Ubicación: Urba</description>
-    <url>https://econexusplatform.com/inmueble/eco-620393.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955987748_0.jpg</url>
-    </image>
-    <price>37000 USD</price>
-    <property_type>house</property_type>
-    <num_beds>4</num_beds>
-    <num_baths>3</num_baths>
-    <area_size>200</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Urbanización Villa Jardín, Tocuyito, Valencia estado Carabobo </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-830126</home_listing_id>
-    <name>Apartamento Bello de Oportunidad </name>
-    <description>🏠INMOINNOVA REAL ESTATE OFRECE🏠:  ♦️ NUEVA CAPTACIÓN♦️ Apartamento En Venta. Una Excelente Oportunidad Para Invertir en Tu Tranquilidad Familiar.  Ubicación: En Valles de San Francisco, Tocuyito. Es</description>
-    <url>https://econexusplatform.com/inmueble/eco-830126.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955299278_0.jpg</url>
-    </image>
-    <price>35000 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>50</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Residencias Valle de San Francisco, Municipio libertador Tocuyito, Valencia Estado Carabobo </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-483394</home_listing_id>
     <name>PRE VENTA ANTONELLA VALENTINA GARDEN</name>
     <description>INMOINNOVA REAL ESTATE  OFRECE EN PREVENTA EXCLUSIVA:.  CONJUNTO ANTONELLA VALENTINA GARDEN  Un proyecto de lujo y vanguardia que no te puedes perder.   Ubicacion: CHICHIRIVICHE FALCON   Tenemos dispo</description>
@@ -106,48 +64,6 @@
     </address>
   </listing>
   <listing>
-    <home_listing_id>ECO-674084</home_listing_id>
-    <name>Vendo apartamento en la zona norte </name>
-    <description>🔵 MILENIO BIENES RAICES 🔵     VENDE   Apartamento en Venta – Los Colorados, Valencia Residencias Edue  Precio de Venta: $63.000 Características de la Propiedad   * Área de Construcción: 95,71 m² per</description>
-    <url>https://econexusplatform.com/inmueble/eco-674084.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142008994_0.jpg</url>
-    </image>
-    <price>63000 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>3</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>93</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Valencia urb los colorados </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-526049</home_listing_id>
-    <name>Galpón de Oportunidad en Alquiler</name>
-    <description>Inmoinnova Real Estate  ofrece: Galpón / Depósito En alquiler  Ubicación / Zona: Bella Florida, Valencia, Carabobo.  Metraje (m²): 3000 m² Baños: 5(3en Planta Baja y 2 en Planta Alta) Puestos de estac</description>
-    <url>https://econexusplatform.com/inmueble/eco-526049.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956250891_0.jpg</url>
-    </image>
-    <price>3000 USD</price>
-    <property_type>commercial</property_type>
-    <num_beds>1</num_beds>
-    <num_baths>5</num_baths>
-    <area_size>3000</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Bella Florida</component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-596605</home_listing_id>
     <name>Hermoso apartamento en valle de oro</name>
     <description>En venta apartamento en valle de oro flor amarillo   Cuenta con:  48,54 mt²  2 habitaciones  1 baño  1 puesto de estaciónamiento  Gas directo    En trámite liberación de hipoteca   Inversión:    23.00</description>
@@ -163,132 +79,6 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Valencia</component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-800340</home_listing_id>
-    <name>Finca ganadera </name>
-    <description>🔵 MILENIO BIENES RAÍCES 🔵 ✨ OPORTUNIDAD DE INVERSIÓN: FINCA GANADERA (2.000 HECTÁREAS) ✨ 📍 Edo. Guárico  🚜 ¡OPERATIVIDAD TOTAL CON MAQUINARIA PESADA Y REBAÑO! Una unidad de producción consolidada,</description>
-    <url>https://econexusplatform.com/inmueble/eco-800340.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143508113_0.jpg</url>
-    </image>
-    <price>3500000 USD</price>
-    <property_type>other</property_type>
-    <num_beds>6</num_beds>
-    <num_baths>5</num_baths>
-    <area_size>5</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Guarico </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-294102</home_listing_id>
-    <name>Finca bufalera </name>
-    <description>✨ EXCELENTE FINCA. OPORTUNIDAD DE INVERSIÓN ✨ 📍 Ubicación: Sector La Aguadita, entre Tinaco y Tinaquillo, Estado Cojedes. 🌾 Extensión: 130 hectáreas. 🏗️ Infraestructura y Maquinaria • Casa Principa</description>
-    <url>https://econexusplatform.com/inmueble/eco-294102.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143238712_0.jpg</url>
-    </image>
-    <price>290000 USD</price>
-    <property_type>other</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>23</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Tinaquillo </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-194193</home_listing_id>
-    <name>Finca cafetalera y cacaotera </name>
-    <description>🔵 MILENIO BIENES RAICES 🔵  🌟 VENDE FINCA   Estado Carabobo  Montalban Sector Temerla  📐Área,; 40 hectáreas   ⚡ Topografía  Planas Cerros y Mesetas   Consta de ;  🏡 Casa de bahareque       2 Habit</description>
-    <url>https://econexusplatform.com/inmueble/eco-194193.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-194193/1791145747779_0.jpg</url>
-    </image>
-    <price>580000 USD</price>
-    <property_type>other</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>0</num_baths>
-    <area_size>0</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Estado yaracuy </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-392162</home_listing_id>
-    <name>Alquiler Local Comercial </name>
-    <description>‎🏦🔵 INMOINNOVA REAL ESTATE 🔵 🏦  ‎ ‎*LES OFRECEMOS EXCELENTE ALQUILERES  ‎LOCALES  COMERCIAL N° ( 01)*  ‎   📍NEWS CAPTACIONES📍 ‎ ‎URB. PARQUE VALENCIA 🚉 ‎🎯 SECTORES ( 20 / 22 ) ‎ ‎📍CONSTA: 45 </description>
-    <url>https://econexusplatform.com/inmueble/eco-392162.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-392162/1791213549935_0.jpg</url>
-    </image>
-    <price>120 USD</price>
-    <property_type>commercial</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>30</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Urb. Parque Valencia </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-693453</home_listing_id>
-    <name>Local de oportunidad para inversión </name>
-    <description>🏘️ Inmoinnova Real State 🏘️  ¡TÚ PRÓXIMO NEGOCIO EN EL C.C. BUENAVENTURA PLAZA!  Si estás buscando un espació seguro, estratégico y con todo listo para empezar a trabajar, está es la oportunidad que</description>
-    <url>https://econexusplatform.com/inmueble/eco-693453.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/07cca1d7-52d1-4e56-b5f0-e5619cc00d6c/ECO-693453/1790956310994_0.jpg</url>
-    </image>
-    <price>18000 USD</price>
-    <property_type>commercial</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>10</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Los Guayos/Valencia </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-280549</home_listing_id>
-    <name>Se vende casa a pocos metros de la panamericana </name>
-    <description>🔵 Milenio Bienes Raíces 🔵                VENDE   Casa en la zona de Bejuma   987 mtrs2 📐 En construcción  Un estacionamiento  Para para 3 vehículos   3 habitaciones  Cada una con baño Y closet  Cad</description>
-    <url>https://econexusplatform.com/inmueble/eco-280549.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144240309_0.jpg</url>
-    </image>
-    <price>30000 USD</price>
-    <property_type>other</property_type>
-    <num_beds>3</num_beds>
-    <num_baths>3</num_baths>
-    <area_size>950</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Bejuma sector tucupido </component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
@@ -499,48 +289,6 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Barrera campo de Carabobo tocuyito el libertador </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-682319</home_listing_id>
-    <name>Casa En Venta de Oportunidad En Los Guayos</name>
-    <description>🏡INMOINNOVA REAL ESTATE 🏡  OFRECE EN VENTA 📌  🔶NUEVA CAPTACIÓN 🔶  Ubicación: Casa ubicada En sector 2 de las agüitas, En los Guayos  Descripción: Contiene 🛌🏼3 habitaciones  🚽2 Baños 🛋️Sala am</description>
-    <url>https://econexusplatform.com/inmueble/eco-682319.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236051506_0.jpg</url>
-    </image>
-    <price>16000 USD</price>
-    <property_type>house</property_type>
-    <num_beds>3</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>115</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Las Agüitas Sector 2 de los Guayos, Valencia Estado Carabobo</component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-992108</home_listing_id>
-    <name>Local COMERCIAL ALQUILER </name>
-    <description>🏛️🔵 INMOINNOVA REAL ESTATE 🏛️🔵 ---------------------------------------- Les ofrecemos:  Alquiler Local Comercial URB. Parque Valencia 🚉 💰 *Precio Canon: 150 📍 *Ubicación:* URB. Parque Valencia </description>
-    <url>https://econexusplatform.com/inmueble/eco-992108.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-992108/1791205219499_0.jpg</url>
-    </image>
-    <price>150 USD</price>
-    <property_type>commercial</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>35</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">URB. Parque Valencia / Sector 20 e 22 Valencia Edo Carabobo </component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
