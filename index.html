@@ -1,1218 +1,1238 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  
-  <title>EcoNexus | Red Inmobiliaria Inteligente en Venezuela</title>
-  <meta name="description" content="Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional." />
-  <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus" />
-  <meta name="author" content="EcoNexus Real Estate" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <link rel="canonical" href="https://econexusplatform.com/" />
-  
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
-  <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
-  <meta property="og:url" content="https://econexusplatform.com/" />
-  <meta property="og:image" content="https://econexusplatform.com/logo.png.png" />
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SDK de Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
-  <!-- LEAFLET MAPS & CLUSTER -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
-  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-  
-  <style>
-    .hide-scrollbars::-webkit-scrollbar { display: none; }
-    .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
-    .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(30, 63, 32, 0.6) !important; }
-    .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(30, 63, 32, 0.9) !important; color: white !important; font-weight: bold; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>EcoNexus | Red Inmobiliaria Inteligente en Venezuela</title>
     
-    /* Estilo sutil y semi-transparente para atribución de mapas (Opción 2) */
-    .leaflet-control-attribution {
-      background: rgba(255, 255, 255, 0.65) !important;
-      color: #333 !important;
-      font-size: 8px !important;
-      padding: 1px 4px !important;
-      border-radius: 4px !important;
+    <!-- SEO Meta Tags Venezuela -->
+    <meta name="description" content="Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional. Contacto directo por WhatsApp." />
+    <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus, inmobiliaria inteligente" />
+    <meta name="author" content="EcoNexus Real Estate" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://econexusplatform.com/" />
+    
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
+    <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
+    <meta property="og:url" content="https://econexusplatform.com/" />
+    <meta property="og:image" content="https://econexusplatform.com/logo.png.png" />
+    
+    <!-- Schema.org JSON-LD para Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "EcoNexus Real Estate",
+      "url": "https://econexusplatform.com/",
+      "logo": "https://econexusplatform.com/logo.png.png",
+      "description": "Red inmobiliaria inteligente en Venezuela. Venta y alquiler de inmuebles con contacto directo.",
+      "areaServed": { "@type": "Country", "name": "Venezuela" }
     }
+    </script>
 
-    /* Animación del Asistente de Voz */
-    @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(56, 142, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0); } }
-    .listening-mic { animation: pulse-mic 1.5s infinite; background-color: #ef4444 !important; border-color: #fca5a5 !important; }
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- SDK de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- LEAFLET MAPS & CLUSTER -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
-    /* Cursor parpadeante para efectos de escritura secuencial (Header CTA y Banner VIP) */
-    .typewriter-cursor::after {
-      content: '|';
-      display: inline-block;
-      margin-left: 2px;
-      animation: blink-caret 0.75s step-end infinite;
-      color: #a7f3d0;
-      font-weight: 900;
-    }
-    .typewriter-cursor-amber::after {
-      content: '|';
-      display: inline-block;
-      margin-left: 2px;
-      animation: blink-caret 0.75s step-end infinite;
-      color: #f59e0b;
-      font-weight: 900;
-    }
-    @keyframes blink-caret {
-      from, to { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* Resplandor elegante para el botón CTA de CRM/ERP y el contenedor VIP */
-    @keyframes cta-pulse-glow {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25); }
-      50% { box-shadow: 0 0 14px 2px rgba(74, 222, 128, 0.55), 0 4px 15px rgba(0, 0, 0, 0.35); }
-    }
-    .btn-cta-crm {
-      animation: cta-pulse-glow 3s infinite ease-in-out;
-    }
-
-    /* Animación cíclica de las características (Hab, Baños, m²) dentro de las tarjetas */
-    @keyframes spec-highlight {
-      0%, 100% { transform: translateY(0) scale(1); background-color: #F4F7F4; border-color: #dcfce7; }
-      50% { transform: translateY(-2px) scale(1.04); background-color: #dcfce7; border-color: #86efac; box-shadow: 0 3px 8px rgba(30, 63, 32, 0.12); }
-    }
-    .spec-pill-1 { animation: spec-highlight 4.5s infinite ease-in-out 0s; }
-    .spec-pill-2 { animation: spec-highlight 4.5s infinite ease-in-out 1.5s; }
-    .spec-pill-3 { animation: spec-highlight 4.5s infinite ease-in-out 3.0s; }
-
-    /* Transición suave para el cambio automático de fotos en tarjetas */
-    .card-slide-img {
-      transition: opacity 0.45s ease-in-out, transform 0.6s ease;
-    }
-  </style>
-  <script>
-    tailwind.config = { theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } } }
-  </script>
+    <style>
+        .hide-scrollbars::-webkit-scrollbar { display: none; }
+        .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
+        .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(30, 63, 32, 0.6) !important; }
+        .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(30, 63, 32, 0.9) !important; color: white !important; font-weight: bold; }
+        .leaflet-control-attribution { background: rgba(255, 255, 255, 0.65) !important; color: #333 !important; font-size: 8px !important; padding: 1px 4px !important; border-radius: 4px !important; }
+        
+        @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(56, 142, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0); } }
+        .listening-mic { animation: pulse-mic 1.5s infinite; background-color: #ef4444 !important; border-color: #fca5a5 !important; }
+        
+        .typewriter-cursor::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #a7f3d0; font-weight: 900; }
+        .typewriter-cursor-amber::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #f59e0b; font-weight: 900; }
+        .typewriter-cursor-dark::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #1E3F20; font-weight: 900; }
+        @keyframes blink-caret { from, to { opacity: 1; } 50% { opacity: 0; } }
+        
+        @keyframes cta-pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25); } 50% { box-shadow: 0 0 14px 2px rgba(74, 222, 128, 0.55), 0 4px 15px rgba(0, 0, 0, 0.35); } }
+        .btn-cta-crm { animation: cta-pulse-glow 3s infinite ease-in-out; }
+        
+        @keyframes spec-highlight { 0%, 100% { transform: translateY(0) scale(1); background-color: #F4F7F4; border-color: #dcfce7; } 50% { transform: translateY(-2px) scale(1.04); background-color: #dcfce7; border-color: #86efac; box-shadow: 0 3px 8px rgba(30, 63, 32, 0.12); } }
+        .spec-pill-1 { animation: spec-highlight 4.5s infinite ease-in-out 0s; }
+        .spec-pill-2 { animation: spec-highlight 4.5s infinite ease-in-out 1.5s; }
+        .spec-pill-3 { animation: spec-highlight 4.5s infinite ease-in-out 3.0s; }
+        .card-slide-img { transition: opacity 0.45s ease-in-out, transform 0.6s ease; }
+        
+        /* Transición para el panel de filtros */
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } } }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
-  
-  <!-- BOTÓN FLOTANTE: ASISTENTE DE VOZ INTELIGENTE -->
-  <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" title="Asistente Virtual por Voz EcoNexus" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-econexus-accent text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-green-600 border-2 border-white/50 cursor-pointer group">
-    <i class="fa-solid fa-microphone group-hover:scale-110 transition-transform"></i>
-  </button>
-  
-  <!-- PANEL UI DEL ASISTENTE DE VOZ -->
-  <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl z-[95] flex items-center gap-4 w-[92%] max-w-md transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-green-700">
-    <div class="relative flex items-center justify-center w-10 h-10 shrink-0">
-      <span class="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-40 animate-ping"></span>
-      <i class="fa-solid fa-wave-square text-green-400 text-xl relative z-10"></i>
-    </div>
-    <div class="flex-1 overflow-hidden">
-      <p class="text-[10px] font-bold text-emerald-400 uppercase mb-0.5 tracking-wider">Asistente Virtual EcoNexus</p>
-      <p id="textoAsistenteVoz" class="text-xs sm:text-sm font-semibold leading-tight line-clamp-2 text-white">Escuchando...</p>
-    </div>
-    <button onclick="detenerAsistenteVoz()" class="text-white hover:text-red-400 shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 pointer-events-auto cursor-pointer transition">
-        <i class="fa-solid fa-xmark"></i>
+
+    <!-- BOTÓN FLOTANTE: ASISTENTE DE VOZ INTELIGENTE -->
+    <button onclick="iniciarAsistenteVoz()" id="btnAsistenteVoz" title="Asistente Virtual por Voz EcoNexus" class="fixed bottom-6 right-6 z-[80] w-14 h-14 bg-econexus-accent text-white rounded-full shadow-2xl flex items-center justify-center text-2xl transition-all hover:bg-green-600 border-2 border-white/50 cursor-pointer group">
+        <i class="fa-solid fa-microphone group-hover:scale-110 transition-transform"></i>
     </button>
-  </div>
 
-  <!-- MODAL CARRUSEL VISUAL DEL ASISTENTE DE VOZ (DESLIZAMIENTO SECUENCIAL EN PANTALLA) -->
-  <div id="modalCarruselVoz" class="fixed inset-x-0 top-20 z-[90] flex justify-center px-4 pointer-events-none hidden">
-    <div class="bg-gray-900/95 backdrop-blur-lg border-2 border-emerald-500/60 rounded-2xl shadow-2xl p-4 w-full max-w-xl pointer-events-auto text-white animate-fade-in">
-      <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-          <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-400" id="tituloModalCarruselVoz">Resultados Detectados por Voz</h4>
+    <!-- PANEL UI DEL ASISTENTE DE VOZ -->
+    <div id="uiAsistenteVoz" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900/95 backdrop-blur-md text-white px-5 py-4 rounded-2xl shadow-2xl z-[95] flex items-center gap-4 w-[92%] max-w-md transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none border border-green-700">
+        <div class="relative flex items-center justify-center w-10 h-10 shrink-0">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-40 animate-ping"></span>
+            <i class="fa-solid fa-wave-square text-green-400 text-xl relative z-10"></i>
         </div>
-        <div class="flex items-center gap-2">
-          <span id="loteIndicadorVoz" class="text-[10px] bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-700 font-bold">Lote 1</span>
-          <button onclick="cerrarModalCarruselVoz()" class="text-gray-400 hover:text-white w-6 h-6 flex items-center justify-center rounded-full bg-gray-800 cursor-pointer"><i class="fa-solid fa-xmark text-xs"></i></button>
+        <div class="flex-1 overflow-hidden">
+            <p class="text-[10px] font-bold text-emerald-400 uppercase mb-0.5 tracking-wider">Asistente Virtual EcoNexus</p>
+            <p id="textoAsistenteVoz" class="text-xs sm:text-sm font-semibold leading-tight line-clamp-2 text-white">Escuchando...</p>
         </div>
-      </div>
-      <!-- Pista deslizable de tarjetas del asistente -->
-      <div id="trackCarruselVoz" class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth hide-scrollbars">
-        <!-- Inyectado dinámicamente por /js/asistente-voz.js -->
-      </div>
-      <div class="mt-2 pt-2 border-t border-gray-800 flex flex-wrap justify-between items-center gap-2 text-[10px] text-gray-300">
-        <span>💡 Di: <strong>"Opción 1"</strong>, <strong>"Leer más"</strong>, <strong>"Leer todas"</strong> o <strong>"Filtra por..."</strong></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL LIGHTBOX (ZOOM FOTOGRÁFICO) -->
-  <div id="modalLightbox" class="fixed inset-0 bg-black/95 z-[99999] hidden flex-col justify-center items-center backdrop-blur-sm">
-    <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[100000] bg-gradient-to-b from-black/70 to-transparent">
-        <span class="text-white text-xs font-bold bg-white/20 px-3 py-1.5 rounded-lg backdrop-blur-md" id="contador-lightbox">1 / 1</span>
-        <button onclick="cerrarLightbox()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/30 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
-    </div>
-    <div class="w-full h-full flex items-center justify-center overflow-hidden touch-pan-x touch-pan-y pinch-zoom">
-        <img id="lightboxImg" src="" alt="Vista ampliada" class="max-w-full max-h-[85vh] object-contain transition-opacity duration-300" />
-    </div>
-    <button onclick="navegarLightbox(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
-    <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
-  </div>
-
-  <!-- MODAL DE BIENVENIDA -->
-  <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
-      <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-      <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
-          <p class="text-gray-500 text-sm sm:text-base px-2">Explora el catálogo de inmuebles en Venezuela y contacta directamente con su captador en segundos.</p>
-      </div>
-      <div class="flex items-center justify-center space-x-2 text-amber-600 font-bold mb-3">
-        <i class="fa-solid fa-scale-balanced text-lg"></i>
-        <span class="text-xs uppercase tracking-wide">Aviso Legal Importante</span>
-      </div>
-      <p class="text-[11px] font-semibold text-gray-700 leading-relaxed mb-6 bg-amber-50 p-4 rounded-xl border border-amber-100 text-left">
-        "EcoNexus opera exclusivamente como vitrina publicitaria y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
-      </p>
-      <button onclick="cerrarAvisoInstantaneo()" class="w-full bg-econexus hover:bg-econexus-light text-white text-sm font-bold px-6 py-3.5 rounded-xl transition cursor-pointer shadow-lg flex justify-center items-center gap-2">
-        Explorar Catálogo <i class="fa-solid fa-arrow-right"></i>
-      </button>
-      <button onclick="cerrarAvisoInstantaneo(); abrirModalTerminos();" class="mt-4 text-xs text-gray-500 font-bold underline hover:text-econexus cursor-pointer">
-        Leer términos completos
-      </button>
-    </div>
-  </div>
-
-  <!-- MODAL DE TÉRMINOS GLOBALES -->
-  <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
-      <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
-        <h3 class="font-bold text-econexus flex items-center gap-2 text-sm md:text-base"><i class="fa-solid fa-scale-balanced"></i> Términos de Uso & Condiciones</h3>
-        <button onclick="cerrarModalTerminos()" class="text-gray-400 hover:text-red-500 bg-gray-200 hover:bg-red-50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      <div class="p-5 overflow-y-auto space-y-4 text-xs md:text-sm text-gray-700 leading-relaxed">
-        <p class="font-bold text-red-600 mb-2 p-3 bg-red-50 rounded-lg border border-red-100">"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."</p>
-        <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria...</p>
-        <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes.</p>
-        <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes.</p>
-        <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, la plataforma queda absolutamente exonerada de toda responsabilidad ante vulneraciones de ciberseguridad, ataques DDoSs o accesos no autorizados.</p>
-        <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos o permisos inexistentes. Toda responsabilidad penal recaerá directa e individualmente sobre el anunciante.</p>
-      </div>
-      <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-right">
-        <button onclick="cerrarModalTerminos()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow cursor-pointer">Entendido</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL CONFIRMAR WHATSAPP -->
-  <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
-      <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-      <div class="flex items-center space-x-2 text-green-700 font-bold mb-3"><i class="fa-brands fa-whatsapp text-2xl"></i><span class="text-sm uppercase tracking-wide">Contacto Directo vía WhatsApp</span></div>
-      <p class="text-xs text-gray-700 leading-relaxed mb-5 bg-amber-50 border border-amber-200 p-3 rounded-xl">"Estás por contactar directamente a un Asesor Inmobiliario o al Captador. EcoNexus no se hace responsable por negociaciones, acuerdos, visitas agendadas o pagos directos. No somos partícipes bajo ningún contexto de los acuerdos y negociaciones generados entre las partes y al hacer clic en contactar acepta de su exclusiva responsabilidad."</p>
-      <div class="flex flex-col sm:flex-row gap-2 justify-end">
-        <button onclick="cerrarModalWhatsApp()" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Cancelar</button>
-        <button onclick="aceptarYContinuarWhatsApp()" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-sm"></i> Entendido</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
-  <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
-      <!-- Logo y Textos -->
-      <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="resetFiltros()">
-        <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
-        <div class="flex flex-col">
-          <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none">EcoNexus</span>
-          <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">RED INMOBILIARIA INTELIGENTE</span>
-        </div>
-      </div>
-
-      <!-- Controles y Botón CTA Inteligente Responsivo (PC, Tablet y Móvil) -->
-      <div class="flex items-center gap-2 sm:gap-3.5 ml-auto flex-wrap sm:flex-nowrap justify-end">
-        <button onclick="abrirModalMapaGlobal()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
-          <i class="fa-solid fa-map-location-dot text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Mapa
+        <button onclick="detenerAsistenteVoz()" class="text-white hover:text-red-400 shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 pointer-events-auto cursor-pointer transition">
+            <i class="fa-solid fa-xmark"></i>
         </button>
-        <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
-          <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
-        </button>
-        <button onclick="window.location.href='/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
-          <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> ¿Buscas Agentes?
-        </button>
-        
-        <!-- BOTÓN CTA CON REDACCIÓN SECUENCIAL ADAPTATIVA (CELULAR, TABLET Y PC) -->
-        <button onclick="window.location.href='/captacion.html'" id="btnCtaHeader" class="btn-cta-crm bg-gradient-to-r from-econexus-accent via-emerald-600 to-green-700 hover:from-green-600 hover:to-emerald-500 text-white px-2.5 sm:px-3.5 md:px-4 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-lg cursor-pointer border border-green-300/40 min-w-[155px] sm:min-w-[220px] md:min-w-[275px] max-w-[92vw] justify-center">
-          <i class="fa-solid fa-rocket text-amber-300 animate-bounce text-[10px] md:text-xs shrink-0"></i>
-          <span id="typewriterCrmText" class="typewriter-cursor truncate">Obtén tu CRM/ERP y publica tus inmuebles</span>
-        </button>
-      </div>
     </div>
-  </header>
 
-  <!-- 1. SECCIÓN VIP ENCERRADA, AUTOMÁTICA Y CON TÍTULO DE DOMINIO DE MERCADO -->
-  <section id="seccionVipContainer" class="max-w-7xl mx-auto px-3 sm:px-4 pt-5 pb-2 hidden w-full">
-    <div class="bg-gradient-to-br from-white via-amber-50/35 to-emerald-50/30 rounded-3xl p-4 sm:p-5 border-2 border-amber-300/80 shadow-lg relative overflow-hidden">
-      <!-- Decoración sutil de fondo -->
-      <div class="absolute -top-12 -right-12 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
-      <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
-      <!-- Cabecera VIP con Botón/Insignia Dinámica de Escritura Secuencial -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 relative z-10">
-        <div class="flex items-center gap-2.5 bg-gradient-to-r from-econexus-dark via-econexus to-econexus-light text-white px-3.5 sm:px-4 py-2 rounded-2xl shadow-md border border-amber-400/50 w-full sm:w-auto min-h-[42px]">
-          <div class="w-7 h-7 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center shrink-0">
-            <i class="fa-solid fa-crown text-amber-400 text-xs sm:text-sm animate-pulse"></i>
-          </div>
-          <div class="flex flex-col overflow-hidden">
-            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-300 font-bold leading-none mb-0.5">Selección Exclusiva EcoNexus</span>
-            <h2 id="vipTypewriterText" class="text-xs sm:text-sm md:text-base font-extrabold text-white typewriter-cursor-amber truncate">
-              Inmuebles Destacados
-            </h2>
-          </div>
-        </div>
-
-        <!-- Controles del Carrusel VIP y Paginación 10 en 10 -->
-        <div class="flex items-center gap-2 self-end sm:self-center">
-          <span id="vipCounterBadge" class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-1 rounded-full shadow-sm">
-            VIP Activos
-          </span>
-          <button id="btnLoadMoreVip" onclick="cargarMasVips()" class="hidden bg-amber-500 hover:bg-amber-600 text-gray-900 text-[10px] font-extrabold px-3 py-1.5 rounded-xl shadow transition cursor-pointer flex items-center gap-1">
-            <i class="fa-solid fa-plus"></i> +10 VIP
-          </button>
-          <button onclick="moverCarruselVipManual(-280)" title="Anterior" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer">
-            <i class="fa-solid fa-chevron-left text-xs"></i>
-          </button>
-          <button onclick="moverCarruselVipManual(280)" title="Siguiente" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer">
-            <i class="fa-solid fa-chevron-right text-xs"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Carrusel Horizontal Automático de Tarjetas VIP -->
-      <div id="trackVip" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars relative z-10">
-        <!-- Dinámico (Lotes de 10 en 10 con fotos secuenciales y specs animados) -->
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. BUSCADOR -->
-  <section class="max-w-7xl mx-auto px-4 py-5 w-full">
-    <div class="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex flex-col md:flex-row gap-2">
-        <div class="flex-1 relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
-            <input type="text" id="filterText" oninput="aplicarFiltrosDebounced()" placeholder="Busca zona, código, tipo (casa) o precio..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium transition" />
-        </div>
-        <div class="flex gap-2">
-            <select id="filterOperacion" onchange="aplicarFiltros()" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus cursor-pointer font-medium text-gray-700">
-              <option value="TODOS">Operación</option><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option>
-            </select>
-            <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Tipo (Ej: Casa)" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium" />
-        </div>
-    </div>
-  </section>
- 
-  <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
-  <main class="max-w-7xl mx-auto px-4 pb-12 flex-grow w-full">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
-        <span class="w-2 h-5 bg-econexus rounded-full inline-block"></span>
-        Catálogo Disponible
-      </h2>
-      <span id="propCount" class="bg-econexus-soft text-econexus px-3 py-1 rounded-full text-[10px] font-bold border border-green-200">Cargando...</span>
-    </div>
-    
-    <div id="loadingSpinner" class="text-center py-20">
-      <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
-      <p class="text-gray-500 text-sm font-medium">Sincronizando red...</p>
-    </div>
-    
-    <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5 md:gap-4 hidden"></div>
-    
-    <div id="loadMoreContainer" class="text-center mt-8 hidden">
-      <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-xl transition border border-gray-300 inline-flex items-center cursor-pointer text-xs md:text-sm shadow-sm">
-        <i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles
-      </button>
-    </div>
-    <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
-      <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-4"></i>
-      <h3 class="text-lg font-bold text-gray-700 mb-1">No hay resultados</h3>
-      <p class="text-gray-500 text-xs">Prueba con otra zona o ajusta los filtros.</p>
-    </div>
-  </main>
- 
-  <!-- MODAL DE PROPIEDAD -->
-  <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
-    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
-      <button onclick="cerrarModal()" class="absolute top-3 right-3 z-[80] bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <!-- MODAL MAPA GLOBAL -->
-  <div id="mapaGlobalModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
-    <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
-      <div class="bg-econexus text-white p-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-map-location-dot text-amber-400 text-lg"></i>
-          <div><h3 class="font-bold text-sm leading-tight">Mapa de Presencia Real</h3></div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-econexus-light hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border border-green-700">
-            <i id="iconoToggleLeyenda" class="fa-solid fa-list"></i> <span id="txtBtnToggleLeyenda">Zonas</span>
-          </button>
-          <button onclick="cerrarModalMapaGlobal()" class="text-gray-200 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-        </div>
-      </div>
-      <div class="p-2.5 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
-        <div class="relative flex-1">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
-          <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Filtrar mapa (ej: Trigal, Prebo)..." class="w-full bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
-        </div>
-        <span id="lblMarcadoresCount" class="text-[10px] bg-econexus-soft text-econexus font-bold px-3 py-1.5 rounded-lg border border-green-200 flex items-center justify-center">0 ubicaciones</span>
-      </div>
-      <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
-        <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
-        <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-0 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto flex flex-col z-20 transition-transform duration-300 transform translate-y-full md:translate-y-0">
-          <div class="p-4 flex-grow overflow-y-auto">
-            <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2 mb-3">
-              <span class="font-bold text-xs text-gray-800 uppercase">Leyenda de Zonas</span>
-              <button onclick="togglePanelLeyendaMovil()" class="text-gray-500 w-7 h-7 flex items-center justify-center font-bold bg-gray-100 rounded-full cursor-pointer"><i class="fa-solid fa-xmark text-sm"></i></button>
-            </div>
-            <div id="panelDetalleZona" class="space-y-3">
-              <div class="text-center py-8 text-gray-400"><p class="text-xs font-semibold">Cargando zonas...</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pie de página actualizado a verde institucional -->
-  <footer class="bg-econexus-dark text-white py-6 mt-auto border-t border-green-900">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <p class="text-[10px] text-green-300 mb-1">EcoNexus Real Estate Platform / Inmoinnova</p>
-      <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
-    </div>
-  </footer>
-  <!-- SCRIPT PRINCIPAL DE ECONEXUS (CATÁLOGO, VIP, MAPAS, MODALES Y ANIMACIONES) -->
-  <script>
-    const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    // Paginación Catálogo General (20 en 20)
-    const PAGE_SIZE = 20; 
-    let pageOffset = 0;
-    let hayMasPaginas = true;
-    let propiedadesCargadas = [];
-
-    // Paginación Inmuebles Destacados VIP (10 en 10)
-    const VIP_PAGE_SIZE = 10;
-    let vipOffset = 0;
-    let hayMasVips = true;
-    let vipsCargados = [];
-    let vipAutoScrollTimer = null;
-    let vipScrollDirection = 1;
-    let vipPausadoPorUsuario = false;
-
-    // Timer de rotación automática de fotos en tarjetas
-    let cardPhotoInterval = null;
-
-    let waUrlPendiente = '';
-    let debounceTimer = null;
-    
-    // --- WAKE LOCK API (Mantiene pantalla encendida) ---
-    let wakeLock = null;
-    async function solicitarWakeLock() {
-        if ('wakeLock' in navigator) {
-            try {
-                wakeLock = await navigator.wakeLock.request('screen');
-            } catch (err) { console.warn('WakeLock bloqueado:', err); }
-        }
-    }
-    function liberarWakeLock() {
-        if (wakeLock !== null) {
-            wakeLock.release().then(() => wakeLock = null);
-        }
-    }
-
-    // --- VARIABLES BASE DE SÍNTESIS DE VOZ PARA LA FICHA ---
-    let synth = window.speechSynthesis;
-    let currentFichaText = "";
-
-    // --- EFECTOS DE ESCRITURA SECUENCIAL (HEADER CTA Y BANNER VIP) ---
-    function iniciarEfectosTypewriter() {
-      // 1. Efecto Typewriter en el botón CTA del Header (adaptado a móvil, tablet y PC)
-      const elCrm = document.getElementById('typewriterCrmText');
-      if (elCrm) {
-        const frasesCrmMovil = [
-          "Obtén tu CRM/ERP y publica",
-          "Publica tus inmuebles aquí",
-          "Activa tu CRM Inmobiliario"
-        ];
-        const frasesCrmDesktop = [
-          "Obtén tu CRM/ERP y publica tus inmuebles",
-          "Digitaliza tu inventario con tecnología élite",
-          "Cero desvíos: leads directo a tu WhatsApp"
-        ];
-        let idxFrase = 0;
-        let idxChar = 0;
-        let borrando = false;
-
-        function animarTextoCrm() {
-          const esMovil = window.innerWidth < 640;
-          const listaFrases = esMovil ? frasesCrmMovil : frasesCrmDesktop;
-          const fraseActual = listaFrases[idxFrase % listaFrases.length];
-
-          if (!borrando) {
-            idxChar++;
-            elCrm.textContent = fraseActual.substring(0, idxChar);
-            if (idxChar >= fraseActual.length) {
-              borrando = true;
-              setTimeout(animarTextoCrm, 2600);
-              return;
-            }
-            setTimeout(animarTextoCrm, 55);
-          } else {
-            idxChar--;
-            elCrm.textContent = fraseActual.substring(0, idxChar);
-            if (idxChar <= 0) {
-              borrando = false;
-              idxFrase++;
-              setTimeout(animarTextoCrm, 300);
-              return;
-            }
-            setTimeout(animarTextoCrm, 28);
-          }
-        }
-        animarTextoCrm();
-      }
-
-      // 2. Efecto Typewriter en la insignia de Inmuebles Destacados VIP
-      const elVip = document.getElementById('vipTypewriterText');
-      if (elVip) {
-        const frasesVip = [
-          "Inmuebles Destacados",
-          "Solo lo Mejor del Mercado",
-          "Propiedades de Alta Demanda",
-          "Líderes en Presencia Inmobiliaria",
-          "Oportunidades Exclusivas Verificadas"
-        ];
-        let vFrase = 0;
-        let vChar = 0;
-        let vBorrando = false;
-
-        function animarTextoVip() {
-          const actual = frasesVip[vFrase % frasesVip.length];
-          if (!vBorrando) {
-            vChar++;
-            elVip.textContent = actual.substring(0, vChar);
-            if (vChar >= actual.length) {
-              vBorrando = true;
-              setTimeout(animarTextoVip, 2800);
-              return;
-            }
-            setTimeout(animarTextoVip, 60);
-          } else {
-            vChar--;
-            elVip.textContent = actual.substring(0, vChar);
-            if (vChar <= 0) {
-              vBorrando = false;
-              vFrase++;
-              setTimeout(animarTextoVip, 300);
-              return;
-            }
-            setTimeout(animarTextoVip, 30);
-          }
-        }
-        animarTextoVip();
-      }
-    }
-
-    // --- MAPA Y LEYENDA ---
-    let mapaGlobal = null;
-    let capaMarcadoresCluster = null;
-    let mapaFichaModal = null;
-    let listaGlobalInmueblesMapa = [];
-    let limiteZonasMostradas = 10; 
-    let leyendaAbiertaMovil = false; 
-    const COORDS_DEFAULT = [10.18000, -68.00000];
-    const REFERENCIAS_GEOGRAFICAS = {
-      "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, C.C. Trigal, colegios y clínicas." },
-      "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica, hoteles corporativos y clínicas." },
-      "naguanagua": { coords: [10.25412, -68.01123], bondades: "Clima fresco, Sambil, supermercados y avenidas." },
-      "san diego": { coords: [10.23151, -67.95412], bondades: "Parques naturales, colegios, orden urbano seguro." },
-      "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona exclusiva, seguridad, club de golf, vistas." },
-      "mañongo": { coords: [10.24121, -68.00512], bondades: "Torres modernas, centros comerciales, restaurantes." },
-      "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal." }
-    };
-    
-    let fotosActivasModal = [];
-    let indiceFotoActiva = 0;
-    let touchStartX = 0, touchEndX = 0;
-    let lightboxFotos = [], lightboxIndex = 0;
-
-    document.addEventListener("DOMContentLoaded", async function() {
-      iniciarEfectosTypewriter();
-      iniciarRotacionFotosTarjetas();
-      await obtenerTotalContadorSupabase();
-      await Promise.all([
-        cargarVips(true),
-        cargarPropiedades(true)
-      ]);
-      verificarParametrosURL();
-    });
-    
-    async function obtenerTotalContadorSupabase() {
-      try {
-        const { count, error } = await dbClient.from('v_propiedades_catalogo').select('id', { count: 'exact', head: true }).eq('estatus', 'Disponible');
-        if (!error && count !== null) document.getElementById("propCount").textContent = `${count} registradas`;
-      } catch (e) { console.error(e); }
-    }
-    
-    async function verificarParametrosURL() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const codigoParam = urlParams.get('codigo');
-      const asesorParam = urlParams.get('asesor');
-
-      if (asesorParam) {
-        document.getElementById("filterText").value = asesorParam.trim();
-        await cargarPropiedades(true);
-      }
-
-      if (codigoParam) {
-        try {
-          const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
-          if (data && !error) abrirModalDirecto(data);
-        } catch (err) { console.error(err); }
-      }
-    }
-
-    // --- LÓGICA DE CARGA Y PAGINACIÓN DE VIPS (DE 10 EN 10) ---
-    async function cargarVips(reset = false) {
-      if (reset) {
-        vipOffset = 0;
-        hayMasVips = true;
-        vipsCargados = [];
-      }
-      try {
-        const operacion = document.getElementById("filterOperacion").value;
-        const tipo = document.getElementById("filterTipo").value.trim();
-        const texto = document.getElementById("filterText").value.trim();
-
-        let queryVip = dbClient
-          .from('v_propiedades_catalogo')
-          .select('*')
-          .eq('estatus', 'Disponible')
-          .eq('vip_activo', true);
-
-        if (operacion && operacion !== "TODOS") queryVip = queryVip.eq('operacion', operacion);
-        if (tipo) queryVip = queryVip.ilike('tipo', `%${tipo}%`);
-        if (texto) {
-          if (!isNaN(texto) && Number(texto) > 0) {
-            queryVip = queryVip.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
-          } else {
-            queryVip = queryVip.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
-          }
-        }
-
-        queryVip = queryVip
-          .order('fecha_publicacion', { ascending: false })
-          .range(vipOffset, vipOffset + VIP_PAGE_SIZE - 1);
-
-        const { data, error } = await queryVip;
-        if (error) throw error;
-
-        const nuevosVips = data || [];
-        if (nuevosVips.length < VIP_PAGE_SIZE) hayMasVips = false;
-
-        vipsCargados = [...vipsCargados, ...nuevosVips];
-        renderizarSeccionVip(vipsCargados);
-      } catch (err) {
-        console.error("Error cargando VIPs:", err);
-      }
-    }
-
-    async function cargarMasVips() {
-      if (!hayMasVips) return;
-      const btn = document.getElementById("btnLoadMoreVip");
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`;
-      }
-      vipOffset += VIP_PAGE_SIZE;
-      await cargarVips(false);
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-plus"></i> +10 VIP`;
-      }
-    }
-
-    function renderizarSeccionVip(lista) {
-      const seccionVip = document.getElementById("seccionVipContainer");
-      const trackVip = document.getElementById("trackVip");
-      const btnMoreVip = document.getElementById("btnLoadMoreVip");
-      const counterBadge = document.getElementById("vipCounterBadge");
-
-      if (!lista || lista.length === 0) {
-        seccionVip.classList.add("hidden");
-        detenerAutoScrollVip();
-        return;
-      }
-
-      seccionVip.classList.remove("hidden");
-      trackVip.innerHTML = "";
-      if (counterBadge) counterBadge.textContent = `${lista.length} Destacado${lista.length === 1 ? '' : 's'}`;
-      if (btnMoreVip) {
-        if (hayMasVips) btnMoreVip.classList.remove("hidden");
-        else btnMoreVip.classList.add("hidden");
-      }
-
-      lista.forEach(p => {
-        const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-        const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
-        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
-        const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
-
-        trackVip.innerHTML += `
-          <div onclick="abrirModal('${p.id}')" class="min-w-[225px] max-w-[225px] sm:min-w-[250px] sm:max-w-[250px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer flex-shrink-0 snap-start relative group hover:-translate-y-1">
-            <div class="h-36 sm:h-40 overflow-hidden relative bg-gray-900">
-              <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none"></div>
-              <span class="absolute top-2 left-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
-                <i class="fa-solid fa-crown text-[8px]"></i> VIP
-              </span>
-              <span class="absolute top-2 right-2 bg-econexus/90 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded-full uppercase">
-                ${p.operacion}
-              </span>
-              ${tieneVideo ? `<span class="absolute bottom-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow"><i class="fa-solid fa-circle-play"></i> Video</span>` : ''}
-              <div class="absolute bottom-2 left-2.5 text-white font-black text-base sm:text-lg drop-shadow">
-                $${Number(p.precio).toLocaleString('en-US')}
-              </div>
-            </div>
-            <div class="p-3 flex flex-col flex-grow justify-between bg-gradient-to-b from-white to-amber-50/20">
-              <div>
-                <div class="text-[9px] font-extrabold text-econexus uppercase mb-0.5 truncate flex items-center gap-1">
-                  <i class="fa-solid fa-location-dot text-amber-500"></i> ${p.tipo} • ${p.ubicacion}
+    <!-- MODAL CARRUSEL VISUAL DEL ASISTENTE DE VOZ -->
+    <div id="modalCarruselVoz" class="fixed inset-x-0 top-20 z-[90] flex justify-center px-4 pointer-events-none hidden">
+        <div class="bg-gray-900/95 backdrop-blur-lg border-2 border-emerald-500/60 rounded-2xl shadow-2xl p-4 w-full max-w-xl pointer-events-auto text-white animate-fade-in">
+            <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-400" id="tituloModalCarruselVoz">Resultados Detectados por Voz</h4>
                 </div>
-                <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm mb-1 line-clamp-1 group-hover:text-econexus transition">${p.titulo}</h4>
-                <div class="text-[9px] text-gray-600 font-semibold mb-2 truncate flex items-center gap-1">
-                  <i class="fa-solid fa-building-user text-econexus"></i> ${agenciaDisplay}
+                <div class="flex items-center gap-2">
+                    <span id="loteIndicadorVoz" class="text-[10px] bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-700 font-bold">Lote 1</span>
+                    <button onclick="cerrarModalCarruselVoz()" class="text-gray-400 hover:text-white w-6 h-6 flex items-center justify-center rounded-full bg-gray-800 cursor-pointer"><i class="fa-solid fa-xmark text-xs"></i></button>
                 </div>
-              </div>
-              <!-- Características con animación secuencial -->
-              <div class="grid grid-cols-3 gap-1.5 text-center text-[9px] font-bold text-gray-800 pt-1">
-                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus mr-0.5"></i>${p.habitaciones || 0}</div>
-                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus mr-0.5"></i>${p.banos || 0}</div>
-                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus mr-0.5"></i>${p.metros || 0}m²</div>
-              </div>
             </div>
-          </div>
-        `;
-      });
-
-      configurarAutoScrollVip();
-    }
-
-    function moverCarruselVipManual(distancia) {
-      const track = document.getElementById('trackVip');
-      if (!track) return;
-      vipPausadoPorUsuario = true;
-      track.scrollBy({ left: distancia, behavior: 'smooth' });
-      setTimeout(() => { vipPausadoPorUsuario = false; }, 5000);
-    }
-
-    function configurarAutoScrollVip() {
-      detenerAutoScrollVip();
-      const track = document.getElementById('trackVip');
-      if (!track) return;
-
-      track.onmouseenter = () => { vipPausadoPorUsuario = true; };
-      track.onmouseleave = () => { vipPausadoPorUsuario = false; };
-      track.ontouchstart = () => { vipPausadoPorUsuario = true; };
-      track.ontouchend = () => { setTimeout(() => { vipPausadoPorUsuario = false; }, 4000); };
-
-      vipAutoScrollTimer = setInterval(() => {
-        if (vipPausadoPorUsuario) return;
-        if (track.scrollWidth <= track.clientWidth + 10) return;
-
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        if (track.scrollLeft >= maxScroll - 5) {
-          vipScrollDirection = -1;
-        } else if (track.scrollLeft <= 5) {
-          vipScrollDirection = 1;
-        }
-        track.scrollBy({ left: 255 * vipScrollDirection, behavior: 'smooth' });
-      }, 3600);
-    }
-
-    function detenerAutoScrollVip() {
-      if (vipAutoScrollTimer) {
-        clearInterval(vipAutoScrollTimer);
-        vipAutoScrollTimer = null;
-      }
-    }
-
-    // --- ROTACIÓN AUTOMÁTICA SECUENCIAL DE FOTOS EN TODAS LAS TARJETAS ---
-    function iniciarRotacionFotosTarjetas() {
-      if (cardPhotoInterval) clearInterval(cardPhotoInterval);
-      cardPhotoInterval = setInterval(() => {
-        const imagenes = document.querySelectorAll('.auto-carousel-img');
-        imagenes.forEach((img) => {
-          try {
-            const raw = img.getAttribute('data-photos');
-            if (!raw) return;
-            const fotos = JSON.parse(decodeURIComponent(raw));
-            if (!fotos || fotos.length <= 1) return;
-
-            // Solo animar si la tarjeta es visible en pantalla para máxima fluidez
-            const rect = img.getBoundingClientRect();
-            if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-
-            let idx = parseInt(img.getAttribute('data-idx') || '0', 10);
-            idx = (idx + 1) % fotos.length;
-            img.style.opacity = '0.35';
-            setTimeout(() => {
-              img.src = fotos[idx];
-              img.setAttribute('data-idx', String(idx));
-              img.style.opacity = '1';
-            }, 220);
-          } catch (e) {}
-        });
-      }, 4200);
-    }
-
-    // --- CARGA DEL CATÁLOGO GENERAL ---
-    async function cargarPropiedades(reset = false) {
-      if (reset) {
-        pageOffset = 0; hayMasPaginas = true; propiedadesCargadas = [];
-        document.getElementById("propsGrid").innerHTML = ""; document.getElementById("propsGrid").classList.add("hidden");
-        document.getElementById("noResults").classList.add("hidden"); document.getElementById("loadingSpinner").classList.remove("hidden");
-        document.getElementById("loadMoreContainer").classList.add("hidden");
-      }
-      try {
-        const operacion = document.getElementById("filterOperacion").value;
-        const tipo = document.getElementById("filterTipo").value.trim();
-        const texto = document.getElementById("filterText").value.trim();
-        
-        let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
-        if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
-        if (tipo) query = query.ilike('tipo', `%${tipo}%`);
-        
-        // Búsqueda inteligente mejorada para texto, precios, zonas o teléfono de asesor
-        if (texto) {
-          if (!isNaN(texto) && Number(texto) > 0) {
-            query = query.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
-          } else {
-            query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
-          }
-        }
-        
-        query = query.order('vip_activo', { ascending: false }).order('fecha_publicacion', { ascending: false }).range(pageOffset, pageOffset + PAGE_SIZE - 1);
-        
-        const { data, error } = await query;
-        if (error) throw error;
-        
-        const nuevosInmuebles = data || [];
-        if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
-        
-        propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
-        renderizarTarjetas(propiedadesCargadas);
-      } catch (err) { console.error("Error al cargar propiedades:", err); } 
-      finally { document.getElementById("loadingSpinner").classList.add("hidden"); }
-    }
-    
-    async function cargarMasPropiedades() {
-      if (!hayMasPaginas) return;
-      const btn = document.getElementById("btnLoadMore");
-      btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando...`;
-      pageOffset += PAGE_SIZE;
-      await cargarPropiedades(false);
-      btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles`;
-    }
-
-    function renderizarTarjetas(lista) {
-      const grid = document.getElementById("propsGrid"), noRes = document.getElementById("noResults"), btnLoad = document.getElementById("loadMoreContainer");
-      grid.innerHTML = "";
-      if (lista.length === 0) { grid.classList.add("hidden"); noRes.classList.remove("hidden"); btnLoad.classList.add("hidden"); return; }
-      noRes.classList.add("hidden"); grid.classList.remove("hidden");
-      if (hayMasPaginas) btnLoad.classList.remove("hidden"); else btnLoad.classList.add("hidden");
-      
-      lista.forEach(p => {
-        const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-        const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
-        const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-        const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
-        const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
-
-        grid.innerHTML += `
-          <div class="bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group relative hover:-translate-y-1">
-            <div class="h-36 md:h-44 overflow-hidden relative cursor-pointer bg-gray-900" onclick="abrirModal('${p.id}')">
-              <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
-              <span class="absolute top-2 left-2 bg-econexus/95 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase shadow-sm">${p.operacion}</span>
-              ${tieneVideo ? `<span class="absolute top-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-play text-[7px]"></i> Video</span>` : ''}
-              <span class="absolute bottom-2 right-2 bg-black/65 backdrop-blur-sm text-white text-[8px] font-bold px-1.5 py-0.5 rounded">${p.codigo_eco}</span>
+            <div id="trackCarruselVoz" class="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth hide-scrollbars"></div>
+            <div class="mt-2 pt-2 border-t border-gray-800 flex flex-wrap justify-between items-center gap-2 text-[10px] text-gray-300">
+                <span>💡 Di: <strong>"Opción 1"</strong>, <strong>"Leer más"</strong>, <strong>"Leer todas"</strong> o <strong>"Filtra por..."</strong></span>
             </div>
-            <div class="p-3 flex flex-col flex-grow">
-              <div class="text-[9px] font-bold text-econexus uppercase mb-0.5 break-words flex items-center gap-1">
-                <i class="fa-solid fa-location-dot text-econexus-accent"></i> ${p.tipo} • ${p.ubicacion}
-              </div>
-              <h3 class="font-extrabold text-gray-900 text-[11px] md:text-xs leading-snug mb-1 cursor-pointer line-clamp-2 group-hover:text-econexus transition" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
-              <div class="text-[9px] text-gray-500 font-semibold mb-2 truncate"><i class="fa-solid fa-building-user mr-1 text-econexus"></i>${agenciaDisplay}</div>
-              
-              <!-- Características mínimas animadas en tarjeta -->
-              <div class="grid grid-cols-3 gap-1 mb-2.5 text-center text-[9px] font-bold text-gray-700">
-                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus"></i> ${p.habitaciones}</div>
-                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus"></i> ${p.banos}</div>
-                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus"></i> ${p.metros}m²</div>
-              </div>
-              <div class="text-base md:text-lg font-black text-econexus mb-2 mt-auto">$${Number(p.precio).toLocaleString('en-US')}</div>
-              <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-[10px] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
-                Ver Ficha Completa <i class="fa-solid fa-arrow-right text-[9px]"></i>
-              </button>
+        </div>
+    </div>
+
+    <!-- MODAL LIGHTBOX (ZOOM FOTOGRÁFICO) -->
+    <div id="modalLightbox" class="fixed inset-0 bg-black/95 z-[99999] hidden flex-col justify-center items-center backdrop-blur-sm">
+        <div class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[100000] bg-gradient-to-b from-black/70 to-transparent">
+            <span class="text-white text-xs font-bold bg-white/20 px-3 py-1.5 rounded-lg backdrop-blur-md" id="contador-lightbox">1 / 1</span>
+            <button onclick="cerrarLightbox()" class="text-white hover:text-red-400 bg-white/10 hover:bg-white/30 rounded-full w-10 h-10 flex items-center justify-center transition backdrop-blur-md cursor-pointer"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+        <div class="w-full h-full flex items-center justify-center overflow-hidden touch-pan-x touch-pan-y pinch-zoom">
+            <img id="lightboxImg" src="" alt="Vista ampliada" class="max-w-full max-h-[85vh] object-contain transition-opacity duration-300" />
+        </div>
+        <button onclick="navegarLightbox(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
+        <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
+    </div>
+
+    <!-- MODAL DE BIENVENIDA -->
+    <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
+            <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
+                <p class="text-gray-500 text-sm sm:text-base px-2">Explora el catálogo de inmuebles en Venezuela y contacta directamente con su captador en segundos.</p>
             </div>
-          </div>
-        `;
-      });
-    }
-
-    function aplicarFiltros() {
-      cargarVips(true);
-      cargarPropiedades(true);
-    }
-    function aplicarFiltrosDebounced() { clearTimeout(debounceTimer); debounceTimer = setTimeout(aplicarFiltros, 400); }
-    function resetFiltros() {
-      document.getElementById("filterOperacion").value = "TODOS";
-      document.getElementById("filterTipo").value = "";
-      document.getElementById("filterText").value = "";
-      cargarVips(true);
-      cargarPropiedades(true);
-    }
-    
-    function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
-    function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
-    function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
-    
-    function confirmarIrAWhatsApp(numero, mensaje) {
-      waUrlPendiente = `https://wa.me/${numero}?text=${mensaje}`;
-      document.getElementById("modalConfirmarWhatsApp").classList.remove("hidden");
-    }
-    function cerrarModalWhatsApp() { document.getElementById("modalConfirmarWhatsApp").classList.add("hidden"); waUrlPendiente = ''; }
-    function aceptarYContinuarWhatsApp() { if(waUrlPendiente) window.open(waUrlPendiente, '_blank'); cerrarModalWhatsApp(); }
-
-    function obtenerCoordenadasExactas(p) {
-      if (p.lat && p.lng) return [parseFloat(p.lat), parseFloat(p.lng)];
-      const textoUbi = (p.ubicacion || "").toLowerCase();
-      for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
-        if (textoUbi.includes(clave)) {
-          let hash = 0;
-          for (let i = 0; i < (p.codigo_eco || "").length; i++) hash = p.codigo_eco.charCodeAt(i) + ((hash << 5) - hash);
-          return [datos.coords[0] + (hash % 10)*0.001, datos.coords[1] + ((hash >> 2)%10)*0.001];
-        }
-      }
-      return COORDS_DEFAULT;
-    }
-    
-    function obtenerBondadesSegunUbicacion(ubicacionTexto) {
-      if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
-      const texto = ubicacionTexto.toLowerCase();
-      for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
-        if (texto.includes(clave)) return `${datos.bondades} Conectividad óptima.`;
-      }
-      return `Sector posicionado en ${ubicacionTexto}, ofreciendo acceso a vías y comercios.`;
-    }
-
-    // Busca tanto en el catálogo cargado como en la lista de VIPs o en resultados de voz
-    async function abrirModal(id) {
-      let p = propiedadesCargadas.find(item => item.id === id) || vipsCargados.find(item => item.id === id);
-      if (!p && window.opcionesVozGlobal) {
-        p = window.opcionesVozGlobal.find(item => item.id === id);
-      }
-      if (!p) {
-        try {
-          const { data } = await dbClient.from('v_propiedades_catalogo').select('*').eq('id', id).single();
-          if (data) p = data;
-        } catch (e) { console.error(e); }
-      }
-      if (p) abrirModalDirecto(p);
-    }
-
-    function abrirModalDirecto(p) {
-      const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
-      const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-      const msjWA = encodeURIComponent(`Hola ${nombreAsesor}, info de ID: ${p.codigo_eco} (${p.titulo}).`);
-      const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
-      
-      fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : [];
-      indiceFotoActiva = 0;
-      
-      currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, ${p.estacionamientos || 0} puestos de estacionamiento y ${p.metros} metros cuadrados. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
-      
-      const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
-      const renderFotoAsesorHTML = fotoAsesor 
-        ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-10 h-10 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
-        : `<div class="w-10 h-10 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-lg border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
-      
-      const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-      const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
-
-      // Botón dinámico para ver video si el agente lo subió desde su panel
-      const urlVideoLimpia = (p.enlace_video && p.enlace_video.trim() !== '') ? p.enlace_video.trim() : '';
-      const botonVideoHTML = urlVideoLimpia ? `
-        <a href="${urlVideoLimpia}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer">
-          <i class="fa-solid fa-circle-play text-sm animate-pulse"></i> Ver Video del Inmueble
-        </a>
-      ` : '';
-
-      const modalContent = document.getElementById("modalContent");
-      modalContent.innerHTML = `
-        <div class="p-4 md:p-7">
-          <div class="flex flex-wrap items-center gap-2 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase mb-2">
-            <span class="bg-econexus text-white px-2.5 py-0.5 rounded-full">${p.operacion}</span>
-            <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${p.tipo}</span> 
-            <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">ID: ${p.codigo_eco}</span>
-          </div>
-          <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
-          <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${Number(p.precio).toLocaleString('en-US')}</div>
-          
-          <div class="mb-4 relative rounded-xl overflow-hidden h-56 md:h-80 bg-gray-900 flex items-center justify-center cursor-zoom-in" id="swipeContainerModal" onclick="abrirLightbox()">
-            <img id="modalFotoPrincipal" src="${fotosActivasModal[0] || ''}" class="w-full h-full object-cover transition-opacity duration-300" />
-            <button onclick="event.stopPropagation(); cambiarFotoSwipe(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-left"></i></button>
-            <button onclick="event.stopPropagation(); cambiarFotoSwipe(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-right"></i></button>
-            <div id="modalDotsContainer" class="absolute bottom-2 flex gap-1 bg-black/40 px-2 py-1 rounded-full z-10 pointer-events-none">
-               ${fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===0?'bg-white':'bg-white/50'}"></span>`).join('')}
+            <div class="flex items-center justify-center space-x-2 text-amber-600 font-bold mb-3">
+                <i class="fa-solid fa-scale-balanced text-lg"></i>
+                <span class="text-xs uppercase tracking-wide">Aviso Legal Importante</span>
             </div>
-            <div class="absolute top-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</div>
-          </div>
-          
-          <!-- Barra de botones multimedia: Lectura de Voz + Video del Inmueble (si existe) -->
-          <div class="mb-4 flex flex-col sm:flex-row gap-2.5">
-            <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="flex-1 bg-econexus-soft hover:bg-green-100 border border-green-200 text-econexus py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
-               <i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa
+            <p class="text-[11px] font-semibold text-gray-700 leading-relaxed mb-6 bg-amber-50 p-4 rounded-xl border border-amber-100 text-left">
+                "EcoNexus opera exclusivamente como vitrina publicitaria y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
+            </p>
+            <button onclick="cerrarAvisoInstantaneo()" class="w-full bg-econexus hover:bg-econexus-light text-white text-sm font-bold px-6 py-3.5 rounded-xl transition cursor-pointer shadow-lg flex justify-center items-center gap-2">
+                Explorar Catálogo <i class="fa-solid fa-arrow-right"></i>
             </button>
-            ${botonVideoHTML}
-          </div>
-          
-          <div class="grid grid-cols-4 gap-2 bg-gray-50 border border-gray-100 p-3 rounded-xl mb-4 text-center text-[10px] md:text-xs text-gray-700">
-            <div><i class="fa-solid fa-bed text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.habitaciones}</strong>Hab</div>
-            <div><i class="fa-solid fa-bath text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.banos}</strong>Baños</div>
-            <div><i class="fa-solid fa-car text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.estacionamientos}</strong>Puestos</div>
-            <div><i class="fa-solid fa-ruler-combined text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.metros}m²</strong>Área</div>
-          </div>
-          
-          <div class="mb-5">
-            <h3 class="font-bold text-gray-900 text-sm mb-2 border-b border-gray-100 pb-1">Descripción Detallada</h3>
-            <p class="text-gray-600 text-xs md:text-sm whitespace-pre-line leading-relaxed">${p.descripcion}</p>
-          </div>
-          
-          <div class="mb-5 bg-emerald-50/50 border border-emerald-100 p-4 rounded-xl">
-            <div class="flex items-center text-econexus font-bold text-xs mb-1.5"><i class="fa-solid fa-location-dot mr-1.5"></i> Ubicación y Bondades</div>
-            <p class="text-xs text-gray-700 font-medium mb-1">${p.ubicacion}</p>
-            <p class="text-[10px] text-gray-500">${bondadesSector}</p>
-          </div>
-          
-          <div class="mb-6">
-            <h3 class="font-bold text-gray-900 text-xs mb-2 flex items-center gap-1.5"><i class="fa-solid fa-map text-gray-400"></i> Mapa Referencial</h3>
-            <div id="mapaModalInmueble" class="h-40 w-full rounded-xl border border-gray-200 bg-gray-100 z-0 relative"></div>
-          </div>
-          
-          <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
-             <div class="flex items-center gap-3 w-full md:w-auto">
-               ${renderFotoAsesorHTML}
-               <div>
-                  <span class="text-[10px] text-gray-500 font-bold uppercase block">Asesor Contacto</span>
-                  <span class="font-bold text-gray-900 text-sm block leading-tight">${nombreAsesor}</span>
-                  <span class="text-[10px] text-econexus font-bold block mt-0.5"><i class="fa-solid fa-building-user"></i> ${agenciaDisplay}</span>
-               </div>
-             </div>
-             <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}')" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition">
-               <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
-             </button>
-          </div>
+            <button onclick="cerrarAvisoInstantaneo(); abrirModalTerminos();" class="mt-4 text-xs text-gray-500 font-bold underline hover:text-econexus cursor-pointer">
+                Leer términos completos
+            </button>
         </div>
-      `;
-      document.getElementById("propModal").classList.remove("hidden");
-      setupSwipeEnFotoModal();
-      
-      setTimeout(() => {
-        if(mapaFichaModal) mapaFichaModal.remove();
-        mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: true }).setView(obtenerCoordenadasExactas(p), 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaFichaModal);
-        L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
-      }, 300);
-    }
-    
-    function cambiarFotoSwipe(direccion) {
-      if (fotosActivasModal.length <= 1) return;
-      indiceFotoActiva += direccion;
-      if (indiceFotoActiva >= fotosActivasModal.length) indiceFotoActiva = 0;
-      if (indiceFotoActiva < 0) indiceFotoActiva = fotosActivasModal.length - 1;
-      const img = document.getElementById("modalFotoPrincipal");
-      img.style.opacity = '0';
-      setTimeout(() => { img.src = fotosActivasModal[indiceFotoActiva]; img.style.opacity = '1'; }, 150);
-      const dots = document.getElementById("modalDotsContainer");
-      if(dots) dots.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===indiceFotoActiva?'bg-white':'bg-white/50'}"></span>`).join('');
-    }
+    </div>
 
-    function setupSwipeEnFotoModal() {
-      const container = document.getElementById("swipeContainerModal");
-      if(!container) return;
-      container.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
-      container.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        if(touchEndX < touchStartX - 30) cambiarFotoSwipe(1);
-        if(touchEndX > touchStartX + 30) cambiarFotoSwipe(-1);
-      }, {passive: true});
-    }
+    <!-- MODAL DE TÉRMINOS GLOBALES -->
+    <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50 rounded-t-2xl">
+                <h3 class="font-bold text-econexus flex items-center gap-2 text-sm md:text-base"><i class="fa-solid fa-scale-balanced"></i> Términos de Uso & Condiciones</h3>
+                <button onclick="cerrarModalTerminos()" class="text-gray-400 hover:text-red-500 bg-gray-200 hover:bg-red-50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-4 text-xs md:text-sm text-gray-700 leading-relaxed">
+                <p class="font-bold text-red-600 mb-2 p-3 bg-red-50 rounded-lg border border-red-100">"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."</p>
+                <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria...</p>
+                <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes.</p>
+                <p><strong>3. Exención de Responsabilidad por Transacciones e Inmuebles:</strong> EcoNexus no verifica, avala ni garantiza la tradición legal, la titularidad del dominio, la libertad de gravámenes, la autenticidad de los documentos presentados, el estado físico o estructural de los bienes, la solvencia patronal u origen de los fondos de las partes contratantes.</p>
+                <p><strong>4. Exoneración por Delitos Informáticos, Ciberseguridad y Ataques de Red:</strong> EcoNexus adopta medidas razonables de seguridad técnica; no obstante, la plataforma queda absolutamente exonerada de toda responsabilidad ante vulneraciones de ciberseguridad, ataques DDoSs o accesos no autorizados.</p>
+                <p><strong>5. Publicaciones Falsas, Clonación de Fotos y Estafas:</strong> EcoNexus no se responsabiliza por la publicación de anuncios falsos, engañosos o permisos inexistentes. Toda responsabilidad penal recaerá directa e individualmente sobre el anunciante.</p>
+            </div>
+            <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl text-right">
+                <button onclick="cerrarModalTerminos()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-6 py-2.5 rounded-xl transition shadow cursor-pointer">Entendido</button>
+            </div>
+        </div>
+    </div>
 
-    // --- FUNCIONES DEL MODAL LIGHTBOX (ZOOM FOTOGRÁFICO) ---
-    function abrirLightbox() {
-      if (!fotosActivasModal || fotosActivasModal.length === 0) return;
-      lightboxFotos = fotosActivasModal;
-      lightboxIndex = indiceFotoActiva;
-      actualizarVistaLightbox();
-      const modalLb = document.getElementById("modalLightbox");
-      modalLb.classList.remove("hidden");
-      modalLb.classList.add("flex");
-    }
+    <!-- NUEVO MODAL DE CAPTACIÓN DE LEADS (OPCIONAL) -->
+    <div id="modalLeadWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
+            <button onclick="cerrarModalLead()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+            
+            <div class="flex items-center space-x-2 text-green-700 font-bold mb-3">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span class="text-sm uppercase tracking-wide">Contacto Directo vía WhatsApp</span>
+            </div>
+            
+            <p class="text-xs text-gray-700 leading-relaxed mb-4 bg-amber-50 border border-amber-200 p-3 rounded-xl">
+                "Estás por contactar directamente al asesor. <strong>Opcional:</strong> Déjanos tu nombre y número para que el asesor también pueda contactarte si la conversación se interrumpe."
+            </p>
+            
+            <div class="space-y-3 mb-4">
+                <input type="text" id="leadNombre" placeholder="Tu Nombre y Apellido" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+                <input type="tel" id="leadTelefono" placeholder="Tu número de WhatsApp" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+            </div>
 
-    function cerrarLightbox() {
-      const modalLb = document.getElementById("modalLightbox");
-      modalLb.classList.add("hidden");
-      modalLb.classList.remove("flex");
-    }
+            <div class="flex flex-col sm:flex-row gap-2 justify-end">
+                <button onclick="enviarLeadYWhatsApp(false)" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Omitir e ir a WhatsApp</button>
+                <button onclick="enviarLeadYWhatsApp(true)" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-sm"></i> Guardar y Contactar</button>
+            </div>
+        </div>
+    </div>
 
-    function navegarLightbox(direccion) {
-      if (lightboxFotos.length <= 1) return;
-      lightboxIndex += direccion;
-      if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
-      if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
-      actualizarVistaLightbox();
-    }
+    <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
+    <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
+            <!-- Logo y Textos -->
+            <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="resetFiltros()">
+                <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
+                <div class="flex flex-col">
+                    <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none">EcoNexus</span>
+                    <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">RED INMOBILIARIA INTELIGENTE</span>
+                </div>
+            </div>
 
-    function actualizarVistaLightbox() {
-      const imgLb = document.getElementById("lightboxImg");
-      const contadorLb = document.getElementById("contador-lightbox");
-      if (imgLb) imgLb.src = lightboxFotos[lightboxIndex];
-      if (contadorLb) contadorLb.textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
-    }
+            <!-- Controles y Botón CTA -->
+            <div class="flex items-center gap-2 sm:gap-3.5 ml-auto flex-wrap sm:flex-nowrap justify-end">
+                <button onclick="abrirModalMapaGlobal()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
+                    <i class="fa-solid fa-map-location-dot text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Mapa
+                </button>
+                <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
+                    <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
+                </button>
+                
+                <!-- BOTÓN AGENTES ANIMADO -->
+                <button onclick="window.location.href='/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5 min-w-[110px] sm:min-w-[130px]">
+                    <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> 
+                    <span id="typewriterAgenteText" class="typewriter-cursor-dark text-center leading-tight">Busca Agentes</span>
+                </button>
 
-    function toggleLecturaVoz() {
-        const btn = document.getElementById('btnLecturaVozModal');
-        if (synth.speaking) {
-            synth.cancel();
-            liberarWakeLock();
-            if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); }
-        } else if (currentFichaText) {
-            solicitarWakeLock();
-            const utterance = new SpeechSynthesisUtterance(currentFichaText);
-            utterance.lang = 'es-ES';
-            utterance.onend = () => { 
-                liberarWakeLock();
-                if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); } 
-            };
-            synth.speak(utterance);
-            if(btn) { btn.innerHTML = '<i class="fa-solid fa-circle-stop text-sm"></i> Detener Lectura'; btn.classList.replace('bg-econexus-soft', 'bg-green-100'); btn.classList.replace('text-econexus', 'text-green-800'); }
+                <button onclick="window.location.href='/captacion.html'" id="btnCtaHeader" class="btn-cta-crm bg-gradient-to-r from-econexus-accent via-emerald-600 to-green-700 hover:from-green-600 hover:to-emerald-500 text-white px-2.5 sm:px-3.5 md:px-4 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-lg cursor-pointer border border-green-300/40 min-w-[155px] sm:min-w-[220px] md:min-w-[275px] max-w-[92vw] justify-center">
+                    <i class="fa-solid fa-rocket text-amber-300 animate-bounce text-[10px] md:text-xs shrink-0"></i>
+                    <span id="typewriterCrmText" class="typewriter-cursor truncate">Obtén tu CRM/ERP y publica tus inmuebles</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. SECCIÓN VIP -->
+    <section id="seccionVipContainer" class="max-w-7xl mx-auto px-3 sm:px-4 pt-5 pb-2 hidden w-full">
+        <div class="bg-gradient-to-br from-white via-amber-50/35 to-emerald-50/30 rounded-3xl p-4 sm:p-5 border-2 border-amber-300/80 shadow-lg relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-36 h-36 bg-amber-400/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 relative z-10">
+                <div class="flex items-center gap-2.5 bg-gradient-to-r from-econexus-dark via-econexus to-econexus-light text-white px-3.5 sm:px-4 py-2 rounded-2xl shadow-md border border-amber-400/50 w-full sm:w-auto min-h-[42px]">
+                    <div class="w-7 h-7 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-crown text-amber-400 text-xs sm:text-sm animate-pulse"></i>
+                    </div>
+                    <div class="flex flex-col overflow-hidden">
+                        <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-amber-300 font-bold leading-none mb-0.5">Selección Exclusiva EcoNexus</span>
+                        <h2 id="vipTypewriterText" class="text-xs sm:text-sm md:text-base font-extrabold text-white typewriter-cursor-amber truncate">Inmuebles Destacados</h2>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 self-end sm:self-center">
+                    <span id="vipCounterBadge" class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-1 rounded-full shadow-sm">VIP Activos</span>
+                    <button id="btnLoadMoreVip" onclick="cargarMasVips()" class="hidden bg-amber-500 hover:bg-amber-600 text-gray-900 text-[10px] font-extrabold px-3 py-1.5 rounded-xl shadow transition cursor-pointer flex items-center gap-1"><i class="fa-solid fa-plus"></i> +10 VIP</button>
+                    <button onclick="moverCarruselVipManual(-280)" title="Anterior" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                    <button onclick="moverCarruselVipManual(280)" title="Siguiente" class="w-8 h-8 rounded-xl bg-white hover:bg-econexus text-econexus hover:text-white border border-gray-200 flex items-center justify-center transition shadow-sm cursor-pointer"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                </div>
+            </div>
+            <div id="trackVip" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars relative z-10"></div>
+        </div>
+    </section>
+
+    <!-- 2. BUSCADOR Y FILTROS AVANZADOS -->
+    <section class="max-w-7xl mx-auto px-4 py-5 w-full">
+        <div class="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex flex-col md:flex-row gap-2">
+            <div class="flex-1 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400 text-sm"></i>
+                <input type="text" id="filterText" oninput="aplicarFiltrosDebounced()" placeholder="Busca zona, código, tipo (casa) o precio..." class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium transition" />
+            </div>
+            <div class="flex gap-2">
+                <select id="filterOperacion" onchange="aplicarFiltros()" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus cursor-pointer font-medium text-gray-700">
+                    <option value="TODOS">Operación</option><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option>
+                </select>
+                <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Tipo (Ej: Casa)" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium" />
+                
+                <button type="button" onclick="toggleFiltrosAvanzados()" class="bg-econexus hover:bg-econexus-light text-white px-3 py-2 rounded-xl transition text-xs font-bold flex items-center gap-1.5 shadow-sm cursor-pointer whitespace-nowrap">
+                    <i class="fa-solid fa-sliders"></i> Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- PANEL DE FILTROS AVANZADOS -->
+        <div id="panelFiltrosAvanzados" class="hidden mt-2 bg-white rounded-2xl p-3 shadow-md border border-gray-100 grid grid-cols-2 md:grid-cols-5 gap-3 animate-fade-in">
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Precio Mín ($)</label>
+                <input type="number" id="filterMinPrecio" oninput="aplicarFiltrosDebounced()" placeholder="Ej: 10000" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus" />
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Precio Máx ($)</label>
+                <input type="number" id="filterMaxPrecio" oninput="aplicarFiltrosDebounced()" placeholder="Ej: 150000" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus" />
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Metros Mín (m²)</label>
+                <input type="number" id="filterMinMetros" oninput="aplicarFiltrosDebounced()" placeholder="Ej: 80" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus" />
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Habitaciones (Mín)</label>
+                <input type="number" id="filterHabitaciones" oninput="aplicarFiltrosDebounced()" placeholder="Ej: 2" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus" />
+            </div>
+            <div class="flex items-end">
+                <button type="button" onclick="resetFiltros()" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg text-xs transition">Limpiar</button>
+            </div>
+        </div>
+    </section>
+        <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
+    <main class="max-w-7xl mx-auto px-4 pb-12 flex-grow w-full">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
+                <span class="w-2 h-5 bg-econexus rounded-full inline-block"></span>
+                Catálogo Disponible
+            </h2>
+            <span id="propCount" class="bg-econexus-soft text-econexus px-3 py-1 rounded-full text-[10px] font-bold border border-green-200">Cargando...</span>
+        </div>
+        
+        <div id="loadingSpinner" class="text-center py-20">
+            <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
+            <p class="text-gray-500 text-sm font-medium">Sincronizando red...</p>
+        </div>
+        
+        <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5 md:gap-4 hidden"></div>
+        
+        <div id="loadMoreContainer" class="text-center mt-8 hidden">
+            <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-xl transition border border-gray-300 inline-flex items-center cursor-pointer text-xs md:text-sm shadow-sm">
+                <i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles
+            </button>
+        </div>
+        
+        <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
+            <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-4"></i>
+            <h3 class="text-lg font-bold text-gray-700 mb-1">No hay resultados</h3>
+            <p class="text-gray-500 text-xs">Prueba con otra zona o ajusta los filtros.</p>
+        </div>
+    </main>
+
+    <!-- MODAL DE PROPIEDAD -->
+    <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <button onclick="cerrarModal()" class="absolute top-3 right-3 z-[80] bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- MODAL MAPA GLOBAL -->
+    <div id="mapaGlobalModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-3 md:p-6 hidden">
+        <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] shadow-2xl flex flex-col relative overflow-hidden">
+            <div class="bg-econexus text-white p-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-map-location-dot text-amber-400 text-lg"></i>
+                    <div><h3 class="font-bold text-sm leading-tight">Mapa de Presencia Real</h3></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="togglePanelLeyendaMovil()" class="md:hidden bg-econexus-light hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border border-green-700">
+                        <i id="iconoToggleLeyenda" class="fa-solid fa-list"></i> <span id="txtBtnToggleLeyenda">Zonas</span>
+                    </button>
+                    <button onclick="cerrarModalMapaGlobal()" class="text-gray-200 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+            </div>
+            
+            <div class="p-2.5 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+                    <input type="text" id="inputBuscarZonaMapa" onkeyup="buscarZonaEnMapa(this.value)" placeholder="Filtrar mapa (ej: Trigal, Prebo)..." class="w-full bg-white border border-gray-300 rounded-lg pl-8 pr-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-econexus font-medium">
+                </div>
+                <span id="lblMarcadoresCount" class="text-[10px] bg-econexus-soft text-econexus font-bold px-3 py-1.5 rounded-lg border border-green-200 flex items-center justify-center">0 ubicaciones</span>
+            </div>
+            
+            <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
+                <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
+                <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-0 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto flex flex-col z-20 transition-transform duration-300 transform translate-y-full md:translate-y-0">
+                    <div class="p-4 flex-grow overflow-y-auto">
+                        <div class="flex justify-between items-center md:hidden border-b border-gray-200 pb-2 mb-3">
+                            <span class="font-bold text-xs text-gray-800 uppercase">Leyenda de Zonas</span>
+                            <button onclick="togglePanelLeyendaMovil()" class="text-gray-500 w-7 h-7 flex items-center justify-center font-bold bg-gray-100 rounded-full cursor-pointer"><i class="fa-solid fa-xmark text-sm"></i></button>
+                        </div>
+                        <div id="panelDetalleZona" class="space-y-3">
+                            <div class="text-center py-8 text-gray-400"><p class="text-xs font-semibold">Cargando zonas...</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página -->
+    <footer class="bg-econexus-dark text-white py-6 mt-auto border-t border-green-900">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-[10px] text-green-300 mb-1">EcoNexus Real Estate Platform / Inmoinnova</p>
+            <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- ========================================================================
+    SCRIPT PRINCIPAL DE ECONEXUS (CATÁLOGO, VIP, MAPAS, MODALES Y ANIMACIONES)
+    ======================================================================== -->
+    <script>
+        const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
+        const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Paginación Catálogo General (20 en 20)
+        const PAGE_SIZE = 20;
+        let pageOffset = 0;
+        let hayMasPaginas = true;
+        let propiedadesCargadas = [];
+
+        // Paginación Inmuebles Destacados VIP (10 en 10)
+        const VIP_PAGE_SIZE = 10;
+        let vipOffset = 0;
+        let hayMasVips = true;
+        let vipsCargados = [];
+        let vipAutoScrollTimer = null;
+        let vipScrollDirection = 1;
+        let vipPausadoPorUsuario = false;
+
+        // Timer de rotación automática de fotos en tarjetas
+        let cardPhotoInterval = null;
+        let debounceTimer = null;
+
+        // Variables para el nuevo sistema de Leads
+        let waUrlPendiente = '';
+        let leadDataPendiente = null;
+
+        // -- WAKE LOCK API (Mantiene pantalla encendida) --
+        let wakeLock = null;
+        async function solicitarWakeLock() {
+            if ('wakeLock' in navigator) {
+                try { wakeLock = await navigator.wakeLock.request('screen'); } 
+                catch (err) { console.warn('WakeLock bloqueado:', err); }
+            }
         }
-    }
-
-    function cerrarModal() { 
-        if (synth.speaking) { synth.cancel(); liberarWakeLock(); } 
-        document.getElementById("propModal").classList.add("hidden"); 
-    }
-
-    // --- MAPA GLOBAL Y LEYENDA DE ZONAS ---
-    async function abrirModalMapaGlobal() {
-      document.getElementById("mapaGlobalModal").classList.remove("hidden");
-      limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
-      actualizarEstadoPanelLeyendaMovil();
-      
-      setTimeout(async () => {
-        if (!mapaGlobal) {
-          mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: true }).setView(COORDS_DEFAULT, 7);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaGlobal);
-          
-          capaMarcadoresCluster = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 40, spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
-          mapaGlobal.addLayer(capaMarcadoresCluster);
+        function liberarWakeLock() {
+            if (wakeLock !== null) { wakeLock.release().then(() => wakeLock = null); }
         }
-        mapaGlobal.invalidateSize();
-        await cargarInmueblesYGenerarMapa();
-      }, 300);
-    }
-    
-    function cerrarModalMapaGlobal() { document.getElementById("mapaGlobalModal").classList.add("hidden"); }
-    function togglePanelLeyendaMovil() { leyendaAbiertaMovil = !leyendaAbiertaMovil; actualizarEstadoPanelLeyendaMovil(); }
-    function actualizarEstadoPanelLeyendaMovil() {
-      const panel = document.getElementById("panelLeyendaContenedor"), txtBtn = document.getElementById("txtBtnToggleLeyenda"), icono = document.getElementById("iconoToggleLeyenda");
-      if (leyendaAbiertaMovil) {
-        panel.classList.remove("translate-y-full"); panel.classList.add("translate-y-0");
-        txtBtn.textContent = "Cerrar Zonas"; icono.className = "fa-solid fa-xmark";
-      } else {
-        panel.classList.add("translate-y-full"); panel.classList.remove("translate-y-0");
-        txtBtn.textContent = "Zonas"; icono.className = "fa-solid fa-list";
-        if (mapaGlobal) mapaGlobal.invalidateSize();
-      }
-    }
-    
-    async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
-      if (!capaMarcadoresCluster) return;
-      capaMarcadoresCluster.clearLayers();
-      const { data: listaPropiedades } = await dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
-      if (!listaPropiedades) return;
-      
-      listaGlobalInmueblesMapa = listaPropiedades;
-      let filtradas = listaPropiedades;
-      if (filtroQuery.trim() !== "") {
-        const queryLimpia = filtroQuery.toLowerCase().trim();
-        filtradas = listaPropiedades.filter(p => {
-          const ubi = (p.ubicacion || '').toLowerCase(); const tit = (p.titulo || '').toLowerCase(); const cod = (p.codigo_eco || '').toLowerCase();
-          return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || cod.includes(queryLimpia);
+
+        // -- VARIABLES BASE DE SÍNTESIS DE VOZ --
+        let synth = window.speechSynthesis;
+        let currentFichaText = "";
+
+        // -- EFECTOS DE ESCRITURA SECUENCIAL --
+        function iniciarEfectosTypewriter() {
+            // 1. CRM/ERP
+            const elCrm = document.getElementById('typewriterCrmText');
+            if (elCrm) {
+                const frasesCrmMovil = ["Obtén tu CRM/ERP y publica", "Publica tus inmuebles aquí", "Activa tu CRM Inmobiliario"];
+                const frasesCrmDesktop = ["Obtén tu CRM/ERP y publica tus inmuebles", "Digitaliza tu inventario con tecnología élite", "Cero desvíos: leads directo a tu WhatsApp"];
+                let idxFrase = 0, idxChar = 0, borrando = false;
+                function animarTextoCrm() {
+                    const esMovil = window.innerWidth < 640;
+                    const listaFrases = esMovil ? frasesCrmMovil : frasesCrmDesktop;
+                    const fraseActual = listaFrases[idxFrase % listaFrases.length];
+                    if (!borrando) {
+                        idxChar++; elCrm.textContent = fraseActual.substring(0, idxChar);
+                        if (idxChar >= fraseActual.length) { borrando = true; setTimeout(animarTextoCrm, 2600); return; }
+                        setTimeout(animarTextoCrm, 55);
+                    } else {
+                        idxChar--; elCrm.textContent = fraseActual.substring(0, idxChar);
+                        if (idxChar <= 0) { borrando = false; idxFrase++; setTimeout(animarTextoCrm, 300); return; }
+                        setTimeout(animarTextoCrm, 28);
+                    }
+                }
+                animarTextoCrm();
+            }
+
+            // 2. VIPs
+            const elVip = document.getElementById('vipTypewriterText');
+            if (elVip) {
+                const frasesVip = ["Inmuebles Destacados", "Solo lo Mejor del Mercado", "Propiedades de Alta Demanda", "Líderes en Presencia Inmobiliaria", "Oportunidades Exclusivas Verificadas"];
+                let vFrase = 0, vChar = 0, vBorrando = false;
+                function animarTextoVip() {
+                    const actual = frasesVip[vFrase % frasesVip.length];
+                    if (!vBorrando) {
+                        vChar++; elVip.textContent = actual.substring(0, vChar);
+                        if (vChar >= actual.length) { vBorrando = true; setTimeout(animarTextoVip, 2800); return; }
+                        setTimeout(animarTextoVip, 60);
+                    } else {
+                        vChar--; elVip.textContent = actual.substring(0, vChar);
+                        if (vChar <= 0) { vBorrando = false; vFrase++; setTimeout(animarTextoVip, 300); return; }
+                        setTimeout(animarTextoVip, 30);
+                    }
+                }
+                animarTextoVip();
+            }
+
+            // 3. Botón Buscar Agentes
+            const elAgente = document.getElementById('typewriterAgenteText');
+            if (elAgente) {
+                const frasesAgente = ["Busca Agentes", "Encuentra tu Asesor", "Agentes Verificados", "Contacto Directo"];
+                let aFrase = 0, aChar = 0, aBorrando = false;
+                function animarTextoAgente() {
+                    const actual = frasesAgente[aFrase % frasesAgente.length];
+                    if (!aBorrando) {
+                        aChar++; elAgente.textContent = actual.substring(0, aChar);
+                        if (aChar >= actual.length) { aBorrando = true; setTimeout(animarTextoAgente, 2500); return; }
+                        setTimeout(animarTextoAgente, 60);
+                    } else {
+                        aChar--; elAgente.textContent = actual.substring(0, aChar);
+                        if (aChar <= 0) { aBorrando = false; aFrase++; setTimeout(animarTextoAgente, 300); return; }
+                        setTimeout(animarTextoAgente, 30);
+                    }
+                }
+                animarTextoAgente();
+            }
+        }
+
+        // -- MAPA Y LEYENDA --
+        let mapaGlobal = null;
+        let capaMarcadoresCluster = null;
+        let mapaFichaModal = null;
+        let listaGlobalInmueblesMapa = [];
+        let limiteZonasMostradas = 10;
+        let leyendaAbiertaMovil = false;
+        const COORDS_DEFAULT = [10.18000, -68.00000];
+        const REFERENCIAS_GEOGRAFICAS = {
+            "trigal": { coords: [10.20311, -68.00142], bondades: "Excelente acceso a autopista, C.C. Trigal, colegios y clínicas." },
+            "viñedo": { coords: [10.21852, -68.00621], bondades: "Zona gastronómica, hoteles corporativos y clínicas." },
+            "naguanagua": { coords: [10.25412, -68.01123], bondades: "Clima fresco, Sambil, supermercados y avenidas." },
+            "san diego": { coords: [10.23151, -67.95412], bondades: "Parques naturales, colegios, orden urbano seguro." },
+            "guataparo": { coords: [10.21151, -68.03123], bondades: "Zona exclusiva, seguridad, club de golf, vistas." },
+            "mañongo": { coords: [10.24121, -68.00512], bondades: "Torres modernas, centros comerciales, restaurantes." },
+            "valencia": { coords: [10.16202, -68.00765], bondades: "Eje industrial y comercial principal." }
+        };
+
+        let fotosActivasModal = [];
+        let indiceFotoActiva = 0;
+        let touchStartX = 0, touchEndX = 0;
+        let lightboxFotos = [], lightboxIndex = 0;
+
+        document.addEventListener("DOMContentLoaded", async function() {
+            iniciarEfectosTypewriter();
+            iniciarRotacionFotosTarjetas();
+            await obtenerTotalContadorSupabase();
+            await Promise.all([ cargarVips(true), cargarPropiedades(true) ]);
+            verificarParametrosURL();
         });
-      }
-      document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} ubicaciones`;
-      
-      let bounds = [];
-      filtradas.forEach(p => {
-        const coords = obtenerCoordenadasExactas(p); bounds.push(coords);
-        const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
-        const marker = L.marker(coords).bindPopup(popupHTML);
-        capaMarcadoresCluster.addLayer(marker);
-      });
-      
-      if (bounds.length > 0 && filtroQuery.trim() !== "") mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
-      else if (bounds.length > 0) mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
-      generarLeyendaZonas(filtradas);
-    }
-    
-    function generarLeyendaZonas(lista) {
-      const panel = document.getElementById("panelDetalleZona");
-      const conteoZonas = {};
-      lista.forEach(p => { const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar"; conteoZonas[zona] = (conteoZonas[zona] || 0) + 1; });
-      const zonasArray = Object.entries(conteoZonas).sort((a, b) => b[1] - a[1]);
-      const totalZonas = zonasArray.length;
-      if (totalZonas === 0) {
-        panel.innerHTML = `<div class="text-center py-8 text-gray-400"><i class="fa-solid fa-map text-3xl mb-2"></i><p class="text-xs font-semibold">No se encontraron zonas.</p></div>`; return;
-      }
-      const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
-      let html = `<div class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-2"><span class="text-[10px] uppercase font-bold text-gray-600 block">Zonas Detectadas</span><p class="text-[10px] text-gray-500">Total sectores: <strong>${totalZonas}</strong></p></div><div class="space-y-1.5 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">`;
-      zonasVisibles.forEach(([zona, cantidad]) => {
-        html += `<div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2 bg-white border border-green-200 hover:border-econexus rounded-lg cursor-pointer transition flex justify-between items-center shadow-sm group"><span class="text-[10px] font-semibold text-gray-700 group-hover:text-econexus line-clamp-1"><i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i>${zona}</span><span class="bg-econexus-soft text-econexus border border-green-200 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">${cantidad}</span></div>`;
-      });
-      html += `</div>`;
-      if (limiteZonasMostradas < totalZonas) html += `<button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-bold py-2 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus"></i> Cargar 10 más</button>`;
-      panel.innerHTML = html;
-    }
-    
-    function cargarMasZonasLeyenda() { limiteZonasMostradas += 10; generarLeyendaZonas(listaGlobalInmueblesMapa); }
-    function filtrarZonaDesdeLeyenda(nombreZona) {
-      document.getElementById("inputBuscarZonaMapa").value = nombreZona;
-      if (window.innerWidth < 768) { leyendaAbiertaMovil = false; actualizarEstadoPanelLeyendaMovil(); }
-      cargarInmueblesYGenerarMapa(nombreZona);
-    }
-    function buscarZonaEnMapa(query) { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); }
-  </script>
 
-  <!-- MÓDULO EXTERNO DEL ASISTENTE VIRTUAL POR VOZ AVANZADO -->
-  <script src="js/asistente-voz.js"></script>
+        async function obtenerTotalContadorSupabase() {
+            try {
+                const { count, error } = await dbClient.from('v_propiedades_catalogo').select('id', { count: 'exact', head: true }).eq('estatus', 'Disponible');
+                if (!error && count !== null) document.getElementById("propCount").textContent = `${count} registradas`;
+            } catch (e) { console.error(e); }
+        }
+
+        async function verificarParametrosURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const codigoParam = urlParams.get('codigo');
+            const asesorParam = urlParams.get('asesor');
+            if (asesorParam) {
+                document.getElementById("filterText").value = asesorParam.trim();
+                await cargarPropiedades(true);
+            }
+            if (codigoParam) {
+                try {
+                    const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
+                    if (data && !error) abrirModalDirecto(data);
+                } catch (err) { console.error(err); }
+            }
+        }
+
+        // -- TOGGLE FILTROS AVANZADOS --
+        function toggleFiltrosAvanzados() {
+            document.getElementById('panelFiltrosAvanzados').classList.toggle('hidden');
+        }
+
+        // -- LÓGICA DE CARGA Y PAGINACIÓN DE VIPS (DE 10 EN 10) --
+        async function cargarVips(reset = false) {
+            if (reset) { vipOffset = 0; hayMasVips = true; vipsCargados = []; }
+            try {
+                const operacion = document.getElementById("filterOperacion").value;
+                const tipo = document.getElementById("filterTipo").value.trim();
+                const texto = document.getElementById("filterText").value.trim();
+                const minPrecio = parseFloat(document.getElementById("filterMinPrecio").value);
+                const maxPrecio = parseFloat(document.getElementById("filterMaxPrecio").value);
+                const minMetros = parseFloat(document.getElementById("filterMinMetros").value);
+                const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
+
+                let queryVip = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible').eq('vip_activo', true);
+                
+                if (operacion && operacion !== "TODOS") queryVip = queryVip.eq('operacion', operacion);
+                if (tipo) queryVip = queryVip.ilike('tipo', `%${tipo}%`);
+                if (!isNaN(minPrecio)) queryVip = queryVip.gte('precio', minPrecio);
+                if (!isNaN(maxPrecio)) queryVip = queryVip.lte('precio', maxPrecio);
+                if (!isNaN(minMetros)) queryVip = queryVip.gte('metros', minMetros);
+                if (!isNaN(minHabitaciones)) queryVip = queryVip.gte('habitaciones', minHabitaciones);
+
+                if (texto) {
+                    if (!isNaN(texto) && Number(texto) > 0) {
+                        queryVip = queryVip.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
+                    } else {
+                        queryVip = queryVip.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
+                    }
+                }
+
+                queryVip = queryVip.order('fecha_publicacion', { ascending: false }).range(vipOffset, vipOffset + VIP_PAGE_SIZE - 1);
+                const { data, error } = await queryVip;
+                if (error) throw error;
+
+                const nuevosVips = data || [];
+                if (nuevosVips.length < VIP_PAGE_SIZE) hayMasVips = false;
+                vipsCargados = [...vipsCargados, ...nuevosVips];
+                renderizarSeccionVip(vipsCargados);
+            } catch (err) { console.error("Error cargando VIPs:", err); }
+        }
+
+        async function cargarMasVips() {
+            if (!hayMasVips) return;
+            const btn = document.getElementById("btnLoadMoreVip");
+            if (btn) { btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`; }
+            vipOffset += VIP_PAGE_SIZE;
+            await cargarVips(false);
+            if (btn) { btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus"></i> +10 VIP`; }
+        }
+
+        function renderizarSeccionVip(lista) {
+            const seccionVip = document.getElementById("seccionVipContainer");
+            const trackVip = document.getElementById("trackVip");
+            const btnMoreVip = document.getElementById("btnLoadMoreVip");
+            const counterBadge = document.getElementById("vipCounterBadge");
+
+            if (!lista || lista.length === 0) { seccionVip.classList.add("hidden"); detenerAutoScrollVip(); return; }
+            seccionVip.classList.remove("hidden");
+            trackVip.innerHTML = "";
+            if (counterBadge) counterBadge.textContent = `${lista.length} Destacado${lista.length === 1 ? '' : 's'}`;
+            if (btnMoreVip) { if (hayMasVips) btnMoreVip.classList.remove("hidden"); else btnMoreVip.classList.add("hidden"); }
+
+            lista.forEach(p => {
+                const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+                const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
+                const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+                const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+                const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
+
+                trackVip.innerHTML += `
+                    <div onclick="abrirModal('${p.id}')" class="min-w-[225px] max-w-[225px] sm:min-w-[250px] sm:max-w-[250px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer flex-shrink-0 snap-start relative group hover:-translate-y-1">
+                        <div class="h-36 sm:h-40 overflow-hidden relative bg-gray-900">
+                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none"></div>
+                            <span class="absolute top-2 left-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
+                                <i class="fa-solid fa-crown text-[8px]"></i> VIP
+                            </span>
+                            <span class="absolute top-2 right-2 bg-econexus/90 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded-full uppercase">${p.operacion}</span>
+                            ${tieneVideo ? `<span class="absolute bottom-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow"><i class="fa-solid fa-circle-play"></i> Video</span>` : ''}
+                            <div class="absolute bottom-2 left-2.5 text-white font-black text-base sm:text-lg drop-shadow">$${Number(p.precio).toLocaleString('en-US')}</div>
+                        </div>
+                        <div class="p-3 flex flex-col flex-grow justify-between bg-gradient-to-b from-white to-amber-50/20">
+                            <div>
+                                <div class="text-[9px] font-extrabold text-econexus uppercase mb-0.5 truncate flex items-center gap-1">
+                                    <i class="fa-solid fa-location-dot text-amber-500"></i> ${p.tipo} • ${p.ubicacion}
+                                </div>
+                                <h4 class="font-extrabold text-gray-900 text-xs sm:text-sm mb-1 line-clamp-1 group-hover:text-econexus transition">${p.titulo}</h4>
+                                <div class="text-[9px] text-gray-600 font-semibold mb-2 truncate flex items-center gap-1">
+                                    <i class="fa-solid fa-building-user text-econexus"></i> ${agenciaDisplay}
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-1.5 text-center text-[9px] font-bold text-gray-800 pt-1">
+                                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus mr-0.5"></i>${p.habitaciones || 0}</div>
+                                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus mr-0.5"></i>${p.banos || 0}</div>
+                                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus mr-0.5"></i>${p.metros || 0}m²</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            configurarAutoScrollVip();
+        }
+
+        function moverCarruselVipManual(distancia) {
+            const track = document.getElementById('trackVip');
+            if (!track) return;
+            vipPausadoPorUsuario = true;
+            track.scrollBy({ left: distancia, behavior: 'smooth' });
+            setTimeout(() => { vipPausadoPorUsuario = false; }, 5000);
+        }
+
+        function configurarAutoScrollVip() {
+            detenerAutoScrollVip();
+            const track = document.getElementById('trackVip');
+            if (!track) return;
+            track.onmouseenter = () => { vipPausadoPorUsuario = true; };
+            track.onmouseleave = () => { vipPausadoPorUsuario = false; };
+            track.ontouchstart = () => { vipPausadoPorUsuario = true; };
+            track.ontouchend = () => { setTimeout(() => { vipPausadoPorUsuario = false; }, 4000); };
+
+            vipAutoScrollTimer = setInterval(() => {
+                if (vipPausadoPorUsuario) return;
+                if (track.scrollWidth <= track.clientWidth + 10) return;
+                const maxScroll = track.scrollWidth - track.clientWidth;
+                if (track.scrollLeft >= maxScroll - 5) vipScrollDirection = -1;
+                else if (track.scrollLeft <= 5) vipScrollDirection = 1;
+                track.scrollBy({ left: 255 * vipScrollDirection, behavior: 'smooth' });
+            }, 3600);
+        }
+
+        function detenerAutoScrollVip() {
+            if (vipAutoScrollTimer) { clearInterval(vipAutoScrollTimer); vipAutoScrollTimer = null; }
+        }
+
+        // -- ROTACIÓN AUTOMÁTICA SECUENCIAL DE FOTOS --
+        function iniciarRotacionFotosTarjetas() {
+            if (cardPhotoInterval) clearInterval(cardPhotoInterval);
+            cardPhotoInterval = setInterval(() => {
+                const imagenes = document.querySelectorAll('.auto-carousel-img');
+                imagenes.forEach((img) => {
+                    try {
+                        const raw = img.getAttribute('data-photos');
+                        if (!raw) return;
+                        const fotos = JSON.parse(decodeURIComponent(raw));
+                        if (!fotos || fotos.length <= 1) return;
+                        const rect = img.getBoundingClientRect();
+                        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+                        let idx = parseInt(img.getAttribute('data-idx') || '0', 10);
+                        idx = (idx + 1) % fotos.length;
+                        img.style.opacity = '0.35';
+                        setTimeout(() => {
+                            img.src = fotos[idx];
+                            img.setAttribute('data-idx', String(idx));
+                            img.style.opacity = '1';
+                        }, 220);
+                    } catch (e) {}
+                });
+            }, 4200);
+        }
+
+        // -- CARGA DEL CATÁLOGO GENERAL --
+        async function cargarPropiedades(reset = false) {
+            if (reset) {
+                pageOffset = 0; hayMasPaginas = true; propiedadesCargadas = [];
+                document.getElementById("propsGrid").innerHTML = "";
+                document.getElementById("propsGrid").classList.add("hidden");
+                document.getElementById("noResults").classList.add("hidden");
+                document.getElementById("loadingSpinner").classList.remove("hidden");
+                document.getElementById("loadMoreContainer").classList.add("hidden");
+            }
+
+            try {
+                const operacion = document.getElementById("filterOperacion").value;
+                const tipo = document.getElementById("filterTipo").value.trim();
+                const texto = document.getElementById("filterText").value.trim();
+                const minPrecio = parseFloat(document.getElementById("filterMinPrecio").value);
+                const maxPrecio = parseFloat(document.getElementById("filterMaxPrecio").value);
+                const minMetros = parseFloat(document.getElementById("filterMinMetros").value);
+                const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
+
+                let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+
+                if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
+                if (tipo) query = query.ilike('tipo', `%${tipo}%`);
+                if (!isNaN(minPrecio)) query = query.gte('precio', minPrecio);
+                if (!isNaN(maxPrecio)) query = query.lte('precio', maxPrecio);
+                if (!isNaN(minMetros)) query = query.gte('metros', minMetros);
+                if (!isNaN(minHabitaciones)) query = query.gte('habitaciones', minHabitaciones);
+
+                if (texto) {
+                    if (!isNaN(texto) && Number(texto) > 0) {
+                        query = query.or(`precio.lte.${texto},habitaciones.eq.${texto},codigo_eco.ilike.%${texto}%,telefono_asesor.ilike.%${texto}%`);
+                    } else {
+                        query = query.or(`titulo.ilike.%${texto}%,ubicacion.ilike.%${texto}%,codigo_eco.ilike.%${texto}%,tipo.ilike.%${texto}%,nombre_asesor.ilike.%${texto}%,nombre_agencia.ilike.%${texto}%`);
+                    }
+                }
+
+                query = query.order('vip_activo', { ascending: false }).order('fecha_publicacion', { ascending: false }).range(pageOffset, pageOffset + PAGE_SIZE - 1);
+                const { data, error } = await query;
+                if (error) throw error;
+
+                const nuevosInmuebles = data || [];
+                if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
+                propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
+                renderizarTarjetas(propiedadesCargadas);
+            } catch (err) { 
+                console.error("Error al cargar propiedades:", err); 
+            } finally {
+                document.getElementById("loadingSpinner").classList.add("hidden");
+            }
+        }
+
+        async function cargarMasPropiedades() {
+            if (!hayMasPaginas) return;
+            const btn = document.getElementById("btnLoadMore");
+            btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin mr-2"></i> Cargando...`;
+            pageOffset += PAGE_SIZE;
+            await cargarPropiedades(false);
+            btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles`;
+        }
+
+        function renderizarTarjetas(lista) {
+            const grid = document.getElementById("propsGrid"), noRes = document.getElementById("noResults"), btnLoad = document.getElementById("loadMoreContainer");
+            grid.innerHTML = "";
+            if (lista.length === 0) { grid.classList.add("hidden"); noRes.classList.remove("hidden"); btnLoad.classList.add("hidden"); return; }
+            noRes.classList.add("hidden"); grid.classList.remove("hidden");
+            if (hayMasPaginas) btnLoad.classList.remove("hidden"); else btnLoad.classList.add("hidden");
+
+            lista.forEach(p => {
+                const fotosArr = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
+                const fotosJson = encodeURIComponent(JSON.stringify(fotosArr));
+                const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+                const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+                const tieneVideo = p.enlace_video && p.enlace_video.trim() !== '';
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group relative hover:-translate-y-1">
+                        <div class="h-36 md:h-44 overflow-hidden relative cursor-pointer bg-gray-900" onclick="abrirModal('${p.id}')">
+                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                            <span class="absolute top-2 left-2 bg-econexus/95 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase shadow-sm">${p.operacion}</span>
+                            ${tieneVideo ? `<span class="absolute top-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-play text-[7px]"></i> Video</span>` : ''}
+                            <span class="absolute bottom-2 right-2 bg-black/65 backdrop-blur-sm text-white text-[8px] font-bold px-1.5 py-0.5 rounded">${p.codigo_eco}</span>
+                        </div>
+                        <div class="p-3 flex flex-col flex-grow">
+                            <div class="text-[9px] font-bold text-econexus uppercase mb-0.5 break-words flex items-center gap-1">
+                                <i class="fa-solid fa-location-dot text-econexus-accent"></i> ${p.tipo} • ${p.ubicacion}
+                            </div>
+                            <h3 class="font-extrabold text-gray-900 text-[11px] md:text-xs leading-snug mb-1 cursor-pointer line-clamp-2 group-hover:text-econexus transition" onclick="abrirModal('${p.id}')">${p.titulo}</h3>
+                            <div class="text-[9px] text-gray-500 font-semibold mb-2 truncate"><i class="fa-solid fa-building-user mr-1 text-econexus"></i>${agenciaDisplay}</div>
+                            <div class="grid grid-cols-3 gap-1 mb-2.5 text-center text-[9px] font-bold text-gray-700">
+                                <div class="spec-pill-1 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bed text-econexus"></i> ${p.habitaciones}</div>
+                                <div class="spec-pill-2 py-1 px-1 rounded-lg border"><i class="fa-solid fa-bath text-econexus"></i> ${p.banos}</div>
+                                <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus"></i> ${p.metros}m²</div>
+                            </div>
+                            <div class="text-base md:text-lg font-black text-econexus mb-2 mt-auto">$${Number(p.precio).toLocaleString('en-US')}</div>
+                            <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-[10px] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
+                                Ver Ficha Completa <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function aplicarFiltros() { cargarVips(true); cargarPropiedades(true); }
+        function aplicarFiltrosDebounced() { clearTimeout(debounceTimer); debounceTimer = setTimeout(aplicarFiltros, 400); }
+        
+        function resetFiltros() {
+            document.getElementById("filterOperacion").value = "TODOS";
+            document.getElementById("filterTipo").value = "";
+            document.getElementById("filterText").value = "";
+            document.getElementById("filterMinPrecio").value = "";
+            document.getElementById("filterMaxPrecio").value = "";
+            document.getElementById("filterMinMetros").value = "";
+            document.getElementById("filterHabitaciones").value = "";
+            cargarVips(true); cargarPropiedades(true);
+        }
+
+        // -- LÓGICA DE WHATSAPP Y CAPTACIÓN DE LEADS --
+        function confirmarIrAWhatsApp(numero, mensaje, inmuebleId, codigoEco, agenteId) {
+            // Genera el enlace directo a la ficha para incluirlo en el mensaje
+            const urlInmueble = `https://econexusplatform.com/index.html?codigo=${codigoEco}`;
+            const mensajeFinal = `${mensaje}\n\n🔗 Ver ficha completa: ${urlInmueble}`;
+            
+            waUrlPendiente = `https://wa.me/${numero}?text=${encodeURIComponent(mensajeFinal)}`;
+            leadDataPendiente = { inmuebleId, codigoEco, agenteId };
+            
+            document.getElementById("modalLeadWhatsApp").classList.remove("hidden");
+        }
+
+        function cerrarModalLead() {
+            document.getElementById("modalLeadWhatsApp").classList.add("hidden");
+            waUrlPendiente = '';
+            leadDataPendiente = null;
+        }
+
+        async function enviarLeadYWhatsApp(guardarDatos) {
+            if (guardarDatos && leadDataPendiente) {
+                const nombre = document.getElementById("leadNombre").value.trim();
+                const telefono = document.getElementById("leadTelefono").value.trim();
+                
+                if (nombre && telefono) {
+                    try {
+                        // 1. Verificar si ya existe un lead de este teléfono para este agente
+                        const { data: leadsExistentes } = await dbClient
+                            .from('leads')
+                            .select('id, mensaje')
+                            .eq('agente_id', leadDataPendiente.agenteId)
+                            .eq('telefono_cliente', telefono)
+                            .limit(1);
+
+                        if (leadsExistentes && leadsExistentes.length > 0) {
+                            // Actualizar el lead existente con el nuevo inmueble consultado
+                            const leadId = leadsExistentes[0].id;
+                            const mensajeActualizado = `${leadsExistentes[0].mensaje} | También consultó: ${leadDataPendiente.codigoEco}`;
+                            
+                            await dbClient.from('leads').update({
+                                id_propiedad: leadDataPendiente.inmuebleId,
+                                inmueble_codigo: leadDataPendiente.codigoEco,
+                                mensaje: mensajeActualizado,
+                                fecha: new Date().toISOString() // Actualiza la fecha para evitar que se borre pronto
+                            }).eq('id', leadId);
+                        } else {
+                            // Crear un nuevo lead
+                            await dbClient.from('leads').insert([{
+                                id_propiedad: leadDataPendiente.inmuebleId,
+                                agente_id: leadDataPendiente.agenteId,
+                                inmueble_codigo: leadDataPendiente.codigoEco,
+                                nombre_cliente: nombre,
+                                telefono_cliente: telefono,
+                                mensaje: `Interesado en inmueble ${leadDataPendiente.codigoEco}`
+                            }]);
+                        }
+                    } catch (e) { console.error("Error guardando lead:", e); }
+                }
+            }
+            
+            if (waUrlPendiente) window.open(waUrlPendiente, '_blank');
+            cerrarModalLead();
+        }
+
+        function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
+        function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
+        function cerrarAvisoInstantaneo() { document.getElementById("modalAvisoInstantaneo").classList.add("hidden"); }
+
+        function obtenerCoordenadasExactas(p) {
+            if (p.lat && p.lng) return [parseFloat(p.lat), parseFloat(p.lng)];
+            const textoUbi = (p.ubicacion || "").toLowerCase();
+            for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
+                if (textoUbi.includes(clave)) {
+                    let hash = 0;
+                    for (let i = 0; i < (p.codigo_eco || "").length; i++) hash = p.codigo_eco.charCodeAt(i) + ((hash << 5) - hash);
+                    return [datos.coords[0] + (hash % 10)*0.001, datos.coords[1] + ((hash >> 2)%10)*0.001];
+                }
+            }
+            return COORDS_DEFAULT;
+        }
+
+        function obtenerBondadesSegunUbicacion(ubicacionTexto) {
+            if (!ubicacionTexto) return "Zona residencial consolidada con acceso a comercios y servicios locales.";
+            const texto = ubicacionTexto.toLowerCase();
+            for (const [clave, datos] of Object.entries(REFERENCIAS_GEOGRAFICAS)) {
+                if (texto.includes(clave)) return `${datos.bondades} Conectividad óptima.`;
+            }
+            return `Sector posicionado en ${ubicacionTexto}, ofreciendo acceso a vías y comercios.`;
+        }
+
+        async function abrirModal(id) {
+            let p = propiedadesCargadas.find(item => item.id === id) || vipsCargados.find(item => item.id === id);
+            if (!p) {
+                try {
+                    const { data } = await dbClient.from('v_propiedades_catalogo').select('*').eq('id', id).single();
+                    if (data) p = data;
+                } catch (e) { console.error(e); }
+            }
+            if (p) abrirModalDirecto(p);
+        }
+
+        function abrirModalDirecto(p) {
+            const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
+            const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
+            
+            // Generamos el mensaje que irá al WhatsApp
+            const msjWA = `Hola ${nombreAsesor}, info de ID: ${p.codigo_eco} (${p.titulo}).`;
+            
+            const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
+            fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : [];
+            indiceFotoActiva = 0;
+            
+            currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, ${p.estacionamientos || 0} puestos de estacionamiento y ${p.metros} metros cuadrados. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
+            
+            const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
+            const renderFotoAsesorHTML = fotoAsesor
+                ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-10 h-10 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
+                : `<div class="w-10 h-10 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-lg border border-green-200 flex-shrink-0"><i class="fa-solid fa-user"></i></div>`;
+
+            const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+            const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+            const urlVideoLimpia = (p.enlace_video && p.enlace_video.trim() !== '') ? p.enlace_video.trim() : '';
+            
+            const botonVideoHTML = urlVideoLimpia ? `
+                <a href="${urlVideoLimpia}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer">
+                    <i class="fa-solid fa-circle-play text-sm animate-pulse"></i> Ver Video del Inmueble
+                </a>
+            ` : '';
+
+            const modalContent = document.getElementById("modalContent");
+            modalContent.innerHTML = `
+                <div class="p-4 md:p-7">
+                    <div class="flex flex-wrap items-center gap-2 text-[9px] md:text-[10px] font-bold text-gray-500 uppercase mb-2">
+                        <span class="bg-econexus text-white px-2.5 py-0.5 rounded-full">${p.operacion}</span>
+                        <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${p.tipo}</span>
+                        <span class="bg-gray-100 px-2 py-0.5 rounded border border-gray-200">ID: ${p.codigo_eco}</span>
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
+                    <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${Number(p.precio).toLocaleString('en-US')}</div>
+                    
+                    <div class="mb-4 relative rounded-xl overflow-hidden h-56 md:h-80 bg-gray-900 flex items-center justify-center cursor-zoom-in" id="swipeContainerModal" onclick="abrirLightbox()">
+                        <img id="modalFotoPrincipal" src="${fotosActivasModal[0] || ''}" class="w-full h-full object-cover transition-opacity duration-300" />
+                        <button onclick="event.stopPropagation(); cambiarFotoSwipe(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button onclick="event.stopPropagation(); cambiarFotoSwipe(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                        <div id="modalDotsContainer" class="absolute bottom-2 flex gap-1 bg-black/40 px-2 py-1 rounded-full z-10 pointer-events-none">
+                            ${fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===0?'bg-white':'bg-white/50'}"></span>`).join('')}
+                        </div>
+                        <div class="absolute top-2 right-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom</div>
+                    </div>
+
+                    <div class="mb-4 flex flex-col sm:flex-row gap-2.5">
+                        <button id="btnLecturaVozModal" onclick="toggleLecturaVoz()" class="flex-1 bg-econexus-soft hover:bg-green-100 border border-green-200 text-econexus py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer">
+                            <i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa
+                        </button>
+                        ${botonVideoHTML}
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-2 bg-gray-50 border border-gray-100 p-3 rounded-xl mb-4 text-center text-[10px] md:text-xs text-gray-700">
+                        <div><i class="fa-solid fa-bed text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.habitaciones}</strong>Hab</div>
+                        <div><i class="fa-solid fa-bath text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.banos}</strong>Baños</div>
+                        <div><i class="fa-solid fa-car text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.estacionamientos}</strong>Puestos</div>
+                        <div><i class="fa-solid fa-ruler-combined text-econexus mb-1 block"></i><strong class="block text-sm md:text-base text-gray-900">${p.metros}m²</strong>Área</div>
+                    </div>
+
+                    <div class="mb-5">
+                        <h3 class="font-bold text-gray-900 text-sm mb-2 border-b border-gray-100 pb-1">Descripción Detallada</h3>
+                        <p class="text-gray-600 text-xs md:text-sm whitespace-pre-line leading-relaxed">${p.descripcion}</p>
+                    </div>
+
+                    <div class="mb-5 bg-emerald-50/50 border border-emerald-100 p-4 rounded-xl">
+                        <div class="flex items-center text-econexus font-bold text-xs mb-1.5"><i class="fa-solid fa-location-dot mr-1.5"></i> Ubicación y Bondades</div>
+                        <p class="text-xs text-gray-700 font-medium mb-1">${p.ubicacion}</p>
+                        <p class="text-[10px] text-gray-500">${bondadesSector}</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="font-bold text-gray-900 text-xs mb-2 flex items-center gap-1.5"><i class="fa-solid fa-map text-gray-400"></i> Mapa Referencial</h3>
+                        <div id="mapaModalInmueble" class="h-40 w-full rounded-xl border border-gray-200 bg-gray-100 z-0 relative"></div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 w-full md:w-auto">
+                            ${renderFotoAsesorHTML}
+                            <div>
+                                <span class="text-[10px] text-gray-500 font-bold uppercase block">Asesor Contacto</span>
+                                <span class="font-bold text-gray-900 text-sm block leading-tight">${nombreAsesor}</span>
+                                <span class="text-[10px] text-econexus font-bold block mt-0.5"><i class="fa-solid fa-building-user"></i> ${agenciaDisplay}</span>
+                            </div>
+                        </div>
+                        <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}', '${p.id}', '${p.codigo_eco}', '${p.user_id}')" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById("propModal").classList.remove("hidden");
+            setupSwipeEnFotoModal();
+            
+            setTimeout(() => {
+                if(mapaFichaModal) mapaFichaModal.remove();
+                mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: true }).setView(obtenerCoordenadasExactas(p), 15);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaFichaModal);
+                L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
+            }, 300);
+        }
+
+        function cambiarFotoSwipe(direccion) {
+            if (fotosActivasModal.length <= 1) return;
+            indiceFotoActiva += direccion;
+            if (indiceFotoActiva >= fotosActivasModal.length) indiceFotoActiva = 0;
+            if (indiceFotoActiva < 0) indiceFotoActiva = fotosActivasModal.length - 1;
+            const img = document.getElementById("modalFotoPrincipal");
+            img.style.opacity = '0';
+            setTimeout(() => { img.src = fotosActivasModal[indiceFotoActiva]; img.style.opacity = '1'; }, 150);
+            const dots = document.getElementById("modalDotsContainer");
+            if(dots) dots.innerHTML = fotosActivasModal.map((_, i) => `<span class="w-1.5 h-1.5 rounded-full ${i===indiceFotoActiva?'bg-white':'bg-white/50'}"></span>`).join('');
+        }
+
+        function setupSwipeEnFotoModal() {
+            const container = document.getElementById("swipeContainerModal");
+            if(!container) return;
+            container.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
+            container.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                if(touchEndX < touchStartX - 30) cambiarFotoSwipe(1);
+                if(touchEndX > touchStartX + 30) cambiarFotoSwipe(-1);
+            }, {passive: true});
+        }
+
+        function abrirLightbox() {
+            if (!fotosActivasModal || fotosActivasModal.length === 0) return;
+            lightboxFotos = fotosActivasModal;
+            lightboxIndex = indiceFotoActiva;
+            actualizarVistaLightbox();
+            const modalLb = document.getElementById("modalLightbox");
+            modalLb.classList.remove("hidden");
+            modalLb.classList.add("flex");
+        }
+
+        function cerrarLightbox() {
+            const modalLb = document.getElementById("modalLightbox");
+            modalLb.classList.add("hidden");
+            modalLb.classList.remove("flex");
+        }
+
+        function navegarLightbox(direccion) {
+            if (lightboxFotos.length <= 1) return;
+            lightboxIndex += direccion;
+            if (lightboxIndex >= lightboxFotos.length) lightboxIndex = 0;
+            if (lightboxIndex < 0) lightboxIndex = lightboxFotos.length - 1;
+            actualizarVistaLightbox();
+        }
+
+        function actualizarVistaLightbox() {
+            const imgLb = document.getElementById("lightboxImg");
+            const contadorLb = document.getElementById("contador-lightbox");
+            if (imgLb) imgLb.src = lightboxFotos[lightboxIndex];
+            if (contadorLb) contadorLb.textContent = `${lightboxIndex + 1} / ${lightboxFotos.length}`;
+        }
+
+        function toggleLecturaVoz() {
+            const btn = document.getElementById('btnLecturaVozModal');
+            if (synth.speaking) {
+                synth.cancel();
+                liberarWakeLock();
+                if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); }
+            } else if (currentFichaText) {
+                solicitarWakeLock();
+                const utterance = new SpeechSynthesisUtterance(currentFichaText);
+                utterance.lang = 'es-ES';
+                utterance.onend = () => {
+                    liberarWakeLock();
+                    if(btn) { btn.innerHTML = '<i class="fa-solid fa-volume-high text-sm"></i> Escuchar Ficha Completa'; btn.classList.replace('bg-green-100', 'bg-econexus-soft'); btn.classList.replace('text-green-800', 'text-econexus'); }
+                };
+                synth.speak(utterance);
+                if(btn) { btn.innerHTML = '<i class="fa-solid fa-circle-stop text-sm"></i> Detener Lectura'; btn.classList.replace('bg-econexus-soft', 'bg-green-100'); btn.classList.replace('text-econexus', 'text-green-800'); }
+            }
+        }
+
+        function cerrarModal() {
+            if (synth.speaking) { synth.cancel(); liberarWakeLock(); }
+            document.getElementById("propModal").classList.add("hidden");
+        }
+
+        // -- MAPA GLOBAL Y LEYENDA DE ZONAS --
+        async function abrirModalMapaGlobal() {
+            document.getElementById("mapaGlobalModal").classList.remove("hidden");
+            limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
+            actualizarEstadoPanelLeyendaMovil();
+            
+            setTimeout(async () => {
+                if (!mapaGlobal) {
+                    mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: true }).setView(COORDS_DEFAULT, 7);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaGlobal);
+                    capaMarcadoresCluster = L.markerClusterGroup({ chunkedLoading: true, maxClusterRadius: 40, spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
+                    mapaGlobal.addLayer(capaMarcadoresCluster);
+                }
+                mapaGlobal.invalidateSize();
+                await cargarInmueblesYGenerarMapa();
+            }, 300);
+        }
+
+        function cerrarModalMapaGlobal() { document.getElementById("mapaGlobalModal").classList.add("hidden"); }
+        function togglePanelLeyendaMovil() { leyendaAbiertaMovil = !leyendaAbiertaMovil; actualizarEstadoPanelLeyendaMovil(); }
+
+        function actualizarEstadoPanelLeyendaMovil() {
+            const panel = document.getElementById("panelLeyendaContenedor"), txtBtn = document.getElementById("txtBtnToggleLeyenda"), icono = document.getElementById("iconoToggleLeyenda");
+            if (leyendaAbiertaMovil) {
+                panel.classList.remove("translate-y-full"); panel.classList.add("translate-y-0");
+                txtBtn.textContent = "Cerrar Zonas"; icono.className = "fa-solid fa-xmark";
+            } else {
+                panel.classList.add("translate-y-full"); panel.classList.remove("translate-y-0");
+                txtBtn.textContent = "Zonas"; icono.className = "fa-solid fa-list";
+                if (mapaGlobal) mapaGlobal.invalidateSize();
+            }
+        }
+
+        async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
+            if (!capaMarcadoresCluster) return;
+            capaMarcadoresCluster.clearLayers();
+            
+            // La vista ya filtra por fecha de expiración, así que solo traemos los disponibles
+            const { data: listaPropiedades } = await dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+            if (!listaPropiedades) return;
+            
+            listaGlobalInmueblesMapa = listaPropiedades;
+            let filtradas = listaPropiedades;
+            
+            if (filtroQuery.trim() !== "") {
+                const queryLimpia = filtroQuery.toLowerCase().trim();
+                filtradas = listaPropiedades.filter(p => {
+                    const ubi = (p.ubicacion || '').toLowerCase(); const tit = (p.titulo || '').toLowerCase(); const cod = (p.codigo_eco || '').toLowerCase();
+                    return ubi.includes(queryLimpia) || tit.includes(queryLimpia) || cod.includes(queryLimpia);
+                });
+            }
+
+            document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} ubicaciones`;
+            let bounds = [];
+            
+            filtradas.forEach(p => {
+                const coords = obtenerCoordenadasExactas(p); bounds.push(coords);
+                const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
+                const marker = L.marker(coords).bindPopup(popupHTML);
+                capaMarcadoresCluster.addLayer(marker);
+            });
+
+            if (bounds.length > 0 && filtroQuery.trim() !== "") mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
+            else if (bounds.length > 0) mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
+            
+            generarLeyendaZonas(filtradas);
+        }
+
+        function generarLeyendaZonas(lista) {
+            const panel = document.getElementById("panelDetalleZona");
+            const conteoZonas = {};
+            lista.forEach(p => { const zona = p.ubicacion ? p.ubicacion.trim() : "Sin especificar"; conteoZonas[zona] = (conteoZonas[zona] || 0) + 1; });
+            const zonasArray = Object.entries(conteoZonas).sort((a, b) => b[1] - a[1]);
+            const totalZonas = zonasArray.length;
+
+            if (totalZonas === 0) {
+                panel.innerHTML = `<div class="text-center py-8 text-gray-400"><i class="fa-solid fa-map text-3xl mb-2"></i><p class="text-xs font-semibold">No se encontraron zonas.</p></div>`; return;
+            }
+
+            const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
+            let html = `<div class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-2"><span class="text-[10px] uppercase font-bold text-gray-600 block">Zonas Detectadas</span><p class="text-[10px] text-gray-500">Total sectores: <strong>${totalZonas}</strong></p></div><div class="space-y-1.5 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">`;
+            
+            zonasVisibles.forEach(([zona, cantidad]) => {
+                html += `<div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2 bg-white border border-green-200 hover:border-econexus rounded-lg cursor-pointer transition flex justify-between items-center shadow-sm group"><span class="text-[10px] font-semibold text-gray-700 group-hover:text-econexus line-clamp-1"><i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i>${zona}</span><span class="bg-econexus-soft text-econexus border border-green-200 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">${cantidad}</span></div>`;
+            });
+            
+            html += `</div>`;
+            if (limiteZonasMostradas < totalZonas) html += `<button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-bold py-2 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus"></i> Cargar 10 más</button>`;
+            panel.innerHTML = html;
+        }
+
+        function cargarMasZonasLeyenda() { limiteZonasMostradas += 10; generarLeyendaZonas(listaGlobalInmueblesMapa); }
+
+        function filtrarZonaDesdeLeyenda(nombreZona) {
+            document.getElementById("inputBuscarZonaMapa").value = nombreZona;
+            if (window.innerWidth < 768) { leyendaAbiertaMovil = false; actualizarEstadoPanelLeyendaMovil(); }
+            cargarInmueblesYGenerarMapa(nombreZona);
+        }
+
+        function buscarZonaEnMapa(query) { 
+            clearTimeout(debounceTimer); 
+            debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); 
+        }
+    </script>
+
+    <!-- MÓDULO EXTERNO DEL ASISTENTE VIRTUAL POR VOZ AVANZADO -->
+    <script src="js/asistente-voz.js"></script>
 </body>
 </html>
