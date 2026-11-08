@@ -105,12 +105,6 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://econexusplatform.com/inmueble/eco-368259.html</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
     <loc>https://econexusplatform.com/inmueble/eco-498513.html</loc>
     <lastmod>2026-10-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -269,6 +263,12 @@
   <url>
     <loc>https://econexusplatform.com/inmueble/eco-425399.html</loc>
     <lastmod>2026-11-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://econexusplatform.com/inmueble/eco-368259.html</loc>
+    <lastmod>2026-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

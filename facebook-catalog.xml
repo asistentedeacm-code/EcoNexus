@@ -295,27 +295,6 @@
     </address>
   </listing>
   <listing>
-    <home_listing_id>ECO-368259</home_listing_id>
-    <name>Vendo hermoso apartamento listo para habitar con planta 100% en Monte alto </name>
-    <description>Faith Real Estate 🔑✨🔑 Captación exclusiva   Venta de apartamento en Monte Alto de Mañongo con planta 100% con una vista hermosa 63 mts2  Vive en una zona privilegiada y segura de Valencia. Este apar</description>
-    <url>https://econexusplatform.com/inmueble/eco-368259.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976445547_0.jpg</url>
-    </image>
-    <price>84000 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>63</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Monte Alto Mañongo Naguanagua Valencia </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-498513</home_listing_id>
     <name>Vendo Apartamento Res. Alessandria. Mañongo</name>
     <description>𝗩𝗘𝗡𝗗𝗢 𝗔𝗽𝗮𝗿𝘁𝗮𝗺𝗲𝗻𝘁𝗼 Res. Alessandria. Jardin Mañongo. Naguanagua, Edo Carabobo.  𝗠𝗲𝘁𝗿𝗮𝗷𝗲: 81.36M² Construcción Piso Bajo   𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲: 3Habitaciones. 2Baños. Cocina. Sala.</description>
@@ -422,20 +401,20 @@
   </listing>
   <listing>
     <home_listing_id>ECO-570178</home_listing_id>
-    <name>Hermosa casa de Arquitectura Asiática y Americana </name>
+    <name>Hermosa casa de Arquitectura Asiática y Americana</name>
     <description>🏡 Faith Real Estate ✨🔑        Captación   ✨Hermosa Casa de 2 plantas con amplio terreno ubicada en Barrera         Un diseño exclusivo arquitectónico donde cada detalle de la casa tiene un concepto </description>
     <url>https://econexusplatform.com/inmueble/eco-570178.html</url>
     <image>
       <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615840226_0.jpg</url>
     </image>
-    <price>370000 USD</price>
+    <price>368000 USD</price>
     <property_type>house</property_type>
     <num_beds>3</num_beds>
     <num_baths>3</num_baths>
     <area_size>6500</area_size>
     <area_unit>SQ_M</area_unit>
     <address format="simple">
-      <component name="addr1">Barrera campo de Carabobo tocuyito el libertador </component>
+      <component name="addr1">Barrera campo de Carabobo tocuyito el libertador</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
@@ -877,6 +856,27 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Estado Falcon</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-368259</home_listing_id>
+    <name>Vendo hermoso apartamento listo para habitar con planta 100% en Monte alto</name>
+    <description>Faith Real Estate 🔑✨🔑 Captación exclusiva   Venta de apartamento en Monte Alto de Mañongo con planta 100% con una vista hermosa 63 mts2  Vive en una zona privilegiada y segura de Valencia. Este apar</description>
+    <url>https://econexusplatform.com/inmueble/eco-368259.html</url>
+    <image>
+      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976445547_0.jpg</url>
+    </image>
+    <price>84 USD</price>
+    <property_type>apartment</property_type>
+    <num_beds>2</num_beds>
+    <num_baths>2</num_baths>
+    <area_size>63</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Monte Alto Mañongo Naguanagua Valencia</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
