@@ -14,30 +14,21 @@
   .bg-brand { background-color: var(--brand-color) !important; color: var(--brand-text) !important; }
   .text-brand { color: var(--brand-color) !important; }
   .border-brand { border-color: var(--brand-color) !important; }
-  
   @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
-  
-  .typewriter-cursor::after {
-    content: '|';
-    animation: blink 1s step-end infinite;
-    color: #64748b;
-    font-weight: bold;
-  }
+  .typewriter-cursor::after { content: '|'; animation: blink 1s step-end infinite; color: #64748b; font-weight: bold; }
   @keyframes blink { 50% { opacity: 0; } }
-
-  /* Scrollbar estilizado para modales */
-  .custom-scroll::-webkit-scrollbar { width: 6px; }
+  .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
   .custom-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
   .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
   .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .line-clamp-1 { display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden; }
+  .vista-panel { animation: fadeIn 0.25s ease-out; }
 </style>
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased min-h-screen flex flex-col relative">
 
-<!-- ========================================== -->
-<!-- MODAL DE BIENVENIDA (FLOTANTE CACHÉ)       -->
-<!-- ========================================== -->
+<!-- ========== MODAL BIENVENIDA (CACHÉ) ========== -->
 <div id="modalBienvenida" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[200] hidden items-center justify-center p-4">
   <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden animate-fadeIn flex flex-col max-h-[90vh]">
     <div class="bg-brand p-4 flex justify-between items-center text-white shrink-0">
@@ -49,17 +40,14 @@
     </div>
     <div class="p-6 overflow-y-auto custom-scroll space-y-4 text-sm text-gray-600">
       <p>Hola, estamos felices de tenerte aquí. SAAI es tu centro de mando para gestionar las propiedades de tu agencia.</p>
-      
       <div class="bg-blue-50 border border-blue-100 p-3 rounded-xl">
         <h4 class="font-bold text-blue-900 mb-1"><i class="fa-solid fa-globe mr-1"></i> ¿Cómo funciona la Sincronización?</h4>
         <p class="text-xs text-blue-800">Cuando publicas un inmueble aquí, decides si quieres <strong>sincronizarlo con EcoNexus</strong> (la vitrina pública). Así, tus clientes podrán verlo en la web, pero tú lo controlas todo desde SAAI.</p>
       </div>
-
       <div class="bg-emerald-50 border border-emerald-100 p-3 rounded-xl">
         <h4 class="font-bold text-emerald-900 mb-1"><i class="fa-solid fa-cloud-arrow-up mr-1"></i> Conectado vs. Desconectado</h4>
         <p class="text-xs text-emerald-800">En tu inventario verás un botón verde si el inmueble está en EcoNexus. Si deseas ocultarlo temporalmente de la web sin borrarlo de tu sistema, usa el botón de <strong>Desincronizar</strong>.</p>
       </div>
-
       <div class="bg-red-50 border border-red-100 p-3 rounded-xl">
         <h4 class="font-bold text-red-900 mb-1"><i class="fa-solid fa-trash-can mr-1"></i> Borrado Seguro</h4>
         <p class="text-xs text-red-800">Si borras un inmueble desde aquí, se borrará de SAAI y de EcoNexus, junto con sus fotos, para que no queden archivos huérfanos.</p>
@@ -75,9 +63,7 @@
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- HEADER MARCA BLANCA                        -->
-<!-- ========================================== -->
+<!-- ========== HEADER MARCA BLANCA ========== -->
 <header class="bg-brand py-3 px-4 sm:px-6 shadow-md hidden" id="header-saai">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
     <div class="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
@@ -86,32 +72,26 @@
     </div>
     <div class="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center sm:justify-end border-t border-white/10 sm:border-0 pt-3 sm:pt-0">
       <span id="badge-rol" class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold border border-white/30 tracking-wide">Rol</span>
-      <button onclick="abrirModalEconexus()" id="btn-econexus-header" class="text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm hidden sm:block">Conectar EcoNexus</button>
+      <button onclick="abrirModalEconexus()" id="btn-econexus-header" class="text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm">Conectar EcoNexus</button>
       <button onclick="logout()" class="text-xs font-bold bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm">Salir</button>
     </div>
   </div>
 </header>
 
-<!-- ========================================== -->
-<!-- SECCIÓN AUTENTICACIÓN / REGISTRO           -->
-<!-- ========================================== -->
+<!-- ========== SECCIÓN AUTENTICACIÓN ========== -->
 <div class="max-w-7xl mx-auto w-full p-3 sm:p-4 flex-1 mt-2 sm:mt-6">
   <div id="auth-section" class="bg-white p-6 sm:p-8 rounded-2xl shadow-xl max-w-md mx-auto border-t-4 border-brand transition-all">
     <div class="text-center mb-6">
       <h2 class="text-3xl font-black text-slate-900 tracking-tight">SAAI</h2>
-      <!-- EFECTO MÁQUINA DE ESCRIBIR AQUI -->
       <p id="auth-subtitle" class="text-sm text-gray-500 h-5 mt-1 font-medium typewriter-cursor"></p>
     </div>
-
     <div class="flex gap-1 sm:gap-2 mb-6 bg-gray-100 p-1 rounded-xl">
       <button onclick="setModoAuth('login')" id="tab-login" class="flex-1 py-2 text-xs sm:text-sm font-bold bg-white shadow rounded-lg transition">Entrar</button>
       <button onclick="setModoAuth('registro_asesor')" id="tab-asesor" class="flex-1 py-2 text-xs sm:text-sm font-bold text-gray-500 rounded-lg transition">Unirme</button>
       <button onclick="setModoAuth('registro_broker')" id="tab-broker" class="flex-1 py-2 text-xs sm:text-sm font-bold text-gray-500 rounded-lg transition">Crear Agencia</button>
     </div>
-
     <form id="auth-form" onsubmit="procesarAuth(event)" class="space-y-4">
-      
-      <!-- CAMPO EXCLUSIVO PARA ASESORES: CÓDIGO DE AGENCIA (BLOQUEA EL RESTO) -->
+      <!-- CÓDIGO AGENCIA (solo asesor) -->
       <div id="campo-codigo-agencia" class="hidden p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-2">
         <label class="text-xs font-bold text-blue-900 uppercase">Paso 1: Código de la Agencia</label>
         <div class="flex gap-2">
@@ -125,7 +105,6 @@
         <div id="campo-nombre" class="hidden">
           <input type="text" id="nombre" placeholder="Nombre Completo" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-brand transition">
         </div>
-
         <div id="campo-datos-agencia" class="hidden space-y-3 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
           <p class="text-xs font-bold text-emerald-800 uppercase">Configuración de Nueva Agencia</p>
           <input type="text" id="nombre-agencia" placeholder="Nombre Comercial (Ej: Inmoinnova)" class="w-full bg-white border rounded-xl px-3 py-2 text-sm outline-none focus:border-brand transition">
@@ -134,41 +113,56 @@
             <input type="color" id="color-agencia" value="#1e293b" class="w-12 h-8 rounded-lg cursor-pointer border-0 bg-transparent">
           </div>
         </div>
-
         <input type="email" id="email" required placeholder="Correo Electrónico" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-brand transition">
         <input type="password" id="password" required placeholder="Contraseña" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-brand transition">
-        
         <button type="submit" id="btn-auth" class="w-full bg-brand text-white font-bold py-3 rounded-xl shadow transition text-sm">Iniciar Sesión</button>
       </div>
     </form>
   </div>
 
-  <!-- ========================================== -->
-  <!-- PANEL DASHBOARD (INVENTARIO Y GESTIÓN)     -->
-  <!-- ========================================== -->
+  <!-- ========== DASHBOARD ========== -->
   <div id="dashboard-section" class="hidden">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-      <div class="flex gap-2">
-        <button onclick="cambiarVista('vista-mis-inmuebles')" id="menu-btn-inv" class="bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm whitespace-nowrap rounded-t-lg transition">Mi Inventario</button>
-        <button onclick="cambiarVista('vista-admin-broker')" id="menu-btn-broker" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg transition hidden">Administración Broker</button>
-      </div>
-      <button onclick="abrirModalCarga()" class="bg-brand text-white font-bold px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 text-sm transition hover:opacity-90 w-full sm:w-auto justify-center">
-        <i class="fa-solid fa-plus"></i> Nuevo Inmueble
-      </button>
+    <!-- MENÚ TABS -->
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-6 border-b border-gray-200 scrollbar-none">
+      <button onclick="cambiarVista('vista-mis-inmuebles')" id="menu-btn-inv" class="bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm whitespace-nowrap rounded-t-lg transition">Mi Inventario</button>
+      <button onclick="cambiarVista('vista-catalogo-agencia')" id="menu-btn-cat" class="bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg transition">Catálogo de la Agencia</button>
+      <button onclick="cambiarVista('vista-admin-broker')" id="menu-btn-broker" class="hidden bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg transition">Administración Broker</button>
     </div>
 
-    <!-- Buscador Interno -->
-    <div class="mb-6 relative">
-      <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
-      <input type="text" id="buscador-inventario" oninput="filtrarInventario()" placeholder="Buscar por código, tipo, ciudad, o detalles..." class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm outline-none focus:border-brand shadow-sm transition">
-    </div>
-
-    <!-- VISTA: MIS INMUEBLES -->
+    <!-- ===== VISTA: MI INVENTARIO ===== -->
     <div id="vista-mis-inmuebles" class="vista-panel">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-brand">Mi Inventario</h2>
+        <button onclick="abrirModalCarga()" class="bg-brand text-white font-bold px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 text-sm transition hover:opacity-90 w-full sm:w-auto justify-center">
+          <i class="fa-solid fa-plus"></i> Nuevo Inmueble
+        </button>
+      </div>
+      <div class="mb-4 relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+        <input type="text" id="buscador-inventario" oninput="filtrarInventario()" placeholder="Buscar por tipo, ciudad o detalles..." class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm outline-none focus:border-brand shadow-sm transition">
+      </div>
       <div id="grid-mis-inmuebles" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">Cargando...</div>
     </div>
 
-    <!-- VISTA: ADMIN BROKER -->
+    <!-- ===== VISTA: CATÁLOGO AGENCIA ===== -->
+    <div id="vista-catalogo-agencia" class="vista-panel hidden">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-brand">Catálogo Privado de la Agencia</h2>
+          <p class="text-sm text-gray-500 font-medium mt-1">Total inmuebles: <span id="contador-catalogo" class="font-bold text-brand">0</span></p>
+        </div>
+      </div>
+      <div class="mb-4 relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+        <input type="text" id="buscador-catalogo" oninput="filtrarCatalogo()" placeholder="Buscar por zona, tipo o detalles..." class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-sm outline-none focus:border-brand shadow-sm transition">
+      </div>
+      <div id="grid-catalogo-agencia" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">Cargando...</div>
+      <div id="contenedor-paginacion" class="mt-8 flex justify-center hidden">
+        <button onclick="cargarMasCatalogo()" class="bg-white border-2 border-brand text-brand hover:bg-brand hover:text-white font-bold px-8 py-3 rounded-xl text-sm transition shadow-sm">Ver más inmuebles ⬇️</button>
+      </div>
+    </div>
+
+    <!-- ===== VISTA: ADMIN BROKER ===== -->
     <div id="vista-admin-broker" class="vista-panel hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
@@ -199,11 +193,7 @@
   </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODALES DEL DASHBOARD                      -->
-<!-- ========================================== -->
-
-<!-- MODAL DE CARGA DE INMUEBLE -->
+<!-- ========== MODAL CARGA / EDICIÓN ========== -->
 <div id="modal-carga" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
   <div class="bg-white rounded-2xl w-full max-w-2xl p-5 sm:p-6 shadow-2xl my-auto animate-fadeIn">
     <h3 class="font-bold text-xl mb-4 border-b pb-2 text-brand">Subir Propiedad</h3>
@@ -232,7 +222,7 @@
   </div>
 </div>
 
-<!-- MODAL VISOR DE DETALLE Y FOTOS DEL INMUEBLE -->
+<!-- ========== MODAL VISOR DETALLE + CARRUSEL ========== -->
 <div id="modal-detalle-inmueble" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm z-[100] hidden items-center justify-center p-2 sm:p-4">
   <div class="bg-white rounded-2xl w-full max-w-4xl shadow-2xl overflow-hidden animate-fadeIn flex flex-col max-h-[95vh]">
     <div class="bg-gray-100 p-3 flex justify-between items-center border-b border-gray-200 shrink-0">
@@ -241,38 +231,33 @@
       </h3>
       <button onclick="cerrarDetalleInmueble()" class="text-gray-400 hover:text-red-500 w-8 h-8 flex items-center justify-center rounded-full bg-white shadow-sm transition"><i class="fa-solid fa-xmark text-lg"></i></button>
     </div>
-    
-    <div class="flex flex-col md:flex-row overflow-y-auto custom-scroll">
-      <!-- Carrusel / Galería -->
-      <div class="md:w-3/5 bg-black flex items-center justify-center relative min-h-[250px] md:min-h-[400px]">
-        <img id="detalle-foto-principal" src="" class="max-w-full max-h-[50vh] object-contain">
-        <button onclick="cambiarFotoDetalle(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full hover:bg-black transition"><i class="fa-solid fa-chevron-left"></i></button>
-        <button onclick="cambiarFotoDetalle(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white w-8 h-8 rounded-full hover:bg-black transition"><i class="fa-solid fa-chevron-right"></i></button>
-        <div class="absolute bottom-2 bg-black/60 text-white text-xs px-2 py-1 rounded" id="detalle-contador-fotos">1 / 1</div>
+    <div class="flex flex-col md:flex-row overflow-hidden">
+      <!-- Galería (fix vertical overflow) -->
+      <div class="md:w-3/5 bg-black relative overflow-hidden flex items-center justify-center shrink-0" style="height: 40vh; min-height: 220px; max-height: 60vh;">
+        <img id="detalle-foto-principal" src="" alt="" class="block object-contain rounded" style="max-width: 100%; max-height: 100%; padding: 8px;">
+        <button onclick="cambiarFotoDetalle(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full hover:bg-black transition flex items-center justify-center"><i class="fa-solid fa-chevron-left"></i></button>
+        <button onclick="cambiarFotoDetalle(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 text-white w-9 h-9 rounded-full hover:bg-black transition flex items-center justify-center"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="absolute bottom-2 bg-black/70 text-white text-xs px-2 py-1 rounded" id="detalle-contador-fotos">1 / 1</div>
       </div>
-      
-      <!-- Información y Ficha Técnica -->
-      <div class="md:w-2/5 p-5 flex flex-col justify-between">
+      <!-- Info -->
+      <div class="md:w-2/5 p-5 flex flex-col justify-between overflow-y-auto custom-scroll" style="max-height: 60vh;">
         <div>
           <span id="detalle-operacion" class="text-[10px] font-bold text-white bg-brand px-2.5 py-1 rounded-full uppercase tracking-wider mb-2 inline-block">Operación</span>
           <h4 id="detalle-tipo" class="font-bold text-gray-900 text-lg sm:text-xl leading-tight"></h4>
           <p id="detalle-ciudad" class="text-sm text-gray-500 mb-3"><i class="fa-solid fa-location-dot text-brand"></i> Zona</p>
           <p id="detalle-precio" class="font-black text-green-600 text-2xl mb-4"></p>
-          
           <div class="bg-gray-50 rounded-xl p-3 border border-gray-100 text-xs text-gray-700 mb-4">
             <h5 class="font-bold text-gray-900 mb-1">Descripción</h5>
             <p id="detalle-desc" class="whitespace-pre-line leading-relaxed"></p>
           </div>
         </div>
-        
-        <!-- Miniaturas -->
         <div id="detalle-miniaturas" class="flex gap-2 overflow-x-auto pb-2 custom-scroll"></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODAL VINCULAR ECONEXUS -->
+<!-- ========== MODAL VINCULAR ECONEXUS ========== -->
 <div id="modal-econexus" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
   <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 border-blue-600 animate-fadeIn">
     <h3 class="font-bold text-lg mb-2 text-slate-900">Vincular con EcoNexus</h3>
@@ -286,7 +271,7 @@
   </div>
 </div>
 
-<!-- MODAL ÉXITO REGISTRO BROKER (CÓDIGO DE AGENCIA) -->
+<!-- ========== MODAL ÉXITO BROKER ========== -->
 <div id="modal-exito-broker" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[150] hidden items-center justify-center p-4">
   <div class="bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl border-t-4 border-green-500 animate-fadeIn text-center">
     <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
@@ -294,14 +279,11 @@
     </div>
     <h3 class="font-bold text-xl text-gray-900 mb-2">¡Agencia Registrada!</h3>
     <p class="text-sm text-gray-600 mb-4">Tu agencia ha sido creada. Comparte este código único con tus asesores para que puedan unirse a tu equipo:</p>
-    
     <div class="bg-gray-100 border border-gray-300 rounded-xl p-4 mb-6 relative group cursor-pointer" onclick="copiarCodigoAgencia(this)">
       <span id="txt-nuevo-codigo-agencia" class="font-mono text-2xl font-black text-blue-600 tracking-widest">INMO-0000</span>
       <span class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-blue-500 transition"><i class="fa-solid fa-copy text-lg"></i></span>
     </div>
-
     <p class="text-xs text-gray-500 mb-6">Para activar tu inventario y empezar a publicar en la vitrina pública, por favor envía tu solicitud de aprobación a nuestro equipo por WhatsApp.</p>
-
     <a id="btn-wa-broker" href="#" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2 mb-3">
       <i class="fa-brands fa-whatsapp text-lg"></i> Solicitar Aprobación vía WhatsApp
     </a>
@@ -309,17 +291,14 @@
   </div>
 </div>
 
-<!-- Cierre de Divs -->
-</body>
-</html>
-<script>
+<!-- CONTINÚA EN PARTE 2 (JavaScript) -->
+  <script>
 /* =========================================================
-CONSTANTES Y ESTADO GLOBAL
+   CONSTANTES Y ESTADO GLOBAL
 ========================================================= */
 const SUPABASE_URL = 'https://wbwzphdeqzxljxlbjlch.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_kAM2U6ifD2m1R9xYQOE-_w_kU5DzFLE';
 const SAAI_API_URL = 'https://econexus-saai-ap.vercel.app/api';
-
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let modoAuthActual = 'login';
@@ -327,18 +306,26 @@ let usuarioActual = null;
 let datosMiembro = null;
 let datosAgencia = null;
 
-// Variables globales para el inventario y búsqueda
+// Mi Inventario (propiedades propias)
 let inventarioGlobal = [];
 let inventarioFiltrado = [];
+
+// Catálogo (todas las propiedades de la agencia)
+let catalogoGlobal = [];
+let catalogoFiltrado = [];
+let paginaActualCatalogo = 1;
+const ITEMS_POR_PAGINA = 12;
+
+// Verificación de código agencia
 let agenciaVerificadaId = null;
 let agenciaVerificadaNombre = null;
 
-// Variables para el visor de fotos
+// Visor de detalle
 let inmuebleDetalleActual = null;
 let indiceFotoDetalle = 0;
 
 /* =========================================================
-1. EFECTO MÁQUINA DE ESCRIBIR (LOGIN)
+   1. EFECTO MÁQUINA DE ESCRIBIR (LOGIN)
 ========================================================= */
 const frasesLogin = [
   "Sistema administrativo para agencias",
@@ -347,35 +334,17 @@ const frasesLogin = [
   "Sistema de última generación",
   "Somos tu mano derecha..."
 ];
-let fraseIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
+let fraseIndex = 0, charIndex = 0, isDeleting = false;
 
 function animarTextoLogin() {
   const el = document.getElementById('auth-subtitle');
   if (!el) return;
-
-  const currentPhrase = frasesLogin[fraseIndex];
-  
-  if (isDeleting) {
-    el.textContent = currentPhrase.substring(0, charIndex - 1);
-    charIndex--;
-  } else {
-    el.textContent = currentPhrase.substring(0, charIndex + 1);
-    charIndex++;
-  }
-
+  const frase = frasesLogin[fraseIndex];
+  if (isDeleting) { el.textContent = frase.substring(0, charIndex - 1); charIndex--; }
+  else { el.textContent = frase.substring(0, charIndex + 1); charIndex++; }
   let speed = isDeleting ? 30 : 70;
-
-  if (!isDeleting && charIndex === currentPhrase.length) {
-    speed = 2000; // Pausa al completar
-    isDeleting = true;
-  } else if (isDeleting && charIndex === 0) {
-    isDeleting = false;
-    fraseIndex = (fraseIndex + 1) % frasesLogin.length;
-    speed = 500;
-  }
-
+  if (!isDeleting && charIndex === frase.length) { speed = 2000; isDeleting = true; }
+  else if (isDeleting && charIndex === 0) { isDeleting = false; fraseIndex = (fraseIndex + 1) % frasesLogin.length; speed = 500; }
   setTimeout(animarTextoLogin, speed);
 }
 
@@ -385,57 +354,45 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =========================================================
-2. MODAL DE BIENVENIDA (CACHÉ)
+   2. MODAL BIENVENIDA (CACHÉ)
 ========================================================= */
 function verificarBienvenida() {
-  const ocultar = localStorage.getItem('saai_ocultar_bienvenida');
-  if (ocultar !== 'true') {
-    // Se muestra después de un pequeño delay para que cargue la pantalla
-    setTimeout(() => {
-      document.getElementById('modalBienvenida').classList.replace('hidden', 'flex');
-    }, 1500);
+  if (localStorage.getItem('saai_ocultar_bienvenida') !== 'true') {
+    setTimeout(() => document.getElementById('modalBienvenida').classList.replace('hidden', 'flex'), 1500);
   }
 }
-
 function cerrarBienvenida() {
   const check = document.getElementById('checkNoMostrar');
-  if (check && check.checked) {
-    localStorage.setItem('saai_ocultar_bienvenida', 'true');
-  }
+  if (check && check.checked) localStorage.setItem('saai_ocultar_bienvenida', 'true');
   document.getElementById('modalBienvenida').classList.replace('flex', 'hidden');
 }
 
 /* =========================================================
-3. LÓGICA DE AUTENTICACIÓN Y REGISTRO
+   3. AUTENTICACIÓN Y REGISTRO
 ========================================================= */
 function setModoAuth(modo) {
   modoAuthActual = modo;
-  
-  // Resetear UI de verificación de código al cambiar de pestaña
   agenciaVerificadaId = null;
   agenciaVerificadaNombre = null;
   document.getElementById('codigo-union').value = '';
   document.getElementById('codigo-union').readOnly = false;
   document.getElementById('msg-verificacion-codigo').classList.add('hidden');
   document.getElementById('btn-verificar-codigo').classList.remove('hidden');
-  
-  // Lógica de bloqueo: Solo se bloquea si es registro_asesor
+
   if (modo === 'registro_asesor') {
     document.getElementById('campos-bloqueados-asesor').classList.add('opacity-40', 'pointer-events-none');
   } else {
     document.getElementById('campos-bloqueados-asesor').classList.remove('opacity-40', 'pointer-events-none');
   }
-  
-  // Mostrar/Ocultar campos según el modo
+
   document.getElementById('campo-nombre').classList.toggle('hidden', modo === 'login');
   document.getElementById('campo-codigo-agencia').classList.toggle('hidden', modo !== 'registro_asesor');
   document.getElementById('campo-datos-agencia').classList.toggle('hidden', modo !== 'registro_broker');
-  
-  // Estilos de las pestañas
+
   document.getElementById('tab-login').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'login' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
   document.getElementById('tab-asesor').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_asesor' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
   document.getElementById('tab-broker').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_broker' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
-  
+
   document.getElementById('btn-auth').innerText = modo === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
 }
 
@@ -443,19 +400,16 @@ async function verificarCodigoAgencia() {
   const codigo = document.getElementById('codigo-union').value.trim().toUpperCase();
   const msg = document.getElementById('msg-verificacion-codigo');
   const btn = document.getElementById('btn-verificar-codigo');
-  
+
   if (!codigo) {
     msg.textContent = "Ingresa un código válido.";
     msg.className = "text-[10px] text-red-600 font-semibold block mt-1";
     return;
   }
-  
-  btn.disabled = true;
-  btn.textContent = "...";
-  
+
+  btn.disabled = true; btn.textContent = "...";
   try {
     const { data, error } = await supabaseClient.from('saai_agencias').select('id, nombre_comercial').eq('codigo_acceso', codigo).single();
-    
     if (error || !data) {
       msg.textContent = "Código de agencia no encontrado. Verifica con tu Broker.";
       msg.className = "text-[10px] text-red-600 font-semibold block mt-1";
@@ -467,8 +421,6 @@ async function verificarCodigoAgencia() {
       document.getElementById('campos-bloqueados-asesor').classList.remove('opacity-40', 'pointer-events-none');
       agenciaVerificadaId = data.id;
       agenciaVerificadaNombre = data.nombre_comercial;
-      
-      // Bloquear el input de código para que no lo cambie
       document.getElementById('codigo-union').readOnly = true;
       btn.classList.add('hidden');
     }
@@ -477,8 +429,7 @@ async function verificarCodigoAgencia() {
     msg.textContent = "Error de conexión. Intenta de nuevo.";
     msg.className = "text-[10px] text-red-600 font-semibold block mt-1";
   } finally {
-    btn.disabled = false;
-    btn.textContent = "Verificar";
+    btn.disabled = false; btn.textContent = "Verificar";
   }
 }
 
@@ -486,92 +437,59 @@ async function procesarAuth(e) {
   e.preventDefault();
   const btn = document.getElementById('btn-auth');
   btn.disabled = true; btn.innerText = "Procesando...";
-  
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value;
-  
+
   try {
     if (modoAuthActual === 'login') {
       const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      
     } else {
-      // REGISTRO
       const nombre = document.getElementById('nombre').value.trim();
-      
       if (modoAuthActual === 'registro_asesor' && !agenciaVerificadaId) {
         throw new Error("Debes verificar tu Código de Agencia antes de registrarte.");
       }
-      
       const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
       if (authError) throw authError;
       if (!authData.user) throw new Error("No se pudo obtener el ID del usuario registrado.");
-      
       const userId = authData.user.id;
-      
       if (!authData.session) {
         const { error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password });
         if (loginError) throw loginError;
       }
-      
-      // SOLUCIÓN ANTI-FALLOS: Si falla aquí, el usuario ya existe en Auth.
-      // Al intentar loguearse en iniciarSAAI(), detectaremos si no tiene perfil y lo crearemos.
-      
+
       if (modoAuthActual === 'registro_broker') {
         const nombreAgencia = document.getElementById('nombre-agencia').value.trim();
         const colorAgencia = document.getElementById('color-agencia').value;
-        
-        const codigoAleatorio = nombreAgencia.substring(0,4).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
-        
+        const codigoAleatorio = nombreAgencia.substring(0, 4).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
+
         const { data: agencia, error: errAgencia } = await supabaseClient.from('saai_agencias').insert([{
-          nombre_comercial: nombreAgencia,
-          codigo_acceso: codigoAleatorio,
-          color_primario: colorAgencia,
-          broker_id: userId,
-          estatus: 'Pendiente'
+          nombre_comercial: nombreAgencia, codigo_acceso: codigoAleatorio,
+          color_primario: colorAgencia, broker_id: userId, estatus: 'Pendiente'
         }]).select().single();
-        
         if (errAgencia) throw errAgencia;
-        
+
         const { error: errMiembro } = await supabaseClient.from('saai_miembros').insert([{
-          id: userId,
-          agencia_id: agencia.id,
-          rol: 'Broker',
-          nombre: nombre,
-          estatus: 'Aprobado'
+          id: userId, agencia_id: agencia.id, rol: 'Broker', nombre: nombre, estatus: 'Aprobado'
         }]);
-        
         if (errMiembro) throw errMiembro;
-        
-        // Mostrar Modal de Éxito para Broker
+
         document.getElementById('txt-nuevo-codigo-agencia').textContent = codigoAleatorio;
-        
         const msjWA = encodeURIComponent(`Hola equipo EcoNexus, acabo de registrar mi agencia "${nombreAgencia}" en SAAI. Mi correo es ${email}. Por favor, aprueben mi cuenta y la de mi agencia para empezar a publicar inventario. Mi código es ${codigoAleatorio}.`);
         document.getElementById('btn-wa-broker').href = `https://wa.me/584244466115?text=${msjWA}`;
-        
         document.getElementById('modal-exito-broker').classList.replace('hidden', 'flex');
         btn.innerText = 'Registro Exitoso';
-        return; // Evitamos que siga a iniciarSAAI de una vez
-        
+        return;
       } else {
-        // REGISTRO ASESOR (Ya sabemos que la agencia existe por la verificación)
         const { error: errAsesor } = await supabaseClient.from('saai_miembros').insert([{
-          id: userId,
-          agencia_id: agenciaVerificadaId,
-          rol: 'Asesor',
-          nombre: nombre,
-          estatus: 'Pendiente'
+          id: userId, agencia_id: agenciaVerificadaId, rol: 'Asesor', nombre: nombre, estatus: 'Pendiente'
         }]);
-        
         if (errAsesor) throw errAsesor;
-        // Si el asesor se registra, pasamos al login normal
       }
     }
-    
     iniciarSAAI();
-    
   } catch (err) {
-    alert("Error de Autenticación: " + err.message);
+    mostrarAlerta("Error de Autenticación", err.message, "error");
     btn.disabled = false;
     btn.innerText = modoAuthActual === 'login' ? 'Iniciar Sesión' : 'Completar Registro';
   }
@@ -580,13 +498,13 @@ async function procesarAuth(e) {
 function copiarCodigoAgencia(el) {
   const codigo = document.getElementById('txt-nuevo-codigo-agencia').textContent;
   navigator.clipboard.writeText(codigo);
-  const originalHtml = el.innerHTML;
+  const original = el.innerHTML;
   el.innerHTML = '<span class="text-green-600 font-bold text-lg"><i class="fa-solid fa-check"></i> ¡Copiado!</span>';
-  setTimeout(() => { el.innerHTML = originalHtml; }, 2000);
+  setTimeout(() => { el.innerHTML = original; }, 2000);
 }
 
 /* =========================================================
-4. CONEXIÓN CON ECONEXUS Y CARGA INICIAL
+   4. CONEXIÓN CON ECONEXUS
 ========================================================= */
 function abrirModalEconexus() {
   document.getElementById('modal-econexus').classList.replace('hidden', 'flex');
@@ -596,67 +514,56 @@ async function vincularCuentaEconexus() {
   const email = document.getElementById('ec-email').value.trim();
   const password = document.getElementById('ec-password').value;
   const btn = document.getElementById('btn-link-econexus');
-  
-  if(!email || !password) return alert('Ingresa correo y contraseña de EcoNexus.');
-  
+  if (!email || !password) return mostrarAlerta('Aviso', 'Ingresa correo y contraseña de EcoNexus.', 'info');
   btn.disabled = true; btn.innerText = 'Validando...';
-  
+
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
-    
     const res = await fetch(`${SAAI_API_URL}/econexus-link`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
       body: JSON.stringify({ email, password })
     });
-    
     const data = await res.json();
-    if(!res.ok) throw new Error(data.error);
-    
-    alert('¡Vinculado! Tu cuenta de SAAI está conectada con EcoNexus.');
+    if (!res.ok) throw new Error(data.error);
+
+    mostrarAlerta('¡Vinculado!', 'Tu cuenta de SAAI está conectada con EcoNexus.', 'success');
     document.getElementById('modal-econexus').classList.replace('flex', 'hidden');
-    
-    document.getElementById('btn-econexus-header').innerText = 'Econexus: Conectado ✅';
-    document.getElementById('btn-econexus-header').className = 'text-xs font-bold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm hidden sm:block';
-    
+    document.getElementById('btn-econexus-header').innerText = 'EcoNexus: Conectado ✅';
+    document.getElementById('btn-econexus-header').className = 'text-xs font-bold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm';
     setTimeout(() => location.reload(), 1500);
-    
   } catch (err) {
-    alert('Error: ' + err.message);
+    mostrarAlerta('Error', err.message, 'error');
   } finally {
     btn.disabled = false; btn.innerText = 'Vincular';
   }
 }
 
+/* =========================================================
+   5. INICIALIZACIÓN SAAI (LOGIN EXITOSO)
+========================================================= */
 async function iniciarSAAI(intentos = 0) {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) return;
-  
   usuarioActual = session.user;
-  
-  // SOLUCIÓN ANTI-FALLOS: Si el registro falló a medias, aquí reparamos.
+
   let { data: miembro, error } = await supabaseClient
-    .from('saai_miembros')
-    .select('*, saai_agencias(*)')
-    .eq('id', usuarioActual.id)
-    .single();
-    
+    .from('saai_miembros').select('*, saai_agencias(*)').eq('id', usuarioActual.id).single();
+
   if ((error || !miembro) && intentos < 3) {
     await new Promise(r => setTimeout(r, 450));
     return iniciarSAAI(intentos + 1);
   }
-  
   if (error || !miembro) {
-    // Si de verdad no tiene perfil, mostramos alerta y cerramos sesión
-    alert("Perfil no encontrado en la base de datos. Contacta a soporte o intenta registrarte de nuevo.");
+    mostrarAlerta("Atención", "Perfil no encontrado en la base de datos. Contacta a soporte o intenta registrarte de nuevo.", "error");
     await supabaseClient.auth.signOut();
     return;
   }
-  
+
   datosMiembro = miembro;
   datosAgencia = miembro.saai_agencias;
-  
-  // Verificaciones de Estatus
+
+  // Agencia aprobada
   if (!datosAgencia || !datosAgencia.estatus || datosAgencia.estatus.toLowerCase() !== 'aprobado') {
     document.getElementById('auth-section').innerHTML = `
       <div class="text-center p-4 sm:p-6">
@@ -665,9 +572,12 @@ async function iniciarSAAI(intentos = 0) {
         <button onclick="logout()" class="mt-4 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow transition">Salir</button>
       </div>`;
     document.getElementById('auth-section').classList.remove('hidden');
+    document.getElementById('header-saai').classList.add('hidden');
+    document.getElementById('dashboard-section').classList.add('hidden');
     return;
   }
-  
+
+  // Miembro aprobado
   if (!miembro.estatus || miembro.estatus.toLowerCase() !== 'aprobado') {
     document.getElementById('auth-section').innerHTML = `
       <div class="text-center p-4 sm:p-6">
@@ -676,91 +586,96 @@ async function iniciarSAAI(intentos = 0) {
         <button onclick="logout()" class="mt-4 bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow transition">Salir</button>
       </div>`;
     document.getElementById('auth-section').classList.remove('hidden');
+    document.getElementById('header-saai').classList.add('hidden');
+    document.getElementById('dashboard-section').classList.add('hidden');
     return;
   }
-  
-  // --- CONFIGURACIÓN MARCA BLANCA ---
+
+  // Marca Blanca
   document.documentElement.style.setProperty('--brand-color', datosAgencia.color_primario || '#1e293b');
   document.getElementById('nombre-agencia-header').innerText = datosAgencia.nombre_comercial;
-  
-  if(datosAgencia.logo_url) {
+  if (datosAgencia.logo_url) {
     const logoEl = document.getElementById('logo-agencia');
     logoEl.src = datosAgencia.logo_url;
     logoEl.classList.remove('hidden');
   }
-  
   document.getElementById('badge-rol').innerText = miembro.rol.toUpperCase();
   document.getElementById('auth-section').classList.add('hidden');
   document.getElementById('header-saai').classList.remove('hidden');
   document.getElementById('dashboard-section').classList.remove('hidden');
-  
-  // Configurar botón de EcoNexus
+
+  // Botón EcoNexus header
   const btnEc = document.getElementById('btn-econexus-header');
   if (datosMiembro.econexus_user_id) {
-    btnEc.innerText = 'Econexus: Conectado ✅';
-    btnEc.className = 'text-xs font-bold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm hidden sm:block';
+    btnEc.innerText = 'EcoNexus: Conectado ✅';
+    btnEc.className = 'text-xs font-bold bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm';
   } else {
     btnEc.innerText = 'Conectar EcoNexus';
-    btnEc.className = 'text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm hidden sm:block';
+    btnEc.className = 'text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg transition shadow-sm';
   }
-  
+
+  // ===== TAB BROKER: SOLO SI rol === 'Broker' (BLINDAJE ESTRICTO) =====
+  const menuBroker = document.getElementById('menu-btn-broker');
   if (miembro.rol === 'Broker') {
-    document.getElementById('menu-btn-broker').classList.remove('hidden');
-    cargarAgentes(); // Función que irá en la Entrega 4
+    menuBroker.classList.remove('hidden');
+  } else {
+    menuBroker.classList.add('hidden');
   }
-  
-  // Configurar menú inicial
+
+  // Vista inicial
   cambiarVista('vista-mis-inmuebles');
-  
-  // Verificar si hay borrados pendientes desde EcoNexus
-  if (typeof verificarBorradosEnEconexus === 'function') {
-    verificarBorradosEnEconexus();
-  }
+
+  // Reconciliar borrados desde EcoNexus
+  verificarBorradosEnEconexus();
 }
 
 async function logout() {
   await supabaseClient.auth.signOut();
   location.reload();
 }
-</script>
-<script>
+
 /* =========================================================
-5. LÓGICA DEL INVENTARIO (CRUD, FILTROS Y SINCRONIZACIÓN)
+   6. GESTIÓN DE VISTAS (DASHBOARD)
 ========================================================= */
 function cambiarVista(idVista) {
+  // Blindaje: solo el Broker entra a Admin
+  if (idVista === 'vista-admin-broker' && (!datosMiembro || datosMiembro.rol !== 'Broker')) {
+    mostrarAlerta('Acceso denegado', 'Solo el Broker de la agencia puede acceder a este panel.', 'error');
+    return;
+  }
+
   document.querySelectorAll('.vista-panel').forEach(v => v.classList.add('hidden'));
   document.getElementById(idVista).classList.remove('hidden');
-  
-  // Estilos del menú
-  document.getElementById('menu-btn-inv').className = idVista === 'vista-mis-inmuebles' 
-    ? "bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm whitespace-nowrap rounded-t-lg transition" 
-    : "bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg transition";
-    
-  if (idVista === 'vista-admin-broker') {
-    document.getElementById('menu-btn-broker').className = "bg-white border-b-4 border-brand px-4 py-2 font-bold text-sm text-brand shadow-sm whitespace-nowrap rounded-t-lg transition";
-  } else {
-    document.getElementById('menu-btn-broker').className = "bg-white border-b-4 border-transparent hover:border-gray-300 px-4 py-2 font-bold text-sm text-gray-500 whitespace-nowrap rounded-t-lg transition";
+
+  const tabBase = "bg-white border-b-4 px-4 py-2 font-bold text-sm whitespace-nowrap rounded-t-lg transition";
+  const tabActive = `${tabBase} border-brand text-brand shadow-sm`;
+  const tabInactive = `${tabBase} border-transparent hover:border-gray-300 text-gray-500`;
+
+  document.getElementById('menu-btn-inv').className = idVista === 'vista-mis-inmuebles' ? tabActive : tabInactive;
+  document.getElementById('menu-btn-cat').className = idVista === 'vista-catalogo-agencia' ? tabActive : tabInactive;
+  if (datosMiembro && datosMiembro.rol === 'Broker') {
+    document.getElementById('menu-btn-broker').className = idVista === 'vista-admin-broker' ? tabActive : tabInactive;
   }
 
   if (idVista === 'vista-mis-inmuebles') cargarMisInmuebles();
+  if (idVista === 'vista-catalogo-agencia') cargarCatalogoAgencia();
+  if (idVista === 'vista-admin-broker') cargarAgentes();
 }
 
+/* =========================================================
+   7. MI INVENTARIO (SOLO PROPIAS)
+========================================================= */
 async function cargarMisInmuebles() {
   const contenedor = document.getElementById('grid-mis-inmuebles');
   contenedor.innerHTML = '<div class="col-span-full text-center py-10"><i class="fa-solid fa-circle-notch fa-spin text-2xl text-brand"></i></div>';
-  
   try {
     const { data, error } = await supabaseClient
-      .from('saai_inventario')
-      .select('*')
+      .from('saai_inventario').select('*')
       .eq('agente_id', usuarioActual.id)
       .order('fecha_publicacion', { ascending: false });
-      
     if (error) throw error;
-    
     inventarioGlobal = data || [];
-    filtrarInventario(); // Aplica el filtro del buscador si hay texto
-    
+    filtrarInventario();
   } catch (error) {
     console.error(error);
     contenedor.innerHTML = '<p class="text-red-500 text-center col-span-full">Error al cargar el inventario.</p>';
@@ -768,106 +683,209 @@ async function cargarMisInmuebles() {
 }
 
 function filtrarInventario() {
-  const query = document.getElementById('buscador-inventario').value.toLowerCase();
-  
-  inventarioFiltrado = inventarioGlobal.filter(inm => 
+  const query = (document.getElementById('buscador-inventario').value || '').toLowerCase();
+  inventarioFiltrado = inventarioGlobal.filter(inm =>
     (inm.tipo && inm.tipo.toLowerCase().includes(query)) ||
     (inm.ciudad && inm.ciudad.toLowerCase().includes(query)) ||
     (inm.operacion && inm.operacion.toLowerCase().includes(query)) ||
     (inm.detalles && inm.detalles.toLowerCase().includes(query)) ||
     (inm.precio && inm.precio.toString().includes(query))
   );
-  
   renderizarTarjetasInventario();
 }
 
 function renderizarTarjetasInventario() {
   const contenedor = document.getElementById('grid-mis-inmuebles');
-  
   if (!inventarioFiltrado || inventarioFiltrado.length === 0) {
-    contenedor.innerHTML = `<p class="text-gray-500 text-sm italic col-span-full text-center py-10 bg-white rounded-xl border border-gray-200">No se encontraron inmuebles que coincidan con tu búsqueda.</p>`;
+    contenedor.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-10 bg-white rounded-xl border border-gray-200">No se encontraron inmuebles que coincidan con tu búsqueda.</p>';
     return;
   }
-  
+
+  const tieneCuentaEc = !!datosMiembro.econexus_user_id;
+
   contenedor.innerHTML = inventarioFiltrado.map(inm => {
-    const foto = (inm.fotos_urls && inm.fotos_urls.length > 0) ? inm.fotos_urls[0] : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
-    
-    // Validar si está sincronizado (buscando en la data el flag)
+    const foto = (inm.fotos_urls && inm.fotos_urls.length > 0)
+      ? inm.fotos_urls[0]
+      : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+
+    // === FIX CRÍTICO: check estricto del flag ===
     const estaSincronizado = inm.econexus_sync_enabled === true;
-    
-    // Botones de sincronización condicionales
-    let botonesSincronizacion = '';
+
+    let syncBlock = '';
+
     if (estaSincronizado) {
-      botonesSincronizacion = `
+      syncBlock = `
         <div class="col-span-2 text-[10px] text-green-700 font-bold bg-green-50 py-1.5 rounded-lg border border-green-200 mb-1 flex items-center justify-center gap-1">
           <i class="fa-solid fa-globe text-green-500"></i> Publicado en EcoNexus
         </div>
-        <button onclick="desincronizarInmueble('${inm.id}')" class="bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-amber-200">
+        <button onclick="desincronizarInmueble('${inm.id}', this)" class="bg-amber-100 hover:bg-amber-200 text-amber-800 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-amber-200">
           <i class="fa-solid fa-link-slash"></i> Ocultar de la Web
         </button>
-        <button onclick="eliminarInmueble('${inm.id}')" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-red-100">
+        <button onclick="eliminarInmueble('${inm.id}', this)" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-red-100">
           <i class="fa-solid fa-trash-can"></i> Borrar de Todo
-        </button>
-      `;
-    } else {
-      botonesSincronizacion = `
+        </button>`;
+    } else if (tieneCuentaEc) {
+      syncBlock = `
         <div class="col-span-2 text-[10px] text-gray-500 font-bold bg-gray-100 py-1.5 rounded-lg border border-gray-200 mb-1 flex items-center justify-center gap-1">
           <i class="fa-solid fa-eye-slash text-gray-400"></i> No visible en la web
         </div>
-        <button onclick="ejecutarSyncManual('${inm.id}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-blue-100">
+        <button onclick="ejecutarSyncManual('${inm.id}', this)" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-blue-100">
           <i class="fa-solid fa-globe"></i> Publicar en EcoNexus
         </button>
-        <button onclick="eliminarInmueble('${inm.id}')" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-red-100">
-          <i class="fa-solid fa-trash-can"></i> Borrar Todo
+        <button onclick="eliminarInmueble('${inm.id}', this)" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-red-100">
+          <i class="fa-solid fa-trash-can"></i> Borrar de SAAI
+        </button>`;
+    } else {
+      syncBlock = `
+        <div class="col-span-2 text-[10px] text-gray-500 font-bold bg-gray-100 py-1.5 rounded-lg border border-gray-200 mb-1 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-link text-gray-400"></i> Vincula tu cuenta para publicar
+        </div>
+        <button onclick="abrirModalEconexus()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-blue-100">
+          <i class="fa-solid fa-plug"></i> Vincular EcoNexus
         </button>
-      `;
+        <button onclick="eliminarInmueble('${inm.id}', this)" class="bg-red-50 hover:bg-red-100 text-red-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1 border border-red-100">
+          <i class="fa-solid fa-trash-can"></i> Borrar de SAAI
+        </button>`;
     }
 
     return `
       <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition hover:shadow-lg group">
         <div class="relative h-44 overflow-hidden cursor-pointer" onclick="abrirDetalleInmueble('${inm.id}')">
-          <img src="${foto}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+          <img src="${foto}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="">
           <div class="absolute top-2 left-2 bg-brand text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">${inm.operacion}</div>
           <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
             <span class="text-white text-xs font-bold bg-black/60 px-3 py-1.5 rounded-lg backdrop-blur-sm"><i class="fa-solid fa-expand mr-1"></i> Ver Fotos</span>
           </div>
         </div>
-        
         <div class="p-4 flex-1 flex flex-col justify-between">
           <div class="cursor-pointer" onclick="abrirDetalleInmueble('${inm.id}')">
             <h4 class="font-bold text-gray-900 text-sm line-clamp-1">${inm.tipo} en ${inm.ciudad}</h4>
             <p class="font-black text-green-600 mt-1 mb-2">$${Number(inm.precio).toLocaleString('en-US')}</p>
           </div>
-          
           <div class="grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-gray-100">
-            ${botonesSincronizacion}
+            ${syncBlock}
             <button onclick="editarInmueble('${inm.id}')" class="col-span-2 bg-gray-50 hover:bg-gray-200 text-gray-700 font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-1">
               <i class="fa-solid fa-pen-to-square"></i> Editar Detalles
             </button>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 
 /* =========================================================
-6. VISOR DE DETALLES Y FOTOS
+   8. CATÁLOGO DE LA AGENCIA (TODAS LAS PROPIEDADES)
 ========================================================= */
-function abrirDetalleInmueble(id) {
-  const inm = inventarioGlobal.find(i => i.id === id);
+async function cargarCatalogoAgencia() {
+  const contenedor = document.getElementById('grid-catalogo-agencia');
+  contenedor.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">Cargando catálogo...</p>';
+  try {
+    const { data, error } = await supabaseClient
+      .from('saai_inventario')
+      .select('*, saai_miembros(nombre, telefono)')
+      .order('fecha_publicacion', { ascending: false });
+    if (error) throw error;
+    catalogoGlobal = data || [];
+    filtrarCatalogo();
+  } catch (error) {
+    console.error(error);
+    contenedor.innerHTML = '<p class="text-red-500 text-sm text-center col-span-full">Error al cargar el catálogo.</p>';
+  }
+}
+
+function filtrarCatalogo() {
+  const query = (document.getElementById('buscador-catalogo').value || '').toLowerCase();
+  catalogoFiltrado = catalogoGlobal.filter(inm =>
+    (inm.tipo && inm.tipo.toLowerCase().includes(query)) ||
+    (inm.ciudad && inm.ciudad.toLowerCase().includes(query)) ||
+    (inm.operacion && inm.operacion.toLowerCase().includes(query)) ||
+    (inm.detalles && inm.detalles.toLowerCase().includes(query)) ||
+    (inm.precio && inm.precio.toString().includes(query))
+  );
+  document.getElementById('contador-catalogo').innerText = catalogoFiltrado.length;
+  paginaActualCatalogo = 1;
+  renderizarPaginacionCatalogo();
+}
+
+function renderizarPaginacionCatalogo() {
+  const items = catalogoFiltrado.slice(0, paginaActualCatalogo * ITEMS_POR_PAGINA);
+  pintarGridCatalogo(items);
+  const botonMas = document.getElementById('contenedor-paginacion');
+  if (catalogoFiltrado.length > items.length) botonMas.classList.remove('hidden');
+  else botonMas.classList.add('hidden');
+}
+
+function cargarMasCatalogo() {
+  paginaActualCatalogo++;
+  renderizarPaginacionCatalogo();
+}
+
+function calcularAntiguedad(fechaPublicacion) {
+  if (!fechaPublicacion) return { mensaje: '', colorBadge: 'bg-blue-100 text-blue-700' };
+  const dias = Math.floor(Math.abs(new Date() - new Date(fechaPublicacion)) / (1000 * 60 * 60 * 24));
+  let mensaje = '', colorBadge = 'bg-blue-100 text-blue-700';
+  if (dias === 0) mensaje = "Nuevo hoy";
+  else if (dias === 1) mensaje = "1 día en mercado";
+  else mensaje = `${dias} días en mercado`;
+  if (dias >= 7 && dias < 14) colorBadge = "bg-amber-100 text-amber-700";
+  else if (dias >= 14 && dias < 21) colorBadge = "bg-orange-100 text-orange-700";
+  else if (dias >= 21) colorBadge = "bg-red-100 text-red-700";
+  return { mensaje, colorBadge };
+}
+
+function pintarGridCatalogo(inmuebles) {
+  const container = document.getElementById('grid-catalogo-agencia');
+  if (!inmuebles || inmuebles.length === 0) {
+    container.innerHTML = '<p class="text-gray-500 text-sm italic col-span-full text-center py-6">No se encontraron resultados.</p>';
+    return;
+  }
+  container.innerHTML = inmuebles.map(inm => {
+    const antig = calcularAntiguedad(inm.fecha_publicacion);
+    const foto = (inm.fotos_urls && inm.fotos_urls.length > 0)
+      ? inm.fotos_urls[0]
+      : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+    const captador = inm.saai_miembros ? inm.saai_miembros.nombre : 'Agente';
+    return `
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition hover:shadow-md">
+        <div class="relative h-44 overflow-hidden cursor-pointer" onclick="abrirDetalleInmueble('${inm.id}', true)">
+          <img src="${foto}" class="w-full h-full object-cover" alt="">
+          <div class="absolute top-2 left-2 bg-brand text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase">${inm.operacion}</div>
+          <div class="absolute top-2 right-2 text-[10px] font-bold px-2 py-1 rounded-full ${antig.colorBadge}">${antig.mensaje}</div>
+        </div>
+        <div class="p-4 flex-1 flex flex-col justify-between">
+          <div class="cursor-pointer" onclick="abrirDetalleInmueble('${inm.id}', true)">
+            <h4 class="font-bold text-base text-slate-900 line-clamp-1">${inm.tipo} en ${inm.ciudad}</h4>
+            <p class="font-bold text-green-600 text-base">$${Number(inm.precio).toLocaleString('en-US')}</p>
+            <p class="text-xs text-gray-500 mt-2 font-medium">Captador: ${captador}</p>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-4 border-t pt-3">
+            <button onclick="copiarFicha('${inm.id}')" class="bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-clipboard"></i> Copiar Ficha
+            </button>
+            <button onclick="descargarLoteFotos('${inm.id}')" class="bg-brand text-white py-2 rounded-lg text-xs font-bold transition flex items-center justify-center gap-1">
+              <i class="fa-solid fa-download"></i> Bajar Fotos
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* =========================================================
+   9. VISOR DE DETALLE (FIX vertical overflow)
+========================================================= */
+function abrirDetalleInmueble(id, esCatalogo = false) {
+  const fuente = esCatalogo ? catalogoGlobal : inventarioGlobal;
+  const inm = fuente.find(i => i.id === id) || inventarioGlobal.find(i => i.id === id) || catalogoGlobal.find(i => i.id === id);
   if (!inm) return;
-  
   inmuebleDetalleActual = inm;
   indiceFotoDetalle = 0;
-  
   document.getElementById('detalle-titulo-viewer').textContent = `${inm.tipo} en ${inm.ciudad}`;
   document.getElementById('detalle-operacion').textContent = inm.operacion;
   document.getElementById('detalle-tipo').textContent = inm.tipo;
   document.getElementById('detalle-ciudad').innerHTML = `<i class="fa-solid fa-location-dot text-brand"></i> ${inm.ciudad}`;
   document.getElementById('detalle-precio').textContent = `$${Number(inm.precio).toLocaleString('en-US')}`;
   document.getElementById('detalle-desc').textContent = inm.detalles || 'Sin descripción.';
-  
   actualizarCarruselDetalle();
   document.getElementById('modal-detalle-inmueble').classList.replace('hidden', 'flex');
 }
@@ -878,20 +896,19 @@ function cerrarDetalleInmueble() {
 }
 
 function actualizarCarruselDetalle() {
+  const imgPrincipal = document.getElementById('detalle-foto-principal');
   if (!inmuebleDetalleActual || !inmuebleDetalleActual.fotos_urls || inmuebleDetalleActual.fotos_urls.length === 0) {
-    document.getElementById('detalle-foto-principal').src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+    imgPrincipal.src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
     document.getElementById('detalle-contador-fotos').textContent = '0 / 0';
     document.getElementById('detalle-miniaturas').innerHTML = '';
     return;
   }
-  
   const fotos = inmuebleDetalleActual.fotos_urls;
-  document.getElementById('detalle-foto-principal').src = fotos[indiceFotoDetalle];
+  imgPrincipal.src = fotos[indiceFotoDetalle];
   document.getElementById('detalle-contador-fotos').textContent = `${indiceFotoDetalle + 1} / ${fotos.length}`;
-  
   document.getElementById('detalle-miniaturas').innerHTML = fotos.map((url, idx) => `
-    <img src="${url}" onclick="indiceFotoDetalle = ${idx}; actualizarCarruselDetalle();" 
-      class="w-12 h-12 object-cover rounded-lg cursor-pointer border-2 transition ${idx === indiceFotoDetalle ? 'border-brand scale-110' : 'border-transparent opacity-60 hover:opacity-100'}">
+    <img src="${url}" onclick="indiceFotoDetalle = ${idx}; actualizarCarruselDetalle();"
+      class="w-12 h-12 object-cover rounded-lg cursor-pointer border-2 transition ${idx === indiceFotoDetalle ? 'border-brand scale-110' : 'border-transparent opacity-60 hover:opacity-100'}" alt="">
   `).join('');
 }
 
@@ -899,115 +916,17 @@ function cambiarFotoDetalle(dir) {
   if (!inmuebleDetalleActual || !inmuebleDetalleActual.fotos_urls) return;
   const total = inmuebleDetalleActual.fotos_urls.length;
   if (total <= 1) return;
-  
   indiceFotoDetalle += dir;
   if (indiceFotoDetalle < 0) indiceFotoDetalle = total - 1;
   if (indiceFotoDetalle >= total) indiceFotoDetalle = 0;
-  
   actualizarCarruselDetalle();
 }
 
 /* =========================================================
-7. SINCRONIZACIÓN Y BORRADO (API VERCEL)
+   10. RECONCILIACIÓN (borrados desde EcoNexus)
 ========================================================= */
-async function sincronizarInmuebleAPI(inmueble_id, accion = 'sync') {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  const res = await fetch(`${SAAI_API_URL}/econexus-sync`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-    body: JSON.stringify({ accion, inmueble_id })
-  });
-  return await res.json();
-}
-
-async function ejecutarSyncManual(id) {
-  if (!datosMiembro.econexus_user_id) {
-    return alert("Primero debes vincular tu cuenta de EcoNexus usando el botón azul en la parte superior.");
-  }
-  
-  const btn = event.target.closest('button');
-  const htmlOriginal = btn.innerHTML;
-  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Publicando...';
-  btn.disabled = true;
-  
-  try {
-    const res = await sincronizarInmuebleAPI(id, 'sync');
-    if(res.success) {
-      alert('¡Sincronizado! El inmueble ya es visible en EcoNexus.');
-      cargarMisInmuebles();
-    } else {
-      alert('Error: ' + (res.error || 'No se pudo sincronizar.'));
-      btn.innerHTML = htmlOriginal;
-      btn.disabled = false;
-    }
-  } catch(e) {
-    alert('Error de red al intentar conectar con EcoNexus.');
-    btn.innerHTML = htmlOriginal;
-    btn.disabled = false;
-  }
-}
-
-async function desincronizarInmueble(id) {
-  if (!confirm("¿Ocultar este inmueble de la web de EcoNexus? No se borrará de SAAI, solo dejará de ser público.")) return;
-  
-  const btn = event.target.closest('button');
-  const htmlOriginal = btn.innerHTML;
-  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-  
-  try {
-    const res = await sincronizarInmuebleAPI(id, 'unlink');
-    if(res.success) {
-      cargarMisInmuebles();
-    } else {
-      alert('Error: ' + (res.error || 'No se pudo desincronizar.'));
-      btn.innerHTML = htmlOriginal;
-    }
-  } catch(e) {
-    alert('Error de red.');
-    btn.innerHTML = htmlOriginal;
-  }
-}
-
-function eliminarInmueble(id) {
-  if (!confirm("¿Estás seguro de borrar este inmueble permanentemente? Se eliminará de SAAI y de EcoNexus, junto con todas sus fotos. Esta acción no se puede deshacer.")) return;
-
-  const btn = event.target.closest('button');
-  const htmlOriginal = btn.innerHTML;
-  btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-  btn.disabled = true;
-
-  supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
-    try {
-      const { data: inmueble } = await supabaseClient.from('saai_inventario').select('fotos_urls').eq('id', id).single();
-      
-      // Si está vinculado a EcoNexus, le decimos a la API que lo borre allá también
-      if (datosMiembro.econexus_user_id) {
-        await sincronizarInmuebleAPI(id, 'delete').catch(e => console.warn('No estaba en EcoNexus o ya fue borrado.'));
-      }
-
-      // Borrar fotos en R2 (Vercel API)
-      if (inmueble && inmueble.fotos_urls && inmueble.fotos_urls.length > 0) {
-        await fetch(`${SAAI_API_URL}/delete`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
-          body: JSON.stringify({ urls: inmueble.fotos_urls })
-        });
-      }
-
-      // Borrar fila en SAAI
-      await supabaseClient.from('saai_inventario').delete().eq('id', id);
-      
-      cargarMisInmuebles();
-    } catch (err) {
-      alert("Error al eliminar: " + err.message);
-      btn.innerHTML = htmlOriginal;
-      btn.disabled = false;
-    }
-  });
-}
-
 async function verificarBorradosEnEconexus() {
-  if(!datosMiembro || !datosMiembro.econexus_user_id) return;
+  if (!datosMiembro || !datosMiembro.econexus_user_id) return;
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
     const res = await fetch(`${SAAI_API_URL}/econexus-reconcile`, {
@@ -1015,15 +934,149 @@ async function verificarBorradosEnEconexus() {
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` }
     });
     const data = await res.json();
-    if(data.success && data.deleted_count > 0) {
+    if (data.success && data.deleted_count > 0) {
       console.log(`Se eliminaron ${data.deleted_count} inmuebles borrados desde EcoNexus.`);
-      cargarMisInmuebles();
+      const vistaActiva = document.querySelector('.vista-panel:not(.hidden)');
+      if (vistaActiva && vistaActiva.id === 'vista-mis-inmuebles') cargarMisInmuebles();
+      if (vistaActiva && vistaActiva.id === 'vista-catalogo-agencia') cargarCatalogoAgencia();
     }
-  } catch (e) { console.error('Error reconciliando:', e); }
+  } catch (e) {
+    console.error('Error reconciliando:', e);
+  }
+}
+</script>
+<script>
+/* =========================================================
+   11. HELPER: LLAMADA A LA API DE SINCRONIZACIÓN
+========================================================= */
+async function sincronizarInmuebleAPI(inmueble_id, accion = 'sync') {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) throw new Error('Sesión expirada. Vuelve a iniciar sesión.');
+  const res = await fetch(`${SAAI_API_URL}/econexus-sync`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+    body: JSON.stringify({ accion, inmueble_id })
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Error en la sincronización.');
+  return data;
 }
 
 /* =========================================================
-8. SUBIDA Y EDICIÓN DE INMUEBLES
+   12. PUBLICAR EN ECONEXUS (sync manual)
+========================================================= */
+async function ejecutarSyncManual(id, btnEl) {
+  if (!datosMiembro || !datosMiembro.econexus_user_id) {
+    return mostrarAlerta('Aviso', 'Primero debes vincular tu cuenta de EcoNexus usando el botón azul en la parte superior.', 'info');
+  }
+  const btn = btnEl || null;
+  const htmlOriginal = btn ? btn.innerHTML : '';
+  if (btn) { btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Publicando...'; btn.disabled = true; }
+
+  try {
+    const res = await sincronizarInmuebleAPI(id, 'sync');
+    if (res.success) {
+      mostrarAlerta('¡Publicado!', 'El inmueble ya es visible en EcoNexus y en los portales.', 'success');
+      // Actualización optimista local del flag (feedback inmediato)
+      const inm = inventarioGlobal.find(i => i.id === id);
+      if (inm) inm.econexus_sync_enabled = true;
+      cargarMisInmuebles();
+    } else {
+      throw new Error(res.error || 'No se pudo sincronizar.');
+    }
+  } catch (e) {
+    mostrarAlerta('Error', e.message || 'Error de red al conectar con EcoNexus.', 'error');
+    if (btn) { btn.innerHTML = htmlOriginal; btn.disabled = false; }
+  }
+}
+
+/* =========================================================
+   13. OCULTAR DE LA WEB (unlink - solo EcoNexus)
+========================================================= */
+function desincronizarInmueble(id, btnEl) {
+  mostrarConfirmacion(
+    'Ocultar de la Web',
+    '¿Deseas ocultar este inmueble de la vitrina pública de EcoNexus? No se borrará de SAAI ni perderás sus fotos.',
+    async () => {
+      const btn = btnEl || null;
+      const htmlOriginal = btn ? btn.innerHTML : '';
+      if (btn) { btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true; }
+      try {
+        const res = await sincronizarInmuebleAPI(id, 'unlink');
+        if (!res.success) throw new Error(res.error || 'No se pudo desincronizar.');
+        const inm = inventarioGlobal.find(i => i.id === id);
+        if (inm) inm.econexus_sync_enabled = false;
+        mostrarAlerta('Ocultado', 'El inmueble ya no es visible en la web. Sigue guardado en tu inventario.', 'success');
+        cargarMisInmuebles();
+      } catch (e) {
+        mostrarAlerta('Error', e.message || 'Error de red.', 'error');
+        if (btn) { btn.innerHTML = htmlOriginal; btn.disabled = false; }
+      }
+    }
+  );
+}
+
+/* =========================================================
+   14. ELIMINAR INMUEBLE (SAAI + opcional EcoNexus + R2)
+========================================================= */
+function eliminarInmueble(id, btnEl) {
+  const inm = inventarioGlobal.find(i => i.id === id) || catalogoGlobal.find(i => i.id === id);
+  if (!inm) return;
+  const estaSincronizado = inm.econexus_sync_enabled === true;
+
+  const mensaje = estaSincronizado
+    ? '¿Estás seguro de borrar este inmueble DEFINITIVAMENTE? Se eliminará de tu inventario SAAI, de la vitrina de EcoNexus y de todos los portales, junto con sus fotos. Esta acción no se puede deshacer.'
+    : '¿Estás seguro de borrar este inmueble DEFINITIVAMENTE? Se eliminará de tu inventario SAAI junto con sus fotos. No estaba publicado en EcoNexus, así que no afecta la web pública. Esta acción no se puede deshacer.';
+
+  mostrarConfirmacion('Eliminar Inmueble', mensaje, async () => {
+    const btn = btnEl || null;
+    const htmlOriginal = btn ? btn.innerHTML : '';
+    if (btn) { btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>'; btn.disabled = true; }
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) throw new Error('Sesión expirada.');
+
+      // 1. Borrar de EcoNexus SOLO si estaba publicado
+      if (estaSincronizado) {
+        try {
+          await sincronizarInmuebleAPI(id, 'delete');
+        } catch (e) {
+          console.warn('No se pudo borrar de EcoNexus (puede que ya no existiera):', e.message);
+        }
+      }
+
+      // 2. Borrar fotos en R2 (si tiene)
+      if (inm.fotos_urls && inm.fotos_urls.length > 0) {
+        try {
+          await fetch(`${SAAI_API_URL}/delete`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+            body: JSON.stringify({ urls: inm.fotos_urls })
+          });
+        } catch (e) {
+          console.warn('No se pudieron borrar las fotos de R2:', e.message);
+        }
+      }
+
+      // 3. Borrar la fila en SAAI
+      const { error: errDel } = await supabaseClient.from('saai_inventario').delete().eq('id', id).eq('agente_id', usuarioActual.id);
+      if (errDel) throw errDel;
+
+      mostrarAlerta('Eliminado', 'El inmueble ha sido borrado con éxito.', 'success');
+      cargarMisInmuebles();
+      // Si el catálogo está visible, refrescarlo también
+      const vistaActiva = document.querySelector('.vista-panel:not(.hidden)');
+      if (vistaActiva && vistaActiva.id === 'vista-catalogo-agencia') cargarCatalogoAgencia();
+    } catch (e) {
+      mostrarAlerta('Error al eliminar', e.message || 'Ocurrió un error inesperado.', 'error');
+      if (btn) { btn.innerHTML = htmlOriginal; btn.disabled = false; }
+    }
+  });
+}
+
+/* =========================================================
+   15. MODAL DE CARGA / EDICIÓN DE INMUEBLE
 ========================================================= */
 function abrirModalCarga() {
   document.getElementById('modal-carga').classList.replace('hidden', 'flex');
@@ -1045,7 +1098,6 @@ function cerrarModalCarga() {
 function editarInmueble(id) {
   const inm = inventarioGlobal.find(i => i.id === id);
   if (!inm) return;
-
   document.getElementById('inm-id-edicion').value = inm.id;
   document.getElementById('inm-fotos-viejas').value = JSON.stringify(inm.fotos_urls || []);
   document.getElementById('inm-tipo').value = inm.tipo;
@@ -1053,7 +1105,6 @@ function editarInmueble(id) {
   document.getElementById('inm-ciudad').value = inm.ciudad;
   document.getElementById('inm-operacion').value = inm.operacion;
   document.getElementById('inm-detalles').value = inm.detalles;
-  
   document.querySelector('#modal-carga h3').innerText = "Editar Propiedad";
   document.getElementById('btn-guardar-inmueble').innerText = "Actualizar Inmueble";
   abrirModalCarga();
@@ -1066,84 +1117,113 @@ async function guardarPropiedad(e) {
 
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) throw new Error('Sesión expirada. Vuelve a iniciar sesión.');
     const token = session.access_token;
+
     const fileInput = document.getElementById('inm-fotos');
     const idEdicion = document.getElementById('inm-id-edicion').value;
-    
     const operacion = document.getElementById('inm-operacion').value;
-    const tipo = document.getElementById('inm-tipo').value;
-    const ciudad = document.getElementById('inm-ciudad').value;
+    const tipo = document.getElementById('inm-tipo').value.trim();
+    const ciudad = document.getElementById('inm-ciudad').value.trim();
     const precio = document.getElementById('inm-precio').value;
-    const detalles = document.getElementById('inm-detalles').value;
+    const detalles = document.getElementById('inm-detalles').value.trim();
 
     let fotos_urls = [];
-    let huboNuevasFotos = fileInput.files.length > 0;
+    const huboNuevasFotos = fileInput.files.length > 0;
 
     if (!idEdicion && !huboNuevasFotos) {
       throw new Error("Debes subir al menos una foto para publicar un nuevo inmueble.");
     }
 
+    // === Subida de fotos nuevas a R2 ===
     if (huboNuevasFotos) {
       for (let i = 0; i < fileInput.files.length; i++) {
         let file = fileInput.files[i];
-        try { file = await imageCompression(file, { maxSizeMB: 0.8, maxWidthOrHeight: 1200, useWebWorker: true }); } catch(err){}
-        
+        try {
+          file = await imageCompression(file, { maxSizeMB: 0.8, maxWidthOrHeight: 1200, useWebWorker: true });
+        } catch (err) { /* si falla la compresión, subimos el original */ }
+
         const reqFirma = await fetch(`${SAAI_API_URL}/upload`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ filename: file.name, contentType: file.type })
         });
         const resFirma = await reqFirma.json();
-        if(resFirma.error) throw new Error(resFirma.error);
-        
+        if (resFirma.error) throw new Error('Fallo al firmar: ' + resFirma.error);
+
         await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
         fotos_urls.push(resFirma.publicUrl);
       }
     }
 
+    // ==========================================================
+    // EDICIÓN
+    // ==========================================================
     if (idEdicion) {
-      let datosUpdate = { operacion, tipo, ciudad, precio, detalles };
+      const inmActual = inventarioGlobal.find(i => i.id === idEdicion);
+      const estabaSincronizado = !!(inmActual && inmActual.econexus_sync_enabled === true);
+
+      const datosUpdate = { operacion, tipo, ciudad, precio, detalles };
+
       if (huboNuevasFotos) {
+        // Borrar fotos viejas de R2
         const fotosViejasStr = document.getElementById('inm-fotos-viejas').value;
         if (fotosViejasStr) {
-          const fotosViejas = JSON.parse(fotosViejasStr);
-          if (fotosViejas.length > 0) {
-            await fetch(`${SAAI_API_URL}/delete`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-              body: JSON.stringify({ urls: fotosViejas })
-            });
-          }
+          try {
+            const fotosViejas = JSON.parse(fotosViejasStr);
+            if (fotosViejas.length > 0) {
+              await fetch(`${SAAI_API_URL}/delete`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ urls: fotosViejas })
+              });
+            }
+          } catch (e) { console.warn('No se pudieron borrar fotos viejas:', e); }
         }
         datosUpdate.fotos_urls = fotos_urls;
       }
-      
-      const { error: errUpdate } = await supabaseClient.from('saai_inventario').update(datosUpdate).eq('id', idEdicion);
-      if(errUpdate) throw errUpdate;
-      
-      // Si ya estaba sincronizado, actualizamos EcoNexus automáticamente
-      const inmActual = inventarioGlobal.find(i => i.id === idEdicion);
-      if (inmActual && inmActual.econexus_sync_enabled) {
-        await sincronizarInmuebleAPI(idEdicion, 'sync');
+
+      const { error: errUpdate } = await supabaseClient.from('saai_inventario').update(datosUpdate).eq('id', idEdicion).eq('agente_id', usuarioActual.id);
+      if (errUpdate) throw errUpdate;
+
+      // Si ya estaba publicado, re-sincronizamos para propagar cambios
+      if (estabaSincronizado && datosMiembro.econexus_user_id) {
+        try {
+          await sincronizarInmuebleAPI(idEdicion, 'sync');
+        } catch (e) {
+          console.warn('No se pudo re-sincronizar los cambios a EcoNexus:', e.message);
+          mostrarAlerta('Aviso', 'Los cambios se guardaron en SAAI, pero no pudimos propagarlos a EcoNexus. Reintenta más tarde.', 'info');
+        }
       }
-      
-      alert("Inmueble actualizado correctamente.");
-    } else {
+
+      mostrarAlerta('Éxito', 'Inmueble actualizado correctamente.', 'success');
+    }
+    // ==========================================================
+    // CREACIÓN
+    // ==========================================================
+    else {
+      // FIX CRÍTICO: forzamos econexus_sync_enabled = false
+      // (nunca "conectado por defecto")
       const { error: errInsert } = await supabaseClient.from('saai_inventario').insert([{
         agencia_id: datosAgencia.id,
         agente_id: usuarioActual.id,
-        operacion, tipo, ciudad, precio, detalles, fotos_urls,
-        econexus_sync_enabled: false // Por defecto no se sube hasta que lo pidan
+        operacion, tipo, ciudad, precio, detalles,
+        fotos_urls,
+        econexus_sync_enabled: false
       }]);
-      if(errInsert) throw errInsert;
-      alert("Inmueble publicado en SAAI. Puedes sincronizarlo a la web cuando quieras.");
+      if (errInsert) throw errInsert;
+
+      mostrarAlerta(
+        '¡Publicado en SAAI!',
+        'Tu inmueble ya está en tu inventario. Para mostrarlo en la web pública, haz clic en "Publicar en EcoNexus" en su tarjeta.',
+        'success'
+      );
     }
 
     cerrarModalCarga();
     cargarMisInmuebles();
-    
   } catch (err) {
-    alert("Error al procesar: " + err.message);
+    mostrarAlerta('Error al procesar', err.message || 'Ocurrió un error inesperado.', 'error');
   } finally {
     btn.disabled = false;
     btn.innerText = document.getElementById('inm-id-edicion').value ? "Actualizar Inmueble" : "Subir Inmueble";
@@ -1151,118 +1231,258 @@ async function guardarPropiedad(e) {
 }
 
 /* =========================================================
-9. FUNCIONES DEL BROKER Y MARCA BLANCA
+   16. COPIAR FICHA + DESCARGAR LOTE DE FOTOS
+========================================================= */
+function copiarFicha(id) {
+  const inm = catalogoGlobal.find(i => i.id === id) || inventarioGlobal.find(i => i.id === id);
+  if (!inm) return;
+  if (!inm.detalles) return mostrarAlerta('Aviso', 'Este inmueble no tiene descripción registrada.', 'info');
+  navigator.clipboard.writeText(inm.detalles)
+    .then(() => mostrarAlerta('¡Copiado!', 'La ficha técnica fue copiada al portapapeles.', 'success'))
+    .catch(() => mostrarAlerta('Error', 'No se pudo copiar. Verifica permisos del navegador.', 'error'));
+}
+
+async function descargarLoteFotos(id) {
+  const inm = catalogoGlobal.find(i => i.id === id) || inventarioGlobal.find(i => i.id === id);
+  if (!inm) return;
+  const urls = inm.fotos_urls || [];
+  if (urls.length === 0) return mostrarAlerta('Aviso', 'Este inmueble no contiene fotografías registradas.', 'info');
+
+  if (inm.detalles) {
+    try { await navigator.clipboard.writeText(inm.detalles); } catch (e) {}
+  }
+
+  mostrarAlerta('Descargando...', `Ficha copiada. Se están descargando ${urls.length} fotos a tu dispositivo. No cierres esta ventana.`, 'info');
+
+  try {
+    const ts = Date.now();
+    for (let i = 0; i < urls.length; i++) {
+      const urlSegura = urls[i] + "?v=" + ts + i;
+      const response = await fetch(urlSegura, { method: 'GET', mode: 'cors', cache: 'no-store' });
+      if (!response.ok) throw new Error("Error obteniendo la imagen");
+      const blob = await response.blob();
+      const urlLocal = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.style.display = 'none';
+      a.href = urlLocal;
+      a.download = `SAAI_${ts}_Foto_${i + 1}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      await new Promise(r => setTimeout(r, 600));
+      window.URL.revokeObjectURL(urlLocal);
+      document.body.removeChild(a);
+    }
+  } catch (error) {
+    mostrarAlerta('Error', 'Bloqueo detectado en la descarga. Asegúrate de permitir descargas múltiples en tu navegador.', 'error');
+  }
+}
+
+/* =========================================================
+   17. FUNCIONES DEL BROKER (LISTADO, APROBACIÓN, MARCA)
 ========================================================= */
 async function cargarAgentes() {
-  const [reqAgentes, reqInventario] = await Promise.all([
-    supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id),
-    supabaseClient.from('saai_inventario').select('agente_id').eq('agencia_id', datosAgencia.id)
-  ]);
+  const container = document.getElementById('lista-agentes');
+  // Blindaje estricto: solo Broker
+  if (!datosMiembro || datosMiembro.rol !== 'Broker') {
+    container.innerHTML = '<p class="text-xs text-gray-500 italic p-4 text-center bg-gray-50 rounded-xl">Acceso restringido al Broker de la agencia.</p>';
+    return;
+  }
 
-  const agentes = reqAgentes.data;
-  const inventario = reqInventario.data;
-  const conteoPorAgente = {};
+  container.innerHTML = '<p class="text-xs text-gray-500 italic p-4 text-center"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Cargando agentes...</p>';
 
-  if (inventario) {
+  try {
+    const [reqAgentes, reqInventario] = await Promise.all([
+      supabaseClient.from('saai_miembros').select('*').eq('agencia_id', datosAgencia.id).neq('id', usuarioActual.id),
+      supabaseClient.from('saai_inventario').select('agente_id').eq('agencia_id', datosAgencia.id)
+    ]);
+
+    const agentes = reqAgentes.data || [];
+    const inventario = reqInventario.data || [];
+
+    const conteoPorAgente = {};
     inventario.forEach(item => {
       conteoPorAgente[item.agente_id] = (conteoPorAgente[item.agente_id] || 0) + 1;
     });
+
+    if (agentes.length === 0) {
+      container.innerHTML = '<p class="text-xs text-gray-500 italic p-4 text-center bg-gray-50 rounded-xl">No hay otros agentes registrados en la agencia.</p>';
+    } else {
+      container.innerHTML = agentes.map(ag => {
+        const totalInmuebles = conteoPorAgente[ag.id] || 0;
+        const aprobado = ag.estatus && ag.estatus.toLowerCase() === 'aprobado';
+        const tieneEconexus = ag.econexus_user_id
+          ? '<span class="text-[9px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded-md font-bold ml-1"><i class="fa-solid fa-globe"></i> EcoNexus Conectado</span>'
+          : '<span class="text-[9px] bg-gray-100 text-gray-500 border border-gray-200 px-2 py-0.5 rounded-md font-bold ml-1">EcoNexus No vinculado</span>';
+
+        return `
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-gray-50 border rounded-xl hover:bg-gray-100 transition gap-2">
+            <div>
+              <p class="font-bold text-sm text-slate-900">${ag.nombre || 'Sin nombre'}</p>
+              <div class="flex items-center gap-2 mt-1 flex-wrap">
+                <p class="text-xs font-semibold ${aprobado ? 'text-green-600' : 'text-amber-600'}">${ag.estatus || 'Pendiente'}</p>
+                <span class="text-[10px] bg-white border border-gray-200 text-slate-700 px-2 py-0.5 rounded-md font-bold shadow-sm">${totalInmuebles} Inmuebles</span>
+                ${tieneEconexus}
+              </div>
+            </div>
+            <div class="flex gap-2 w-full sm:w-auto">
+              ${!aprobado
+                ? `<button onclick="cambiarEstatusAgente('${ag.id}', 'Aprobado')" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">Aprobar</button>`
+                : `<button onclick="cambiarEstatusAgente('${ag.id}', 'Pendiente')" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">Suspender</button>`
+              }
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    document.getElementById('config-color').value = datosAgencia.color_primario || '#1e293b';
+    document.getElementById('config-logo').value = datosAgencia.logo_url || '';
+  } catch (e) {
+    console.error(e);
+    container.innerHTML = '<p class="text-xs text-red-500 italic p-4 text-center">Error al cargar agentes.</p>';
   }
-
-  const container = document.getElementById('lista-agentes');
-  if(!agentes || agentes.length === 0) { 
-    container.innerHTML = '<p class="text-xs text-gray-500 italic p-4 text-center bg-gray-50 rounded-xl">No hay otros agentes registrados en la agencia.</p>'; 
-    return; 
-  }
-
-  container.innerHTML = agentes.map(ag => {
-    const totalInmuebles = conteoPorAgente[ag.id] || 0;
-    const tieneEconexus = ag.econexus_user_id 
-      ? '<span class="text-[9px] bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded-md font-bold ml-1"><i class="fa-solid fa-globe"></i> EcoNexus Conectado</span>' 
-      : '<span class="text-[9px] bg-gray-100 text-gray-500 border border-gray-200 px-2 py-0.5 rounded-md font-bold ml-1">EcoNexus No vinculado</span>';
-
-    return `
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-gray-50 border rounded-xl hover:bg-gray-100 transition gap-2">
-        <div>
-          <p class="font-bold text-sm text-slate-900">${ag.nombre}</p>
-          <div class="flex items-center gap-2 mt-1 flex-wrap">
-            <p class="text-xs font-semibold ${ag.estatus && ag.estatus.toLowerCase() === 'aprobado' ? 'text-green-600' : 'text-amber-600'}">${ag.estatus}</p>
-            <span class="text-[10px] bg-white border border-gray-200 text-slate-700 px-2 py-0.5 rounded-md font-bold shadow-sm">${totalInmuebles} Inmuebles</span>
-            ${tieneEconexus}
-          </div>
-        </div>
-        <div class="flex gap-2 w-full sm:w-auto">
-          ${ag.estatus && ag.estatus.toLowerCase() !== 'aprobado' 
-            ? `<button onclick="cambiarEstatusAgente('${ag.id}', 'Aprobado')" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">Aprobar</button>`
-            : `<button onclick="cambiarEstatusAgente('${ag.id}', 'Pendiente')" class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow transition">Suspender</button>`}
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  document.getElementById('config-color').value = datosAgencia.color_primario || '#1e293b';
-  document.getElementById('config-logo').value = datosAgencia.logo_url || '';
 }
 
 async function cambiarEstatusAgente(id, estatus) {
-  await supabaseClient.from('saai_miembros').update({ estatus: estatus }).eq('id', id);
-  cargarAgentes();
-  alert(`El estatus del agente cambió a ${estatus}.`);
+  if (!datosMiembro || datosMiembro.rol !== 'Broker') {
+    return mostrarAlerta('Acceso denegado', 'Solo el Broker puede aprobar o suspender agentes.', 'error');
+  }
+  try {
+    const { error } = await supabaseClient.from('saai_miembros').update({ estatus }).eq('id', id).eq('agencia_id', datosAgencia.id);
+    if (error) throw error;
+    mostrarAlerta('Actualizado', `El estatus del agente cambió a ${estatus}.`, 'success');
+    cargarAgentes();
+  } catch (e) {
+    mostrarAlerta('Error', e.message || 'No se pudo actualizar el estatus.', 'error');
+  }
 }
 
 async function subirLogoR2(e) {
+  if (!datosMiembro || datosMiembro.rol !== 'Broker') {
+    return mostrarAlerta('Acceso denegado', 'Solo el Broker puede modificar la marca de la agencia.', 'error');
+  }
   const file = e.target.files[0];
   if (!file) return;
 
   const estado = document.getElementById('estado-logo');
   const btnGuardar = document.getElementById('btn-guardar-marca');
-
   btnGuardar.disabled = true;
   btnGuardar.innerText = "Subiendo archivo...";
-  estado.innerText = "Subiendo logo a servidor privado...";
+  estado.innerText = "Subiendo logo al servidor privado...";
+  estado.className = "text-[10px] text-gray-500 mt-1";
 
   try {
     const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) throw new Error('Sesión expirada.');
+
     let archivoFiltro = file;
-    try { archivoFiltro = await imageCompression(file, { maxSizeMB: 0.3, maxWidthOrHeight: 400, useWebWorker: true }); } catch(err){}
+    try {
+      archivoFiltro = await imageCompression(file, { maxSizeMB: 0.3, maxWidthOrHeight: 400, useWebWorker: true });
+    } catch (err) { /* fallback al original */ }
 
     const reqFirma = await fetch(`${SAAI_API_URL}/upload`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
       body: JSON.stringify({ filename: 'logo_' + archivoFiltro.name, contentType: archivoFiltro.type })
     });
-    
     const resFirma = await reqFirma.json();
-    if(resFirma.error) throw new Error(resFirma.error);
-    
+    if (resFirma.error) throw new Error(resFirma.error);
+
     await fetch(resFirma.signedUrl, { method: 'PUT', headers: { 'Content-Type': archivoFiltro.type }, body: archivoFiltro });
 
     document.getElementById('config-logo').value = resFirma.publicUrl;
     estado.innerText = "¡Logo subido! Haz clic en Guardar Estilos.";
     estado.className = "text-[10px] text-green-600 font-bold mt-1";
-
   } catch (err) {
     estado.innerText = "Fallo al subir: " + err.message;
     estado.className = "text-[10px] text-red-600 font-bold mt-1";
   } finally {
     btnGuardar.disabled = false;
     btnGuardar.innerText = "Guardar Estilos";
+    e.target.value = "";
   }
 }
 
 async function actualizarMarcaBlanca() {
-  const color = document.getElementById('config-color').value;
-  const logo = document.getElementById('config-logo').value;
-
-  await supabaseClient.from('saai_agencias').update({ color_primario: color, logo_url: logo }).eq('id', datosAgencia.id);
-  alert("Marca blanca actualizada correctamente. La página se recargará.");
-  location.reload();
+  if (!datosMiembro || datosMiembro.rol !== 'Broker') {
+    return mostrarAlerta('Acceso denegado', 'Solo el Broker puede modificar la marca de la agencia.', 'error');
+  }
+  const btn = document.getElementById('btn-guardar-marca');
+  btn.disabled = true;
+  try {
+    const color = document.getElementById('config-color').value;
+    const logo = document.getElementById('config-logo').value;
+    const { error } = await supabaseClient.from('saai_agencias').update({ color_primario: color, logo_url: logo }).eq('id', datosAgencia.id);
+    if (error) throw error;
+    mostrarAlerta('Actualizado', 'Marca blanca actualizada correctamente. La página se recargará.', 'success', () => location.reload());
+  } catch (e) {
+    mostrarAlerta('Error', e.message || 'No se pudo guardar la marca.', 'error');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 /* =========================================================
-10. INICIALIZACIÓN FINAL
+   18. MODALES ESTILIZADOS (ALERTA / CONFIRMACIÓN)
 ========================================================= */
-// Llamamos a iniciarSAAI para comprobar si hay sesión activa al cargar la página
+function mostrarAlerta(titulo, mensaje, tipo = 'info', onOk = null) {
+  const modalId = 'custom-alert-modal';
+  const existing = document.getElementById(modalId);
+  if (existing) existing.remove();
+
+  const colorBorde = tipo === 'error' ? 'border-red-500' : tipo === 'success' ? 'border-green-500' : 'border-slate-900';
+  const bgBtn = tipo === 'error' ? 'bg-red-600 hover:bg-red-700' : tipo === 'success' ? 'bg-green-600 hover:bg-green-700' : 'bg-slate-900 hover:bg-slate-800';
+  const icono = tipo === 'error' ? '<i class="fa-solid fa-circle-exclamation text-red-500 text-3xl mb-2"></i>'
+              : tipo === 'success' ? '<i class="fa-solid fa-circle-check text-green-500 text-3xl mb-2"></i>'
+              : '<i class="fa-solid fa-circle-info text-slate-600 text-3xl mb-2"></i>';
+
+  const html = `
+    <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[300] flex items-center justify-center p-4 animate-fadeIn">
+      <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 ${colorBorde} text-center">
+        ${icono}
+        <h3 class="font-bold text-lg mb-2 text-slate-900">${titulo}</h3>
+        <p class="text-sm text-gray-600 mb-6 leading-relaxed">${mensaje}</p>
+        <button id="alert-btn-ok" class="w-full ${bgBtn} text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Aceptar</button>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  document.getElementById('alert-btn-ok').onclick = () => {
+    document.getElementById(modalId).remove();
+    if (typeof onOk === 'function') onOk();
+  };
+}
+
+function mostrarConfirmacion(titulo, mensaje, onConfirm) {
+  const modalId = 'custom-confirm-modal';
+  const existing = document.getElementById(modalId);
+  if (existing) existing.remove();
+
+  const html = `
+    <div id="${modalId}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[300] flex items-center justify-center p-4 animate-fadeIn">
+      <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl border-t-4 border-amber-500 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-amber-500 text-3xl mb-2"></i>
+        <h3 class="font-bold text-lg mb-2 text-slate-900">${titulo}</h3>
+        <p class="text-sm text-gray-600 mb-6 leading-relaxed">${mensaje}</p>
+        <div class="flex gap-3">
+          <button id="confirm-btn-no" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2.5 rounded-xl transition text-sm">Cancelar</button>
+          <button id="confirm-btn-yes" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl shadow transition text-sm">Sí, continuar</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+
+  document.getElementById('confirm-btn-no').onclick = () => document.getElementById(modalId).remove();
+  document.getElementById('confirm-btn-yes').onclick = () => {
+    document.getElementById(modalId).remove();
+    if (typeof onConfirm === 'function') onConfirm();
+  };
+}
+
+/* =========================================================
+   19. INICIALIZACIÓN FINAL
+========================================================= */
+// Comprobar si hay sesión activa al cargar la página
+// (Si el usuario ya estaba logueado, entra directo al dashboard.)
 iniciarSAAI();
 </script>
 </body>
