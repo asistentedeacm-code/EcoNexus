@@ -121,7 +121,7 @@
         <p id="msg-verificacion-codigo" class="text-[10px] text-blue-700 hidden font-semibold"></p>
       </div>
 
-      <div id="campos-bloqueados-asesor" class="opacity-40 pointer-events-none transition-opacity duration-300 space-y-4">
+      <div id="campos-bloqueados-asesor" class="transition-opacity duration-300 space-y-4">
         <div id="campo-nombre" class="hidden">
           <input type="text" id="nombre" placeholder="Nombre Completo" class="w-full bg-gray-50 border rounded-xl px-4 py-3 text-sm outline-none focus:border-brand transition">
         </div>
@@ -411,17 +411,27 @@ function cerrarBienvenida() {
 function setModoAuth(modo) {
   modoAuthActual = modo;
   
-  // Resetear UI de verificación de código
+  // Resetear UI de verificación de código al cambiar de pestaña
   agenciaVerificadaId = null;
   agenciaVerificadaNombre = null;
   document.getElementById('codigo-union').value = '';
+  document.getElementById('codigo-union').readOnly = false;
   document.getElementById('msg-verificacion-codigo').classList.add('hidden');
-  document.getElementById('campos-bloqueados-asesor').classList.add('opacity-40', 'pointer-events-none');
+  document.getElementById('btn-verificar-codigo').classList.remove('hidden');
   
+  // Lógica de bloqueo: Solo se bloquea si es registro_asesor
+  if (modo === 'registro_asesor') {
+    document.getElementById('campos-bloqueados-asesor').classList.add('opacity-40', 'pointer-events-none');
+  } else {
+    document.getElementById('campos-bloqueados-asesor').classList.remove('opacity-40', 'pointer-events-none');
+  }
+  
+  // Mostrar/Ocultar campos según el modo
   document.getElementById('campo-nombre').classList.toggle('hidden', modo === 'login');
   document.getElementById('campo-codigo-agencia').classList.toggle('hidden', modo !== 'registro_asesor');
   document.getElementById('campo-datos-agencia').classList.toggle('hidden', modo !== 'registro_broker');
   
+  // Estilos de las pestañas
   document.getElementById('tab-login').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'login' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
   document.getElementById('tab-asesor').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_asesor' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
   document.getElementById('tab-broker').className = `flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition ${modo === 'registro_broker' ? 'bg-white shadow text-slate-900' : 'text-gray-500'}`;
