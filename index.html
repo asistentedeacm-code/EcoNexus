@@ -73,6 +73,85 @@
         /* Transición para el panel de filtros */
         .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===================================================== */
+        /* ===== ESTILOS NUEVOS: BANNER ASESOR + SPLASH ECO ===== */
+        /* ===================================================== */
+
+        /* Banner de filtro por asesor (solo visible cuando hay filtro activo) */
+        #bannerFiltroAsesor {
+            animation: bannerAsesorIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes bannerAsesorIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+
+        /* ===== ANIMACIÓN SPLASH ECONEXUS (logo inyectando líneas a inmuebles) ===== */
+        .eco-line-anim {
+            stroke: #34d399;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-dasharray: 300;
+            stroke-dashoffset: 300;
+            filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.85));
+            animation: eco-draw-line 0.75s ease-out forwards;
+        }
+        @keyframes eco-draw-line {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .eco-logo-anim {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.3);
+            animation: eco-logo-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes eco-logo-pop {
+            0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
+            60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .eco-house-anim {
+            position: absolute;
+            color: #fbbf24;
+            font-size: 15px;
+            opacity: 0;
+            transform: scale(0.2);
+            filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
+            animation: eco-house-on 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @media (min-width: 640px) {
+            .eco-house-anim { font-size: 19px; }
+        }
+        @keyframes eco-house-on {
+            0%   { opacity: 0; transform: scale(0.2); }
+            65%  { opacity: 1; transform: scale(1.18); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Pulso continuo del logo una vez termina la animación */
+        .eco-logo-halo {
+            position: absolute;
+            inset: -8px;
+            border-radius: 9999px;
+            border: 2px solid rgba(52, 211, 153, 0.55);
+            animation: eco-halo 2.4s infinite ease-out;
+            pointer-events: none;
+        }
+        @keyframes eco-halo {
+            0%   { transform: scale(1);   opacity: 0.9; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+
+        /* Truncado suave del contador cuando hay filtro */
+        #propCount {
+            max-width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+        }
     </style>
     <script>
         tailwind.config = { theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } } }
@@ -133,10 +212,41 @@
         <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
     </div>
 
-    <!-- MODAL DE BIENVENIDA -->
+    <!-- MODAL DE BIENVENIDA (con ANIMACIÓN SPLASH ECONEXUS integrada) -->
     <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
-            <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center overflow-hidden">
+            <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 z-20 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer shadow-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+            <!-- ═══════════════ ANIMACIÓN SPLASH ECONEXUS ═══════════════ -->
+            <div id="splashEcoAnim" class="relative -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-5 h-32 sm:h-40 overflow-hidden rounded-t-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 border-b-2 border-emerald-500/40 pointer-events-none">
+                <!-- Líneas SVG animadas desde el logo hacia los inmuebles -->
+                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+                    <line class="eco-line-anim" x1="200" y1="80" x2="60"  y2="35"  style="animation-delay:0.15s"/>
+                    <line class="eco-line-anim" x1="200" y1="80" x2="340" y2="35"  style="animation-delay:0.28s"/>
+                    <line class="eco-line-anim" x1="200" y1="80" x2="60"  y2="125" style="animation-delay:0.41s"/>
+                    <line class="eco-line-anim" x1="200" y1="80" x2="340" y2="125" style="animation-delay:0.54s"/>
+                    <line class="eco-line-anim" x1="200" y1="80" x2="130" y2="18"  style="animation-delay:0.67s"/>
+                    <line class="eco-line-anim" x1="200" y1="80" x2="270" y2="142" style="animation-delay:0.80s"/>
+                </svg>
+
+                <!-- Logo central con halo pulsante -->
+                <div class="absolute left-1/2 top-1/2 eco-logo-anim">
+                    <div class="eco-logo-halo"></div>
+                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white shadow-xl border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
+                        <img src="logo.png.png" alt="EcoNexus" onerror="this.src='logo.png'" class="w-full h-full object-contain p-1">
+                    </div>
+                </div>
+
+                <!-- Casitas y edificios conectados (se encienden en cascada) -->
+                <i class="fa-solid fa-house         eco-house-anim" style="left:12%; top:15%; animation-delay:0.95s"></i>
+                <i class="fa-solid fa-house         eco-house-anim" style="left:82%; top:15%; animation-delay:1.05s"></i>
+                <i class="fa-solid fa-building      eco-house-anim" style="left:12%; top:72%; animation-delay:1.15s"></i>
+                <i class="fa-solid fa-building      eco-house-anim" style="left:82%; top:72%; animation-delay:1.25s"></i>
+                <i class="fa-solid fa-house-chimney eco-house-anim" style="left:30%; top:5%;  animation-delay:1.35s"></i>
+                <i class="fa-solid fa-house-chimney eco-house-anim" style="left:64%; top:85%; animation-delay:1.45s"></i>
+            </div>
+            <!-- ═══════════════ FIN ANIMACIÓN SPLASH ═══════════════ -->
+
             <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
                 <p class="text-gray-500 text-sm sm:text-base px-2">Explora el catálogo de inmuebles en Venezuela y contacta directamente con su captador en segundos.</p>
@@ -178,7 +288,7 @@
         </div>
     </div>
 
-    <!-- NUEVO MODAL DE CAPTACIÓN DE LEADS (OPCIONAL) -->
+    <!-- MODAL DE CAPTACIÓN DE LEADS (OPCIONAL) -->
     <div id="modalLeadWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
             <button onclick="cerrarModalLead()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -203,8 +313,7 @@
             </div>
         </div>
     </div>
-
-    <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
+        <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
     <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
             <!-- Logo y Textos -->
@@ -239,6 +348,29 @@
         </div>
     </header>
 
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- BANNER DE FILTRO POR ASESOR (solo visible si hay filtro activo) -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <div id="bannerFiltroAsesor" class="hidden max-w-7xl mx-auto px-3 sm:px-4 pt-3 w-full">
+        <div class="bg-gradient-to-r from-econexus via-econexus-light to-emerald-700 rounded-2xl p-2.5 sm:p-3 shadow-lg border border-amber-400/40 flex items-center gap-2.5 sm:gap-3 relative">
+            <img id="bannerAsesorFoto" src="" alt="Asesor"
+                 class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-amber-400 shadow-md flex-shrink-0 bg-white">
+            <div class="flex-1 min-w-0">
+                <p class="text-[9px] sm:text-[10px] text-amber-300 font-bold uppercase tracking-wider leading-none mb-1">
+                    <i class="fa-solid fa-circle-check text-[8px] mr-1"></i>Estás viendo el catálogo de
+                </p>
+                <h3 id="bannerAsesorNombre" class="text-xs sm:text-sm font-extrabold text-white truncate leading-tight">
+                    Asesor
+                </h3>
+                <p id="bannerAsesorAgencia" class="text-[10px] sm:text-[11px] text-green-100/90 truncate leading-tight"></p>
+            </div>
+            <button onclick="limpiarFiltroAsesor()" title="Ver catálogo general de EcoNexus"
+                    class="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/15 hover:bg-red-500/85 text-white flex items-center justify-center transition shadow-sm cursor-pointer border border-white/20">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- 1. SECCIÓN VIP -->
     <section id="seccionVipContainer" class="max-w-7xl mx-auto px-3 sm:px-4 pt-5 pb-2 hidden w-full">
         <div class="bg-gradient-to-br from-white via-amber-50/35 to-emerald-50/30 rounded-3xl p-4 sm:p-5 border-2 border-amber-300/80 shadow-lg relative overflow-hidden">
@@ -264,8 +396,7 @@
             <div id="trackVip" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars relative z-10"></div>
         </div>
     </section>
-
-    <!-- 2. BUSCADOR Y FILTROS AVANZADOS -->
+        <!-- 2. BUSCADOR Y FILTROS AVANZADOS -->
     <section class="max-w-7xl mx-auto px-4 py-5 w-full">
         <div class="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex flex-col md:flex-row gap-2">
             <div class="flex-1 relative">
@@ -307,7 +438,8 @@
             </div>
         </div>
     </section>
-        <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
+
+    <!-- 3. GRILLA COMPACTA DE PROPIEDADES -->
     <main class="max-w-7xl mx-auto px-4 pb-12 flex-grow w-full">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">
@@ -393,8 +525,7 @@
             <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    <!-- ========================================================================
+        <!-- ========================================================================
     SCRIPT PRINCIPAL DE ECONEXUS (CATÁLOGO, VIP, MAPAS, MODALES Y ANIMACIONES)
     ======================================================================== -->
     <script>
@@ -424,6 +555,11 @@
         // Variables para el nuevo sistema de Leads
         let waUrlPendiente = '';
         let leadDataPendiente = null;
+
+        // ── FILTRO DE CATÁLOGO POR ASESOR (SINGLE SOURCE OF TRUTH) ──
+        // Cuando el visitante entra con ?asesor=TEL (o ?u=UUID), se activa.
+        // Aplica filtro estructural .eq('user_id', uuid) SIN tocar filterText.
+        let filtroAsesorActivo = null; // { uuid, nombre, agencia, foto, tipoAgente }
 
         // -- WAKE LOCK API (Mantiene pantalla encendida) --
         let wakeLock = null;
@@ -535,24 +671,147 @@
             iniciarRotacionFotosTarjetas();
             await obtenerTotalContadorSupabase();
             await Promise.all([ cargarVips(true), cargarPropiedades(true) ]);
-            verificarParametrosURL();
+            await verificarParametrosURL();
         });
+
+        /* ═════════════════════════════════════════════════════════════════════
+           FILTRO DE CATÁLOGO POR ASESOR — RESOLUCIÓN Y BANNER
+           ═════════════════════════════════════════════════════════════════════ */
+
+        async function activarFiltroAsesor({ tipo, valor }) {
+            if (!valor) return;
+            try {
+                let perfilData = null;
+                let propFallback = null;
+
+                if (tipo === 'uuid') {
+                    const { data } = await dbClient
+                        .from('perfiles')
+                        .select('id, nombre_agente, nombre_agencia, tipo_asesor, foto_perfil')
+                        .eq('id', valor)
+                        .limit(1)
+                        .single();
+                    perfilData = data;
+                } else {
+                    const { data } = await dbClient
+                        .from('perfiles')
+                        .select('id, nombre_agente, nombre_agencia, tipo_asesor, foto_perfil')
+                        .eq('telefono', valor)
+                        .limit(1)
+                        .single();
+                    perfilData = data;
+
+                    if (!perfilData) {
+                        const { data: propData } = await dbClient
+                            .from('v_propiedades_catalogo')
+                            .select('user_id, nombre_asesor, nombre_agencia, tipo_asesor, foto_asesor')
+                            .eq('telefono_asesor', valor)
+                            .limit(1)
+                            .single();
+                        propFallback = propData;
+                    }
+                }
+
+                if (perfilData) {
+                    filtroAsesorActivo = {
+                        uuid: perfilData.id,
+                        nombre: perfilData.nombre_agente || 'Asesor EcoNexus',
+                        agencia: perfilData.nombre_agencia || '',
+                        foto: perfilData.foto_perfil || '',
+                        tipoAgente: perfilData.tipo_asesor || 'Independiente'
+                    };
+                } else if (propFallback) {
+                    filtroAsesorActivo = {
+                        uuid: propFallback.user_id,
+                        nombre: propFallback.nombre_asesor || 'Asesor EcoNexus',
+                        agencia: propFallback.nombre_agencia || '',
+                        foto: propFallback.foto_asesor || '',
+                        tipoAgente: propFallback.tipo_asesor || 'Independiente'
+                    };
+                } else {
+                    console.warn('Asesor no encontrado para filtro:', tipo, valor);
+                    return;
+                }
+
+                mostrarBannerAsesor();
+                await obtenerTotalContadorSupabase();
+                await Promise.all([ cargarVips(true), cargarPropiedades(true) ]);
+            } catch (err) {
+                console.error('Error activando filtro de asesor:', err);
+            }
+        }
+
+        function mostrarBannerAsesor() {
+            if (!filtroAsesorActivo) return;
+            const banner   = document.getElementById('bannerFiltroAsesor');
+            const foto     = document.getElementById('bannerAsesorFoto');
+            const nombreEl = document.getElementById('bannerAsesorNombre');
+            const agEl     = document.getElementById('bannerAsesorAgencia');
+
+            foto.src = filtroAsesorActivo.foto || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+            nombreEl.textContent = filtroAsesorActivo.nombre;
+
+            if (filtroAsesorActivo.tipoAgente === 'Agencia' && filtroAsesorActivo.agencia) {
+                agEl.innerHTML = '<i class="fa-solid fa-building-user mr-1"></i>' + filtroAsesorActivo.agencia;
+            } else {
+                agEl.innerHTML = '<i class="fa-solid fa-user-tie mr-1"></i>Agente Independiente';
+            }
+
+            banner.classList.remove('hidden');
+        }
+
+        function limpiarFiltroAsesor() {
+            filtroAsesorActivo = null;
+            document.getElementById('bannerFiltroAsesor').classList.add('hidden');
+
+            const url = new URL(window.location.href);
+            url.searchParams.delete('asesor');
+            url.searchParams.delete('u');
+            window.history.replaceState({}, '', url.toString());
+
+            obtenerTotalContadorSupabase();
+            cargarVips(true);
+            cargarPropiedades(true);
+        }
 
         async function obtenerTotalContadorSupabase() {
             try {
-                const { count, error } = await dbClient.from('v_propiedades_catalogo').select('id', { count: 'exact', head: true }).eq('estatus', 'Disponible');
-                if (!error && count !== null) document.getElementById("propCount").textContent = `${count} registradas`;
+                let countQuery = dbClient
+                    .from('v_propiedades_catalogo')
+                    .select('id', { count: 'exact', head: true })
+                    .eq('estatus', 'Disponible');
+
+                if (filtroAsesorActivo) {
+                    countQuery = countQuery.eq('user_id', filtroAsesorActivo.uuid);
+                }
+
+                const { count, error } = await countQuery;
+                if (error || count === null) return;
+
+                const propCountEl = document.getElementById('propCount');
+                if (filtroAsesorActivo) {
+                    propCountEl.textContent = `${count} inmueble(s) · ${filtroAsesorActivo.nombre}`;
+                    propCountEl.title = `${count} inmueble(s) de ${filtroAsesorActivo.nombre}`;
+                } else {
+                    propCountEl.textContent = `${count} registradas`;
+                    propCountEl.title = '';
+                }
             } catch (e) { console.error(e); }
         }
 
         async function verificarParametrosURL() {
-            const urlParams = new URLSearchParams(window.location.search);
+            const urlParams   = new URLSearchParams(window.location.search);
             const codigoParam = urlParams.get('codigo');
             const asesorParam = urlParams.get('asesor');
-            if (asesorParam) {
-                document.getElementById("filterText").value = asesorParam.trim();
-                await cargarPropiedades(true);
+            const uuidParam   = urlParams.get('u');
+
+            // 🎯 Prioridad: ?u=UUID > ?asesor=TELEFONO (retrocompatible con links viejos del Worker)
+            if (uuidParam) {
+                await activarFiltroAsesor({ tipo: 'uuid', valor: uuidParam.trim() });
+            } else if (asesorParam) {
+                await activarFiltroAsesor({ tipo: 'telefono', valor: asesorParam.trim() });
             }
+
             if (codigoParam) {
                 try {
                     const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
@@ -579,7 +838,12 @@
                 const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
 
                 let queryVip = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible').eq('vip_activo', true);
-                
+
+                // 👇 FILTRO ESTRUCTURAL POR ASESOR (no contamina filterText)
+                if (filtroAsesorActivo) {
+                    queryVip = queryVip.eq('user_id', filtroAsesorActivo.uuid);
+                }
+
                 if (operacion && operacion !== "TODOS") queryVip = queryVip.eq('operacion', operacion);
                 if (tipo) queryVip = queryVip.ilike('tipo', `%${tipo}%`);
                 if (!isNaN(minPrecio)) queryVip = queryVip.gte('precio', minPrecio);
@@ -725,7 +989,7 @@
             }, 4200);
         }
 
-        // -- CARGA DEL CATÁLOGO GENERAL --
+        // -- CARGA DEL CATÁLOGO GENERAL (con filtro estructural por asesor) --
         async function cargarPropiedades(reset = false) {
             if (reset) {
                 pageOffset = 0; hayMasPaginas = true; propiedadesCargadas = [];
@@ -746,6 +1010,11 @@
                 const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
 
                 let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+
+                // 👇 FILTRO ESTRUCTURAL POR ASESOR (aplica a primer lote y a cargarMás)
+                if (filtroAsesorActivo) {
+                    query = query.eq('user_id', filtroAsesorActivo.uuid);
+                }
 
                 if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
                 if (tipo) query = query.ilike('tipo', `%${tipo}%`);
@@ -833,6 +1102,8 @@
         function aplicarFiltros() { cargarVips(true); cargarPropiedades(true); }
         function aplicarFiltrosDebounced() { clearTimeout(debounceTimer); debounceTimer = setTimeout(aplicarFiltros, 400); }
         
+        // ⚠️ Importante: "Limpiar filtros" NO debe sacar al visitante del catálogo del asesor.
+        // Eso es responsabilidad exclusiva del botón ✕ del banner (limpiarFiltroAsesor).
         function resetFiltros() {
             document.getElementById("filterOperacion").value = "TODOS";
             document.getElementById("filterTipo").value = "";
