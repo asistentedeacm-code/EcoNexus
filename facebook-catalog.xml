@@ -757,6 +757,27 @@
     </address>
   </listing>
   <listing>
+    <home_listing_id>ECO-482934</home_listing_id>
+    <name>Vendo hermoso Townhouse en Tazajal Villa Florencia II</name>
+    <description>🔑FAITH REAL ESTATE 🔑  Captación Exclusiva  Townhouse en Villa Florencia II amoblado y equipado se entrega con todo   2 plantas   DISTRIBUCIÓN: 2 habitaciones amplias con closets y aire acondicionado</description>
+    <url>https://econexusplatform.com/inmueble/eco-482934.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-1-1794235760075.jpg</url>
+    </image>
+    <price>130000 USD</price>
+    <property_type>house</property_type>
+    <num_beds>2</num_beds>
+    <num_baths>3</num_baths>
+    <area_size>0</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Mañongo Tazajal Valencia</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
     <home_listing_id>ECO-980149</home_listing_id>
     <name>PRE VENTA ANTONELLA VALENTINA GARDEN</name>
     <description>INMOINNOVA REAL ESTATE  OFRECE EN PREVENTA EXCLUSIVA:.  CONJUNTO ANTONELLA VALENTINA GARDEN  Un proyecto de lujo y vanguardia que no te puedes perder.   Ubicacion: CHICHIRIVICHE FALCON   Tenemos dispo</description>
