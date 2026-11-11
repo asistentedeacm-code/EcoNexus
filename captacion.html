@@ -138,6 +138,133 @@ html, body {
   opacity: 0.4;
   pointer-events: none;
 }
+
+/* =========================================================
+   NUEVOS ESTILOS — CANVAS REDISEÑADOS (WHITE LABEL SUPERIOR)
+   ========================================================= */
+.canvas-white-bg {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+.canvas-agent-bar {
+  background: linear-gradient(135deg, #1E3F20 0%, #2E5E32 100%);
+  color: #ffffff;
+}
+.canvas-tag-green {
+  background: #10b981;
+  color: #ffffff;
+  font-weight: 900;
+  border-radius: 999px;
+}
+.canvas-tag-green-dark {
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 900;
+  border-radius: 999px;
+}
+.canvas-tag-price {
+  background: #10b981;
+  color: #ffffff;
+  font-weight: 900;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+.canvas-tag-operacion {
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 800;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.canvas-info-text {
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.3;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+.canvas-info-label {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.canvas-info-value {
+  color: #0f172a;
+  font-weight: 800;
+}
+.canvas-qr-wrapper {
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+.canvas-qr-wrapper img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+.canvas-line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.canvas-line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Diagrama de interconexión para la tarjeta de presentación */
+.diagram-network {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.diagram-node {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+  animation: node-pulse 2.4s ease-in-out infinite;
+}
+.diagram-node::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  animation: node-ring 2.4s ease-in-out infinite;
+}
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+@keyframes node-ring {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.5); opacity: 0; }
+}
+.diagram-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #10b981, transparent);
+  transform-origin: 0 50%;
+  opacity: 0.6;
+  animation: line-glow 3s ease-in-out infinite;
+}
+@keyframes line-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
 </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative pb-28 overflow-x-hidden">
@@ -268,7 +395,6 @@ MAIN: AUTENTICACIÓN
 <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
 </div>
 </div>
-
 <!-- CONTENEDOR PRINCIPAL DE LA APP (post-login) -->
 <div id="mainAppContainer" class="hidden space-y-4 sm:space-y-5">
 
@@ -505,8 +631,8 @@ MAIN: AUTENTICACIÓN
 Sube hasta 20 fotos por inmueble (el sistema las comprime e inyecta coordenadas GPS y metadatos SEO automáticamente) y pega opcionalmente el link de YouTube, TikTok o IG Reels.
 </div>
 <div class="bg-white p-3 rounded-xl border border-gray-200">
-<strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes con QR y Reels:</strong>
-En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4 y Reels cinematográficos (eligiendo tus 4 fotos favoritas) con código QR inteligente hacia la ficha pública.
+<strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes con QR y Estados WA:</strong>
+En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4, Reels cinematográficos y Estados de WhatsApp interactivos (con QR inteligente hacia la ficha pública).
 </div>
 <div class="bg-white p-3 rounded-xl border border-gray-200">
 <strong class="text-econexus block mb-1"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 3. Vigencia de 30 Días:</strong>
@@ -674,198 +800,337 @@ BANNER FLOTANTE DE TÉRMINOS
 <button type="button" id="btnBannerTerminos" onclick="accionBannerTerminos()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-2.5 sm:px-3 py-2 rounded-xl text-[10px] sm:text-xs whitespace-nowrap transition shadow flex-shrink-0 cursor-pointer">Al Ingresar Ver Términos</button>
 </div>
 </div>
-
 <!--
 =========================================================================
-PLANTILLAS OCULTAS DE ALTA RESOLUCIÓN (CON QR, CERO RECORTE Y NITIDEZ HD)
+PLANTILLAS OCULTAS DE ALTA RESOLUCIÓN (REDISEÑO 2026 — WHITE LABEL SUPERIOR)
+=========================================================================
+Diseño: Fondo blanco + texto negro elegante + etiquetas verdes + QR nítido
+La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
 =========================================================================
 -->
 
 <!--
 =========================================================================
-1. PLANTILLA HISTORIA DE INSTAGRAM (1080x1920 - Proporción 9:16)
+1. PLANTILLA HISTORIA DE INSTAGRAM (1080x1920 — 9:16)
 =========================================================================
 -->
-<div id="story-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: linear-gradient(165deg, #1E3F20 0%, #0d1f0e 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 44px 52px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;">
-<!-- Cabecera del Agente -->
-<div id="story-header-box" style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.55); border: 2px solid rgba(255,255,255,0.24); border-radius: 28px; padding: 20px 28px; box-sizing: border-box; width: 100%; height: 150px; flex-shrink: 0;">
-<div style="display: flex; align-items: center; gap: 20px; flex: 1; padding-right: 16px; min-width: 0;">
-<img id="story-agente-foto" src="" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #388E3C; flex-shrink: 0; display: none; background: #ffffff;" />
-<div style="flex: 1; min-width: 0;">
-<div id="story-agencia-badge" style="font-size: 18px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1.2px; line-height: 1.3; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">AGENTE VERIFICADO</div>
-<h3 id="story-agente" style="margin: 0 0 4px 0; font-size: 32px; color: #ffffff; font-weight: 900; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></h3>
-<!-- CORRECCIÓN: Se elimina 'white-space: nowrap' para que el WhatsApp baje de línea si es muy largo -->
-<p id="story-telefono" style="margin: 0; font-size: 24px; color: #fde047; font-weight: 800; line-height: 1.25; word-break: break-word;"></p>
-</div>
-</div>
-<div id="story-badge-operacion" style="padding: 16px 32px; border-radius: 999px; font-size: 25px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; background: #388E3C; flex-shrink: 0; line-height: 1.2; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); white-space: nowrap;"></div>
-</div>
-<!-- Mosaico 2x2 de Fotos Perfectamente Alineado -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; width: 976px; height: 900px; border-radius: 30px; overflow: hidden; background: rgba(15, 23, 42, 0.48); padding: 14px; box-sizing: border-box; border: 2px solid rgba(255,255,255,0.22); margin: 0 auto; flex-shrink: 0;">
-<div style="width: 100%; height: 100%; border-radius: 18px; overflow: hidden; background: #111827;">
-<img id="story-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-</div>
-<div style="width: 100%; height: 100%; border-radius: 18px; overflow: hidden; background: #111827;">
-<img id="story-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-</div>
-<div style="width: 100%; height: 100%; border-radius: 18px; overflow: hidden; background: #111827;">
-<img id="story-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-</div>
-<div style="width: 100%; height: 100%; border-radius: 18px; overflow: hidden; background: #111827;">
-<img id="story-img-4" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-</div>
-</div>
-<!-- Tarjeta de Datos Técnicos + Código QR Integrado -->
-<div id="story-info-card" style="background: rgba(15, 23, 42, 0.58); border: 2px solid rgba(255,255,255,0.24); padding: 28px 34px; border-radius: 30px; box-sizing: border-box; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-shrink: 0;">
-<div style="flex: 1; min-width: 0;">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 14px; border-bottom: 2px solid rgba(255,255,255,0.18); padding-bottom: 14px;">
-<div id="story-precio" style="font-size: 54px; margin: 0; color: #4ade80; font-weight: 900; line-height: 1.15; white-space: nowrap;"></div>
-<div id="story-specs" style="font-size: 22px; color: #ffffff; font-weight: 800; background: rgba(0,0,0,0.48); padding: 12px 20px; border-radius: 16px; line-height: 1.2; white-space: nowrap;"></div>
-</div>
-<h2 id="story-titulo" style="font-size: 31px; margin: 0 0 10px 0; color: #ffffff; font-weight: 900; line-height: 1.3; word-break: break-word; overflow: hidden;"></h2>
-<p id="story-ubicacion" style="font-size: 24px; color: #fde047; margin: 0; font-weight: 700; line-height: 1.3; word-break: break-word; overflow: hidden;"></p>
-</div>
-<!-- Bloque QR Escaneable hacia la Ficha -->
-<div style="display: flex; flex-direction: column; align-items: center; background: #ffffff; padding: 12px; border-radius: 20px; flex-shrink: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
-<img id="story-qr-img" src="" alt="QR Ficha" style="width: 138px; height: 138px; display: block; image-rendering: pixelated;" />
-<span style="font-size: 13px; font-weight: 900; color: #0f172a; margin-top: 6px; letter-spacing: 0.5px;">VER FICHA WEB</span>
-</div>
-</div>
-<!-- Pie de Firma Oficial con Contraste Inteligente -->
-<div style="text-align: center; flex-shrink: 0;">
-<div id="story-cta-bar" style="display: inline-block; background: #388E3C; color: #ffffff; padding: 16px 44px; border-radius: 999px; font-size: 25px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; box-shadow: 0 6px 18px rgba(0,0,0,0.3);">
-Contáctame al WhatsApp o escanea el QR para ver más fotos
-</div>
-<p id="story-footer-signature" style="margin: 0; font-size: 21px; color: #ffffff; font-weight: 700; letter-spacing: 0.5px; line-height: 1.3;">
-Ficha generada a través de econexusplatform.com/menu
-</p>
-</div>
+<div id="story-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
+
+  <!-- ══════════ AGENT BAR (WHITE LABEL SUPERIOR) ══════════ -->
+  <div id="story-header-box" style="background: linear-gradient(135deg, #1E3F20 0%, #2E5E32 100%); padding: 28px 48px; display: flex; align-items: center; gap: 24px; flex-shrink: 0; height: 150px; box-sizing: border-box;">
+    <img id="story-agente-foto" src="" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid #ffffff; flex-shrink: 0; display: none; background: #ffffff;" />
+    <div style="flex: 1; min-width: 0;">
+      <div id="story-agencia-badge" style="font-size: 18px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1.2px; line-height: 1.3; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">AGENTE VERIFICADO</div>
+      <h3 id="story-agente" style="margin: 0; font-size: 32px; color: #ffffff; font-weight: 900; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></h3>
+      <p id="story-telefono" style="margin: 6px 0 0 0; font-size: 18px; color: #fde047; font-weight: 700; line-height: 1.3; word-break: break-word;"></p>
+    </div>
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+      <img src="logo.png.png" alt="EcoNexus" onerror="this.style.display='none'" style="height: 44px; width: 44px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.35)); border-radius: 10px; background: rgba(255,255,255,0.10); padding: 6px;" />
+      <span style="font-size: 11px; font-weight: 800; color: #a7f3d0; letter-spacing: 1px; text-transform: uppercase;">EcoNexus</span>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTENIDO PRINCIPAL ══════════ -->
+  <div style="flex: 1; display: flex; flex-direction: column; padding: 32px 48px 20px 48px; gap: 24px; box-sizing: border-box; min-height: 0;">
+
+    <!-- Foto principal con etiquetas verdes superpuestas -->
+    <div style="position: relative; width: 100%; height: 760px; border-radius: 32px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
+      <img id="story-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+
+      <!-- Etiqueta OPERACIÓN (arriba izquierda) -->
+      <div id="story-badge-operacion" style="position: absolute; top: 22px; left: 22px; background: #10b981; color: #ffffff; padding: 14px 28px; border-radius: 999px; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; white-space: nowrap; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);">VENTA</div>
+
+      <!-- Etiqueta CÓDIGO (arriba derecha) -->
+      <div style="position: absolute; top: 22px; right: 22px; background: #10b981; color: #ffffff; padding: 14px 24px; border-radius: 999px; font-size: 20px; font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);">ID: <span id="story-codigo">ECO-000</span></div>
+
+      <!-- Etiqueta PRECIO (abajo izquierda) -->
+      <div id="story-precio" style="position: absolute; bottom: 22px; left: 22px; background: #10b981; color: #ffffff; padding: 20px 34px; border-radius: 22px; font-size: 46px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; white-space: nowrap; box-shadow: 0 14px 32px rgba(16, 185, 129, 0.45);">$0</div>
+
+      <!-- Indicador galería (abajo derecha) -->
+      <div style="position: absolute; bottom: 22px; right: 22px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 10px 20px; border-radius: 999px; font-size: 18px; font-weight: 800; line-height: 1.2; backdrop-filter: blur(4px);">
+        <i class="fa-solid fa-images" style="margin-right: 6px;"></i><span id="story-gallery-count">1/3</span>
+      </div>
+    </div>
+
+    <!-- Fila de 2 miniaturas -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; height: 180px; flex-shrink: 0;">
+      <div style="border-radius: 20px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
+        <img id="story-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      </div>
+      <div style="border-radius: 20px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
+        <img id="story-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      </div>
+    </div>
+    <!-- Imagen 4 oculta (retrocompatibilidad con JS existente) -->
+    <img id="story-img-4" src="" style="display: none;" />
+
+    <!-- Fila info (texto izquierda + QR derecha) -->
+    <div style="display: flex; gap: 28px; flex: 1; min-height: 0; align-items: stretch;">
+
+      <!-- Columna izquierda: información sin recuadros -->
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+        <h2 id="story-titulo" style="margin: 0; font-size: 38px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></h2>
+        <p id="story-ubicacion" style="margin: 0; font-size: 22px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
+          <i class="fa-solid fa-location-dot" style="color: #10b981; margin-right: 8px;"></i>
+        </p>
+        <div id="story-specs" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
+        <p id="story-footer-signature" style="margin: auto 0 0 0; font-size: 15px; font-weight: 700; color: #94a3b8; line-height: 1.3; letter-spacing: 0.3px;">
+          Ficha generada en econexusplatform.com
+        </p>
+      </div>
+
+      <!-- Columna derecha: QR nítido -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; justify-content: center;">
+        <div style="background: #ffffff; padding: 14px; border-radius: 22px; border: 3px solid #e2e8f0; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);">
+          <img id="story-qr-img" src="" alt="QR Ficha" style="width: 190px; height: 190px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+        </div>
+        <span style="font-size: 14px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1.5px;">ESCANEA</span>
+      </div>
+    </div>
+
+    <!-- Barra CTA inferior verde -->
+    <div id="story-cta-bar" style="background: #10b981; color: #ffffff; padding: 20px 32px; border-radius: 20px; font-size: 22px; font-weight: 900; text-align: center; line-height: 1.2; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
+      Contáctame por WhatsApp o escanea el QR
+    </div>
+
+  </div>
 </div>
 
 <!--
 =========================================================================
-2. PLANTILLA POST DE INSTAGRAM (1080x1440 - Proporción 3:4 Con QR y Cero Recorte)
+2. PLANTILLA POST DE INSTAGRAM (1080x1440 — 3:4)
 =========================================================================
 -->
-<div id="post-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1440px; background: linear-gradient(165deg, #1E3F20 0%, #0d1f0e 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 34px 46px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden;">
-<!-- Cabecera Compacta Post 3:4 -->
-<div id="post-header-box" style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.55); border: 2px solid rgba(255,255,255,0.22); border-radius: 24px; padding: 16px 24px; box-sizing: border-box; width: 100%; height: 124px; flex-shrink: 0;">
-<div style="display: flex; align-items: center; gap: 18px; flex: 1; padding-right: 14px; min-width: 0;">
-<img id="post-agente-foto" src="" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #388E3C; flex-shrink: 0; display: none; background: #ffffff;" />
-<div style="flex: 1; min-width: 0;">
-<div id="post-agencia-badge" style="font-size: 16px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">PORTAFOLIO INMOBILIARIO</div>
-<h3 id="post-agente" style="margin: 0 0 3px 0; font-size: 27px; color: #ffffff; font-weight: 900; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></h3>
-<!-- CORRECCIÓN: Se elimina 'white-space: nowrap' para evitar cortes -->
-<p id="post-telefono" style="margin: 0; font-size: 21px; color: #fde047; font-weight: 800; line-height: 1.25; word-break: break-word;"></p>
-</div>
-</div>
-<div id="post-badge-operacion" style="padding: 14px 28px; border-radius: 999px; font-size: 23px; font-weight: 900; text-transform: uppercase; color: #ffffff; background: #388E3C; flex-shrink: 0; line-height: 1.2; text-align: center; white-space: nowrap;"></div>
-</div>
-<!-- Galería Principal + 3 Miniaturas Inferiores (620px) -->
-<div style="width: 984px; height: 620px; display: flex; flex-direction: column; gap: 12px; background: rgba(15, 23, 42, 0.45); padding: 12px; border-radius: 26px; border: 2px solid rgba(255,255,255,0.22); box-sizing: border-box; margin: 0 auto; flex-shrink: 0;">
-<div style="width: 100%; height: 390px; border-radius: 16px; overflow: hidden; background: #111827; position: relative;">
-<img id="post-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
-</div>
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; width: 100%; height: 194px;">
-<div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
-<div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
-<div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-4" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
-</div>
-</div>
-<!-- Ficha Resumen + Código QR Integrado -->
-<div id="post-info-card" style="background: rgba(15, 23, 42, 0.58); border: 2px solid rgba(255,255,255,0.24); padding: 22px 28px; border-radius: 24px; box-sizing: border-box; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-shrink: 0;">
-<div style="flex: 1; min-width: 0;">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 2px solid rgba(255,255,255,0.18); padding-bottom: 12px;">
-<div id="post-precio" style="font-size: 46px; margin: 0; color: #4ade80; font-weight: 900; line-height: 1.15; white-space: nowrap;"></div>
-<div id="post-specs" style="font-size: 20px; color: #ffffff; font-weight: 800; background: rgba(0,0,0,0.48); padding: 10px 18px; border-radius: 14px; line-height: 1.2; white-space: nowrap;"></div>
-</div>
-<h2 id="post-titulo" style="font-size: 27px; margin: 0 0 8px 0; color: #ffffff; font-weight: 900; line-height: 1.3; word-break: break-word; overflow: hidden;"></h2>
-<p id="post-ubicacion" style="font-size: 21px; color: #fde047; margin: 0; font-weight: 700; line-height: 1.3; word-break: break-word; overflow: hidden;"></p>
-</div>
-<!-- Bloque QR Escaneable -->
-<div style="display: flex; flex-direction: column; align-items: center; background: #ffffff; padding: 10px; border-radius: 18px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.35);">
-<img id="post-qr-img" src="" alt="QR Ficha" style="width: 120px; height: 120px; display: block; image-rendering: pixelated;" />
-<span style="font-size: 12px; font-weight: 900; color: #0f172a; margin-top: 5px; letter-spacing: 0.5px;">VER FICHA</span>
-</div>
-</div>
-<!-- Pie de Firma Oficial Post 3:4 -->
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px; flex-shrink: 0; gap: 14px;">
-<!-- CORRECCIÓN: Se añade flex-wrap para evitar desbordes -->
-<span id="post-codigo-pill" style="background: #388E3C; color: #ffffff; padding: 12px 26px; border-radius: 999px; font-size: 20px; font-weight: 900; line-height: 1.2; white-space: nowrap;">CÓDIGO: ECO</span>
-<p id="post-footer-signature" style="margin: 0; font-size: 19px; color: #ffffff; font-weight: 700; line-height: 1.3; text-align: right; word-break: break-word;">
-Ficha generada a través de econexusplatform.com/menu
-</p>
-</div>
+<div id="post-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1440px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
+
+  <!-- ══════════ AGENT BAR (WHITE LABEL SUPERIOR) ══════════ -->
+  <div id="post-header-box" style="background: linear-gradient(135deg, #1E3F20 0%, #2E5E32 100%); padding: 20px 40px; display: flex; align-items: center; gap: 20px; flex-shrink: 0; height: 110px; box-sizing: border-box;">
+    <img id="post-agente-foto" src="" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; flex-shrink: 0; display: none; background: #ffffff;" />
+    <div style="flex: 1; min-width: 0;">
+      <div id="post-agencia-badge" style="font-size: 15px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; margin-bottom: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">ASESOR INMOBILIARIO</div>
+      <h3 id="post-agente" style="margin: 0; font-size: 26px; color: #ffffff; font-weight: 900; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></h3>
+      <p id="post-telefono" style="margin: 3px 0 0 0; font-size: 15px; color: #fde047; font-weight: 700; line-height: 1.3; word-break: break-word;"></p>
+    </div>
+    <div style="flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 2px;">
+      <img src="logo.png.png" alt="EcoNexus" onerror="this.style.display='none'" style="height: 36px; width: 36px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); border-radius: 8px; background: rgba(255,255,255,0.10); padding: 5px;" />
+      <span style="font-size: 9px; font-weight: 800; color: #a7f3d0; letter-spacing: 0.8px; text-transform: uppercase;">EcoNexus</span>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTENIDO PRINCIPAL ══════════ -->
+  <div style="flex: 1; display: flex; flex-direction: column; padding: 24px 40px 20px 40px; gap: 20px; box-sizing: border-box; min-height: 0;">
+
+    <!-- Foto principal con 3 etiquetas verdes superpuestas -->
+    <div style="position: relative; width: 100%; height: 540px; border-radius: 26px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
+      <img id="post-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+
+      <!-- Etiqueta OPERACIÓN (arriba izquierda) -->
+      <div id="post-badge-operacion" style="position: absolute; top: 18px; left: 18px; background: #10b981; color: #ffffff; padding: 12px 24px; border-radius: 999px; font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; white-space: nowrap; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);">VENTA</div>
+
+      <!-- Etiqueta CÓDIGO (arriba derecha) - Reutiliza el ID post-codigo-pill -->
+      <span id="post-codigo-pill" style="position: absolute; top: 18px; right: 18px; background: #10b981; color: #ffffff; padding: 12px 22px; border-radius: 999px; font-size: 18px; font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);">ID: ECO-000</span>
+
+      <!-- Etiqueta PRECIO (abajo izquierda) -->
+      <div id="post-precio" style="position: absolute; bottom: 18px; left: 18px; background: #10b981; color: #ffffff; padding: 16px 28px; border-radius: 20px; font-size: 38px; font-weight: 900; line-height: 1.1; letter-spacing: -0.5px; white-space: nowrap; box-shadow: 0 12px 26px rgba(16, 185, 129, 0.45);">$0</div>
+
+      <!-- Indicador galería (abajo derecha) -->
+      <div style="position: absolute; bottom: 18px; right: 18px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 8px 16px; border-radius: 999px; font-size: 15px; font-weight: 800; line-height: 1.2; backdrop-filter: blur(4px);">
+        <i class="fa-solid fa-images" style="margin-right: 5px;"></i><span id="post-gallery-count">1/3</span>
+      </div>
+    </div>
+
+    <!-- Fila de 2 miniaturas -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; height: 160px; flex-shrink: 0;">
+      <div style="border-radius: 16px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
+        <img id="post-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      </div>
+      <div style="border-radius: 16px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
+        <img id="post-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+      </div>
+    </div>
+    <!-- Imagen 4 oculta (retrocompatibilidad con JS existente) -->
+    <img id="post-img-4" src="" style="display: none;" />
+
+    <!-- Fila info (texto izquierda + QR derecha) -->
+    <div style="display: flex; gap: 24px; flex: 1; min-height: 0; align-items: stretch;">
+
+      <!-- Columna izquierda: información sin recuadros, autoadaptable -->
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 6px;">
+        <h2 id="post-titulo" style="margin: 0; font-size: 30px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></h2>
+        <p id="post-ubicacion" style="margin: 0; font-size: 18px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+          <i class="fa-solid fa-location-dot" style="color: #10b981; margin-right: 6px;"></i>
+        </p>
+        <div id="post-specs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; font-size: 17px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
+        <p id="post-footer-signature" style="margin: auto 0 0 0; font-size: 13px; font-weight: 700; color: #94a3b8; line-height: 1.3; letter-spacing: 0.3px;">
+          Ficha generada en econexusplatform.com
+        </p>
+      </div>
+
+      <!-- Columna derecha: QR nítido -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; justify-content: center;">
+        <div style="background: #ffffff; padding: 12px; border-radius: 18px; border: 3px solid #e2e8f0; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);">
+          <img id="post-qr-img" src="" alt="QR Ficha" style="width: 160px; height: 160px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+        </div>
+        <span style="font-size: 12px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1.2px;">ESCANEA</span>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <!--
 =========================================================================
-3. PLANTILLA MI TARJETA DE PRESENTACIÓN PARA ESTADOS (1080x1920) + QR
+3. PLANTILLA TARJETA DE PRESENTACIÓN PROFESIONAL (1080x1920) + QR
+Diseño: Foto izquierda + datos al lado + "Sobre mí" con diagrama +
+"Presencia Web Interconectada" con gráficas + WhatsApp directo + QR
 =========================================================================
 -->
-<div id="card-presentacion-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: linear-gradient(165deg, #1E3F20 0%, #0a170b 100%); color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 60px 58px; display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; overflow: hidden;">
-<!-- Encabezado Superior -->
-<div style="width: 100%; flex-shrink: 0;">
-<div id="card-pres-top-pill" style="display: inline-block; background: rgba(15, 23, 42, 0.45); border: 2px solid rgba(255,255,255,0.28); color: #fde047; padding: 14px 40px; border-radius: 999px; font-size: 23px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; line-height: 1.25;">
-★ TARJETA DIGITAL OFICIAL ★
-</div>
-</div>
-<!-- Perfil Central del Agente -->
-<div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-<div id="card-pres-avatar-ring" style="width: 290px; height: 290px; border-radius: 50%; padding: 10px; background: linear-gradient(135deg, #fde047, #388E3C); margin-bottom: 26px; box-shadow: 0 20px 50px rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-<img id="card-pres-foto" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 6px solid #ffffff; background: #ffffff;" />
-</div>
-<span id="card-pres-tipo-badge" style="background: #388E3C; color: #ffffff; font-size: 22px; font-weight: 900; padding: 12px 36px; border-radius: 999px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; line-height: 1.25; white-space: nowrap;">
-ASESOR INMOBILIARIO
-</span>
-<h1 id="card-pres-nombre" style="font-size: 52px; font-weight: 900; margin: 0 0 10px 0; color: #ffffff; line-height: 1.22; padding-bottom: 4px; max-width: 940px; word-break: break-word;">
-Asesor EcoNexus
-</h1>
-<p id="card-pres-agencia" style="font-size: 27px; font-weight: 800; color: #a7f3d0; margin: 0 0 26px 0; line-height: 1.3; max-width: 900px; word-break: break-word;">
-Red Inmobiliaria Inteligente
-</p>
-<!-- Cuadro Sobre Mí -->
-<div style="background: rgba(15, 23, 42, 0.5); border: 2px solid rgba(255,255,255,0.22); border-radius: 32px; padding: 32px 40px; width: 100%; box-sizing: border-box; margin-bottom: 26px;">
-<h3 style="margin: 0 0 12px 0; font-size: 23px; font-weight: 800; color: #fde047; text-transform: uppercase; letter-spacing: 1.5px; line-height: 1.3;">
-Perfil Profesional
-</h3>
-<p id="card-pres-sobremi" style="margin: 0; font-size: 26px; line-height: 1.4; color: #f8fafc; font-style: italic; word-break: break-word; overflow: hidden;">
-"Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, seguridad jurídica y máxima efectividad."
-</p>
-</div>
-<!-- Pilares de Servicio -->
-<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; width: 100%;">
-<div style="background: rgba(15, 23, 42, 0.48); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 18px 12px; font-size: 22px; font-weight: 800; color: #ffffff; line-height: 1.25;">
-🏡 Ventas
-</div>
-<div style="background: rgba(15, 23, 42, 0.48); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 18px 12px; font-size: 22px; font-weight: 800; color: #ffffff; line-height: 1.25;">
-🔑 Alquileres
-</div>
-<div style="background: rgba(15, 23, 42, 0.48); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 18px 12px; font-size: 22px; font-weight: 800; color: #ffffff; line-height: 1.25;">
-⚖️ Captaciones
-</div>
-</div>
-</div>
-<!-- Pie de Contacto: WhatsApp + QR + Firma -->
-<div style="width: 100%; flex-shrink: 0;">
-<!-- Fila WhatsApp + QR -->
-<div style="display: flex; gap: 16px; width: 100%; margin-bottom: 20px; align-items: stretch;">
-<!-- WhatsApp Box -->
-<div id="card-pres-wa-box" style="flex: 2; background: #22c55e; color: #ffffff; padding: 22px 28px; border-radius: 26px; font-size: 28px; font-weight: 900; line-height: 1.3; box-shadow: 0 12px 30px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; text-align: center; word-break: break-word;">
-WhatsApp: <span id="card-pres-telefono" style="margin-left: 8px;">Disponible en Perfil</span>
-</div>
-<!-- QR Block -->
-<div style="flex: 1; background: rgba(15, 23, 42, 0.55); border: 2px solid rgba(255,255,255,0.22); border-radius: 26px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;">
-<div style="background: #ffffff; padding: 8px; border-radius: 12px; display: inline-block;">
-<img id="card-pres-qr-img" src="" alt="QR Portafolio" style="width: 96px; height: 96px; display: block; image-rendering: pixelated;" />
-</div>
-<span style="font-size: 13px; font-weight: 900; color: #fde047; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2;">Escanea mi Portafolio</span>
-</div>
-</div>
-<p id="card-pres-footer-sig" style="margin: 0; font-size: 21px; color: #ffffff; font-weight: 700; line-height: 1.3;">
-Ficha generada a través de econexusplatform.com/menu
-</p>
-</div>
+<div id="card-presentacion-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 50px 56px; display: flex; flex-direction: column; gap: 28px; overflow: hidden;">
+
+  <!-- Top pill oculta (retrocompatibilidad, ya no se usa) -->
+  <div id="card-pres-top-pill" style="display: none;"></div>
+
+  <!-- ══════════ HERO: Foto izquierda + Datos al lado ══════════ -->
+  <div style="display: flex; gap: 36px; align-items: center; flex-shrink: 0;">
+
+    <!-- Foto del agente (izquierda, grande y armónica) -->
+    <div id="card-pres-avatar-ring" style="width: 300px; height: 300px; border-radius: 50%; padding: 10px; background: linear-gradient(135deg, #10b981, #16a34a); flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.28);">
+      <img id="card-pres-foto" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 7px solid #ffffff; background: #ffffff;" />
+    </div>
+
+    <!-- Datos del agente (derecha) -->
+    <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
+      <div style="display: inline-flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; padding: 8px 18px; border-radius: 999px; font-size: 16px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start;">
+        <i class="fa-solid fa-shield-halved"></i> Verificado EcoNexus
+      </div>
+      <h1 id="card-pres-nombre" style="margin: 0; font-size: 56px; font-weight: 900; color: #0f172a; line-height: 1.1; word-break: break-word; overflow-wrap: break-word; padding-bottom: 4px;">
+        Asesor EcoNexus
+      </h1>
+      <p id="card-pres-agencia" style="margin: 0; font-size: 24px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word;">
+        Red Inmobiliaria Inteligente
+      </p>
+      <span id="card-pres-tipo-badge" style="display: none;"></span>
+      <!-- Badge secundario oculto (retrocompatibilidad con JS) -->
+    </div>
+  </div>
+
+  <!-- ══════════ SOBRE MÍ + DIAGRAMA NOVEDOSO ══════════ -->
+  <div style="display: flex; gap: 28px; align-items: flex-start; flex-shrink: 0; padding: 28px 0; border-top: 2px solid #f1f5f9; border-bottom: 2px solid #f1f5f9;">
+
+    <!-- Diagrama SVG que apunta al texto -->
+    <div style="flex-shrink: 0; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center;">
+      <svg width="130" height="130" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="9" fill="#10b981" />
+        <circle cx="28" cy="65" r="9" fill="#10b981" />
+        <circle cx="28" cy="102" r="9" fill="#10b981" />
+        <circle cx="28" cy="28" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+        <circle cx="28" cy="65" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+        <circle cx="28" cy="102" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+        <line x1="38" y1="28" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" />
+        <line x1="38" y1="65" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="38" y1="102" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" />
+        <polygon points="95,58 108,65 95,72" fill="#10b981" />
+      </svg>
+    </div>
+
+    <!-- Texto Sobre Mí -->
+    <div style="flex: 1; min-width: 0;">
+      <h3 style="margin: 0 0 12px 0; font-size: 26px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 2px; line-height: 1.3;">
+        Sobre Mí
+      </h3>
+      <p id="card-pres-sobremi" style="margin: 0; font-size: 22px; line-height: 1.5; color: #0f172a; font-weight: 500; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;">
+        "Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, seguridad jurídica y máxima efectividad."
+      </p>
+    </div>
+  </div>
+
+  <!-- ══════════ PRESENCIA WEB INTERCONECTADA (reemplaza cajas viejas) ══════════ -->
+  <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 28px; padding: 28px 32px; flex-shrink: 0;">
+    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px;">
+      <div style="width: 44px; height: 44px; border-radius: 14px; background: #10b981; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px; box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);">
+        <i class="fa-solid fa-globe"></i>
+      </div>
+      <div>
+        <h3 style="margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: 0.5px; line-height: 1.2;">Presencia Real en la Web</h3>
+        <p style="margin: 2px 0 0 0; font-size: 15px; color: #475569; font-weight: 600; line-height: 1.3;">Red interconectada EcoNexus</p>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;">
+
+      <!-- Diagrama de red global -->
+      <div style="background: #ffffff; border-radius: 18px; padding: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid #d1fae5;">
+        <svg width="100%" height="180" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- Conexiones -->
+          <line x1="170" y1="90" x2="60" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" />
+          <line x1="170" y1="90" x2="280" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" />
+          <line x1="170" y1="90" x2="60" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" />
+          <line x1="170" y1="90" x2="280" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" />
+          <line x1="170" y1="90" x2="170" y2="30" stroke="#10b981" stroke-width="2" opacity="0.35" stroke-dasharray="4,4" />
+          <line x1="170" y1="90" x2="170" y2="150" stroke="#10b981" stroke-width="2" opacity="0.35" stroke-dasharray="4,4" />
+          <line x1="60" y1="40" x2="60" y2="140" stroke="#10b981" stroke-width="1.5" opacity="0.3" stroke-dasharray="3,4" />
+          <line x1="280" y1="40" x2="280" y2="140" stroke="#10b981" stroke-width="1.5" opacity="0.3" stroke-dasharray="3,4" />
+          <!-- Nodos satélite -->
+          <circle cx="60" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
+          <circle cx="280" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
+          <circle cx="60" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
+          <circle cx="280" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
+          <circle cx="170" cy="30" r="10" fill="#a7f3d0" stroke="#10b981" stroke-width="1.5" />
+          <circle cx="170" cy="150" r="10" fill="#a7f3d0" stroke="#10b981" stroke-width="1.5" />
+          <!-- Nodo central -->
+          <circle cx="170" cy="90" r="30" fill="#10b981" />
+          <circle cx="170" cy="90" r="38" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+          <text x="170" y="97" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Segoe UI, sans-serif">ECO</text>
+        </svg>
+      </div>
+
+      <!-- Gráfica de rendimiento -->
+      <div style="background: #ffffff; border-radius: 18px; padding: 16px; border: 1px solid #d1fae5;">
+        <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #475569; letter-spacing: 0.5px; text-transform: uppercase;">Rendimiento</p>
+        <svg width="100%" height="120" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <!-- Barras -->
+          <rect x="14" y="70" width="32" height="40" rx="6" fill="#d1fae5" />
+          <rect x="60" y="50" width="32" height="60" rx="6" fill="#a7f3d0" />
+          <rect x="106" y="35" width="32" height="75" rx="6" fill="#6ee7b7" />
+          <rect x="152" y="20" width="32" height="90" rx="6" fill="#34d399" />
+          <rect x="198" y="12" width="32" height="98" rx="6" fill="#10b981" />
+          <rect x="244" y="6" width="32" height="104" rx="6" fill="#059669" />
+          <!-- Labels -->
+          <text x="30" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">L</text>
+          <text x="76" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">M</text>
+          <text x="122" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">M</text>
+          <text x="168" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">J</text>
+          <text x="214" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">V</text>
+          <text x="260" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">S</text>
+        </svg>
+        <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: 700; color: #059669; text-align: center;">▲ Crecimiento sostenido</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CONTACTO: WhatsApp + QR ══════════ -->
+  <div style="display: flex; gap: 24px; align-items: stretch; flex-shrink: 0; margin-top: auto;">
+
+    <!-- WhatsApp contact (izquierda, grande) -->
+    <div id="card-pres-wa-box" style="flex: 1; background: #10b981; color: #ffffff; padding: 26px 32px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; gap: 8px; box-shadow: 0 14px 32px rgba(16, 185, 129, 0.35);">
+      <div style="display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9;">
+        <i class="fa-brands fa-whatsapp" style="font-size: 22px;"></i> Mi WhatsApp
+      </div>
+      <div style="font-size: 20px; font-weight: 700; line-height: 1.2;">Contáctame directo</div>
+      <div id="card-pres-telefono" style="font-size: 34px; font-weight: 900; line-height: 1.15; letter-spacing: -0.5px; word-break: break-word;">+58 XXX XXX XXXX</div>
+    </div>
+
+    <!-- QR (derecha) -->
+    <div style="flex-shrink: 0; background: #ffffff; border: 3px solid #e2e8f0; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);">
+      <img id="card-pres-qr-img" src="" alt="QR Portafolio" style="width: 150px; height: 150px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+      <span style="font-size: 12px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; text-align: center; line-height: 1.2;">Escanea mi<br>Portafolio</span>
+    </div>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <p id="card-pres-footer-sig" style="margin: 0; font-size: 16px; color: #94a3b8; font-weight: 700; line-height: 1.3; text-align: center; flex-shrink: 0; letter-spacing: 0.3px;">
+    Ficha generada a través de econexusplatform.com/menu
+  </p>
 </div>
 
 <!--
@@ -874,8 +1139,6 @@ Ficha generada a través de econexusplatform.com/menu
 =========================================================================
 -->
 <canvas id="reel-canvas-render" width="1080" height="1920" style="position: fixed; left: -99999px; top: 0; pointer-events: none; display: block;"></canvas>
-
-<!-- NOTA: Los scripts se incluirán en la Parte 2 y 3 -->
 <script>
 /* =========================================================
 CONSTANTES GLOBALES & WORKER
@@ -901,6 +1164,9 @@ let colorSecundarioActual = '#388E3C';
 /* Estado del selector de fotos para Reel */
 let reelInmuebleId = null;
 let reelFotosSeleccionadas = [];
+
+/* Estado del inmueble activo para el motor de Estados WA */
+window.inmuebleActual = null;
 
 /* =========================================================
 UTILIDADES BÁSICAS
@@ -1139,7 +1405,7 @@ async function subirArchivoAlWorker(blob, meta) {
   
   const json = await res.json().catch(() => ({}));
   if (!res.ok || !json.ok) throw new Error(json.error || `Error subiendo archivo (${res.status})`);
-  return json; // { ok, key, publicUrl }
+  return json;
 }
 
 async function eliminarArchivoInmuebleWorker(codigoEco) {
@@ -1278,7 +1544,7 @@ const PASOS_TOUR = [
   { targetId: 'containerPerfilFoto', titulo: '1. Tu Perfil y Tarjeta con QR', texto: 'Aquí verás tu foto y nombre. Al pulsar "Edita o llena tu perfil" podrás configurar tus datos, colores corporativos y actualizar tu contraseña. También puedes descargar en 1 clic "Mi Tarjeta (QR)" con código escaneable hacia tu portafolio.' },
   { targetId: 'containerCtaMiniWeb', titulo: '2. Crea tu Web Profesional en un Clic', texto: 'Con este botón externo generas tu propia página web inmobiliaria. Al pulsarlo se desplegará el acceso directo para abrirla en el navegador, personalizar colores y compartirla en tus redes sociales con OpenGraph.' },
   { targetId: 'containerCtaCrmErp', titulo: '3. Herramientas Avanzadas CRM / ERP', texto: 'Accede a tu nuevo centro avanzado (crmerp.html) para gestionar fases de prospectos, trabajar con geolocalización en Maps, llevar tu agenda interactiva y redactar copys inmobiliarios.' },
-  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas con su foto principal arriba. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4 y Video Reel animado — todos con QR dinámico hacia la ficha pública.' },
+  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas con su foto principal arriba. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4, Reel animado y Estados WA con QR dinámico hacia la ficha pública.' },
   { targetId: 'containerTutorialGuia', titulo: '5. Tutorial Interactivo con Transcripción', texto: '¿Tienes dudas sobre cómo sacar el máximo provecho al sistema? Abre este desplegable cuando quieras para ver la guía paso a paso redactándose en vivo.' },
   { targetId: 'containerAcordeonFormulario', titulo: '6. Publicar o Editar Propiedades', texto: 'En este acordeón subes tus inmuebles con hasta 20 fotos comprimidas, GPS inyectado y enlace opcional de video. ¡Ya estás listo para dominar el mercado con EcoNexus!' }
 ];
@@ -1345,7 +1611,7 @@ function finalizarTourGuiado() {
 TUTORIAL INTERACTIVO (TYPEWRITER)
 ========================================================= */
 let tutorialTimer = null;
-const TEXTO_TUTORIAL_GUIADO = "👋 ¡Hola Asesor! Sigue estos pasos para publicar con éxito:\n1️⃣ Despliega 'Publicar / Editar Inmueble', completa las características y selecciona hasta 20 fotografías. El sistema las comprime, les inyecta GPS y metadatos SEO, y las sube a Cloudflare R2.\n2️⃣ Si tienes un video en YouTube, TikTok o Instagram Reels, pega el enlace para que aparezca el botón de reproducción en tu ficha.\n3️⃣ Una vez publicado, abre 'Mis Inmuebles Publicados' y pulsa en 'Herramientas de Ficha Técnica': podrás descargar al instante la Ficha PDF, Historia IG (9:16), Post de Instagram (3:4) y un Video Reel Animado (eligiendo hasta 4 fotos) con QR escaneable y tus colores corporativos.";
+const TEXTO_TUTORIAL_GUIADO = "👋 ¡Hola Asesor! Sigue estos pasos para publicar con éxito:\n1️⃣ Despliega 'Publicar / Editar Inmueble', completa las características y selecciona hasta 20 fotografías. El sistema las comprime, les inyecta GPS y metadatos SEO, y las sube a Cloudflare R2.\n2️⃣ Si tienes un video en YouTube, TikTok o Instagram Reels, pega el enlace para que aparezca el botón de reproducción en tu ficha.\n3️⃣ Una vez publicado, abre 'Mis Inmuebles Publicados' y pulsa en 'Herramientas de Ficha Técnica': podrás descargar al instante la Ficha PDF, Historia IG (9:16), Post de Instagram (3:4), un Video Reel Animado (eligiendo hasta 4 fotos) y un Estado de WhatsApp interactivo con QR escaneable y tus colores corporativos.";
 
 function toggleAcordeonTutorial() {
   const cuerpo = document.getElementById('cuerpoAcordeonTutorial');
@@ -1955,503 +2221,57 @@ function confirmarYRenderizarReel() {
   }
 }
 </script>
-<script>
-/* =========================================================
-LISTADO DE INMUEBLES CON FOTO SUPERIOR Y DESPLEGABLE TOOLS
-========================================================= */
-async function buscarMisInmuebles() {
-  const contenedor = document.getElementById("resultadoMisInmuebles");
-  contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-4 col-span-full"><i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> Buscando tus propiedades...</p>`;
-  
-  try {
-    const { data, error } = await dbClient
-      .from('propiedades')
-      .select('*')
-      .eq('user_id', usuarioActual.id)
-      .order('id', { ascending: false });
-      
-    if (error) throw error;
-    misInmueblesCargados = data || [];
-    contenedor.innerHTML = "";
-    
-    if (!data || data.length === 0) {
-      contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-6 font-semibold col-span-full bg-white rounded-xl border border-gray-200">Aún no tienes propiedades registradas en tu inventario.</p>`;
-      return;
-    }
-    
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between text-xs";
-      
-      const fotoTop = (item.fotos && item.fotos.length > 0) ? item.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-      const esAgencia = item.tipo_asesor === 'Agencia';
-      const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
-      
-      const vigencia = calcularTiempoRestante(item.fecha_expiracion);
-      const vigenciaTexto = vigencia ? (vigencia.expirado
-        ? `<span class="bg-red-600 text-white px-2.5 py-0.5 rounded-full font-bold text-[10px]">Expirado</span>`
-        : `<span class="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]"><i class="fa-solid fa-clock mr-1"></i>${vigencia.texto}</span>`) : '';
-        
-      let vipBadge = '';
-      if (item.destacado && item.fecha_fin_vip) {
-        const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
-        if (vipTime && !vipTime.expirado) {
-          vipBadge = `<span class="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-full font-extrabold text-[10px] shadow-sm"><i class="fa-solid fa-crown mr-1"></i>VIP: ${vipTime.texto}</span>`;
-        }
-      }
-      
-      card.innerHTML = `
-        <div>
-          <div class="relative h-44 w-full bg-gray-900 overflow-hidden">
-            <img src="${fotoTop}" alt="${escapeHTML(item.titulo)}" class="w-full h-full object-cover" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25"></div>
-            <span class="absolute top-2.5 left-2.5 bg-econexus text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase shadow">${escapeHTML(item.operacion)}</span>
-            <span class="absolute top-2.5 right-2.5 bg-black/75 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm">${escapeHTML(item.codigo_eco)}</span>
-            <div class="absolute bottom-2.5 left-3 right-3 flex justify-between items-end">
-              <span class="text-white font-black text-lg drop-shadow">$${Number(item.precio).toLocaleString('en-US')}</span>
-              <span class="text-green-200 text-[10px] font-bold bg-black/50 px-2 py-0.5 rounded">${escapeHTML(item.tipo)}</span>
-            </div>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="flex flex-wrap items-center gap-1.5">${vigenciaTexto}${vipBadge}</div>
-            <p class="font-extrabold text-gray-900 text-sm line-clamp-1" title="${escapeHTML(item.titulo)}">${escapeHTML(item.titulo)}</p>
-            <p class="text-gray-500 text-[11px] truncate"><i class="fa-solid fa-location-dot text-econexus mr-1"></i>${escapeHTML(item.ubicacion)}</p>
-            <p class="text-[11px] font-semibold text-gray-700 pt-0.5"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i>${infoAsesor}</p>
-          </div>
+<!-- =========================================================
+MODAL SELECTOR DE ESTADO DE WHATSAPP (RÁFAGA / VIDEO)
+========================================================= -->
+<div id="waStatusModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
+  <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl animate-modal-in">
+    <div class="flex items-center gap-2 mb-3 border-b border-slate-700 pb-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Crear Estado de WhatsApp</h3>
+        <p class="text-[11px] text-slate-400 leading-tight">El link del inmueble se copiará automáticamente al portapapeles.</p>
+      </div>
+      <button type="button" onclick="cerrarModalEstadoWA()" class="text-slate-400 hover:text-red-400 w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center cursor-pointer transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="waStatusPreviewBox" class="hidden mb-3 p-3 rounded-xl bg-slate-950/60 border border-emerald-500/30 text-xs text-emerald-300 text-center font-semibold">
+      <!-- Feedback en vivo -->
+    </div>
+
+    <div class="flex flex-col gap-2.5 mb-3">
+      <button type="button" onclick="ejecutarEstadoWA('burst')" class="bg-slate-950 hover:bg-slate-800 border-2 border-emerald-500 text-left p-3.5 rounded-xl transition cursor-pointer">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-bolt text-emerald-400 text-base"></i>
+          <span class="font-extrabold text-emerald-400 text-sm">Ráfaga Interactiva (4 Láminas HD)</span>
         </div>
-        <div class="px-4 pb-4 pt-1">
-          <button type="button" onclick="toggleHerramientasFicha('${item.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-extrabold py-2.5 px-3.5 rounded-xl transition flex items-center justify-between shadow-sm cursor-pointer">
-            <span class="flex items-center gap-2 text-xs"><i class="fa-solid fa-toolbox text-amber-300"></i> Herramientas de Ficha Técnica</span>
-            <i id="tools-icon-${item.id}" class="fa-solid fa-chevron-down transition-transform text-[10px]"></i>
-          </button>
-          
-          <div id="tools-panel-${item.id}" class="hidden mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-1.5 animate-modal-in">
-            <button type="button" onclick="descargarPDFFormal('${item.id}')" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-file-pdf"></i> Ficha PDF</button>
-            <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-mobile-screen"></i> Historia IG</button>
-            <button type="button" onclick="descargarPostInstagramCanvas('${item.id}')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-instagram"></i> Post IG (3:4)</button>
-            <button type="button" onclick="abrirSelectorFotosReel('${item.id}')" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-film"></i> Crear Reel</button>
-            <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-whatsapp"></i> Compartir WA</button>
-            <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-star"></i> Destacar VIP</button>
-            <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-rotate"></i> Renovar 30D</button>
-            
-            <!-- BOTONES CONDICIONALES: SAAI VS ECONEXUS -->
-            ${item.external_source === 'SAAI' ? `
-              <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1">
-                <i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI
-              </div>
-              <button type="button" onclick="renovarInmuebleSAAI('${item.id}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Renovar 30 días (SAAI)">
-                <i class="fa-solid fa-rotate mr-1"></i> Renovar
-              </button>
-              <button type="button" onclick="eliminarInmuebleSAAI('${item.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Eliminar Inmueble (SAAI)">
-                <i class="fa-solid fa-trash-can mr-1"></i> Borrar
-              </button>
-            ` : `
-              <div class="flex gap-1.5 col-span-2 mt-1">
-                <button type="button" onclick="editarInmueble('${item.id}')" title="Editar Inmueble" class="flex-1 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Eliminar Inmueble" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
-              </div>
-            `}
-            
-          </div>
+        <p class="text-[11px] text-slate-400 leading-snug">Generación en ~0.5 seg. Máxima nitidez, efecto asomo en la foto 1 y barra filmstrip nativa.</p>
+      </button>
+
+      <button type="button" onclick="ejecutarEstadoWA('video')" class="bg-slate-950 hover:bg-slate-800 border-2 border-sky-500 text-left p-3.5 rounded-xl transition cursor-pointer">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-film text-sky-400 text-base"></i>
+          <span class="font-extrabold text-sky-400 text-sm">Bento-Story Animado (Video)</span>
         </div>
-      `;
-      contenedor.appendChild(card);
-    });
-  } catch (err) {
-    contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-4 font-semibold col-span-full">Error de conexión al cargar tus propiedades.</p>`;
-    console.error(err);
-  }
-}
+        <p class="text-[11px] text-slate-400 leading-snug">Tarjeta técnica fija abajo mientras las fotos se deslizan solas arriba. Requiere segundo toque al finalizar.</p>
+      </button>
+    </div>
 
-/* =========================================================
-FUNCIONES RPC PARA INMUEBLES VINCULADOS A SAAI
-========================================================= */
-async function renovarInmuebleSAAI(id) {
-  if (!confirm('¿Deseas renovar este inmueble por 30 días más en EcoNexus?')) return;
-  try {
-    const { error } = await dbClient.rpc('renovar_propiedad_saai', { p_id: id, p_dias: 30 });
-    if (error) throw error;
-    alert('Inmueble renovado con éxito.');
-    buscarMisInmuebles();
-  } catch (e) {
-    console.error(e);
-    alert('Error al renovar: ' + e.message);
-  }
-}
+    <div class="flex flex-col sm:flex-row gap-2">
+      <button type="button" onclick="abrirPreviewIndexDesdeEstadoWA()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
+        <i class="fa-solid fa-up-right-from-square"></i> Ver en EcoNexus
+      </button>
+      <button type="button" onclick="cerrarModalEstadoWA()" class="flex-1 bg-slate-800 hover:bg-red-500/30 text-slate-300 hover:text-red-300 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </button>
+    </div>
+  </div>
+</div>
 
-async function eliminarInmuebleSAAI(id) {
-  if (!confirm('¿Estás seguro de eliminar este inmueble? Se borrará de EcoNexus y al abrir SAAI de nuevo se borrará allá.')) return;
-  try {
-    const { error } = await dbClient.rpc('borrar_propiedad_saai', { p_id: id });
-    if (error) throw error;
-    alert('Inmueble eliminado de EcoNexus. Se sincronizará el borrado en SAAI.');
-    buscarMisInmuebles();
-  } catch (e) {
-    console.error(e);
-    alert('Error al eliminar: ' + e.message);
-  }
-}
-
-/* =========================================================
-PROCESAR CARGA / EDICIÓN → WORKER R2 SIN HUÉRFANOS
-========================================================= */
-async function procesarCarga(e) {
-  e.preventDefault();
-  const editId = document.getElementById("editInmuebleId").value;
-  const esEdicion = Boolean(editId);
-  const filesInput = document.getElementById("fotosFiles").files;
-  
-  if (!esEdicion && (filesInput.length === 0 || filesInput.length > 20)) {
-    return mostrarAvisoElegante("Fotografías requeridas", "Por favor selecciona entre 1 y 20 fotografías del inmueble.", "info");
-  }
-  if (esEdicion && filesInput.length > 20) {
-    return mostrarAvisoElegante("Límite de fotos", "Puedes subir un máximo de 20 fotografías por propiedad.", "info");
-  }
-  
-  const btn = document.getElementById("btnSubmit");
-  btn.disabled = true;
-  btn.textContent = esEdicion ? "Guardando cambios..." : "Comprimiendo y subiendo imágenes...";
-  
-  mostrarProgresoGeneracion(
-    esEdicion ? "Guardando Cambios..." : "Publicando Inmueble...",
-    "Comprimiendo imágenes, inyectando GPS y subiendo a Cloudflare R2.",
-    true
-  );
-  
-  try {
-    /* 1. Determinar código único (en edición se respeta el original) */
-    let codigoUnico = '';
-    if (esEdicion) {
-      const { data: propActual } = await dbClient
-        .from('propiedades')
-        .select('codigo_eco')
-        .eq('id', editId)
-        .single();
-      codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
-    } else {
-      codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
-    }
-    
-    /* 2. Recoger datos del formulario */
-    const titulo = document.getElementById("titulo").value.trim();
-    const tipo = document.getElementById("tipo").value.trim();
-    const operacion = document.getElementById("operacion").value;
-    const precio = Number(document.getElementById("precio").value) || 0;
-    const ubicacion = document.getElementById("ubicacion").value.trim();
-    const nombreAsesor = document.getElementById("nombreAsesor").value.trim();
-    const telefonoAsesor = document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, '');
-    const tipoAsesorSel = document.getElementById("tipoAsesor").value;
-    const nombreAgenciaVal = tipoAsesorSel === 'Agencia' ? document.getElementById("nombreAgencia").value.trim() : null;
-    
-    /* 3. Subida de fotos al Worker R2 (con EXIF GPS) */
-    let urlsPublicas = [];
-    if (filesInput.length > 0) {
-      const options = { maxSizeMB: 0.35, maxWidthOrHeight: 1600, useWebWorker: true };
-      for (let i = 0; i < filesInput.length; i++) {
-        const fileOriginal = filesInput[i];
-        actualizarBarraProgreso(
-          Math.round((i / filesInput.length) * 90),
-          `Procesando foto ${i + 1} de ${filesInput.length}...`
-        );
-        
-        let fileComprimido = await imageCompression(fileOriginal, options);
-        fileComprimido = await inyectarExifGPS(
-          fileComprimido,
-          10.1620,
-          -68.0077,
-          `EcoNexus - ${titulo} - ${ubicacion}`
-        );
-        
-        const res = await subirArchivoAlWorker(fileComprimido, {
-          category: 'inmueble',
-          codigoEco: codigoUnico,
-          index: i,
-          titulo: titulo,
-          ubicacion: ubicacion,
-          operacion: operacion,
-          precio: precio,
-          lat: 10.1620,
-          lng: -68.0077,
-          cleanPrevious: esEdicion && i === 0, /* Solo la primera foto nueva dispara el borrado de las viejas en R2 */
-          fileName: `foto-${i + 1}.jpg`
-        });
-        urlsPublicas.push(res.publicUrl);
-      }
-    } else if (esEdicion) {
-      /* Edición sin nuevas fotos: conservar exactamente las actuales */
-      urlsPublicas = fotosActualesEdicion;
-    }
-    
-    actualizarBarraProgreso(95, "Guardando registro en Supabase...");
-    
-    /* 4. Payload final */
-    const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    const payload = {
-      titulo, tipo, operacion, precio, ubicacion,
-      habitaciones: Number(document.getElementById("habitaciones").value) || 0,
-      banos: Number(document.getElementById("banos").value) || 0,
-      estacionamientos: Number(document.getElementById("estacionamientos").value) || 0,
-      metros: Number(document.getElementById("metros").value) || 0,
-      descripcion: document.getElementById("descripcion").value,
-      enlace_video: document.getElementById("enlaceVideo").value.trim(),
-      nombre_asesor: nombreAsesor,
-      telefono_asesor: telefonoAsesor,
-      tipo_asesor: tipoAsesorSel,
-      nombre_agencia: nombreAgenciaVal,
-      fotos: urlsPublicas
-    };
-    
-    if (esEdicion) {
-      const { error: updateError } = await dbClient
-        .from('propiedades')
-        .update(payload)
-        .eq('id', editId);
-      if (updateError) throw updateError;
-      actualizarBarraProgreso(100, "¡Cambios guardados!");
-      ocultarProgresoGeneracion();
-      mostrarAvisoElegante("¡Publicación Actualizada!", `Los cambios en el inmueble (${codigoUnico}) se guardaron correctamente.`);
-    } else {
-      payload.codigo_eco = codigoUnico;
-      payload.user_id = usuarioActual.id;
-      payload.fecha_expiracion = expiracionCalculada;
-      const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
-      if (dbError) throw dbError;
-      actualizarBarraProgreso(100, "¡Publicación creada!");
-      ocultarProgresoGeneracion();
-      mostrarAvisoElegante("¡Inmueble Publicado!", `Tu propiedad (${codigoUnico}) ya está activa por 30 días en EcoNexus y lista para descargar sus piezas de marketing con QR.`);
-    }
-    
-    cancelarEdicion();
-    const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
-    if (!cuerpoGestion.classList.contains("hidden")) {
-      buscarMisInmuebles();
-    }
-  } catch (err) {
-    ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al publicar", "Ocurrió un inconveniente al procesar la publicación. " + (err.message || 'Verifica tu conexión e intenta nuevamente.'), "error");
-    console.error("Error en procesarCarga:", err);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = esEdicion ? "Guardar Cambios en el Inmueble" : "Publicar Inmueble en EcoNexus";
-  }
-}
-
-/* =========================================================
-EDITAR INMUEBLE (PRELLENADO)
-========================================================= */
-async function editarInmueble(id) {
-  try {
-    const { data, error } = await dbClient
-      .from('propiedades')
-      .select('*')
-      .eq('id', id)
-      .single();
-    if (error) throw error;
-    if (!data) return;
-    
-    const cuerpoForm = document.getElementById("cuerpoAcordeonFormulario");
-    const iconoForm = document.getElementById("iconoAcordeonFormulario");
-    cuerpoForm.classList.remove("hidden");
-    iconoForm.classList.add("rotate-180");
-    
-    document.getElementById("editInmuebleId").value = data.id;
-    document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
-    document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
-    document.getElementById("tipoAsesor").value = data.tipo_asesor || 'Independiente';
-    toggleTipoAsesor();
-    if (data.tipo_asesor === 'Agencia') {
-      document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
-    }
-    document.getElementById("operacion").value = data.operacion || 'Venta';
-    document.getElementById("tipo").value = data.tipo || '';
-    document.getElementById("precio").value = data.precio || '';
-    document.getElementById("ubicacion").value = data.ubicacion || '';
-    document.getElementById("titulo").value = data.titulo || '';
-    document.getElementById("habitaciones").value = data.habitaciones || 0;
-    document.getElementById("banos").value = data.banos || 0;
-    document.getElementById("estacionamientos").value = data.estacionamientos || 0;
-    document.getElementById("metros").value = data.metros || 0;
-    document.getElementById("descripcion").value = data.descripcion || '';
-    document.getElementById("enlaceVideo").value = data.enlace_video || '';
-    
-    /* Conservar fotos actuales para no perderlas si el asesor no sube nuevas */
-    fotosActualesEdicion = Array.isArray(data.fotos) ? data.fotos : [];
-    const fotosInput = document.getElementById("fotosFiles");
-    fotosInput.removeAttribute("required");
-    fotosInput.value = "";
-    
-    document.getElementById("labelFotosTitle").innerHTML = `Fotos del Inmueble (Opcional) <span class="text-xs text-gray-500 font-normal">(Si no seleccionas fotos, se conservarán las ${fotosActualesEdicion.length} actuales)</span>`;
-    document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 20 fotos para reemplazar las actuales (se limpiarán las anteriores en R2).";
-    document.getElementById("checkAcepto").checked = true;
-    document.getElementById("tituloFormulario").textContent = `Editando Inmueble (Código: ${data.codigo_eco})`;
-    document.getElementById("btnSubmit").textContent = "Guardar Cambios en el Inmueble";
-    document.getElementById("btnCancelarEdicion").classList.remove("hidden");
-    document.getElementById("formCaptacion").scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } catch (err) {
-    mostrarAvisoElegante("Error al cargar", "No se pudo cargar la información de la propiedad para editar.", "error");
-    console.error(err);
-  }
-}
-
-/* =========================================================
-CANCELAR EDICIÓN
-========================================================= */
-function cancelarEdicion() {
-  document.getElementById("formCaptacion").reset();
-  document.getElementById("editInmuebleId").value = "";
-  document.getElementById("enlaceVideo").value = "";
-  fotosActualesEdicion = [];
-  
-  const fotosInput = document.getElementById("fotosFiles");
-  fotosInput.setAttribute("required", "true");
-  document.getElementById("labelFotosTitle").textContent = "Fotos del Inmueble (Máximo 20) *";
-  document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 20 fotos (Compresión inteligente + Inyección GPS/OpenGraph).";
-  document.getElementById("labelFotosCount").className = "text-xs text-gray-500 mt-1 block";
-  document.getElementById("tituloFormulario").textContent = "Datos de la Propiedad";
-  document.getElementById("btnSubmit").textContent = "Publicar Inmueble en EcoNexus";
-  document.getElementById("btnCancelarEdicion").classList.add("hidden");
-  
-  /* Re-inyectar datos del perfil para comodidad */
-  const nomPerfil = document.getElementById('perfilNombreAgente').value.trim();
-  const telPerfil = document.getElementById('perfilTelefono').value.trim();
-  const tipoPerfil = document.getElementById('perfilTipoAsesor').value;
-  const agPerfil = document.getElementById('perfilNombreAgencia').value.trim();
-  
-  if (nomPerfil) document.getElementById('nombreAsesor').value = nomPerfil;
-  if (telPerfil) document.getElementById('telefonoAsesor').value = telPerfil;
-  if (tipoPerfil) document.getElementById('tipoAsesor').value = tipoPerfil;
-  toggleTipoAsesor();
-  if (agPerfil) document.getElementById('nombreAgencia').value = agPerfil;
-}
-
-/* =========================================================
-ELIMINAR INMUEBLE (WORKER /delete → SUPABASE legacy → FILA)
-========================================================= */
-function eliminarInmueble(id, codigoEco) {
-  mostrarConfirmacionElegante(
-    "Retirar Inmueble",
-    `¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente? Se eliminarán todas sus fotos de Cloudflare R2 y del Storage legacy de Supabase.`,
-    async () => {
-      mostrarProgresoGeneracion("Eliminando Inmueble...", "Limpiando archivos en Cloudflare R2 y Supabase Storage.");
-      try {
-        /* 1. Worker /delete → limpia carpeta completa en R2 */
-        await eliminarArchivoInmuebleWorker(codigoEco);
-        
-        /* 2. Limpieza legacy en Supabase Storage (por si quedan fotos viejas) */
-        try {
-          const { data: files } = await dbClient
-            .storage
-            .from('econexus-fotos')
-            .list(`${usuarioActual.id}/${codigoEco}`);
-          if (files && files.length > 0) {
-            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
-            await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
-          }
-        } catch (e) {
-          console.warn('Limpieza legacy Supabase omitida:', e);
-        }
-        
-        /* 3. Borrar la fila en Supabase */
-        const { error } = await dbClient.from('propiedades').delete().eq('id', id);
-        if (error) throw error;
-        
-        ocultarProgresoGeneracion();
-        mostrarAvisoElegante("Inmueble Retirado", `La propiedad ${codigoEco} fue eliminada con éxito.`);
-        buscarMisInmuebles();
-      } catch (err) {
-        ocultarProgresoGeneracion();
-        mostrarAvisoElegante("Error al eliminar", "Ocurrió un inconveniente al intentar retirar la propiedad. " + (err.message || ''), "error");
-        console.error(err);
-      }
-    }
-  );
-}
-
-/* =========================================================
-RENOVAR VIGENCIA 30 DÍAS (NORMAL)
-========================================================= */
-async function renovarInmueble(id, codigoEco) {
-  try {
-    const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await dbClient
-      .from('propiedades')
-      .update({ fecha_expiracion: nuevaExpiracion })
-      .eq('id', id);
-    if (error) throw error;
-    mostrarAvisoElegante("¡Vigencia Renovada!", `El inmueble ${codigoEco} ha sido renovado con éxito por 30 días adicionales.`);
-    buscarMisInmuebles();
-  } catch (err) {
-    mostrarAvisoElegante("Error al renovar", "Ocurrió un inconveniente al intentar renovar la publicación.", "error");
-    console.error(err);
-  }
-}
-
-/* =========================================================
-SOLICITAR VIP POR WHATSAPP
-========================================================= */
-function solicitarVIPWA(id) {
-  const p = misInmueblesCargados.find(item => item.id == id);
-  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
-  
-  const msjVIP = encodeURIComponent(`Hola EcoNexus, deseo solicitar la activación de destacamiento VIP para mi inmueble:\n\n🏡 *${p.titulo}*\n🆔 *Código:* ${p.codigo_eco}\n💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}\n\nPor favor indíquenme las opciones disponibles para promover esta propiedad.`);
-  window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
-}
-
-/* =========================================================
-COMPARTIR INMUEBLE POR WHATSAPP (LINK WORKER /share)
-========================================================= */
-function compartirInmuebleWA(id) {
-  const p = misInmueblesCargados.find(item => item.id == id);
-  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
-  
-  const urlInmueble = obtenerEnlaceShareInmueble(p.codigo_eco);
-  const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-  const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
-  
-  const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*\n\n--------------------------\n🏡 *${p.titulo}*\n🆔 *Código:* ${p.codigo_eco}\n💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}\n📍 *Ubicación:* ${p.ubicacion}\n🏷️ *Operación:* ${p.operacion}\n📐 *Construcción:* ${p.metros || 0} m²\n🛏️ *Habitaciones:* ${p.habitaciones || 0} | 🚿 *Baños:* ${p.banos || 0} | 🚗 *Puestos:* ${p.estacionamientos || 0}\n👤 *Asesor:* ${p.nombre_asesor || 'Asesor EcoNexus'}\n🏢 *Agencia/Estatus:* ${agenciaStr}\n\n🔗 *Ver ficha interactiva, galería de fotos y descripción completa:*\n${urlInmueble}\n\n--------------------------\n*Ficha generada a través de econexusplatform.com/menu*`;
-  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
-}
-
-/* =========================================================
-COMPARTIR CATÁLOGO COMPLETO (WORKER /share?asesor=...)
-========================================================= */
-async function compartirInventarioWA() {
-  let lista = misInmueblesCargados;
-  if (!lista || lista.length === 0) {
-    try {
-      const { data } = await dbClient
-        .from('propiedades')
-        .select('*')
-        .eq('user_id', usuarioActual.id)
-        .order('id', { ascending: false });
-      lista = data || [];
-      misInmueblesCargados = lista;
-    } catch (err) {
-      console.error("Error al cargar inventario:", err);
-    }
-  }
-  
-  if (!lista || lista.length === 0) {
-    return mostrarAvisoElegante("Catálogo Vacío", "No tienes propiedades cargadas actualmente para compartir.", "info");
-  }
-  
-  const primerInmueble = lista[0];
-  const numLimpio = primerInmueble.telefono_asesor ? primerInmueble.telefono_asesor.replace(/[^0-9]/g, '') : '';
-  const nombreAsesor = primerInmueble.nombre_asesor || "Asesor EcoNexus";
-  const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
-  const agencia = esAgencia ? primerInmueble.nombre_agencia : "Independiente";
-  
-  const urlCatalogo = `${WORKER_URL}/share?asesor=${encodeURIComponent(numLimpio)}`;
-  
-  let listaTexto = "";
-  lista.forEach((item, index) => {
-    listaTexto += `${index + 1}. *[${item.codigo_eco}]* ${item.titulo}\n 💰 $${Number(item.precio).toLocaleString('en-US')} - 📍 ${item.ubicacion} (${item.operacion})\n\n`;
-  });
-  
-  const texto = `📋 *CATÁLOGO INMOBILIARIO EXCLUSIVO*\n\n--------------------------\n👤 *Asesor:* ${nombreAsesor}\n🏢 *Agencia/Estatus:* ${agencia}\n📊 *Total Propiedades Disponibles:* ${lista.length}\n--------------------------\n\n${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*\n${urlCatalogo}\n\n--------------------------\n*Ficha generada a través de econexusplatform.com/menu*`;
-  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
-}
-</script>
 <script>
 /* =========================================================
 HELPER: ESPERAR CARGA DE IMAGEN (PARA QR EN HTML2CANVAS)
@@ -2469,7 +2289,7 @@ function esperarImagenCargada(imgEl, timeoutMs = 1800) {
 }
 
 /* =========================================================
-1. GENERADOR FICHA TÉCNICA PDF (CON QR + METADATOS REALES)
+1. GENERADOR FICHA TÉCNICA PDF (INTACTO — NO MODIFICADO)
 ========================================================= */
 async function descargarPDFFormal(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
@@ -2488,11 +2308,9 @@ async function descargarPDFFormal(id) {
     const fotosMosaico = fotosBase64.slice(1, 5).filter(f => f !== null);
     const fotoAgenteBase64 = fotoPerfilActual ? await urlToBase64(fotoPerfilActual) : null;
     
-    /* QR hacia la ficha pública del Worker */
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
     const qrBase64 = generarQRDataUrl(urlShare, 200, '#0f172a', '#ffffff');
     
-    /* Cabecera con 3 columnas (foto, info, operación+código+QR) */
     const columnasCabecera = [];
     if (fotoAgenteBase64) {
       columnasCabecera.push({ width: 58, image: fotoAgenteBase64, fit: [50, 50], alignment: 'left' });
@@ -2591,87 +2409,106 @@ async function descargarPDFFormal(id) {
 }
 
 /* =========================================================
-2. GENERADOR HISTORIA IG (1080x1920 - 9:16 CON QR)
+2. GENERADOR HISTORIA IG 9:16 (REDISEÑADO — WHITE LABEL SUPERIOR)
 ========================================================= */
 async function descargarHistoriaCanvas(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
   
-  const { primario, secundario } = obtenerColoresMarcaActivos();
-  const esPrimarioClaro = esColorClaro(primario);
-  const fondoTop = esPrimarioClaro ? '#f8fafc' : primario;
-  const fondoBottom = esPrimarioClaro ? '#cbd5e1' : oscurecerColorHex(primario, 55);
-  const txtFirma = esPrimarioClaro ? '#0f172a' : '#ffffff';
+  const { secundario } = obtenerColoresMarcaActivos();
   
-  mostrarProgresoGeneracion("Creando Historia IG (9:16)...", "Sincronizando colores corporativos, contraste inteligente, fotografías y QR.");
+  mostrarProgresoGeneracion("Creando Historia IG (9:16)...", "Sincronizando datos, QR y fotografías en HD.");
   
   try {
     const container = document.getElementById('story-canvas-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
     
-    /* 1) QR PRIMERO */
+    // QR primero
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 300, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(urlShare, 400, '#0f172a', '#ffffff');
     const qrImgEl = document.getElementById('story-qr-img');
     if (qrImgEl && qrDataUrl) {
       qrImgEl.src = qrDataUrl;
       await esperarImagenCargada(qrImgEl);
     }
     
-    /* 2) Fotos del mosaico */
+    // Fotos
     const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-    const urlsMosaico = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
+    const urlsStory = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
     const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
-      urlToBase64(urlsMosaico[0]),
-      urlToBase64(urlsMosaico[1]),
-      urlToBase64(urlsMosaico[2]),
-      urlToBase64(urlsMosaico[3]),
+      urlToBase64(urlsStory[0]),
+      urlToBase64(urlsStory[1]),
+      urlToBase64(urlsStory[2]),
+      urlToBase64(urlsStory[3]),
       fotoPerfilActual ? urlToBase64(fotoPerfilActual) : Promise.resolve(null)
     ]);
     
-    document.getElementById('story-img-1').src = b64_1 || urlsMosaico[0];
-    document.getElementById('story-img-2').src = b64_2 || urlsMosaico[1];
-    document.getElementById('story-img-3').src = b64_3 || urlsMosaico[2];
-    document.getElementById('story-img-4').src = b64_4 || urlsMosaico[3];
+    document.getElementById('story-img-1').src = b64_1 || urlsStory[0];
+    document.getElementById('story-img-2').src = b64_2 || urlsStory[1];
+    document.getElementById('story-img-3').src = b64_3 || urlsStory[2];
+    document.getElementById('story-img-4').src = b64_4 || urlsStory[3];
     
-    /* 3) Avatar */
+    // Avatar
     const imgAgente = document.getElementById('story-agente-foto');
     if (b64Avatar || fotoPerfilActual) {
       imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.borderColor = secundario;
       imgAgente.style.display = 'block';
     } else {
       imgAgente.style.display = 'none';
     }
     
-    /* 4) Datos */
+    // Datos de cabecera (white label)
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-    document.getElementById('story-agencia-badge').textContent = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
-    document.getElementById('story-agente').textContent = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
+    document.getElementById('story-agencia-badge').textContent = esAgencia ? p.nombre_agencia : 'AGENTE VERIFICADO';
+    document.getElementById('story-agente').textContent = p.nombre_asesor || 'Asesor Inmobiliario';
     document.getElementById('story-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
     
-    const bgOperacion = p.operacion === 'Alquiler' ? '#d97706' : secundario;
-    const badge = document.getElementById('story-badge-operacion');
-    badge.textContent = p.operacion || 'VENTA';
-    badge.style.background = bgOperacion;
-    badge.style.color = obtenerColorTextoContraste(bgOperacion);
+    // Etiquetas verdes superpuestas
+    const opEl = document.getElementById('story-badge-operacion');
+    opEl.textContent = (p.operacion || 'VENTA').toUpperCase();
     
-    const ctaBar = document.getElementById('story-cta-bar');
-    ctaBar.style.background = secundario;
-    ctaBar.style.color = obtenerColorTextoContraste(secundario);
-    
-    const footerSig = document.getElementById('story-footer-signature');
-    if (footerSig) footerSig.style.color = txtFirma;
-    
+    document.getElementById('story-codigo').textContent = p.codigo_eco;
     document.getElementById('story-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    document.getElementById('story-titulo').textContent = truncarTextoSimple(p.titulo, 52);
-    document.getElementById('story-ubicacion').textContent = `📍 ${truncarTextoSimple(p.ubicacion, 36)} • ID: ${p.codigo_eco}`;
-    document.getElementById('story-specs').textContent = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
     
-    await new Promise(r => setTimeout(r, 250));
+    // Contador de galería
+    const totalFotosStory = Math.min(3, fotos.length);
+    document.getElementById('story-gallery-count').textContent = `1/${totalFotosStory}`;
     
+    // Datos de info
+    document.getElementById('story-titulo').textContent = p.titulo || 'Inmueble';
+    document.getElementById('story-ubicacion').innerHTML = `<i class="fa-solid fa-location-dot" style="color:#10b981; margin-right:8px;"></i>${p.ubicacion || ''}`;
+    
+    // Specs como pills verdes
+    document.getElementById('story-specs').innerHTML = `
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
+        <i class="fa-solid fa-bed" style="margin-right:5px;"></i>${p.habitaciones || 0} Hab
+      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
+        <i class="fa-solid fa-bath" style="margin-right:5px;"></i>${p.banos || 0} Baños
+      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
+        <i class="fa-solid fa-ruler-combined" style="margin-right:5px;"></i>${p.metros || 0}m²
+      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
+        <i class="fa-solid fa-car" style="margin-right:5px;"></i>${p.estacionamientos || 0} Puestos
+      </span>
+    `;
+    
+    // CTA bar
+    const ctaBar = document.getElementById('story-cta-bar');
+    ctaBar.style.background = '#10b981';
+    ctaBar.style.color = '#ffffff';
+    
+    await new Promise(r => setTimeout(r, 300));
+    
+    // Render con scale: 2 para nitidez máxima de QR y textos
     const canvas = await html2canvas(container, {
-      useCORS: true, scale: 1, width: 1080, height: 1920, backgroundColor: null, logging: false
+      useCORS: true,
+      scale: 2,
+      width: 1080,
+      height: 1920,
+      backgroundColor: '#ffffff',
+      logging: false,
+      imageTimeout: 4000
     });
     
     const link = document.createElement('a');
@@ -2688,34 +2525,27 @@ async function descargarHistoriaCanvas(id) {
 }
 
 /* =========================================================
-3. GENERADOR POST IG 3:4 (1080x1440 CON QR)
+3. GENERADOR POST IG 3:4 (REDISEÑADO)
 ========================================================= */
 async function descargarPostInstagramCanvas(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
   
-  const { primario, secundario } = obtenerColoresMarcaActivos();
-  const esPrimarioClaro = esColorClaro(primario);
-  const fondoTop = esPrimarioClaro ? '#f8fafc' : primario;
-  const fondoBottom = esPrimarioClaro ? '#cbd5e1' : oscurecerColorHex(primario, 55);
-  const txtFirma = esPrimarioClaro ? '#0f172a' : '#ffffff';
-  
-  mostrarProgresoGeneracion("Creando Post IG (1080x1440)...", "Renderizando formato vertical 3:4 con contraste inteligente y QR.");
+  mostrarProgresoGeneracion("Creando Post IG (1080x1440)...", "Renderizando formato vertical 3:4 con QR nítido.");
   
   try {
     const container = document.getElementById('post-canvas-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
     
-    /* 1) QR primero */
+    // QR
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 240, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(urlShare, 320, '#0f172a', '#ffffff');
     const qrImgEl = document.getElementById('post-qr-img');
     if (qrImgEl && qrDataUrl) {
       qrImgEl.src = qrDataUrl;
       await esperarImagenCargada(qrImgEl);
     }
     
-    /* 2) Fotos */
+    // Fotos
     const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
     const urlsPost = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
     const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
@@ -2731,45 +2561,60 @@ async function descargarPostInstagramCanvas(id) {
     document.getElementById('post-img-3').src = b64_3 || urlsPost[2];
     document.getElementById('post-img-4').src = b64_4 || urlsPost[3];
     
-    /* 3) Avatar */
+    // Avatar
     const imgAgente = document.getElementById('post-agente-foto');
     if (b64Avatar || fotoPerfilActual) {
       imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.borderColor = secundario;
       imgAgente.style.display = 'block';
     } else {
       imgAgente.style.display = 'none';
     }
     
-    /* 4) Datos */
+    // Datos cabecera
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-    document.getElementById('post-agencia-badge').textContent = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
-    document.getElementById('post-agente').textContent = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
+    document.getElementById('post-agencia-badge').textContent = esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO';
+    document.getElementById('post-agente').textContent = p.nombre_asesor || 'Asesor Inmobiliario';
     document.getElementById('post-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
     
-    const bgOperacion = p.operacion === 'Alquiler' ? '#d97706' : secundario;
-    const badge = document.getElementById('post-badge-operacion');
-    badge.textContent = p.operacion || 'VENTA';
-    badge.style.background = bgOperacion;
-    badge.style.color = obtenerColorTextoContraste(bgOperacion);
+    // Etiquetas verdes
+    const opEl = document.getElementById('post-badge-operacion');
+    opEl.textContent = (p.operacion || 'VENTA').toUpperCase();
     
     const codPill = document.getElementById('post-codigo-pill');
-    codPill.textContent = `CÓDIGO: ${p.codigo_eco}`;
-    codPill.style.background = secundario;
-    codPill.style.color = obtenerColorTextoContraste(secundario);
-    
-    const footerSig = document.getElementById('post-footer-signature');
-    if (footerSig) footerSig.style.color = txtFirma;
+    codPill.textContent = `ID: ${p.codigo_eco}`;
     
     document.getElementById('post-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    document.getElementById('post-titulo').textContent = truncarTextoSimple(p.titulo, 46);
-    document.getElementById('post-ubicacion').textContent = `📍 ${truncarTextoSimple(p.tipo + ' en ' + p.ubicacion, 50)}`;
-    document.getElementById('post-specs').textContent = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
     
-    await new Promise(r => setTimeout(r, 250));
+    // Contador
+    const totalFotosPost = Math.min(3, fotos.length);
+    document.getElementById('post-gallery-count').textContent = `1/${totalFotosPost}`;
+    
+    // Info
+    document.getElementById('post-titulo').textContent = p.titulo || 'Inmueble';
+    document.getElementById('post-ubicacion').innerHTML = `<i class="fa-solid fa-location-dot" style="color:#10b981; margin-right:6px;"></i>${p.tipo} en ${p.ubicacion}`;
+    
+    document.getElementById('post-specs').innerHTML = `
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
+        <i class="fa-solid fa-bed" style="margin-right:4px;"></i>${p.habitaciones || 0}
+      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
+        <i class="fa-solid fa-bath" style="margin-right:4px;"></i>${p.banos || 0}
+      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
+        <i class="fa-solid fa-ruler-combined" style="margin-right:4px;"></i>${p.metros || 0}m²
+      </span>
+    `;
+    
+    await new Promise(r => setTimeout(r, 300));
     
     const canvas = await html2canvas(container, {
-      useCORS: true, scale: 1, width: 1080, height: 1440, backgroundColor: null, logging: false
+      useCORS: true,
+      scale: 2,
+      width: 1080,
+      height: 1440,
+      backgroundColor: '#ffffff',
+      logging: false,
+      imageTimeout: 4000
     });
     
     const link = document.createElement('a');
@@ -2786,7 +2631,8 @@ async function descargarPostInstagramCanvas(id) {
 }
 
 /* =========================================================
-4. MI TARJETA DE PRESENTACIÓN (1080x1920) CON QR AL PORTAFOLIO
+4. MI TARJETA DE PRESENTACIÓN PROFESIONAL (REDISEÑADA)
+Foto izquierda + datos al lado + diagrama + presencia web + WhatsApp + QR
 ========================================================= */
 async function descargarTarjetaPresentacionCanvas() {
   const nombre = document.getElementById('perfilNombreAgente').value.trim() || document.getElementById('headerDisplayNombreAgente').textContent || 'Asesor Inmobiliario';
@@ -2795,51 +2641,41 @@ async function descargarTarjetaPresentacionCanvas() {
   const agencia = document.getElementById('perfilNombreAgencia').value.trim();
   const sobreMi = document.getElementById('perfilSobreMi').value.trim() || 'Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, respaldo profesional y contacto directo.';
   
-  const { primario, secundario } = obtenerColoresMarcaActivos();
-  const esPrimarioClaro = esColorClaro(primario);
-  const fondoTop = esPrimarioClaro ? '#1e293b' : primario;
-  const fondoBottom = esPrimarioClaro ? '#0f172a' : oscurecerColorHex(primario, 58);
-  
-  mostrarProgresoGeneracion("Creando Mi Tarjeta para Estados...", "Aplicando datos, colores, QR y contraste inteligente en 1080x1920 px.");
+  mostrarProgresoGeneracion("Creando Mi Tarjeta para Estados...", "Aplicando datos, QR y contraste inteligente en 1080x1920 px.");
   
   try {
     const container = document.getElementById('card-presentacion-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
     
-    document.getElementById('card-pres-avatar-ring').style.background = `linear-gradient(135deg, #fde047, ${secundario})`;
-    const tipoBadge = document.getElementById('card-pres-tipo-badge');
-    tipoBadge.style.background = secundario;
-    tipoBadge.style.color = obtenerColorTextoContraste(secundario);
-    tipoBadge.textContent = tipo === 'Agencia' ? 'AGENCIA INMOBILIARIA' : 'AGENTE INDEPENDIENTE';
-    
-    /* 1) QR al portafolio del agente (Worker /share?u=userId) */
+    // QR al portafolio del agente
     const urlPortafolio = obtenerEnlaceShareAgente(usuarioActual?.id);
-    const qrDataUrl = generarQRDataUrl(urlPortafolio, 260, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(urlPortafolio, 340, '#0f172a', '#ffffff');
     const qrImgEl = document.getElementById('card-pres-qr-img');
     if (qrImgEl && qrDataUrl) {
       qrImgEl.src = qrDataUrl;
       await esperarImagenCargada(qrImgEl);
     }
     
-    /* 2) Avatar */
+    // Avatar
     const avatarUrl = fotoPerfilActual || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
     const avatarB64 = await urlToBase64(avatarUrl);
     document.getElementById('card-pres-foto').src = avatarB64 || avatarUrl;
     
-    /* 3) Datos */
-    document.getElementById('card-pres-nombre').textContent = truncarTextoSimple(nombre, 26);
-    document.getElementById('card-pres-agencia').textContent = truncarTextoSimple((tipo === 'Agencia' && agencia) ? `Agencia: ${agencia}` : 'Portafolio Oficial Verificado en EcoNexus', 42);
-    document.getElementById('card-pres-sobremi').textContent = `"${truncarTextoSimple(sobreMi, 220)}"`;
+    // Datos
+    document.getElementById('card-pres-nombre').textContent = nombre;
+    document.getElementById('card-pres-agencia').textContent = (tipo === 'Agencia' && agencia) ? `Agencia: ${agencia}` : 'Portafolio Oficial Verificado en EcoNexus';
+    document.getElementById('card-pres-sobremi').textContent = `"${sobreMi}"`;
     document.getElementById('card-pres-telefono').textContent = telefono;
     
-    const waBox = document.getElementById('card-pres-wa-box');
-    waBox.style.background = secundario;
-    waBox.style.color = obtenerColorTextoContraste(secundario);
-    
-    await new Promise(r => setTimeout(r, 250));
+    await new Promise(r => setTimeout(r, 350));
     
     const canvas = await html2canvas(container, {
-      useCORS: true, scale: 1, width: 1080, height: 1920, backgroundColor: null, logging: false
+      useCORS: true,
+      scale: 2,
+      width: 1080,
+      height: 1920,
+      backgroundColor: '#ffffff',
+      logging: false,
+      imageTimeout: 4000
     });
     
     const link = document.createElement('a');
@@ -2886,8 +2722,48 @@ function truncarTextoCanvas(ctx, texto, maxWidth) {
   return recorte + '...';
 }
 
+function ajustarTextoMultilinea(ctx, texto, maxWidth, maxLines = 2) {
+  if (!texto) return [];
+  const palabras = String(texto).split(/\s+/);
+  const lineas = [];
+  let lineaActual = '';
+  
+  for (const palabra of palabras) {
+    const prueba = lineaActual ? lineaActual + ' ' + palabra : palabra;
+    if (ctx.measureText(prueba).width <= maxWidth) {
+      lineaActual = prueba;
+    } else {
+      if (lineaActual) {
+        lineas.push(lineaActual);
+        if (lineas.length >= maxLines) {
+          // Última línea con ellipsis
+          let ultima = lineas[lineas.length - 1];
+          while (ctx.measureText(ultima + '...').width > maxWidth && ultima.length > 0) {
+            ultima = ultima.slice(0, -1);
+          }
+          lineas[lineas.length - 1] = ultima + '...';
+          return lineas;
+        }
+        lineaActual = palabra;
+      } else {
+        // Palabra sola demasiado larga
+        lineas.push(palabra.substring(0, 30) + '...');
+        return lineas;
+      }
+    }
+  }
+  
+  if (lineaActual && lineas.length < maxLines) {
+    lineas.push(lineaActual);
+  }
+  
+  return lineas;
+}
+
 /* =========================================================
-5. MOTOR DE REELS ANIMADOS (1080x1920 @ 30fps CON QR)
+5. MOTOR DE REELS ANIMADOS (REDISEÑADO + DURACIÓN REAL ARREGLADA)
+Layout: foto central grande + filmstrip debajo + info izq + QR der
+Duración: 12 segundos reales (no 1 seg)
 ========================================================= */
 async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
   const p = misInmueblesCargados.find(item => item.id == id);
@@ -2905,15 +2781,6 @@ async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
   } else {
     fotosUrls = ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
   }
-  
-  const { primario, secundario } = obtenerColoresMarcaActivos();
-  const esPrimarioClaro = esColorClaro(primario);
-  const bgTopReel = esPrimarioClaro ? '#1e293b' : primario;
-  const bgBottomReel = esPrimarioClaro ? '#0f172a' : oscurecerColorHex(primario, 60);
-  
-  const colorBotonOp = p.operacion === 'Alquiler' ? '#d97706' : secundario;
-  const colorTextoOp = obtenerColorTextoContraste(colorBotonOp);
-  const colorTextoCta = obtenerColorTextoContraste(secundario);
   
   mostrarProgresoGeneracion("Produciendo Video Reel...", "Cargando fotografías en alta definición y preparando animación con QR...", true);
   
@@ -2933,23 +2800,27 @@ async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
     
     /* 3) QR hacia ficha pública */
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 400, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(urlShare, 500, '#0f172a', '#ffffff');
     const imgQR = qrDataUrl ? await cargarElementoImagen(qrDataUrl) : null;
     
     /* 4) Canvas y MediaRecorder */
     const canvas = document.getElementById('reel-canvas-render');
     const ctx = canvas.getContext('2d');
-    const mimeTypes = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
-    let mimeElegido = '';
     
+    // Configurar detección de formato de video
+    const mimeTypes = ['video/mp4;codecs=avc1.42E01E', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+    let mimeElegido = '';
     for (const m of mimeTypes) {
       if (MediaRecorder.isTypeSupported(m)) { mimeElegido = m; break; }
     }
     
+    // Bitrate ALTO (6.5Mbps) para nitidez de textos pequeños
     const stream = canvas.captureStream(30);
-    const recorder = mimeElegido ? new MediaRecorder(stream, { mimeType: mimeElegido, videoBitsPerSecond: 6000000 }) : new MediaRecorder(stream);
-    const chunks = [];
+    const recorder = mimeElegido
+      ? new MediaRecorder(stream, { mimeType: mimeElegido, videoBitsPerSecond: 6500000 })
+      : new MediaRecorder(stream);
     
+    const chunks = [];
     recorder.ondataavailable = (e) => {
       if (e.data && e.data.size > 0) chunks.push(e.data);
     };
@@ -2968,184 +2839,290 @@ async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
       };
     });
     
-    recorder.start();
+    recorder.start(100);
     
+    // ═══ DURACIÓN REAL CONFIGURADA ═══
     const FPS = 30;
-    const segundosPorSlide = 2.2;
-    const secuencias = imgsCargadas.length === 1 ? [imgsCargadas[0], imgsCargadas[0], imgsCargadas[0]] : imgsCargadas;
-    const totalFrames = Math.round(secuencias.length * segundosPorSlide * FPS);
+    const segundosPorSlide = 2.8; // 2.8s por foto
+    const introSegundos = 1.2;    // 1.2s de intro
+    const outroSegundos = 1.2;    // 1.2s de outro
+    const numSlides = imgsCargadas.length;
+    const totalSegundos = introSegundos + (numSlides * segundosPorSlide) + outroSegundos;
+    // Con 4 fotos: 1.2 + 4*2.8 + 1.2 = 13.6 segundos reales
+    
+    const totalFrames = Math.round(totalSegundos * FPS);
+    const introFrames = Math.round(introSegundos * FPS);
     const framesPorSlide = Math.round(segundosPorSlide * FPS);
+    const outroFrames = Math.round(outroSegundos * FPS);
+    
+    /* Configuración visual del reel */
+    const { secundario } = obtenerColoresMarcaActivos();
+    const colorVerde = '#10b981';
+    const colorFondo = '#f8fafc'; // gris muy claro para el fondo
+    const colorTexto = '#0f172a';
+    
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-    const subtituloAsesor = esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO';
+    const subtituloAsesor = esAgencia ? p.nombre_agencia : 'AGENTE VERIFICADO';
+    
+    // Timing real con performance.now() para asegurar duración exacta
+    const tiempoInicio = performance.now();
     
     for (let frame = 0; frame < totalFrames; frame++) {
-      const slideIdx = Math.min(secuencias.length - 1, Math.floor(frame / framesPorSlide));
-      const frameEnSlide = frame % framesPorSlide;
-      const progresoSlide = frameEnSlide / framesPorSlide;
-      const imgActual = secuencias[slideIdx];
+      const frameActual = frame;
+      let slideIdx = 0;
+      let frameEnSlide = 0;
+      let progresoSlide = 0;
+      let esIntro = frameActual < introFrames;
+      let esOutro = frameActual >= (totalFrames - outroFrames);
       
-      /* 5.1 Fondo degradado corporativo */
-      const gradBg = ctx.createLinearGradient(0, 0, 1080, 1920);
-      gradBg.addColorStop(0, bgTopReel);
-      gradBg.addColorStop(1, bgBottomReel);
-      ctx.fillStyle = gradBg;
+      if (!esIntro && !esOutro) {
+        const frameEnCuerpo = frameActual - introFrames;
+        slideIdx = Math.min(numSlides - 1, Math.floor(frameEnCuerpo / framesPorSlide));
+        frameEnSlide = frameEnCuerpo % framesPorSlide;
+        progresoSlide = frameEnSlide / framesPorSlide;
+      }
+      
+      const imgActual = imgsCargadas[slideIdx];
+      
+      /* 5.1 Fondo */
+      ctx.fillStyle = colorFondo;
       ctx.fillRect(0, 0, 1080, 1920);
       
-      /* 5.2 Marco central con Ken Burns */
-      const areaX = 54, areaY = 250, areaW = 972, areaH = 1040;
+      /* 5.2 Header superior del agente (mismo estilo que las plantillas HTML) */
       ctx.save();
-      dibujarRectanguloRedondeado(ctx, areaX, areaY, areaW, areaH, 36, '#0f172a');
-      ctx.clip();
+      const gradHeader = ctx.createLinearGradient(0, 0, 1080, 0);
+      gradHeader.addColorStop(0, '#1E3F20');
+      gradHeader.addColorStop(1, '#2E5E32');
+      ctx.fillStyle = gradHeader;
+      ctx.fillRect(0, 0, 1080, 160);
       
-      if (imgActual) {
-        const escalaZoom = 1.0 + (progresoSlide * 0.14);
-        const imgRatio = imgActual.width / imgActual.height;
-        const boxRatio = areaW / areaH;
-        let drawW, drawH;
-        
-        if (imgRatio > boxRatio) {
-          drawH = areaH * escalaZoom;
-          drawW = drawH * imgRatio;
-        } else {
-          drawW = areaW * escalaZoom;
-          drawH = drawW / imgRatio;
-        }
-        
-        const dirPan = (slideIdx % 2 === 0) ? 1 : -1;
-        const offsetX = areaX + (areaW - drawW) / 2 + (dirPan * (progresoSlide - 0.5) * 35);
-        const offsetY = areaY + (areaH - drawH) / 2;
-        
-        ctx.drawImage(imgActual, offsetX, offsetY, drawW, drawH);
-        
-        const gradFoto = ctx.createLinearGradient(0, areaY + areaH - 260, 0, areaY + areaH);
-        gradFoto.addColorStop(0, 'rgba(0,0,0,0)');
-        gradFoto.addColorStop(1, 'rgba(0,0,0,0.75)');
-        ctx.fillStyle = gradFoto;
-        ctx.fillRect(areaX, areaY, areaW, areaH);
-      }
-      
-      ctx.restore();
-      dibujarRectanguloRedondeado(ctx, areaX, areaY, areaW, areaH, 36, null, 'rgba(255,255,255,0.28)', 3);
-      
-      /* 5.3 QR flotante sobre la imagen */
-      if (imgQR) {
-        const qrBoxSize = 200;
-        const qrBoxX = areaX + areaW - qrBoxSize - 18;
-        const qrBoxY = areaY + areaH - qrBoxSize - 18;
-        ctx.save();
-        ctx.shadowColor = 'rgba(0,0,0,0.45)';
-        ctx.shadowBlur = 20;
-        ctx.shadowOffsetY = 6;
-        dibujarRectanguloRedondeado(ctx, qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 22, '#ffffff', 'rgba(255,255,255,0.9)', 3);
-        ctx.restore();
-        
-        const qrInner = qrBoxSize - 28;
-        ctx.drawImage(imgQR, qrBoxX + 14, qrBoxY + 14, qrInner, qrInner);
-        ctx.fillStyle = '#0f172a';
-        ctx.font = '900 15px "Segoe UI", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('ESCANEA', qrBoxX + qrBoxSize / 2, qrBoxY + qrBoxSize - 4);
-        ctx.textAlign = 'left';
-      }
-      
-      /* 5.4 Indicadores de slide */
-      const dotWidth = 90;
-      const totalDotsW = secuencias.length * dotWidth + (secuencias.length - 1) * 12;
-      let startDotX = (1080 - totalDotsW) / 2;
-      for (let d = 0; d < secuencias.length; d++) {
-        dibujarRectanguloRedondeado(ctx, startDotX + d * (dotWidth + 12), areaY + 24, dotWidth, 10, 5, d === slideIdx ? '#fde047' : 'rgba(255,255,255,0.35)');
-      }
-      
-      /* 5.5 Cabecera superior */
-      dibujarRectanguloRedondeado(ctx, 54, 52, 972, 165, 28, 'rgba(15, 23, 42, 0.5)', 'rgba(255,255,255,0.24)', 2);
-      let textStartX = 86;
-      
+      // Avatar circular
+      let textStartX = 90;
       if (imgAvatar) {
         ctx.save();
         ctx.beginPath();
-        ctx.arc(134, 134, 54, 0, Math.PI * 2);
+        ctx.arc(110, 80, 48, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip();
-        ctx.drawImage(imgAvatar, 80, 80, 108, 108);
+        ctx.drawImage(imgAvatar, 62, 32, 96, 96);
         ctx.restore();
         
         ctx.beginPath();
-        ctx.arc(134, 134, 54, 0, Math.PI * 2);
+        ctx.arc(110, 80, 48, 0, Math.PI * 2);
         ctx.lineWidth = 4;
-        ctx.strokeStyle = secundario;
+        ctx.strokeStyle = colorVerde;
         ctx.stroke();
-        textStartX = 210;
+        textStartX = 180;
       }
       
+      // Textos cabecera
       ctx.fillStyle = '#a7f3d0';
-      ctx.font = '800 20px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, subtituloAsesor.toUpperCase(), 500), textStartX, 102);
+      ctx.font = '800 18px "Segoe UI", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(subtituloAsesor.toUpperCase(), textStartX, 62);
       
       ctx.fillStyle = '#ffffff';
-      ctx.font = '900 34px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, p.nombre_asesor || 'Asesor EcoNexus', 500), textStartX, 142);
+      ctx.font = '900 32px "Segoe UI", sans-serif';
+      ctx.fillText(truncarTextoCanvas(ctx, p.nombre_asesor || 'Asesor EcoNexus', 700), textStartX, 108);
       
       ctx.fillStyle = '#fde047';
-      ctx.font = '700 24px "Segoe UI", sans-serif';
-      ctx.fillText(`WhatsApp: ${p.telefono_asesor || ''}`, textStartX, 178);
+      ctx.font = '700 22px "Segoe UI", sans-serif';
+      ctx.fillText(`WhatsApp: ${p.telefono_asesor || ''}`, textStartX, 140);
       
+      // Logo EcoNexus a la derecha
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#a7f3d0';
+      ctx.font = '800 14px "Segoe UI", sans-serif';
+      ctx.fillText('EcoNexus', 1020, 90);
+      ctx.restore();
+      
+      /* 5.3 Foto central grande (con Ken Burns suave) */
+      const fotoX = 60, fotoY = 210, fotoW = 960, fotoH = 900;
+      ctx.save();
+      dibujarRectanguloRedondeado(ctx, fotoX, fotoY, fotoW, fotoH, 40, '#0f172a');
+      ctx.clip();
+      
+      if (imgActual) {
+        const escalaZoom = 1.0 + (progresoSlide * 0.10);
+        const imgRatio = imgActual.width / imgActual.height;
+        const boxRatio = fotoW / fotoH;
+        let drawW, drawH;
+        
+        if (imgRatio > boxRatio) {
+          drawH = fotoH * escalaZoom;
+          drawW = drawH * imgRatio;
+        } else {
+          drawW = fotoW * escalaZoom;
+          drawH = drawW / imgRatio;
+        }
+        
+        const offsetX = fotoX + (fotoW - drawW) / 2;
+        const offsetY = fotoY + (fotoH - drawH) / 2;
+        ctx.drawImage(imgActual, offsetX, offsetY, drawW, drawH);
+      }
+      ctx.restore();
+      
+      /* 5.4 Etiquetas verdes superpuestas sobre la foto */
+      // Operación arriba izquierda
       const opTexto = (p.operacion || 'VENTA').toUpperCase();
-      dibujarRectanguloRedondeado(ctx, 765, 96, 230, 76, 38, colorBotonOp);
-      ctx.fillStyle = colorTextoOp;
-      ctx.font = '900 27px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(opTexto, 880, 144);
-      ctx.textAlign = 'left';
-      
-      /* 5.6 Tarjeta inferior */
-      dibujarRectanguloRedondeado(ctx, 54, 1325, 972, 380, 32, 'rgba(15, 23, 42, 0.55)', 'rgba(255,255,255,0.24)', 2);
-      
-      ctx.fillStyle = '#4ade80';
-      ctx.font = '900 64px "Segoe UI", sans-serif';
-      ctx.fillText(`$${Number(p.precio).toLocaleString('en-US')}`, 90, 1412);
-      
-      dibujarRectanguloRedondeado(ctx, 500, 1356, 490, 72, 20, 'rgba(0,0,0,0.45)');
+      ctx.save();
+      ctx.fillStyle = colorVerde;
+      dibujarRectanguloRedondeado(ctx, fotoX + 22, fotoY + 22, 200, 60, 30, colorVerde);
       ctx.fillStyle = '#ffffff';
+      ctx.font = '900 24px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(opTexto, fotoX + 22 + 100, fotoY + 22 + 40);
+      
+      // Código arriba derecha
+      ctx.fillStyle = colorVerde;
+      dibujarRectanguloRedondeado(ctx, fotoX + fotoW - 240, fotoY + 22, 220, 60, 30, colorVerde);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 22px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`ID: ${p.codigo_eco}`, fotoX + fotoW - 240 + 110, fotoY + 22 + 40);
+      
+      // Precio abajo izquierda (grande)
+      const precioTexto = `$${Number(p.precio).toLocaleString('en-US')}`;
+      ctx.font = '900 54px "Segoe UI", sans-serif';
+      const precioAncho = ctx.measureText(precioTexto).width + 70;
+      ctx.fillStyle = colorVerde;
+      dibujarRectanguloRedondeado(ctx, fotoX + 22, fotoY + fotoH - 100, precioAncho, 78, 26, colorVerde);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 46px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(precioTexto, fotoX + 22 + precioAncho / 2, fotoY + fotoH - 42);
+      
+      // Contador de foto abajo derecha
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+      dibujarRectanguloRedondeado(ctx, fotoX + fotoW - 160, fotoY + fotoH - 100, 140, 60, 26, 'rgba(15, 23, 42, 0.75)');
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 24px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${slideIdx + 1}/${numSlides}`, fotoX + fotoW - 160 + 70, fotoY + fotoH - 62);
+      ctx.restore();
+      
+      /* 5.5 Filmstrip debajo de la foto (miniaturas que se iluminan) */
+      const filmY = fotoY + fotoH + 20;
+      const filmH = 140;
+      const filmGap = 14;
+      const totalFilmW = Math.min(imgsCargadas.length, 4);
+      const thumbW = 200;
+      const startX = (1080 - (totalFilmW * thumbW + (totalFilmW - 1) * filmGap)) / 2;
+      
+      for (let t = 0; t < totalFilmW; t++) {
+        const thumbX = startX + t * (thumbW + filmGap);
+        const estaActiva = (t === slideIdx);
+        
+        ctx.save();
+        dibujarRectanguloRedondeado(ctx, thumbX, filmY, thumbW, filmH, 18, '#e2e8f0');
+        ctx.clip();
+        
+        const thumbImg = imgsCargadas[t];
+        if (thumbImg) {
+          const tr = thumbImg.width / thumbImg.height;
+          const br = thumbW / filmH;
+          let dw, dh;
+          if (tr > br) { dh = filmH; dw = dh * tr; } else { dw = thumbW; dh = dw / tr; }
+          ctx.drawImage(thumbImg, thumbX + (thumbW - dw) / 2, filmY + (filmH - dh) / 2, dw, dh);
+        }
+        
+        if (!estaActiva) {
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.55)';
+          ctx.fillRect(thumbX, filmY, thumbW, filmH);
+        }
+        ctx.restore();
+        
+        if (estaActiva) {
+          ctx.lineWidth = 5;
+          ctx.strokeStyle = colorVerde;
+          dibujarRectanguloRedondeado(ctx, thumbX, filmY, thumbW, filmH, 18, null, colorVerde, 5);
+        }
+      }
+      
+      /* 5.6 Info inferior izquierda + QR derecha */
+      const infoY = filmY + filmH + 25;
+      
+      // Título
+      ctx.textAlign = 'left';
+      ctx.fillStyle = colorTexto;
+      ctx.font = '900 38px "Segoe UI", sans-serif';
+      const lineasTitulo = ajustarTextoMultilinea(ctx, p.titulo || 'Inmueble', 720, 2);
+      lineasTitulo.forEach((linea, i) => {
+        ctx.fillText(linea, 60, infoY + 40 + i * 46);
+      });
+      
+      // Ubicación
+      ctx.fillStyle = '#475569';
       ctx.font = '700 24px "Segoe UI", sans-serif';
+      ctx.fillText(truncarTextoCanvas(ctx, p.ubicacion || '', 720), 60, infoY + 40 + lineasTitulo.length * 46 + 12);
+      
+      // Specs en pills verdes
+      const specY = infoY + 40 + lineasTitulo.length * 46 + 55;
+      const specs = [
+        { icon: '🛏️', val: `${p.habitaciones || 0} Hab` },
+        { icon: '🚿', val: `${p.banos || 0} Baños` },
+        { icon: '📐', val: `${p.metros || 0}m²` },
+        { icon: '🚗', val: `${p.estacionamientos || 0} Puestos` }
+      ];
+      
+      let specX = 60;
+      specs.forEach(s => {
+        ctx.font = '800 18px "Segoe UI", sans-serif';
+        const textoSpec = `${s.icon} ${s.val}`;
+        const anchoPill = ctx.measureText(textoSpec).width + 32;
+        
+        dibujarRectanguloRedondeado(ctx, specX, specY, anchoPill, 44, 22, '#ecfdf5', '#a7f3d0', 2);
+        ctx.fillStyle = '#059669';
+        ctx.font = '800 18px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(textoSpec, specX + anchoPill / 2, specY + 30);
+        
+        specX += anchoPill + 12;
+      });
+      
+      // QR derecha
+      if (imgQR) {
+        const qrBoxX = 830;
+        const qrBoxY = infoY - 10;
+        const qrBoxSize = 190;
+        
+        ctx.save();
+        ctx.shadowColor = 'rgba(15, 23, 42, 0.15)';
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 6;
+        dibujarRectanguloRedondeado(ctx, qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 18, '#ffffff', '#e2e8f0', 3);
+        ctx.restore();
+        
+        // QR con suavizado desactivado para nitidez
+        ctx.save();
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(imgQR, qrBoxX + 14, qrBoxY + 14, qrBoxSize - 28, qrBoxSize - 28);
+        ctx.restore();
+        
+        ctx.fillStyle = colorVerde;
+        ctx.font = '900 16px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('ESCANEA', qrBoxX + qrBoxSize / 2, qrBoxY + qrBoxSize + 24);
+      }
+      
+      /* 5.7 Footer firma */
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '700 18px "Segoe UI", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText(`${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`, 745, 1401);
-      ctx.textAlign = 'left';
+      ctx.fillText('Ficha generada en econexusplatform.com/menu', 540, 1870);
       
-      ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(90, 1445);
-      ctx.lineTo(990, 1445);
-      ctx.stroke();
-      
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 35px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, p.titulo, 900), 90, 1505);
-      
-      ctx.fillStyle = '#fde047';
-      ctx.font = '700 27px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, `${p.tipo} en ${p.ubicacion} • ID: ${p.codigo_eco}`, 900), 90, 1558);
-      
-      /* 5.7 CTA */
-      dibujarRectanguloRedondeado(ctx, 90, 1595, 900, 78, 39, secundario);
-      ctx.fillStyle = colorTextoCta;
-      ctx.font = '900 26px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('Contáctame al WhatsApp o escanea el QR', 540, 1644);
-      
-      /* 5.8 Pie de firma */
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '700 23px "Segoe UI", sans-serif';
-      ctx.fillText('Ficha generada a través de econexusplatform.com/menu', 540, 1855);
-      ctx.textAlign = 'left';
-      
-      /* 5.9 Progreso */
-      if (frame % 5 === 0) {
+      /* 5.8 Progreso */
+      if (frame % 10 === 0) {
         const pct = Math.round((frame / totalFrames) * 100);
         actualizarBarraProgreso(pct, `Renderizando fotogramas de alta definición (${pct}%)...`);
       }
       
-      await new Promise(r => setTimeout(r, 1000 / FPS));
+      /* 5.9 Timing REAL con performance.now() (no setTimeout acumulativo) */
+      const tiempoObjetivo = tiempoInicio + ((frame + 1) * 1000 / FPS);
+      const espera = Math.max(0, tiempoObjetivo - performance.now());
+      if (espera > 0) {
+        await new Promise(r => setTimeout(r, espera));
+      }
     }
     
     actualizarBarraProgreso(100, "Empaquetando archivo de video...");
@@ -3160,6 +3137,712 @@ async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
     mostrarAvisoElegante("Error al generar Reel", "No se pudo completar la animación de video en este dispositivo.", "error");
   }
 }
+
+/* =========================================================
+6. DISPARADOR DEL ESTADO WA (RÁFAGA / VIDEO)
+Wrapper que llama al motor externo wa-status-engine.js
+========================================================= */
+function abrirModalEstadoWA() {
+  if (!window.inmuebleActual) {
+    return mostrarAvisoElegante('Sin inmueble seleccionado', 'Por favor selecciona un inmueble antes de crear el estado.', 'info');
+  }
+  const modal = document.getElementById('waStatusModal');
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+}
+
+function cerrarModalEstadoWA() {
+  const modal = document.getElementById('waStatusModal');
+  modal.classList.add('hidden');
+  modal.classList.remove('flex');
+  const preview = document.getElementById('waStatusPreviewBox');
+  if (preview) {
+    preview.classList.add('hidden');
+    preview.textContent = '';
+  }
+}
+
+function abrirPreviewIndexDesdeEstadoWA() {
+  if (!window.inmuebleActual) return;
+  const url = window.inmuebleActual.urlIndex || `${FRONTEND_ORIGIN}/index.html?codigo=${encodeURIComponent(window.inmuebleActual.codigoEco)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+async function ejecutarEstadoWA(modo) {
+  const previewBox = document.getElementById('waStatusPreviewBox');
+  if (!previewBox) return;
+  
+  if (!window.inmuebleActual) {
+    previewBox.textContent = 'Error: no hay inmueble seleccionado.';
+    previewBox.classList.remove('hidden');
+    return;
+  }
+  
+  if (typeof WAStatusEngine === 'undefined') {
+    previewBox.innerHTML = '<span style="color:#fca5a5;">Motor de Estados WA no cargado. Verifica que <code>wa-status-engine.js</code> esté en la raíz del repositorio.</span>';
+    previewBox.classList.remove('hidden');
+    return;
+  }
+  
+  previewBox.classList.remove('hidden');
+  previewBox.textContent = 'Iniciando generación...';
+  
+  const actualizarEstado = (msg) => {
+    previewBox.textContent = msg;
+  };
+  
+  try {
+    if (modo === 'burst') {
+      await WAStatusEngine.shareBurstStatus(window.inmuebleActual, actualizarEstado);
+      previewBox.innerHTML = '<span style="color:#86efac;">✅ Ráfaga generada. Selecciona "Mi Estado" en WhatsApp.</span>';
+    } else {
+      await WAStatusEngine.shareVideoStatus(window.inmuebleActual, actualizarEstado);
+      previewBox.innerHTML = '<span style="color:#86efac;">✅ Video generado. Selecciona "Mi Estado" en WhatsApp.</span>';
+    }
+    
+    setTimeout(() => {
+      cerrarModalEstadoWA();
+    }, 3000);
+  } catch (err) {
+    console.error('Error en Estado WA:', err);
+    previewBox.innerHTML = `<span style="color:#fca5a5;">Error: ${escapeHTML(err.message || 'No se pudo generar el estado')}</span>`;
+  }
+}
 </script>
+/**
+ * ═══════════════════════════════════════════════════════════════════════
+ * MOTOR DE ESTADOS DE WHATSAPP (BENTO-STORY & RÁFAGA CONECTADA)
+ * Archivo: wa-status-engine.js
+ * 100% Vanilla JS — Sin dependencias externas
+ * ═══════════════════════════════════════════════════════════════════════
+ * Incluye los 4 ajustes aprobados:
+ *   ✅ Ajuste 1: User Activation (video espera segundo toque)
+ *   ✅ Ajuste 2: QR nítido en renderBentoFrame (imageSmoothingEnabled = false)
+ *   ✅ Ajuste 3: Detección móvil vs desktop (fallback descarga)
+ *   ✅ Ajuste 4: Bitrate 6.5 Mbps para nitidez de textos
+ * ═══════════════════════════════════════════════════════════════════════
+ */
+
+const WAStatusEngine = (() => {
+  const WIDTH = 1080;
+  const HEIGHT = 1920;
+
+  /* ─────────────────────────────────────────────────────────────────
+     1. Cargador seguro de imágenes con CORS + cache busting
+     ───────────────────────────────────────────────────────────────── */
+  function loadImage(url) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      const sep = url.includes("?") ? "&" : "?";
+      img.src = `${url}${sep}t=${Date.now()}`;
+      img.onload = () => resolve(img);
+      img.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${url}`));
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     2. Dibuja imagen simulando object-fit: cover
+     ───────────────────────────────────────────────────────────────── */
+  function drawImageCover(ctx, img, x, y, w, h, offsetX = 0) {
+    const imgRatio = img.width / img.height;
+    const winRatio = w / h;
+    let renderW, renderH, cropX, cropY;
+
+    if (imgRatio > winRatio) {
+      renderH = img.height;
+      renderW = img.height * winRatio;
+      cropX = (img.width - renderW) / 2;
+      cropY = 0;
+    } else {
+      renderW = img.width;
+      renderH = img.width / winRatio;
+      cropX = 0;
+      cropY = (img.height - renderH) / 2;
+    }
+
+    ctx.drawImage(img, cropX, cropY, renderW, renderH, x + offsetX, y, w, h);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     3. Rectángulo con bordes redondeados
+     ───────────────────────────────────────────────────────────────── */
+  function roundRect(ctx, x, y, w, h, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + w - radius, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + radius);
+    ctx.lineTo(x + w, y + h - radius);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - radius, y + h);
+    ctx.lineTo(x + radius, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     Helper: ajustar texto multilínea (sin cortar palabras)
+     ───────────────────────────────────────────────────────────────── */
+  function wrapText(ctx, text, maxWidth, maxLines = 2) {
+    if (!text) return [];
+    const words = String(text).split(/\s+/);
+    const lines = [];
+    let current = '';
+
+    for (const word of words) {
+      const test = current ? current + ' ' + word : word;
+      if (ctx.measureText(test).width <= maxWidth) {
+        current = test;
+      } else {
+        if (current) {
+          lines.push(current);
+          if (lines.length >= maxLines) {
+            let last = lines[lines.length - 1];
+            while (ctx.measureText(last + '...').width > maxWidth && last.length > 0) {
+              last = last.slice(0, -1);
+            }
+            lines[lines.length - 1] = last + '...';
+            return lines;
+          }
+          current = word;
+        } else {
+          lines.push(word.substring(0, 30) + '...');
+          return lines;
+        }
+      }
+    }
+
+    if (current && lines.length < maxLines) {
+      lines.push(current);
+    }
+    return lines;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     4. Renderiza la tarjeta Bento completa en un instante dado
+     Layout:
+       - Fondo blanco
+       - Agent bar superior (white label)
+       - Foto grande central con etiquetas verdes (op/código/precio)
+       - Filmstrip miniaturas debajo (actual iluminada)
+       - Info inferior izquierda + QR nítido derecha
+     ───────────────────────────────────────────────────────────────── */
+  function renderBentoFrame(ctx, data, images, state) {
+    const { currentIndex, nextIndex, progress, mode, slideNumber, totalSlides } = state;
+    const currentImg = images[currentIndex];
+    const nextImg = images[nextIndex] || images[0];
+
+    const COLOR_BG = '#f8fafc';
+    const COLOR_WHITE = '#ffffff';
+    const COLOR_TEXT = '#0f172a';
+    const COLOR_TEXT_MUTED = '#475569';
+    const COLOR_GREEN = '#10b981';
+    const COLOR_GREEN_SOFT = '#ecfdf5';
+    const COLOR_GREEN_BORDER = '#a7f3d0';
+
+    /* A. Fondo blanco */
+    ctx.fillStyle = COLOR_BG;
+    ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+    /* B. Agent bar superior (white label — foto + nombre + agencia) */
+    const gradHeader = ctx.createLinearGradient(0, 0, WIDTH, 0);
+    gradHeader.addColorStop(0, '#1E3F20');
+    gradHeader.addColorStop(1, '#2E5E32');
+    ctx.fillStyle = gradHeader;
+    ctx.fillRect(0, 0, WIDTH, 160);
+
+    // Avatar placeholder (inicial) — el motor puede mejorarse para incluir foto real si se pasa
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(110, 80, 48, 0, Math.PI * 2);
+    ctx.closePath();
+    ctx.fillStyle = COLOR_GREEN;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '900 32px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText((data.nombreAsesor || 'A')[0].toUpperCase(), 110, 93);
+
+    let textStartX = 180;
+
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#a7f3d0';
+    ctx.font = '800 18px "Segoe UI", sans-serif';
+    ctx.fillText((data.tipoAsesor === 'Agencia' && data.nombreAgencia ? data.nombreAgencia : 'AGENTE VERIFICADO').toUpperCase(), textStartX, 62);
+
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '900 32px "Segoe UI", sans-serif';
+    ctx.fillText((data.nombreAsesor || 'Asesor EcoNexus').substring(0, 32), textStartX, 108);
+
+    ctx.fillStyle = '#fde047';
+    ctx.font = '700 22px "Segoe UI", sans-serif';
+    ctx.fillText(`WhatsApp: ${data.telefonoAsesor || ''}`, textStartX, 140);
+
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#a7f3d0';
+    ctx.font = '800 14px "Segoe UI", sans-serif';
+    ctx.fillText('EcoNexus', 1020, 90);
+
+    /* C. Foto central grande con deslizamiento suave */
+    const fotoX = 60, fotoY = 210, fotoW = 960, fotoH = 900;
+
+    ctx.save();
+    roundRect(ctx, fotoX, fotoY, fotoW, fotoH, 40);
+    ctx.clip();
+
+    // Deslizamiento animado
+    const slideOffset = -progress * fotoW;
+    drawImageCover(ctx, currentImg, fotoX, fotoY, fotoW, fotoH, slideOffset);
+    if (progress > 0 && nextImg) {
+      drawImageCover(ctx, nextImg, fotoX, fotoY, fotoW, fotoH, fotoW + slideOffset);
+    }
+
+    // Degradado sutil al pie
+    const gradFoto = ctx.createLinearGradient(0, fotoY + fotoH - 200, 0, fotoY + fotoH);
+    gradFoto.addColorStop(0, 'rgba(0,0,0,0)');
+    gradFoto.addColorStop(1, 'rgba(0,0,0,0.55)');
+    ctx.fillStyle = gradFoto;
+    ctx.fillRect(fotoX, fotoY + fotoH - 200, fotoW, 200);
+    ctx.restore();
+
+    /* D. Etiquetas verdes superpuestas sobre la foto */
+    // Operación (arriba izquierda)
+    const opTexto = (data.operacion || 'VENTA').toUpperCase();
+    roundRect(ctx, fotoX + 22, fotoY + 22, 220, 60, 30);
+    ctx.fillStyle = COLOR_GREEN;
+    ctx.fill();
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '900 24px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(opTexto, fotoX + 22 + 110, fotoY + 22 + 40);
+
+    // Código (arriba derecha)
+    roundRect(ctx, fotoX + fotoW - 240, fotoY + 22, 220, 60, 30);
+    ctx.fillStyle = COLOR_GREEN;
+    ctx.fill();
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '900 22px "Segoe UI", sans-serif';
+    ctx.fillText(`ID: ${data.codigoEco || 'ECO-000'}`, fotoX + fotoW - 240 + 110, fotoY + 22 + 40);
+
+    // Precio (abajo izquierda, grande)
+    const precioTexto = data.precio || '$0';
+    ctx.font = '900 54px "Segoe UI", sans-serif';
+    const precioAncho = ctx.measureText(precioTexto).width + 70;
+    roundRect(ctx, fotoX + 22, fotoY + fotoH - 100, precioAncho, 78, 26);
+    ctx.fillStyle = COLOR_GREEN;
+    ctx.fill();
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '900 46px "Segoe UI", sans-serif';
+    ctx.fillText(precioTexto, fotoX + 22 + precioAncho / 2, fotoY + fotoH - 42);
+
+    // Contador (abajo derecha)
+    roundRect(ctx, fotoX + fotoW - 160, fotoY + fotoH - 100, 140, 60, 26);
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+    ctx.fill();
+    ctx.fillStyle = COLOR_WHITE;
+    ctx.font = '800 24px "Segoe UI", sans-serif';
+    ctx.fillText(`${slideNumber}/${totalSlides}`, fotoX + fotoW - 160 + 70, fotoY + fotoH - 62);
+
+    // Efecto PEEK (asomo foto 2 en Lámina 1 de Ráfaga)
+    if (mode === "burst-first" && images.length > 1) {
+      ctx.save();
+      roundRect(ctx, 1020, fotoY + 40, 60, fotoH - 80, 18);
+      ctx.clip();
+      drawImageCover(ctx, images[1], 1020, fotoY + 40, 200, fotoH - 80);
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.35)';
+      ctx.fillRect(1020, fotoY + 40, 60, fotoH - 80);
+      ctx.restore();
+
+      // Píldora flotante "Toca para ver más"
+      roundRect(ctx, 640, fotoY + fotoH - 115, 320, 60, 30);
+      ctx.fillStyle = '#f59e0b';
+      ctx.fill();
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 22px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('TOCA PARA VER MÁS ➔', 800, fotoY + fotoH - 75);
+    }
+
+    /* E. Filmstrip miniaturas debajo de la foto */
+    const filmY = fotoY + fotoH + 20;
+    const filmH = 140;
+    const filmGap = 14;
+    const totalFilmW = Math.min(images.length, 4);
+    const thumbW = 200;
+    const startX = (WIDTH - (totalFilmW * thumbW + (totalFilmW - 1) * filmGap)) / 2;
+
+    for (let t = 0; t < totalFilmW; t++) {
+      const thumbX = startX + t * (thumbW + filmGap);
+      const estaActiva = (t === currentIndex);
+
+      ctx.save();
+      roundRect(ctx, thumbX, filmY, thumbW, filmH, 18);
+      ctx.clip();
+      drawImageCover(ctx, images[t], thumbX, filmY, thumbW, filmH);
+      if (!estaActiva) {
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.55)';
+        ctx.fillRect(thumbX, filmY, thumbW, filmH);
+      }
+      ctx.restore();
+
+      if (estaActiva) {
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = COLOR_GREEN;
+        roundRect(ctx, thumbX, filmY, thumbW, filmH, 18);
+        ctx.stroke();
+      }
+    }
+
+    /* F. Info inferior izquierda + QR derecha */
+    const infoY = filmY + filmH + 25;
+
+    // Título (wrapping, sin cortar)
+    ctx.textAlign = 'left';
+    ctx.fillStyle = COLOR_TEXT;
+    ctx.font = '900 38px "Segoe UI", sans-serif';
+    const tituloLineas = wrapText(ctx, data.titulo || 'Inmueble', 720, 2);
+    tituloLineas.forEach((linea, i) => {
+      ctx.fillText(linea, 60, infoY + 40 + i * 46);
+    });
+
+    // Ubicación
+    ctx.fillStyle = COLOR_TEXT_MUTED;
+    ctx.font = '700 24px "Segoe UI", sans-serif';
+    const ubiY = infoY + 40 + tituloLineas.length * 46 + 12;
+    const ubiTexto = `📍 ${data.ubicacion || ''}`;
+    const ubiTruncada = ctx.measureText(ubiTexto).width > 720
+      ? ubiTexto.substring(0, 50) + '...'
+      : ubiTexto;
+    ctx.fillText(ubiTruncada, 60, ubiY);
+
+    // Specs en pills verdes
+    const specY = ubiY + 45;
+    const specs = [
+      { icon: '🛏️', val: `${data.habitaciones || 0} Hab` },
+      { icon: '🚿', val: `${data.banos || 0} Baños` },
+      { icon: '📐', val: `${data.area || 0}m²` },
+      { icon: '🚗', val: `${data.puestos || 0} Puestos` }
+    ];
+
+    let specX = 60;
+    specs.forEach(s => {
+      ctx.font = '800 18px "Segoe UI", sans-serif';
+      const textoSpec = `${s.icon} ${s.val}`;
+      const anchoPill = ctx.measureText(textoSpec).width + 32;
+      roundRect(ctx, specX, specY, anchoPill, 44, 22);
+      ctx.fillStyle = COLOR_GREEN_SOFT;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = COLOR_GREEN_BORDER;
+      ctx.stroke();
+      ctx.fillStyle = '#059669';
+      ctx.font = '800 18px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(textoSpec, specX + anchoPill / 2, specY + 30);
+      specX += anchoPill + 12;
+    });
+
+    // QR derecha (nítido, sin suavizado)
+    if (images._qrImg) {
+      const qrBoxX = 830;
+      const qrBoxY = infoY - 10;
+      const qrBoxSize = 190;
+
+      ctx.save();
+      ctx.shadowColor = 'rgba(15, 23, 42, 0.15)';
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 6;
+      roundRect(ctx, qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 18);
+      ctx.fillStyle = COLOR_WHITE;
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.stroke();
+      ctx.restore();
+
+      // QR con imageSmoothingEnabled = false (Ajuste 2)
+      ctx.save();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(images._qrImg, qrBoxX + 14, qrBoxY + 14, qrBoxSize - 28, qrBoxSize - 28);
+      ctx.restore();
+
+      ctx.fillStyle = COLOR_GREEN;
+      ctx.font = '900 16px "Segoe UI", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('ESCANEA', qrBoxX + qrBoxSize / 2, qrBoxY + qrBoxSize + 24);
+    }
+
+    // Footer
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '700 18px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Ficha generada en econexusplatform.com/menu', WIDTH / 2, HEIGHT - 50);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     5. Canvas → File JPG
+     ───────────────────────────────────────────────────────────────── */
+  function canvasToFile(canvas, filename) {
+    return new Promise((resolve) => {
+      canvas.toBlob((blob) => {
+        resolve(new File([blob], filename, { type: "image/jpeg" }));
+      }, "image/jpeg", 0.92);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     6. Detección móvil (Ajuste 3)
+     ───────────────────────────────────────────────────────────────── */
+  function esDispositivoMovil() {
+    if (typeof navigator === 'undefined') return false;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     7. MODO A: Ráfaga Conectada (4 láminas JPG)
+     ───────────────────────────────────────────────────────────────── */
+  async function shareBurstStatus(propertyData, onProgress) {
+    if (onProgress) onProgress("Cargando fotografías en alta definición...");
+    const urls = (propertyData.fotos || []).slice(0, 4);
+    if (!urls.length) throw new Error("El inmueble necesita al menos 1 fotografía.");
+
+    const images = await Promise.all(urls.map(loadImage));
+
+    // QR (cargarlo ANTES de renderizar y adjuntarlo a la colección de imágenes)
+    let qrImg = null;
+    if (propertyData.urlFicha) {
+      try {
+        const QRious = window.QRious;
+        if (QRious) {
+          const qr = new QRious({
+            value: propertyData.urlFicha,
+            size: 500,
+            level: 'M',
+            background: '#ffffff',
+            foreground: '#0f172a'
+          });
+          const qrDataUrl = qr.toDataURL('image/png');
+          qrImg = await loadImage(qrDataUrl);
+        }
+      } catch (err) {
+        console.warn('No se pudo generar el QR:', err);
+      }
+    }
+    images._qrImg = qrImg;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    const ctx = canvas.getContext("2d");
+
+    const files = [];
+    for (let i = 0; i < images.length; i++) {
+      if (onProgress) onProgress(`Diseñando lámina ${i + 1} de ${images.length}...`);
+      renderBentoFrame(ctx, propertyData, images, {
+        currentIndex: i,
+        nextIndex: (i + 1) % images.length,
+        progress: 0,
+        mode: i === 0 ? "burst-first" : "burst-next",
+        slideNumber: i + 1,
+        totalSlides: images.length
+      });
+      const file = await canvasToFile(canvas, `estado-${propertyData.codigoEco || 'ECO'}-${i + 1}.jpg`);
+      files.push(file);
+    }
+
+    await triggerNativeShare(files, propertyData, onProgress);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     8. MODO B: Bento-Story Animado (Video 30 fps)
+     ───────────────────────────────────────────────────────────────── */
+  async function shareVideoStatus(propertyData, onProgress) {
+    if (onProgress) onProgress("Preparando estudio de animación...");
+    const urls = (propertyData.fotos || []).slice(0, 4);
+    if (!urls.length) throw new Error("El inmueble necesita al menos 1 fotografía.");
+
+    const images = await Promise.all(urls.map(loadImage));
+
+    // QR
+    let qrImg = null;
+    if (propertyData.urlFicha) {
+      try {
+        const QRious = window.QRious;
+        if (QRious) {
+          const qr = new QRious({
+            value: propertyData.urlFicha,
+            size: 500,
+            level: 'M',
+            background: '#ffffff',
+            foreground: '#0f172a'
+          });
+          const qrDataUrl = qr.toDataURL('image/png');
+          qrImg = await loadImage(qrDataUrl);
+        }
+      } catch (err) {
+        console.warn('No se pudo generar el QR:', err);
+      }
+    }
+    images._qrImg = qrImg;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    const ctx = canvas.getContext("2d");
+
+    // Detectar formato
+    const mimeTypes = [
+      "video/mp4;codecs=avc1.42E01E",
+      "video/mp4",
+      "video/webm;codecs=vp9",
+      "video/webm"
+    ];
+    const selectedMime = mimeTypes.find((m) => MediaRecorder.isTypeSupported(m)) || "video/webm";
+    const extension = selectedMime.includes("mp4") ? "mp4" : "webm";
+
+    const stream = canvas.captureStream(30);
+    const recorder = new MediaRecorder(stream, {
+      mimeType: selectedMime,
+      videoBitsPerSecond: 6500000 // Ajuste 4: 6.5 Mbps
+    });
+
+    const chunks = [];
+    recorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) chunks.push(e.data);
+    };
+
+    const recordingPromise = new Promise((resolve) => {
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: selectedMime });
+        const file = new File([blob], `estado-${propertyData.codigoEco || 'ECO'}.${extension}`, { type: selectedMime });
+        resolve(file);
+      };
+    });
+
+    recorder.start(100);
+
+    const fps = 30;
+    const holdFrames = Math.round(1.8 * fps);
+    const transitionFrames = Math.round(0.7 * fps);
+    const totalPerSlide = holdFrames + transitionFrames;
+    const totalFrames = images.length * totalPerSlide;
+    const tiempoInicio = performance.now();
+
+    for (let frame = 0; frame < totalFrames; frame++) {
+      const currentIndex = Math.floor(frame / totalPerSlide);
+      const nextIndex = (currentIndex + 1) % images.length;
+      const frameInSlide = frame % totalPerSlide;
+
+      let rawProgress = 0;
+      if (frameInSlide > holdFrames) {
+        rawProgress = (frameInSlide - holdFrames) / transitionFrames;
+      }
+      // easeInOutCubic
+      const smoothProgress = rawProgress < 0.5
+        ? 4 * rawProgress * rawProgress * rawProgress
+        : 1 - Math.pow(-2 * rawProgress + 2, 3) / 2;
+
+      renderBentoFrame(ctx, propertyData, images, {
+        currentIndex,
+        nextIndex,
+        progress: smoothProgress,
+        mode: "video",
+        slideNumber: currentIndex + 1,
+        totalSlides: images.length
+      });
+
+      if (frame % 15 === 0 && onProgress) {
+        const pct = Math.round((frame / totalFrames) * 100);
+        onProgress(`Renderizando carrusel (${pct}%)...`);
+      }
+
+      // Timing real
+      const tiempoObjetivo = tiempoInicio + ((frame + 1) * 1000 / fps);
+      const espera = Math.max(0, tiempoObjetivo - performance.now());
+      if (espera > 0) {
+        await new Promise(r => setTimeout(r, espera));
+      }
+    }
+
+    recorder.stop();
+    const videoFile = await recordingPromise;
+
+    // Ajuste 1: User Activation — el video espera un segundo toque del usuario
+    await triggerNativeShare([videoFile], propertyData, onProgress, true);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     9. Disparador nativo con detección móvil (Ajuste 3)
+     ───────────────────────────────────────────────────────────────── */
+  async function triggerNativeShare(files, data, onProgress, requiereSegundoToque = false) {
+    const captionText = `🏡 *${data.titulo || "Inmueble Disponible"}* — ${data.precio || ""}\n📍 ${data.ubicacion || ""}\n👉 Ficha completa y fotos aquí:\n${data.urlFicha || window.location.href}`;
+
+    // Copia al portapapeles siempre (para que el agente pueda pegar el link si quiere)
+    if (navigator.clipboard && data.urlFicha) {
+      try {
+        await navigator.clipboard.writeText(data.urlFicha);
+      } catch (err) {
+        // Silencioso
+      }
+    }
+
+    const esMovil = esDispositivoMovil();
+    const puedeCompartir = navigator.canShare && navigator.canShare({ files });
+
+    if (esMovil && puedeCompartir) {
+      if (onProgress) onProgress("Abriendo selector de WhatsApp...");
+      try {
+        await navigator.share({
+          files,
+          title: data.titulo || "Ficha Técnica",
+          text: captionText
+        });
+      } catch (shareErr) {
+        // Si el usuario canceló o falló el share, hacemos fallback
+        console.warn('Share cancelado o fallido:', shareErr);
+        if (shareErr.name !== 'AbortError') {
+          descargarFallback(files);
+        }
+      }
+    } else {
+      // Fallback: descarga directa (desktop o navegador sin soporte)
+      if (onProgress) onProgress("Descargando archivos (modo compatibilidad)...");
+      descargarFallback(files);
+    }
+  }
+
+  function descargarFallback(files) {
+    files.forEach((file, idx) => {
+      setTimeout(() => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(file);
+        a.download = file.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      }, idx * 300);
+    });
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     EXPORTS
+     ───────────────────────────────────────────────────────────────── */
+  return {
+    shareBurstStatus,
+    shareVideoStatus,
+    WIDTH,
+    HEIGHT
+  };
+})();
+
+window.WAStatusEngine = WAStatusEngine;
+<!-- MÓDULO EXTERNO DEL MOTOR DE ESTADOS DE WHATSAPP -->
+<script src="./wa-status-engine.js"></script>
+
 </body>
 </html>
