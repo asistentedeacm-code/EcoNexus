@@ -74,10 +74,6 @@
         .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===================================================== */
-        /* ===== ESTILOS NUEVOS: BANNER ASESOR + SPLASH ECO ===== */
-        /* ===================================================== */
-
         /* Banner de filtro por asesor (solo visible cuando hay filtro activo) */
         #bannerFiltroAsesor {
             animation: bannerAsesorIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
@@ -85,63 +81,6 @@
         @keyframes bannerAsesorIn {
             from { opacity: 0; transform: translateY(-8px) scale(0.97); }
             to   { opacity: 1; transform: translateY(0)   scale(1); }
-        }
-
-        /* ===== ANIMACIÓN SPLASH ECONEXUS (logo inyectando líneas a inmuebles) ===== */
-        .eco-line-anim {
-            stroke: #34d399;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-dasharray: 300;
-            stroke-dashoffset: 300;
-            filter: drop-shadow(0 0 4px rgba(52, 211, 153, 0.85));
-            animation: eco-draw-line 0.75s ease-out forwards;
-        }
-        @keyframes eco-draw-line {
-            to { stroke-dashoffset: 0; }
-        }
-
-        .eco-logo-anim {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.3);
-            animation: eco-logo-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @keyframes eco-logo-pop {
-            0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.3); }
-            60%  { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
-            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-
-        .eco-house-anim {
-            position: absolute;
-            color: #fbbf24;
-            font-size: 15px;
-            opacity: 0;
-            transform: scale(0.2);
-            filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.75));
-            animation: eco-house-on 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        @media (min-width: 640px) {
-            .eco-house-anim { font-size: 19px; }
-        }
-        @keyframes eco-house-on {
-            0%   { opacity: 0; transform: scale(0.2); }
-            65%  { opacity: 1; transform: scale(1.18); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        /* Pulso continuo del logo una vez termina la animación */
-        .eco-logo-halo {
-            position: absolute;
-            inset: -8px;
-            border-radius: 9999px;
-            border: 2px solid rgba(52, 211, 153, 0.55);
-            animation: eco-halo 2.4s infinite ease-out;
-            pointer-events: none;
-        }
-        @keyframes eco-halo {
-            0%   { transform: scale(1);   opacity: 0.9; }
-            100% { transform: scale(1.7); opacity: 0; }
         }
 
         /* Truncado suave del contador cuando hay filtro */
@@ -212,40 +151,19 @@
         <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
     </div>
 
-    <!-- MODAL DE BIENVENIDA (con ANIMACIÓN SPLASH ECONEXUS integrada) -->
+    <!-- MODAL DE BIENVENIDA (HEADER ESTÁTICO ECONEXUS) -->
     <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center overflow-hidden">
             <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 z-20 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer shadow-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
 
-            <!-- ═══════════════ ANIMACIÓN SPLASH ECONEXUS ═══════════════ -->
-            <div id="splashEcoAnim" class="relative -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-5 h-32 sm:h-40 overflow-hidden rounded-t-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 border-b-2 border-emerald-500/40 pointer-events-none">
-                <!-- Líneas SVG animadas desde el logo hacia los inmuebles -->
-                <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-                    <line class="eco-line-anim" x1="200" y1="80" x2="60"  y2="35"  style="animation-delay:0.15s"/>
-                    <line class="eco-line-anim" x1="200" y1="80" x2="340" y2="35"  style="animation-delay:0.28s"/>
-                    <line class="eco-line-anim" x1="200" y1="80" x2="60"  y2="125" style="animation-delay:0.41s"/>
-                    <line class="eco-line-anim" x1="200" y1="80" x2="340" y2="125" style="animation-delay:0.54s"/>
-                    <line class="eco-line-anim" x1="200" y1="80" x2="130" y2="18"  style="animation-delay:0.67s"/>
-                    <line class="eco-line-anim" x1="200" y1="80" x2="270" y2="142" style="animation-delay:0.80s"/>
-                </svg>
-
-                <!-- Logo central con halo pulsante -->
-                <div class="absolute left-1/2 top-1/2 eco-logo-anim">
-                    <div class="eco-logo-halo"></div>
-                    <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white shadow-xl border-2 border-emerald-500 flex items-center justify-center overflow-hidden">
-                        <img src="logo.png.png" alt="EcoNexus" onerror="this.src='logo.png'" class="w-full h-full object-contain p-1">
-                    </div>
+            <!-- ═══════════════ HEADER ESTÁTICO ECONEXUS ═══════════════ -->
+            <div id="splashEcoAnim" class="relative -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-5 h-32 sm:h-40 overflow-hidden rounded-t-2xl bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 border-b-2 border-emerald-500/40 flex items-center justify-center">
+                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(52,211,153,0.15),transparent_70%)] pointer-events-none"></div>
+                <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white shadow-2xl border-4 border-emerald-400/60 flex items-center justify-center overflow-hidden">
+                    <img src="logo.png.png" alt="EcoNexus" onerror="this.src='logo.png'" class="w-full h-full object-contain p-2">
                 </div>
-
-                <!-- Casitas y edificios conectados (se encienden en cascada) -->
-                <i class="fa-solid fa-house         eco-house-anim" style="left:12%; top:15%; animation-delay:0.95s"></i>
-                <i class="fa-solid fa-house         eco-house-anim" style="left:82%; top:15%; animation-delay:1.05s"></i>
-                <i class="fa-solid fa-building      eco-house-anim" style="left:12%; top:72%; animation-delay:1.15s"></i>
-                <i class="fa-solid fa-building      eco-house-anim" style="left:82%; top:72%; animation-delay:1.25s"></i>
-                <i class="fa-solid fa-house-chimney eco-house-anim" style="left:30%; top:5%;  animation-delay:1.35s"></i>
-                <i class="fa-solid fa-house-chimney eco-house-anim" style="left:64%; top:85%; animation-delay:1.45s"></i>
             </div>
-            <!-- ═══════════════ FIN ANIMACIÓN SPLASH ═══════════════ -->
+            <!-- ═══════════════ FIN HEADER ESTÁTICO ═══════════════ -->
 
             <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
@@ -313,7 +231,7 @@
             </div>
         </div>
     </div>
-        <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
+            <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
     <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
             <!-- Logo y Textos -->
@@ -396,7 +314,8 @@
             <div id="trackVip" class="flex gap-3.5 sm:gap-4 overflow-x-auto pb-2 pt-1 snap-x snap-mandatory scroll-smooth w-full hide-scrollbars relative z-10"></div>
         </div>
     </section>
-        <!-- 2. BUSCADOR Y FILTROS AVANZADOS -->
+
+    <!-- 2. BUSCADOR Y FILTROS AVANZADOS -->
     <section class="max-w-7xl mx-auto px-4 py-5 w-full">
         <div class="bg-white rounded-2xl p-3 shadow-md border border-gray-100 flex flex-col md:flex-row gap-2">
             <div class="flex-1 relative">
@@ -560,6 +479,15 @@
         // Cuando el visitante entra con ?asesor=TEL (o ?u=UUID), se activa.
         // Aplica filtro estructural .eq('user_id', uuid) SIN tocar filterText.
         let filtroAsesorActivo = null; // { uuid, nombre, agencia, foto, tipoAgente }
+
+        // ── CONSTRUCTOR DE URL LIMPIA DE INMUEBLE ──
+        // Alineado al patrón del GitHub Action: /inmueble/{codigo_eco-lowercase}.html
+        // Ejemplo: /inmueble/eco-194193.html
+        function construirUrlInmueble(p) {
+            if (!p || !p.codigo_eco) return '/';
+            return '/inmueble/' + String(p.codigo_eco).toLowerCase() + '.html';
+        }
+        window.construirUrlInmueble = construirUrlInmueble;
 
         // -- WAKE LOCK API (Mantiene pantalla encendida) --
         let wakeLock = null;
@@ -801,30 +729,44 @@
 
         async function verificarParametrosURL() {
             const urlParams   = new URLSearchParams(window.location.search);
+            const path        = window.location.pathname;
             const codigoParam = urlParams.get('codigo');
             const asesorParam = urlParams.get('asesor');
             const uuidParam   = urlParams.get('u');
 
-            // 🎯 Prioridad: ?u=UUID > ?asesor=TELEFONO (retrocompatible con links viejos del Worker)
+            // 1) Filtro por asesor (nunca cambia URL — comportamiento histórico intacto)
             if (uuidParam) {
                 await activarFiltroAsesor({ tipo: 'uuid', valor: uuidParam.trim() });
             } else if (asesorParam) {
                 await activarFiltroAsesor({ tipo: 'telefono', valor: asesorParam.trim() });
             }
 
-            if (codigoParam) {
-                try {
-                    const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoParam.trim().toUpperCase()).single();
-                    if (data && !error) abrirModalDirecto(data);
-                } catch (err) { console.error(err); }
+            // 2) Inmueble: /inmueble/{slug}.html ó ?codigo=XXX (retrocompatible con Action)
+            let codigoFinal = null;
+            let navegacion  = null;
+            const matchInm = path.match(/^\/inmueble\/([^/]+?)(?:\.html)?\/?$/);
+            if (matchInm) {
+                codigoFinal = decodeURIComponent(matchInm[1]).toUpperCase();
+                navegacion  = null; // URL ya correcta
+            } else if (codigoParam) {
+                codigoFinal = codigoParam.trim().toUpperCase();
+                navegacion  = 'replace'; // migrar URL antigua a URL limpia (sin agregar al historial)
             }
-        }
 
-        // -- TOGGLE FILTROS AVANZADOS --
-        function toggleFiltrosAvanzados() {
-            document.getElementById('panelFiltrosAvanzados').classList.toggle('hidden');
-        }
+            if (codigoFinal) {
+                try {
+                    const { data, error } = await dbClient.from('v_propiedades_catalogo').select('*').eq('codigo_eco', codigoFinal).single();
+                    if (data && !error) {
+                        abrirModalDirecto(data, { navegacion });
+                        return;
+                    }
+                } catch (err) { /* no-op */ }
+            }
 
+            // 3) Default → SEO home
+            if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
+        }
+        
         // -- LÓGICA DE CARGA Y PAGINACIÓN DE VIPS (DE 10 EN 10) --
         async function cargarVips(reset = false) {
             if (reset) { vipOffset = 0; hayMasVips = true; vipsCargados = []; }
@@ -1117,8 +1059,8 @@
 
         // -- LÓGICA DE WHATSAPP Y CAPTACIÓN DE LEADS --
         function confirmarIrAWhatsApp(numero, mensaje, inmuebleId, codigoEco, agenteId) {
-            // Genera el enlace directo a la ficha para incluirlo en el mensaje
-            const urlInmueble = `https://econexusplatform.com/index.html?codigo=${codigoEco}`;
+            // Enlace a la ficha prerenderizada del Action (mejor compatibilidad con WhatsApp/Facebook)
+            const urlInmueble = `https://econexusplatform.com/inmueble/${String(codigoEco).toLowerCase()}.html`;
             const mensajeFinal = `${mensaje}\n\n🔗 Ver ficha completa: ${urlInmueble}`;
             
             waUrlPendiente = `https://wa.me/${numero}?text=${encodeURIComponent(mensajeFinal)}`;
@@ -1212,10 +1154,10 @@
                     if (data) p = data;
                 } catch (e) { console.error(e); }
             }
-            if (p) abrirModalDirecto(p);
+            if (p) abrirModalDirecto(p, { navegacion: 'push' });
         }
 
-        function abrirModalDirecto(p) {
+        function abrirModalDirecto(p, opts = {}) {
             const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
             const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
             
@@ -1318,6 +1260,18 @@
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapaFichaModal);
                 L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
             }, 300);
+
+            // ── SEO dinámico (meta + geo + JSON-LD) ──
+            if (typeof window.seoInmueble === 'function') { try { window.seoInmueble(p); } catch (e) {} }
+
+            // ── History API (URL limpia, alineada al Action: /inmueble/{codigo}.html) ──
+            const urlLimpia = construirUrlInmueble(p);
+            if (opts.navegacion === 'push') {
+                try { history.pushState({ vista: 'inmueble', id: p.id, from: 'click' }, '', urlLimpia); } catch (e) {}
+            } else if (opts.navegacion === 'replace') {
+                try { history.replaceState({ vista: 'inmueble', id: p.id }, '', urlLimpia); } catch (e) {}
+            }
+            // si opts.navegacion === null o undefined → no tocamos la URL (carga directa / popstate)
         }
 
         function cambiarFotoSwipe(direccion) {
@@ -1396,11 +1350,26 @@
         function cerrarModal() {
             if (synth.speaking) { synth.cancel(); liberarWakeLock(); }
             document.getElementById("propModal").classList.add("hidden");
+
+            // ── History + SEO: revertir a home y dejar la URL limpia ──
+            const hs = history.state || {};
+            if (hs.from === 'click') {
+                // Venimos de un click en tarjeta → history.back() dispara popstate (que aplica seoHome)
+                try { history.back(); } catch (e) {
+                    try { history.replaceState({ vista: 'home' }, '', '/'); } catch (e2) {}
+                    if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e3) {} }
+                }
+            } else {
+                // Carga directa o URL limpia → reemplazar a home sin crear entrada
+                try { history.replaceState({ vista: 'home' }, '', '/'); } catch (e) {}
+                if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
+            }
         }
 
         // -- MAPA GLOBAL Y LEYENDA DE ZONAS --
         async function abrirModalMapaGlobal() {
             document.getElementById("mapaGlobalModal").classList.remove("hidden");
+            if (typeof window.seoMapa === 'function') { try { window.seoMapa(); } catch (e) {} }
             limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
             actualizarEstadoPanelLeyendaMovil();
             
@@ -1416,7 +1385,15 @@
             }, 300);
         }
 
-        function cerrarModalMapaGlobal() { document.getElementById("mapaGlobalModal").classList.add("hidden"); }
+        function cerrarModalMapaGlobal() {
+            document.getElementById("mapaGlobalModal").classList.add("hidden");
+            // Revertir SEO a home SOLO si no hay ficha abierta
+            const propModal = document.getElementById("propModal");
+            if (propModal && propModal.classList.contains("hidden")) {
+                if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
+            }
+        }
+
         function togglePanelLeyendaMovil() { leyendaAbiertaMovil = !leyendaAbiertaMovil; actualizarEstadoPanelLeyendaMovil(); }
 
         function actualizarEstadoPanelLeyendaMovil() {
@@ -1455,7 +1432,7 @@
             
             filtradas.forEach(p => {
                 const coords = obtenerCoordenadasExactas(p); bounds.push(coords);
-                const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="abrirModal('${p.id}'); cerrarModalMapaGlobal();" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
+                const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="cerrarModalMapaGlobal(); abrirModal('${p.id}');" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
                 const marker = L.marker(coords).bindPopup(popupHTML);
                 capaMarcadoresCluster.addLayer(marker);
             });
@@ -1495,12 +1472,331 @@
             document.getElementById("inputBuscarZonaMapa").value = nombreZona;
             if (window.innerWidth < 768) { leyendaAbiertaMovil = false; actualizarEstadoPanelLeyendaMovil(); }
             cargarInmueblesYGenerarMapa(nombreZona);
+            // SEO dinámico (meta + geo) para la zona explorada — NO toca la URL, conserva UX actual del mapa
+            if (typeof window.seoZona === 'function') { try { window.seoZona(nombreZona); } catch (e) {} }
         }
 
         function buscarZonaEnMapa(query) { 
             clearTimeout(debounceTimer); 
             debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); 
         }
+    </script>
+    
+    <!-- ══════════════════════════════════════════════════════════════════════
+         MÓDULO DE SEO DINÁMICO Y RUTAS AMIGABLES (History API)
+         - Alineado 100% al patrón del GitHub Action: /inmueble/{codigo}.html
+         - No modifica el HTML prerenderizado ni el Action diario.
+         - No interfiere con paginación, modales, Supabase ni asistente de voz.
+         - Actualiza <title>, description, OG, twitter, canonical, JSON-LD y geo
+           en cada navegación del usuario (ficha, zona, mapa, home).
+         - Maneja botón atrás/adelante del navegador vía popstate.
+         - NUNCA crea URLs /zona/* (no existen archivos en el Action → cero 404).
+         - Las zonas solo enriquecen meta tags; la URL permanece intacta.
+    ══════════════════════════════════════════════════════════════════════ -->
+    <script>
+    (function () {
+        'use strict';
+
+        const SEO_BASE = 'https://econexusplatform.com';
+        const SEO_TITLE_HOME = 'EcoNexus | Red Inmobiliaria Inteligente en Venezuela';
+        const SEO_DESC_HOME = 'Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional. Contacto directo por WhatsApp.';
+        const SEO_IMG_DEFAULT = SEO_BASE + '/logo.png.png';
+
+        // ── utilidades ──
+        function slugify(text) {
+            if (!text) return '';
+            return String(text)
+                .toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .substring(0, 60);
+        }
+
+        // URL canónica del inmueble — DEBE coincidir con el archivo .html que genera el Action
+        function urlCanonicaInmueble(p) {
+            if (!p || !p.codigo_eco) return SEO_BASE + '/';
+            return SEO_BASE + '/inmueble/' + String(p.codigo_eco).toLowerCase() + '.html';
+        }
+
+        function setMeta(attr, key, content) {
+            if (content === undefined || content === null || content === '') return;
+            let el = document.head.querySelector('meta[' + attr + '="' + key + '"]');
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute(attr, key);
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', content);
+        }
+
+        function removeMeta(attr, key) {
+            const el = document.head.querySelector('meta[' + attr + '="' + key + '"]');
+            if (el) el.remove();
+        }
+
+        function setCanonical(url) {
+            let el = document.head.querySelector('link[rel="canonical"]');
+            if (!el) {
+                el = document.createElement('link');
+                el.setAttribute('rel', 'canonical');
+                document.head.appendChild(el);
+            }
+            el.setAttribute('href', url);
+        }
+
+        function setJsonLd(id, data) {
+            let el = document.getElementById(id);
+            if (data === null) { if (el) el.remove(); return; }
+            if (!el) {
+                el = document.createElement('script');
+                el.setAttribute('type', 'application/ld+json');
+                el.setAttribute('id', id);
+                document.head.appendChild(el);
+            }
+            el.textContent = JSON.stringify(data);
+        }
+
+        function limpiarGeoTags() {
+            ['geo.position', 'geo.placename', 'geo.region', 'ICBM'].forEach(function (n) { removeMeta('name', n); });
+        }
+
+        function setGeoTags(lat, lng, placename) {
+            if (!lat || !lng) return;
+            setMeta('name', 'geo.position', lat + ';' + lng);
+            setMeta('name', 'geo.placename', placename || 'Venezuela');
+            setMeta('name', 'geo.region', 'VE');
+            setMeta('name', 'ICBM', lat + ', ' + lng);
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // VISTA: HOME
+        // ─────────────────────────────────────────────────────────────
+        function seoHome() {
+            document.title = SEO_TITLE_HOME;
+            setMeta('name', 'description', SEO_DESC_HOME);
+            setMeta('property', 'og:type', 'website');
+            setMeta('property', 'og:site_name', 'EcoNexus Red Inmobiliaria');
+            setMeta('property', 'og:title', SEO_TITLE_HOME);
+            setMeta('property', 'og:description', SEO_DESC_HOME);
+            setMeta('property', 'og:url', SEO_BASE + '/');
+            setMeta('property', 'og:image', SEO_IMG_DEFAULT);
+            setMeta('name', 'twitter:card', 'summary_large_image');
+            setMeta('name', 'twitter:title', SEO_TITLE_HOME);
+            setMeta('name', 'twitter:description', SEO_DESC_HOME);
+            setMeta('name', 'twitter:image', SEO_IMG_DEFAULT);
+            setCanonical(SEO_BASE + '/');
+            limpiarGeoTags();
+            setJsonLd('jsonld-vista', null);
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // VISTA: INMUEBLE (ficha)
+        // ─────────────────────────────────────────────────────────────
+        function seoInmueble(p) {
+            if (!p) return;
+            const url = urlCanonicaInmueble(p);
+            const tipoTxt = p.tipo || 'Inmueble';
+            const zonaTxt = p.ubicacion || 'Venezuela';
+            const operTxt = p.operacion || 'Disponible';
+            const precioNum = Number(p.precio || 0);
+            const precioFmt = precioNum.toLocaleString('en-US');
+
+            const titulo = tipoTxt + ' en ' + zonaTxt + ' — ' + p.codigo_eco + ' | EcoNexus';
+            const desc = operTxt + ': ' + tipoTxt + ' en ' + zonaTxt + '. ' +
+                         (p.habitaciones || 0) + ' hab · ' +
+                         (p.banos || 0) + ' baños · ' +
+                         (p.metros || 0) + 'm². Precio: $' + precioFmt +
+                         ' USD. Código ' + p.codigo_eco + '. Contacto directo por WhatsApp.';
+            const img = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : SEO_IMG_DEFAULT;
+
+            // Title + description + OG + Twitter
+            document.title = titulo;
+            setMeta('name', 'description', desc);
+            setMeta('property', 'og:site_name', 'EcoNexus Red Inmobiliaria');
+            setMeta('property', 'og:type', 'website');
+            setMeta('property', 'og:title', p.titulo || titulo);
+            setMeta('property', 'og:description', '💰 $' + precioFmt + ' USD • 🛏️ ' + (p.habitaciones || 0) + ' Hab • 🚿 ' + (p.banos || 0) + ' Baños • 📐 ' + (p.metros || 0) + 'm² | ' + zonaTxt);
+            setMeta('property', 'og:url', url);
+            setMeta('property', 'og:image', img);
+            setMeta('property', 'og:image:secure_url', img);
+            setMeta('property', 'og:image:type', 'image/jpeg');
+            setMeta('property', 'og:image:width', '1200');
+            setMeta('property', 'og:image:height', '630');
+            setMeta('name', 'twitter:card', 'summary_large_image');
+            setMeta('name', 'twitter:title', p.titulo || titulo);
+            setMeta('name', 'twitter:description', '💰 $' + precioFmt + ' USD • 📍 ' + zonaTxt);
+            setMeta('name', 'twitter:image', img);
+            setCanonical(url);
+
+            // Geo (coordenadas reales o aproximadas por zona — sin inventar)
+            if (typeof obtenerCoordenadasExactas === 'function') {
+                try {
+                    const c = obtenerCoordenadasExactas(p);
+                    if (c && c[0] && c[1]) setGeoTags(c[0], c[1], zonaTxt);
+                } catch (e) { /* no-op */ }
+            }
+
+            // JSON-LD específico de la ficha (alineado al Action + campos derivados reales)
+            setJsonLd('jsonld-vista', {
+                "@context": "https://schema.org",
+                "@type": "RealEstateListing",
+                "name": p.titulo || (tipoTxt + ' en ' + zonaTxt),
+                "description": (p.descripcion || desc).substring(0, 500),
+                "image": (p.fotos && p.fotos.length > 0) ? p.fotos : [SEO_IMG_DEFAULT],
+                "url": url,
+                "datePosted": p.fecha_publicacion || new Date().toISOString(),
+                "offers": {
+                    "@type": "Offer",
+                    "price": precioNum,
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock",
+                    "url": url
+                },
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": zonaTxt,
+                    "addressCountry": "VE"
+                },
+                "numberOfRooms": p.habitaciones || 0,
+                "numberOfBathroomsTotal": p.banos || 0,
+                "floorSize": {
+                    "@type": "QuantitativeValue",
+                    "value": p.metros || 0,
+                    "unitCode": "MTK"
+                }
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // VISTA: ZONA (solo meta tags — la URL NUNCA cambia)
+        // ─────────────────────────────────────────────────────────────
+        function seoZona(zona) {
+            const zonaClean = (zona || '').trim();
+            if (!zonaClean) return;
+
+            const titulo = 'Inmuebles en ' + zonaClean + ' | EcoNexus';
+            const desc = 'Explora casas, apartamentos, locales y terrenos en ' + zonaClean + ', Venezuela. Catálogo actualizado con contacto directo por WhatsApp.';
+
+            document.title = titulo;
+            setMeta('name', 'description', desc);
+            setMeta('property', 'og:site_name', 'EcoNexus Red Inmobiliaria');
+            setMeta('property', 'og:type', 'website');
+            setMeta('property', 'og:title', titulo);
+            setMeta('property', 'og:description', desc);
+            setMeta('property', 'og:image', SEO_IMG_DEFAULT);
+            setMeta('name', 'twitter:card', 'summary_large_image');
+            setMeta('name', 'twitter:title', titulo);
+            setMeta('name', 'twitter:description', desc);
+            setMeta('name', 'twitter:image', SEO_IMG_DEFAULT);
+            // ⚠️ NO se modifica canonical ni og:url — la página sigue siendo el home.
+            // Así evitamos canonicals fantasma que Google podría no entender.
+
+            // Geo específico de la zona (coordenadas reales de REFERENCIAS_GEOGRAFICAS)
+            if (typeof REFERENCIAS_GEOGRAFICAS !== 'undefined') {
+                const lower = zonaClean.toLowerCase();
+                for (const k in REFERENCIAS_GEOGRAFICAS) {
+                    if (lower.indexOf(k) !== -1 && REFERENCIAS_GEOGRAFICAS[k].coords) {
+                        setGeoTags(REFERENCIAS_GEOGRAFICAS[k].coords[0], REFERENCIAS_GEOGRAFICAS[k].coords[1], zonaClean);
+                        break;
+                    }
+                }
+            }
+
+            // JSON-LD de colección (describe la zona, sin reclamar URL propia)
+            setJsonLd('jsonld-vista', {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": titulo,
+                "description": desc,
+                "about": {
+                    "@type": "Place",
+                    "name": zonaClean,
+                    "address": { "@type": "PostalAddress", "addressCountry": "VE" }
+                }
+            });
+        }
+
+        // ─────────────────────────────────────────────────────────────
+        // VISTA: MAPA
+        // ─────────────────────────────────────────────────────────────
+        function seoMapa() {
+            const titulo = 'Mapa de Presencia Inmobiliaria en Venezuela | EcoNexus';
+            const desc = 'Explora en mapa los inmuebles disponibles en toda Venezuela. Filtra por zona y contacta directamente con el asesor.';
+
+            document.title = titulo;
+            setMeta('name', 'description', desc);
+            setMeta('property', 'og:site_name', 'EcoNexus Red Inmobiliaria');
+            setMeta('property', 'og:type', 'website');
+            setMeta('property', 'og:title', titulo);
+            setMeta('property', 'og:description', desc);
+            setMeta('property', 'og:image', SEO_IMG_DEFAULT);
+            setMeta('name', 'twitter:card', 'summary_large_image');
+            setMeta('name', 'twitter:title', titulo);
+            setMeta('name', 'twitter:description', desc);
+            setMeta('name', 'twitter:image', SEO_IMG_DEFAULT);
+            // ⚠️ NO se modifica canonical ni og:url — no existe /mapa/ prerenderizado.
+
+            setGeoTags(10.4806, -66.9036, 'Venezuela');
+            setJsonLd('jsonld-vista', null);
+        }
+
+        // ── exponer al scope global ──
+        window.seoHome = seoHome;
+        window.seoInmueble = seoInmueble;
+        window.seoZona = seoZona;
+        window.seoMapa = seoMapa;
+
+        // ─────────────────────────────────────────────────────────────
+        // POPSTATE — navegación atrás/adelante del navegador
+        // ─────────────────────────────────────────────────────────────
+        window.addEventListener('popstate', async function () {
+            const path = window.location.pathname;
+
+            // /inmueble/{slug}.html OR /inmueble/{slug}
+            const mInm = path.match(/^\/inmueble\/([^/]+?)(?:\.html)?\/?$/);
+            if (mInm) {
+                const codigo = decodeURIComponent(mInm[1]).toUpperCase();
+                try {
+                    const { data } = await dbClient
+                        .from('v_propiedades_catalogo')
+                        .select('*')
+                        .eq('codigo_eco', codigo)
+                        .single();
+                    if (data) {
+                        // navegacion: null → NO toca la URL (ya es la correcta)
+                        abrirModalDirecto(data, { navegacion: null });
+                        return;
+                    }
+                } catch (e) { /* no-op */ }
+                // Si no se encontró, caer a home
+            }
+
+            // /zona/{slug} — defensivo (no generamos estos links, pero por si acaso)
+            const mZona = path.match(/^\/zona\/([^/]+)\/?$/);
+            if (mZona) {
+                const zona = decodeURIComponent(mZona[1]).replace(/-/g, ' ');
+                const filterText = document.getElementById('filterText');
+                if (filterText) filterText.value = zona;
+                cargarVips(true);
+                cargarPropiedades(true);
+                seoZona(zona);
+                return;
+            }
+
+            // home u otra ruta → cerrar modal si estaba abierto y revertir SEO
+            const propModal = document.getElementById('propModal');
+            if (propModal && !propModal.classList.contains('hidden')) {
+                if (typeof synth !== 'undefined' && synth.speaking) {
+                    try { synth.cancel(); liberarWakeLock(); } catch (e) {}
+                }
+                propModal.classList.add('hidden');
+            }
+            seoHome();
+        });
+    })();
     </script>
 
     <!-- MÓDULO EXTERNO DEL ASISTENTE VIRTUAL POR VOZ AVANZADO -->
