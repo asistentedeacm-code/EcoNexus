@@ -395,6 +395,7 @@ MAIN: AUTENTICACIÓN
 <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
 </div>
 </div>
+
 <!-- CONTENEDOR PRINCIPAL DE LA APP (post-login) -->
 <div id="mainAppContainer" class="hidden space-y-4 sm:space-y-5">
 
@@ -803,10 +804,11 @@ BANNER FLOTANTE DE TÉRMINOS
 
 <!--
 =========================================================================
-PLANTILLAS OCULTAS DE ALTA RESOLUCIÓN (REDISEÑO 2026 — WHITE LABEL SUPERIOR)
+PLANTILLAS OCULTAS DE ALTA RESOLUCIÓN (REDISEÑO 2026 — FIX TEXTOS Y OFF-SCREEN)
 =========================================================================
 Diseño: Fondo blanco + texto negro elegante + etiquetas verdes + QR nítido
 La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
+FIX: opacity:0 + z-index:-99999 (en vez de left:-99999px) para evitar bug de descarga.
 =========================================================================
 -->
 
@@ -815,7 +817,7 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
 1. PLANTILLA HISTORIA DE INSTAGRAM (1080x1920 — 9:16)
 =========================================================================
 -->
-<div id="story-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
+<div id="story-canvas-template" class="crisp-render" style="position: fixed; left: 0; top: 0; opacity: 0; pointer-events: none; z-index: -99999; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
 
   <!-- ══════════ AGENT BAR (WHITE LABEL SUPERIOR) ══════════ -->
   <div id="story-header-box" style="background: linear-gradient(135deg, #1E3F20 0%, #2E5E32 100%); padding: 28px 48px; display: flex; align-items: center; gap: 24px; flex-shrink: 0; height: 150px; box-sizing: border-box;">
@@ -832,29 +834,26 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
   </div>
 
   <!-- ══════════ CONTENIDO PRINCIPAL ══════════ -->
-  <div style="flex: 1; display: flex; flex-direction: column; padding: 32px 48px 20px 48px; gap: 24px; box-sizing: border-box; min-height: 0;">
+  <div style="flex: 1; display: flex; flex-direction: column; padding: 24px 48px 20px 48px; gap: 20px; box-sizing: border-box; min-height: 0;">
 
     <!-- Foto principal con etiquetas verdes superpuestas -->
-    <div style="position: relative; width: 100%; height: 760px; border-radius: 32px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
+    <div style="position: relative; width: 100%; height: 620px; border-radius: 32px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
       <img id="story-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
 
-      <!-- Etiqueta OPERACIÓN (arriba izquierda) -->
+      <!-- Etiquetas -->
       <div id="story-badge-operacion" style="position: absolute; top: 22px; left: 22px; background: #10b981; color: #ffffff; padding: 14px 28px; border-radius: 999px; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; white-space: nowrap; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);">VENTA</div>
 
-      <!-- Etiqueta CÓDIGO (arriba derecha) -->
       <div style="position: absolute; top: 22px; right: 22px; background: #10b981; color: #ffffff; padding: 14px 24px; border-radius: 999px; font-size: 20px; font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.4);">ID: <span id="story-codigo">ECO-000</span></div>
 
-      <!-- Etiqueta PRECIO (abajo izquierda) -->
       <div id="story-precio" style="position: absolute; bottom: 22px; left: 22px; background: #10b981; color: #ffffff; padding: 20px 34px; border-radius: 22px; font-size: 46px; font-weight: 900; line-height: 1.1; letter-spacing: -1px; white-space: nowrap; box-shadow: 0 14px 32px rgba(16, 185, 129, 0.45);">$0</div>
 
-      <!-- Indicador galería (abajo derecha) -->
       <div style="position: absolute; bottom: 22px; right: 22px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 10px 20px; border-radius: 999px; font-size: 18px; font-weight: 800; line-height: 1.2; backdrop-filter: blur(4px);">
         <i class="fa-solid fa-images" style="margin-right: 6px;"></i><span id="story-gallery-count">1/3</span>
       </div>
     </div>
 
     <!-- Fila de 2 miniaturas -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; height: 180px; flex-shrink: 0;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; height: 140px; flex-shrink: 0;">
       <div style="border-radius: 20px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
         <img id="story-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
       </div>
@@ -862,35 +861,34 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
         <img id="story-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
       </div>
     </div>
-    <!-- Imagen 4 oculta (retrocompatibilidad con JS existente) -->
     <img id="story-img-4" src="" style="display: none;" />
 
     <!-- Fila info (texto izquierda + QR derecha) -->
-    <div style="display: flex; gap: 28px; flex: 1; min-height: 0; align-items: stretch;">
+    <div style="display: flex; gap: 24px; flex: 1; min-height: 0; align-items: stretch;">
 
-      <!-- Columna izquierda: información sin recuadros -->
-      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
-        <h2 id="story-titulo" style="margin: 0; font-size: 38px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></h2>
-        <p id="story-ubicacion" style="margin: 0; font-size: 22px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
+      <!-- Columna izquierda -->
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px;">
+        <h2 id="story-titulo" style="margin: 0; font-size: 34px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"></h2>
+        <p id="story-ubicacion" style="margin: 0; font-size: 20px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
           <i class="fa-solid fa-location-dot" style="color: #10b981; margin-right: 8px;"></i>
         </p>
-        <div id="story-specs" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; font-size: 20px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
+        <div id="story-specs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; font-size: 18px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
         <p id="story-footer-signature" style="margin: auto 0 0 0; font-size: 15px; font-weight: 700; color: #94a3b8; line-height: 1.3; letter-spacing: 0.3px;">
           Ficha generada en econexusplatform.com
         </p>
       </div>
 
-      <!-- Columna derecha: QR nítido -->
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; justify-content: center;">
-        <div style="background: #ffffff; padding: 14px; border-radius: 22px; border: 3px solid #e2e8f0; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);">
-          <img id="story-qr-img" src="" alt="QR Ficha" style="width: 190px; height: 190px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+      <!-- Columna derecha: QR -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; justify-content: center;">
+        <div style="background: #ffffff; padding: 12px; border-radius: 22px; border: 3px solid #e2e8f0; box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);">
+          <img id="story-qr-img" src="" alt="QR Ficha" style="width: 170px; height: 170px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
         </div>
         <span style="font-size: 14px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1.5px;">ESCANEA</span>
       </div>
     </div>
 
     <!-- Barra CTA inferior verde -->
-    <div id="story-cta-bar" style="background: #10b981; color: #ffffff; padding: 20px 32px; border-radius: 20px; font-size: 22px; font-weight: 900; text-align: center; line-height: 1.2; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
+    <div id="story-cta-bar" style="background: #10b981; color: #ffffff; padding: 18px 32px; border-radius: 20px; font-size: 20px; font-weight: 900; text-align: center; line-height: 1.2; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3); flex-shrink: 0;">
       Contáctame por WhatsApp o escanea el QR
     </div>
 
@@ -902,9 +900,9 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
 2. PLANTILLA POST DE INSTAGRAM (1080x1440 — 3:4)
 =========================================================================
 -->
-<div id="post-canvas-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1440px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
+<div id="post-canvas-template" class="crisp-render" style="position: fixed; left: 0; top: 0; opacity: 0; pointer-events: none; z-index: -99999; width: 1080px; height: 1440px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;">
 
-  <!-- ══════════ AGENT BAR (WHITE LABEL SUPERIOR) ══════════ -->
+  <!-- ══════════ AGENT BAR ══════════ -->
   <div id="post-header-box" style="background: linear-gradient(135deg, #1E3F20 0%, #2E5E32 100%); padding: 20px 40px; display: flex; align-items: center; gap: 20px; flex-shrink: 0; height: 110px; box-sizing: border-box;">
     <img id="post-agente-foto" src="" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; border: 3px solid #ffffff; flex-shrink: 0; display: none; background: #ffffff;" />
     <div style="flex: 1; min-width: 0;">
@@ -921,27 +919,23 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
   <!-- ══════════ CONTENIDO PRINCIPAL ══════════ -->
   <div style="flex: 1; display: flex; flex-direction: column; padding: 24px 40px 20px 40px; gap: 20px; box-sizing: border-box; min-height: 0;">
 
-    <!-- Foto principal con 3 etiquetas verdes superpuestas -->
-    <div style="position: relative; width: 100%; height: 540px; border-radius: 26px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
+    <!-- Foto principal con etiquetas -->
+    <div style="position: relative; width: 100%; height: 440px; border-radius: 26px; overflow: hidden; background: #f1f5f9; flex-shrink: 0; border: 3px solid #e2e8f0; box-sizing: border-box;">
       <img id="post-img-1" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
 
-      <!-- Etiqueta OPERACIÓN (arriba izquierda) -->
       <div id="post-badge-operacion" style="position: absolute; top: 18px; left: 18px; background: #10b981; color: #ffffff; padding: 12px 24px; border-radius: 999px; font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; line-height: 1.2; white-space: nowrap; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);">VENTA</div>
 
-      <!-- Etiqueta CÓDIGO (arriba derecha) - Reutiliza el ID post-codigo-pill -->
       <span id="post-codigo-pill" style="position: absolute; top: 18px; right: 18px; background: #10b981; color: #ffffff; padding: 12px 22px; border-radius: 999px; font-size: 18px; font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);">ID: ECO-000</span>
 
-      <!-- Etiqueta PRECIO (abajo izquierda) -->
       <div id="post-precio" style="position: absolute; bottom: 18px; left: 18px; background: #10b981; color: #ffffff; padding: 16px 28px; border-radius: 20px; font-size: 38px; font-weight: 900; line-height: 1.1; letter-spacing: -0.5px; white-space: nowrap; box-shadow: 0 12px 26px rgba(16, 185, 129, 0.45);">$0</div>
 
-      <!-- Indicador galería (abajo derecha) -->
       <div style="position: absolute; bottom: 18px; right: 18px; background: rgba(15, 23, 42, 0.85); color: #ffffff; padding: 8px 16px; border-radius: 999px; font-size: 15px; font-weight: 800; line-height: 1.2; backdrop-filter: blur(4px);">
         <i class="fa-solid fa-images" style="margin-right: 5px;"></i><span id="post-gallery-count">1/3</span>
       </div>
     </div>
 
     <!-- Fila de 2 miniaturas -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; height: 160px; flex-shrink: 0;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; height: 110px; flex-shrink: 0;">
       <div style="border-radius: 16px; overflow: hidden; background: #f1f5f9; border: 3px solid #e2e8f0; box-sizing: border-box;">
         <img id="post-img-2" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
       </div>
@@ -949,192 +943,230 @@ La "marca blanca" (foto + nombre + agencia del agente) solo aparece arriba.
         <img id="post-img-3" src="" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
       </div>
     </div>
-    <!-- Imagen 4 oculta (retrocompatibilidad con JS existente) -->
     <img id="post-img-4" src="" style="display: none;" />
 
     <!-- Fila info (texto izquierda + QR derecha) -->
     <div style="display: flex; gap: 24px; flex: 1; min-height: 0; align-items: stretch;">
-
-      <!-- Columna izquierda: información sin recuadros, autoadaptable -->
-      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding-top: 6px;">
-        <h2 id="post-titulo" style="margin: 0; font-size: 30px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"></h2>
-        <p id="post-ubicacion" style="margin: 0; font-size: 18px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+      <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding-top: 6px;">
+        <h2 id="post-titulo" style="margin: 0; font-size: 30px; font-weight: 900; color: #0f172a; line-height: 1.2; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;"></h2>
+        <p id="post-ubicacion" style="margin: 0; font-size: 16px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
           <i class="fa-solid fa-location-dot" style="color: #10b981; margin-right: 6px;"></i>
         </p>
-        <div id="post-specs" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; font-size: 17px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
+        <div id="post-specs" style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; font-size: 15px; font-weight: 800; color: #0f172a; line-height: 1.3;"></div>
         <p id="post-footer-signature" style="margin: auto 0 0 0; font-size: 13px; font-weight: 700; color: #94a3b8; line-height: 1.3; letter-spacing: 0.3px;">
           Ficha generada en econexusplatform.com
         </p>
       </div>
 
-      <!-- Columna derecha: QR nítido -->
       <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; justify-content: center;">
-        <div style="background: #ffffff; padding: 12px; border-radius: 18px; border: 3px solid #e2e8f0; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);">
-          <img id="post-qr-img" src="" alt="QR Ficha" style="width: 160px; height: 160px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+        <div style="background: #ffffff; padding: 10px; border-radius: 18px; border: 3px solid #e2e8f0; box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);">
+          <img id="post-qr-img" src="" alt="QR Ficha" style="width: 140px; height: 140px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
         </div>
         <span style="font-size: 12px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1.2px;">ESCANEA</span>
       </div>
     </div>
 
+    <!-- Barra CTA inferior verde -->
+    <div style="background: #10b981; color: #ffffff; padding: 16px 32px; border-radius: 20px; font-size: 18px; font-weight: 900; text-align: center; line-height: 1.2; box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3); flex-shrink: 0; margin-top: 10px;">
+      Contáctame por WhatsApp o escanea el QR
+    </div>
+
   </div>
 </div>
 
 <!--
 =========================================================================
-3. PLANTILLA TARJETA DE PRESENTACIÓN PROFESIONAL (1080x1920) + QR
-Diseño: Foto izquierda + datos al lado + "Sobre mí" con diagrama +
-"Presencia Web Interconectada" con gráficas + WhatsApp directo + QR
+3. PLANTILLA TARJETA DE PRESENTACIÓN (1080x1920) + QR + MINI INMUEBLES
 =========================================================================
 -->
-<div id="card-presentacion-template" class="crisp-render" style="position: fixed; left: -99999px; top: 0; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 50px 56px; display: flex; flex-direction: column; gap: 28px; overflow: hidden;">
+<div id="card-presentacion-template" class="crisp-render" style="position: fixed; left: 0; top: 0; opacity: 0; pointer-events: none; z-index: -99999; width: 1080px; height: 1920px; background: #ffffff; color: #0f172a; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; padding: 50px 56px; display: flex; flex-direction: column; gap: 24px; overflow: hidden;">
 
-  <!-- Top pill oculta (retrocompatibilidad, ya no se usa) -->
   <div id="card-pres-top-pill" style="display: none;"></div>
 
-  <!-- ══════════ HERO: Foto izquierda + Datos al lado ══════════ -->
+  <!-- ══════════ HERO ══════════ -->
   <div style="display: flex; gap: 36px; align-items: center; flex-shrink: 0;">
-
-    <!-- Foto del agente (izquierda, grande y armónica) -->
-    <div id="card-pres-avatar-ring" style="width: 300px; height: 300px; border-radius: 50%; padding: 10px; background: linear-gradient(135deg, #10b981, #16a34a); flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.28);">
+    <div id="card-pres-avatar-ring" style="width: 260px; height: 260px; border-radius: 50%; padding: 10px; background: linear-gradient(135deg, #10b981, #16a34a); flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.28);">
       <img id="card-pres-foto" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 7px solid #ffffff; background: #ffffff;" />
     </div>
-
-    <!-- Datos del agente (derecha) -->
     <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px;">
       <div style="display: inline-flex; align-items: center; gap: 8px; background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; padding: 8px 18px; border-radius: 999px; font-size: 16px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; align-self: flex-start;">
         <i class="fa-solid fa-shield-halved"></i> Verificado EcoNexus
       </div>
-      <h1 id="card-pres-nombre" style="margin: 0; font-size: 56px; font-weight: 900; color: #0f172a; line-height: 1.1; word-break: break-word; overflow-wrap: break-word; padding-bottom: 4px;">
+      <h1 id="card-pres-nombre" style="margin: 0; font-size: 52px; font-weight: 900; color: #0f172a; line-height: 1.1; word-break: break-word; overflow-wrap: break-word; padding-bottom: 4px;">
         Asesor EcoNexus
       </h1>
-      <p id="card-pres-agencia" style="margin: 0; font-size: 24px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word;">
+      <p id="card-pres-agencia" style="margin: 0; font-size: 22px; font-weight: 700; color: #475569; line-height: 1.3; word-break: break-word; overflow-wrap: break-word;">
         Red Inmobiliaria Inteligente
       </p>
-      <span id="card-pres-tipo-badge" style="display: none;"></span>
-      <!-- Badge secundario oculto (retrocompatibilidad con JS) -->
     </div>
   </div>
 
-  <!-- ══════════ SOBRE MÍ + DIAGRAMA NOVEDOSO ══════════ -->
-  <div style="display: flex; gap: 28px; align-items: flex-start; flex-shrink: 0; padding: 28px 0; border-top: 2px solid #f1f5f9; border-bottom: 2px solid #f1f5f9;">
-
-    <!-- Diagrama SVG que apunta al texto -->
-    <div style="flex-shrink: 0; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center;">
-      <svg width="130" height="130" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="28" cy="28" r="9" fill="#10b981" />
-        <circle cx="28" cy="65" r="9" fill="#10b981" />
-        <circle cx="28" cy="102" r="9" fill="#10b981" />
-        <circle cx="28" cy="28" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
-        <circle cx="28" cy="65" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
-        <circle cx="28" cy="102" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
-        <line x1="38" y1="28" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" />
-        <line x1="38" y1="65" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
-        <line x1="38" y1="102" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" />
-        <polygon points="95,58 108,65 95,72" fill="#10b981" />
+  <!-- ══════════ SOBRE MÍ ══════════ -->
+  <div style="display: flex; gap: 24px; align-items: flex-start; flex-shrink: 0; padding: 20px 0; border-top: 2px solid #f1f5f9; border-bottom: 2px solid #f1f5f9;">
+    <div style="flex-shrink: 0; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center;">
+      <svg width="100" height="100" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="9" fill="#10b981" /><circle cx="28" cy="65" r="9" fill="#10b981" /><circle cx="28" cy="102" r="9" fill="#10b981" />
+        <circle cx="28" cy="28" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" /><circle cx="28" cy="65" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" /><circle cx="28" cy="102" r="14" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
+        <line x1="38" y1="28" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" /><line x1="38" y1="65" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" /><line x1="38" y1="102" x2="95" y2="65" stroke="#10b981" stroke-width="2.5" stroke-dasharray="5,4" stroke-linecap="round" /><polygon points="95,58 108,65 95,72" fill="#10b981" />
       </svg>
     </div>
-
-    <!-- Texto Sobre Mí -->
     <div style="flex: 1; min-width: 0;">
-      <h3 style="margin: 0 0 12px 0; font-size: 26px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 2px; line-height: 1.3;">
+      <h3 style="margin: 0 0 8px 0; font-size: 22px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 2px; line-height: 1.3;">
         Sobre Mí
       </h3>
-      <p id="card-pres-sobremi" style="margin: 0; font-size: 22px; line-height: 1.5; color: #0f172a; font-weight: 500; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden;">
-        "Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, seguridad jurídica y máxima efectividad."
+      <p id="card-pres-sobremi" style="margin: 0; font-size: 20px; line-height: 1.5; color: #0f172a; font-weight: 500; word-break: break-word; overflow-wrap: break-word; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;">
+        "Especialista en comercialización..."
       </p>
     </div>
   </div>
 
-  <!-- ══════════ PRESENCIA WEB INTERCONECTADA (reemplaza cajas viejas) ══════════ -->
-  <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 28px; padding: 28px 32px; flex-shrink: 0;">
-    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 18px;">
-      <div style="width: 44px; height: 44px; border-radius: 14px; background: #10b981; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 20px; box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);">
-        <i class="fa-solid fa-globe"></i>
-      </div>
-      <div>
-        <h3 style="margin: 0; font-size: 22px; font-weight: 900; color: #0f172a; letter-spacing: 0.5px; line-height: 1.2;">Presencia Real en la Web</h3>
-        <p style="margin: 2px 0 0 0; font-size: 15px; color: #475569; font-weight: 600; line-height: 1.3;">Red interconectada EcoNexus</p>
-      </div>
-    </div>
+  <!-- ══════════ MINI INMUEBLES (INYECTADOS POR JS) ══════════ -->
+  <div id="card-pres-mini-props-container" style="flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px;">
+    <!-- Aquí JS inyecta las tarjetas -->
+  </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;">
-
-      <!-- Diagrama de red global -->
-      <div style="background: #ffffff; border-radius: 18px; padding: 16px; display: flex; align-items: center; justify-content: center; border: 1px solid #d1fae5;">
-        <svg width="100%" height="180" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <line x1="170" y1="90" x2="60" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" />
-          <line x1="170" y1="90" x2="280" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" />
-          <line x1="170" y1="90" x2="60" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" />
-          <line x1="170" y1="90" x2="280" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" />
-          <line x1="170" y1="90" x2="170" y2="30" stroke="#10b981" stroke-width="2" opacity="0.35" stroke-dasharray="4,4" />
-          <line x1="170" y1="90" x2="170" y2="150" stroke="#10b981" stroke-width="2" opacity="0.35" stroke-dasharray="4,4" />
-          <line x1="60" y1="40" x2="60" y2="140" stroke="#10b981" stroke-width="1.5" opacity="0.3" stroke-dasharray="3,4" />
-          <line x1="280" y1="40" x2="280" y2="140" stroke="#10b981" stroke-width="1.5" opacity="0.3" stroke-dasharray="3,4" />
-          <circle cx="60" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
-          <circle cx="280" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
-          <circle cx="60" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
-          <circle cx="280" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
-          <circle cx="170" cy="30" r="10" fill="#a7f3d0" stroke="#10b981" stroke-width="1.5" />
-          <circle cx="170" cy="150" r="10" fill="#a7f3d0" stroke="#10b981" stroke-width="1.5" />
-          <circle cx="170" cy="90" r="30" fill="#10b981" />
-          <circle cx="170" cy="90" r="38" fill="none" stroke="#10b981" stroke-opacity="0.35" stroke-width="2" />
-          <text x="170" y="97" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Segoe UI, sans-serif">ECO</text>
+  <!-- ══════════ PRESENCIA WEB ══════════ -->
+  <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 28px; padding: 20px 24px; flex-shrink: 0;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;">
+      <div style="background: #ffffff; border-radius: 18px; padding: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid #d1fae5;">
+        <svg width="100%" height="100" viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <line x1="170" y1="90" x2="60" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" /><line x1="170" y1="90" x2="280" y2="40" stroke="#10b981" stroke-width="2" opacity="0.55" /><line x1="170" y1="90" x2="60" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" /><line x1="170" y1="90" x2="280" y2="140" stroke="#10b981" stroke-width="2" opacity="0.55" />
+          <circle cx="60" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" /><circle cx="280" cy="40" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" /><circle cx="60" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" /><circle cx="280" cy="140" r="14" fill="#d1fae5" stroke="#10b981" stroke-width="2" />
+          <circle cx="170" cy="90" r="30" fill="#10b981" /><text x="170" y="97" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="900" font-family="Segoe UI, sans-serif">ECO</text>
         </svg>
       </div>
-
-      <!-- Gráfica de rendimiento -->
-      <div style="background: #ffffff; border-radius: 18px; padding: 16px; border: 1px solid #d1fae5;">
-        <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #475569; letter-spacing: 0.5px; text-transform: uppercase;">Rendimiento</p>
-        <svg width="100%" height="120" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-          <rect x="14" y="70" width="32" height="40" rx="6" fill="#d1fae5" />
-          <rect x="60" y="50" width="32" height="60" rx="6" fill="#a7f3d0" />
-          <rect x="106" y="35" width="32" height="75" rx="6" fill="#6ee7b7" />
-          <rect x="152" y="20" width="32" height="90" rx="6" fill="#34d399" />
-          <rect x="198" y="12" width="32" height="98" rx="6" fill="#10b981" />
-          <rect x="244" y="6" width="32" height="104" rx="6" fill="#059669" />
-          <text x="30" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">L</text>
-          <text x="76" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">M</text>
-          <text x="122" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">M</text>
-          <text x="168" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">J</text>
-          <text x="214" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">V</text>
-          <text x="260" y="118" text-anchor="middle" font-size="10" fill="#64748b" font-family="Segoe UI, sans-serif">S</text>
+      <div style="background: #ffffff; border-radius: 18px; padding: 12px; border: 1px solid #d1fae5;">
+        <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 800; color: #475569; letter-spacing: 0.5px; text-transform: uppercase;">Rendimiento</p>
+        <svg width="100%" height="80" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <rect x="14" y="70" width="32" height="40" rx="6" fill="#d1fae5" /><rect x="60" y="50" width="32" height="60" rx="6" fill="#a7f3d0" /><rect x="106" y="35" width="32" height="75" rx="6" fill="#6ee7b7" /><rect x="152" y="20" width="32" height="90" rx="6" fill="#34d399" /><rect x="198" y="12" width="32" height="98" rx="6" fill="#10b981" /><rect x="244" y="6" width="32" height="104" rx="6" fill="#059669" />
         </svg>
-        <p style="margin: 8px 0 0 0; font-size: 12px; font-weight: 700; color: #059669; text-align: center;">▲ Crecimiento sostenido</p>
       </div>
     </div>
   </div>
 
-  <!-- ══════════ CONTACTO: WhatsApp + QR ══════════ -->
-  <div style="display: flex; gap: 24px; align-items: stretch; flex-shrink: 0; margin-top: auto;">
-
-    <!-- WhatsApp contact (izquierda, grande) -->
-    <div id="card-pres-wa-box" style="flex: 1; background: #10b981; color: #ffffff; padding: 26px 32px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; gap: 8px; box-shadow: 0 14px 32px rgba(16, 185, 129, 0.35);">
-      <div style="display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9;">
-        <i class="fa-brands fa-whatsapp" style="font-size: 22px;"></i> Mi WhatsApp
+  <!-- ══════════ CONTACTO + QR ══════════ -->
+  <div style="display: flex; gap: 20px; align-items: stretch; flex-shrink: 0; margin-top: 4px;">
+    <div id="card-pres-wa-box" style="flex: 1; background: #10b981; color: #ffffff; padding: 20px 28px; border-radius: 24px; display: flex; flex-direction: column; justify-content: center; gap: 6px; box-shadow: 0 14px 32px rgba(16, 185, 129, 0.35);">
+      <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; opacity: 0.9;">
+        <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> Mi WhatsApp
       </div>
-      <div style="font-size: 20px; font-weight: 700; line-height: 1.2;">Contáctame directo</div>
-      <div id="card-pres-telefono" style="font-size: 34px; font-weight: 900; line-height: 1.15; letter-spacing: -0.5px; word-break: break-word;">+58 XXX XXX XXXX</div>
+      <div style="font-size: 18px; font-weight: 700; line-height: 1.2;">Contáctame directo</div>
+      <div id="card-pres-telefono" style="font-size: 32px; font-weight: 900; line-height: 1.15; letter-spacing: -0.5px; word-break: break-word;">+58 XXX XXX XXXX</div>
     </div>
-
-    <!-- QR (derecha) -->
-    <div style="flex-shrink: 0; background: #ffffff; border: 3px solid #e2e8f0; border-radius: 22px; padding: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);">
-      <img id="card-pres-qr-img" src="" alt="QR Portafolio" style="width: 150px; height: 150px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
-      <span style="font-size: 12px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; text-align: center; line-height: 1.2;">Escanea mi<br>Portafolio</span>
+    <div style="flex-shrink: 0; background: #ffffff; border: 3px solid #e2e8f0; border-radius: 22px; padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1);">
+      <img id="card-pres-qr-img" src="" alt="QR Portafolio" style="width: 130px; height: 130px; display: block; image-rendering: pixelated; image-rendering: crisp-edges;" />
+      <span style="font-size: 11px; font-weight: 900; color: #10b981; text-transform: uppercase; letter-spacing: 1px; text-align: center; line-height: 1.2;">Escanea mi<br>Portafolio</span>
     </div>
   </div>
 
   <!-- ══════════ FOOTER ══════════ -->
-  <p id="card-pres-footer-sig" style="margin: 0; font-size: 16px; color: #94a3b8; font-weight: 700; line-height: 1.3; text-align: center; flex-shrink: 0; letter-spacing: 0.3px;">
+  <p id="card-pres-footer-sig" style="margin: 0; font-size: 15px; color: #94a3b8; font-weight: 700; line-height: 1.3; text-align: center; flex-shrink: 0; letter-spacing: 0.3px;">
     Ficha generada a través de econexusplatform.com/menu
   </p>
 </div>
 
-<!--
-=========================================================================
-4. LIENZO OCULTO PARA GENERACIÓN DE REELS ANIMADOS (1080x1920 @ 30fps)
-=========================================================================
--->
-<canvas id="reel-canvas-render" width="1080" height="1920" style="position: fixed; left: -99999px; top: 0; pointer-events: none; display: block;"></canvas>
+<!-- =========================================================
+MODAL DE PUBLICACIÓN EN REDES (VIRALIDAD)
+========================================================= -->
+<div id="modalPublicacionRedes" class="fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-[10005] hidden items-center justify-center p-3 sm:p-4">
+<div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl animate-modal-in flex flex-col max-h-[90vh]">
+
+  <!-- Header del Modal -->
+  <div class="flex items-center gap-2 mb-3 border-b border-slate-700 pb-3">
+    <div id="iconoRedSocial" class="w-10 h-10 rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-400 flex items-center justify-center text-lg">
+      <i class="fa-brands fa-instagram"></i>
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Publicar en Redes Sociales</h3>
+      <p class="text-[11px] text-slate-400 leading-tight">Imagen generada. Copia el texto y abre la app.</p>
+    </div>
+    <button type="button" onclick="cerrarModalPublicacionRedes()" class="text-slate-400 hover:text-red-400 w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center cursor-pointer transition">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- Área de Texto -->
+  <div class="flex-1 overflow-y-auto mb-3 bg-slate-950/50 rounded-xl p-3 border border-slate-800">
+    <p class="text-xs font-bold text-slate-300 mb-2 flex items-center gap-1.5">
+      <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i> Pie de página listo (Hashtags + Link incluidos):
+    </p>
+    <textarea id="textoPublicacionRedes" class="w-full h-40 bg-transparent text-xs text-slate-200 resize-none outline-none whitespace-pre-wrap font-medium" readonly></textarea>
+  </div>
+
+  <!-- Botones de Acción -->
+  <div class="flex flex-col sm:flex-row gap-2">
+    <button type="button" onclick="copiarTextoPublicacion()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+      <i class="fa-solid fa-copy"></i> <span id="lblCopiarPublicacion">Copiar Texto</span>
+    </button>
+    <button type="button" onclick="abrirRedSocial()" id="btnAbrirRedSocial" class="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 text-white font-extrabold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:scale-[1.02]">
+      <i class="fa-brands fa-instagram text-base"></i> Abrir Instagram
+    </button>
+  </div>
+
+  <!-- Nota de ayuda -->
+  <p class="text-[10px] text-slate-500 text-center mt-3 flex items-center justify-center gap-1">
+    <i class="fa-solid fa-circle-info"></i> La imagen ya se descargó a tu galería. Súbela manualmente en la app y pega el texto copiado.
+  </p>
+
+</div>
+</div>
+
+<!-- =========================================================
+LIENZO OCULTO PARA GENERACIÓN DE REELS ANIMADOS (1080x1920 @ 30fps)
+========================================================= -->
+<canvas id="reel-canvas-render" width="1080" height="1920" style="position: fixed; left: 0; top: 0; opacity: 0; pointer-events: none; z-index: -99999; display: block;"></canvas>
+
+<!-- =========================================================
+MODAL SELECTOR DE ESTADO DE WHATSAPP (RÁFAGA / VIDEO)
+========================================================= -->
+<div id="waStatusModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
+  <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl animate-modal-in">
+    <div class="flex items-center gap-2 mb-3 border-b border-slate-700 pb-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg">
+        <i class="fa-solid fa-mobile-screen-button"></i>
+      </div>
+      <div class="flex-1 min-w-0">
+        <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Crear Estado de WhatsApp</h3>
+        <p class="text-[11px] text-slate-400 leading-tight">El link del inmueble se copiará automáticamente al portapapeles.</p>
+      </div>
+      <button type="button" onclick="cerrarModalEstadoWA()" class="text-slate-400 hover:text-red-400 w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center cursor-pointer transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div id="waStatusPreviewBox" class="hidden mb-3 p-3 rounded-xl bg-slate-950/60 border border-emerald-500/30 text-xs text-emerald-300 text-center font-semibold">
+      <!-- Feedback en vivo -->
+    </div>
+
+    <div class="flex flex-col gap-2.5 mb-3">
+      <button type="button" onclick="ejecutarEstadoWA('burst')" class="bg-slate-950 hover:bg-slate-800 border-2 border-emerald-500 text-left p-3.5 rounded-xl transition cursor-pointer">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-bolt text-emerald-400 text-base"></i>
+          <span class="font-extrabold text-emerald-400 text-sm">Ráfaga Interactiva (4 Láminas HD)</span>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-snug">Generación en ~0.5 seg. Máxima nitidez, efecto asomo en la foto 1 y barra filmstrip nativa.</p>
+      </button>
+
+      <button type="button" onclick="ejecutarEstadoWA('video')" class="bg-slate-950 hover:bg-slate-800 border-2 border-sky-500 text-left p-3.5 rounded-xl transition cursor-pointer">
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-film text-sky-400 text-base"></i>
+          <span class="font-extrabold text-sky-400 text-sm">Bento-Story Animado (Video)</span>
+        </div>
+        <p class="text-[11px] text-slate-400 leading-snug">Tarjeta técnica fija abajo mientras las fotos se deslizan solas arriba. Requiere segundo toque al finalizar.</p>
+      </button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-2">
+      <button type="button" onclick="abrirPreviewIndexDesdeEstadoWA()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
+        <i class="fa-solid fa-up-right-from-square"></i> Ver en EcoNexus
+      </button>
+      <button type="button" onclick="cerrarModalEstadoWA()" class="flex-1 bg-slate-800 hover:bg-red-500/30 text-slate-300 hover:text-red-300 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
 /* =========================================================
 CONSTANTES GLOBALES & WORKER
@@ -2214,6 +2246,7 @@ function confirmarYRenderizarReel() {
   }
 }
 </script>
+
 <script>
 /* =========================================================
 LISTADO DE INMUEBLES CON FOTO SUPERIOR Y DESPLEGABLE TOOLS
@@ -2289,14 +2322,11 @@ async function buscarMisInmuebles() {
             <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-mobile-screen"></i> Historia IG</button>
             <button type="button" onclick="descargarPostInstagramCanvas('${item.id}')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-instagram"></i> Post IG (3:4)</button>
             <button type="button" onclick="abrirSelectorFotosReel('${item.id}')" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-film"></i> Crear Reel</button>
-            <!-- 🔥 FIX 1: BOTÓN ESTADO WA (NUEVO) 🔥 -->
             <button type="button" onclick="prepararEstadoWA('${item.id}')" class="bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm" title="Crear un Estado de WhatsApp con ficha técnica interactiva"><i class="fa-solid fa-mobile-screen-button"></i> Estado WA</button>
-            <!-- 🔥 FIN FIX 1 🔥 -->
             <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-whatsapp"></i> Compartir WA</button>
             <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-star"></i> Destacar VIP</button>
             <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-rotate"></i> Renovar 30D</button>
             
-            <!-- BOTONES CONDICIONALES: SAAI VS ECONEXUS -->
             ${item.external_source === 'SAAI' ? `
               <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1">
                 <i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI
@@ -2709,8 +2739,7 @@ async function compartirInventarioWA() {
 }
 
 /* =========================================================
-🔥 FIX 2: PREPARAR ESTADO WA (NUEVO) 🔥
-Puente entre captacion.html y wa-status-engine.js
+PUENTE ENTRE CAPTACIÓN Y EL MOTOR DE ESTADOS WA
 Setea window.inmuebleActual y abre el modal selector.
 ========================================================= */
 function prepararEstadoWA(id) {
@@ -2738,6 +2767,7 @@ function prepararEstadoWA(id) {
     telefonoAsesor: p.telefono_asesor || '',
     tipoAsesor: p.tipo_asesor || 'Independiente',
     nombreAgencia: p.nombre_agencia || '',
+    fotoPerfil: fotoPerfilActual || '', // FIX: requerido por el DOCX para el motor de Estados WA
     fotos: Array.isArray(p.fotos) ? p.fotos : []
   };
 
@@ -2751,58 +2781,7 @@ function prepararEstadoWA(id) {
     );
   }
 }
-/* 🔥 FIN FIX 2 🔥 */
 </script>
-<!-- =========================================================
-MODAL SELECTOR DE ESTADO DE WHATSAPP (RÁFAGA / VIDEO)
-========================================================= -->
-<div id="waStatusModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
-  <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl animate-modal-in">
-    <div class="flex items-center gap-2 mb-3 border-b border-slate-700 pb-3">
-      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg">
-        <i class="fa-solid fa-mobile-screen-button"></i>
-      </div>
-      <div class="flex-1 min-w-0">
-        <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Crear Estado de WhatsApp</h3>
-        <p class="text-[11px] text-slate-400 leading-tight">El link del inmueble se copiará automáticamente al portapapeles.</p>
-      </div>
-      <button type="button" onclick="cerrarModalEstadoWA()" class="text-slate-400 hover:text-red-400 w-8 h-8 rounded-lg hover:bg-slate-800 flex items-center justify-center cursor-pointer transition">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-
-    <div id="waStatusPreviewBox" class="hidden mb-3 p-3 rounded-xl bg-slate-950/60 border border-emerald-500/30 text-xs text-emerald-300 text-center font-semibold">
-      <!-- Feedback en vivo -->
-    </div>
-
-    <div class="flex flex-col gap-2.5 mb-3">
-      <button type="button" onclick="ejecutarEstadoWA('burst')" class="bg-slate-950 hover:bg-slate-800 border-2 border-emerald-500 text-left p-3.5 rounded-xl transition cursor-pointer">
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-bolt text-emerald-400 text-base"></i>
-          <span class="font-extrabold text-emerald-400 text-sm">Ráfaga Interactiva (4 Láminas HD)</span>
-        </div>
-        <p class="text-[11px] text-slate-400 leading-snug">Generación en ~0.5 seg. Máxima nitidez, efecto asomo en la foto 1 y barra filmstrip nativa.</p>
-      </button>
-
-      <button type="button" onclick="ejecutarEstadoWA('video')" class="bg-slate-950 hover:bg-slate-800 border-2 border-sky-500 text-left p-3.5 rounded-xl transition cursor-pointer">
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-film text-sky-400 text-base"></i>
-          <span class="font-extrabold text-sky-400 text-sm">Bento-Story Animado (Video)</span>
-        </div>
-        <p class="text-[11px] text-slate-400 leading-snug">Tarjeta técnica fija abajo mientras las fotos se deslizan solas arriba. Requiere segundo toque al finalizar.</p>
-      </button>
-    </div>
-
-    <div class="flex flex-col sm:flex-row gap-2">
-      <button type="button" onclick="abrirPreviewIndexDesdeEstadoWA()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
-        <i class="fa-solid fa-up-right-from-square"></i> Ver en EcoNexus
-      </button>
-      <button type="button" onclick="cerrarModalEstadoWA()" class="flex-1 bg-slate-800 hover:bg-red-500/30 text-slate-300 hover:text-red-300 font-bold py-2.5 px-3 rounded-xl text-[11px] transition flex items-center justify-center gap-1.5 cursor-pointer">
-        <i class="fa-solid fa-xmark"></i> Cancelar
-      </button>
-    </div>
-  </div>
-</div>
 
 <script>
 /* =========================================================
@@ -2818,6 +2797,68 @@ function esperarImagenCargada(imgEl, timeoutMs = 1800) {
     imgEl.onerror = finish;
     setTimeout(finish, timeoutMs);
   });
+}
+
+/* =========================================================
+GENERADOR DE TEXTO VIRAL PARA REDES (NUEVO)
+========================================================= */
+function generarTextoViral(p, red) {
+  const precioFmt = '$' + Number(p.precio || 0).toLocaleString('en-US');
+  const waNum = (p.telefono_asesor || '').replace(/[^0-9]/g, '');
+  const link = `https://econexusplatform.com/index.html?codigo=${p.codigo_eco}`;
+  const ubicacionLimpia = (p.ubicacion || '').split(',')[0].replace(/\s+/g, '');
+  const tipoLimpio = (p.tipo || '').replace(/\s+/g, '');
+  const hashtags = `#EcoNexus #Venezuela #BienesRaices #Inmuebles #${tipoLimpio} #${ubicacionLimpia} #${p.operacion}`;
+  const caption = `🏡 *${p.titulo}*\n💰 Precio: ${precioFmt} | Operación: ${p.operacion}\n📍 Ubicación: ${p.ubicacion}\n🛏️ Hab: ${p.habitaciones || 0} | 🚿 Baños: ${p.banos || 0} | 📐 Mts: ${p.metros || 0}m²\n\n📲 Contáctame directo: https://wa.me/${waNum}\n🔗 Ver ficha completa: ${link}\n\n${hashtags}`;
+  
+  document.getElementById('textoPublicacionRedes').value = caption;
+  
+  const btn = document.getElementById('btnAbrirRedSocial');
+  const iconWrap = document.getElementById('iconoRedSocial');
+  
+  if (red === 'instagram') {
+    btn.innerHTML = '<i class="fa-brands fa-instagram text-base"></i> Abrir Instagram';
+    btn.style.background = 'linear-gradient(to right, #ec4899, #9333ea)';
+    iconWrap.className = 'w-10 h-10 rounded-xl bg-pink-500/20 border border-pink-500/40 text-pink-400 flex items-center justify-center text-lg';
+    iconWrap.innerHTML = '<i class="fa-brands fa-instagram"></i>';
+  } else if (red === 'tiktok') {
+    btn.innerHTML = '<i class="fa-brands fa-tiktok text-base"></i> Abrir TikTok';
+    btn.style.background = 'linear-gradient(to right, #000000, #333333)';
+    iconWrap.className = 'w-10 h-10 rounded-xl bg-slate-800 border border-slate-600 text-white flex items-center justify-center text-lg';
+    iconWrap.innerHTML = '<i class="fa-brands fa-tiktok"></i>';
+  }
+  
+  // Recordar la red social elegida para abrirRedSocial()
+  window.redActualSeleccionada = red || 'instagram';
+  
+  document.getElementById('modalPublicacionRedes').classList.remove('hidden');
+  document.getElementById('modalPublicacionRedes').classList.add('flex');
+}
+
+function cerrarModalPublicacionRedes() {
+  document.getElementById('modalPublicacionRedes').classList.add('hidden');
+  document.getElementById('modalPublicacionRedes').classList.remove('flex');
+}
+
+function copiarTextoPublicacion() {
+  const textarea = document.getElementById('textoPublicacionRedes');
+  textarea.select();
+  document.execCommand('copy');
+  const lbl = document.getElementById('lblCopiarPublicacion');
+  lbl.textContent = '¡Texto Copiado!';
+  setTimeout(() => lbl.textContent = 'Copiar Texto', 2500);
+}
+
+function abrirRedSocial() {
+  // Abre la app nativa elegida; si falla, cae en la web
+  const red = window.redActualSeleccionada || 'instagram';
+  if (red === 'tiktok') {
+    window.location.href = 'snssdk1128://';
+    setTimeout(() => { window.open('https://www.tiktok.com/upload', '_blank'); }, 500);
+  } else {
+    window.location.href = 'instagram://app';
+    setTimeout(() => { window.open('https://instagram.com', '_blank'); }, 500);
+  }
 }
 
 /* =========================================================
@@ -2941,85 +2982,55 @@ async function descargarPDFFormal(id) {
 }
 
 /* =========================================================
-2. GENERADOR HISTORIA IG 9:16 (REDISEÑADO — WHITE LABEL SUPERIOR)
+2. GENERADOR HISTORIA IG 9:16 (REDISEÑADO — ABRE PUBLICADOR)
 ========================================================= */
 async function descargarHistoriaCanvas(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
-  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
+  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones.", "error");
   
-  const { secundario } = obtenerColoresMarcaActivos();
-  
-  mostrarProgresoGeneracion("Creando Historia IG (9:16)...", "Sincronizando datos, QR y fotografías en HD.");
+  mostrarProgresoGeneracion("Creando Historia IG...", "Renderizando formato 9:16...");
   
   try {
     const container = document.getElementById('story-canvas-template');
     
-    const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 400, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(obtenerEnlaceShareInmueble(p.codigo_eco), 400);
     const qrImgEl = document.getElementById('story-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
+    if (qrImgEl && qrDataUrl) { qrImgEl.src = qrDataUrl; await esperarImagenCargada(qrImgEl); }
     
-    const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-    const urlsStory = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
-    const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
-      urlToBase64(urlsStory[0]),
-      urlToBase64(urlsStory[1]),
-      urlToBase64(urlsStory[2]),
-      urlToBase64(urlsStory[3]),
+    const fotos = p.fotos || ["https://images.unsplash.com/photo-1560518883-ce09059eeffa"];
+    const [b64_1, b64_2, b64_3, b64Avatar] = await Promise.all([
+      urlToBase64(fotos[0]),
+      urlToBase64(fotos[1] || fotos[0]),
+      urlToBase64(fotos[2] || fotos[0]),
       fotoPerfilActual ? urlToBase64(fotoPerfilActual) : Promise.resolve(null)
     ]);
     
-    document.getElementById('story-img-1').src = b64_1 || urlsStory[0];
-    document.getElementById('story-img-2').src = b64_2 || urlsStory[1];
-    document.getElementById('story-img-3').src = b64_3 || urlsStory[2];
-    document.getElementById('story-img-4').src = b64_4 || urlsStory[3];
+    document.getElementById('story-img-1').src = b64_1 || fotos[0];
+    document.getElementById('story-img-2').src = b64_2 || fotos[1] || fotos[0];
+    document.getElementById('story-img-3').src = b64_3 || fotos[2] || fotos[0];
     
     const imgAgente = document.getElementById('story-agente-foto');
-    if (b64Avatar || fotoPerfilActual) {
-      imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.display = 'block';
-    } else {
-      imgAgente.style.display = 'none';
-    }
+    if (b64Avatar || fotoPerfilActual) { imgAgente.src = b64Avatar || fotoPerfilActual; imgAgente.style.display = 'block'; }
     
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
     document.getElementById('story-agencia-badge').textContent = esAgencia ? p.nombre_agencia : 'AGENTE VERIFICADO';
     document.getElementById('story-agente').textContent = p.nombre_asesor || 'Asesor Inmobiliario';
     document.getElementById('story-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
     
-    const opEl = document.getElementById('story-badge-operacion');
-    opEl.textContent = (p.operacion || 'VENTA').toUpperCase();
-    
+    document.getElementById('story-badge-operacion').textContent = (p.operacion || 'VENTA').toUpperCase();
     document.getElementById('story-codigo').textContent = p.codigo_eco;
     document.getElementById('story-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    
-    const totalFotosStory = Math.min(3, fotos.length);
-    document.getElementById('story-gallery-count').textContent = `1/${totalFotosStory}`;
+    document.getElementById('story-gallery-count').textContent = `1/${Math.min(3, fotos.length)}`;
     
     document.getElementById('story-titulo').textContent = p.titulo || 'Inmueble';
     document.getElementById('story-ubicacion').innerHTML = `<i class="fa-solid fa-location-dot" style="color:#10b981; margin-right:8px;"></i>${p.ubicacion || ''}`;
     
     document.getElementById('story-specs').innerHTML = `
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
-        <i class="fa-solid fa-bed" style="margin-right:5px;"></i>${p.habitaciones || 0} Hab
-      </span>
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
-        <i class="fa-solid fa-bath" style="margin-right:5px;"></i>${p.banos || 0} Baños
-      </span>
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
-        <i class="fa-solid fa-ruler-combined" style="margin-right:5px;"></i>${p.metros || 0}m²
-      </span>
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;">
-        <i class="fa-solid fa-car" style="margin-right:5px;"></i>${p.estacionamientos || 0} Puestos
-      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;"><i class="fa-solid fa-bed" style="margin-right:5px;"></i>${p.habitaciones || 0} Hab</span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;"><i class="fa-solid fa-bath" style="margin-right:5px;"></i>${p.banos || 0} Baños</span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;"><i class="fa-solid fa-ruler-combined" style="margin-right:5px;"></i>${p.metros || 0}m²</span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:6px 14px; border-radius:999px; font-size:16px; font-weight:800;"><i class="fa-solid fa-car" style="margin-right:5px;"></i>${p.estacionamientos || 0} Puestos</span>
     `;
-    
-    const ctaBar = document.getElementById('story-cta-bar');
-    ctaBar.style.background = '#10b981';
-    ctaBar.style.color = '#ffffff';
     
     await new Promise(r => setTimeout(r, 300));
     
@@ -3039,85 +3050,62 @@ async function descargarHistoriaCanvas(id) {
     link.click();
     
     ocultarProgresoGeneracion();
+    generarTextoViral(p, 'instagram');
   } catch (e) {
     console.error(e);
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al generar Historia", "Ocurrió un inconveniente procesando la imagen.", "error");
+    mostrarAvisoElegante("Error", "No se pudo generar la Historia.", "error");
   }
 }
 
 /* =========================================================
-3. GENERADOR POST IG 3:4 (REDISEÑADO)
+3. GENERADOR POST IG 3:4 (REDISEÑADO — ABRE PUBLICADOR)
 ========================================================= */
 async function descargarPostInstagramCanvas(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
-  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
+  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones.", "error");
   
-  mostrarProgresoGeneracion("Creando Post IG (1080x1440)...", "Renderizando formato vertical 3:4 con QR nítido.");
+  mostrarProgresoGeneracion("Creando Post IG...", "Renderizando formato 3:4...");
   
   try {
     const container = document.getElementById('post-canvas-template');
     
-    const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 320, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(obtenerEnlaceShareInmueble(p.codigo_eco), 320);
     const qrImgEl = document.getElementById('post-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
+    if (qrImgEl && qrDataUrl) { qrImgEl.src = qrDataUrl; await esperarImagenCargada(qrImgEl); }
     
-    const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-    const urlsPost = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
-    const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
-      urlToBase64(urlsPost[0]),
-      urlToBase64(urlsPost[1]),
-      urlToBase64(urlsPost[2]),
-      urlToBase64(urlsPost[3]),
+    const fotos = p.fotos || ["https://images.unsplash.com/photo-1560518883-ce09059eeffa"];
+    const [b64_1, b64_2, b64_3, b64Avatar] = await Promise.all([
+      urlToBase64(fotos[0]),
+      urlToBase64(fotos[1] || fotos[0]),
+      urlToBase64(fotos[2] || fotos[0]),
       fotoPerfilActual ? urlToBase64(fotoPerfilActual) : Promise.resolve(null)
     ]);
     
-    document.getElementById('post-img-1').src = b64_1 || urlsPost[0];
-    document.getElementById('post-img-2').src = b64_2 || urlsPost[1];
-    document.getElementById('post-img-3').src = b64_3 || urlsPost[2];
-    document.getElementById('post-img-4').src = b64_4 || urlsPost[3];
+    document.getElementById('post-img-1').src = b64_1 || fotos[0];
+    document.getElementById('post-img-2').src = b64_2 || fotos[1] || fotos[0];
+    document.getElementById('post-img-3').src = b64_3 || fotos[2] || fotos[0];
     
     const imgAgente = document.getElementById('post-agente-foto');
-    if (b64Avatar || fotoPerfilActual) {
-      imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.display = 'block';
-    } else {
-      imgAgente.style.display = 'none';
-    }
+    if (b64Avatar || fotoPerfilActual) { imgAgente.src = b64Avatar || fotoPerfilActual; imgAgente.style.display = 'block'; }
     
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
     document.getElementById('post-agencia-badge').textContent = esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO';
     document.getElementById('post-agente').textContent = p.nombre_asesor || 'Asesor Inmobiliario';
     document.getElementById('post-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
     
-    const opEl = document.getElementById('post-badge-operacion');
-    opEl.textContent = (p.operacion || 'VENTA').toUpperCase();
-    
-    const codPill = document.getElementById('post-codigo-pill');
-    codPill.textContent = `ID: ${p.codigo_eco}`;
-    
+    document.getElementById('post-badge-operacion').textContent = (p.operacion || 'VENTA').toUpperCase();
+    document.getElementById('post-codigo-pill').textContent = `ID: ${p.codigo_eco}`;
     document.getElementById('post-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    
-    const totalFotosPost = Math.min(3, fotos.length);
-    document.getElementById('post-gallery-count').textContent = `1/${totalFotosPost}`;
+    document.getElementById('post-gallery-count').textContent = `1/${Math.min(3, fotos.length)}`;
     
     document.getElementById('post-titulo').textContent = p.titulo || 'Inmueble';
     document.getElementById('post-ubicacion').innerHTML = `<i class="fa-solid fa-location-dot" style="color:#10b981; margin-right:6px;"></i>${p.tipo} en ${p.ubicacion}`;
     
     document.getElementById('post-specs').innerHTML = `
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
-        <i class="fa-solid fa-bed" style="margin-right:4px;"></i>${p.habitaciones || 0}
-      </span>
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
-        <i class="fa-solid fa-bath" style="margin-right:4px;"></i>${p.banos || 0}
-      </span>
-      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;">
-        <i class="fa-solid fa-ruler-combined" style="margin-right:4px;"></i>${p.metros || 0}m²
-      </span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;"><i class="fa-solid fa-bed" style="margin-right:4px;"></i>${p.habitaciones || 0}</span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;"><i class="fa-solid fa-bath" style="margin-right:4px;"></i>${p.banos || 0}</span>
+      <span style="background:#ecfdf5; color:#059669; border:2px solid #a7f3d0; padding:5px 12px; border-radius:999px; font-size:14px; font-weight:800;"><i class="fa-solid fa-ruler-combined" style="margin-right:4px;"></i>${p.metros || 0}m²</span>
     `;
     
     await new Promise(r => setTimeout(r, 300));
@@ -3138,47 +3126,72 @@ async function descargarPostInstagramCanvas(id) {
     link.click();
     
     ocultarProgresoGeneracion();
+    generarTextoViral(p, 'instagram');
   } catch (e) {
     console.error(e);
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al generar Post 3:4", "No se pudo exportar el Post de Instagram.", "error");
+    mostrarAvisoElegante("Error", "No se pudo generar el Post.", "error");
   }
 }
 
 /* =========================================================
-4. MI TARJETA DE PRESENTACIÓN PROFESIONAL (REDISEÑADA)
-Foto izquierda + datos al lado + diagrama + presencia web + WhatsApp + QR
+4. TARJETA PRESENTACIÓN (CON MINI INMUEBLES INYECTADOS)
 ========================================================= */
 async function descargarTarjetaPresentacionCanvas() {
-  const nombre = document.getElementById('perfilNombreAgente').value.trim() || document.getElementById('headerDisplayNombreAgente').textContent || 'Asesor Inmobiliario';
+  const nombre = document.getElementById('perfilNombreAgente').value.trim() || 'Asesor Inmobiliario';
   const telefono = document.getElementById('perfilTelefono').value.trim() || 'Disponible';
   const tipo = document.getElementById('perfilTipoAsesor').value || 'Independiente';
   const agencia = document.getElementById('perfilNombreAgencia').value.trim();
   const sobreMi = document.getElementById('perfilSobreMi').value.trim() || 'Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, respaldo profesional y contacto directo.';
   
-  mostrarProgresoGeneracion("Creando Mi Tarjeta para Estados...", "Aplicando datos, QR y contraste inteligente en 1080x1920 px.");
+  mostrarProgresoGeneracion("Creando Tarjeta...", "Aplicando datos y miniaturas de tus inmuebles...");
   
   try {
     const container = document.getElementById('card-presentacion-template');
     
-    const urlPortafolio = obtenerEnlaceShareAgente(usuarioActual?.id);
-    const qrDataUrl = generarQRDataUrl(urlPortafolio, 340, '#0f172a', '#ffffff');
+    const qrDataUrl = generarQRDataUrl(obtenerEnlaceShareAgente(usuarioActual?.id), 340);
     const qrImgEl = document.getElementById('card-pres-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
+    if (qrImgEl && qrDataUrl) { qrImgEl.src = qrDataUrl; await esperarImagenCargada(qrImgEl); }
     
     const avatarUrl = fotoPerfilActual || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
     const avatarB64 = await urlToBase64(avatarUrl);
     document.getElementById('card-pres-foto').src = avatarB64 || avatarUrl;
     
     document.getElementById('card-pres-nombre').textContent = nombre;
-    document.getElementById('card-pres-agencia').textContent = (tipo === 'Agencia' && agencia) ? `Agencia: ${agencia}` : 'Portafolio Oficial Verificado en EcoNexus';
+    document.getElementById('card-pres-agencia').textContent = (tipo === 'Agencia' && agencia) ? `Agencia: ${agencia}` : 'Portafolio Oficial Verificado';
     document.getElementById('card-pres-sobremi').textContent = `"${sobreMi}"`;
     document.getElementById('card-pres-telefono').textContent = telefono;
     
-    await new Promise(r => setTimeout(r, 350));
+    // INYECTAR MINI INMUEBLES (Los 3 más recientes)
+    const containerMini = document.getElementById('card-pres-mini-props-container');
+    const propsRecientes = (misInmueblesCargados || []).slice(0, 3);
+    
+    if (propsRecientes.length > 0) {
+      let htmlMinis = `<div style="font-size:16px; font-weight:900; color:#64748b; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Últimos Inmuebles Publicados</div>`;
+      htmlMinis += `<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">`;
+      
+      for (let prop of propsRecientes) {
+        const foto = prop.fotos && prop.fotos.length > 0 ? prop.fotos[0] : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa';
+        const b64 = await urlToBase64(foto);
+        
+        htmlMinis += `
+          <div style="background:#f8fafc; border:2px solid #e2e8f0; border-radius:16px; overflow:hidden; display:flex; flex-direction:column;">
+            <img src="${b64 || foto}" style="width:100%; height:120px; object-fit:cover;" />
+            <div style="padding:8px; text-align:center;">
+              <div style="font-size:13px; font-weight:900; color:#10b981;">$${Number(prop.precio || 0).toLocaleString('en-US')}</div>
+              <div style="font-size:10px; color:#64748b; line-height:1.2; margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHTML(prop.titulo || '')}</div>
+            </div>
+          </div>
+        `;
+      }
+      
+      htmlMinis += `</div>`;
+      containerMini.innerHTML = htmlMinis;
+    } else {
+      containerMini.innerHTML = `<div style="text-align:center; color:#94a3b8; font-size:14px; font-style:italic;">Aún no hay inmuebles publicados.</div>`;
+    }
+    
+    await new Promise(r => setTimeout(r, 500));
     
     const canvas = await html2canvas(container, {
       useCORS: true,
@@ -3191,7 +3204,7 @@ async function descargarTarjetaPresentacionCanvas() {
     });
     
     const link = document.createElement('a');
-    link.download = `Mi_Tarjeta_Presentacion_${nombre.replace(/\s+/g, '_')}.png`;
+    link.download = `Mi_Tarjeta_${nombre.replace(/\s+/g, '_')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
     
@@ -3199,7 +3212,7 @@ async function descargarTarjetaPresentacionCanvas() {
   } catch (e) {
     console.error(e);
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al crear Tarjeta", "No se pudo generar tu tarjeta de presentación para estados.", "error");
+    mostrarAvisoElegante("Error", "No se pudo generar la Tarjeta.", "error");
   }
 }
 
@@ -3263,365 +3276,191 @@ function ajustarTextoMultilinea(ctx, texto, maxWidth, maxLines = 2) {
     }
   }
   
-  if (lineaActual && lineas.length < maxLines) {
-    lineas.push(lineaActual);
-  }
-  
+  if (lineaActual && lineas.length < maxLines) lineas.push(lineaActual);
   return lineas;
 }
 
 /* =========================================================
-5. MOTOR DE REELS ANIMADOS (DURACIÓN REAL ARREGLADA)
-Layout: foto central grande + filmstrip debajo + info izq + QR der
-Duración: ~13.6s reales con 4 fotos (intro 1.2 + 4*2.8 + outro 1.2)
+5. REEL ANIMADO (SIN ZOOM + DURACIÓN REAL + PUBLICADOR)
 ========================================================= */
 async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
   const p = misInmueblesCargados.find(item => item.id == id);
-  if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
+  if (!p) return mostrarAvisoElegante("Error", "Propiedad no encontrada", "error");
+  if (typeof MediaRecorder === 'undefined') return mostrarAvisoElegante("Navegador no compatible", "Usa Chrome/Safari actualizado.", "info");
   
-  if (typeof MediaRecorder === 'undefined') {
-    return mostrarAvisoElegante("Navegador no compatible", "Tu navegador actual no soporta grabación nativa de video HTML5. Utiliza Chrome, Edge o Safari actualizado.", "info");
-  }
+  let fotosUrls = (fotosElegidas && fotosElegidas.length > 0) ? fotosElegidas.slice(0, 4) : (p.fotos || []).slice(0, 4);
+  if (fotosUrls.length === 0) fotosUrls = ["https://images.unsplash.com/photo-1560518883-ce09059eeffa"];
   
-  let fotosUrls;
-  if (Array.isArray(fotosElegidas) && fotosElegidas.length > 0) {
-    fotosUrls = fotosElegidas.slice(0, 4);
-  } else if (p.fotos && p.fotos.length > 0) {
-    fotosUrls = p.fotos.slice(0, 4);
-  } else {
-    fotosUrls = ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
-  }
-  
-  mostrarProgresoGeneracion("Produciendo Video Reel...", "Cargando fotografías en alta definición y preparando animación con QR...", true);
+  mostrarProgresoGeneracion("Produciendo Video Reel...", "Preparando animación...", true);
   
   try {
     const fotosB64 = await Promise.all(fotosUrls.map(u => urlToBase64(u)));
     const imgsCargadas = (await Promise.all(fotosB64.map((b, i) => cargarElementoImagen(b || fotosUrls[i])))).filter(Boolean);
-    
-    if (imgsCargadas.length === 0) {
-      ocultarProgresoGeneracion();
-      return mostrarAvisoElegante("Sin imágenes válidas", "No se pudieron procesar las fotos para el Reel.", "error");
-    }
+    if (imgsCargadas.length === 0) throw new Error("Sin imágenes");
     
     const avatarB64 = fotoPerfilActual ? await urlToBase64(fotoPerfilActual) : null;
     const imgAvatar = avatarB64 ? await cargarElementoImagen(avatarB64) : null;
-    
-    const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
-    const qrDataUrl = generarQRDataUrl(urlShare, 500, '#0f172a', '#ffffff');
-    const imgQR = qrDataUrl ? await cargarElementoImagen(qrDataUrl) : null;
+    const imgQR = await cargarElementoImagen(generarQRDataUrl(obtenerEnlaceShareInmueble(p.codigo_eco), 500));
     
     const canvas = document.getElementById('reel-canvas-render');
+    canvas.style.position = 'fixed'; canvas.style.top = '0'; canvas.style.left = '0';
+    canvas.style.opacity = '0'; canvas.style.pointerEvents = 'none'; canvas.style.zIndex = '-99999';
     const ctx = canvas.getContext('2d');
     
-    const mimeTypes = ['video/mp4;codecs=avc1.42E01E', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
-    let mimeElegido = '';
-    for (const m of mimeTypes) {
-      if (MediaRecorder.isTypeSupported(m)) { mimeElegido = m; break; }
-    }
+    const mimeTypes = ['video/mp4;codecs=avc1.42E01E', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm'];
+    let mimeElegido = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
     
     const stream = canvas.captureStream(30);
-    const recorder = mimeElegido
-      ? new MediaRecorder(stream, { mimeType: mimeElegido, videoBitsPerSecond: 6500000 })
-      : new MediaRecorder(stream);
+    const videoTrack = stream.getVideoTracks()[0];
+    const supportsRequestFrame = videoTrack && typeof videoTrack.requestFrame === 'function';
     
+    const recorder = new MediaRecorder(stream, { mimeType: mimeElegido, videoBitsPerSecond: 6500000 });
     const chunks = [];
-    recorder.ondataavailable = (e) => {
-      if (e.data && e.data.size > 0) chunks.push(e.data);
-    };
+    recorder.ondataavailable = (e) => { if (e.data && e.data.size > 0) chunks.push(e.data); };
     
     const grabacionPromesa = new Promise((resolve) => {
       recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: mimeElegido || 'video/webm' });
-        const ext = (mimeElegido && mimeElegido.includes('mp4')) ? 'mp4' : 'webm';
+        const blob = new Blob(chunks, { type: mimeElegido });
+        const ext = mimeElegido.includes('mp4') ? 'mp4' : 'webm';
         const urlVideo = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = urlVideo;
-        a.download = `Reel_${p.codigo_eco}.${ext}`;
-        a.click();
+        const a = document.createElement('a'); a.href = urlVideo; a.download = `Reel_${p.codigo_eco}.${ext}`; a.click();
         setTimeout(() => URL.revokeObjectURL(urlVideo), 8000);
         resolve();
       };
     });
     
-    recorder.start(100);
+    recorder.start(200);
     
-    const FPS = 30;
-    const segundosPorSlide = 2.8;
-    const introSegundos = 1.2;
-    const outroSegundos = 1.2;
+    const segPorSlide = 2.8, introSeg = 1.2, outroSeg = 1.2;
     const numSlides = imgsCargadas.length;
-    const totalSegundos = introSegundos + (numSlides * segundosPorSlide) + outroSegundos;
-    
-    const totalFrames = Math.round(totalSegundos * FPS);
-    const introFrames = Math.round(introSegundos * FPS);
-    const framesPorSlide = Math.round(segundosPorSlide * FPS);
-    const outroFrames = Math.round(outroSegundos * FPS);
-    
-    const colorVerde = '#10b981';
-    const colorFondo = '#f8fafc';
-    const colorTexto = '#0f172a';
-    
+    const totalMs = (introSeg + (numSlides * segPorSlide) + outroSeg) * 1000;
+    const introMs = introSeg * 1000;
+    const slideMs = segPorSlide * 1000;
+    const colorVerde = '#10b981', colorFondo = '#f8fafc', colorTexto = '#0f172a';
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
     const subtituloAsesor = esAgencia ? p.nombre_agencia : 'AGENTE VERIFICADO';
-    
     const tiempoInicio = performance.now();
     
-    for (let frame = 0; frame < totalFrames; frame++) {
-      const frameActual = frame;
-      let slideIdx = 0;
-      let frameEnSlide = 0;
-      let progresoSlide = 0;
-      let esIntro = frameActual < introFrames;
-      let esOutro = frameActual >= (totalFrames - outroFrames);
-      
-      if (!esIntro && !esOutro) {
-        const frameEnCuerpo = frameActual - introFrames;
-        slideIdx = Math.min(numSlides - 1, Math.floor(frameEnCuerpo / framesPorSlide));
-        frameEnSlide = frameEnCuerpo % framesPorSlide;
-        progresoSlide = frameEnSlide / framesPorSlide;
-      }
-      
-      const imgActual = imgsCargadas[slideIdx];
-      
-      /* 5.1 Fondo */
-      ctx.fillStyle = colorFondo;
-      ctx.fillRect(0, 0, 1080, 1920);
-      
-      /* 5.2 Header superior del agente (white label) */
-      ctx.save();
-      const gradHeader = ctx.createLinearGradient(0, 0, 1080, 0);
-      gradHeader.addColorStop(0, '#1E3F20');
-      gradHeader.addColorStop(1, '#2E5E32');
-      ctx.fillStyle = gradHeader;
-      ctx.fillRect(0, 0, 1080, 160);
-      
-      let textStartX = 90;
-      if (imgAvatar) {
+    await new Promise((resolve) => {
+      function step() {
+        const elapsed = performance.now() - tiempoInicio;
+        if (elapsed >= totalMs) { resolve(); return; }
+        
+        let slideIdx = 0;
+        const esIntro = elapsed < introMs;
+        const esOutro = elapsed >= (totalMs - (outroSeg * 1000));
+        
+        if (!esIntro && !esOutro) {
+          slideIdx = Math.min(numSlides - 1, Math.floor((elapsed - introMs) / slideMs));
+        } else if (esOutro) { slideIdx = numSlides - 1; }
+        
+        const imgActual = imgsCargadas[slideIdx];
+        
+        // FONDO
+        ctx.fillStyle = colorFondo; ctx.fillRect(0, 0, 1080, 1920);
+        
+        // HEADER
         ctx.save();
-        ctx.beginPath();
-        ctx.arc(110, 80, 48, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(imgAvatar, 62, 32, 96, 96);
-        ctx.restore();
+        const grad = ctx.createLinearGradient(0, 0, 1080, 0);
+        grad.addColorStop(0, '#1E3F20'); grad.addColorStop(1, '#2E5E32');
+        ctx.fillStyle = grad; ctx.fillRect(0, 0, 1080, 160);
         
-        ctx.beginPath();
-        ctx.arc(110, 80, 48, 0, Math.PI * 2);
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = colorVerde;
-        ctx.stroke();
-        textStartX = 180;
-      }
-      
-      ctx.fillStyle = '#a7f3d0';
-      ctx.font = '800 18px "Segoe UI", sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(subtituloAsesor.toUpperCase(), textStartX, 62);
-      
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 32px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, p.nombre_asesor || 'Asesor EcoNexus', 700), textStartX, 108);
-      
-      ctx.fillStyle = '#fde047';
-      ctx.font = '700 22px "Segoe UI", sans-serif';
-      ctx.fillText(`WhatsApp: ${p.telefono_asesor || ''}`, textStartX, 140);
-      
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#a7f3d0';
-      ctx.font = '800 14px "Segoe UI", sans-serif';
-      ctx.fillText('EcoNexus', 1020, 90);
-      ctx.restore();
-      
-      /* 5.3 Foto central grande (Ken Burns) */
-      const fotoX = 60, fotoY = 210, fotoW = 960, fotoH = 900;
-      ctx.save();
-      dibujarRectanguloRedondeado(ctx, fotoX, fotoY, fotoW, fotoH, 40, '#0f172a');
-      ctx.clip();
-      
-      if (imgActual) {
-        const escalaZoom = 1.0 + (progresoSlide * 0.10);
-        const imgRatio = imgActual.width / imgActual.height;
-        const boxRatio = fotoW / fotoH;
-        let drawW, drawH;
-        
-        if (imgRatio > boxRatio) {
-          drawH = fotoH * escalaZoom;
-          drawW = drawH * imgRatio;
-        } else {
-          drawW = fotoW * escalaZoom;
-          drawH = drawW / imgRatio;
+        let textX = 90;
+        if (imgAvatar) {
+          ctx.save(); ctx.beginPath(); ctx.arc(110, 80, 48, 0, Math.PI*2); ctx.clip(); ctx.drawImage(imgAvatar, 62, 32, 96, 96); ctx.restore();
+          ctx.beginPath(); ctx.arc(110, 80, 48, 0, Math.PI*2); ctx.lineWidth = 4; ctx.strokeStyle = colorVerde; ctx.stroke();
+          textX = 180;
         }
         
-        const offsetX = fotoX + (fotoW - drawW) / 2;
-        const offsetY = fotoY + (fotoH - drawH) / 2;
-        ctx.drawImage(imgActual, offsetX, offsetY, drawW, drawH);
-      }
-      ctx.restore();
-      
-      /* 5.4 Etiquetas verdes superpuestas sobre la foto */
-      const opTexto = (p.operacion || 'VENTA').toUpperCase();
-      ctx.save();
-      ctx.fillStyle = colorVerde;
-      dibujarRectanguloRedondeado(ctx, fotoX + 22, fotoY + 22, 200, 60, 30, colorVerde);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 24px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(opTexto, fotoX + 22 + 100, fotoY + 22 + 40);
-      
-      ctx.fillStyle = colorVerde;
-      dibujarRectanguloRedondeado(ctx, fotoX + fotoW - 240, fotoY + 22, 220, 60, 30, colorVerde);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 22px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`ID: ${p.codigo_eco}`, fotoX + fotoW - 240 + 110, fotoY + 22 + 40);
-      
-      const precioTexto = `$${Number(p.precio).toLocaleString('en-US')}`;
-      ctx.font = '900 54px "Segoe UI", sans-serif';
-      const precioAncho = ctx.measureText(precioTexto).width + 70;
-      ctx.fillStyle = colorVerde;
-      dibujarRectanguloRedondeado(ctx, fotoX + 22, fotoY + fotoH - 100, precioAncho, 78, 26, colorVerde);
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 46px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(precioTexto, fotoX + 22 + precioAncho / 2, fotoY + fotoH - 42);
-      
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
-      dibujarRectanguloRedondeado(ctx, fotoX + fotoW - 160, fotoY + fotoH - 100, 140, 60, 26, 'rgba(15, 23, 42, 0.75)');
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '800 24px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${slideIdx + 1}/${numSlides}`, fotoX + fotoW - 160 + 70, fotoY + fotoH - 62);
-      ctx.restore();
-      
-      /* 5.5 Filmstrip miniaturas */
-      const filmY = fotoY + fotoH + 20;
-      const filmH = 140;
-      const filmGap = 14;
-      const totalFilmW = Math.min(imgsCargadas.length, 4);
-      const thumbW = 200;
-      const startX = (1080 - (totalFilmW * thumbW + (totalFilmW - 1) * filmGap)) / 2;
-      
-      for (let t = 0; t < totalFilmW; t++) {
-        const thumbX = startX + t * (thumbW + filmGap);
-        const estaActiva = (t === slideIdx);
+        ctx.fillStyle = '#a7f3d0'; ctx.font = '800 18px "Segoe UI"'; ctx.textAlign = 'left'; ctx.fillText(subtituloAsesor.toUpperCase(), textX, 62);
+        ctx.fillStyle = '#ffffff'; ctx.font = '900 32px "Segoe UI"'; ctx.fillText(truncarTextoCanvas(ctx, p.nombre_asesor || 'Asesor', 700), textX, 108);
+        ctx.fillStyle = '#fde047'; ctx.font = '700 22px "Segoe UI"'; ctx.fillText(`WhatsApp: ${p.telefono_asesor || ''}`, textX, 140);
+        ctx.fillStyle = '#a7f3d0'; ctx.textAlign = 'right'; ctx.font = '800 14px "Segoe UI"'; ctx.fillText('EcoNexus', 1020, 90);
+        ctx.restore();
         
-        ctx.save();
-        dibujarRectanguloRedondeado(ctx, thumbX, filmY, thumbW, filmH, 18, '#e2e8f0');
-        ctx.clip();
-        
-        const thumbImg = imgsCargadas[t];
-        if (thumbImg) {
-          const tr = thumbImg.width / thumbImg.height;
-          const br = thumbW / filmH;
+        // FOTO (SIN ZOOM)
+        const fx = 60, fy = 210, fw = 960, fh = 900;
+        ctx.save(); dibujarRectanguloRedondeado(ctx, fx, fy, fw, fh, 40, '#0f172a'); ctx.clip();
+        if (imgActual) {
+          const ratio = imgActual.width / imgActual.height, boxRatio = fw / fh;
           let dw, dh;
-          if (tr > br) { dh = filmH; dw = dh * tr; } else { dw = thumbW; dh = dw / tr; }
-          ctx.drawImage(thumbImg, thumbX + (thumbW - dw) / 2, filmY + (filmH - dh) / 2, dw, dh);
-        }
-        
-        if (!estaActiva) {
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.55)';
-          ctx.fillRect(thumbX, filmY, thumbW, filmH);
+          if (ratio > boxRatio) { dh = fh; dw = dh * ratio; } else { dw = fw; dh = dw / ratio; }
+          ctx.drawImage(imgActual, fx + (fw-dw)/2, fy + (fh-dh)/2, dw, dh);
         }
         ctx.restore();
         
-        if (estaActiva) {
-          ctx.lineWidth = 5;
-          ctx.strokeStyle = colorVerde;
-          dibujarRectanguloRedondeado(ctx, thumbX, filmY, thumbW, filmH, 18, null, colorVerde, 5);
-        }
-      }
-      
-      /* 5.6 Info inferior izquierda + QR derecha */
-      const infoY = filmY + filmH + 25;
-      
-      ctx.textAlign = 'left';
-      ctx.fillStyle = colorTexto;
-      ctx.font = '900 38px "Segoe UI", sans-serif';
-      const lineasTitulo = ajustarTextoMultilinea(ctx, p.titulo || 'Inmueble', 720, 2);
-      lineasTitulo.forEach((linea, i) => {
-        ctx.fillText(linea, 60, infoY + 40 + i * 46);
-      });
-      
-      ctx.fillStyle = '#475569';
-      ctx.font = '700 24px "Segoe UI", sans-serif';
-      ctx.fillText(truncarTextoCanvas(ctx, p.ubicacion || '', 720), 60, infoY + 40 + lineasTitulo.length * 46 + 12);
-      
-      const specY = infoY + 40 + lineasTitulo.length * 46 + 55;
-      const specs = [
-        { icon: '🛏️', val: `${p.habitaciones || 0} Hab` },
-        { icon: '🚿', val: `${p.banos || 0} Baños` },
-        { icon: '📐', val: `${p.metros || 0}m²` },
-        { icon: '🚗', val: `${p.estacionamientos || 0} Puestos` }
-      ];
-      
-      let specX = 60;
-      specs.forEach(s => {
-        ctx.font = '800 18px "Segoe UI", sans-serif';
-        const textoSpec = `${s.icon} ${s.val}`;
-        const anchoPill = ctx.measureText(textoSpec).width + 32;
-        
-        dibujarRectanguloRedondeado(ctx, specX, specY, anchoPill, 44, 22, '#ecfdf5', '#a7f3d0', 2);
-        ctx.fillStyle = '#059669';
-        ctx.font = '800 18px "Segoe UI", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(textoSpec, specX + anchoPill / 2, specY + 30);
-        
-        specX += anchoPill + 12;
-      });
-      
-      if (imgQR) {
-        const qrBoxX = 830;
-        const qrBoxY = infoY - 10;
-        const qrBoxSize = 190;
-        
+        // ETIQUETAS SOBRE FOTO
         ctx.save();
-        ctx.shadowColor = 'rgba(15, 23, 42, 0.15)';
-        ctx.shadowBlur = 18;
-        ctx.shadowOffsetY = 6;
-        dibujarRectanguloRedondeado(ctx, qrBoxX, qrBoxY, qrBoxSize, qrBoxSize, 18, '#ffffff', '#e2e8f0', 3);
+        dibujarRectanguloRedondeado(ctx, fx + 22, fy + 22, 200, 60, 30, colorVerde);
+        ctx.fillStyle = '#fff'; ctx.font = '900 24px "Segoe UI"'; ctx.textAlign = 'center';
+        ctx.fillText((p.operacion||'VENTA').toUpperCase(), fx+22+100, fy+22+40);
+        
+        dibujarRectanguloRedondeado(ctx, fx + fw - 240, fy + 22, 220, 60, 30, colorVerde);
+        ctx.fillStyle = '#fff'; ctx.font = '900 22px "Segoe UI"'; ctx.textAlign = 'center';
+        ctx.fillText(`ID: ${p.codigo_eco}`, fx+fw-240+110, fy+22+40);
+        
+        const pts = `$${Number(p.precio).toLocaleString('en-US')}`;
+        ctx.font = '900 54px "Segoe UI"';
+        const pw = ctx.measureText(pts).width + 70;
+        dibujarRectanguloRedondeado(ctx, fx + 22, fy + fh - 100, pw, 78, 26, colorVerde);
+        ctx.fillStyle = '#fff'; ctx.font = '900 46px "Segoe UI"'; ctx.textAlign = 'center';
+        ctx.fillText(pts, fx+22+pw/2, fy+fh-42);
         ctx.restore();
         
-        ctx.save();
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(imgQR, qrBoxX + 14, qrBoxY + 14, qrBoxSize - 28, qrBoxSize - 28);
-        ctx.restore();
+        // MINIATURAS
+        const filmY = fy + fh + 20, filmH = 140, gap = 14, tw = 200;
+        const startX = (1080 - (Math.min(imgsCargadas.length, 4) * tw + (Math.min(imgsCargadas.length, 4) - 1) * gap)) / 2;
+        for (let t = 0; t < Math.min(imgsCargadas.length, 4); t++) {
+          const tx = startX + t * (tw + gap);
+          ctx.save(); dibujarRectanguloRedondeado(ctx, tx, filmY, tw, filmH, 18, '#e2e8f0'); ctx.clip();
+          const ti = imgsCargadas[t]; const tr = ti.width/ti.height, br = tw/filmH; let dw, dh;
+          if (tr > br) { dh = filmH; dw = dh * tr; } else { dw = tw; dh = dw / tr; }
+          ctx.drawImage(ti, tx+(tw-dw)/2, filmY+(filmH-dh)/2, dw, dh);
+          if (t !== slideIdx) { ctx.fillStyle = 'rgba(15,23,42,0.55)'; ctx.fillRect(tx, filmY, tw, filmH); }
+          ctx.restore();
+          if (t === slideIdx) { ctx.lineWidth = 5; ctx.strokeStyle = colorVerde; dibujarRectanguloRedondeado(ctx, tx, filmY, tw, filmH, 18, null, colorVerde, 5); }
+        }
         
-        ctx.fillStyle = colorVerde;
-        ctx.font = '900 16px "Segoe UI", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('ESCANEA', qrBoxX + qrBoxSize / 2, qrBoxY + qrBoxSize + 24);
+        // INFO + QR
+        const iy = filmY + filmH + 25;
+        ctx.textAlign = 'left'; ctx.fillStyle = colorTexto; ctx.font = '900 38px "Segoe UI"';
+        const lines = ajustarTextoMultilinea(ctx, p.titulo || 'Inmueble', 720, 2);
+        lines.forEach((l, i) => ctx.fillText(l, 60, iy + 40 + i * 46));
+        ctx.fillStyle = '#475569'; ctx.font = '700 24px "Segoe UI"';
+        ctx.fillText(truncarTextoCanvas(ctx, p.ubicacion || '', 720), 60, iy + 40 + lines.length * 46 + 12);
+        
+        if (imgQR) {
+          ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.15)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = 6;
+          dibujarRectanguloRedondeado(ctx, 830, iy - 10, 190, 190, 18, '#fff', '#e2e8f0', 3); ctx.restore();
+          ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(imgQR, 844, iy + 4, 162, 162); ctx.restore();
+          ctx.fillStyle = colorVerde; ctx.font = '900 16px "Segoe UI"'; ctx.textAlign = 'center'; ctx.fillText('ESCANEA', 925, iy + 214);
+        }
+        
+        if (supportsRequestFrame) { try { videoTrack.requestFrame(); } catch(e){} }
+        
+        const pct = Math.round((elapsed/totalMs)*100);
+        if (Math.floor(elapsed) % 500 < 50) actualizarBarraProgreso(pct, `Renderizando (${pct}%)...`);
+        
+        requestAnimationFrame(step);
       }
-      
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '700 18px "Segoe UI", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('Ficha generada en econexusplatform.com/menu', 540, 1870);
-      
-      if (frame % 10 === 0) {
-        const pct = Math.round((frame / totalFrames) * 100);
-        actualizarBarraProgreso(pct, `Renderizando fotogramas de alta definición (${pct}%)...`);
-      }
-      
-      const tiempoObjetivo = tiempoInicio + ((frame + 1) * 1000 / FPS);
-      const espera = Math.max(0, tiempoObjetivo - performance.now());
-      if (espera > 0) {
-        await new Promise(r => setTimeout(r, espera));
-      }
-    }
+      requestAnimationFrame(step);
+    });
     
-    actualizarBarraProgreso(100, "Empaquetando archivo de video...");
+    actualizarBarraProgreso(100, "Empaquetando...");
     recorder.stop();
     await grabacionPromesa;
     
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante("¡Video Reel Creado con Éxito!", "Tu Reel animado con QR inteligente ya se descargó en tu dispositivo, listo para Instagram, TikTok o Estados.");
+    generarTextoViral(p, 'tiktok');
   } catch (err) {
-    console.error("Error generando Reel:", err);
+    console.error(err);
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al generar Reel", "No se pudo completar la animación de video en este dispositivo.", "error");
+    mostrarAvisoElegante("Error", "No se pudo generar el Reel.", "error");
   }
 }
+</script>
 
+<script>
 /* =========================================================
 6. DISPARADORES DEL ESTADO WA (RÁFAGA / VIDEO)
 Wrapper que llama al motor externo wa-status-engine.js
