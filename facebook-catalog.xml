@@ -778,27 +778,6 @@
     </address>
   </listing>
   <listing>
-    <home_listing_id>ECO-980149</home_listing_id>
-    <name>PRE VENTA ANTONELLA VALENTINA GARDEN</name>
-    <description>INMOINNOVA REAL ESTATE  OFRECE EN PREVENTA EXCLUSIVA:.  CONJUNTO ANTONELLA VALENTINA GARDEN  Un proyecto de lujo y vanguardia que no te puedes perder.   Ubicacion: CHICHIRIVICHE FALCON   Tenemos dispo</description>
-    <url>https://econexusplatform.com/inmueble/eco-980149.html</url>
-    <image>
-      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-1-1793964178410.jpg</url>
-    </image>
-    <price>55000 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>49</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Chichiriviche Falcón</component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-620393</home_listing_id>
     <name>Casa en Venta de 2 Plantas Una Oportunidad ideal para tu Inversión </name>
     <description>🏡INMOINNOVA REAL ESTATE 🏡. OFRECE EN VENTA O ALQUILER CON OPCIÓN A COMPRA  CASA DE 2 PLANTAS DE OPORTUNIDAD EN URB. VILLA JARDIN.   *BAJANDO PRECIO  A 37.000$*   *Canon 350$ c/mes*   Ubicación: Urba</description>
@@ -898,6 +877,90 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Monte Alto Mañongo Naguanagua Valencia</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-514660</home_listing_id>
+    <name>Acogedora casa para vivir tranquilo</name>
+    <description>Inmoinnova Real Estate  Ofrece Venta de Casa   Ubicación: Miguel Ache - Zona Sesquicentenario - Edo, Carabobo   Metraje de Terreno 218.18 (m² )  3 Habitaciones  1 Baño  Sala   Cocina Comedor Techo ase</description>
+    <url>https://econexusplatform.com/inmueble/eco-514660.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-1-1794309587292.jpg</url>
+    </image>
+    <price>24500 USD</price>
+    <property_type>house</property_type>
+    <num_beds>3</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>218</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Sesquicentenario, Valencia</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-878223</home_listing_id>
+    <name>Venta de apartamento las Quintas de Naguanagua con Planta de 10000w</name>
+    <description>Inmoinnova Real Estate   Ofrece: Apartamento  En Venta  Ubicación / Zona: Urbanización Quintas de Naguanagua; Conjunto Residencial Las Quintas   Metraje (m²): 81,26 Habitaciones: 3 Baños: 2 Puesto est</description>
+    <url>https://econexusplatform.com/inmueble/eco-878223.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-1-1794328893992.jpg</url>
+    </image>
+    <price>55000 USD</price>
+    <property_type>apartment</property_type>
+    <num_beds>3</num_beds>
+    <num_baths>2</num_baths>
+    <area_size>82</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Las Quintas Naguanagua Carabobo</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-980149</home_listing_id>
+    <name>PRE VENTA ANTONELLA VALENTINA GARDEN</name>
+    <description>INMOINNOVA REAL ESTATE  OFRECE EN PREVENTA EXCLUSIVA:.  CONJUNTO ANTONELLA VALENTINA GARDEN  Un proyecto de lujo y vanguardia que no te puedes perder.   Ubicacion: CHICHIRIVICHE FALCON   Tenemos dispo</description>
+    <url>https://econexusplatform.com/inmueble/eco-980149.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-1-1793964178410.jpg</url>
+    </image>
+    <price>55000 USD</price>
+    <property_type>apartment</property_type>
+    <num_beds>2</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>49</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Chichiriviche Falcón</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-756873</home_listing_id>
+    <name>Anexo en alquiler, confort, seguridad y privacidad en un solo lugar</name>
+    <description>Inmoinnova Real Estate Ofrece, en Alquiler ANEXO en la MICHELENA   NO AMOBLADOS  Medidas: 47mts2   Luz 110 1 Habitación con aire split 1 Baño  Bondades  Excelente ubicación recidencial, servicios de a</description>
+    <url>https://econexusplatform.com/inmueble/eco-756873.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-1-1794355747687.jpg</url>
+    </image>
+    <price>130 USD</price>
+    <property_type>other</property_type>
+    <num_beds>1</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>47</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Michelena</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
