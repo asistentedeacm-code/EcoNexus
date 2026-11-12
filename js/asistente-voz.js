@@ -1,22 +1,24 @@
 /**
- * ECONEXUS VOICE ASSISTANT v6 — "Eco, tu estratega inmobiliario"
+ * ECONEXUS VOICE ASSISTANT v7 — "Eco, tu estratega inmobiliario"
  * 100% determinístico. Motor de reglas + Supabase directo.
  * Ubicación: /js/asistente-voz.js
  *
- * CAMBIOS v6 (Entrega 2):
- *  - narrarFicha() YA NO abre el modal del index (fix: pierde hilo).
- *  - abrirFicha() abre el modal del index + polling de cierre → reabre browse.
- *  - Browse Modal propio (#ecoVoiceBrowseModal) con grid de 10 + paginación.
- *  - Nuevo intent QUITAR_FILTRO (quita filtro específico y re-busca).
- *  - extraerNumerosMultiples() para "envía la 1 y 5 y 8 a mi WhatsApp".
- *  - ENVIAR_LOTE ahora envía hasta 10 opciones (antes solo 3).
- *  - "siguiente" en SELECCIONANDO → LEER_SIGUIENTE (no SIGUIENTE_LOTE).
- *  - S.cantidadVisible autoexpandible con "lee la N".
- *  - Browse modal permanece abierto durante toda la conversación.
+ * v7 = v5 (funcional) + v6 (mejoras) conectados:
+ *  - Carrusel de 3 restaurado como UI primaria (v5)
+ *  - Browse modal de 10 opcional (v6)
+ *  - Narración SIEMPRE ocurre (fix del "problema al procesar")
+ *  - Quitar filtros (v6)
+ *  - Multi-envío "1 y 5 y 8" (v6)
+ *  - "siguiente" en SELECCIONANDO = siguiente ficha (v6)
+ *  - Polling de cierre del modal del index (v6)
+ *  - Detección de zonas intacta (v5)
  */
 (function () {
   'use strict';
 
+  // ══════════════════════════════════════════════════════════════
+  // CONFIG
+  // ══════════════════════════════════════════════════════════════
   const CFG = {
     SUPABASE_URL: 'https://gvcklmqldswxfweliuio.supabase.co',
     SUPABASE_KEY: 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa',
@@ -24,9 +26,9 @@
     FRONTEND_ORIGIN: 'https://econexusplatform.com',
     NOMBRE: 'Eco',
     ROL: 'tu estratega inmobiliario de EcoNexus',
-    TAMANO_PAGINA: 10,          // browse modal muestra en bloques de 10
-    TAMANO_NARRACION: 3,        // cuántas se narran de golpe
-    TAMANO_ENVIO_MAX: 10,       // máximo por envío masivo
+    TAMANO_LOTE: 3,
+    TAMANO_PAGINA_BROWSE: 10,
+    TAMANO_ENVIO_MAX: 10,
     MAX_RESULTADOS: 200,
     LANG_REC: 'es-VE',
     LANG_TTS: 'es-ES',
@@ -34,31 +36,33 @@
     TTS_RATE_PRECIO: 0.92
   };
 
+  // ══════════════════════════════════════════════════════════════
+  // ESTADO
+  // ══════════════════════════════════════════════════════════════
   const S = {
     activo: false,
-    fase: 'IDLE',               // IDLE | SELECCIONANDO | LEYENDO_FICHA
+    fase: 'IDLE',
     micOn: false,
     procesando: false,
     filtros: {},
     resultados: [],
     loteActual: 0,
-    cantidadVisible: 10,
+    cantidadVisible: 3,
     indiceFichaEnResultados: -1,
     db: null,
     rec: null,
     synth: window.speechSynthesis || null,
     wakeLock: null,
-    browseAbierto: false,
     modalPropiedadAbierto: false,
-    esperandoSeleccionEnvio: false,
-    pollPropiedadId: null
+    pollPropiedadId: null,
+    browseAbierto: false
   };
 
   let TTS_TOKEN = 0;
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // UTILIDADES
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   function norm(t) {
     if (!t) return '';
     return String(t).toLowerCase()
@@ -86,9 +90,9 @@
       .trim();
   }
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // NÚMERO → PALABRAS
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   const PAL = {
     U: ['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve',
         'diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve',
@@ -148,9 +152,9 @@
     return S.db;
   }
 
-  // ============================================================
-  // PARSEO DE NÚMEROS
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
+  // PARSEO DE NÚMEROS (para filtros)
+  // ══════════════════════════════════════════════════════════════
   const WNUM = {
     cero:0,uno:1,un:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,
     once:11,doce:12,trece:13,catorce:14,quince:15,dieciseis:16,diecisiete:17,dieciocho:18,diecinueve:19,
@@ -182,9 +186,9 @@
     return m ? parseFloat(m[1]) : null;
   }
 
-  // ============================================================
-  // NLU
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
+  // DICCIONARIOS NLU
+  // ══════════════════════════════════════════════════════════════
   const TIPOS_MAP = [
     [['apartaestudio','apartamento','apartamentos','apto','aptos','penthouse','pent house','ph'],'apartamento'],
     [['townhouse','townhouses','th'],'townhouse'],
@@ -230,6 +234,9 @@
     'ayuda','ayudame','favor','por favor','el','la','de','del','en','al','a','y','o','un','mi','me','te'
   ];
 
+  // ══════════════════════════════════════════════════════════════
+  // EXTRACTOR DE FILTROS
+  // ══════════════════════════════════════════════════════════════
   function extraerFiltros(transcript) {
     const t = norm(transcript);
     const out = {};
@@ -295,6 +302,9 @@
     return out;
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // DETECCIÓN DE ZONA SUELTA (v5 — intacto)
+  // ══════════════════════════════════════════════════════════════
   function detectarZonaSuelta(transcript) {
     const t = norm(transcript);
     if (!t) return null;
@@ -324,9 +334,9 @@
     return null;
   }
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // INTENCIONES
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   const ORDINALES = {
     'primera':1,'primero':1,'uno':1,'un':1,
     'segunda':2,'segundo':2,'dos':2,
@@ -346,8 +356,7 @@
   const RE_ANTERIOR_NUM = /^(atras|anterior|la anterior|el anterior|previo|previa|regresa|regresar)(\s+(por\s+favor|opcion|ficha|inmueble))?\s*$/;
   const RE_SOLO_NUMERO = /^(?:opcion|opcion numero|numero|la|el|la opcion|el numero)?\s*\d{1,2}$/;
   const RE_ENVIAR_VERBO = /\b(enviar|envia|enviarla|enviarlo|enviarlas|enviarlos|envíala|envíalo|envíalas|envíalos|mandar|manda|mandarla|mandarlo|mandarlas|mandarlos|compartir|comparte|compartirla|compartirlo|compartirlas|compartirlos|whatsapp|wassap|wasap)\b/;
-
-  const RE_MOSTRAR_MAS = /\b(ver mas|mostrar mas|mas opciones|otras opciones|siguiente lote|siguiente grupo|lote siguiente|grupo siguiente|ver todas|mostrar todas|cargar mas|ver siguientes|siguiente tanda|ver el resto|ver los demas|mostrar los demas)\b/;
+  const RE_MOSTRAR_MAS = /\b(ver mas|mostrar mas|mas opciones|otras opciones|siguiente lote|siguiente grupo|lote siguiente|grupo siguiente|ver todas|mostrar todas|cargar mas|ver siguientes|siguiente tanda|ver el resto|ver los demas|mostrar los demas|ver el listado|ver la lista ampliada)\b/;
   const RE_QUITAR_FILTRO = /\b(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar)\b|\bsin\s+(el|la|los|las)?\s*(filtro|zona|tipo|operacion|precio|habitacion|bano|metro|puesto|vip|asesor|piscina|planta|pozo|terraza|balcon|jardin|amoblado|obra)/;
 
   function detectarIntencion(transcript) {
@@ -355,7 +364,6 @@
     const fase = S.fase;
     const enConversacion = (fase === 'SELECCIONANDO' || fase === 'LEYENDO_FICHA');
 
-    // CAPA 1: comandos prioritarios en conversación
     if (enConversacion) {
       if (RE_SOLO_NUMERO.test(t)) return 'LEER_FICHA';
       const words = t.split(' ');
@@ -366,9 +374,7 @@
       }
     }
 
-    // CAPA 2: comandos dependientes de fase
     if (RE_SIGUIENTE_NUM.test(t)) {
-      // FIX v6: "siguiente" en SELECCIONANDO ahora lee la siguiente ficha (no siguiente lote)
       if (fase === 'LEYENDO_FICHA' || fase === 'SELECCIONANDO') return 'LEER_SIGUIENTE';
       return S.resultados.length ? 'LEER_SIGUIENTE' : 'BUSCAR';
     }
@@ -377,7 +383,6 @@
       return S.resultados.length ? 'LEER_ANTERIOR' : 'BUSCAR';
     }
 
-    // CAPA 3: universales
     if (/\b(para|detente|deten|silencio|stop|cancelar|cancela|basta|quieto|salir)\b/.test(t) && t.split(' ').length <= 3) return 'DETENER';
     if (/\b(repite|repetir|otra vez|de nuevo|como dijiste|que dijiste|no escuche)\b/.test(t)) return 'REPETIR';
     if (/\b(limpiar|limpia|nuevo|nueva busqueda|reiniciar|borrar busqueda|resetear|empezar de nuevo|otra busqueda)\b/.test(t)) return 'LIMPIAR';
@@ -388,17 +393,12 @@
     if (/\b(mapa|abrir mapa|ver mapa|mostrar mapa|ver en mapa|ubicacion en mapa)\b/.test(t)) return 'MAPA';
     if (/\b(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey|que tal|ola)\b/.test(t) && t.split(' ').length <= 4) return 'SALUDO';
 
-    // CAPA 4: quitar filtros (prioridad antes de otros)
     if (RE_QUITAR_FILTRO.test(t)) return 'QUITAR_FILTRO';
-
-    // CAPA 5: ver más (antes de ENVIAR_LOTE para que "ver todas" no se confunda)
     if (RE_MOSTRAR_MAS.test(t)) return 'MOSTRAR_MAS';
 
-    // Envío masivo
     if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo|el lote|las tres|los tres|las opciones|todo el lote|las fichas|los inmuebles|este lote|estas opciones)\b/.test(t)) return 'ENVIAR_LOTE';
     if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo)\s+(a|al)\s+(whatsapp|wassap|cliente)\b/.test(t)) return 'ENVIAR_LOTE';
 
-    // CAPA 6: acciones sobre opción
     if (enConversacion) {
       if (/\b(volver a la lista|volver al listado|mostrar lista|ver lista|lista de opciones|regresar a la lista|volver a las opciones|mostrar opciones|ver opciones|volver a los resultados|cerrar la ficha)\b/.test(t)) return 'VOLVER_LISTA';
       if (/\b(leelas todas|leer todas|todas las fichas|todas las opciones|leeme todas)\b/.test(t)) return 'LEER_TODAS';
@@ -427,20 +427,14 @@
     return null;
   }
 
-  // ══════════════════════════════════════════════════════════════
-  // FIX v6: múltiples números para envío masivo selectivo
-  // "envía la 1 y 5 y 8 y 16 a mi whatsapp" → [1,5,8,16]
-  // ══════════════════════════════════════════════════════════════
   function extraerNumerosMultiples(transcript) {
     const t = norm(transcript);
     const nums = new Set();
-    // Números directos (1-50)
     const matches = t.match(/\b(\d{1,2})\b/g) || [];
     for (const m of matches) {
       const n = parseInt(m);
       if (n >= 1 && n <= 50) nums.add(n);
     }
-    // Ordinales (solo si no hay números)
     if (nums.size === 0) {
       for (const [k,v] of Object.entries(ORDINALES)) {
         if (new RegExp('\\b'+k+'\\b').test(t)) nums.add(v);
@@ -449,9 +443,9 @@
     return [...nums].sort((a,b) => a-b);
   }
 
-  // ============================================================
-  // TTS
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
+  // TTS / WAKE LOCK
+  // ══════════════════════════════════════════════════════════════
   function hablar(texto, callback, opts = {}) {
     if (!S.synth) { if (callback) callback(); return; }
     const myToken = ++TTS_TOKEN;
@@ -488,9 +482,9 @@
   window.solicitarWakeLock = solicitarWakeLock;
   window.liberarWakeLock = liberarWakeLock;
 
-  // ============================================================
-  // UI
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
+  // UI HELPERS
+  // ══════════════════════════════════════════════════════════════
   function mostrarUI(msg) {
     const ui = document.getElementById('uiAsistenteVoz');
     const txt = document.getElementById('textoAsistenteVoz');
@@ -515,7 +509,6 @@
   function mostrarPanelAyuda() {
     const existente = document.getElementById('ecoVoiceHelpPanel');
     if (existente) existente.remove();
-
     const html = `
       <div id="ecoVoiceHelpPanel" class="fixed top-20 left-1/2 -translate-x-1/2 z-[96] w-[92%] max-w-md bg-gray-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl border-2 border-amber-500/60 p-4">
         <div class="flex justify-between items-start mb-2">
@@ -527,14 +520,14 @@
           </button>
         </div>
         <ul class="text-[11px] space-y-1.5 text-gray-200 leading-snug">
-          <li>🔍 <b class="text-emerald-400">Buscar:</b> "Prebo" · "casa en venta hasta 100 mil con 3 habitaciones"</li>
+          <li>🔍 <b class="text-emerald-400">Buscar:</b> "Prebo" · "casa en venta hasta 100 mil"</li>
           <li>➕ <b class="text-emerald-400">Añadir filtro:</b> "y que tenga piscina"</li>
-          <li>➖ <b class="text-emerald-400">Quitar filtro:</b> "quita el filtro de piscina" · "sin zona"</li>
+          <li>➖ <b class="text-emerald-400">Quitar filtro:</b> "quita el filtro de piscina"</li>
           <li>📖 <b class="text-emerald-400">Leer:</b> "lee la 2" · <b class="text-emerald-400">Abrir:</b> "abre la 2"</li>
           <li>⏭️ <b class="text-emerald-400">Siguiente:</b> "siguiente" (lee la siguiente ficha)</li>
-          <li>📄 <b class="text-emerald-400">Ver más opciones:</b> "ver más" (carga +10)</li>
+          <li>📄 <b class="text-emerald-400">Ver más:</b> "ver más" (+10 opciones)</li>
           <li>📤 <b class="text-emerald-400">Enviar 1:</b> "envía la 2 a mi WhatsApp"</li>
-          <li>📤 <b class="text-emerald-400">Enviar varias:</b> "envía la 1 y 5 y 8 a mi WhatsApp"</li>
+          <li>📤 <b class="text-emerald-400">Enviar varias:</b> "envía la 1 y 5 y 8"</li>
           <li>📤 <b class="text-emerald-400">Enviar todas:</b> "envía todas" (hasta 10)</li>
           <li>🤝 <b class="text-emerald-400">Contactar:</b> "contactar al agente de la 3"</li>
           <li>↩️ <b class="text-emerald-400">Volver:</b> "volver a la lista"</li>
@@ -548,9 +541,9 @@
     if (p) p.remove();
   }
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // RECONOCIMIENTO
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   function iniciarEscucha() {
     if (!S.rec) return;
     S.micOn = true;
@@ -609,9 +602,9 @@
     return rec;
   }
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // SUPABASE QUERY
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   async function buscarInmuebles(f) {
     const db = getDb();
     if (!db) { console.error('[Eco] Supabase no disponible'); return []; }
@@ -650,95 +643,197 @@
     return data || [];
   }
 
+  // ═══ FIN PARTE 1/3 ═══
+  // [CONTINÚA EN PARTE 2/3]
+   // ══════════════════════════════════════════════════════════════
+  // RENDER CARRUSEL (v5 — restaurado, UI primaria)
+  // Usa los elementos del HTML: #modalCarruselVoz, #trackCarruselVoz, #loteIndicadorVoz
   // ══════════════════════════════════════════════════════════════
-  // BROWSE MODAL — reemplaza el carrusel (grid de 10 con paginación)
+  function renderCarrusel() {
+    try {
+      const modal = document.getElementById('modalCarruselVoz');
+      const track = document.getElementById('trackCarruselVoz');
+      const indicador = document.getElementById('loteIndicadorVoz');
+      if (!modal || !track) {
+        console.warn('[Eco] Carrusel HTML no encontrado');
+        return;
+      }
+
+      track.innerHTML = '';
+      const inicio = S.loteActual * CFG.TAMANO_LOTE;
+      const fin = Math.min(inicio + CFG.TAMANO_LOTE, S.resultados.length);
+      const lote = S.resultados.slice(inicio, fin);
+      if (indicador) indicador.textContent = `Mostrando ${inicio+1}-${fin} de ${S.resultados.length}`;
+
+      lote.forEach((p, idx) => {
+        const indexReal = inicio + idx + 1;
+        const foto = (p.fotos && p.fotos.length) ? p.fotos[0]
+          : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80';
+        const card = document.createElement('div');
+        card.className = 'min-w-[220px] max-w-[220px] bg-gray-800/95 rounded-xl overflow-hidden border border-emerald-500/50 shadow-xl flex-shrink-0 snap-start flex flex-col hover:border-emerald-400 transition';
+        card.innerHTML = `
+          <div class="h-28 overflow-hidden relative cursor-pointer" onclick="window._ecoVoiceAbrirFichaLote(${idx})">
+            <img src="${esc(foto)}" class="w-full h-full object-cover" />
+            <span class="absolute top-1.5 left-1.5 bg-emerald-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full">Opción ${indexReal}</span>
+            <span class="absolute bottom-1.5 right-1.5 bg-black/75 text-white text-[10px] px-2 py-0.5 rounded font-black">${fmtPrecio(p.precio)}</span>
+          </div>
+          <div class="p-2.5 flex flex-col gap-1.5">
+            <h5 class="text-[11px] font-bold text-white line-clamp-1">${esc(p.titulo)}</h5>
+            <p class="text-[10px] text-emerald-400 truncate"><i class="fa-solid fa-location-dot"></i> ${esc(p.ubicacion)}</p>
+            <div class="flex gap-1 mt-1">
+              <button onclick="window._ecoVoiceLeerFichaLote(${idx})" class="flex-1 bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 text-[9px] font-bold py-1 rounded border border-cyan-500/30">Leer</button>
+              <button onclick="window._ecoVoiceEnviarWALote(${idx})" class="flex-1 bg-green-600/30 hover:bg-green-600/50 text-green-200 text-[9px] font-bold py-1 rounded border border-green-500/30">WhatsApp</button>
+              <button onclick="window._ecoVoiceContactarAgenteLote(${idx})" class="flex-1 bg-amber-500/30 hover:bg-amber-500/50 text-amber-200 text-[9px] font-bold py-1 rounded border border-amber-500/30">Agente</button>
+            </div>
+          </div>`;
+        track.appendChild(card);
+      });
+
+      let panel = document.getElementById('panelAccionesVoz');
+      if (!panel && track.parentElement) {
+        panel = document.createElement('div');
+        panel.id = 'panelAccionesVoz';
+        panel.className = 'mt-2 pt-2 border-t border-gray-800 flex flex-wrap gap-1.5 text-[10px]';
+        track.parentElement.appendChild(panel);
+      }
+      if (panel) {
+        panel.innerHTML = `<span class="text-emerald-300 font-bold">💡 Puedes decir:</span>
+          <span class="text-gray-300">"Leer la 1"</span>·
+          <span class="text-gray-300">"Siguiente"</span>·
+          <span class="text-gray-300">"Ver más"</span>·
+          <span class="text-gray-300">"Enviar la 2"</span>·
+          <span class="text-gray-300">"Enviar todas"</span>`;
+      }
+
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+    } catch (e) {
+      console.error('[Eco] renderCarrusel falló:', e);
+    }
+  }
+
+  function cerrarCarrusel() {
+    try {
+      const m = document.getElementById('modalCarruselVoz');
+      if (m) { m.classList.add('hidden'); m.style.display = 'none'; }
+    } catch (e) { console.warn('[Eco] cerrarCarrusel:', e); }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // RENDER BROWSE MODAL (v6 — opcional, secundario)
+  // Se abre solo con "ver más" o al pedir opción > 3
   // ══════════════════════════════════════════════════════════════
   function renderBrowseModal() {
-    // Cerrar carrusel del HTML (no lo usamos)
-    const carruselViejo = document.getElementById('modalCarruselVoz');
-    if (carruselViejo) { carruselViejo.classList.add('hidden'); carruselViejo.style.display = 'none'; }
+    try {
+      const prev = document.getElementById('ecoVoiceBrowseModal');
+      if (prev) prev.remove();
+      if (!S.resultados.length) return;
 
-    // Eliminar browse anterior
-    const prev = document.getElementById('ecoVoiceBrowseModal');
-    if (prev) prev.remove();
+      const visible = Math.min(S.cantidadVisible, S.resultados.length);
+      const hayMas = visible < S.resultados.length;
+      const cards = S.resultados.slice(0, visible);
 
-    if (!S.resultados.length) return;
+      const cardsHTML = cards.map((p, i) => {
+        const foto = (p.fotos && p.fotos.length) ? p.fotos[0]
+          : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80';
+        const esActiva = (S.indiceFichaEnResultados === i);
+        return `
+          <div class="bg-gray-800/95 rounded-xl overflow-hidden border ${esActiva ? 'border-cyan-400 ring-2 ring-cyan-400/40' : 'border-emerald-500/30'} shadow-lg flex flex-col transition hover:border-emerald-400">
+            <div class="h-24 overflow-hidden relative cursor-pointer" onclick="window._ecoVoiceLeerFichaGlobal(${i})">
+              <img src="${esc(foto)}" class="w-full h-full object-cover" loading="lazy" />
+              <span class="absolute top-1 left-1 bg-emerald-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">${i+1}</span>
+              <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1.5 py-0.5 rounded font-black">${fmtPrecio(p.precio)}</span>
+            </div>
+            <div class="p-2 flex flex-col gap-1 flex-grow">
+              <h5 class="text-[10px] font-bold text-white line-clamp-1">${esc(p.titulo)}</h5>
+              <p class="text-[9px] text-emerald-400 truncate"><i class="fa-solid fa-location-dot"></i> ${esc(p.ubicacion)}</p>
+              <p class="text-[9px] text-gray-400 truncate">${esc(p.tipo)} · ${esc(p.operacion)}</p>
+            </div>
+            <div class="p-1.5 grid grid-cols-3 gap-1">
+              <button onclick="window._ecoVoiceLeerFichaGlobal(${i})" title="Leer" class="bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 text-[9px] font-bold py-1 rounded border border-cyan-500/30"><i class="fa-solid fa-volume-high"></i></button>
+              <button onclick="window._ecoVoiceEnviarWAGlobal(${i})" title="WhatsApp" class="bg-green-600/30 hover:bg-green-600/50 text-green-200 text-[9px] font-bold py-1 rounded border border-green-500/30"><i class="fa-brands fa-whatsapp"></i></button>
+              <button onclick="window._ecoVoiceContactarAgenteGlobal(${i})" title="Agente" class="bg-amber-500/30 hover:bg-amber-500/50 text-amber-200 text-[9px] font-bold py-1 rounded border border-amber-500/30"><i class="fa-solid fa-user-tie"></i></button>
+            </div>
+          </div>`;
+      }).join('');
 
-    const visible = Math.min(S.cantidadVisible, S.resultados.length);
-    const hayMas = visible < S.resultados.length;
-    const cards = S.resultados.slice(0, visible);
-
-    const cardsHTML = cards.map((p, i) => {
-      const foto = (p.fotos && p.fotos.length) ? p.fotos[0]
-        : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80';
-      const esActiva = (S.indiceFichaEnResultados === i);
-      return `
-        <div class="bg-gray-800/95 rounded-xl overflow-hidden border ${esActiva ? 'border-cyan-400 ring-2 ring-cyan-400/40' : 'border-emerald-500/30'} shadow-lg flex flex-col transition hover:border-emerald-400">
-          <div class="h-24 overflow-hidden relative cursor-pointer" onclick="window._ecoVoiceLeerFichaGlobal(${i})">
-            <img src="${esc(foto)}" class="w-full h-full object-cover" loading="lazy" />
-            <span class="absolute top-1 left-1 bg-emerald-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded-full">${i+1}</span>
-            <span class="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] px-1.5 py-0.5 rounded font-black">${fmtPrecio(p.precio)}</span>
-          </div>
-          <div class="p-2 flex flex-col gap-1 flex-grow">
-            <h5 class="text-[10px] font-bold text-white line-clamp-1">${esc(p.titulo)}</h5>
-            <p class="text-[9px] text-emerald-400 truncate"><i class="fa-solid fa-location-dot"></i> ${esc(p.ubicacion)}</p>
-            <p class="text-[9px] text-gray-400 truncate">${esc(p.tipo)} · ${esc(p.operacion)}</p>
-          </div>
-          <div class="p-1.5 grid grid-cols-3 gap-1">
-            <button onclick="window._ecoVoiceLeerFichaGlobal(${i})" title="Leer" class="bg-cyan-600/30 hover:bg-cyan-600/50 text-cyan-200 text-[9px] font-bold py-1 rounded border border-cyan-500/30"><i class="fa-solid fa-volume-high"></i></button>
-            <button onclick="window._ecoVoiceEnviarWAGlobal(${i})" title="Enviar a mi WhatsApp" class="bg-green-600/30 hover:bg-green-600/50 text-green-200 text-[9px] font-bold py-1 rounded border border-green-500/30"><i class="fa-brands fa-whatsapp"></i></button>
-            <button onclick="window._ecoVoiceContactarAgenteGlobal(${i})" title="Contactar al agente" class="bg-amber-500/30 hover:bg-amber-500/50 text-amber-200 text-[9px] font-bold py-1 rounded border border-amber-500/30"><i class="fa-solid fa-user-tie"></i></button>
+      const restantes = S.resultados.length - visible;
+      const html = `
+        <div id="ecoVoiceBrowseModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[190] flex items-center justify-center p-2 sm:p-4">
+          <div class="bg-gray-900 text-white rounded-2xl max-w-5xl w-full max-h-[94vh] flex flex-col border-2 border-emerald-500/60 shadow-2xl overflow-hidden">
+            <div class="p-3 bg-gray-950 border-b border-emerald-500/30 flex items-center justify-between gap-2 shrink-0">
+              <div class="min-w-0">
+                <h3 class="text-xs sm:text-sm font-extrabold text-emerald-400 flex items-center gap-2">
+                  <i class="fa-solid fa-list-check"></i>
+                  Resultados <span class="text-amber-400">(${visible} de ${S.resultados.length})</span>
+                </h3>
+                <p class="text-[10px] text-gray-400 truncate">Di "lee la 3", "envía la 1 y 5", "ver más"</p>
+              </div>
+              <button onclick="window._ecoVoiceCerrarBrowse()" class="text-gray-400 hover:text-white w-8 h-8 flex items-center justify-center rounded-full bg-white/10 cursor-pointer shrink-0">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-2 sm:p-3">
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
+                ${cardsHTML}
+              </div>
+            </div>
+            <div class="p-2.5 bg-gray-950 border-t border-emerald-500/30 flex flex-wrap items-center justify-between gap-2 shrink-0">
+              <div class="flex items-center gap-2 text-[10px] text-gray-400">
+                <i class="fa-solid fa-microphone-lines text-emerald-400"></i>
+                <span>Habla o usa los botones</span>
+              </div>
+              <div class="flex gap-2">
+                ${hayMas ? `<button onclick="window._ecoVoiceVerMas()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-gray-900 text-[10px] font-extrabold rounded-lg shadow"><i class="fa-solid fa-plus mr-1"></i> Ver más (+${Math.min(CFG.TAMANO_PAGINA_BROWSE, restantes)})</button>` : `<span class="text-[10px] text-gray-500 px-2 py-1">Todas visibles</span>`}
+                <button onclick="window._ecoVoiceCerrarBrowse()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 text-[10px] font-bold rounded-lg">Cerrar</button>
+              </div>
+            </div>
           </div>
         </div>`;
-    }).join('');
-
-    const html = `
-      <div id="ecoVoiceBrowseModal" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[190] flex items-center justify-center p-2 sm:p-4">
-        <div class="bg-gray-900 text-white rounded-2xl max-w-5xl w-full max-h-[94vh] flex flex-col border-2 border-emerald-500/60 shadow-2xl overflow-hidden">
-          <div class="p-3 bg-gray-950 border-b border-emerald-500/30 flex items-center justify-between gap-2 shrink-0">
-            <div class="min-w-0">
-              <h3 class="text-xs sm:text-sm font-extrabold text-emerald-400 flex items-center gap-2">
-                <i class="fa-solid fa-list-check"></i>
-                Resultados <span class="text-amber-400">(${visible} de ${S.resultados.length})</span>
-              </h3>
-              <p class="text-[10px] text-gray-400 truncate">Di "lee la 3", "envía la 1 y 5 a mi WhatsApp", "ver más", "volver a la lista"</p>
-            </div>
-            <button onclick="window._ecoVoiceCerrarBrowse()" class="text-gray-400 hover:text-white w-8 h-8 flex items-center justify-center rounded-full bg-white/10 cursor-pointer shrink-0">
-              <i class="fa-solid fa-xmark"></i>
-            </button>
-          </div>
-          <div class="flex-1 overflow-y-auto p-2 sm:p-3">
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2">
-              ${cardsHTML}
-            </div>
-          </div>
-          <div class="p-2.5 bg-gray-950 border-t border-emerald-500/30 flex flex-wrap items-center justify-between gap-2 shrink-0">
-            <div class="flex items-center gap-2 text-[10px] text-gray-400">
-              <i class="fa-solid fa-microphone-lines text-emerald-400"></i>
-              <span>Habla o usa los botones</span>
-            </div>
-            <div class="flex gap-2">
-              ${hayMas ? `<button onclick="window._ecoVoiceVerMas()" class="px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-gray-900 text-[10px] font-extrabold rounded-lg shadow"><i class="fa-solid fa-plus mr-1"></i> Ver más (+${Math.min(CFG.TAMANO_PAGINA, S.resultados.length - visible)})</button>` : `<span class="text-[10px] text-gray-500 px-2 py-1">Todas visibles</span>`}
-              <button onclick="window._ecoVoiceCerrarBrowse()" class="px-3 py-1.5 bg-gray-800 hover:bg-gray-700 text-gray-300 text-[10px] font-bold rounded-lg">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    document.body.insertAdjacentHTML('beforeend', html);
-    S.browseAbierto = true;
+      document.body.insertAdjacentHTML('beforeend', html);
+      S.browseAbierto = true;
+    } catch (e) {
+      console.error('[Eco] renderBrowseModal falló:', e);
+      S.browseAbierto = false;
+    }
   }
 
   function cerrarBrowseModal() {
-    const m = document.getElementById('ecoVoiceBrowseModal');
-    if (m) m.remove();
+    try {
+      const m = document.getElementById('ecoVoiceBrowseModal');
+      if (m) m.remove();
+    } catch (e) {}
     S.browseAbierto = false;
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // HANDLERS CARRUSEL (v5)
+  // ══════════════════════════════════════════════════════════════
+  window._ecoVoiceAbrirFichaLote = function (idxLote) {
+    const idx = S.loteActual * CFG.TAMANO_LOTE + idxLote;
+    if (S.resultados[idx]) abrirFicha(S.resultados[idx]);
+  };
+  window._ecoVoiceLeerFichaLote = function (idxLote) {
+    const idx = S.loteActual * CFG.TAMANO_LOTE + idxLote;
+    if (S.resultados[idx]) narrarFicha(S.resultados[idx]);
+  };
+  window._ecoVoiceEnviarWALote = function (idxLote) {
+    const idx = S.loteActual * CFG.TAMANO_LOTE + idxLote;
+    if (S.resultados[idx]) mostrarModalEnvioWhatsApp([S.resultados[idx]], 'mi');
+  };
+  window._ecoVoiceContactarAgenteLote = function (idxLote) {
+    const idx = S.loteActual * CFG.TAMANO_LOTE + idxLote;
+    if (S.resultados[idx]) mostrarModalEnvioWhatsApp([S.resultados[idx]], 'agente');
+  };
+
+  // ══════════════════════════════════════════════════════════════
+  // HANDLERS BROWSE (v6)
+  // ══════════════════════════════════════════════════════════════
   window._ecoVoiceVerMas = function () {
-    S.cantidadVisible += CFG.TAMANO_PAGINA;
+    S.cantidadVisible += CFG.TAMANO_PAGINA_BROWSE;
     renderBrowseModal();
     const visible = Math.min(S.cantidadVisible, S.resultados.length);
-    const nuevas = Math.max(0, visible - (S.cantidadVisible - CFG.TAMANO_PAGINA));
+    const nuevas = Math.max(0, visible - (S.cantidadVisible - CFG.TAMANO_PAGINA_BROWSE));
     hablar(`Ahora ves ${visible} de ${S.resultados.length}. Se agregaron ${nuevas} opciones más.`, () => {
       if (S.activo) iniciarEscucha();
     });
@@ -757,9 +852,9 @@
     if (S.resultados[idxGlobal]) mostrarModalEnvioWhatsApp([S.resultados[idxGlobal]], 'agente');
   };
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // NARRACIÓN
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   function describirCorto(p) {
     return `${p.tipo || 'Inmueble'} en ${p.ubicacion || 'zona no especificada'}, ${p.operacion || ''}, por ${hablarPrecio(p.precio)}, código ${p.codigo_eco}`;
   }
@@ -776,50 +871,80 @@
       '¿Deseas enviarla a tu WhatsApp, contactar al agente, abrir la ficha completa, o pasar a la siguiente?';
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // NARRAR LOTE — CRÍTICO: la narración SIEMPRE debe ocurrir
+  // Aunque renderCarrusel o renderBrowseModal fallen
+  // ══════════════════════════════════════════════════════════════
   function narrarLote(esInicial, prefijo) {
     const total = S.resultados.length;
-    const aNarrar = Math.min(CFG.TAMANO_NARRACION, total);
+    if (total === 0) return;
 
-    // Render browse modal SIEMPRE (aunque sea inicial)
-    renderBrowseModal();
+    // 1) Intentar renderizar carrusel (v5) — si falla, seguimos
+    try { renderCarrusel(); } catch (e) { console.error('[Eco] renderCarrusel:', e); }
+
+    // 2) Si el browse modal estaba abierto, actualizarlo
+    if (S.browseAbierto) {
+      try { renderBrowseModal(); } catch (e) { console.error('[Eco] renderBrowseModal:', e); }
+    }
+
+    // 3) Construir mensaje de narración
+    const aNarrar = Math.min(CFG.TAMANO_LOTE, total);
+    const loteNarrado = S.resultados.slice(0, aNarrar);
 
     let msg = '';
     if (prefijo) {
       msg = prefijo + ' ';
     } else if (esInicial) {
-      msg = `Encontré ${numeroAPalabrasEspanol(total)} inmuebles que coinciden. Te muestro los primeros ${Math.min(S.cantidadVisible, total)} en pantalla. `;
+      msg = `Encontré ${numeroAPalabrasEspanol(total)} inmuebles que coinciden. Te muestro los primeros ${aNarrar}. `;
     } else {
-      msg = `Actualizado. Ahora tengo ${numeroAPalabrasEspanol(total)} inmuebles. `;
+      msg = '';
     }
-
-    // Narrar solo los primeros 3
-    const loteNarrado = S.resultados.slice(0, aNarrar);
-    loteNarrado.forEach((p,i) => { msg += `Opción ${i+1}: ${describirCorto(p)}. `; });
-
+    loteNarrado.forEach((p, i) => {
+      msg += `Opción ${i+1}: ${describirCorto(p)}. `;
+    });
     if (total > aNarrar) {
-      msg += `Y hay ${total - aNarrado} opciones más en pantalla. `;
+      msg += `Y hay ${total - aNarrar} opciones más. Puedes decir "ver más" para verlas todas. `;
     }
     msg += '¿Cuál deseas leer, enviar o contactar al agente? Puedes decir "leer la uno", "siguiente", o "enviar todas a mi WhatsApp".';
 
+    // 4) Estado
     S.fase = 'SELECCIONANDO';
+    S.loteActual = 0;
     S.indiceFichaEnResultados = -1;
-    actualizarUI(`${total} resultados · ${Math.min(S.cantidadVisible, total)} visibles`);
+    if (S.cantidadVisible < CFG.TAMANO_LOTE) {
+      S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA_BROWSE, total);
+    }
+
+    actualizarUI(`${total} resultados · ${Math.min(CFG.TAMANO_LOTE, total)} en carrusel`);
+
+    // 5) SIEMPRE narrar
     hablar(msg, () => { if (S.activo) iniciarEscucha(); }, { rate: CFG.TTS_RATE_PRECIO });
   }
 
   // ══════════════════════════════════════════════════════════════
-  // FIX v6: narrarFicha NO abre modal del index (solo narra)
+  // NARRAR FICHA — solo narra, NO abre modal del index
   // ══════════════════════════════════════════════════════════════
   function narrarFicha(p) {
     const idx = S.resultados.findIndex(x => x.id === p.id);
     S.indiceFichaEnResultados = idx;
     S.fase = 'LEYENDO_FICHA';
 
-    // Autorender del browse modal para resaltar la tarjeta activa
+    // Auto-expandir browse modal si el índice supera lo visible
     if (idx >= S.cantidadVisible) {
-      S.cantidadVisible = Math.min(S.resultados.length, Math.ceil((idx + 1) / CFG.TAMANO_PAGINA) * CFG.TAMANO_PAGINA);
+      S.cantidadVisible = Math.min(
+        S.resultados.length,
+        Math.ceil((idx + 1) / CFG.TAMANO_PAGINA_BROWSE) * CFG.TAMANO_PAGINA_BROWSE
+      );
+      if (S.browseAbierto) {
+        try { renderBrowseModal(); } catch (e) { console.error('[Eco] browse refresh:', e); }
+      }
     }
-    renderBrowseModal();
+
+    // Re-render carrusel si la ficha está en el lote actual
+    const loteDeFicha = Math.floor(idx / CFG.TAMANO_LOTE);
+    if (loteDeFicha === S.loteActual) {
+      try { renderCarrusel(); } catch (e) {}
+    }
 
     actualizarUI(`Leyendo ficha ${idx+1} de ${S.resultados.length}`);
     detenerHabla();
@@ -831,12 +956,32 @@
     }, 200);
   }
 
-  // ============================================================
-  // ACCIONES
-  // ============================================================
   // ══════════════════════════════════════════════════════════════
-  // FIX v6: abrirFicha abre modal del index + polling de cierre
-  // Al cerrarse el modal, reabre browse modal
+  // DESCRIBIR FILTROS AÑADIDOS (feedback hablado)
+  // ══════════════════════════════════════════════════════════════
+  function describirFiltrosAñadidos(f) {
+    const partes = [];
+    if (f.operacion) partes.push('operación ' + f.operacion.toLowerCase());
+    if (f.tipo) partes.push('tipo ' + f.tipo);
+    if (f.ubicacion) partes.push('zona ' + f.ubicacion);
+    if (f.precioMax) partes.push('precio máximo ' + numeroAPalabrasEspanol(f.precioMax) + ' dólares');
+    if (f.precioMin) partes.push('precio mínimo ' + numeroAPalabrasEspanol(f.precioMin) + ' dólares');
+    if (f.habitacionesMin) partes.push(f.habitacionesMin + ' habitaciones mínimo');
+    if (f.banosMin) partes.push(f.banosMin + ' baños mínimo');
+    if (f.estacionamientosMin) partes.push(f.estacionamientosMin + ' puestos mínimo');
+    if (f.metrosMin) partes.push(f.metrosMin + ' metros mínimo');
+    if (f.asesorNombre) partes.push('asesor ' + f.asesorNombre);
+    if (f.bondades && f.bondades.length) partes.push('bondades ' + f.bondades.join(', '));
+    if (f.vip) partes.push('solo VIP');
+    if (!partes.length) return 'el filtro';
+    if (partes.length === 1) return partes[0];
+    return partes.slice(0, -1).join(', ') + ' y ' + partes[partes.length - 1];
+  }
+
+  // ═══ FIN PARTE 2/3 ═══
+  // [CONTINÚA EN PARTE 3/3]
+   // ══════════════════════════════════════════════════════════════
+  // ABRIR FICHA (v6: abre modal del index + polling de cierre)
   // ══════════════════════════════════════════════════════════════
   function abrirFicha(p) {
     const idx = S.resultados.findIndex(x => x.id === p.id);
@@ -844,6 +989,7 @@
     S.fase = 'LEYENDO_FICHA';
     S.modalPropiedadAbierto = true;
     detenerHabla();
+    cerrarCarrusel();
 
     try {
       if (typeof abrirModal === 'function') abrirModal(p.id);
@@ -875,7 +1021,6 @@
       }
     }, 400);
 
-    // Seguridad: timeout 2 minutos
     setTimeout(() => {
       if (S.pollPropiedadId) { clearInterval(S.pollPropiedadId); S.pollPropiedadId = null; }
     }, 120000);
@@ -886,9 +1031,11 @@
     S.modalPropiedadAbierto = false;
     if (!S.activo) return;
 
-    // Reabrir browse y narrar
     S.fase = 'SELECCIONANDO';
-    renderBrowseModal();
+    try { renderCarrusel(); } catch (e) {}
+    if (S.browseAbierto) {
+      try { renderBrowseModal(); } catch (e) {}
+    }
     const idx = S.resultados.findIndex(x => x.id === p.id);
     const idxTxt = idx >= 0 ? `Opción ${idx+1}. ` : '';
     hablar(`${idxTxt}Volviste a la lista de ${S.resultados.length} inmuebles. ¿Qué hacemos? Puedes decir "siguiente", "envía la ${idx+1 > 0 ? idx+1 : 1} a mi WhatsApp", "contactar al agente", o "volver a la lista".`, () => {
@@ -896,6 +1043,9 @@
     });
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // WHATSAPP
+  // ══════════════════════════════════════════════════════════════
   function formatearMensajeWAItem(p) {
     const url = `${CFG.FRONTEND_ORIGIN}/index.html?codigo=${encodeURIComponent(p.codigo_eco)}`;
     return `🏠 *${p.titulo}*\n` +
@@ -979,28 +1129,23 @@
 
   window._ecoVoiceResume = function () {
     if (!S.activo) return;
-    if (document.hidden) {
-      actualizarUI('Pulsa el micrófono al volver');
-      return;
-    }
+    if (document.hidden) { actualizarUI('Pulsa el micrófono al volver'); return; }
     if (S.fase === 'SELECCIONANDO' || S.fase === 'LEYENDO_FICHA') {
       setTimeout(() => { if (S.activo && !document.hidden) iniciarEscucha(); }, 300);
     }
   };
 
-  // ============================================================
-  // QUITAR FILTRO
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
+  // QUITAR FILTRO (v6)
+  // ══════════════════════════════════════════════════════════════
   function detectarFiltroAEliminar(transcript) {
     const t = norm(transcript);
 
-    // 1. Bondades específicas
     for (const b of BONDADES_KEYS) {
       const regexB = new RegExp('(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\\s+(el\\s+|la\\s+|los\\s+|las\\s+)?(filtro\\s+de\\s+)?' + b.replace(/\s+/g, '\\s+'));
       if (regexB.test(t)) return { tipo: 'bondad', valor: b };
     }
 
-    // 2. Filtros de alto nivel
     if (/(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\s+(la\s+|el\s+)?(zona|ubicacion|sector|barrio)/.test(t)) return { tipo: 'ubicacion' };
     if (/(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\s+(el\s+|la\s+)?(tipo|categoria)/.test(t)) return { tipo: 'tipo' };
     if (/(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\s+(la\s+|el\s+)?(operacion|venta|alquiler)/.test(t)) return { tipo: 'operacion' };
@@ -1012,15 +1157,14 @@
     if (/(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\s+(los?\s+)?(vip|destacados)/.test(t)) return { tipo: 'vip' };
     if (/(quita|quitar|elimina|eliminar|borra|borrar|remueve|remover|saca|sacar|sin)\s+(el\s+|la\s+)?(asesor|agente)/.test(t)) return { tipo: 'asesorNombre' };
 
-    // 3. Todos
     if (/(borra|quita|elimina|limpia|reset|reinicia|elimina)\s+(todos?\s+)?(los\s+)?filtros?/.test(t)) return { tipo: 'todos' };
 
     return null;
   }
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // DISPATCHER PRINCIPAL
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   async function procesarComando(transcript) {
     console.log('[Eco] 🎤', transcript, '| fase:', S.fase);
     try {
@@ -1030,7 +1174,7 @@
 
       // ---- DETENER ----
       if (intent === 'DETENER') {
-        detenerHabla(); detenerEscucha(); cerrarBrowseModal(); ocultarUI(); ocultarPanelAyuda();
+        detenerHabla(); detenerEscucha(); cerrarCarrusel(); cerrarBrowseModal(); ocultarUI(); ocultarPanelAyuda();
         if (S.pollPropiedadId) { clearInterval(S.pollPropiedadId); S.pollPropiedadId = null; }
         S.activo = false; S.fase = 'IDLE'; S.modalPropiedadAbierto = false;
         return;
@@ -1051,7 +1195,7 @@
       // ---- AYUDA ----
       if (intent === 'AYUDA') {
         mostrarPanelAyuda();
-        hablar('He abierto el panel de ayuda. Puedes buscar solo por zona como "Prebo"; combinar filtros; añadir filtros como "y que tenga piscina"; quitar filtros como "quita el filtro de piscina"; leer una ficha diciendo "lee la dos"; abrir la ficha completa con "abre la dos"; avanzar con "siguiente"; ver más opciones con "ver más"; enviar una diciendo "envía la dos a mi WhatsApp"; enviar varias con "envía la 1 y 5 y 8 a mi WhatsApp"; enviar todas con "envía todas"; y contactar al agente. ¿Qué deseas hacer?', () => iniciarEscucha());
+        hablar('He abierto el panel de ayuda. Puedes buscar solo por zona como "Prebo"; combinar filtros; añadir filtros como "y que tenga piscina"; quitar filtros como "quita el filtro de piscina"; leer una ficha diciendo "lee la dos"; abrir la ficha completa con "abre la dos"; avanzar con "siguiente"; ver más opciones con "ver más"; enviar varias con "envía la 1 y 5 y 8"; enviar todas con "envía todas"; y contactar al agente. ¿Qué deseas hacer?', () => iniciarEscucha());
         return;
       }
 
@@ -1064,16 +1208,16 @@
 
       // ---- LIMPIAR ----
       if (intent === 'LIMPIAR') {
-        S.filtros = {}; S.resultados = []; S.loteActual = 0; S.indiceFichaEnResultados = -1; S.cantidadVisible = 10;
+        S.filtros = {}; S.resultados = []; S.loteActual = 0; S.indiceFichaEnResultados = -1; S.cantidadVisible = CFG.TAMANO_PAGINA_BROWSE;
         S.fase = 'IDLE';
-        cerrarBrowseModal();
+        cerrarCarrusel(); cerrarBrowseModal();
         hablar('He limpiado la búsqueda. Dime qué inmueble buscas ahora.', () => iniciarEscucha());
         return;
       }
 
       // ---- CONTAR ----
       if (intent === 'CONTAR') {
-        if (S.resultados.length) hablar(`Tengo ${numeroAPalabrasEspanol(S.resultados.length)} inmuebles que coinciden. Estás viendo ${Math.min(S.cantidadVisible, S.resultados.length)}. ¿Quieres que siga leyendo, enviar alguna, o ver más?`, () => iniciarEscucha());
+        if (S.resultados.length) hablar(`Tengo ${numeroAPalabrasEspanol(S.resultados.length)} inmuebles que coinciden. ¿Quieres que siga leyendo, enviar alguna, o ver más?`, () => iniciarEscucha());
         else hablar('Aún no he hecho una búsqueda. Dime qué buscas, por ejemplo "apartamento en alquiler en Naguanagua".', () => iniciarEscucha());
         return;
       }
@@ -1084,14 +1228,13 @@
         S.resultados.sort((a,b) => intent === 'ORDEN_BARATO'
           ? (a.precio||0) - (b.precio||0)
           : (b.precio||0) - (a.precio||0));
-        S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA, S.resultados.length);
         narrarLote(true, intent === 'ORDEN_BARATO' ? 'Ordenado del más barato al más caro.' : 'Ordenado del más caro al más barato.');
         return;
       }
 
       // ---- MAPA ----
       if (intent === 'MAPA') {
-        detenerHabla(); cerrarBrowseModal();
+        detenerHabla(); cerrarCarrusel(); cerrarBrowseModal();
         if (typeof abrirModalMapaGlobal === 'function') {
           abrirModalMapaGlobal();
           hablar('Abriendo el mapa con las propiedades disponibles.');
@@ -1118,7 +1261,7 @@
             const antes = S.filtros.bondades.length;
             S.filtros.bondades = S.filtros.bondades.filter(b => b !== filtro.valor);
             if (!S.filtros.bondades.length) delete S.filtros.bondades;
-            eliminadoDesc = antes > (S.filtros.bondades?.length || 0) ? `la bondad ${filtro.valor}` : `la bondad ${filtro.valor} (no estaba activa)`;
+            eliminadoDesc = `la bondad ${filtro.valor}`;
           } else {
             eliminadoDesc = `la bondad ${filtro.valor} (no estaba activa)`;
           }
@@ -1139,7 +1282,7 @@
           return;
         }
         S.resultados = resultados;
-        S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA, resultados.length);
+        S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA_BROWSE, resultados.length);
         S.indiceFichaEnResultados = -1;
         narrarLote(true, `Quité ${eliminadoDesc}. Ahora tengo ${numeroAPalabrasEspanol(resultados.length)} inmuebles.`);
         return;
@@ -1148,11 +1291,17 @@
       // ---- MOSTRAR MÁS ----
       if (intent === 'MOSTRAR_MAS') {
         if (!S.resultados.length) { hablar('No hay resultados activos. Dime qué buscas primero.', () => iniciarEscucha()); return; }
-        if (S.cantidadVisible >= S.resultados.length) {
+        if (S.cantidadVisible >= S.resultados.length && !S.browseAbierto) {
           hablar(`Ya estás viendo todas las ${S.resultados.length} opciones. No hay más por mostrar.`, () => iniciarEscucha());
           return;
         }
-        window._ecoVoiceVerMas();
+        cerrarCarrusel();
+        if (S.cantidadVisible < CFG.TAMANO_PAGINA_BROWSE) {
+          S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA_BROWSE, S.resultados.length);
+        }
+        renderBrowseModal();
+        const visible = Math.min(S.cantidadVisible, S.resultados.length);
+        hablar(`Te muestro ${visible} opciones en pantalla. Puedes decir "lee la cinco", "envía la 1 y 5 a mi WhatsApp", o "ver más" para cargar más.`, () => iniciarEscucha());
         return;
       }
 
@@ -1163,27 +1312,47 @@
         try { if (typeof cerrarModal === 'function') cerrarModal(); } catch(e) {}
         S.modalPropiedadAbierto = false;
         S.fase = 'SELECCIONANDO';
-        renderBrowseModal();
         narrarLote(false);
         return;
       }
 
-      // ---- SIGUIENTE / ANTERIOR LOTE (SOLO con "lote") ----
+      // ---- SIGUIENTE / ANTERIOR LOTE ----
       if (intent === 'SIGUIENTE_LOTE') {
         if (!S.resultados.length) { hablar('No hay resultados activos.', () => iniciarEscucha()); return; }
-        if (S.cantidadVisible >= S.resultados.length) {
-          hablar(`Ya te mostré todas las ${S.resultados.length} opciones.`, () => iniciarEscucha());
+        const totalLotes = Math.ceil(S.resultados.length / CFG.TAMANO_LOTE);
+        if (S.loteActual + 1 >= totalLotes) {
+          hablar(`Ya te mostré todas las ${S.resultados.length} opciones en el carrusel. Puedes decir "ver más" para verlas todas en pantalla.`, () => iniciarEscucha());
           return;
         }
-        window._ecoVoiceVerMas();
+        S.loteActual++;
+        renderCarrusel();
+        const inicio = S.loteActual * CFG.TAMANO_LOTE;
+        const fin = Math.min(inicio + CFG.TAMANO_LOTE, S.resultados.length);
+        const lote = S.resultados.slice(inicio, fin);
+        let msg = `Lote ${S.loteActual+1}. Del ${inicio+1} al ${fin}. `;
+        lote.forEach((p,i) => { msg += `Opción ${inicio+i+1}: ${describirCorto(p)}. `; });
+        msg += '¿Cuál deseas leer?';
+        S.fase = 'SELECCIONANDO';
+        S.indiceFichaEnResultados = -1;
+        actualizarUI(`Lote ${S.loteActual+1} · ${fin} de ${S.resultados.length}`);
+        hablar(msg, () => { if (S.activo) iniciarEscucha(); }, { rate: CFG.TTS_RATE_PRECIO });
         return;
       }
       if (intent === 'ANTERIOR_LOTE') {
         if (!S.resultados.length) { hablar('No hay resultados.', () => iniciarEscucha()); return; }
-        if (S.cantidadVisible <= CFG.TAMANO_PAGINA) { hablar('Ya estás en las primeras opciones.', () => iniciarEscucha()); return; }
-        S.cantidadVisible = Math.max(CFG.TAMANO_PAGINA, S.cantidadVisible - CFG.TAMANO_PAGINA);
-        renderBrowseModal();
-        hablar(`Mostrando ${Math.min(S.cantidadVisible, S.resultados.length)} opciones.`, () => iniciarEscucha());
+        if (S.loteActual === 0) { hablar('Ya estás en el primer lote.', () => iniciarEscucha()); return; }
+        S.loteActual--;
+        renderCarrusel();
+        const inicio = S.loteActual * CFG.TAMANO_LOTE;
+        const fin = Math.min(inicio + CFG.TAMANO_LOTE, S.resultados.length);
+        const lote = S.resultados.slice(inicio, fin);
+        let msg = `Lote ${S.loteActual+1}. Del ${inicio+1} al ${fin}. `;
+        lote.forEach((p,i) => { msg += `Opción ${inicio+i+1}: ${describirCorto(p)}. `; });
+        msg += '¿Cuál deseas leer?';
+        S.fase = 'SELECCIONANDO';
+        S.indiceFichaEnResultados = -1;
+        actualizarUI(`Lote ${S.loteActual+1} · ${fin} de ${S.resultados.length}`);
+        hablar(msg, () => { if (S.activo) iniciarEscucha(); }, { rate: CFG.TTS_RATE_PRECIO });
         return;
       }
 
@@ -1196,16 +1365,13 @@
         return;
       }
 
-      // ══════════════════════════════════════════════════════════════
-      // FIX v6: ENVIAR_LOTE ahora envía HASTA 10 opciones (no solo 3)
-      // ══════════════════════════════════════════════════════════════
+      // ---- ENVIAR LOTE (hasta 10) ----
       if (intent === 'ENVIAR_LOTE') {
         if (!S.resultados.length) { hablar('No hay resultados para enviar. Dime qué buscas.', () => iniciarEscucha()); return; }
         const aEnviar = S.resultados.slice(0, Math.min(CFG.TAMANO_ENVIO_MAX, S.resultados.length));
-        // Avisar antes
         const aviso = aEnviar.length === S.resultados.length
           ? `Voy a enviar las ${aEnviar.length} opciones a tu WhatsApp.`
-          : `Voy a enviar las primeras ${aEnviar.length} opciones de ${S.resultados.length} a tu WhatsApp. Si quieres las demás, dime "ver más" y luego "envía todas" de nuevo.`;
+          : `Voy a enviar las primeras ${aEnviar.length} opciones de ${S.resultados.length}. Si quieres las demás, dime "ver más" y luego "envía todas" de nuevo.`;
         hablar(aviso, () => {
           mostrarModalEnvioWhatsApp(aEnviar, 'mi');
         });
@@ -1219,10 +1385,7 @@
           return;
         }
 
-        // ══════════════════════════════════════════════════════════════
-        // FIX v6: ENVIAR_WHATSAPP puede recibir MÚLTIPLES números
-        // "envía la 1 y 5 y 8 a mi whatsapp" → [1,5,8]
-        // ══════════════════════════════════════════════════════════════
+        // ENVIAR_WHATSAPP: múltiples números
         if (intent === 'ENVIAR_WHATSAPP') {
           const nums = extraerNumerosMultiples(transcript);
           const validos = nums.filter(n => n >= 1 && n <= S.resultados.length);
@@ -1242,7 +1405,6 @@
           return;
         }
 
-        // Para las demás acciones, usar el número (individual) o el índice actual
         let idx = null;
         if (intent === 'LEER_SIGUIENTE') {
           idx = (S.indiceFichaEnResultados >= 0 && S.indiceFichaEnResultados + 1 < S.resultados.length)
@@ -1310,7 +1472,7 @@
       const filtrosAntes = { ...S.filtros };
       S.filtros = Object.assign({}, S.filtros, nuevos);
 
-      actualizarUI(habiaResultados ? 'Añadiendo filtros a la búsqueda...' : 'Buscando inmuebles con esos criterios...');
+      actualizarUI(habiaResultados ? 'Añadiendo filtros...' : 'Buscando inmuebles...');
       const resultados = await buscarInmuebles(S.filtros);
 
       if (!resultados.length) {
@@ -1326,7 +1488,7 @@
       S.resultados = resultados;
       S.loteActual = 0;
       S.indiceFichaEnResultados = -1;
-      S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA, resultados.length);
+      S.cantidadVisible = Math.min(CFG.TAMANO_PAGINA_BROWSE, resultados.length);
 
       if (habiaResultados) {
         const desc = describirFiltrosAñadidos(nuevos);
@@ -1340,28 +1502,9 @@
     }
   }
 
-  function describirFiltrosAñadidos(f) {
-    const partes = [];
-    if (f.operacion) partes.push('operación ' + f.operacion.toLowerCase());
-    if (f.tipo) partes.push('tipo ' + f.tipo);
-    if (f.ubicacion) partes.push('zona ' + f.ubicacion);
-    if (f.precioMax) partes.push('precio máximo ' + numeroAPalabrasEspanol(f.precioMax) + ' dólares');
-    if (f.precioMin) partes.push('precio mínimo ' + numeroAPalabrasEspanol(f.precioMin) + ' dólares');
-    if (f.habitacionesMin) partes.push(f.habitacionesMin + ' habitaciones mínimo');
-    if (f.banosMin) partes.push(f.banosMin + ' baños mínimo');
-    if (f.estacionamientosMin) partes.push(f.estacionamientosMin + ' puestos mínimo');
-    if (f.metrosMin) partes.push(f.metrosMin + ' metros mínimo');
-    if (f.asesorNombre) partes.push('asesor ' + f.asesorNombre);
-    if (f.bondades && f.bondades.length) partes.push('bondades ' + f.bondades.join(', '));
-    if (f.vip) partes.push('solo VIP');
-    if (!partes.length) return 'el filtro';
-    if (partes.length === 1) return partes[0];
-    return partes.slice(0, -1).join(', ') + ' y ' + partes[partes.length - 1];
-  }
-
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // API PÚBLICA
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   window.iniciarAsistenteVoz = function () {
     if (!S.rec) {
       alert('Tu navegador no soporta reconocimiento de voz. Usa Chrome, Edge o Safari actualizado.');
@@ -1396,14 +1539,14 @@
   window.detenerAsistenteVoz = function () {
     S.activo = false; S.fase = 'IDLE'; S.modalPropiedadAbierto = false;
     if (S.pollPropiedadId) { clearInterval(S.pollPropiedadId); S.pollPropiedadId = null; }
-    detenerHabla(); detenerEscucha(); cerrarBrowseModal(); ocultarUI(); ocultarPanelAyuda(); liberarWakeLock();
+    detenerHabla(); detenerEscucha(); cerrarCarrusel(); cerrarBrowseModal(); ocultarUI(); ocultarPanelAyuda(); liberarWakeLock();
   };
 
-  window.cerrarModalCarruselVoz = function () { cerrarBrowseModal(); };
+  window.cerrarModalCarruselVoz = function () { cerrarCarrusel(); };
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // VISIBILITY RESUME
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && S.activo && !S.micOn && !S.procesando && !S.modalPropiedadAbierto) {
       if (S.fase === 'SELECCIONANDO' || S.fase === 'LEYENDO_FICHA') {
@@ -1414,14 +1557,14 @@
     }
   });
 
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   // INIT
-  // ============================================================
+  // ══════════════════════════════════════════════════════════════
   function init() {
     S.rec = initReconocimiento();
     if (!S.rec) console.warn('[Eco] Reconocimiento de voz NO soportado');
     getDb();
-    console.log('[Eco v6] Asistente listo — browse modal 10, multi-envío, quitar filtros');
+    console.log('[Eco v7] Asistente listo — carrusel 3 + browse 10 + multi-envío + quitar filtros');
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
@@ -1429,3 +1572,5 @@
     init();
   }
 })();
+// ═══ FIN PARTE 3/3 ═══
+// FIN DEL ARCHIVO — js/asistente-voz.js
