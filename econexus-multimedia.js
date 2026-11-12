@@ -4,7 +4,7 @@
    Tarjeta de Presentación QR y Reels animados con MediaRecorder.
    ------------------------------------------------------------------------
    Depende de utilidades globales definidas en captacion.html:
-   - estado: misInmueblesCargados, fotoPerfilActual, usuarioActual
+   - estado: misInmueblesCargados, fotoPerfilActual, usuarioActual, dbClient
    - UI: mostrarAvisoElegante, mostrarProgresoGeneracion,
          ocultarProgresoGeneracion, actualizarBarraProgreso
    - colores: obtenerColoresMarcaActivos, esColorClaro,
@@ -18,6 +18,11 @@
    La Tarjeta de Presentación ya NO depende de HTML template. Su layout
    completo se construye en JS y se inyecta en un contenedor auto-creado.
    El HTML sólo necesita el botón "Mi Tarjeta (QR)".
+
+   NOTA (v2.1):
+   La Tarjeta precarga sus inmuebles vía asegurarInmueblesCargados() si
+   el array global misInmueblesCargados está vacío (caso típico: el asesor
+   pulsa el botón sin haber abierto el acordeón "Mis Inmuebles Publicados").
    ========================================================================= */
 
 /* =========================================================
@@ -382,6 +387,7 @@ function truncarTextoCanvas(ctx, texto, maxWidth) {
   }
   return recorte + '...';
 }
+
 /* =========================================================
    4. TARJETA DE PRESENTACIÓN (1080x1920) — LAYOUT 100% JS
    Auto-crea su propio contenedor. NO requiere HTML template.
@@ -570,7 +576,38 @@ function construirHTMLTarjetaPresentacion(d) {
   `;
 }
 
-/* 4.5 — Función principal: descarga la tarjeta como PNG */
+/* 4.5 — Asegura que misInmueblesCargados esté poblado antes de la tarjeta.
+   Si el asesor nunca abrió el acordeón "Mis Inmuebles", el array global
+   llega vacío. Aquí lo precargamos directo desde Supabase. */
+async function asegurarInmueblesCargados() {
+  if (Array.isArray(misInmueblesCargados) && misInmueblesCargados.length > 0) {
+    return misInmueblesCargados;
+  }
+  try {
+    if (!usuarioActual || !usuarioActual.id) {
+      console.warn('[Tarjeta] usuarioActual no disponible.');
+      return [];
+    }
+    if (typeof dbClient === 'undefined') {
+      console.warn('[Tarjeta] dbClient no disponible en este contexto.');
+      return [];
+    }
+    const { data, error } = await dbClient
+      .from('propiedades')
+      .select('*')
+      .eq('user_id', usuarioActual.id)
+      .order('id', { ascending: false });
+    if (error) throw error;
+    misInmueblesCargados = data || [];
+    console.log('[Tarjeta] Precarga desde Supabase:', misInmueblesCargados.length, 'inmuebles.');
+    return misInmueblesCargados;
+  } catch (e) {
+    console.warn('[Tarjeta] No se pudo precargar inmuebles:', e);
+    return [];
+  }
+}
+
+/* 4.6 — Función principal: descarga la tarjeta como PNG */
 async function descargarTarjetaPresentacionCanvas() {
   const nombre = document.getElementById('perfilNombreAgente').value.trim() ||
                  document.getElementById('headerDisplayNombreAgente').textContent ||
@@ -591,18 +628,24 @@ async function descargarTarjetaPresentacionCanvas() {
     "Aplicando datos, colores, QR y contraste inteligente en 1080x1920 px.");
 
   try {
-    /* 1) Selección de hasta 3 fichas: mayor valor, alternando Venta/Alquiler */
-    const fichasBase = seleccionarFichasParaTarjeta(misInmueblesCargados);
+    /* 1) Precargar inmuebles si el acordeón "Mis Inmuebles" no se abrió aún */
+    await asegurarInmueblesCargados();
+    console.log('[Tarjeta] Inmuebles totales:', misInmueblesCargados.length);
 
-    /* 2) QR al portafolio del agente (mismo endpoint que WhatsApp) */
+    /* 2) Selección de hasta 3 fichas: mayor valor, alternando Venta/Alquiler */
+    const fichasBase = seleccionarFichasParaTarjeta(misInmueblesCargados);
+    console.log('[Tarjeta] Fichas seleccionadas:', fichasBase.length,
+      fichasBase.map(p => `${p.codigo_eco}(${p.operacion}:$${p.precio})`).join(' | '));
+
+    /* 3) QR al portafolio del agente (mismo endpoint que WhatsApp) */
     const urlPortafolio = obtenerEnlaceShareAgente(usuarioActual?.id);
     const qrDataUrl = generarQRDataUrl(urlPortafolio, 400, '#0f172a', '#ffffff');
 
-    /* 3) Avatar */
+    /* 4) Avatar */
     const avatarUrl = fotoPerfilActual || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
     const avatarB64 = await urlToBase64(avatarUrl);
 
-    /* 4) Primera foto de cada ficha (b64) */
+    /* 5) Primera foto de cada ficha (b64) */
     const fichasConFoto = await Promise.all(fichasBase.map(async (p) => {
       const urlFoto = (Array.isArray(p.fotos) && p.fotos.length > 0)
         ? p.fotos[0]
@@ -611,11 +654,11 @@ async function descargarTarjetaPresentacionCanvas() {
       return { ...p, _foto: b64 || urlFoto };
     }));
 
-    /* 5) Textos finales */
+    /* 6) Textos finales */
     const agenciaDisplay = (tipo === 'Agencia' && agencia) ? agencia : 'Agente Inmobiliario';
     const sobreMiRecortado = sobreMi.length > 500 ? sobreMi.substring(0, 500) : sobreMi;
 
-    /* 6) Inyectar HTML en el contenedor (auto-creado si no existe) */
+    /* 7) Inyectar HTML en el contenedor (auto-creado si no existe) */
     const container = asegurarContenedorTarjeta();
     container.innerHTML = construirHTMLTarjetaPresentacion({
       nombreRec: truncarTextoSimple(nombre, 50),
@@ -628,13 +671,13 @@ async function descargarTarjetaPresentacionCanvas() {
       primario, secundario, fondoTop, fondoBottom, colorAcento
     });
 
-    /* 7) Esperar carga de todas las imágenes internas (avatar, QR, fichas) */
+    /* 8) Esperar carga de todas las imágenes internas (avatar, QR, fichas) */
     const imgsInternas = [...container.querySelectorAll('img')];
     await Promise.all(imgsInternas.map(img => esperarImagenCargada(img, 2500)));
 
     await new Promise(r => setTimeout(r, 300));
 
-    /* 8) Render + descarga */
+    /* 9) Render + descarga */
     const canvas = await html2canvas(container, {
       useCORS: true, scale: 1, width: 1080, height: 1920,
       backgroundColor: null, logging: false
@@ -645,7 +688,7 @@ async function descargarTarjetaPresentacionCanvas() {
     link.href = canvas.toDataURL('image/png');
     link.click();
 
-    /* 9) Limpieza del contenedor para liberar DOM */
+    /* 10) Limpieza del contenedor para liberar DOM */
     container.innerHTML = '';
 
     ocultarProgresoGeneracion();
@@ -656,7 +699,6 @@ async function descargarTarjetaPresentacionCanvas() {
       "No se pudo generar tu tarjeta de presentación para estados.", "error");
   }
 }
-
 /* =========================================================
    5. MOTOR DE REELS ANIMADOS (1080x1920 @ 30fps CON QR)
    ========================================================= */
