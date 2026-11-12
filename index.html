@@ -43,23 +43,23 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="EcoNexus Red Inmobiliaria" />
     <meta property="og:locale" content="es_VE" />
-    <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" id="ogTitle" />
-    <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." id="ogDescription" />
+    <meta property="og:title" content="EcoNexus | Encuentra el Inmueble Ideal · CRM/ERP Inmobiliario · Publica tus Propiedades" id="ogTitle" />
+    <meta property="og:description" content="Encuentra el inmueble ideal, publica tus propiedades, gestiona tu inventario y obtén herramientas de última generación. Todo en nuestro potente CRM/ERP. Entra al catálogo público o descarga ya nuestra app." id="ogDescription" />
     <meta property="og:url" content="https://econexusplatform.com/" id="ogUrl" />
-    <meta property="og:image" content="https://econexusplatform.com/logo.png.png" id="ogImage" />
-    <meta property="og:image:secure_url" content="https://econexusplatform.com/logo.png.png" />
-    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image" content="https://econexusplatform.com/og-brand.jpg" id="ogImage" />
+    <meta property="og:image:secure_url" content="https://econexusplatform.com/og-brand.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="EcoNexus - Portal Inmobiliario Venezuela" />
+    <meta property="og:image:alt" content="EcoNexus — CRM/ERP Inmobiliario" />
 
     <!-- ═══════════════ TWITTER / X ═══════════════ -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@econexusplatform" />
     <meta name="twitter:creator" content="@econexusplatform" />
-    <meta name="twitter:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" id="twTitle" />
-    <meta name="twitter:description" content="Catálogo nacional de inmuebles con contacto directo. Compra, venta y alquiler en Venezuela." id="twDescription" />
-    <meta name="twitter:image" content="https://econexusplatform.com/logo.png.png" id="twImage" />
+    <meta name="twitter:title" content="EcoNexus | Encuentra el Inmueble Ideal · CRM/ERP Inmobiliario · Publica tus Propiedades" id="twTitle" />
+    <meta name="twitter:description" content="Encuentra el inmueble ideal, publica tus propiedades, gestiona tu inventario y obtén herramientas de última generación. Todo en nuestro potente CRM/ERP. Entra al catálogo público o descarga ya nuestra app." id="twDescription" />
+    <meta name="twitter:image" content="https://econexusplatform.com/og-brand.jpg" id="twImage" />
 
     <!-- ═══════════════ JSON-LD: ORGANIZATION ═══════════════ -->
     <script type="application/ld+json">
@@ -462,8 +462,7 @@
             <p class="text-gray-500 text-xs">Prueba con otra zona o ajusta los filtros.</p>
         </div>
     </main>
-
-    <!-- MODAL DE PROPIEDAD -->
+        <!-- MODAL DE PROPIEDAD -->
     <div id="propModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[70] flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
         <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
             <button onclick="cerrarModal()" class="absolute top-3 right-3 z-[80] bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
@@ -1129,7 +1128,6 @@
                 `;
             });
 
-            // ── SEO: actualizar ItemList JSON-LD con el catálogo cargado ──
             if (typeof window.actualizarItemListJSONLD === 'function') {
                 try { window.actualizarItemListJSONLD(lista); } catch (e) {}
             }
@@ -1573,7 +1571,7 @@
         const SEO_BASE = 'https://econexusplatform.com';
         const SEO_TITLE_HOME = 'EcoNexus | Red Inmobiliaria Inteligente en Venezuela';
         const SEO_DESC_HOME = 'Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional. Contacto directo por WhatsApp.';
-        const SEO_IMG_DEFAULT = SEO_BASE + '/logo.png.png';
+        const SEO_IMG_DEFAULT = SEO_BASE + '/og-brand.jpg';
 
         function slugify(text) {
             if (!text) return '';
@@ -1628,9 +1626,6 @@
             setMeta('name', 'ICBM', lat + ', ' + lng);
         }
 
-        // ═══════════════════════════════════════════════════════════
-        // 🆕 ITEMLIST DINÁMICO DEL CATÁLOGO (SEO + RICH SNIPPETS)
-        // ═══════════════════════════════════════════════════════════
         function actualizarItemListJSONLD(listaPropiedades) {
             if (!Array.isArray(listaPropiedades) || listaPropiedades.length === 0) return;
             const items = listaPropiedades.slice(0, 20).map(function (p, i) {
@@ -1670,9 +1665,6 @@
         }
         window.actualizarItemListJSONLD = actualizarItemListJSONLD;
 
-        // ─────────────────────────────────────────────────────────────
-        // VISTA: HOME
-        // ─────────────────────────────────────────────────────────────
         function seoHome() {
             document.title = SEO_TITLE_HOME;
             setMeta('name', 'description', SEO_DESC_HOME);
@@ -1691,9 +1683,6 @@
             setJsonLd('jsonld-vista', null);
         }
 
-        // ─────────────────────────────────────────────────────────────
-        // VISTA: INMUEBLE
-        // ─────────────────────────────────────────────────────────────
         function seoInmueble(p) {
             if (!p) return;
             const url = urlCanonicaInmueble(p);
@@ -1766,9 +1755,6 @@
             });
         }
 
-        // ─────────────────────────────────────────────────────────────
-        // VISTA: ZONA (solo meta tags)
-        // ─────────────────────────────────────────────────────────────
         function seoZona(zona) {
             const zonaClean = (zona || '').trim();
             if (!zonaClean) return;
@@ -1811,9 +1797,6 @@
             });
         }
 
-        // ─────────────────────────────────────────────────────────────
-        // VISTA: MAPA
-        // ─────────────────────────────────────────────────────────────
         function seoMapa() {
             const titulo = 'Mapa de Presencia Inmobiliaria en Venezuela | EcoNexus';
             const desc = 'Explora en mapa los inmuebles disponibles en toda Venezuela. Filtra por zona y contacta directamente con el asesor.';
