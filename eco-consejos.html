@@ -1,0 +1,261 @@
+    <script>
+    (function () {
+        'use strict';
+
+        // ═══════════════════════════════════════════════════════
+        // BASE DE CONOCIMIENTO (contexto legal Venezuela)
+        // ═══════════════════════════════════════════════════════
+        const database = {
+            comprar: {
+                title: "Requisitos para Comprar un Inmueble",
+                text: "Para realizar una compra segura en Venezuela, debes exigir:\n\n1. Copia del Documento de Propiedad debidamente registrado.\n2. Ficha Catastral y Cédula Catastral actualizadas a nombre del propietario.\n3. Solvencia Municipal (Derecho de Frente).\n4. Registro de Vivienda Principal (si aplica).\n\nRecomendación EcoNexus: Hazte acompañar siempre de un abogado para verificar la tradición legal en el Registro Público y apóyate en un agente inmobiliario de tu confianza para blindar la operación."
+            },
+            vender: {
+                title: "Requisitos para Vender tu Inmueble",
+                text: "Antes de promocionar tu inmueble, asegúrate de tener al día:\n\n1. Documento de propiedad debidamente registrado.\n2. Cédula Catastral actualizada.\n3. Solvencias de servicios públicos (Hidrocentro / Corpoelec).\n4. Solvencia del Derecho de Frente municipal.\n5. RIF actualizado y pago de impuestos (Forma 33 / SENIAT).\n\nNuestro sistema conecta directamente con agentes capacitados para estructurar este expediente sin demoras."
+            },
+            alquilar: {
+                title: "Asesoría para Alquilar (Arrendamientos)",
+                text: "El arrendamiento en Venezuela está regulado estrictamente.\n\n1. Define si es uso residencial o comercial (Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial).\n2. El contrato debe ser redactado y visado por un abogado, preferiblemente notariado o autenticado.\n3. Realiza un inventario fotográfico detallado del estado del inmueble.\n4. Establece claramente las garantías (depósitos o fianzas) permitidas por la ley.\n\nConsejo EcoNexus: Documenta absolutamente todo. Un contrato claro evita el 90% de los conflictos futuros."
+            },
+            abogado: {
+                title: "Importancia del Abogado",
+                text: "El abogado es fundamental para evitar estafas. Se encarga de revisar el expediente en el Registro Público para descartar hipotecas, prohibiciones de enajenar y gravar, o medidas de embargo preventivo que recaigan sobre el inmueble.\n\nUn profesional con experiencia te protege de vicios ocultos, fraudes inmobiliarios y errores en la redacción de documentos. En Venezuela, la asesoría legal en bienes raíces no es un gasto: es una inversión que puede salvarte de perder todo tu patrimonio."
+            },
+            catastro: {
+                title: "La Ficha Catastral",
+                text: "Es el documento emitido por la Alcaldía (Dirección de Catastro) que describe física y jurídicamente el inmueble.\n\nEn Venezuela es obligatorio que esté actualizada y a nombre del propietario actual para poder registrar la compraventa. Si la ficha catastral está desactualizada, el Registro Público puede rechazar el documento de propiedad.\n\nSolicítala directamente en la Alcaldía correspondiente o pide a tu abogado que gestione la actualización antes de promocionar el inmueble."
+            },
+            registro: {
+                title: "Verificación en el Registro Público",
+                text: "Se verifica la 'Tradición Legal'. Es el historial del inmueble que demuestra quiénes han sido los dueños anteriores de forma ininterrumpida y certifica que quien te vende es el único titular legal de los derechos de propiedad.\n\nEn el Registro Público se revisan: hipotecas, prohibiciones de enajenar y gravar, embargos, medidas cautelares y cualquier limitación de dominio.\n\nEste trámite es ineludible. Sin verificación registral, cualquier compra es un riesgo enorme."
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════
+        // ESTADO
+        // ═══════════════════════════════════════════════════════
+        const BASE_URL = 'https://econexusplatform.com/eco-consejos.html';
+        let typewriterTimeout = null;
+        let currentKey = null;
+        let currentTitle = '';
+        let currentText = '';
+        let isTyping = false;
+
+        const modal = document.getElementById('adviceModal');
+        const titleEl = document.getElementById('modalTitle');
+        const textEl = document.getElementById('typewriterText');
+
+        // ═══════════════════════════════════════════════════════
+        // ABRIR / CERRAR MODAL
+        // ═══════════════════════════════════════════════════════
+        window.openAdvice = function (key) {
+            const data = database[key];
+            if (!data) return;
+
+            currentKey = key;
+            currentTitle = data.title;
+            currentText = data.text;
+
+            titleEl.textContent = currentTitle;
+            textEl.innerHTML = '';
+            textEl.classList.add('tw-cursor');
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            clearTimeout(typewriterTimeout);
+            isTyping = true;
+            typewriterEffect(currentText, 0);
+
+            // Deep link con History API (para compartir la URL específica)
+            try {
+                const nuevaUrl = `?tipo=${encodeURIComponent(key)}`;
+                history.pushState({ vista: 'consejo', key: key }, '', nuevaUrl);
+            } catch (e) { /* no-op */ }
+
+            // SEO dinámico: actualizar meta
+            actualizarMetaDinamica(data.title, data.text);
+        };
+
+        window.closeAdvice = function () {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            clearTimeout(typewriterTimeout);
+            isTyping = false;
+
+            // Revertir URL
+            try {
+                history.pushState({ vista: 'home' }, '', window.location.pathname);
+            } catch (e) { /* no-op */ }
+
+            // Restaurar meta base
+            restaurarMetaBase();
+        };
+
+        // Cerrar con click en overlay
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) window.closeAdvice();
+        });
+
+        // Cerrar con ESC
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                window.closeAdvice();
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════
+        // TYPEWRITER
+        // ═══════════════════════════════════════════════════════
+        function typewriterEffect(text, i) {
+            if (!isTyping) return;
+
+            if (i < text.length) {
+                textEl.innerHTML = text.substring(0, i + 1).replace(/\n/g, '<br>');
+
+                let speed = 22;
+                const c = text.charAt(i);
+                if (c === '.' || c === ',' || c === '\n') speed = 180;
+                if (c === ':') speed = 120;
+
+                typewriterTimeout = setTimeout(() => typewriterEffect(text, i + 1), speed);
+            } else {
+                // Terminó de escribir → quitar cursor
+                textEl.classList.remove('tw-cursor');
+            }
+        }
+
+        // Permitir saltar animación con click en el texto
+        textEl.addEventListener('click', function () {
+            if (isTyping) {
+                clearTimeout(typewriterTimeout);
+                textEl.innerHTML = currentText.replace(/\n/g, '<br>');
+                textEl.classList.remove('tw-cursor');
+                isTyping = false;
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════
+        // SEO DINÁMICO (actualizar meta al abrir consejo)
+        // ═══════════════════════════════════════════════════════
+        function actualizarMetaDinamica(titulo, texto) {
+            const descCorta = texto.substring(0, 155).replace(/\n/g, ' ').trim() + '...';
+            const ogTitle = `${titulo} | EcoNexus`;
+            document.title = ogTitle;
+
+            setMeta('name', 'description', descCorta);
+            setMeta('property', 'og:title', ogTitle);
+            setMeta('property', 'og:description', descCorta);
+            setMeta('name', 'twitter:title', ogTitle);
+            setMeta('name', 'twitter:description', descCorta);
+            setMeta('property', 'og:url', BASE_URL + `?tipo=${currentKey}`);
+        }
+
+        function restaurarMetaBase() {
+            const titleBase = 'Eco-Consejos | Asesoría Legal e Inmobiliaria en Venezuela - EcoNexus';
+            const descBase = 'Guía interactiva con requisitos legales, documentos y consejos clave para comprar, vender o alquilar inmuebles en Venezuela. Respaldado por EcoNexus Platform.';
+            document.title = titleBase;
+            setMeta('name', 'description', descBase);
+            setMeta('property', 'og:title', titleBase);
+            setMeta('property', 'og:description', descBase);
+            setMeta('name', 'twitter:title', titleBase);
+            setMeta('name', 'twitter:description', descBase);
+            setMeta('property', 'og:url', BASE_URL);
+        }
+
+        function setMeta(attr, key, content) {
+            if (!content) return;
+            let el = document.querySelector(`meta[${attr}="${key}"]`);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute(attr, key);
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', content);
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // COMPARTIR (Web Share API + Fallback WhatsApp)
+        // ═══════════════════════════════════════════════════════
+        window.shareAdvice = async function (key) {
+            const data = database[key];
+            if (!data) return;
+            await ejecutarShare(data.title, data.text);
+        };
+
+        window.shareCurrentAdvice = async function () {
+            if (!currentTitle || !currentText) return;
+            await ejecutarShare(currentTitle, currentText);
+        };
+
+        async function ejecutarShare(titulo, texto) {
+            const urlCompartir = BASE_URL + `?tipo=${encodeURIComponent(currentKey || '')}`;
+            const textoLimpio = texto.replace(/\n+/g, '\n').substring(0, 500);
+            const mensajeCompleto = `💡 *${titulo}* — EcoNexus\n\n${textoLimpio}\n\n👉 Lee la guía completa: ${urlCompartir}`;
+
+            // 1) Web Share API (móvil)
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `${titulo} | EcoNexus`,
+                        text: `💡 ${titulo} — Guía EcoNexus para Venezuela`,
+                        url: urlCompartir
+                    });
+                    return;
+                } catch (e) {
+                    if (e.name === 'AbortError') return;
+                }
+            }
+
+            // 2) Fallback WhatsApp Web/Desktop
+            window.open(`https://wa.me/?text=${encodeURIComponent(mensajeCompleto)}`, '_blank', 'noopener');
+        }
+
+        // ═══════════════════════════════════════════════════════
+        // COPIAR ENLACE
+        // ═══════════════════════════════════════════════════════
+        window.copyAdviceLink = async function () {
+            const urlCompartir = BASE_URL + `?tipo=${encodeURIComponent(currentKey || '')}`;
+            try {
+                await navigator.clipboard.writeText(urlCompartir);
+                alert('✅ Enlace copiado al portapapeles');
+            } catch (e) {
+                prompt('Copia este enlace:', urlCompartir);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════
+        // DEEP LINK (?tipo=X)
+        // ═══════════════════════════════════════════════════════
+        function procesarParametrosURL() {
+            const params = new URLSearchParams(window.location.search);
+            const tipo = params.get('tipo');
+            if (tipo && database[tipo]) {
+                // Abrir el consejo después de un pequeño delay para que se renderice
+                setTimeout(() => window.openAdvice(tipo), 300);
+            }
+        }
+
+        // popstate (botón atrás del navegador)
+        window.addEventListener('popstate', function () {
+            const params = new URLSearchParams(window.location.search);
+            const tipo = params.get('tipo');
+            if (tipo && database[tipo]) {
+                window.openAdvice(tipo);
+            } else {
+                if (!modal.classList.contains('hidden')) window.closeAdvice();
+            }
+        });
+
+        // Ejecutar al cargar
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', procesarParametrosURL);
+        } else {
+            procesarParametrosURL();
+        }
+
+    })();
+    </script>
+</body>
+</html>
