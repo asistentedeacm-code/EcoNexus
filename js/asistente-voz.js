@@ -1,19 +1,17 @@
 /**
- * ECONEXUS VOICE ASSISTANT v4 — "Eco, tu estratega inmobiliario"
+ * ECONEXUS VOICE ASSISTANT v5 — "Eco, tu estratega inmobiliario"
  * 100% determinístico (sin IA). Motor de reglas + Supabase directo.
  * Ubicación: /js/asistente-voz.js
  *
- * CAMBIOS v4 (Entrega 1):
- *  - FIX CRÍTICO: separación de S.fase (conversación) y S.micOn (micrófono).
- *    "lee la opción 2" ahora se detecta SIEMPRE en fase de selección/lectura.
- *  - Verbos imperativos añadidos al regex: lee, leeme, léela, cuéntame, etc.
- *  - Detección de "Número suelto" como LEER_FICHA en modo conversación.
- *  - Búsqueda solo por ZONA sin prefijo "en/zona/sector".
- *  - Filtros progresivos: añadir filtros en medio de la conversación.
- *  - Mensaje de fallback diferenciado para modo conversación.
- *  - Si no se extrae número de opción: pregunta "¿qué número?" en vez de fallar.
- *  - procesando flag para no cerrar sesión durante el procesamiento async.
- *  - Zonas conocidas de Venezuela (fallback) para detección rápida.
+ * CAMBIOS v5 (fixes sobre v4):
+ *  - narrarFicha() ABRE el modal del inmueble (cierra carrusel) y narra.
+ *  - limpiarTextoParaTTS() quita teléfonos/correos/URLs de la descripción
+ *    antes de narrar (evita leer +584121234567 como precio).
+ *  - hablarPrecio() usa comas estratégicas + rate 0.92 (evita "77 mil" → "7 mil").
+ *  - Regex de ENVIAR_WHATSAPP acepta "enviarla/enviarlo/enviarlas/...".
+ *  - Panel flotante de ayuda (#ecoVoiceHelpPanel) al iniciar sesión.
+ *  - VOLVER_LISTA: reabre carrusel tras ver una ficha.
+ *  - S.fase se mantiene estable durante toda la conversación.
  */
 (function () {
   'use strict';
@@ -32,17 +30,18 @@
     MAX_RESULTADOS: 500,
     LANG_REC: 'es-VE',
     LANG_TTS: 'es-ES',
-    TTS_RATE: 1.05
+    TTS_RATE: 1.0,
+    TTS_RATE_PRECIO: 0.92
   };
 
   // ============================================================
-  // ESTADO — SEPARADO: fase (conversación) + micOn (micrófono)
+  // ESTADO
   // ============================================================
   const S = {
     activo: false,
-    fase: 'IDLE',        // IDLE | SELECCIONANDO | LEYENDO_FICHA
-    micOn: false,        // true mientras el micrófono escucha
-    procesando: false,   // true mientras se procesa un comando async
+    fase: 'IDLE',
+    micOn: false,
+    procesando: false,
     filtros: {},
     resultados: [],
     loteActual: 0,
@@ -50,7 +49,8 @@
     db: null,
     rec: null,
     synth: window.speechSynthesis || null,
-    wakeLock: null
+    wakeLock: null,
+    panelAyudaVisible: false
   };
 
   let TTS_TOKEN = 0;
@@ -71,6 +71,28 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
   function fmtPrecio(n) { return '$' + Number(n || 0).toLocaleString('en-US'); }
+
+  // ══════════════════════════════════════════════════════════════
+  // LIMPIADOR DE TEXTO PARA TTS
+  // Quita teléfonos, correos, URLs para que el TTS no los lea como precios
+  // ══════════════════════════════════════════════════════════════
+  function limpiarTextoParaTTS(texto) {
+    if (!texto) return '';
+    return String(texto)
+      // Teléfonos venezolanos/internacionales con o sin separadores
+      .replace(/(\+?\d{1,3}[\s\-.)]*)?(\(?\d{3,4}\)?[\s\-.)]*)?\d{3}[\s\-.)]*\d{2}[\s\-.)]*\d{2,4}/g, ' [contacto reservado] ')
+      // Cualquier secuencia de 7+ dígitos (número largo)
+      .replace(/\b\d{7,15}\b/g, ' [contacto reservado] ')
+      // Correos
+      .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '')
+      // URLs
+      .replace(/https?:\/\/[^\s]+/gi, '')
+      .replace(/www\.[^\s]+/gi, '')
+      .replace(/wa\.me\/[^\s]+/gi, '')
+      // Normalizar espacios
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  }
 
   // ============================================================
   // NÚMERO → PALABRAS (para TTS de precios)
@@ -113,10 +135,23 @@
     }
     return String(num);
   }
+
+  // ══════════════════════════════════════════════════════════════
+  // PRECIO CON PAUSAS (fix "77 mil → 7 mil")
+  // Inserta comas estratégicas para forzar dicción clara en TTS
+  // ══════════════════════════════════════════════════════════════
   function hablarPrecio(n) {
     const num = Number(n || 0);
     if (!num) return 'precio no especificado';
-    return numeroAPalabrasEspanol(num) + ' dólares';
+    const palabras = numeroAPalabrasEspanol(num);
+    // Comas tras "mil", "millón", "millones" para pausa
+    const conPausas = palabras
+      .replace(/\bmil\b/g, ' mil,')
+      .replace(/\bmillón\b/g, ' millón,')
+      .replace(/\bmillones\b/g, ' millones,')
+      .replace(/,+/g, ',')
+      .replace(/,\s*$/, '');
+    return conPausas + ' dólares';
   }
 
   function getDb() {
@@ -128,7 +163,7 @@
   }
 
   // ============================================================
-  // PARSEO DE NÚMEROS DICTADOS (para filtros)
+  // PARSEO DE NÚMEROS (para filtros)
   // ============================================================
   const WNUM = {
     cero:0,uno:1,un:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,
@@ -192,7 +227,6 @@
     'piso bajo','primer piso','planta baja','piso alto','ultimo piso','vista panoramica'
   ];
 
-  // Zonas conocidas de Venezuela (fallback rápido; la versión completa llega en Entrega 2)
   const ZONAS_VE = [
     'prebo','trigal','trigaleña','la trigaleña','viñedo','vinedo','el viñedo',
     'naguanagua','san diego','guataparo','mañongo','manongo','santa fe',
@@ -249,13 +283,11 @@
       if (mSolo) { const n = parseNumeroDesdeTexto(mSolo[0]); if (n && n >= 100) out.precioMax = n; }
     }
 
-    // Asesor explícito
     const mAs = t.match(/(?:del\s+asesor|de\s+la\s+asesora|del\s+agente|de\s+la\s+agente|del\s+realtor|de\s+la\s+realtor|del\s+captador|de\s+la\s+captadora)\s+([a-zñ]{3,20})/);
     if (mAs && !['con','que','para','por','del','los','las'].includes(mAs[1])) {
       out.asesorNombre = mAs[1];
     }
 
-    // Ubicación explícita con prefijo
     const mU = t.match(/\b(?:en|zona|sector|por|de la zona|zona de|sector de|cerca de|por la zona)\s+([a-zñ\s]{3,40}?)(?=\s+(?:hasta|con|maximo|entre|que|para|y|o|de|por|\d)|$)/);
     if (mU) {
       const tokens = mU[1].trim().split(/\s+/).filter(w => {
@@ -277,14 +309,12 @@
     return out;
   }
 
-  // Detectar si el texto es una zona suelta (sin prefijo "en / zona / sector")
   function detectarZonaSuelta(transcript) {
     const t = norm(transcript);
     if (!t) return null;
     const words = t.split(' ').filter(Boolean);
     if (words.length < 1 || words.length > 4) return null;
 
-    // Filtrar stopwords y palabras que ya son filtros
     const meaningful = words.filter(w => {
       if (w.length < 3) return false;
       if (STOPWORDS_BUSQUEDA.includes(w)) return false;
@@ -293,28 +323,23 @@
       return true;
     });
 
-    // Si todas las palabras son stopwords, no es zona
     if (meaningful.length === 0) return null;
-    // Si hay palabras residuales, es ambigua
     if (meaningful.length !== words.length) return null;
 
     const candidate = meaningful.join(' ');
 
-    // Prioridad 1: coincidencia exacta con zona conocida
     for (const z of ZONAS_VE) {
       if (candidate === z) return candidate;
     }
-    // Prioridad 2: coincidencia parcial (input dentro de zona conocida o viceversa)
     for (const z of ZONAS_VE) {
       if (z.includes(candidate) || candidate.includes(z)) return candidate;
     }
-    // Prioridad 3: si tiene al menos una palabra de >=4 letras, asumir zona genérica
     if (meaningful.some(w => w.length >= 4)) return candidate;
     return null;
   }
 
   // ============================================================
-  // INTENCIONES — usa S.fase (conversación), NO micOn
+  // INTENCIONES
   // ============================================================
   const ORDINALES = {
     'primera':1,'primero':1,'uno':1,'un':1,
@@ -335,18 +360,19 @@
   const RE_ANTERIOR_NUM = /^(atras|anterior|la anterior|el anterior|previo|previa|regresa|regresar)(\s+(por\s+favor|opcion|ficha|inmueble))?\s*$/;
   const RE_SOLO_NUMERO = /^(?:opcion|opcion numero|numero|la|el|la opcion|el numero)?\s*\d{1,2}$/;
 
+  // ══════════════════════════════════════════════════════════════
+  // REGEX DE ENVÍO EXPANDIDO (fix "enviarla al whatsapp")
+  // ══════════════════════════════════════════════════════════════
+  const RE_ENVIAR_VERBO = /\b(enviar|envia|enviarla|enviarlo|enviarlas|enviarlos|envíala|envíalo|envíalas|envíalos|mandar|manda|mandarla|mandarlo|mandarlas|mandarlos|compartir|comparte|compartirla|compartirlo|compartirlas|compartirlos|whatsapp|wassap|wasap)\b/;
+
   function detectarIntencion(transcript) {
     const t = norm(transcript);
     const fase = S.fase;
     const enConversacion = (fase === 'SELECCIONANDO' || fase === 'LEYENDO_FICHA');
 
-    // ============================================================
-    // CAPA 1: en modo conversación, comandos prioritarios
-    // ============================================================
+    // CAPA 1: comandos prioritarios en conversación
     if (enConversacion) {
-      // "2", "la 2", "opción 2" → LEER_FICHA
       if (RE_SOLO_NUMERO.test(t)) return 'LEER_FICHA';
-      // "dos", "segunda", "la tercera" → LEER_FICHA
       const words = t.split(' ');
       if (words.length <= 3) {
         for (const w of words) {
@@ -355,9 +381,7 @@
       }
     }
 
-    // ============================================================
-    // CAPA 2: comandos que dependen de la fase
-    // ============================================================
+    // CAPA 2: comandos dependientes de fase
     if (RE_SIGUIENTE_NUM.test(t)) {
       if (fase === 'LEYENDO_FICHA') return 'LEER_SIGUIENTE';
       if (fase === 'SELECCIONANDO') return 'SIGUIENTE_LOTE';
@@ -369,36 +393,31 @@
       return S.resultados.length ? 'LEER_ANTERIOR' : 'BUSCAR';
     }
 
-    // ============================================================
     // CAPA 3: comandos universales
-    // ============================================================
     if (/\b(para|detente|deten|silencio|stop|cancelar|cancela|basta|quieto|salir)\b/.test(t) && t.split(' ').length <= 3) return 'DETENER';
     if (/\b(repite|repetir|otra vez|de nuevo|como dijiste|que dijiste|no escuche)\b/.test(t)) return 'REPETIR';
     if (/\b(limpiar|limpia|nuevo|nueva busqueda|reiniciar|borrar busqueda|resetear|empezar de nuevo|otra busqueda)\b/.test(t)) return 'LIMPIAR';
-    if (/\b(ayuda|ayudame|que puedes hacer|como funciona|como te uso|instrucciones|comandos)\b/.test(t)) return 'AYUDA';
+    if (/\b(ayuda|ayudame|que puedes hacer|como funciona|como te uso|instrucciones|comandos|muestrame el panel|ver ayuda)\b/.test(t)) return 'AYUDA';
     if (/\b(cuantos|cuantas|cantidad|total de resultados|cuantos hay)\b/.test(t)) return 'CONTAR';
     if (/\b(mas barato|mas economico|menor precio|el barato|los baratos)\b/.test(t)) return 'ORDEN_BARATO';
     if (/\b(mas caro|mayor precio|el costoso|mas costoso|los caros)\b/.test(t)) return 'ORDEN_CARO';
     if (/\b(mapa|abrir mapa|ver mapa|mostrar mapa|ver en mapa|ubicacion en mapa)\b/.test(t)) return 'MAPA';
     if (/\b(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey|que tal|ola)\b/.test(t) && t.split(' ').length <= 4) return 'SALUDO';
 
-    // Envíos masivos
     if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo|el lote|las tres|los tres|las opciones|todo el lote|las fichas|los inmuebles|este lote|estas opciones)\b/.test(t)) return 'ENVIAR_LOTE';
     if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo)\s+(a|al)\s+(whatsapp|wassap|cliente)\b/.test(t)) return 'ENVIAR_LOTE';
 
-    // ============================================================
     // CAPA 4: acciones sobre opción (solo en conversación)
-    // ============================================================
     if (enConversacion) {
+      if (/\b(volver a la lista|volver al listado|mostrar lista|ver lista|lista de opciones|regresar a la lista|volver a las opciones|mostrar opciones|ver opciones|volver a los resultados)\b/.test(t)) return 'VOLVER_LISTA';
       if (/\b(siguiente lote|siguiente grupo|siguientes opciones|mas opciones|otras opciones|ver mas|mostrar mas|hay mas|otros|siguientes|siguiente tanda|lote siguiente|grupo siguiente)\b/.test(t)) return 'SIGUIENTE_LOTE';
       if (/\b(lote anterior|grupo anterior|anteriores|volver|regresar|previos|los de antes)\b/.test(t)) return 'ANTERIOR_LOTE';
       if (/\b(leelas todas|leer todas|todas las fichas|todas las opciones|leeme todas)\b/.test(t)) return 'LEER_TODAS';
       if (/\b(abrir y contactar|abrir y llamar|abrir y enviar al agente|abrir y contactar al agente|abrir ficha y contactar|abrir ficha y llamar)\b/.test(t)) return 'ABRIR_Y_CONTACTAR';
       if (/\b(contactar|contacta|hablar con|comunicar|llamar|escribir al agente|whatsapp del agente|contacto del asesor|con el asesor|con el agente|al agente|al asesor|con el captador|contactar al agente|contactar al asesor)\b/.test(t)) return 'CONTACTAR_AGENTE';
-      if (/\b(enviar|envia|mandar|manda|compartir|comparte|whatsapp|wassap)\b/.test(t)) return 'ENVIAR_WHATSAPP';
-      // ABRIR FICHA con verbos imperativos
+      // ═══ FIX v5: regex expandido para "enviarla" y derivados ═══
+      if (RE_ENVIAR_VERBO.test(t)) return 'ENVIAR_WHATSAPP';
       if (/\b(abrir|abre|abreme|abrir ficha|abre ficha|abreme la ficha|mostrar ficha|muestra ficha|ver ficha|ver detalle|ficha completa|abreme el inmueble|abrir el inmueble|muestra el inmueble)\b/.test(t)) return 'ABRIR_FICHA';
-      // LEER FICHA con verbos imperativos
       if (RE_LEER_VERBO.test(t) || RE_LEER_FRASE.test(t)) return 'LEER_FICHA';
     }
 
@@ -413,13 +432,10 @@
   // ============================================================
   function extraerNumeroOpcion(transcript) {
     const t = norm(transcript);
-    // 1) "opción N / número N / la N / el N"
     let m = t.match(/\b(?:opcion|opcion numero|numero|la|el)\s+(\d{1,2})\b/);
     if (m) return parseInt(m[1]);
-    // 2) "N" suelto SIN contexto de habitaciones/baños/metros
     m = t.match(/\b(\d{1,2})\b(?!\s*(?:hab|habitacion|habitaciones|cuarto|cuartos|dormitorio|dormitorios|recamara|bano|banos|sanitario|sanitarios|metro|metros|m2|mts|puesto|puestos|estacionamiento|estacionamientos|carro|carros|mil|k|dolar|dolares)\b)/i);
     if (m) return parseInt(m[1]);
-    // 3) Ordinales
     for (const [k,v] of Object.entries(ORDINALES)) {
       if (new RegExp('\\b'+k+'\\b').test(t)) return v;
     }
@@ -429,14 +445,14 @@
   // ============================================================
   // TTS / WAKE LOCK
   // ============================================================
-  function hablar(texto, callback) {
+  function hablar(texto, callback, opts = {}) {
     if (!S.synth) { if (callback) callback(); return; }
     const myToken = ++TTS_TOKEN;
     try { S.synth.cancel(); } catch (e) {}
     solicitarWakeLock();
     const u = new SpeechSynthesisUtterance(texto);
     u.lang = CFG.LANG_TTS;
-    u.rate = CFG.TTS_RATE;
+    u.rate = opts.rate || CFG.TTS_RATE;
     u.pitch = 1.0;
     u.onend = () => {
       if (TTS_TOKEN !== myToken) return;
@@ -489,8 +505,47 @@
     }
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // PANEL FLOTANTE DE AYUDA (fix "instrucciones visibles")
+  // ══════════════════════════════════════════════════════════════
+  function mostrarPanelAyuda() {
+    const existente = document.getElementById('ecoVoiceHelpPanel');
+    if (existente) existente.remove();
+
+    const html = `
+      <div id="ecoVoiceHelpPanel" class="fixed top-20 left-1/2 -translate-x-1/2 z-[96] w-[92%] max-w-md bg-gray-900/95 backdrop-blur-md text-white rounded-2xl shadow-2xl border-2 border-amber-500/60 p-4 animate-fade-in">
+        <div class="flex justify-between items-start mb-2">
+          <h4 class="text-xs font-extrabold text-amber-400 uppercase tracking-wide flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb"></i> Cómo hablar con Eco
+          </h4>
+          <button onclick="document.getElementById('ecoVoiceHelpPanel').remove()" class="text-gray-400 hover:text-white w-6 h-6 flex items-center justify-center rounded-full bg-white/10 cursor-pointer">
+            <i class="fa-solid fa-xmark text-xs"></i>
+          </button>
+        </div>
+        <ul class="text-[11px] space-y-1.5 text-gray-200 leading-snug">
+          <li>🔍 <b class="text-emerald-400">Buscar por zona:</b> "Prebo" o "Naguanagua"</li>
+          <li>🏠 <b class="text-emerald-400">Buscar con filtros:</b> "casa en venta hasta 100 mil con 3 habitaciones"</li>
+          <li>➕ <b class="text-emerald-400">Añadir filtros:</b> "y que tenga piscina"</li>
+          <li>📖 <b class="text-emerald-400">Leer y abrir ficha:</b> "lee la 2" o "lee la dos"</li>
+          <li>⏭️ <b class="text-emerald-400">Avanzar:</b> "siguiente" · <b class="text-emerald-400">Retroceder:</b> "anterior"</li>
+          <li>📤 <b class="text-emerald-400">Enviar 1:</b> "envía la 2 a mi WhatsApp"</li>
+          <li>📤 <b class="text-emerald-400">Enviar todas:</b> "envía todas"</li>
+          <li>🤝 <b class="text-emerald-400">Contactar agente:</b> "contactar al agente de la 2"</li>
+          <li>↩️ <b class="text-emerald-400">Volver a la lista:</b> "volver a la lista"</li>
+          <li>🛑 <b class="text-emerald-400">Detener:</b> "para" o "silencio"</li>
+        </ul>
+      </div>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+    S.panelAyudaVisible = true;
+  }
+  function ocultarPanelAyuda() {
+    const p = document.getElementById('ecoVoiceHelpPanel');
+    if (p) p.remove();
+    S.panelAyudaVisible = false;
+  }
+
   // ============================================================
-  // RECONOCIMIENTO — NO toca S.fase (solo S.micOn)
+  // RECONOCIMIENTO
   // ============================================================
   function iniciarEscucha() {
     if (!S.rec) return;
@@ -540,7 +595,6 @@
       S.micOn = false;
       const btn = document.getElementById('btnAsistenteVoz');
       if (btn) btn.classList.remove('listening-mic');
-      // Cerrar sesión SOLO si no estamos procesando ni esperando respuesta
       if (S.activo && !S.procesando) {
         setTimeout(() => {
           if (S.activo && !S.micOn && !S.procesando) {
@@ -657,19 +711,23 @@
   }
 
   // ============================================================
-  // NARRACIÓN (TTS con precios en palabras)
+  // NARRACIÓN
   // ============================================================
   function describirCorto(p) {
     return `${p.tipo || 'Inmueble'} en ${p.ubicacion || 'zona no especificada'}, ${p.operacion || ''}, por ${hablarPrecio(p.precio)}, código ${p.codigo_eco}`;
   }
+
   function describirLargo(p) {
+    // FIX: limpiar descripción (teléfonos/correos/URLs) antes de narrar
+    const descLimpia = limpiarTextoParaTTS(p.descripcion || '');
+    const descCorta = descLimpia.length > 250 ? descLimpia.substring(0, 250) + '...' : descLimpia;
     return `${p.operacion || 'Venta'} de ${p.tipo || 'inmueble'} en ${p.ubicacion || 'zona no especificada'}. ` +
       `Código ${p.codigo_eco}. Precio: ${hablarPrecio(p.precio)}. ` +
       `Cuenta con ${p.habitaciones || 0} habitaciones, ${p.banos || 0} baños, ` +
       `${p.estacionamientos || 0} puestos y ${p.metros || 0} metros cuadrados. ` +
-      (p.descripcion ? 'Descripción: ' + p.descripcion + ' ' : '') +
+      (descCorta ? 'Descripción: ' + descCorta + ' ' : '') +
       (p.enlace_video ? 'Tiene video disponible. ' : '') +
-      '¿Deseas enviarla a tu WhatsApp, contactar al agente, o pasar a la siguiente?';
+      '¿Deseas enviarla a tu WhatsApp, contactar al agente, volver a la lista, o pasar a la siguiente?';
   }
 
   function narrarLote(esInicial, prefijo) {
@@ -692,26 +750,59 @@
 
     S.fase = 'SELECCIONANDO';
     actualizarUI(`Mostrando ${inicio+1}-${fin} de ${total}`);
-    hablar(msg, () => { if (S.activo) iniciarEscucha(); });
+    hablar(msg, () => { if (S.activo) iniciarEscucha(); }, { rate: CFG.TTS_RATE_PRECIO });
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // FIX v5: narrarFicha ABRE el modal de la propiedad
+  // ══════════════════════════════════════════════════════════════
   function narrarFicha(p) {
     const idx = S.resultados.findIndex(x => x.id === p.id);
     S.indiceFichaEnResultados = idx;
     S.fase = 'LEYENDO_FICHA';
     actualizarUI(`Leyendo ficha ${idx+1} de ${S.resultados.length}`);
-    hablar(`Opción ${idx+1}. ${describirLargo(p)}`, () => { if (S.activo) iniciarEscucha(); });
+
+    // 1) Cerrar carrusel (el modal de propiedad taparía la UI)
+    cerrarCarrusel();
+    detenerHabla();
+
+    // 2) Abrir el modal del inmueble en index.html o agente.html
+    try {
+      if (typeof abrirModal === 'function') {
+        abrirModal(p.id);
+      } else if (typeof abrirModalPropiedad === 'function') {
+        abrirModalPropiedad(p.id);
+      } else if (typeof abrirModalDirecto === 'function') {
+        abrirModalDirecto(p);
+      } else {
+        window.open(`${CFG.FRONTEND_ORIGIN}/index.html?codigo=${encodeURIComponent(p.codigo_eco)}`, '_blank');
+      }
+    } catch (e) {
+      console.warn('[Eco] No se pudo abrir modal de ficha:', e.message);
+    }
+
+    // 3) Narrar tras un pequeño delay (deja que el modal se abra)
+    setTimeout(() => {
+      hablar(`Opción ${idx+1}. ${describirLargo(p)}`, () => {
+        if (S.activo) iniciarEscucha();
+      }, { rate: CFG.TTS_RATE_PRECIO });
+    }, 500);
   }
 
   // ============================================================
   // ACCIONES
   // ============================================================
   function abrirFicha(p) {
-    detenerHabla(); cerrarCarrusel();
-    if (typeof abrirModal === 'function') { abrirModal(p.id); return; }
-    if (typeof abrirModalPropiedad === 'function') { abrirModalPropiedad(p.id); return; }
-    if (typeof abrirModalDirecto === 'function') { abrirModalDirecto(p); return; }
-    window.open(`${CFG.FRONTEND_ORIGIN}/index.html?codigo=${encodeURIComponent(p.codigo_eco)}`, '_blank');
+    cerrarCarrusel();
+    detenerHabla();
+    try {
+      if (typeof abrirModal === 'function') { abrirModal(p.id); return; }
+      if (typeof abrirModalPropiedad === 'function') { abrirModalPropiedad(p.id); return; }
+      if (typeof abrirModalDirecto === 'function') { abrirModalDirecto(p); return; }
+      window.open(`${CFG.FRONTEND_ORIGIN}/index.html?codigo=${encodeURIComponent(p.codigo_eco)}`, '_blank');
+    } catch (e) {
+      console.warn('[Eco] abrirFicha falló:', e.message);
+    }
   }
 
   function formatearMensajeWAItem(p) {
@@ -818,7 +909,7 @@
 
       // ---- DETENER ----
       if (intent === 'DETENER') {
-        detenerHabla(); detenerEscucha(); cerrarCarrusel(); ocultarUI();
+        detenerHabla(); detenerEscucha(); cerrarCarrusel(); ocultarUI(); ocultarPanelAyuda();
         S.activo = false; S.fase = 'IDLE';
         return;
       }
@@ -833,14 +924,16 @@
         }
         return;
       }
-      // ---- AYUDA ----
+      // ---- AYUDA (muestra panel visual + narra) ----
       if (intent === 'AYUDA') {
-        hablar('Soy Eco, tu estratega inmobiliario. Puedo buscar por zona, tipo, operación, precio, habitaciones, baños, metros, asesor o bondades como planta eléctrica, pozo o piscina. Ejemplo: "casa en venta en Prebo hasta cien mil con tres habitaciones". Si solo dices una zona como "Prebo", busco todo lo disponible allí. Cuando te muestre opciones puedes decir "leer la dos", "siguiente", "enviar la uno a mi WhatsApp", "enviar todas", "contactar al agente de la tres", "más barato" o "abrir mapa". También puedes añadir filtros en medio: "y que tenga tres habitaciones". ¿Qué deseas buscar?', () => iniciarEscucha());
+        mostrarPanelAyuda();
+        hablar('He abierto el panel de ayuda en pantalla. Puedes buscar solo por zona como "Prebo"; combinar filtros como "casa en venta hasta cien mil con tres habitaciones"; añadir filtros como "y que tenga piscina"; leer una ficha diciendo "lee la dos" (se abre y se narra); avanzar con "siguiente"; enviar diciendo "envía la dos a mi WhatsApp" o "envía todas"; contactar al agente diciendo "contactar al agente"; y volver a la lista diciendo "volver a la lista". ¿Qué deseas hacer?', () => iniciarEscucha());
         return;
       }
       // ---- SALUDO ----
       if (intent === 'SALUDO' && S.fase !== 'SELECCIONANDO') {
-        hablar(`Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Dime qué inmueble buscas: zona, tipo, operación y presupuesto. Ejemplo: "casa en venta en Prebo hasta cien mil dólares". Si solo te interesa una zona, dime solo "Prebo".`, () => iniciarEscucha());
+        mostrarPanelAyuda();
+        hablar(`Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Te dejé un panel de ayuda en pantalla. Dime solo una zona como "Prebo", o combina filtros: "casa en venta en Prebo hasta cien mil dólares".`, () => iniciarEscucha());
         return;
       }
       // ---- LIMPIAR ----
@@ -878,6 +971,15 @@
         }
         return;
       }
+      // ---- VOLVER LISTA ----
+      if (intent === 'VOLVER_LISTA') {
+        if (!S.resultados.length) { hablar('No hay resultados activos. Dime qué buscas.', () => iniciarEscucha()); return; }
+        try { if (typeof cerrarModalPropiedad === 'function') cerrarModalPropiedad(); } catch(e) {}
+        S.fase = 'SELECCIONANDO';
+        renderCarrusel();
+        narrarLote(false);
+        return;
+      }
       // ---- SIGUIENTE / ANTERIOR LOTE ----
       if (intent === 'SIGUIENTE_LOTE') {
         if (!S.resultados.length) { hablar('No hay resultados activos. Dime qué buscas para empezar.', () => iniciarEscucha()); return; }
@@ -899,7 +1001,7 @@
       if (intent === 'LEER_TODAS') {
         if (!S.resultados.length) { hablar('No hay resultados.', () => iniciarEscucha()); return; }
         const txt = S.resultados.map((p,i) => `Opción ${i+1}: ${describirCorto(p)}.`).join(' ');
-        hablar(`Te leo las ${numeroAPalabrasEspanol(S.resultados.length)} opciones. ${txt}`, () => iniciarEscucha());
+        hablar(`Te leo las ${numeroAPalabrasEspanol(S.resultados.length)} opciones. ${txt}`, () => iniciarEscucha(), { rate: CFG.TTS_RATE_PRECIO });
         return;
       }
       // ---- ENVIAR LOTE ----
@@ -927,11 +1029,12 @@
         } else {
           const n = extraerNumeroOpcion(transcript);
           if (n && n >= 1 && n <= S.resultados.length) idx = n - 1;
-          else if (S.indiceFichaEnResultados >= 0) idx = S.indiceFichaEnResultados;
-          else idx = 0;
+          else if (S.indiceFichaEnResultados >= 0 && S.indiceFichaEnResultados < S.resultados.length) idx = S.indiceFichaEnResultados;
+          else if (S.fase === 'LEYENDO_FICHA' && S.indiceFichaEnResultados >= 0) idx = S.indiceFichaEnResultados;
+          else idx = null;
         }
 
-        // FIX: si no se pudo extraer número y el comando lo requería, preguntar
+        // Si no se pudo determinar el índice, preguntar
         if (idx === null || idx < 0 || idx >= S.resultados.length) {
           hablar('¿Qué número de opción? Puedes decir "la uno", "la dos" o "la tres".', () => iniciarEscucha());
           return;
@@ -962,7 +1065,6 @@
       // ---- FALLBACK: BUSCAR ----
       const nuevos = extraerFiltros(transcript);
 
-      // Si no hay filtros extraídos, intentar como zona suelta
       if (Object.keys(nuevos).length === 0) {
         const zona = detectarZonaSuelta(transcript);
         if (zona) {
@@ -973,17 +1075,15 @@
 
       const tieneNuevos = Object.keys(nuevos).length > 0;
 
-      // ⚠️ Si NO hay filtros nuevos, no reiniciar búsqueda — guiar al usuario
       if (!tieneNuevos) {
         if (S.resultados.length > 0 && (S.fase === 'SELECCIONANDO' || S.fase === 'LEYENDO_FICHA')) {
-          hablar('No entendí ese comando. Puedes decir "leer la uno", "siguiente", "anterior", "enviar la dos a mi WhatsApp", "contactar al agente", "enviar todas", "más barato", "más caro", "abrir mapa", o dime nuevos filtros para añadir a la búsqueda actual. Por ejemplo: "que tenga tres habitaciones" o "con piscina".', () => iniciarEscucha());
+          hablar('No entendí ese comando. Puedes decir "leer la uno", "siguiente", "anterior", "enviar la dos a mi WhatsApp", "contactar al agente", "enviar todas", "más barato", "más caro", "abrir mapa", "volver a la lista", o dime nuevos filtros para añadir a la búsqueda actual.', () => iniciarEscucha());
         } else {
-          hablar('No entendí qué buscar. Puedes decir solo una zona como "Prebo", o combinar filtros: "casa en venta en Prebo hasta cien mil dólares con tres habitaciones". También puedes decir "ayuda" para escuchar todos los comandos.', () => iniciarEscucha());
+          hablar('No entendí qué buscar. Puedes decir solo una zona como "Prebo", o combinar filtros: "casa en venta en Prebo hasta cien mil dólares con tres habitaciones". También puedes decir "ayuda" para ver todos los comandos en pantalla.', () => iniciarEscucha());
         }
         return;
       }
 
-      // Filtros progresivos: si ya había resultados y estamos añadiendo filtros, anunciar
       const habiaResultados = S.resultados.length > 0;
       const filtrosAntes = { ...S.filtros };
       S.filtros = Object.assign({}, S.filtros, nuevos);
@@ -992,7 +1092,6 @@
       const resultados = await buscarInmuebles(S.filtros);
 
       if (!resultados.length) {
-        // Si no hay resultados, ofrecer quitar el último filtro
         if (habiaResultados) {
           S.filtros = filtrosAntes;
           hablar('Con ese filtro no quedan inmuebles. Vuelvo a la búsqueda anterior. Puedes intentar otro filtro o cambiar de búsqueda.', () => iniciarEscucha());
@@ -1019,7 +1118,6 @@
     }
   }
 
-  // Describir filtros añadidos para feedback hablado
   function describirFiltrosAñadidos(f) {
     const partes = [];
     if (f.operacion) partes.push('operación ' + f.operacion.toLowerCase());
@@ -1070,7 +1168,6 @@
     const waModal = document.getElementById('ecoVoiceWaModal');
     if (waModal) waModal.remove();
 
-    // INTERRUPCIÓN: si Eco está hablando, cortar TTS y abrir micrófono
     if (S.synth && S.synth.speaking) {
       detenerHabla();
       S.activo = true;
@@ -1080,7 +1177,6 @@
       return;
     }
 
-    // Reactivar sesión existente
     if (S.activo) {
       mostrarUI('Te escucho...');
       try { S.rec.abort(); } catch (e) {}
@@ -1088,22 +1184,25 @@
       return;
     }
 
-    // Nueva sesión
     S.activo = true; S.fase = 'IDLE';
     mostrarUI(`${CFG.NOMBRE} te está escuchando...`);
-    const saludo = `Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Estoy listo para ayudarte. Puedes decirme solo una zona, como "Prebo", o combinar: "casa en venta en Prebo hasta cien mil dólares", o "apartamento en alquiler en Naguanagua con tres habitaciones".`;
+
+    // Mostrar panel de ayuda al iniciar
+    mostrarPanelAyuda();
+
+    const saludo = `Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Te dejé un panel de ayuda en pantalla con los comandos más útiles. Dime solo una zona como "Prebo", o combina filtros: "casa en venta en Prebo hasta cien mil dólares".`;
     hablar(saludo, () => { if (S.activo) iniciarEscucha(); });
   };
 
   window.detenerAsistenteVoz = function () {
     S.activo = false; S.fase = 'IDLE';
-    detenerHabla(); detenerEscucha(); cerrarCarrusel(); ocultarUI(); liberarWakeLock();
+    detenerHabla(); detenerEscucha(); cerrarCarrusel(); ocultarUI(); ocultarPanelAyuda(); liberarWakeLock();
   };
 
   window.cerrarModalCarruselVoz = function () { cerrarCarrusel(); };
 
   // ============================================================
-  // VISIBILITY RESUME (cuando el usuario vuelve de WhatsApp)
+  // VISIBILITY RESUME
   // ============================================================
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && S.activo && !S.micOn && !S.procesando) {
@@ -1122,7 +1221,7 @@
     S.rec = initReconocimiento();
     if (!S.rec) console.warn('[Eco] Reconocimiento de voz NO soportado');
     getDb();
-    console.log('[Eco v4] Asistente listo — motor conversacional blindado');
+    console.log('[Eco v5] Asistente listo — fixes: ficha+modal, TTS precios, panel ayuda');
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
