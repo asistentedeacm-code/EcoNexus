@@ -3,17 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  
-  <title>Directorio de Agentes | EcoNexus</title>
-  <meta name="description" content="Encuentra a los mejores asesores inmobiliarios y realtors en Venezuela a través de EcoNexus." />
-  
-  <!-- Tailwind CSS -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <title>Directorio de Agentes Inmobiliarios en Venezuela | EcoNexus Platform</title>
+  <meta name="description" id="metaDescription" content="Encuentra a los mejores asesores inmobiliarios y realtors en Venezuela. Directorio verificado con reseñas reales, contacto directo por WhatsApp y especialistas en Carabobo, Aragua, Caracas y todo el país. Respaldado por EcoNexus Platform." />
+  <meta name="keywords" content="agentes inmobiliarios Venezuela, realtor Carabobo, asesor inmobiliario Valencia, directorio inmobiliario, corredor de bienes raíces, bienes raíces Venezuela, agentes certificados, realtor Aragua, inmobiliaria Caracas, Proptech Venezuela, EcoNexus Platform, agentes de seguros, casas en venta, apartamentos en alquiler" />
+  <meta name="author" content="EcoNexus Platform" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://econexusplatform.com/busqueda-agente.html" id="canonicalUrl" />
+
+  <link rel="alternate" hreflang="es-ve" href="https://econexusplatform.com/busqueda-agente.html" />
+  <link rel="alternate" hreflang="es" href="https://econexusplatform.com/busqueda-agente.html" />
+  <link rel="alternate" hreflang="x-default" href="https://econexusplatform.com/busqueda-agente.html" />
+
+  <!-- GEOPRESENCIA -->
+  <meta name="geo.region" content="VE" />
+  <meta name="geo.placename" content="Venezuela" />
+  <meta name="geo.position" content="10.1620;-68.0077" />
+  <meta name="ICBM" content="10.1620, -68.0077" />
+  <meta name="DC.title" content="Directorio de Agentes Inmobiliarios - EcoNexus Platform" />
+  <meta name="DC.subject" content="Bienes Raíces Venezuela" />
+  <meta name="DC.coverage" content="Venezuela" />
+  <meta name="DC.language" content="es-VE" />
+
+  <!-- PRECONNECT -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://gvcklmqldswxfweliuio.supabase.co" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://wa.me" />
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="EcoNexus Platform" />
+  <meta property="og:locale" content="es_VE" />
+  <meta property="og:title" content="Directorio de Agentes Inmobiliarios en Venezuela | EcoNexus" id="ogTitle" />
+  <meta property="og:description" content="Encuentra y contacta a los mejores asesores inmobiliarios de Venezuela. Directorio verificado con reseñas reales y respaldo tecnológico de EcoNexus Platform." id="ogDescription" />
+  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="ogImage" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Directorio de Agentes Inmobiliarios EcoNexus" />
+  <meta property="og:url" content="https://econexusplatform.com/busqueda-agente.html" id="ogUrl" />
+
+  <!-- TWITTER / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@econexusplatform" />
+  <meta name="twitter:creator" content="@econexusplatform" />
+  <meta name="twitter:title" content="Directorio de Agentes Inmobiliarios | EcoNexus" id="twTitle" />
+  <meta name="twitter:description" content="Conecta con asesores inmobiliarios verificados en Venezuela. Reseñas reales, contacto directo." id="twDescription" />
+  <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
+
+  <!-- JSON-LD ESTÁTICO: ORGANIZACIÓN -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EcoNexus Platform",
+    "url": "https://econexusplatform.com",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    "description": "Plataforma tecnológica de bienes raíces en Venezuela. Directorio de agentes y catálogo inmobiliario verificado.",
+    "areaServed": { "@type": "Country", "name": "Venezuela" }
+  }
+  </script>
+
+  <!-- JSON-LD ESTÁTICO: WEBSITE + SEARCHACTION -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "EcoNexus Platform",
+    "url": "https://econexusplatform.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://econexusplatform.com/busqueda-agente.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- JSON-LD DINÁMICOS -->
+  <script type="application/ld+json" id="jsonLdBreadcrumb">{}</script>
+  <script type="application/ld+json" id="jsonLdAgentsList">{}</script>
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+
   <style>
     .hide-scrollbars::-webkit-scrollbar { display: none; }
     .hide-scrollbars { -ms-overflow-style: none; scrollbar-width: none; }
@@ -30,8 +106,8 @@
     <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center">
       <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
       <div class="mb-6 border-b border-gray-100 pb-6 mt-2">
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Directorio de <span class="text-econexus">Agentes</span></h1>
-          <p class="text-gray-500 text-sm sm:text-base px-2">Encuentra a los mejores asesores inmobiliarios evaluados por nuestra comunidad.</p>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Directorio de <span class="text-econexus">Agentes</span></h1>
+        <p class="text-gray-500 text-sm sm:text-base px-2">Encuentra a los mejores asesores inmobiliarios evaluados por nuestra comunidad.</p>
       </div>
       <div class="flex items-center justify-center space-x-2 text-amber-600 font-bold mb-3">
         <i class="fa-solid fa-scale-balanced text-lg"></i>
@@ -68,7 +144,7 @@
     </div>
   </div>
 
-  <!-- MODAL DE ADVERTENCIA ANTES DE WHATSAPP -->
+  <!-- MODAL ADVERTENCIA ANTES DE WHATSAPP -->
   <div id="modalConfirmarWhatsApp" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
       <button onclick="cerrarModalWhatsApp()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -81,10 +157,9 @@
     </div>
   </div>
 
-  <!-- HEADER RESPONSIVO -->
+  <!-- HEADER -->
   <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
     <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-3">
-      <!-- Logo y Textos -->
       <div class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0" onclick="window.location.href='index.html'">
         <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow" onerror="this.src='logo.png'" />
         <div class="flex flex-col">
@@ -92,7 +167,6 @@
           <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">DIRECTORIO DE AGENTES</span>
         </div>
       </div>
-      <!-- Controles -->
       <div class="flex items-center gap-2 sm:gap-4 ml-auto">
         <button onclick="window.location.href='index.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
           <i class="fa-solid fa-house-chimney text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Ver Inmuebles
@@ -104,7 +178,7 @@
     </div>
   </header>
 
-  <!-- BANNER HERO -->
+  <!-- HERO -->
   <section class="bg-econexus-soft border-b border-green-200 py-8 px-4">
     <div class="max-w-4xl mx-auto text-center">
       <h1 class="text-xl md:text-3xl font-extrabold text-econexus mb-2">Encuentra a tu <span class="text-green-600">Realtor Ideal</span></h1>
@@ -112,70 +186,95 @@
     </div>
   </section>
 
-  <!-- BÚSQUEDA DE AGENTES -->
+  <!-- BÚSQUEDA -->
   <section class="max-w-7xl mx-auto px-4 py-5 w-full">
     <div class="bg-white rounded-xl p-2.5 shadow-sm border border-gray-100 flex relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-5 top-5 text-gray-400"></i>
-        <input type="text" id="filtroAgentes" onkeyup="filtrarAgentes(this.value)" placeholder="Buscar por nombre o agencia..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus transition" />
+      <i class="fa-solid fa-magnifying-glass absolute left-5 top-5 text-gray-400"></i>
+      <input type="text" id="filtroAgentes" onkeyup="filtrarAgentes(this.value)" placeholder="Buscar por nombre o agencia..." class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus transition" />
     </div>
   </section>
 
-  <!-- GRILLA DE AGENTES -->
+  <!-- GRILLA -->
   <main class="max-w-7xl mx-auto px-4 pb-16 flex-grow w-full">
-    
     <div id="loadingSpinner" class="text-center py-20">
       <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
       <p class="text-gray-500 text-sm font-medium">Sincronizando perfiles...</p>
     </div>
-    
-    <div id="gridAgentes" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 hidden">
-        <!-- Generado por JS -->
-    </div>
-
+    <div id="gridAgentes" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 hidden"></div>
     <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
       <i class="fa-solid fa-users-slash text-4xl text-gray-300 mb-4"></i>
       <h3 class="text-lg font-bold text-gray-700 mb-1">No hay agentes encontrados</h3>
     </div>
   </main>
 
-  <!-- MODAL DE DATOS DEL AGENTE Y RESEÑAS -->
+  <!-- MODAL DE AGENTE -->
   <div id="modalAgente" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[70] flex items-center justify-center p-3 md:p-4 hidden overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative border-t-4 border-econexus">
       <button onclick="cerrarModalAgente()" class="absolute top-3 right-3 z-[80] bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div class="p-6 md:p-8" id="modalAgenteContent">
-        <!-- Contenido Inyectado Dinámicamente -->
-      </div>
+      <div class="p-6 md:p-8" id="modalAgenteContent"></div>
     </div>
   </div>
 
-  <!-- PIE DE PÁGINA -->
+  <!-- FOOTER -->
   <footer class="bg-econexus-dark text-white py-6 mt-auto border-t border-green-900">
     <div class="max-w-7xl mx-auto px-4 text-center">
       <p class="text-[10px] text-green-300 mb-1">EcoNexus Real Estate Platform / Inmoinnova</p>
       <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
-
-  <script>
+    <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
+
     let todosLosAgentes = [];
     let reseñasGlobales = [];
     let agenteActivoModal = null;
     let puntajeSeleccionado = 5;
     let waUrlPendiente = '';
+    let agentePendienteModal = null;
 
+    // ============================================================
+    // INICIO: lee ?id= o ?agente=, carga directorio, abre modal
+    // ============================================================
     document.addEventListener("DOMContentLoaded", async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const agentIdParam = urlParams.get('id') || urlParams.get('agente');
+
+      if (agentIdParam) {
+        const canonical = document.getElementById('canonicalUrl');
+        if (canonical) canonical.setAttribute('href', window.location.href);
+        const ogUrl = document.getElementById('ogUrl');
+        if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+      }
+
       await cargarDatosDirectorio();
+
+      if (agentIdParam) {
+        const agenteObjetivo = todosLosAgentes.find(a => a.id === agentIdParam);
+        if (agenteObjetivo) {
+          agentePendienteModal = agenteObjetivo.id;
+          abrirModalAgente(agenteObjetivo.id);
+        } else {
+          console.warn('[EcoNexus] Agente no encontrado con ID:', agentIdParam);
+        }
+      }
     });
 
     function cerrarAvisoInstantaneo() {
       document.getElementById("modalAvisoInstantaneo").classList.add("hidden");
+      if (agentePendienteModal) {
+        setTimeout(() => {
+          const ratingSection = document.getElementById('selectorEstrellas');
+          if (ratingSection) ratingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 350);
+        agentePendienteModal = null;
+      }
     }
 
+    // ============================================================
+    // CARGA DE DATOS
+    // ============================================================
     async function cargarDatosDirectorio() {
       try {
         const { data: perfiles, error: errPerfiles } = await dbClient.from('perfiles').select('*');
@@ -186,286 +285,387 @@
         reseñasGlobales = reseñas || [];
 
         const agentesMapeados = [];
-        
-        if (perfiles) {
-            perfiles.forEach(p => {
-                const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
-                const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
-                
-                const resenasAgente = reseñasGlobales.filter(r => r.agente_id === p.id);
-                const totalResenas = resenasAgente.length;
-                const promedio = totalResenas > 0 ? (resenasAgente.reduce((acc, curr) => acc + curr.puntuacion, 0) / totalResenas) : 0;
-                
-                // Algoritmo de completitud del perfil (+1 por foto, +1 por biografía)
-                let completitud = 0;
-                if (p.foto_perfil) completitud += 1;
-                if (p.sobre_mi) completitud += 1;
 
-                agentesMapeados.push({
-                    id: p.id,
-                    nombre: p.nombre_agente || "Asesor Inmobiliario",
-                    telefono: p.telefono ? p.telefono.replace(/[^0-9]/g, '') : '',
-                    foto: p.foto_perfil || '',
-                    sobreMi: p.sobre_mi || 'Asesor Inmobiliario registrado en la red EcoNexus.',
-                    esAgencia: esAgencia,
-                    agenciaDisplay: agenciaDisplay,
-                    promedio: promedio,
-                    completitud: completitud,
-                    porcentaje: (promedio / 5) * 100,
-                    totalResenas: totalResenas,
-                    resenas: resenasAgente
-                });
+        if (perfiles) {
+          perfiles.forEach(p => {
+            const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
+            const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
+
+            const resenasAgente = reseñasGlobales.filter(r => r.agente_id === p.id);
+            const totalResenas = resenasAgente.length;
+            const promedio = totalResenas > 0 ? (resenasAgente.reduce((acc, curr) => acc + curr.puntuacion, 0) / totalResenas) : 0;
+
+            let completitud = 0;
+            if (p.foto_perfil) completitud += 1;
+            if (p.sobre_mi) completitud += 1;
+
+            agentesMapeados.push({
+              id: p.id,
+              nombre: p.nombre_agente || "Asesor Inmobiliario",
+              telefono: p.telefono ? p.telefono.replace(/[^0-9]/g, '') : '',
+              foto: p.foto_perfil || '',
+              sobreMi: p.sobre_mi || 'Asesor Inmobiliario registrado en la red EcoNexus.',
+              esAgencia: esAgencia,
+              agenciaDisplay: agenciaDisplay,
+              promedio: promedio,
+              completitud: completitud,
+              porcentaje: (promedio / 5) * 100,
+              totalResenas: totalResenas,
+              resenas: resenasAgente
             });
+          });
         }
 
-        // Orden de posicionamiento: 1. Puntuación | 2. Completitud del Perfil | 3. Total de Reseñas
-        todosLosAgentes = agentesMapeados.sort((a, b) => b.promedio - a.promedio || b.completitud - a.completitud || b.totalResenas - a.totalResenas);
-        
+        todosLosAgentes = agentesMapeados.sort((a, b) =>
+          b.promedio - a.promedio ||
+          b.completitud - a.completitud ||
+          b.totalResenas - a.totalResenas
+        );
+
         document.getElementById("loadingSpinner").classList.add("hidden");
         renderizarAgentes(todosLosAgentes);
 
+        // SEO dinámico después de cargar
+        actualizarSeoDinamico();
       } catch (err) {
         console.error("Error cargando directorio:", err);
         document.getElementById("loadingSpinner").innerHTML = `<p class="text-red-500 text-sm">Error conectando con la red.</p>`;
       }
     }
 
-    function generarEstrellasHTML(promedio) {
-        let html = '';
-        for (let i = 1; i <= 5; i++) {
-            if (promedio >= i) {
-                html += '<i class="fa-solid fa-star"></i>';
-            } else if (promedio >= i - 0.5) {
-                html += '<i class="fa-solid fa-star-half-stroke"></i>';
-            } else {
-                html += '<i class="fa-regular fa-star text-gray-300"></i>';
+    // ============================================================
+    // SEO DINÁMICO (meta description + JSON-LD ItemList + Breadcrumb)
+    // ============================================================
+    function actualizarSeoDinamico() {
+      if (todosLosAgentes.length === 0) return;
+      const total = todosLosAgentes.length;
+      const agencias = todosLosAgentes.filter(a => a.esAgencia).length;
+      const independientes = total - agencias;
+
+      // Meta description dinámica (refuerza long-tail)
+      const descDinamica = `Directorio verificado de ${total} agentes inmobiliarios en Venezuela (${agencias} agencias + ${independientes} independientes). Reseñas reales, contacto directo por WhatsApp. Respaldado por EcoNexus Platform.`;
+      const metaDesc = document.getElementById('metaDescription');
+      if (metaDesc) metaDesc.setAttribute('content', descDinamica);
+      const ogDesc = document.getElementById('ogDescription');
+      if (ogDesc) ogDesc.setAttribute('content', descDinamica);
+      const twDesc = document.getElementById('twDescription');
+      if (twDesc) twDesc.setAttribute('content', descDinamica);
+
+      // JSON-LD Breadcrumb
+      const breadcrumb = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "EcoNexus Platform", "item": "https://econexusplatform.com" },
+          { "@type": "ListItem", "position": 2, "name": "Directorio de Agentes", "item": "https://econexusplatform.com/busqueda-agente.html" }
+        ]
+      };
+      document.getElementById('jsonLdBreadcrumb').textContent = JSON.stringify(breadcrumb);
+
+      // JSON-LD ItemList de agentes
+      const items = todosLosAgentes.map((a, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": {
+          "@type": "RealEstateAgent",
+          "name": a.nombre,
+          "image": a.foto || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+          "url": `https://econexusplatform.com/perfil-agente.html?u=${a.id}`,
+          "telephone": a.telefono ? `+${a.telefono}` : undefined,
+          "areaServed": { "@type": "Country", "name": "Venezuela" },
+          "worksFor": a.esAgencia ? { "@type": "Organization", "name": a.agenciaDisplay } : undefined,
+          ...(a.totalResenas > 0 ? {
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": Number(a.promedio.toFixed(1)),
+              "reviewCount": a.totalResenas,
+              "bestRating": 5,
+              "worstRating": 1
             }
+          } : {})
         }
-        return html;
+      }));
+      const ld = {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Directorio de Agentes Inmobiliarios EcoNexus",
+        "numberOfItems": items.length,
+        "itemListElement": items
+      };
+      document.getElementById('jsonLdAgentsList').textContent = JSON.stringify(ld);
     }
 
+    // ============================================================
+    // ESTRELLAS HTML
+    // ============================================================
+    function generarEstrellasHTML(promedio) {
+      let html = '';
+      for (let i = 1; i <= 5; i++) {
+        if (promedio >= i) html += '<i class="fa-solid fa-star"></i>';
+        else if (promedio >= i - 0.5) html += '<i class="fa-solid fa-star-half-stroke"></i>';
+        else html += '<i class="fa-regular fa-star text-gray-300"></i>';
+      }
+      return html;
+    }
+
+    // ============================================================
+    // RENDERIZAR GRILLA DE AGENTES (CON BOTÓN COMPARTIR)
+    // ============================================================
     function renderizarAgentes(lista) {
-        const grid = document.getElementById("gridAgentes");
-        const noResults = document.getElementById("noResults");
-        
-        grid.innerHTML = "";
-        
-        if (lista.length === 0) {
-            grid.classList.add("hidden"); noResults.classList.remove("hidden"); return;
-        }
+      const grid = document.getElementById("gridAgentes");
+      const noResults = document.getElementById("noResults");
+      grid.innerHTML = "";
 
-        noResults.classList.add("hidden"); grid.classList.remove("hidden");
+      if (lista.length === 0) {
+        grid.classList.add("hidden"); noResults.classList.remove("hidden"); return;
+      }
 
-        lista.forEach(agente => {
-            const badgeClass = agente.esAgencia ? "bg-econexus-soft text-econexus border-green-200" : "bg-gray-100 text-gray-600 border-gray-200";
-            
-            const fotoHTML = agente.foto 
-                ? `<img src="${agente.foto}" alt="${agente.nombre}" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-gray-50 shadow-sm mx-auto mb-3" />`
-                : `<div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-4 border-gray-50 shadow-sm mx-auto mb-3"><i class="fa-solid fa-user"></i></div>`;
+      noResults.classList.add("hidden"); grid.classList.remove("hidden");
 
-            grid.innerHTML += `
-                <div onclick="abrirModalAgente('${agente.id}')" class="bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 p-4 flex flex-col h-full transition duration-300 cursor-pointer">
-                    <div class="text-center flex-grow">
-                        ${fotoHTML}
-                        <h3 class="font-bold text-gray-900 text-xs md:text-sm leading-tight mb-1 truncate" title="${agente.nombre}">${agente.nombre}</h3>
-                        <div class="inline-flex items-center justify-center gap-1.5 px-2 py-1 rounded-md text-[9px] md:text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
-                            <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agente.agenciaDisplay}</span>
-                        </div>
-                        <div class="flex flex-col items-center justify-center gap-0.5 mt-2">
-                            <div class="star-rating text-xs md:text-sm">${generarEstrellasHTML(agente.promedio)}</div>
-                            <span class="text-[10px] text-gray-500 font-bold">${agente.promedio.toFixed(1)}/5 (${agente.totalResenas} reseñas)</span>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-3 border-t border-gray-100">
-                         <button class="w-full bg-econexus-soft text-econexus font-bold py-2 rounded-lg text-xs md:text-sm border border-green-200 transition hover:bg-green-100">
-                             Ver Perfil Completo
-                         </button>
-                    </div>
-                </div>
-            `;
-        });
+      lista.forEach(agente => {
+        const badgeClass = agente.esAgencia ? "bg-econexus-soft text-econexus border-green-200" : "bg-gray-100 text-gray-600 border-gray-200";
+
+        const fotoHTML = agente.foto
+          ? `<img src="${agente.foto}" alt="${agente.nombre} - Agente Inmobiliario Venezuela" loading="lazy" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-gray-50 shadow-sm mx-auto mb-3" />`
+          : `<div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-4 border-gray-50 shadow-sm mx-auto mb-3"><i class="fa-solid fa-user"></i></div>`;
+
+        grid.innerHTML += `
+          <div onclick="abrirModalAgente('${agente.id}')" class="bg-white rounded-xl shadow-sm hover:shadow-md border border-gray-200 p-4 flex flex-col h-full transition duration-300 cursor-pointer">
+            <div class="text-center flex-grow">
+              ${fotoHTML}
+              <h3 class="font-bold text-gray-900 text-xs md:text-sm leading-tight mb-1 truncate" title="${agente.nombre}">${agente.nombre}</h3>
+              <div class="inline-flex items-center justify-center gap-1.5 px-2 py-1 rounded-md text-[9px] md:text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
+                <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agente.agenciaDisplay}</span>
+              </div>
+              <div class="flex flex-col items-center justify-center gap-0.5 mt-2">
+                <div class="star-rating text-xs md:text-sm">${generarEstrellasHTML(agente.promedio)}</div>
+                <span class="text-[10px] text-gray-500 font-bold">${agente.promedio.toFixed(1)}/5 (${agente.totalResenas} reseñas)</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-gray-100 flex gap-2">
+              <button class="flex-1 bg-econexus-soft text-econexus font-bold py-2 rounded-lg text-xs md:text-sm border border-green-200 transition hover:bg-green-100">
+                Ver Perfil Completo
+              </button>
+              <button onclick="compartirAgente(event, '${agente.id}')" title="Compartir perfil en WhatsApp" class="w-9 md:w-10 h-auto min-h-[34px] bg-gray-100 hover:bg-[#25D366] text-gray-600 hover:text-white rounded-lg flex items-center justify-center transition border border-gray-200 hover:border-[#25D366]" aria-label="Compartir perfil">
+                <i class="fa-solid fa-share-nodes text-xs md:text-sm"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
     }
 
     function filtrarAgentes(texto) {
-        const query = texto.toLowerCase().trim();
-        const filtrados = todosLosAgentes.filter(a => 
-            a.nombre.toLowerCase().includes(query) || a.agenciaDisplay.toLowerCase().includes(query)
-        );
-        renderizarAgentes(filtrados);
+      const query = texto.toLowerCase().trim();
+      const filtrados = todosLosAgentes.filter(a =>
+        a.nombre.toLowerCase().includes(query) || a.agenciaDisplay.toLowerCase().includes(query)
+      );
+      renderizarAgentes(filtrados);
     }
 
-    function abrirModalAgente(id) {
-        agenteActivoModal = todosLosAgentes.find(a => a.id === id);
-        if(!agenteActivoModal) return;
-        
-        let htmlResenas = '';
-        if(agenteActivoModal.resenas.length > 0) {
-            agenteActivoModal.resenas.forEach(r => {
-                htmlResenas += `
-                <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 mb-2">
-                    <div class="star-rating text-[10px] mb-1">${generarEstrellasHTML(r.puntuacion)}</div>
-                    <p class="text-xs text-gray-700 italic">"${r.comentario}"</p>
-                </div>`;
-            });
-        } else {
-            htmlResenas = `<p class="text-xs text-gray-400 text-center py-4">Aún no hay reseñas. ¡Sé el primero en calificar!</p>`;
+    // ============================================================
+    // 🆕 COMPARTIR AGENTE (WEB SHARE API + FALLBACK WHATSAPP)
+    // ============================================================
+    async function compartirAgente(event, id) {
+      if (event) event.stopPropagation(); // evita que se abra el modal al tocar
+      const agente = todosLosAgentes.find(a => a.id === id);
+      if (!agente) return;
+
+      const url = `https://econexusplatform.com/perfil-agente.html?u=${id}`;
+      const textoWA = `🏠 ${agente.nombre} — Asesor Inmobiliario en EcoNexus Platform (Venezuela).\nConsulta su portafolio verificado aquí:`;
+
+      // Intento 1: Web Share API (nativo móvil → WhatsApp, Instagram, Telegram, etc.)
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `Perfil de ${agente.nombre} | EcoNexus`,
+            text: `Descubre el portafolio inmobiliario verificado de ${agente.nombre} en EcoNexus Platform.`,
+            url: url
+          });
+          return;
+        } catch (e) {
+          if (e.name === 'AbortError') return; // usuario canceló
+          // cualquier otro error → fallback
         }
+      }
 
-        const badgeClass = agenteActivoModal.esAgencia ? "bg-econexus-soft text-econexus border-green-200" : "bg-gray-100 text-gray-600 border-gray-200";
-        const fotoHTML = agenteActivoModal.foto 
-            ? `<img src="${agenteActivoModal.foto}" class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 shadow-sm shrink-0" />`
-            : `<div class="w-20 h-20 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-2 border-gray-200 shadow-sm shrink-0"><i class="fa-solid fa-user"></i></div>`;
-
-        document.getElementById("modalAgenteContent").innerHTML = `
-            <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6 border-b border-gray-100 pb-6 text-center md:text-left">
-                ${fotoHTML}
-                <div class="flex-1 overflow-hidden">
-                    <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 truncate" title="${agenteActivoModal.nombre}">${agenteActivoModal.nombre}</h2>
-                    <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
-                        <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agenteActivoModal.agenciaDisplay}</span>
-                    </div>
-                    <div class="flex flex-col md:flex-row items-center md:justify-start gap-1 md:gap-3">
-                        <div class="star-rating text-sm md:text-base">${generarEstrellasHTML(agenteActivoModal.promedio)}</div>
-                        <span class="text-[11px] font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-full">${agenteActivoModal.porcentaje.toFixed(0)}% de Satisfacción</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-6">
-                <h3 class="text-sm font-bold text-gray-900 mb-2">Sobre Mí</h3>
-                <p class="text-xs md:text-sm text-gray-600 leading-relaxed whitespace-pre-line bg-gray-50 p-4 rounded-xl border border-gray-100">${agenteActivoModal.sobreMi}</p>
-            </div>
-
-            <!-- Botón que activa el modal de advertencia de WhatsApp -->
-            <div class="mb-8 bg-green-50/50 p-4 rounded-xl border border-green-100">
-                <p class="text-[10px] text-gray-500 mb-2.5 leading-tight text-center md:text-left"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i>Al hacer clic en contactar asumes la total responsabilidad de la comunicación directa con el agente.</p>
-                <button onclick="prepararContacto('${agenteActivoModal.telefono}', '${agenteActivoModal.nombre}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Contactar vía WhatsApp
-                </button>
-            </div>
-
-            <!-- Sección de Reseñas -->
-            <div class="bg-white rounded-xl border border-gray-200 p-4 mb-5 shadow-sm">
-                <h3 class="text-sm font-bold text-gray-900 mb-3 border-b border-gray-100 pb-2">Dejar una Reseña</h3>
-                
-                <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3" id="selectorEstrellas">
-                    <span class="text-xs font-bold text-gray-700">Calificación:</span>
-                    <div class="star-rating text-xl cursor-pointer flex gap-2 justify-center sm:justify-start">
-                        <i class="fa-solid fa-star" onclick="seleccionarEstrellas(1)"></i>
-                        <i class="fa-solid fa-star" onclick="seleccionarEstrellas(2)"></i>
-                        <i class="fa-solid fa-star" onclick="seleccionarEstrellas(3)"></i>
-                        <i class="fa-solid fa-star" onclick="seleccionarEstrellas(4)"></i>
-                        <i class="fa-solid fa-star" onclick="seleccionarEstrellas(5)"></i>
-                    </div>
-                </div>
-                
-                <textarea id="textoResena" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-econexus mb-3 resize-none h-20" placeholder="¿Cómo fue tu experiencia con este agente? (Opcional)"></textarea>
-                
-                <button onclick="enviarResena()" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-3 rounded-xl transition shadow">
-                    Enviar Calificación Pública
-                </button>
-            </div>
-
-            <div>
-                <h3 class="text-sm font-bold text-gray-900 mb-3">Reseñas de la Comunidad (${agenteActivoModal.totalResenas})</h3>
-                <div class="max-h-56 overflow-y-auto pr-2 custom-scrollbar">
-                    ${htmlResenas}
-                </div>
-            </div>
-        `;
-        puntajeSeleccionado = 5;
-        document.getElementById("modalAgente").classList.remove("hidden");
+      // Fallback 2: WhatsApp Web / desktop directo
+      window.open(`https://wa.me/?text=${encodeURIComponent(textoWA + '\n' + url)}`, '_blank', 'noopener');
     }
 
-    function cerrarModalAgente() { document.getElementById("modalAgente").classList.add("hidden"); agenteActivoModal = null; }
+    // ============================================================
+    // MODAL DE AGENTE
+    // ============================================================
+    function abrirModalAgente(id) {
+      agenteActivoModal = todosLosAgentes.find(a => a.id === id);
+      if (!agenteActivoModal) return;
+
+      let htmlResenas = '';
+      if (agenteActivoModal.resenas.length > 0) {
+        agenteActivoModal.resenas.forEach(r => {
+          htmlResenas += `
+          <div class="bg-gray-50 p-3 rounded-xl border border-gray-100 mb-2">
+            <div class="star-rating text-[10px] mb-1">${generarEstrellasHTML(r.puntuacion)}</div>
+            <p class="text-xs text-gray-700 italic">"${r.comentario}"</p>
+          </div>`;
+        });
+      } else {
+        htmlResenas = `<p class="text-xs text-gray-400 text-center py-4">Aún no hay reseñas. ¡Sé el primero en calificar!</p>`;
+      }
+
+      const badgeClass = agenteActivoModal.esAgencia ? "bg-econexus-soft text-econexus border-green-200" : "bg-gray-100 text-gray-600 border-gray-200";
+      const fotoHTML = agenteActivoModal.foto
+        ? `<img src="${agenteActivoModal.foto}" alt="${agenteActivoModal.nombre}" class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 shadow-sm shrink-0" />`
+        : `<div class="w-20 h-20 rounded-full bg-econexus-soft text-econexus flex items-center justify-center font-bold text-3xl border-2 border-gray-200 shadow-sm shrink-0"><i class="fa-solid fa-user"></i></div>`;
+
+      document.getElementById("modalAgenteContent").innerHTML = `
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-4 mb-6 border-b border-gray-100 pb-6 text-center md:text-left">
+          ${fotoHTML}
+          <div class="flex-1 overflow-hidden">
+            <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 truncate" title="${agenteActivoModal.nombre}">${agenteActivoModal.nombre}</h2>
+            <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase border ${badgeClass} mt-1 mb-2 max-w-full">
+              <i class="fa-solid fa-building-user shrink-0"></i> <span class="truncate">${agenteActivoModal.agenciaDisplay}</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-center md:justify-start gap-1 md:gap-3">
+              <div class="star-rating text-sm md:text-base">${generarEstrellasHTML(agenteActivoModal.promedio)}</div>
+              <span class="text-[11px] font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded-full">${agenteActivoModal.porcentaje.toFixed(0)}% de Satisfacción</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-sm font-bold text-gray-900 mb-2">Sobre Mí</h3>
+          <p class="text-xs md:text-sm text-gray-600 leading-relaxed whitespace-pre-line bg-gray-50 p-4 rounded-xl border border-gray-100">${agenteActivoModal.sobreMi}</p>
+        </div>
+
+        <div class="mb-8 bg-green-50/50 p-4 rounded-xl border border-green-100">
+          <p class="text-[10px] text-gray-500 mb-2.5 leading-tight text-center md:text-left"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i>Al hacer clic en contactar asumes la total responsabilidad de la comunicación directa con el agente.</p>
+          <div class="grid grid-cols-[1fr_auto] gap-2">
+            <button onclick="prepararContacto('${agenteActivoModal.telefono}', '${agenteActivoModal.nombre.replace(/'/g, "\\'")}')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl shadow-md transition flex items-center justify-center gap-2 text-sm">
+              <i class="fa-brands fa-whatsapp text-lg"></i> Contactar vía WhatsApp
+            </button>
+            <button onclick="compartirAgente(event, '${agenteActivoModal.id}')" title="Compartir perfil" class="bg-gray-100 hover:bg-econexus hover:text-white text-gray-700 px-4 rounded-xl shadow-sm transition border border-gray-200 flex items-center justify-center" aria-label="Compartir perfil">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 p-4 mb-5 shadow-sm">
+          <h3 class="text-sm font-bold text-gray-900 mb-3 border-b border-gray-100 pb-2">Dejar una Reseña</h3>
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2 mb-3" id="selectorEstrellas">
+            <span class="text-xs font-bold text-gray-700">Calificación:</span>
+            <div class="star-rating text-xl cursor-pointer flex gap-2 justify-center sm:justify-start">
+              <i class="fa-solid fa-star" onclick="seleccionarEstrellas(1)"></i>
+              <i class="fa-solid fa-star" onclick="seleccionarEstrellas(2)"></i>
+              <i class="fa-solid fa-star" onclick="seleccionarEstrellas(3)"></i>
+              <i class="fa-solid fa-star" onclick="seleccionarEstrellas(4)"></i>
+              <i class="fa-solid fa-star" onclick="seleccionarEstrellas(5)"></i>
+            </div>
+          </div>
+          <textarea id="textoResena" class="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-xs focus:outline-none focus:ring-2 focus:ring-econexus mb-3 resize-none h-20" placeholder="¿Cómo fue tu experiencia con este agente? (Opcional)"></textarea>
+          <button onclick="enviarResena(event)" class="w-full bg-gray-900 hover:bg-black text-white text-xs font-bold py-3 rounded-xl transition shadow">
+            Enviar Calificación Pública
+          </button>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold text-gray-900 mb-3">Reseñas de la Comunidad (${agenteActivoModal.totalResenas})</h3>
+          <div class="max-h-56 overflow-y-auto pr-2 custom-scrollbar">
+            ${htmlResenas}
+          </div>
+        </div>
+      `;
+      puntajeSeleccionado = 5;
+      document.getElementById("modalAgente").classList.remove("hidden");
+    }
+
+    function cerrarModalAgente() {
+      document.getElementById("modalAgente").classList.add("hidden");
+      agenteActivoModal = null;
+    }
 
     function seleccionarEstrellas(valor) {
-        puntajeSeleccionado = valor;
-        const contenedor = document.getElementById("selectorEstrellas").querySelectorAll("i");
-        contenedor.forEach((estrella, index) => {
-            if (index < valor) {
-                estrella.classList.remove("fa-regular", "text-gray-300");
-                estrella.classList.add("fa-solid");
-            } else {
-                estrella.classList.remove("fa-solid");
-                estrella.classList.add("fa-regular", "text-gray-300");
-            }
-        });
+      puntajeSeleccionado = valor;
+      const contenedor = document.getElementById("selectorEstrellas").querySelectorAll("i");
+      contenedor.forEach((estrella, index) => {
+        if (index < valor) {
+          estrella.classList.remove("fa-regular", "text-gray-300");
+          estrella.classList.add("fa-solid");
+        } else {
+          estrella.classList.remove("fa-solid");
+          estrella.classList.add("fa-regular", "text-gray-300");
+        }
+      });
     }
 
     function sanitizarYFiltrarTexto(texto) {
-        if (!texto) return "";
-        let limpio = texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        const groserias = ['mierda', 'puta', 'cabron', 'estafa', 'estafador', 'maldito', 'robo', 'ladron']; 
-        groserias.forEach(g => {
-            const regex = new RegExp(`\\b${g}s?\\b`, 'gi');
-            limpio = limpio.replace(regex, '***');
+      if (!texto) return "";
+      let limpio = texto.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      const groserias = ['mierda', 'puta', 'cabron', 'estafa', 'estafador', 'maldito', 'robo', 'ladron'];
+      groserias.forEach(g => {
+        const regex = new RegExp(`\\b${g}s?\\b`, 'gi');
+        limpio = limpio.replace(regex, '***');
+      });
+      return limpio;
+    }
+
+    async function enviarResena(event) {
+      if (!agenteActivoModal) return;
+      const btn = event.target;
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Registrando reseña...`;
+
+      const textoCrudo = document.getElementById("textoResena").value;
+      const textoSeguro = sanitizarYFiltrarTexto(textoCrudo);
+
+      try {
+        const { error } = await dbClient.rpc('agregar_resena_segura', {
+          p_agente_id: agenteActivoModal.id,
+          p_puntuacion: puntajeSeleccionado,
+          p_comentario: textoSeguro
         });
-        return limpio;
-    }
 
-    async function enviarResena() {
-        if (!agenteActivoModal) return;
-        
-        const btn = event.target;
-        btn.disabled = true;
-        btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Registrando reseña...`;
-
-        const textoCrudo = document.getElementById("textoResena").value;
-        const textoSeguro = sanitizarYFiltrarTexto(textoCrudo);
-
-        try {
-            const { error } = await dbClient.rpc('agregar_resena_segura', {
-                p_agente_id: agenteActivoModal.id,
-                p_puntuacion: puntajeSeleccionado,
-                p_comentario: textoSeguro
-            });
-
-            if (error) {
-                if (error.message.includes('unique constraint') || error.code === '23505') {
-                    alert("Ya calificaste a este agente anteriormente desde tu conexión (IP).");
-                } else {
-                    alert("Error al enviar la reseña. Intenta de nuevo.");
-                }
-                throw error;
-            }
-
-            alert("¡Reseña guardada con éxito!");
-            cerrarModalAgente();
-            
-            document.getElementById("loadingSpinner").classList.remove("hidden");
-            document.getElementById("gridAgentes").classList.add("hidden");
-            await cargarDatosDirectorio();
-
-        } catch (e) {
-            btn.disabled = false;
-            btn.innerHTML = `Enviar Calificación Pública`;
+        if (error) {
+          if (error.message.includes('unique constraint') || error.code === '23505') {
+            alert("Ya calificaste a este agente anteriormente desde tu conexión (IP).");
+          } else {
+            alert("Error al enviar la reseña. Intenta de nuevo.");
+          }
+          throw error;
         }
+
+        alert("¡Reseña guardada con éxito!");
+        cerrarModalAgente();
+        document.getElementById("loadingSpinner").classList.remove("hidden");
+        document.getElementById("gridAgentes").classList.add("hidden");
+        await cargarDatosDirectorio();
+      } catch (e) {
+        btn.disabled = false;
+        btn.innerHTML = `Enviar Calificación Pública`;
+      }
     }
 
-    // Funciones Modales de Advertencia Legal
     function abrirModalTerminos() { document.getElementById("modalTerminosGlobal").classList.remove("hidden"); }
     function cerrarModalTerminos() { document.getElementById("modalTerminosGlobal").classList.add("hidden"); }
-    
-    // Conexión del Botón al Modal de WhatsApp (Corregido)
+
     function prepararContacto(numero, nombre) {
-      if(!numero) {
-          alert("Este agente aún no tiene un número telefónico registrado en su perfil.");
-          return;
+      if (!numero) {
+        alert("Este agente aún no tiene un número telefónico registrado en su perfil.");
+        return;
       }
       const msjWA = encodeURIComponent(`Hola ${nombre}, requiero tus servicios como realtor.`);
       waUrlPendiente = `https://wa.me/${numero}?text=${msjWA}`;
       document.getElementById("modalConfirmarWhatsApp").classList.remove("hidden");
     }
-    
-    function cerrarModalWhatsApp() { 
-        document.getElementById("modalConfirmarWhatsApp").classList.add("hidden"); 
-        waUrlPendiente = ''; 
+
+    function cerrarModalWhatsApp() {
+      document.getElementById("modalConfirmarWhatsApp").classList.add("hidden");
+      waUrlPendiente = '';
     }
-    
-    function aceptarYContinuarWhatsApp() { 
-        if(waUrlPendiente) window.open(waUrlPendiente, '_blank'); 
-        cerrarModalWhatsApp(); 
+
+    function aceptarYContinuarWhatsApp() {
+      if (waUrlPendiente) window.open(waUrlPendiente, '_blank');
+      cerrarModalWhatsApp();
     }
   </script>
 </body>
