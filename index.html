@@ -3,23 +3,98 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
     <title>EcoNexus | Red Inmobiliaria Inteligente en Venezuela</title>
-    
-    <!-- SEO Meta Tags Venezuela -->
+
+    <!-- ═══════════════ SEO PRIMARIO ═══════════════ -->
     <meta name="description" content="Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional. Contacto directo por WhatsApp." />
-    <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus, inmobiliaria inteligente" />
+    <meta name="keywords" content="inmuebles en Venezuela, casas en venta Carabobo, apartamentos en venta Caracas, alquiler de locales Zulia, portal inmobiliario Venezuela, bienes raices Venezuela, EcoNexus, inmobiliaria inteligente, Proptech Venezuela, terrenos en venta, casas en alquiler, directorio inmobiliario nacional" />
     <meta name="author" content="EcoNexus Real Estate" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href="https://econexusplatform.com/" />
-    
-    <!-- OpenGraph -->
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://econexusplatform.com/" id="canonicalUrl" />
+
+    <!-- ═══════════════ HREFLANG ═══════════════ -->
+    <link rel="alternate" hreflang="es-ve" href="https://econexusplatform.com/" />
+    <link rel="alternate" hreflang="es" href="https://econexusplatform.com/" />
+    <link rel="alternate" hreflang="x-default" href="https://econexusplatform.com/" />
+
+    <!-- ═══════════════ GEOPRESENCIA ═══════════════ -->
+    <meta name="geo.region" content="VE" />
+    <meta name="geo.placename" content="Venezuela" />
+    <meta name="geo.position" content="10.4806;-66.9036" />
+    <meta name="ICBM" content="10.4806, -66.9036" />
+    <meta name="DC.title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
+    <meta name="DC.subject" content="Bienes Raíces Venezuela" />
+    <meta name="DC.coverage" content="Venezuela" />
+    <meta name="DC.language" content="es-VE" />
+
+    <!-- ═══════════════ PRECONNECT / DNS ═══════════════ -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://gvcklmqldswxfweliuio.supabase.co" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://wa.me" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+    <!-- ═══════════════ OPEN GRAPH ═══════════════ -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" />
-    <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." />
-    <meta property="og:url" content="https://econexusplatform.com/" />
-    <meta property="og:image" content="https://econexusplatform.com/logo.png.png" />
-    
-    <!-- Schema.org JSON-LD para Google -->
+    <meta property="og:site_name" content="EcoNexus Red Inmobiliaria" />
+    <meta property="og:locale" content="es_VE" />
+    <meta property="og:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" id="ogTitle" />
+    <meta property="og:description" content="Explora nuestro catálogo nacional de inmuebles en venta y alquiler. Contacto directo con asesores y captadores." id="ogDescription" />
+    <meta property="og:url" content="https://econexusplatform.com/" id="ogUrl" />
+    <meta property="og:image" content="https://econexusplatform.com/logo.png.png" id="ogImage" />
+    <meta property="og:image:secure_url" content="https://econexusplatform.com/logo.png.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="EcoNexus - Portal Inmobiliario Venezuela" />
+
+    <!-- ═══════════════ TWITTER / X ═══════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@econexusplatform" />
+    <meta name="twitter:creator" content="@econexusplatform" />
+    <meta name="twitter:title" content="EcoNexus | Red Inmobiliaria Inteligente en Venezuela" id="twTitle" />
+    <meta name="twitter:description" content="Catálogo nacional de inmuebles con contacto directo. Compra, venta y alquiler en Venezuela." id="twDescription" />
+    <meta name="twitter:image" content="https://econexusplatform.com/logo.png.png" id="twImage" />
+
+    <!-- ═══════════════ JSON-LD: ORGANIZATION ═══════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EcoNexus Real Estate",
+      "alternateName": "EcoNexus Platform",
+      "url": "https://econexusplatform.com/",
+      "logo": "https://econexusplatform.com/logo.png.png",
+      "description": "Red inmobiliaria inteligente en Venezuela. Catálogo nacional de inmuebles en venta y alquiler con contacto directo.",
+      "areaServed": { "@type": "Country", "name": "Venezuela" },
+      "sameAs": [
+        "https://www.instagram.com/econexusplatform",
+        "https://www.facebook.com/econexusplatform"
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════ JSON-LD: WEBSITE + SEARCHACTION ═══════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "EcoNexus Red Inmobiliaria",
+      "url": "https://econexusplatform.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://econexusplatform.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- ═══════════════ JSON-LD: REAL ESTATE AGENT ═══════════════ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -32,14 +107,22 @@
     }
     </script>
 
-    <!-- Tailwind CSS -->
+    <!-- ═══════════════ JSON-LD: BREADCRUMB ═══════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://econexusplatform.com/" }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════ LIBS ═══════════════ -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- SDK de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    
-    <!-- LEAFLET MAPS & CLUSTER -->
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -52,29 +135,30 @@
         .marker-cluster-small, .marker-cluster-medium, .marker-cluster-large { background-color: rgba(30, 63, 32, 0.6) !important; }
         .marker-cluster-small div, .marker-cluster-medium div, .marker-cluster-large div { background-color: rgba(30, 63, 32, 0.9) !important; color: white !important; font-weight: bold; }
         .leaflet-control-attribution { background: rgba(255, 255, 255, 0.65) !important; color: #333 !important; font-size: 8px !important; padding: 1px 4px !important; border-radius: 4px !important; }
-        
+
         @keyframes pulse-mic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.7); } 70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(56, 142, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(56, 142, 60, 0); } }
         .listening-mic { animation: pulse-mic 1.5s infinite; background-color: #ef4444 !important; border-color: #fca5a5 !important; }
-        
+
         .typewriter-cursor::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #a7f3d0; font-weight: 900; }
         .typewriter-cursor-amber::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #f59e0b; font-weight: 900; }
         .typewriter-cursor-dark::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #1E3F20; font-weight: 900; }
         @keyframes blink-caret { from, to { opacity: 1; } 50% { opacity: 0; } }
-        
+
         @keyframes cta-pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.4), 0 4px 12px rgba(0, 0, 0, 0.25); } 50% { box-shadow: 0 0 14px 2px rgba(74, 222, 128, 0.55), 0 4px 15px rgba(0, 0, 0, 0.35); } }
         .btn-cta-crm { animation: cta-pulse-glow 3s infinite ease-in-out; }
-        
+
+        @keyframes consejos-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5), 0 4px 10px rgba(0, 0, 0, 0.2); } 50% { box-shadow: 0 0 12px 3px rgba(251, 191, 36, 0.6), 0 4px 14px rgba(0, 0, 0, 0.3); } }
+        .btn-consejos-glow { animation: consejos-glow 3.2s infinite ease-in-out; }
+
         @keyframes spec-highlight { 0%, 100% { transform: translateY(0) scale(1); background-color: #F4F7F4; border-color: #dcfce7; } 50% { transform: translateY(-2px) scale(1.04); background-color: #dcfce7; border-color: #86efac; box-shadow: 0 3px 8px rgba(30, 63, 32, 0.12); } }
         .spec-pill-1 { animation: spec-highlight 4.5s infinite ease-in-out 0s; }
         .spec-pill-2 { animation: spec-highlight 4.5s infinite ease-in-out 1.5s; }
         .spec-pill-3 { animation: spec-highlight 4.5s infinite ease-in-out 3.0s; }
         .card-slide-img { transition: opacity 0.45s ease-in-out, transform 0.6s ease; }
-        
-        /* Transición para el panel de filtros */
+
         .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Banner de filtro por asesor (solo visible cuando hay filtro activo) */
         #bannerFiltroAsesor {
             animation: bannerAsesorIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
@@ -83,7 +167,6 @@
             to   { opacity: 1; transform: translateY(0)   scale(1); }
         }
 
-        /* Truncado suave del contador cuando hay filtro */
         #propCount {
             max-width: 240px;
             overflow: hidden;
@@ -150,11 +233,11 @@
         <button onclick="navegarLightbox(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-left text-xl"></i></button>
         <button onclick="navegarLightbox(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white bg-black/50 hover:bg-black/80 rounded-full w-12 h-12 flex items-center justify-center transition z-[100000] cursor-pointer border border-white/10"><i class="fa-solid fa-chevron-right text-xl"></i></button>
     </div>
+
     <!-- MODAL DE BIENVENIDA -->
     <div id="modalAvisoInstantaneo" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border-t-4 border-econexus animate-fade-in text-center overflow-hidden">
             <button onclick="cerrarAvisoInstantaneo()" class="absolute top-3 right-3 z-20 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer shadow-sm"><i class="fa-solid fa-xmark text-lg"></i></button>
-
             <div class="mb-6 border-b border-gray-100 pb-6 mt-6">
                 <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-3 leading-tight tracking-tight">Conectamos Personas con <span class="text-econexus">Oportunidades Exclusivas</span></h1>
                 <p class="text-gray-500 text-sm sm:text-base px-2">Explora el catálogo de inmuebles en Venezuela y contacta directamente con su captador en segundos.</p>
@@ -174,6 +257,7 @@
             </button>
         </div>
     </div>
+
     <!-- MODAL DE TÉRMINOS GLOBALES -->
     <div id="modalTerminosGlobal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl relative border-t-4 border-econexus-accent">
@@ -195,32 +279,31 @@
         </div>
     </div>
 
-    <!-- MODAL DE CAPTACIÓN DE LEADS (OPCIONAL) -->
+    <!-- MODAL DE CAPTACIÓN DE LEADS -->
     <div id="modalLeadWhatsApp" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[110] flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-green-600 animate-fade-in">
             <button onclick="cerrarModalLead()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
-            
             <div class="flex items-center space-x-2 text-green-700 font-bold mb-3">
                 <i class="fa-brands fa-whatsapp text-2xl"></i>
                 <span class="text-sm uppercase tracking-wide">Contacto Directo vía WhatsApp</span>
             </div>
-            
             <p class="text-xs text-gray-700 leading-relaxed mb-4 bg-amber-50 border border-amber-200 p-3 rounded-xl">
                 "Estás por contactar directamente al asesor. <strong>Opcional:</strong> Déjanos tu nombre y número para que el asesor también pueda contactarte si la conversación se interrumpe."
             </p>
-            
             <div class="space-y-3 mb-4">
                 <input type="text" id="leadNombre" placeholder="Tu Nombre y Apellido" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none" />
                 <input type="tel" id="leadTelefono" placeholder="Tu número de WhatsApp" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none" />
             </div>
-
             <div class="flex flex-col sm:flex-row gap-2 justify-end">
                 <button onclick="enviarLeadYWhatsApp(false)" class="w-full sm:w-auto bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-lg transition cursor-pointer">Omitir e ir a WhatsApp</button>
                 <button onclick="enviarLeadYWhatsApp(true)" class="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition flex items-center justify-center gap-1.5 shadow cursor-pointer"><i class="fa-brands fa-whatsapp text-sm"></i> Guardar y Contactar</button>
             </div>
         </div>
     </div>
-            <!-- HEADER RESPONSIVO CON BOTÓN CTA DE ESCRITURA SECUENCIAL -->
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- HEADER RESPONSIVO — AHORA CON BOTÓN "CONSEJOS" AMBER DESTACADO -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
     <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2.5">
             <!-- Logo y Textos -->
@@ -232,32 +315,40 @@
                 </div>
             </div>
 
-            <!-- Controles y Botón CTA -->
-            <div class="flex items-center gap-2 sm:gap-3.5 ml-auto flex-wrap sm:flex-nowrap justify-end">
+            <!-- Controles y Botones -->
+            <div class="flex items-center gap-2 sm:gap-3 ml-auto flex-wrap justify-end">
+
                 <button onclick="abrirModalMapaGlobal()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group">
                     <i class="fa-solid fa-map-location-dot text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Mapa
                 </button>
-                <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5">
+
+                <button onclick="abrirModalTerminos()" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3">
                     <i class="fa-solid fa-scale-balanced text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> Legal
                 </button>
-                
-                <!-- BOTÓN AGENTES ANIMADO -->
-                <button onclick="window.location.href='/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3.5 min-w-[110px] sm:min-w-[130px]">
-                    <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i> 
+
+                <!-- ═════════ NUEVO: BOTÓN CONSEJOS (AMBER, RESPONSIVO) ═════════ -->
+                <a href="/eco-consejos.html"
+                   title="Consejos para comprar o vender un inmueble"
+                   aria-label="Consejos para comprar o vender un inmueble"
+                   class="btn-consejos-glow bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-gray-900 px-2 sm:px-2.5 md:px-3.5 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1 md:gap-1.5 shadow-lg cursor-pointer border border-amber-300/70 min-w-[70px] sm:min-w-[105px] md:min-w-[120px] justify-center hover:scale-105">
+                    <i class="fa-solid fa-lightbulb text-amber-900 text-[10px] md:text-xs"></i>
+                    <span class="hidden sm:inline">Consejos</span>
+                    <span class="sm:hidden">Tips</span>
+                </a>
+
+                <button onclick="window.location.href='/busqueda-agente.html'" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex flex-col items-center transition cursor-pointer group border-l border-green-700/50 pl-2 sm:pl-3 min-w-[100px] sm:min-w-[125px]">
+                    <i class="fa-solid fa-user-tie text-sm md:text-base mb-0.5 group-hover:scale-110 transition-transform"></i>
                     <span id="typewriterAgenteText" class="typewriter-cursor-dark text-center leading-tight">Busca Agentes</span>
                 </button>
 
-                <button onclick="window.location.href='/captacion.html'" id="btnCtaHeader" class="btn-cta-crm bg-gradient-to-r from-econexus-accent via-emerald-600 to-green-700 hover:from-green-600 hover:to-emerald-500 text-white px-2.5 sm:px-3.5 md:px-4 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-lg cursor-pointer border border-green-300/40 min-w-[155px] sm:min-w-[220px] md:min-w-[275px] max-w-[92vw] justify-center">
+                <button onclick="window.location.href='/captacion.html'" id="btnCtaHeader" class="btn-cta-crm bg-gradient-to-r from-econexus-accent via-emerald-600 to-green-700 hover:from-green-600 hover:to-emerald-500 text-white px-2.5 sm:px-3.5 md:px-4 py-1.5 md:py-2 rounded-xl text-[10px] sm:text-[11px] md:text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-lg cursor-pointer border border-green-300/40 min-w-[145px] sm:min-w-[200px] md:min-w-[260px] max-w-[92vw] justify-center">
                     <i class="fa-solid fa-rocket text-amber-300 animate-bounce text-[10px] md:text-xs shrink-0"></i>
                     <span id="typewriterCrmText" class="typewriter-cursor truncate">Obtén tu CRM/ERP y publica tus inmuebles</span>
                 </button>
             </div>
         </div>
     </header>
-
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- BANNER DE FILTRO POR ASESOR (solo visible si hay filtro activo) -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- BANNER DE FILTRO POR ASESOR (solo visible si hay filtro activo) -->
     <div id="bannerFiltroAsesor" class="hidden max-w-7xl mx-auto px-3 sm:px-4 pt-3 w-full">
         <div class="bg-gradient-to-r from-econexus via-econexus-light to-emerald-700 rounded-2xl p-2.5 sm:p-3 shadow-lg border border-amber-400/40 flex items-center gap-2.5 sm:gap-3 relative">
             <img id="bannerAsesorFoto" src="" alt="Asesor"
@@ -266,9 +357,7 @@
                 <p class="text-[9px] sm:text-[10px] text-amber-300 font-bold uppercase tracking-wider leading-none mb-1">
                     <i class="fa-solid fa-circle-check text-[8px] mr-1"></i>Estás viendo el catálogo de
                 </p>
-                <h3 id="bannerAsesorNombre" class="text-xs sm:text-sm font-extrabold text-white truncate leading-tight">
-                    Asesor
-                </h3>
+                <h3 id="bannerAsesorNombre" class="text-xs sm:text-sm font-extrabold text-white truncate leading-tight">Asesor</h3>
                 <p id="bannerAsesorAgencia" class="text-[10px] sm:text-[11px] text-green-100/90 truncate leading-tight"></p>
             </div>
             <button onclick="limpiarFiltroAsesor()" title="Ver catálogo general de EcoNexus"
@@ -316,14 +405,11 @@
                     <option value="TODOS">Operación</option><option value="Venta">Venta</option><option value="Alquiler">Alquiler</option>
                 </select>
                 <input type="text" id="filterTipo" oninput="aplicarFiltrosDebounced()" placeholder="Tipo (Ej: Casa)" class="w-1/2 md:w-36 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-econexus font-medium" />
-                
                 <button type="button" onclick="toggleFiltrosAvanzados()" class="bg-econexus hover:bg-econexus-light text-white px-3 py-2 rounded-xl transition text-xs font-bold flex items-center gap-1.5 shadow-sm cursor-pointer whitespace-nowrap">
                     <i class="fa-solid fa-sliders"></i> Filtros
                 </button>
             </div>
         </div>
-
-        <!-- PANEL DE FILTROS AVANZADOS -->
         <div id="panelFiltrosAvanzados" class="hidden mt-2 bg-white rounded-2xl p-3 shadow-md border border-gray-100 grid grid-cols-2 md:grid-cols-5 gap-3 animate-fade-in">
             <div>
                 <label class="block text-[10px] font-bold text-gray-500 uppercase mb-1">Precio Mín ($)</label>
@@ -356,20 +442,20 @@
             </h2>
             <span id="propCount" class="bg-econexus-soft text-econexus px-3 py-1 rounded-full text-[10px] font-bold border border-green-200">Cargando...</span>
         </div>
-        
+
         <div id="loadingSpinner" class="text-center py-20">
             <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
             <p class="text-gray-500 text-sm font-medium">Sincronizando red...</p>
         </div>
-        
+
         <div id="propsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3.5 md:gap-4 hidden"></div>
-        
+
         <div id="loadMoreContainer" class="text-center mt-8 hidden">
             <button id="btnLoadMore" onclick="cargarMasPropiedades()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-6 py-2.5 rounded-xl transition border border-gray-300 inline-flex items-center cursor-pointer text-xs md:text-sm shadow-sm">
                 <i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles
             </button>
         </div>
-        
+
         <div id="noResults" class="hidden text-center py-16 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
             <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-4"></i>
             <h3 class="text-lg font-bold text-gray-700 mb-1">No hay resultados</h3>
@@ -400,7 +486,6 @@
                     <button onclick="cerrarModalMapaGlobal()" class="text-gray-200 hover:text-white bg-green-900/50 rounded-full w-8 h-8 flex items-center justify-center transition cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
             </div>
-            
             <div class="p-2.5 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row gap-2">
                 <div class="relative flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
@@ -408,7 +493,6 @@
                 </div>
                 <span id="lblMarcadoresCount" class="text-[10px] bg-econexus-soft text-econexus font-bold px-3 py-1.5 rounded-lg border border-green-200 flex items-center justify-center">0 ubicaciones</span>
             </div>
-            
             <div class="flex-1 grid grid-cols-1 md:grid-cols-3 overflow-hidden relative">
                 <div id="contenedorMapaLeaflet" class="md:col-span-2 h-full w-full z-10 bg-gray-200 shrink-0"></div>
                 <div id="panelLeyendaContenedor" class="absolute inset-x-0 bottom-0 top-0 md:static md:inset-auto bg-white/95 md:bg-white border-t md:border-t-0 md:border-l border-gray-200 overflow-y-auto flex flex-col z-20 transition-transform duration-300 transform translate-y-full md:translate-y-0">
@@ -433,21 +517,16 @@
             <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
         </div>
     </footer>
-        <!-- ========================================================================
-    SCRIPT PRINCIPAL DE ECONEXUS (CATÁLOGO, VIP, MAPAS, MODALES Y ANIMACIONES)
-    ======================================================================== -->
-    <script>
+        <script>
         const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
         const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Paginación Catálogo General (20 en 20)
         const PAGE_SIZE = 20;
         let pageOffset = 0;
         let hayMasPaginas = true;
         let propiedadesCargadas = [];
 
-        // Paginación Inmuebles Destacados VIP (10 en 10)
         const VIP_PAGE_SIZE = 10;
         let vipOffset = 0;
         let hayMasVips = true;
@@ -456,33 +535,25 @@
         let vipScrollDirection = 1;
         let vipPausadoPorUsuario = false;
 
-        // Timer de rotación automática de fotos en tarjetas
         let cardPhotoInterval = null;
         let debounceTimer = null;
 
-        // Variables para el nuevo sistema de Leads
         let waUrlPendiente = '';
         let leadDataPendiente = null;
 
-        // ── FILTRO DE CATÁLOGO POR ASESOR (SINGLE SOURCE OF TRUTH) ──
-        // Cuando el visitante entra con ?asesor=TEL (o ?u=UUID), se activa.
-        // Aplica filtro estructural .eq('user_id', uuid) SIN tocar filterText.
-        let filtroAsesorActivo = null; // { uuid, nombre, agencia, foto, tipoAgente }
+        let filtroAsesorActivo = null;
 
-        // ── CONSTRUCTOR DE URL LIMPIA DE INMUEBLE ──
-        // Alineado al patrón del GitHub Action: /inmueble/{codigo_eco-lowercase}.html
-        // Ejemplo: /inmueble/eco-194193.html
         function construirUrlInmueble(p) {
             if (!p || !p.codigo_eco) return '/';
             return '/inmueble/' + String(p.codigo_eco).toLowerCase() + '.html';
         }
         window.construirUrlInmueble = construirUrlInmueble;
 
-        // -- WAKE LOCK API (Mantiene pantalla encendida) --
+        // -- WAKE LOCK --
         let wakeLock = null;
         async function solicitarWakeLock() {
             if ('wakeLock' in navigator) {
-                try { wakeLock = await navigator.wakeLock.request('screen'); } 
+                try { wakeLock = await navigator.wakeLock.request('screen'); }
                 catch (err) { console.warn('WakeLock bloqueado:', err); }
             }
         }
@@ -490,13 +561,45 @@
             if (wakeLock !== null) { wakeLock.release().then(() => wakeLock = null); }
         }
 
-        // -- VARIABLES BASE DE SÍNTESIS DE VOZ --
         let synth = window.speechSynthesis;
         let currentFichaText = "";
 
+        // ═══════════════════════════════════════════════════════════
+        // 🆕 COMPARTIR INMUEBLE — Web Share API + Fallback WhatsApp
+        // ═══════════════════════════════════════════════════════════
+        async function compartirInmueble(event, id) {
+            if (event && event.stopPropagation) event.stopPropagation();
+            if (event && event.preventDefault) event.preventDefault();
+
+            const p = propiedadesCargadas.find(item => item.id === id) ||
+                      vipsCargados.find(item => item.id === id);
+            if (!p) return;
+
+            const url = construirUrlInmueble(p);
+            const urlAbs = url.startsWith('http') ? url : 'https://econexusplatform.com' + url;
+            const precioFmt = Number(p.precio || 0).toLocaleString('en-US');
+            const resumen = `🏠 ${p.titulo}\n💰 $${precioFmt} USD · ${p.tipo} en ${p.ubicacion}\n📍 Código: ${p.codigo_eco}`;
+            const textoWA = `${resumen}\n\nMira la ficha completa en EcoNexus:`;
+
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: p.titulo + ' | EcoNexus',
+                        text: `${p.tipo} en ${p.operacion} — $${precioFmt} USD · ${p.ubicacion}`,
+                        url: urlAbs
+                    });
+                    return;
+                } catch (e) {
+                    if (e.name === 'AbortError') return;
+                }
+            }
+
+            window.open(`https://wa.me/?text=${encodeURIComponent(textoWA + '\n' + urlAbs)}`, '_blank', 'noopener');
+        }
+        window.compartirInmueble = compartirInmueble;
+
         // -- EFECTOS DE ESCRITURA SECUENCIAL --
         function iniciarEfectosTypewriter() {
-            // 1. CRM/ERP
             const elCrm = document.getElementById('typewriterCrmText');
             if (elCrm) {
                 const frasesCrmMovil = ["Obtén tu CRM/ERP y publica", "Publica tus inmuebles aquí", "Activa tu CRM Inmobiliario"];
@@ -519,7 +622,6 @@
                 animarTextoCrm();
             }
 
-            // 2. VIPs
             const elVip = document.getElementById('vipTypewriterText');
             if (elVip) {
                 const frasesVip = ["Inmuebles Destacados", "Solo lo Mejor del Mercado", "Propiedades de Alta Demanda", "Líderes en Presencia Inmobiliaria", "Oportunidades Exclusivas Verificadas"];
@@ -539,7 +641,6 @@
                 animarTextoVip();
             }
 
-            // 3. Botón Buscar Agentes
             const elAgente = document.getElementById('typewriterAgenteText');
             if (elAgente) {
                 const frasesAgente = ["Busca Agentes", "Encuentra tu Asesor", "Agentes Verificados", "Contacto Directo"];
@@ -590,10 +691,6 @@
             await Promise.all([ cargarVips(true), cargarPropiedades(true) ]);
             await verificarParametrosURL();
         });
-
-        /* ═════════════════════════════════════════════════════════════════════
-           FILTRO DE CATÁLOGO POR ASESOR — RESOLUCIÓN Y BANNER
-           ═════════════════════════════════════════════════════════════════════ */
 
         async function activarFiltroAsesor({ tipo, valor }) {
             if (!valor) return;
@@ -723,23 +820,21 @@
             const asesorParam = urlParams.get('asesor');
             const uuidParam   = urlParams.get('u');
 
-            // 1) Filtro por asesor (nunca cambia URL — comportamiento histórico intacto)
             if (uuidParam) {
                 await activarFiltroAsesor({ tipo: 'uuid', valor: uuidParam.trim() });
             } else if (asesorParam) {
                 await activarFiltroAsesor({ tipo: 'telefono', valor: asesorParam.trim() });
             }
 
-            // 2) Inmueble: /inmueble/{slug}.html ó ?codigo=XXX (retrocompatible con Action)
             let codigoFinal = null;
             let navegacion  = null;
             const matchInm = path.match(/^\/inmueble\/([^/]+?)(?:\.html)?\/?$/);
             if (matchInm) {
                 codigoFinal = decodeURIComponent(matchInm[1]).toUpperCase();
-                navegacion  = null; // URL ya correcta
+                navegacion  = null;
             } else if (codigoParam) {
                 codigoFinal = codigoParam.trim().toUpperCase();
-                navegacion  = 'replace'; // migrar URL antigua a URL limpia (sin agregar al historial)
+                navegacion  = 'replace';
             }
 
             if (codigoFinal) {
@@ -752,11 +847,9 @@
                 } catch (err) { /* no-op */ }
             }
 
-            // 3) Default → SEO home
             if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
         }
-        
-        // -- LÓGICA DE CARGA Y PAGINACIÓN DE VIPS (DE 10 EN 10) --
+
         async function cargarVips(reset = false) {
             if (reset) { vipOffset = 0; hayMasVips = true; vipsCargados = []; }
             try {
@@ -769,12 +862,7 @@
                 const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
 
                 let queryVip = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible').eq('vip_activo', true);
-
-                // 👇 FILTRO ESTRUCTURAL POR ASESOR (no contamina filterText)
-                if (filtroAsesorActivo) {
-                    queryVip = queryVip.eq('user_id', filtroAsesorActivo.uuid);
-                }
-
+                if (filtroAsesorActivo) queryVip = queryVip.eq('user_id', filtroAsesorActivo.uuid);
                 if (operacion && operacion !== "TODOS") queryVip = queryVip.eq('operacion', operacion);
                 if (tipo) queryVip = queryVip.ilike('tipo', `%${tipo}%`);
                 if (!isNaN(minPrecio)) queryVip = queryVip.gte('precio', minPrecio);
@@ -810,6 +898,9 @@
             if (btn) { btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus"></i> +10 VIP`; }
         }
 
+        // ═══════════════════════════════════════════════════════════
+        // RENDERIZAR VIP — CON BOTÓN COMPARTIR EN CADA TARJETA
+        // ═══════════════════════════════════════════════════════════
         function renderizarSeccionVip(lista) {
             const seccionVip = document.getElementById("seccionVipContainer");
             const trackVip = document.getElementById("trackVip");
@@ -832,12 +923,19 @@
                 trackVip.innerHTML += `
                     <div onclick="abrirModal('${p.id}')" class="min-w-[225px] max-w-[225px] sm:min-w-[250px] sm:max-w-[250px] bg-white rounded-2xl overflow-hidden border-2 border-amber-400/90 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer flex-shrink-0 snap-start relative group hover:-translate-y-1">
                         <div class="h-36 sm:h-40 overflow-hidden relative bg-gray-900">
-                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" alt="${p.titulo}" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 pointer-events-none"></div>
                             <span class="absolute top-2 left-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase shadow flex items-center gap-1">
                                 <i class="fa-solid fa-crown text-[8px]"></i> VIP
                             </span>
-                            <span class="absolute top-2 right-2 bg-econexus/90 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded-full uppercase">${p.operacion}</span>
+                            <div class="absolute top-2 right-2 flex items-center gap-1">
+                                <span class="bg-econexus/90 backdrop-blur-sm text-white text-[8px] font-bold px-2 py-0.5 rounded-full uppercase pointer-events-none">${p.operacion}</span>
+                                <button onclick="event.stopPropagation(); compartirInmueble(event, '${p.id}')"
+                                        class="bg-white/95 hover:bg-econexus text-econexus hover:text-white w-5 h-5 rounded-full flex items-center justify-center shadow-md transition text-[8px] cursor-pointer"
+                                        title="Compartir propiedad" aria-label="Compartir propiedad">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                            </div>
                             ${tieneVideo ? `<span class="absolute bottom-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 shadow"><i class="fa-solid fa-circle-play"></i> Video</span>` : ''}
                             <div class="absolute bottom-2 left-2.5 text-white font-black text-base sm:text-lg drop-shadow">$${Number(p.precio).toLocaleString('en-US')}</div>
                         </div>
@@ -894,7 +992,6 @@
             if (vipAutoScrollTimer) { clearInterval(vipAutoScrollTimer); vipAutoScrollTimer = null; }
         }
 
-        // -- ROTACIÓN AUTOMÁTICA SECUENCIAL DE FOTOS --
         function iniciarRotacionFotosTarjetas() {
             if (cardPhotoInterval) clearInterval(cardPhotoInterval);
             cardPhotoInterval = setInterval(() => {
@@ -920,7 +1017,6 @@
             }, 4200);
         }
 
-        // -- CARGA DEL CATÁLOGO GENERAL (con filtro estructural por asesor) --
         async function cargarPropiedades(reset = false) {
             if (reset) {
                 pageOffset = 0; hayMasPaginas = true; propiedadesCargadas = [];
@@ -941,12 +1037,7 @@
                 const minHabitaciones = parseInt(document.getElementById("filterHabitaciones").value);
 
                 let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
-
-                // 👇 FILTRO ESTRUCTURAL POR ASESOR (aplica a primer lote y a cargarMás)
-                if (filtroAsesorActivo) {
-                    query = query.eq('user_id', filtroAsesorActivo.uuid);
-                }
-
+                if (filtroAsesorActivo) query = query.eq('user_id', filtroAsesorActivo.uuid);
                 if (operacion && operacion !== "TODOS") query = query.eq('operacion', operacion);
                 if (tipo) query = query.ilike('tipo', `%${tipo}%`);
                 if (!isNaN(minPrecio)) query = query.gte('precio', minPrecio);
@@ -970,8 +1061,8 @@
                 if (nuevosInmuebles.length < PAGE_SIZE) hayMasPaginas = false;
                 propiedadesCargadas = [...propiedadesCargadas, ...nuevosInmuebles];
                 renderizarTarjetas(propiedadesCargadas);
-            } catch (err) { 
-                console.error("Error al cargar propiedades:", err); 
+            } catch (err) {
+                console.error("Error al cargar propiedades:", err);
             } finally {
                 document.getElementById("loadingSpinner").classList.add("hidden");
             }
@@ -986,6 +1077,9 @@
             btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> Cargar más inmuebles`;
         }
 
+        // ═══════════════════════════════════════════════════════════
+        // RENDERIZAR TARJETAS CATÁLOGO — CON BOTÓN COMPARTIR
+        // ═══════════════════════════════════════════════════════════
         function renderizarTarjetas(lista) {
             const grid = document.getElementById("propsGrid"), noRes = document.getElementById("noResults"), btnLoad = document.getElementById("loadMoreContainer");
             grid.innerHTML = "";
@@ -1003,11 +1097,11 @@
                 grid.innerHTML += `
                     <div class="bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group relative hover:-translate-y-1">
                         <div class="h-36 md:h-44 overflow-hidden relative cursor-pointer bg-gray-900" onclick="abrirModal('${p.id}')">
-                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
+                            <img src="${fotosArr[0]}" data-photos="${fotosJson}" data-idx="0" alt="${p.titulo}" loading="lazy" class="auto-carousel-img card-slide-img w-full h-full object-cover group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
-                            <span class="absolute top-2 left-2 bg-econexus/95 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase shadow-sm">${p.operacion}</span>
-                            ${tieneVideo ? `<span class="absolute top-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1"><i class="fa-solid fa-play text-[7px]"></i> Video</span>` : ''}
-                            <span class="absolute bottom-2 right-2 bg-black/65 backdrop-blur-sm text-white text-[8px] font-bold px-1.5 py-0.5 rounded">${p.codigo_eco}</span>
+                            <span class="absolute top-2 left-2 bg-econexus/95 text-white text-[8px] font-extrabold px-2 py-0.5 rounded-full uppercase shadow-sm pointer-events-none">${p.operacion}</span>
+                            ${tieneVideo ? `<span class="absolute top-2 right-2 bg-red-600/90 text-white text-[8px] font-bold px-2 py-0.5 rounded-full shadow flex items-center gap-1 pointer-events-none"><i class="fa-solid fa-play text-[7px]"></i> Video</span>` : ''}
+                            <span class="absolute bottom-2 right-2 bg-black/65 backdrop-blur-sm text-white text-[8px] font-bold px-1.5 py-0.5 rounded pointer-events-none">${p.codigo_eco}</span>
                         </div>
                         <div class="p-3 flex flex-col flex-grow">
                             <div class="text-[9px] font-bold text-econexus uppercase mb-0.5 break-words flex items-center gap-1">
@@ -1021,20 +1115,34 @@
                                 <div class="spec-pill-3 py-1 px-1 rounded-lg border"><i class="fa-solid fa-ruler-combined text-econexus"></i> ${p.metros}m²</div>
                             </div>
                             <div class="text-base md:text-lg font-black text-econexus mb-2 mt-auto">$${Number(p.precio).toLocaleString('en-US')}</div>
-                            <button onclick="abrirModal('${p.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-[10px] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer">
-                                Ver Ficha Completa <i class="fa-solid fa-arrow-right text-[9px]"></i>
-                            </button>
+                            <div class="flex gap-1.5">
+                                <button onclick="abrirModal('${p.id}')" class="flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2 rounded-xl transition text-[10px] shadow-sm flex items-center justify-center gap-1 cursor-pointer">
+                                    Ver Ficha <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                                </button>
+                                <button onclick="compartirInmueble(event, '${p.id}')" title="Compartir propiedad" aria-label="Compartir propiedad"
+                                        class="w-9 bg-gray-100 hover:bg-econexus text-gray-600 hover:text-white rounded-xl transition text-[11px] shadow-sm flex items-center justify-center cursor-pointer border border-gray-200 hover:border-econexus">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
             });
+
+            // ── SEO: actualizar ItemList JSON-LD con el catálogo cargado ──
+            if (typeof window.actualizarItemListJSONLD === 'function') {
+                try { window.actualizarItemListJSONLD(lista); } catch (e) {}
+            }
         }
 
         function aplicarFiltros() { cargarVips(true); cargarPropiedades(true); }
         function aplicarFiltrosDebounced() { clearTimeout(debounceTimer); debounceTimer = setTimeout(aplicarFiltros, 400); }
-        
-        // ⚠️ Importante: "Limpiar filtros" NO debe sacar al visitante del catálogo del asesor.
-        // Eso es responsabilidad exclusiva del botón ✕ del banner (limpiarFiltroAsesor).
+
+        function toggleFiltrosAvanzados() {
+            const panel = document.getElementById('panelFiltrosAvanzados');
+            if (panel) panel.classList.toggle('hidden');
+        }
+
         function resetFiltros() {
             document.getElementById("filterOperacion").value = "TODOS";
             document.getElementById("filterTipo").value = "";
@@ -1046,15 +1154,11 @@
             cargarVips(true); cargarPropiedades(true);
         }
 
-        // -- LÓGICA DE WHATSAPP Y CAPTACIÓN DE LEADS --
         function confirmarIrAWhatsApp(numero, mensaje, inmuebleId, codigoEco, agenteId) {
-            // Enlace a la ficha prerenderizada del Action (mejor compatibilidad con WhatsApp/Facebook)
             const urlInmueble = `https://econexusplatform.com/inmueble/${String(codigoEco).toLowerCase()}.html`;
             const mensajeFinal = `${mensaje}\n\n🔗 Ver ficha completa: ${urlInmueble}`;
-            
             waUrlPendiente = `https://wa.me/${numero}?text=${encodeURIComponent(mensajeFinal)}`;
             leadDataPendiente = { inmuebleId, codigoEco, agenteId };
-            
             document.getElementById("modalLeadWhatsApp").classList.remove("hidden");
         }
 
@@ -1068,10 +1172,9 @@
             if (guardarDatos && leadDataPendiente) {
                 const nombre = document.getElementById("leadNombre").value.trim();
                 const telefono = document.getElementById("leadTelefono").value.trim();
-                
+
                 if (nombre && telefono) {
                     try {
-                        // 1. Verificar si ya existe un lead de este teléfono para este agente
                         const { data: leadsExistentes } = await dbClient
                             .from('leads')
                             .select('id, mensaje')
@@ -1080,18 +1183,15 @@
                             .limit(1);
 
                         if (leadsExistentes && leadsExistentes.length > 0) {
-                            // Actualizar el lead existente con el nuevo inmueble consultado
                             const leadId = leadsExistentes[0].id;
                             const mensajeActualizado = `${leadsExistentes[0].mensaje} | También consultó: ${leadDataPendiente.codigoEco}`;
-                            
                             await dbClient.from('leads').update({
                                 id_propiedad: leadDataPendiente.inmuebleId,
                                 inmueble_codigo: leadDataPendiente.codigoEco,
                                 mensaje: mensajeActualizado,
-                                fecha: new Date().toISOString() // Actualiza la fecha para evitar que se borre pronto
+                                fecha: new Date().toISOString()
                             }).eq('id', leadId);
                         } else {
-                            // Crear un nuevo lead
                             await dbClient.from('leads').insert([{
                                 id_propiedad: leadDataPendiente.inmuebleId,
                                 agente_id: leadDataPendiente.agenteId,
@@ -1104,7 +1204,7 @@
                     } catch (e) { console.error("Error guardando lead:", e); }
                 }
             }
-            
+
             if (waUrlPendiente) window.open(waUrlPendiente, '_blank');
             cerrarModalLead();
         }
@@ -1149,16 +1249,15 @@
         function abrirModalDirecto(p, opts = {}) {
             const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
             const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-            
-            // Generamos el mensaje que irá al WhatsApp
+
             const msjWA = `Hola ${nombreAsesor}, info de ID: ${p.codigo_eco} (${p.titulo}).`;
-            
+
             const bondadesSector = obtenerBondadesSegunUbicacion(p.ubicacion);
             fotosActivasModal = (p.fotos && p.fotos.length > 0) ? p.fotos : [];
             indiceFotoActiva = 0;
-            
+
             currentFichaText = `Ficha de inmueble. ${p.operacion} de ${p.tipo}. ${p.titulo}. Precio: ${p.precio} dólares. Ubicado en ${p.ubicacion}. Cuenta con ${p.habitaciones} habitaciones, ${p.banos} baños, ${p.estacionamientos || 0} puestos de estacionamiento y ${p.metros} metros cuadrados. Descripción: ${p.descripcion || 'Sin detalles extra.'}`;
-            
+
             const fotoAsesor = p.foto_perfil || p.foto_asesor || p.foto_agente || p.avatar || p.avatar_url || '';
             const renderFotoAsesorHTML = fotoAsesor
                 ? `<img src="${fotoAsesor}" alt="${nombreAsesor}" class="w-10 h-10 rounded-full object-cover border-2 border-econexus shadow flex-shrink-0" />`
@@ -1167,7 +1266,7 @@
             const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
             const agenciaDisplay = esAgencia ? p.nombre_agencia : "Agente Independiente";
             const urlVideoLimpia = (p.enlace_video && p.enlace_video.trim() !== '') ? p.enlace_video.trim() : '';
-            
+
             const botonVideoHTML = urlVideoLimpia ? `
                 <a href="${urlVideoLimpia}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white py-3 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer">
                     <i class="fa-solid fa-circle-play text-sm animate-pulse"></i> Ver Video del Inmueble
@@ -1184,7 +1283,7 @@
                     </div>
                     <h2 class="text-xl md:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
                     <div class="text-2xl md:text-3xl font-black text-econexus mb-4">$${Number(p.precio).toLocaleString('en-US')}</div>
-                    
+
                     <div class="mb-4 relative rounded-xl overflow-hidden h-56 md:h-80 bg-gray-900 flex items-center justify-center cursor-zoom-in" id="swipeContainerModal" onclick="abrirLightbox()">
                         <img id="modalFotoPrincipal" src="${fotosActivasModal[0] || ''}" class="w-full h-full object-cover transition-opacity duration-300" />
                         <button onclick="event.stopPropagation(); cambiarFotoSwipe(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white w-8 h-8 rounded-full z-10 transition"><i class="fa-solid fa-chevron-left"></i></button>
@@ -1225,7 +1324,7 @@
                         <div id="mapaModalInmueble" class="h-40 w-full rounded-xl border border-gray-200 bg-gray-100 z-0 relative"></div>
                     </div>
 
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row items-center justify-between gap-3">
                         <div class="flex items-center gap-3 w-full md:w-auto">
                             ${renderFotoAsesorHTML}
                             <div>
@@ -1234,15 +1333,21 @@
                                 <span class="text-[10px] text-econexus font-bold block mt-0.5"><i class="fa-solid fa-building-user"></i> ${agenciaDisplay}</span>
                             </div>
                         </div>
-                        <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}', '${p.id}', '${p.codigo_eco}', '${p.user_id}')" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition">
-                            <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
-                        </button>
+                        <div class="flex gap-2 w-full md:w-auto">
+                            <button onclick="confirmarIrAWhatsApp('${whatsappAsesor}', '${msjWA}', '${p.id}', '${p.codigo_eco}', '${p.user_id}')" class="flex-1 md:flex-initial bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 md:px-6 rounded-xl shadow cursor-pointer flex justify-center items-center gap-2 transition text-sm">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
+                            </button>
+                            <button onclick="compartirInmueble(event, '${p.id}')" title="Compartir propiedad" aria-label="Compartir propiedad"
+                                    class="bg-gray-200 hover:bg-econexus hover:text-white text-gray-700 px-3 md:px-4 rounded-xl shadow-sm transition border border-gray-300 flex items-center justify-center cursor-pointer">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
             document.getElementById("propModal").classList.remove("hidden");
             setupSwipeEnFotoModal();
-            
+
             setTimeout(() => {
                 if(mapaFichaModal) mapaFichaModal.remove();
                 mapaFichaModal = L.map('mapaModalInmueble', { attributionControl: true }).setView(obtenerCoordenadasExactas(p), 15);
@@ -1250,17 +1355,14 @@
                 L.marker(obtenerCoordenadasExactas(p)).addTo(mapaFichaModal).bindPopup(`<b class="text-[10px]">${p.codigo_eco}</b>`).openPopup();
             }, 300);
 
-            // ── SEO dinámico (meta + geo + JSON-LD) ──
             if (typeof window.seoInmueble === 'function') { try { window.seoInmueble(p); } catch (e) {} }
 
-            // ── History API (URL limpia, alineada al Action: /inmueble/{codigo}.html) ──
             const urlLimpia = construirUrlInmueble(p);
             if (opts.navegacion === 'push') {
                 try { history.pushState({ vista: 'inmueble', id: p.id, from: 'click' }, '', urlLimpia); } catch (e) {}
             } else if (opts.navegacion === 'replace') {
                 try { history.replaceState({ vista: 'inmueble', id: p.id }, '', urlLimpia); } catch (e) {}
             }
-            // si opts.navegacion === null o undefined → no tocamos la URL (carga directa / popstate)
         }
 
         function cambiarFotoSwipe(direccion) {
@@ -1340,28 +1442,24 @@
             if (synth.speaking) { synth.cancel(); liberarWakeLock(); }
             document.getElementById("propModal").classList.add("hidden");
 
-            // ── History + SEO: revertir a home y dejar la URL limpia ──
             const hs = history.state || {};
             if (hs.from === 'click') {
-                // Venimos de un click en tarjeta → history.back() dispara popstate (que aplica seoHome)
                 try { history.back(); } catch (e) {
                     try { history.replaceState({ vista: 'home' }, '', '/'); } catch (e2) {}
                     if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e3) {} }
                 }
             } else {
-                // Carga directa o URL limpia → reemplazar a home sin crear entrada
                 try { history.replaceState({ vista: 'home' }, '', '/'); } catch (e) {}
                 if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
             }
         }
 
-        // -- MAPA GLOBAL Y LEYENDA DE ZONAS --
         async function abrirModalMapaGlobal() {
             document.getElementById("mapaGlobalModal").classList.remove("hidden");
             if (typeof window.seoMapa === 'function') { try { window.seoMapa(); } catch (e) {} }
             limiteZonasMostradas = 10; leyendaAbiertaMovil = false;
             actualizarEstadoPanelLeyendaMovil();
-            
+
             setTimeout(async () => {
                 if (!mapaGlobal) {
                     mapaGlobal = L.map('contenedorMapaLeaflet', { attributionControl: true }).setView(COORDS_DEFAULT, 7);
@@ -1376,7 +1474,6 @@
 
         function cerrarModalMapaGlobal() {
             document.getElementById("mapaGlobalModal").classList.add("hidden");
-            // Revertir SEO a home SOLO si no hay ficha abierta
             const propModal = document.getElementById("propModal");
             if (propModal && propModal.classList.contains("hidden")) {
                 if (typeof window.seoHome === 'function') { try { window.seoHome(); } catch (e) {} }
@@ -1400,14 +1497,13 @@
         async function cargarInmueblesYGenerarMapa(filtroQuery = "") {
             if (!capaMarcadoresCluster) return;
             capaMarcadoresCluster.clearLayers();
-            
-            // La vista ya filtra por fecha de expiración, así que solo traemos los disponibles
+
             const { data: listaPropiedades } = await dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
             if (!listaPropiedades) return;
-            
+
             listaGlobalInmueblesMapa = listaPropiedades;
             let filtradas = listaPropiedades;
-            
+
             if (filtroQuery.trim() !== "") {
                 const queryLimpia = filtroQuery.toLowerCase().trim();
                 filtradas = listaPropiedades.filter(p => {
@@ -1418,7 +1514,7 @@
 
             document.getElementById("lblMarcadoresCount").textContent = `${filtradas.length} ubicaciones`;
             let bounds = [];
-            
+
             filtradas.forEach(p => {
                 const coords = obtenerCoordenadasExactas(p); bounds.push(coords);
                 const popupHTML = `<div class="p-1 text-xs max-w-[160px]"><strong class="text-econexus text-[10px] block mb-1 truncate">${p.titulo}</strong><span class="bg-gray-100 text-gray-700 px-1 py-0.5 rounded font-bold">${p.codigo_eco}</span> - $${p.precio}<button onclick="cerrarModalMapaGlobal(); abrirModal('${p.id}');" class="mt-2 w-full bg-econexus text-white text-[10px] font-bold py-1 rounded cursor-pointer">Ver Ficha</button></div>`;
@@ -1428,7 +1524,7 @@
 
             if (bounds.length > 0 && filtroQuery.trim() !== "") mapaGlobal.fitBounds(bounds, { maxZoom: 16 });
             else if (bounds.length > 0) mapaGlobal.fitBounds(bounds, { maxZoom: 12 });
-            
+
             generarLeyendaZonas(filtradas);
         }
 
@@ -1445,11 +1541,11 @@
 
             const zonasVisibles = zonasArray.slice(0, limiteZonasMostradas);
             let html = `<div class="bg-gray-50 border border-gray-200 p-2.5 rounded-lg mb-2"><span class="text-[10px] uppercase font-bold text-gray-600 block">Zonas Detectadas</span><p class="text-[10px] text-gray-500">Total sectores: <strong>${totalZonas}</strong></p></div><div class="space-y-1.5 overflow-y-auto max-h-[40vh] md:max-h-[60vh] pr-1">`;
-            
+
             zonasVisibles.forEach(([zona, cantidad]) => {
                 html += `<div onclick="filtrarZonaDesdeLeyenda('${zona.replace(/'/g, "\\'")}')" class="p-2 bg-white border border-green-200 hover:border-econexus rounded-lg cursor-pointer transition flex justify-between items-center shadow-sm group"><span class="text-[10px] font-semibold text-gray-700 group-hover:text-econexus line-clamp-1"><i class="fa-solid fa-location-dot text-gray-400 mr-1.5"></i>${zona}</span><span class="bg-econexus-soft text-econexus border border-green-200 text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap">${cantidad}</span></div>`;
             });
-            
+
             html += `</div>`;
             if (limiteZonasMostradas < totalZonas) html += `<button onclick="cargarMasZonasLeyenda()" class="w-full mt-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-[10px] font-bold py-2 rounded-lg transition cursor-pointer"><i class="fa-solid fa-plus"></i> Cargar 10 más</button>`;
             panel.innerHTML = html;
@@ -1461,27 +1557,15 @@
             document.getElementById("inputBuscarZonaMapa").value = nombreZona;
             if (window.innerWidth < 768) { leyendaAbiertaMovil = false; actualizarEstadoPanelLeyendaMovil(); }
             cargarInmueblesYGenerarMapa(nombreZona);
-            // SEO dinámico (meta + geo) para la zona explorada — NO toca la URL, conserva UX actual del mapa
             if (typeof window.seoZona === 'function') { try { window.seoZona(nombreZona); } catch (e) {} }
         }
 
-        function buscarZonaEnMapa(query) { 
-            clearTimeout(debounceTimer); 
-            debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350); 
+        function buscarZonaEnMapa(query) {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => { limiteZonasMostradas = 10; cargarInmueblesYGenerarMapa(query); }, 350);
         }
     </script>
-    
-    <!-- ══════════════════════════════════════════════════════════════════════
-         MÓDULO DE SEO DINÁMICO Y RUTAS AMIGABLES (History API)
-         - Alineado 100% al patrón del GitHub Action: /inmueble/{codigo}.html
-         - No modifica el HTML prerenderizado ni el Action diario.
-         - No interfiere con paginación, modales, Supabase ni asistente de voz.
-         - Actualiza <title>, description, OG, twitter, canonical, JSON-LD y geo
-           en cada navegación del usuario (ficha, zona, mapa, home).
-         - Maneja botón atrás/adelante del navegador vía popstate.
-         - NUNCA crea URLs /zona/* (no existen archivos en el Action → cero 404).
-         - Las zonas solo enriquecen meta tags; la URL permanece intacta.
-    ══════════════════════════════════════════════════════════════════════ -->
+        <!-- MÓDULO SEO DINÁMICO Y RUTAS AMIGABLES (History API) -->
     <script>
     (function () {
         'use strict';
@@ -1491,20 +1575,12 @@
         const SEO_DESC_HOME = 'Portal inmobiliario e inventario de inmuebles en venta y alquiler en Venezuela. Explora casas, apartamentos, locales y terrenos en Carabobo, Caracas, Zulia y a nivel nacional. Contacto directo por WhatsApp.';
         const SEO_IMG_DEFAULT = SEO_BASE + '/logo.png.png';
 
-        // ── utilidades ──
         function slugify(text) {
             if (!text) return '';
-            return String(text)
-                .toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/[^a-z0-9\s-]/g, '')
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .substring(0, 60);
+            return String(text).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').substring(0, 60);
         }
 
-        // URL canónica del inmueble — DEBE coincidir con el archivo .html que genera el Action
         function urlCanonicaInmueble(p) {
             if (!p || !p.codigo_eco) return SEO_BASE + '/';
             return SEO_BASE + '/inmueble/' + String(p.codigo_eco).toLowerCase() + '.html';
@@ -1513,11 +1589,7 @@
         function setMeta(attr, key, content) {
             if (content === undefined || content === null || content === '') return;
             let el = document.head.querySelector('meta[' + attr + '="' + key + '"]');
-            if (!el) {
-                el = document.createElement('meta');
-                el.setAttribute(attr, key);
-                document.head.appendChild(el);
-            }
+            if (!el) { el = document.createElement('meta'); el.setAttribute(attr, key); document.head.appendChild(el); }
             el.setAttribute('content', content);
         }
 
@@ -1528,11 +1600,7 @@
 
         function setCanonical(url) {
             let el = document.head.querySelector('link[rel="canonical"]');
-            if (!el) {
-                el = document.createElement('link');
-                el.setAttribute('rel', 'canonical');
-                document.head.appendChild(el);
-            }
+            if (!el) { el = document.createElement('link'); el.setAttribute('rel', 'canonical'); document.head.appendChild(el); }
             el.setAttribute('href', url);
         }
 
@@ -1560,6 +1628,48 @@
             setMeta('name', 'ICBM', lat + ', ' + lng);
         }
 
+        // ═══════════════════════════════════════════════════════════
+        // 🆕 ITEMLIST DINÁMICO DEL CATÁLOGO (SEO + RICH SNIPPETS)
+        // ═══════════════════════════════════════════════════════════
+        function actualizarItemListJSONLD(listaPropiedades) {
+            if (!Array.isArray(listaPropiedades) || listaPropiedades.length === 0) return;
+            const items = listaPropiedades.slice(0, 20).map(function (p, i) {
+                var img = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : SEO_IMG_DEFAULT;
+                var url = urlCanonicaInmueble(p);
+                return {
+                    "@type": "ListItem",
+                    "position": i + 1,
+                    "item": {
+                        "@type": "RealEstateListing",
+                        "name": p.titulo || ('Inmueble ' + (p.codigo_eco || '')),
+                        "description": (p.descripcion || (p.tipo + ' en ' + (p.ubicacion || 'Venezuela'))).substring(0, 200),
+                        "image": img,
+                        "url": url,
+                        "offers": {
+                            "@type": "Offer",
+                            "price": Number(p.precio || 0),
+                            "priceCurrency": "USD",
+                            "availability": "https://schema.org/InStock",
+                            "url": url
+                        },
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": p.ubicacion || 'Venezuela',
+                            "addressCountry": "VE"
+                        }
+                    }
+                };
+            });
+            setJsonLd('jsonld-catalogo', {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "Catálogo de Inmuebles EcoNexus Venezuela",
+                "numberOfItems": listaPropiedades.length,
+                "itemListElement": items
+            });
+        }
+        window.actualizarItemListJSONLD = actualizarItemListJSONLD;
+
         // ─────────────────────────────────────────────────────────────
         // VISTA: HOME
         // ─────────────────────────────────────────────────────────────
@@ -1582,7 +1692,7 @@
         }
 
         // ─────────────────────────────────────────────────────────────
-        // VISTA: INMUEBLE (ficha)
+        // VISTA: INMUEBLE
         // ─────────────────────────────────────────────────────────────
         function seoInmueble(p) {
             if (!p) return;
@@ -1601,7 +1711,6 @@
                          ' USD. Código ' + p.codigo_eco + '. Contacto directo por WhatsApp.';
             const img = (p.fotos && p.fotos.length > 0) ? p.fotos[0] : SEO_IMG_DEFAULT;
 
-            // Title + description + OG + Twitter
             document.title = titulo;
             setMeta('name', 'description', desc);
             setMeta('property', 'og:site_name', 'EcoNexus Red Inmobiliaria');
@@ -1620,7 +1729,6 @@
             setMeta('name', 'twitter:image', img);
             setCanonical(url);
 
-            // Geo (coordenadas reales o aproximadas por zona — sin inventar)
             if (typeof obtenerCoordenadasExactas === 'function') {
                 try {
                     const c = obtenerCoordenadasExactas(p);
@@ -1628,7 +1736,6 @@
                 } catch (e) { /* no-op */ }
             }
 
-            // JSON-LD específico de la ficha (alineado al Action + campos derivados reales)
             setJsonLd('jsonld-vista', {
                 "@context": "https://schema.org",
                 "@type": "RealEstateListing",
@@ -1660,7 +1767,7 @@
         }
 
         // ─────────────────────────────────────────────────────────────
-        // VISTA: ZONA (solo meta tags — la URL NUNCA cambia)
+        // VISTA: ZONA (solo meta tags)
         // ─────────────────────────────────────────────────────────────
         function seoZona(zona) {
             const zonaClean = (zona || '').trim();
@@ -1680,10 +1787,7 @@
             setMeta('name', 'twitter:title', titulo);
             setMeta('name', 'twitter:description', desc);
             setMeta('name', 'twitter:image', SEO_IMG_DEFAULT);
-            // ⚠️ NO se modifica canonical ni og:url — la página sigue siendo el home.
-            // Así evitamos canonicals fantasma que Google podría no entender.
 
-            // Geo específico de la zona (coordenadas reales de REFERENCIAS_GEOGRAFICAS)
             if (typeof REFERENCIAS_GEOGRAFICAS !== 'undefined') {
                 const lower = zonaClean.toLowerCase();
                 for (const k in REFERENCIAS_GEOGRAFICAS) {
@@ -1694,7 +1798,6 @@
                 }
             }
 
-            // JSON-LD de colección (describe la zona, sin reclamar URL propia)
             setJsonLd('jsonld-vista', {
                 "@context": "https://schema.org",
                 "@type": "CollectionPage",
@@ -1726,25 +1829,19 @@
             setMeta('name', 'twitter:title', titulo);
             setMeta('name', 'twitter:description', desc);
             setMeta('name', 'twitter:image', SEO_IMG_DEFAULT);
-            // ⚠️ NO se modifica canonical ni og:url — no existe /mapa/ prerenderizado.
 
             setGeoTags(10.4806, -66.9036, 'Venezuela');
             setJsonLd('jsonld-vista', null);
         }
 
-        // ── exponer al scope global ──
         window.seoHome = seoHome;
         window.seoInmueble = seoInmueble;
         window.seoZona = seoZona;
         window.seoMapa = seoMapa;
 
-        // ─────────────────────────────────────────────────────────────
-        // POPSTATE — navegación atrás/adelante del navegador
-        // ─────────────────────────────────────────────────────────────
         window.addEventListener('popstate', async function () {
             const path = window.location.pathname;
 
-            // /inmueble/{slug}.html OR /inmueble/{slug}
             const mInm = path.match(/^\/inmueble\/([^/]+?)(?:\.html)?\/?$/);
             if (mInm) {
                 const codigo = decodeURIComponent(mInm[1]).toUpperCase();
@@ -1755,15 +1852,12 @@
                         .eq('codigo_eco', codigo)
                         .single();
                     if (data) {
-                        // navegacion: null → NO toca la URL (ya es la correcta)
                         abrirModalDirecto(data, { navegacion: null });
                         return;
                     }
                 } catch (e) { /* no-op */ }
-                // Si no se encontró, caer a home
             }
 
-            // /zona/{slug} — defensivo (no generamos estos links, pero por si acaso)
             const mZona = path.match(/^\/zona\/([^/]+)\/?$/);
             if (mZona) {
                 const zona = decodeURIComponent(mZona[1]).replace(/-/g, ' ');
@@ -1775,7 +1869,6 @@
                 return;
             }
 
-            // home u otra ruta → cerrar modal si estaba abierto y revertir SEO
             const propModal = document.getElementById('propModal');
             if (propModal && !propModal.classList.contains('hidden')) {
                 if (typeof synth !== 'undefined' && synth.speaking) {
