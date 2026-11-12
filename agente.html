@@ -3,40 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil Profesional Inmobiliario | EcoNexus</title>
-  
-  <!-- SEO, OPEN GRAPH Y GEOPRESENCIA (DISEMINACIÓN ECONEXUS PLATFORM) -->
-  <meta name="description" content="Explora el mercado inmobiliario en Venezuela con nuestro especialista. Compra, venta y alquiler de inmuebles con seguridad legal. Una página impulsada por EcoNexus Platform." />
-  <meta name="keywords" content="Bienes Raíces, Inmobiliaria, Venezuela, Valencia, Carabobo, EcoNexus, Comprar Casa, Vender Inmueble, Alquiler, CRM Inmobiliario, Tecnología PropTech" />
-  <meta name="author" content="EcoNexus Platform" />
-  <meta name="robots" content="index, follow" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Perfil Profesional Inmobiliario | EcoNexus Platform</title>
 
-  <!-- Geopresencia (Venezuela) -->
+  <!-- ============================================================ -->
+  <!-- SEO PRIMARIO + GEO + HREFLANG                                 -->
+  <!-- ============================================================ -->
+  <meta name="description" content="Explora el mercado inmobiliario en Venezuela: casas, apartamentos, locales y terrenos. Compra, venta y alquiler con asesoría legal. Directorio oficial de agentes de EcoNexus Platform." />
+  <meta name="keywords" content="bienes raíces Venezuela, inmobiliaria Carabobo, comprar casa Valencia, vender inmueble Venezuela, alquiler apartamento Carabobo, Proptech Venezuela, EcoNexus Platform, CRM Inmobiliario, directorio inmobiliario venezolano, mercado inmobiliario nacional, casas en venta Maracay, apartamentos Caracas, terrenos Aragua, inversión inmobiliaria" />
+  <meta name="author" content="EcoNexus Platform" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow" />
+  <link rel="canonical" href="https://econexusplatform.com/perfil-agente.html" id="canonicalUrl" />
+
+  <link rel="alternate" hreflang="es-ve" href="https://econexusplatform.com/perfil-agente.html" />
+  <link rel="alternate" hreflang="es" href="https://econexusplatform.com/perfil-agente.html" />
+  <link rel="alternate" hreflang="x-default" href="https://econexusplatform.com/perfil-agente.html" />
+
+  <!-- GEOPRESENCIA MULTI-REGIÓN VENEZUELA -->
   <meta name="geo.region" content="VE" />
   <meta name="geo.placename" content="Venezuela" />
-  <meta name="geo.position" content="10.1620;-68.0077" /> <!-- Coordenadas base referenciales -->
+  <meta name="geo.position" content="10.1620;-68.0077" />
   <meta name="ICBM" content="10.1620, -68.0077" />
+  <meta name="DC.title" content="Perfil Inmobiliario - EcoNexus Platform" />
+  <meta name="DC.subject" content="Bienes Raíces Venezuela" />
+  <meta name="DC.coverage" content="Venezuela" />
+  <meta name="DC.language" content="es-VE" />
 
-  <!-- Open Graph / Redes Sociales (WhatsApp, Facebook, LinkedIn) -->
+  <!-- PRECONNECT / DNS-PREFETCH -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://gvcklmqldswxfweliuio.supabase.co" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://wa.me" />
+  <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+  <!-- OPEN GRAPH / WHATSAPP / FACEBOOK / LINKEDIN -->
   <meta property="og:type" content="profile" />
   <meta property="og:site_name" content="EcoNexus Platform" />
+  <meta property="og:locale" content="es_VE" />
   <meta property="og:title" content="Especialista Inmobiliario | EcoNexus Platform" id="ogTitle" />
-  <meta property="og:description" content="Descubre opciones de inversión, sugiere inmuebles y gestiona tu patrimonio con tecnología de punta. Respaldado por EcoNexus Platform en Venezuela." id="ogDescription" />
+  <meta property="og:description" content="Compra, venta y alquiler de inmuebles en Venezuela con asesoría legal y respaldo tecnológico. Descubre el portafolio verificado de EcoNexus Platform." id="ogDescription" />
   <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="ogImage" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Perfil de Agente Inmobiliario EcoNexus" />
   <meta property="og:url" content="https://econexusplatform.com" id="ogUrl" />
 
-  <!-- Twitter Card -->
+  <!-- TWITTER / X CARD -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Especialista Inmobiliario | EcoNexus Platform" />
-  <meta name="twitter:description" content="Gestión segura, rápida y con dominio total del mercado inmobiliario venezolano." />
-  
-  <!-- Tailwind CSS -->
+  <meta name="twitter:site" content="@econexusplatform" />
+  <meta name="twitter:creator" content="@econexusplatform" />
+  <meta name="twitter:title" content="Especialista Inmobiliario | EcoNexus Platform" id="twTitle" />
+  <meta name="twitter:description" content="Gestión segura y rápida del mercado inmobiliario venezolano. Portafolio verificado por EcoNexus Platform." id="twDescription" />
+  <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="twImage" />
+  <meta name="twitter:label1" content="Especialidad" />
+  <meta name="twitter:data1" content="Bienes Raíces" />
+  <meta name="twitter:label2" content="Región" />
+  <meta name="twitter:data2" content="Venezuela" />
+
+  <!-- ============================================================ -->
+  <!-- JSON-LD ESTÁTICO: ORGANIZACIÓN                                -->
+  <!-- ============================================================ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EcoNexus Platform",
+    "url": "https://econexusplatform.com",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    "description": "Plataforma tecnológica de bienes raíces en Venezuela. Directorio de agentes y catálogo inmobiliario verificado.",
+    "areaServed": { "@type": "Country", "name": "Venezuela" }
+  }
+  </script>
+
+  <!-- JSON-LD DINÁMICOS (se rellenan vía JavaScript) -->
+  <script type="application/ld+json" id="jsonLdAgent">{}</script>
+  <script type="application/ld+json" id="jsonLdBreadcrumb">{}</script>
+  <script type="application/ld+json" id="jsonLdProperties">{}</script>
+
+  <!-- TAILWIND + SUPABASE + FONT AWESOME -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- SDK de Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  
+
   <script>
     tailwind.config = {
       theme: {
@@ -48,7 +98,8 @@
       }
     }
   </script>
-  <!-- ESTILOS DINÁMICOS PARA PERSONALIZACIÓN DEL AGENTE Y EXTRAS -->
+
+  <!-- ESTILOS DINÁMICOS DEL AGENTE Y EXTRAS -->
   <style id="customAgentColors">
     :root {
       --color-primario: #1E3F20;
@@ -59,12 +110,8 @@
     .border-econexus { border-color: var(--color-primario) !important; }
     .hover\:bg-econexus-light:hover { background-color: var(--color-secundario) !important; }
     .bg-econexus-soft { background-color: #f8faf8 !important; }
-    
-    /* Ocultar scrollbar en slider de fotos pero permitir scroll */
     .scrollbar-hide::-webkit-scrollbar { display: none; }
     .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    
-    /* Efecto cursor titilante para transcripción */
     .cursor-blink::after {
       content: '|';
       animation: blink 1s step-end infinite;
@@ -75,15 +122,14 @@
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-econexus selection:text-white">
-  
-  <!-- HEADER / NAVBAR SLIM -->
+
+  <!-- HEADER -->
   <header class="bg-econexus text-white py-3 px-4 shadow-lg shadow-econexus/20 transition-colors duration-300 border-b border-white/10 z-20 relative">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
       <div class="flex items-center space-x-3 w-full">
-        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-white/80 shadow-md transition-transform hover:scale-105 flex-shrink-0" />
+        <img id="headerAgentLogo" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo Asesor Inmobiliario" class="h-10 w-10 rounded-full object-cover border-2 border-white/80 shadow-md transition-transform hover:scale-105 flex-shrink-0" />
         <div class="flex flex-col min-w-0">
           <span id="headerAgentName" class="font-extrabold tracking-wide text-sm md:text-base leading-tight truncate">EcoNexus CRM</span>
-          <!-- BADGE INTERACTIVO DE AUTORIDAD ABAJO DEL NOMBRE -->
           <span id="headerBadgeContainer" class="text-[10px] md:text-[11px] text-white/80 font-semibold tracking-wider flex items-center mt-0.5">
             <span id="headerBadgeText">Econexus web</span><span class="cursor-blink"></span>
           </span>
@@ -92,75 +138,62 @@
     </div>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL DEL PERFIL -->
+  <!-- MAIN -->
   <main class="max-w-5xl mx-auto w-full px-3 md:px-4 py-8 flex-grow">
-    
+
     <!-- TARJETA PRINCIPAL DEL AGENTE -->
     <div class="bg-white rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 mb-8 text-center relative overflow-hidden">
-      
-      <!-- DECORACIÓN DE FONDO (Toque de poder) -->
       <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-econexus/5 to-transparent z-0 pointer-events-none"></div>
 
-      <!-- BOTÓN FLOTANTE DE EDICIÓN (Flujo natural para no solapar foto) -->
-      <div id="containerBtnEditarPerfil" class="hidden w-full flex justify-end mb-4 relative z-10">
-        <button onclick="abrirModalPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-lg shadow-econexus/30 flex items-center gap-2 hover:-translate-y-0.5">
-          <i class="fa-solid fa-pen-to-square"></i> Personalizar Web
-        </button>
-      </div>
-      
-      <!-- INDICADOR DE CARGA -->
+      <!-- LOADING -->
       <div id="loadingAgente" class="py-12 z-10 relative">
         <i class="fa-solid fa-circle-notch fa-spin text-4xl text-econexus mb-3"></i>
         <p class="text-sm text-gray-500 font-bold uppercase tracking-widest">Sincronizando Perfil...</p>
       </div>
-      
-      <!-- CONTENIDO RENDERIZADO DEL PERFIL -->
+
+      <!-- CONTENIDO DEL PERFIL -->
       <div id="contentAgente" class="hidden z-10 relative">
         <div class="flex flex-col items-center">
-          
+
           <div class="relative mb-4">
             <div class="absolute inset-0 bg-econexus rounded-full blur-md opacity-20 transform scale-110"></div>
             <img id="fotoAgentePerfil" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Asesor Inmobiliario" class="relative w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-white shadow-xl" />
           </div>
-          
-          <!-- JERARQUÍA DE AGENCIA VS INDEPENDIENTE -->
+
           <span id="badgeTipoAgente" class="inline-block text-[10px] md:text-[11px] font-black tracking-wider text-econexus bg-econexus/5 px-4 py-1.5 rounded-full mb-2 border border-econexus/10 uppercase shadow-sm">
             AGENTE INDEPENDIENTE
           </span>
           <h2 id="subtituloAgencia" class="text-sm md:text-base font-bold text-gray-500 mb-1 tracking-wide uppercase hidden"></h2>
           <h1 id="nombreAgente" class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 tracking-tight"></h1>
-          
-          <!-- SOBRE MÍ / TRANSCRIPCIÓN BUCLE (Diseño Glassmorphism Moderno) -->
+
+          <!-- SOBRE MÍ -->
           <div id="containerSobreMi" class="hidden w-full max-w-2xl mx-auto mb-8 px-2">
             <div class="bg-white/70 backdrop-blur-xl p-5 md:p-7 rounded-3xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.06)] relative text-center md:text-left transition-all">
               <i class="fa-solid fa-quote-left absolute text-3xl text-gray-200/60 -top-3 -left-2 z-0"></i>
               <p id="txtSobreMi" class="relative z-10 text-sm md:text-base text-gray-800 font-semibold leading-relaxed min-h-[4rem]"></p>
             </div>
           </div>
-          
-          <!-- Botones de Acción Principal -->
+
+          <!-- BOTONES ACCIÓN -->
           <div class="flex flex-wrap justify-center gap-3 w-full max-w-2xl mb-10">
-            <a id="btnWhatsApp" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg hover:shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+            <a id="btnWhatsApp" href="#" target="_blank" rel="noopener" class="flex-1 min-w-[140px] md:min-w-[180px] bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg hover:shadow-[#25D366]/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-brands fa-whatsapp text-lg"></i> Contactar
             </a>
-            
             <button onclick="document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="flex-1 min-w-[140px] md:min-w-[180px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-econexus/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-solid fa-list-check text-lg"></i> Ver Inventario
             </button>
-
-            <!-- BOTÓN DE PUNTUAR ENLAZADO A LA PLATAFORMA -->
-            <a id="btnPuntuar" href="#" target="_blank" class="flex-1 min-w-[140px] md:min-w-[180px] bg-gray-900 hover:bg-black text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-gray-900/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
+            <a id="btnPuntuar" href="#" target="_blank" rel="noopener" class="flex-1 min-w-[140px] md:min-w-[180px] bg-gray-900 hover:bg-black text-white font-extrabold py-3.5 px-4 rounded-xl text-[11px] md:text-xs transition-all shadow-lg shadow-gray-900/30 flex items-center justify-center gap-2 hover:-translate-y-0.5">
               <i class="fa-solid fa-star-half-stroke text-lg"></i> Calificar Perfil
             </a>
           </div>
-          
-          <!-- MÓDULO PASIVO DE CAPTACIÓN (Diseño Ultra Moderno) -->
+
+          <!-- MÓDULO CAPTACIÓN -->
           <div class="bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-black p-6 rounded-3xl w-full max-w-2xl text-left flex flex-col md:flex-row items-center justify-between gap-5 shadow-2xl shadow-gray-900/30 border border-gray-800">
             <div>
               <p class="text-sm md:text-base font-extrabold text-white mb-1.5 tracking-wide">¿Deseas comprar, vender o alquilar?</p>
               <p class="text-xs text-gray-400 font-medium leading-relaxed">Gestión segura, rápida y con dominio total del mercado inmobiliario.</p>
             </div>
-            <a id="btnConsignarWhatsApp" href="#" target="_blank" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-black px-6 py-3 rounded-xl text-xs transition-all whitespace-nowrap shadow-lg shadow-amber-500/20 hover:scale-105">
+            <a id="btnConsignarWhatsApp" href="#" target="_blank" rel="noopener" class="bg-amber-500 hover:bg-amber-400 text-gray-900 font-black px-6 py-3 rounded-xl text-xs transition-all whitespace-nowrap shadow-lg shadow-amber-500/20 hover:scale-105">
               Consignar Inmueble
             </a>
           </div>
@@ -168,23 +201,18 @@
       </div>
     </div>
 
-    <!-- SECCIÓN DE INMUEBLES DESTACADOS DEL AGENTE -->
+    <!-- PORTAFOLIO -->
     <div id="seccionPortafolio" class="mb-6 flex justify-between items-center pt-2 px-2">
       <h2 class="text-xl md:text-2xl font-black text-gray-900 flex items-center tracking-tight">
         <i class="fa-solid fa-house-circle-check text-econexus mr-3"></i> Mi Portafolio
       </h2>
       <span id="inmueblesCount" class="text-xs md:text-sm text-econexus bg-econexus/10 px-3 py-1.5 rounded-full font-black border border-econexus/20">0 Propiedades</span>
     </div>
-    
-    <!-- GRILLA DE TARJETAS (2 Columnas mínimo en móvil) -->
-    <div id="gridInmueblesAgente" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
-    
-    <!-- CONTROLES DE PAGINACIÓN -->
-    <div id="paginacionContainer" class="hidden flex justify-center items-center space-x-2 mt-8 mb-4">
-      <!-- Se inyectan botones vía JS -->
-    </div>
 
-    <!-- ESTADO SIN RESULTADOS -->
+    <div id="gridInmueblesAgente" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"></div>
+
+    <div id="paginacionContainer" class="hidden flex justify-center items-center space-x-2 mt-8 mb-4"></div>
+
     <div id="noInmuebles" class="hidden text-center py-16 bg-white rounded-3xl border border-gray-100 shadow-sm">
       <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-50 mb-4">
         <i class="fa-solid fa-building-circle-xmark text-4xl text-gray-300"></i>
@@ -204,50 +232,7 @@
     </div>
   </div>
 
-  <!-- MODAL INTELIGENTE DE EDICIÓN -->
-  <div id="modalEditarPerfil" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl border border-gray-100 overflow-y-auto max-h-[90vh]">
-      <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
-        <h3 class="font-black text-gray-900 text-lg"><i class="fa-solid fa-palette text-econexus mr-2"></i> Diseño y Presencia</h3>
-        <button onclick="cerrarModalPerfil()" class="text-gray-400 hover:text-gray-900 transition-colors w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="space-y-6">
-        
-        <div class="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
-          <label class="block text-xs font-black uppercase tracking-wider text-gray-800 mb-3">Colores de Marca Institucional</label>
-          <div class="flex gap-4">
-            <div class="flex-1">
-              <label class="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase">Principal</label>
-              <input type="color" id="inputColorPrimario" value="#1E3F20" class="w-full h-12 rounded-xl cursor-pointer border-0 p-0 overflow-hidden shadow-sm">
-            </div>
-            <div class="flex-1">
-              <label class="block text-[10px] font-bold text-gray-500 mb-1.5 uppercase">Secundario</label>
-              <input type="color" id="inputColorSecundario" value="#388E3C" class="w-full h-12 rounded-xl cursor-pointer border-0 p-0 overflow-hidden shadow-sm">
-            </div>
-          </div>
-          <button type="button" onclick="restablecerColoresDefault()" class="mt-3 text-[11px] text-econexus font-bold hover:underline flex items-center gap-1"><i class="fa-solid fa-rotate-left"></i> Restablecer EcoNexus</button>
-        </div>
-
-        <div>
-          <label class="block text-xs font-black uppercase tracking-wider text-gray-800 mb-2">Resumen Profesional (Sobre Mí)</label>
-          <textarea id="inputSobreMiModal" rows="4" maxlength="550" oninput="actualizarContadorCaracteres(this)" placeholder="Ej: Especialista inmobiliario con alto dominio del mercado, enfocado en rentabilidad y seguridad legal..." class="w-full border border-gray-200 bg-gray-50 rounded-2xl px-4 py-3 text-sm font-medium focus:ring-2 focus:ring-econexus focus:bg-white outline-none transition-all shadow-inner"></textarea>
-          <div class="flex justify-between items-center mt-2 px-1">
-            <span class="text-[10px] text-gray-400 font-semibold">Destaca tu autoridad en el sector.</span>
-            <span id="contadorCaracteres" class="text-[11px] font-black text-gray-400">0/550</span>
-          </div>
-        </div>
-        
-        <div class="flex gap-3 pt-4">
-          <button type="button" onclick="cerrarModalPerfil()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-xl transition text-xs">Cancelar</button>
-          <button type="button" onclick="guardarPresentacionAgente()" class="flex-1 bg-gray-900 hover:bg-black text-white font-bold py-3 rounded-xl transition text-xs shadow-lg">Aplicar Cambios</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FOOTER ACTUALIZADO -->
+  <!-- FOOTER -->
   <footer class="bg-[#0a140b] text-white py-5 mt-auto">
     <div class="max-w-5xl mx-auto px-4 flex flex-col items-center justify-center gap-3 text-center">
       <div class="flex items-center justify-center gap-2">
@@ -256,39 +241,38 @@
       </div>
     </div>
   </footer>
-
-  <!-- SCRIPT LÓGICA DE CONSULTA, SEGURIDAD Y RENDERIZADO -->
-  <script>
+    <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
-    
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
+
     let uuidAsesorReal = null;
     let telefonoAsesorGlobal = '';
     let nombreAsesorGlobal = '';
-    let propiedadesCargadas = []; 
-    
-    // Variables Paginación
+    let propiedadesCargadas = [];
+
+    // Paginación 10 x 10
     let paginaActual = 1;
-    const itemsPorPagina = 20;
+    const itemsPorPagina = 10;
 
     function escaparHTML(str) {
       if (!str) return '';
       return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     }
 
-    // Efecto de Transcripción Header (Frases Específicas)
+    // =========================================================
+    // EFECTO TYPEWRITER HEADER
+    // =========================================================
     const phrasesHeader = ["Econexus web", "Tecnología de punta", "Dominio total del mercado"];
     let phraseIndex = 0;
     let charIndex = 0;
     let isDeletingHeader = false;
-    
+
     function typeHeaderEffect() {
       const headerBadge = document.getElementById('headerBadgeText');
-      if(!headerBadge) return;
+      if (!headerBadge) return;
       const currentPhrase = phrasesHeader[phraseIndex];
-      
+
       if (isDeletingHeader) {
         headerBadge.textContent = currentPhrase.substring(0, charIndex - 1);
         charIndex--;
@@ -296,11 +280,10 @@
         headerBadge.textContent = currentPhrase.substring(0, charIndex + 1);
         charIndex++;
       }
-      
+
       let speed = isDeletingHeader ? 40 : 80;
-      
       if (!isDeletingHeader && charIndex === currentPhrase.length) {
-        speed = 2500; // Pausa al completar la frase
+        speed = 2500;
         isDeletingHeader = true;
       } else if (isDeletingHeader && charIndex === 0) {
         isDeletingHeader = false;
@@ -310,179 +293,258 @@
       setTimeout(typeHeaderEffect, speed);
     }
 
-    // Efecto Transcripción Sobre Mí (En Bucle)
+    // =========================================================
+    // EFECTO TYPEWRITER "SOBRE MÍ" EN BUCLE
+    // =========================================================
     let typingTimeout;
     function startTypingLoop(elementId, text, speed = 25) {
       const element = document.getElementById(elementId);
-      if(!element || !text) return;
+      if (!element || !text) return;
       element.classList.add('cursor-blink');
       let i = 0;
       let isDeleting = false;
-      
+
       function loop() {
-          if (!isDeleting && i <= text.length) {
-              element.innerHTML = text.substring(0, i);
-              i++;
-              typingTimeout = setTimeout(loop, speed);
-          } else if (isDeleting && i >= 0) {
-              element.innerHTML = text.substring(0, i);
-              i--;
-              typingTimeout = setTimeout(loop, speed / 2); // Borra más rápido
-          } else if (i > text.length) {
-              isDeleting = true;
-              typingTimeout = setTimeout(loop, 5000); // Pausa de 5 segundos para que se lea
-          } else if (i < 0) {
-              isDeleting = false;
-              i = 0;
-              typingTimeout = setTimeout(loop, 1000); // Pausa de 1 seg antes de volver a escribir
-          }
+        if (!isDeleting && i <= text.length) {
+          element.innerHTML = text.substring(0, i);
+          i++;
+          typingTimeout = setTimeout(loop, speed);
+        } else if (isDeleting && i >= 0) {
+          element.innerHTML = text.substring(0, i);
+          i--;
+          typingTimeout = setTimeout(loop, speed / 2);
+        } else if (i > text.length) {
+          isDeleting = true;
+          typingTimeout = setTimeout(loop, 5000);
+        } else if (i < 0) {
+          isDeleting = false;
+          i = 0;
+          typingTimeout = setTimeout(loop, 1000);
+        }
       }
       clearTimeout(typingTimeout);
       loop();
     }
 
+    // =========================================================
+    // INICIO
+    // =========================================================
     document.addEventListener("DOMContentLoaded", async () => {
-      setTimeout(typeHeaderEffect, 1000); // Iniciar efecto del header
-      
+      setTimeout(typeHeaderEffect, 1000);
+
       const urlParams = new URLSearchParams(window.location.search);
       const queryParam = urlParams.get('u');
       if (!queryParam) {
         window.location.href = 'index.html';
         return;
       }
-      
-      // Se actualiza el URL canónico dinámicamente para los motores de búsqueda
+
+      // Actualizar canonical dinámico
+      const canonicalLink = document.getElementById('canonicalUrl');
+      if (canonicalLink) canonicalLink.setAttribute('href', window.location.href);
       document.getElementById('ogUrl').setAttribute('content', window.location.href);
-      
+
       await cargarPerfilYPropiedades(queryParam.trim());
     });
 
+    // =========================================================
+    // APLICAR COLORES DINÁMICOS DESDE BD
+    // =========================================================
     function aplicarEstilosDinamicos(primario, secundario) {
-      if(primario && secundario) {
+      if (primario && secundario) {
         document.documentElement.style.setProperty('--color-primario', primario);
         document.documentElement.style.setProperty('--color-secundario', secundario);
       }
     }
 
-    function restablecerColoresDefault() {
-      document.getElementById('inputColorPrimario').value = '#1E3F20';
-      document.getElementById('inputColorSecundario').value = '#388E3C';
+    // =========================================================
+    // ACTUALIZAR META DESCRIPTION DINÁMICA (SEO)
+    // =========================================================
+    function actualizarMetaDescriptionDinamica() {
+      if (propiedadesCargadas.length === 0) return;
+      const tipos = [...new Set(propiedadesCargadas.map(p => p.tipo).filter(Boolean))].slice(0, 4).join(', ');
+      const zonas = [...new Set(propiedadesCargadas.map(p => p.ubicacion).filter(Boolean))].slice(0, 3).join(', ');
+      const desc = `${nombreAsesorGlobal} · ${propiedadesCargadas.length} inmueble(s) disponibles en Venezuela. Especialidad: ${tipos || 'bienes raíces'}. Zonas: ${zonas || 'todo el país'}. Compra, venta y alquiler con respaldo EcoNexus Platform.`;
+
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', desc);
+      document.getElementById('ogDescription').setAttribute('content', desc);
+      document.getElementById('twDescription').setAttribute('content', desc);
     }
 
+    // =========================================================
+    // JSON-LD DINÁMICO: AGENTE
+    // =========================================================
+    function actualizarJsonLdAgent(fotoUrl) {
+      const ld = {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        "name": nombreAsesorGlobal,
+        "image": fotoUrl,
+        "telephone": telefonoAsesorGlobal ? `+${telefonoAsesorGlobal}` : undefined,
+        "url": window.location.href,
+        "areaServed": { "@type": "Country", "name": "Venezuela" },
+        "worksFor": { "@type": "Organization", "name": "EcoNexus Platform", "url": "https://econexusplatform.com" },
+        "knowsAbout": ["Bienes Raíces", "Compra y venta de inmuebles", "Alquiler de propiedades", "Inversión inmobiliaria"]
+      };
+      document.getElementById('jsonLdAgent').textContent = JSON.stringify(ld);
+    }
+
+    // =========================================================
+    // JSON-LD DINÁMICO: BREADCRUMB
+    // =========================================================
+    function actualizarJsonLdBreadcrumb() {
+      const bc = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "EcoNexus Platform", "item": "https://econexusplatform.com" },
+          { "@type": "ListItem", "position": 2, "name": "Directorio de Agentes", "item": "https://econexusplatform.com/busqueda-agente.html" },
+          { "@type": "ListItem", "position": 3, "name": nombreAsesorGlobal, "item": window.location.href }
+        ]
+      };
+      document.getElementById('jsonLdBreadcrumb').textContent = JSON.stringify(bc);
+    }
+
+    // =========================================================
+    // JSON-LD DINÁMICO: LISTA DE PROPIEDADES
+    // =========================================================
+    function actualizarJsonLdProperties() {
+      if (propiedadesCargadas.length === 0) return;
+      const items = propiedadesCargadas.slice(0, 10).map((p, i) => ({
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": {
+          "@type": "RealEstateListing",
+          "name": p.titulo,
+          "description": (p.descripcion || `Propiedad tipo ${p.tipo} en ${p.ubicacion || 'Venezuela'}`).substring(0, 200),
+          "url": `${window.location.origin}${window.location.pathname}?u=${uuidAsesorReal}&p=${p.id}`,
+          "image": (p.fotos && p.fotos[0]) ? p.fotos[0] : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+          "offers": { "@type": "Offer", "price": p.precio, "priceCurrency": "USD", "availability": "https://schema.org/InStock" },
+          "address": { "@type": "PostalAddress", "addressCountry": "VE", "addressLocality": p.ubicacion || "Venezuela" }
+        }
+      }));
+      const ld = { "@context": "https://schema.org", "@type": "ItemList", "itemListElement": items };
+      document.getElementById('jsonLdProperties').textContent = JSON.stringify(ld);
+    }
+
+    // =========================================================
+    // CARGAR DATOS EXTRA DEL PERFIL
+    // =========================================================
     async function cargarDatosPerfilExtra(userId) {
       if (!userId) return;
       try {
-        const { data, error } = await dbClient
+        const { data } = await dbClient
           .from('perfiles')
           .select('foto_perfil, sobre_mi, nombre_agente, telefono, color_primario, color_secundario')
           .eq('id', userId)
           .single();
-        
+
         if (data) {
           const fotoUrlFinal = data.foto_perfil || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
           document.getElementById('fotoAgentePerfil').src = fotoUrlFinal;
           document.getElementById('headerAgentLogo').src = fotoUrlFinal;
-          
-          // INYECCIÓN DINÁMICA DE META IMAGEN PARA SCRAPERS
+
           const metaImage = document.getElementById('ogImage');
           if (metaImage) metaImage.setAttribute('content', fotoUrlFinal);
-          
-          if(data.color_primario && data.color_secundario) {
+          const twImage = document.getElementById('twImage');
+          if (twImage) twImage.setAttribute('content', fotoUrlFinal);
+
+          if (data.color_primario && data.color_secundario) {
             aplicarEstilosDinamicos(data.color_primario, data.color_secundario);
-            document.getElementById('inputColorPrimario').value = data.color_primario;
-            document.getElementById('inputColorSecundario').value = data.color_secundario;
           }
-          
+
           if (data.sobre_mi) {
             document.getElementById('containerSobreMi').classList.remove('hidden');
-            startTypingLoop('txtSobreMi', data.sobre_mi); // Llama al efecto de mecanografía en bucle
-            document.getElementById('inputSobreMiModal').value = data.sobre_mi;
-            actualizarContadorCaracteres(document.getElementById('inputSobreMiModal'));
+            startTypingLoop('txtSobreMi', data.sobre_mi);
           } else {
             document.getElementById('containerSobreMi').classList.add('hidden');
           }
+
+          // Actualizar JSON-LD del agente con foto real
+          actualizarJsonLdAgent(fotoUrlFinal);
         }
       } catch (e) {
-        console.error("Error al sincronizar los datos extra del perfil:", e);
+        console.error("Error al sincronizar datos extra del perfil:", e);
       }
     }
 
+    // =========================================================
+    // CARGAR PERFIL + PROPIEDADES
+    // =========================================================
     async function cargarPerfilYPropiedades(param) {
       try {
-        let query = dbClient
-          .from('v_propiedades_catalogo')
-          .select('*')
-          .eq('estatus', 'Disponible');
-        
+        let query = dbClient.from('v_propiedades_catalogo').select('*').eq('estatus', 'Disponible');
+
         if (/^\d+$/.test(param)) {
           query = query.eq('telefono_asesor', param);
         } else {
           query = query.eq('user_id', param);
         }
-        
+
         const { data, error } = await query.order('fecha_publicacion', { ascending: false });
         if (error) throw error;
-        
+
         document.getElementById('loadingAgente').classList.add('hidden');
-        
+
         if (!data || data.length === 0) {
           await cargarPerfilSinPropiedades(param);
           return;
         }
-        
+
         const primerInmueble = data[0];
         uuidAsesorReal = primerInmueble.user_id;
         nombreAsesorGlobal = primerInmueble.nombre_asesor || "Asesor Inmobiliario";
         telefonoAsesorGlobal = primerInmueble.telefono_asesor || "";
-        
-        // LÓGICA DE JERARQUÍA (Agencia vs Independiente)
+
         const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
-        
+
         if (esAgencia) {
-            document.getElementById('headerAgentName').textContent = primerInmueble.nombre_agencia;
-            document.getElementById('badgeTipoAgente').textContent = "AGENCIA INMOBILIARIA";
-            document.getElementById('subtituloAgencia').textContent = primerInmueble.nombre_agencia;
-            document.getElementById('subtituloAgencia').classList.remove('hidden');
-            
-            // INYECCIÓN DINÁMICA DE META TÍTULO PARA SEO
-            document.title = `${nombreAsesorGlobal} - ${primerInmueble.nombre_agencia} | EcoNexus Platform`;
+          document.getElementById('headerAgentName').textContent = primerInmueble.nombre_agencia;
+          document.getElementById('badgeTipoAgente').textContent = "AGENCIA INMOBILIARIA";
+          document.getElementById('subtituloAgencia').textContent = primerInmueble.nombre_agencia;
+          document.getElementById('subtituloAgencia').classList.remove('hidden');
+          document.title = `${nombreAsesorGlobal} · ${primerInmueble.nombre_agencia} | Agente Inmobiliario Venezuela - EcoNexus`;
         } else {
-            document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
-            document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
-            document.getElementById('subtituloAgencia').classList.add('hidden');
-            
-            // INYECCIÓN DINÁMICA DE META TÍTULO PARA SEO
-            document.title = `${nombreAsesorGlobal} - Agente Inmobiliario | EcoNexus Platform`;
+          document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
+          document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
+          document.getElementById('subtituloAgencia').classList.add('hidden');
+          document.title = `${nombreAsesorGlobal} · Agente Inmobiliario Venezuela | EcoNexus Platform`;
         }
-        
+
         document.getElementById('ogTitle').setAttribute('content', document.title);
-        
+        document.getElementById('twTitle').setAttribute('content', document.title);
         document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
         document.getElementById('inmueblesCount').textContent = `${data.length} Propiedad(es)`;
-        
+
+        // WhatsApp
         const msjWA = encodeURIComponent(`Hola ${nombreAsesorGlobal}, vi tu portafolio digital en EcoNexus y quisiera asesoría.`);
         document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjWA}`;
-        
         const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad para compra/venta bajo tu gestión.`);
         document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
-        
-        // Asignar link de calificar con el UUID
-        document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agentes.html?agente=${uuidAsesorReal}`;
+
+        // ✅ BOTÓN PUNTUAR - URL corregida con ?id=UUID en busqueda-agente.html
+        document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agente.html?id=${uuidAsesorReal}`;
 
         await cargarDatosPerfilExtra(uuidAsesorReal);
-        await verificarSiEsDuenoSeguro(uuidAsesorReal);
-        
+
         propiedadesCargadas = data;
         document.getElementById('contentAgente').classList.remove('hidden');
-        
-        // Paginación inicial
-        renderGridAgentePaginado(1);
 
+        // SEO: cross-referencing
+        actualizarMetaDescriptionDinamica();
+        actualizarJsonLdBreadcrumb();
+        actualizarJsonLdProperties();
+
+        renderGridAgentePaginado(1);
       } catch (err) {
         console.error("Error cargando perfil del agente:", err);
       }
     }
 
+    // =========================================================
+    // CARGAR PERFIL SIN PROPIEDADES
+    // =========================================================
     async function cargarPerfilSinPropiedades(param) {
       try {
         let queryPerfil = dbClient.from('perfiles').select('*');
@@ -492,30 +554,32 @@
           queryPerfil = queryPerfil.eq('id', param);
         }
         const { data: perfilData } = await queryPerfil.single();
-        
+
         if (perfilData) {
           uuidAsesorReal = perfilData.id;
           nombreAsesorGlobal = perfilData.email ? perfilData.email.split('@')[0] : "Asesor EcoNexus";
           telefonoAsesorGlobal = perfilData.telefono || "";
-          
+
           document.getElementById('headerAgentName').textContent = "Agente Inmobiliario";
           document.getElementById('badgeTipoAgente').textContent = "AGENTE INMOBILIARIO";
           document.getElementById('subtituloAgencia').classList.add('hidden');
           document.getElementById('nombreAgente').textContent = nombreAsesorGlobal;
-          
-          document.title = `${nombreAsesorGlobal} - Agente Inmobiliario | EcoNexus Platform`;
+
+          document.title = `${nombreAsesorGlobal} · Agente Inmobiliario Venezuela | EcoNexus Platform`;
           document.getElementById('ogTitle').setAttribute('content', document.title);
-          
-          const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad con ustedes...`);
+          document.getElementById('twTitle').setAttribute('content', document.title);
+
+          const msjConsignar = encodeURIComponent(`Hola ${nombreAsesorGlobal}, deseo consignar una propiedad con ustedes.`);
           if (telefonoAsesorGlobal) {
             document.getElementById('btnWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}`;
             document.getElementById('btnConsignarWhatsApp').href = `https://wa.me/${telefonoAsesorGlobal}?text=${msjConsignar}`;
           }
-          
-          document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agentes.html?agente=${uuidAsesorReal}`;
+
+          // ✅ URL corregida
+          document.getElementById('btnPuntuar').href = `https://econexusplatform.com/busqueda-agente.html?id=${uuidAsesorReal}`;
 
           await cargarDatosPerfilExtra(uuidAsesorReal);
-          await verificarSiEsDuenoSeguro(uuidAsesorReal);
+          actualizarJsonLdBreadcrumb();
         }
         document.getElementById('contentAgente').classList.remove('hidden');
         document.getElementById('noInmuebles').classList.remove('hidden');
@@ -526,98 +590,38 @@
       }
     }
 
-    async function verificarSiEsDuenoSeguro(uuidPerfilMostrado) {
-      try {
-        const { data: { session } } = await dbClient.auth.getSession();
-        if (!session || !session.user) return;
-        if (session.user.id === uuidPerfilMostrado) {
-          document.getElementById('containerBtnEditarPerfil').classList.remove('hidden');
-        }
-      } catch (e) {
-        console.error("Error en validación segura:", e);
-      }
-    }
-
-    function abrirModalPerfil() {
-      document.getElementById('modalEditarPerfil').classList.remove('hidden');
-    }
-    function cerrarModalPerfil() {
-      document.getElementById('modalEditarPerfil').classList.add('hidden');
-    }
-    
-    function actualizarContadorCaracteres(textarea) {
-      document.getElementById('contadorCaracteres').textContent = `${textarea.value.length}/550`;
-    }
-
-    async function guardarPresentacionAgente() {
-      const textoBruto = document.getElementById('inputSobreMiModal').value.trim();
-      const colPri = document.getElementById('inputColorPrimario').value;
-      const colSec = document.getElementById('inputColorSecundario').value;
-      if (textoBruto.length > 550) {
-        return alert("La presentación no puede superar los 550 caracteres.");
-      }
-      const nuevoTexto = escaparHTML(textoBruto);
-      try {
-        const { data: { session } } = await dbClient.auth.getSession();
-        if (!session || !session.user) return alert("Debes iniciar sesión.");
-        if (session.user.id !== uuidAsesorReal) return alert("Acceso denegado. Sin privilegios.");
-        
-        const { error } = await dbClient
-          .from('perfiles')
-          .update({ 
-            sobre_mi: nuevoTexto,
-            color_primario: colPri,
-            color_secundario: colSec
-          })
-          .eq('id', session.user.id);
-          
-        if (error) throw error;
-        aplicarEstilosDinamicos(colPri, colSec);
-        
-        if (nuevoTexto) {
-          document.getElementById('containerSobreMi').classList.remove('hidden');
-          startTypingLoop('txtSobreMi', nuevoTexto); // Reiniciar el bucle de tipeo al guardar
-        } else {
-          document.getElementById('containerSobreMi').classList.add('hidden');
-        }
-        cerrarModalPerfil();
-      } catch (err) {
-        alert("Error de conexión al aplicar los cambios.");
-        console.error(err);
-      }
-    }
-
-    // MODAL DE PROPIEDADES DIRECTO
+    // =========================================================
+    // MODAL DE PROPIEDAD + BOTÓN COMPARTIR (VIRALIDAD)
+    // =========================================================
     function abrirModalPropiedad(id) {
       const p = propiedadesCargadas.find(item => item.id === id);
       if (!p) return;
+
       const whatsappAsesor = p.telefono_asesor ? p.telefono_asesor.replace(/[^0-9]/g, '') : "584140000000";
       const nombreAsesor = p.nombre_asesor || "Asesor EcoNexus";
-      const mensajeWA = encodeURIComponent(`Saludos ${nombreAsesor}, exijo información detallada sobre la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
+      const mensajeWA = encodeURIComponent(`Saludos ${nombreAsesor}, requiero información sobre la propiedad ID: ${p.codigo_eco} (${p.titulo}).`);
       const fotosArray = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
       const esAgencia = p.tipo_asesor && p.tipo_asesor.trim().toLowerCase() !== 'independiente' && p.nombre_agencia && p.nombre_agencia.trim() !== '';
       const agenciaDisplay = esAgencia ? p.nombre_agencia : "Gestión Independiente";
-      
+
       const modalContent = document.getElementById("modalContent");
       modalContent.innerHTML = `
         <div class="p-5 md:p-8">
           <div class="flex flex-wrap items-center gap-2 text-[10px] md:text-xs font-black text-econexus uppercase mb-3 tracking-widest">
-            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.tipo}</span> 
-            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.operacion}</span> 
+            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.tipo}</span>
+            <span class="bg-econexus/10 px-2.5 py-1 rounded">${p.operacion}</span>
             <span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded border border-gray-200">ID: ${p.codigo_eco}</span>
           </div>
           <h2 class="text-2xl md:text-4xl font-black text-gray-900 mb-2 leading-tight">${p.titulo}</h2>
-          
+
           <div class="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-wide mb-5">
             <i class="fa-solid fa-shield-halved text-econexus"></i> <span>Asesoría: ${agenciaDisplay}</span>
           </div>
-          
+
           <div class="mb-6">
-            <div class="text-4xl font-black text-gray-900 tracking-tight">
-              $${Number(p.precio).toLocaleString('en-US')}
-            </div>
+            <div class="text-4xl font-black text-gray-900 tracking-tight">$${Number(p.precio).toLocaleString('en-US')}</div>
           </div>
-          
+
           <div class="space-y-3 mb-6">
             <div class="relative rounded-2xl md:rounded-3xl overflow-hidden h-64 md:h-[450px] bg-gray-100 shadow-inner">
               <img id="modalFotoPrincipal" src="${fotosArray[0]}" alt="${p.titulo}" class="w-full h-full object-cover" />
@@ -630,36 +634,63 @@
               </div>
             ` : ''}
           </div>
-          
+
           <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 bg-gray-50 p-4 md:p-6 rounded-2xl mb-8 border border-gray-100 shadow-sm text-center">
             <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Habitaciones</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.habitaciones}</strong></div>
             <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Baños</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.banos}</strong></div>
             <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Puestos</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.estacionamientos}</strong></div>
             <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-50"><span class="block text-gray-400 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1">Superficie</span><strong class="text-gray-900 text-xl md:text-2xl font-black">${p.metros}<span class="text-sm">m²</span></strong></div>
           </div>
-          
+
           <div class="mb-8 bg-gray-50/50 p-5 md:p-6 rounded-2xl border border-gray-100">
             <h3 class="font-black text-gray-900 text-lg mb-3 uppercase tracking-wide">Descripción del Activo</h3>
             <p class="text-gray-700 leading-relaxed text-sm md:text-base font-medium whitespace-pre-line">${p.descripcion || 'Información reservada. Contacte al especialista.'}</p>
           </div>
-          
-          <button onclick="window.open('https://wa.me/${whatsappAsesor}?text=${mensajeWA}', '_blank')" class="bg-gray-900 hover:bg-black text-white px-6 py-4 rounded-2xl text-sm md:text-base font-black uppercase tracking-widest transition-all flex items-center justify-center shadow-xl shadow-gray-900/30 w-full cursor-pointer hover:scale-[1.01]">
-            <i class="fa-brands fa-whatsapp text-xl mr-3 text-[#25D366]"></i> Negociar Propiedad
-          </button>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <button onclick="window.open('https://wa.me/${whatsappAsesor}?text=${mensajeWA}', '_blank')" class="bg-gray-900 hover:bg-black text-white px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all flex items-center justify-center shadow-xl shadow-gray-900/30 w-full hover:scale-[1.01]">
+              <i class="fa-brands fa-whatsapp text-xl mr-3 text-[#25D366]"></i> Negociar Propiedad
+            </button>
+            <button onclick="compartirPropiedad('${p.id}')" class="bg-econexus hover:bg-econexus-light text-white px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest transition-all flex items-center justify-center shadow-xl shadow-econexus/30 w-full hover:scale-[1.01]">
+              <i class="fa-solid fa-share-nodes text-xl mr-3"></i> Compartir
+            </button>
+          </div>
         </div>
       `;
       document.getElementById("propModal").classList.remove("hidden");
     }
+
     function cerrarModalPropiedad() {
       document.getElementById("propModal").classList.add("hidden");
     }
 
-    // RENDERIZADO DE GRILLA CON PAGINACIÓN Y SLIDER DE FOTOS
+    // =========================================================
+    // COMPARTIR PROPIEDAD (VIRALIDAD)
+    // =========================================================
+    function compartirPropiedad(id) {
+      const p = propiedadesCargadas.find(item => item.id === id);
+      if (!p) return;
+      const url = `${window.location.origin}${window.location.pathname}?u=${uuidAsesorReal}&p=${p.id}`;
+      const texto = `Mira esta propiedad en EcoNexus: ${p.titulo} - $${Number(p.precio).toLocaleString('en-US')} · ${p.ubicacion || 'Venezuela'}`;
+      if (navigator.share) {
+        navigator.share({ title: p.titulo, text: texto, url: url }).catch(() => {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(`${texto}\n${url}`)
+          .then(() => alert('✅ Enlace copiado al portapapeles'))
+          .catch(() => prompt('Copia este enlace:', url));
+      } else {
+        prompt('Copia este enlace:', url);
+      }
+    }
+
+    // =========================================================
+    // RENDERIZADO DE GRILLA CON PAGINACIÓN (10 x 10)
+    // =========================================================
     function renderGridAgentePaginado(pagina) {
       paginaActual = pagina;
       const grid = document.getElementById('gridInmueblesAgente');
       grid.innerHTML = "";
-      
+
       const inicio = (pagina - 1) * itemsPorPagina;
       const fin = inicio + itemsPorPagina;
       const itemsMostrados = propiedadesCargadas.slice(inicio, fin);
@@ -676,20 +707,23 @@
         } else {
           fotosHtml = `<img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover" />`;
         }
-        
+
+        // ✅ BADGES EN COLUMNA (sin superposición)
         const cardHTML = `
           <div class="bg-white rounded-2xl md:rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1">
             <div>
               <div class="relative h-40 md:h-52 overflow-hidden bg-gray-100">
                 ${fotosHtml}
-                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-econexus text-white text-[9px] md:text-[10px] font-black px-2 md:px-3 py-1 rounded-full uppercase tracking-wider shadow-md pointer-events-none">${p.operacion}</span>
-                <span class="absolute top-2 right-2 md:top-3 md:right-3 bg-gray-900/80 backdrop-blur-sm text-white text-[9px] px-2 py-1 rounded-full font-bold pointer-events-none">ID: ${p.codigo_eco}</span>
+                <div class="absolute top-2 left-2 md:top-3 md:left-3 flex flex-col gap-1 z-10 pointer-events-none">
+                  <span class="bg-econexus text-white text-[9px] md:text-[10px] font-black px-2 md:px-2.5 py-0.5 md:py-1 rounded-full uppercase tracking-wider shadow-md w-fit">${p.operacion}</span>
+                  <span class="bg-gray-900/85 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold px-2 md:px-2.5 py-0.5 md:py-1 rounded-full shadow-md w-fit">ID: ${p.codigo_eco}</span>
+                </div>
               </div>
               <div class="p-3 md:p-5">
                 <div class="text-[9px] md:text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 line-clamp-1">${p.tipo} • ${p.ubicacion}</div>
                 <h3 class="font-extrabold text-gray-900 text-xs md:text-sm mb-2 line-clamp-2 leading-tight">${p.titulo}</h3>
                 <div class="text-base md:text-xl font-black text-gray-900 mb-3 tracking-tight">$${Number(p.precio).toLocaleString('en-US')}</div>
-                
+
                 <div class="grid grid-cols-3 gap-1 md:gap-2 text-center text-[9px] md:text-[11px] text-gray-700 bg-gray-50/80 p-1.5 md:p-2 rounded-xl border border-gray-100 font-bold">
                   <div class="flex flex-col"><span class="text-gray-400 text-[8px] uppercase">Hab</span> ${p.habitaciones || 0}</div>
                   <div class="flex flex-col border-x border-gray-200"><span class="text-gray-400 text-[8px] uppercase">Baños</span> ${p.banos || 0}</div>
@@ -705,29 +739,31 @@
           </div>
         `;
         grid.innerHTML += cardHTML;
-      }); 
+      });
 
       renderizarControlesPaginacion();
     }
 
+    // =========================================================
+    // CONTROLES DE PAGINACIÓN
+    // =========================================================
     function renderizarControlesPaginacion() {
       const container = document.getElementById('paginacionContainer');
       const totalPaginas = Math.ceil(propiedadesCargadas.length / itemsPorPagina);
-      
+
       if (totalPaginas <= 1) {
         container.classList.add('hidden');
         return;
       }
-      
+
       container.classList.remove('hidden');
       container.innerHTML = '';
-      
+
       for (let i = 1; i <= totalPaginas; i++) {
         const esActiva = i === paginaActual;
-        const btnClase = esActiva 
-          ? "bg-gray-900 text-white font-black shadow-md scale-110" 
+        const btnClase = esActiva
+          ? "bg-gray-900 text-white font-black shadow-md scale-110"
           : "bg-white text-gray-500 hover:bg-gray-100 font-bold border border-gray-200";
-          
         const btn = `<button onclick="renderGridAgentePaginado(${i}); document.getElementById('seccionPortafolio').scrollIntoView({behavior: 'smooth'})" class="w-8 h-8 md:w-10 md:h-10 rounded-xl text-xs md:text-sm flex items-center justify-center transition-all ${btnClase}">${i}</button>`;
         container.innerHTML += btn;
       }
