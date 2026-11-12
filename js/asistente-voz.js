@@ -1,16 +1,19 @@
 /**
- * ECONEXUS VOICE ASSISTANT v3 — "Eco, tu estratega inmobiliario"
+ * ECONEXUS VOICE ASSISTANT v4 — "Eco, tu estratega inmobiliario"
  * 100% determinístico (sin IA). Motor de reglas + Supabase directo.
  * Ubicación: /js/asistente-voz.js
  *
- * CAMBIOS v3:
- *  - TTS lee precios en palabras ("veintisiete mil dólares")
- *  - WhatsApp con <a href target="_blank"> (inmune a bloqueadores)
- *  - Fallback BUSCAR no reinicia búsquedas si no hay filtros nuevos
- *  - Interrupción: clic en el micrófono corta la voz y abre el oído
- *  - Comandos nuevos: "enviar todas", "del asesor X", "abrir mapa",
- *    "abrir y contactar", "más barato / más caro"
- *  - Detección robusta de "siguiente / sigue / continúa / próxima"
+ * CAMBIOS v4 (Entrega 1):
+ *  - FIX CRÍTICO: separación de S.fase (conversación) y S.micOn (micrófono).
+ *    "lee la opción 2" ahora se detecta SIEMPRE en fase de selección/lectura.
+ *  - Verbos imperativos añadidos al regex: lee, leeme, léela, cuéntame, etc.
+ *  - Detección de "Número suelto" como LEER_FICHA en modo conversación.
+ *  - Búsqueda solo por ZONA sin prefijo "en/zona/sector".
+ *  - Filtros progresivos: añadir filtros en medio de la conversación.
+ *  - Mensaje de fallback diferenciado para modo conversación.
+ *  - Si no se extrae número de opción: pregunta "¿qué número?" en vez de fallar.
+ *  - procesando flag para no cerrar sesión durante el procesamiento async.
+ *  - Zonas conocidas de Venezuela (fallback) para detección rápida.
  */
 (function () {
   'use strict';
@@ -33,11 +36,13 @@
   };
 
   // ============================================================
-  // ESTADO
+  // ESTADO — SEPARADO: fase (conversación) + micOn (micrófono)
   // ============================================================
   const S = {
     activo: false,
-    fase: 'IDLE',
+    fase: 'IDLE',        // IDLE | SELECCIONANDO | LEYENDO_FICHA
+    micOn: false,        // true mientras el micrófono escucha
+    procesando: false,   // true mientras se procesa un comando async
     filtros: {},
     resultados: [],
     loteActual: 0,
@@ -49,7 +54,6 @@
   };
 
   let TTS_TOKEN = 0;
-  const delay = (ms) => new Promise(r => setTimeout(r, ms));
 
   // ============================================================
   // UTILIDADES
@@ -70,9 +74,6 @@
 
   // ============================================================
   // NÚMERO → PALABRAS (para TTS de precios)
-  // 27000  → "veintisiete mil dólares"
-  // 150000 → "ciento cincuenta mil dólares"
-  // 27500  → "veintisiete mil quinientos dólares"
   // ============================================================
   const PAL = {
     U: ['cero','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve',
@@ -127,7 +128,7 @@
   }
 
   // ============================================================
-  // PARSEO DE NÚMEROS DICTADOS (para filtros de precio)
+  // PARSEO DE NÚMEROS DICTADOS (para filtros)
   // ============================================================
   const WNUM = {
     cero:0,uno:1,un:1,una:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,
@@ -191,6 +192,24 @@
     'piso bajo','primer piso','planta baja','piso alto','ultimo piso','vista panoramica'
   ];
 
+  // Zonas conocidas de Venezuela (fallback rápido; la versión completa llega en Entrega 2)
+  const ZONAS_VE = [
+    'prebo','trigal','trigaleña','la trigaleña','viñedo','vinedo','el viñedo',
+    'naguanagua','san diego','guataparo','mañongo','manongo','santa fe',
+    'el hatillo','los palos grandes','las mercedes','el paraiso','la candelaria',
+    'el cafetal','prados del este','altamira','chacao','san bernardino',
+    'la florida','el recreo','sabana grande','la california','los ruices',
+    'valencia','caracas','maracay','barquisimeto','maracaibo','puerto ordaz',
+    'carabobo','zulia','miranda','distrito capital','lara','anzoategui'
+  ];
+
+  const STOPWORDS_BUSQUEDA = [
+    'que','para','por','con','los','las','una','unos','unas','quiero','busco','buscar','buscame',
+    'dame','muestrame','muestra','ver','necesito','tengo','hay','algo','algun','alguna','algunos','algunas',
+    'lee','leer','leeme','cuentame','dime','abre','abrir','abreme','si','no','ok','vale','bien','gracias',
+    'ayuda','ayudame','favor','por favor','el','la','de','del','en','al','a','y','o','un','mi','me','te'
+  ];
+
   function extraerFiltros(transcript) {
     const t = norm(transcript);
     const out = {};
@@ -230,20 +249,20 @@
       if (mSolo) { const n = parseNumeroDesdeTexto(mSolo[0]); if (n && n >= 100) out.precioMax = n; }
     }
 
-    // Nombre del asesor explícito ("del asesor Pedro")
+    // Asesor explícito
     const mAs = t.match(/(?:del\s+asesor|de\s+la\s+asesora|del\s+agente|de\s+la\s+agente|del\s+realtor|de\s+la\s+realtor|del\s+captador|de\s+la\s+captadora)\s+([a-zñ]{3,20})/);
     if (mAs && !['con','que','para','por','del','los','las'].includes(mAs[1])) {
       out.asesorNombre = mAs[1];
     }
 
-    // Ubicación
-    const mU = t.match(/\b(?:en|zona|sector|por|de la zona)\s+([a-zñ\s]{3,40}?)(?=\s+(?:hasta|con|maximo|entre|que|para|y|o|de|por|\d)|$)/);
+    // Ubicación explícita con prefijo
+    const mU = t.match(/\b(?:en|zona|sector|por|de la zona|zona de|sector de|cerca de|por la zona)\s+([a-zñ\s]{3,40}?)(?=\s+(?:hasta|con|maximo|entre|que|para|y|o|de|por|\d)|$)/);
     if (mU) {
       const tokens = mU[1].trim().split(/\s+/).filter(w => {
         if (!w || w.length < 3) return false;
         if (OPER_MAP[w]) return false;
         for (const [keys] of TIPOS_MAP) { if (keys.includes(w)) return false; }
-        if (['con','los','las','una','unos','unas','que','para','por','asesor','agente'].includes(w)) return false;
+        if (STOPWORDS_BUSQUEDA.includes(w)) return false;
         if (out.asesorNombre && w === out.asesorNombre) return false;
         return true;
       });
@@ -258,58 +277,44 @@
     return out;
   }
 
-  // ============================================================
-  // INTENCIONES (v3 — detección robusta)
-  // ============================================================
-  function detectarIntencion(transcript, fase) {
+  // Detectar si el texto es una zona suelta (sin prefijo "en / zona / sector")
+  function detectarZonaSuelta(transcript) {
     const t = norm(transcript);
+    if (!t) return null;
+    const words = t.split(' ').filter(Boolean);
+    if (words.length < 1 || words.length > 4) return null;
 
-    // 1) "siguiente" (y variantes) — dependiente de la fase
-    if (/^(siguiente|sigue|continua|proxima|proximo|next)(\s+(por\s+favor|opcion|ficha|inmueble|uno|una))?\s*$/.test(t)) {
-      if (fase === 'LEYENDO_FICHA') return 'LEER_SIGUIENTE';
-      if (fase === 'SELECCIONANDO') return 'SIGUIENTE_LOTE';
-      return S.resultados.length ? 'LEER_SIGUIENTE' : 'BUSCAR';
+    // Filtrar stopwords y palabras que ya son filtros
+    const meaningful = words.filter(w => {
+      if (w.length < 3) return false;
+      if (STOPWORDS_BUSQUEDA.includes(w)) return false;
+      if (OPER_MAP[w]) return false;
+      for (const [keys] of TIPOS_MAP) { if (keys.includes(w)) return false; }
+      return true;
+    });
+
+    // Si todas las palabras son stopwords, no es zona
+    if (meaningful.length === 0) return null;
+    // Si hay palabras residuales, es ambigua
+    if (meaningful.length !== words.length) return null;
+
+    const candidate = meaningful.join(' ');
+
+    // Prioridad 1: coincidencia exacta con zona conocida
+    for (const z of ZONAS_VE) {
+      if (candidate === z) return candidate;
     }
-    if (/^(atras|anterior|la anterior|el anterior|previo|previa)(\s+(por\s+favor|opcion|ficha|inmueble))?\s*$/.test(t)) {
-      if (fase === 'LEYENDO_FICHA') return 'LEER_ANTERIOR';
-      return 'ANTERIOR_LOTE';
+    // Prioridad 2: coincidencia parcial (input dentro de zona conocida o viceversa)
+    for (const z of ZONAS_VE) {
+      if (z.includes(candidate) || candidate.includes(z)) return candidate;
     }
-
-    // 2) Comandos sueltos
-    if (/\b(para|detente|deten|silencio|stop|cancelar|cancela|basta|quieto)\b/.test(t) && t.split(' ').length <= 3) return 'DETENER';
-    if (/\b(repite|repetir|otra vez|de nuevo|como dijiste|que dijiste|no escuche)\b/.test(t)) return 'REPETIR';
-    if (/\b(limpiar|limpia|nuevo|nueva busqueda|reiniciar|borrar busqueda|resetear|empezar de nuevo|otra busqueda)\b/.test(t)) return 'LIMPIAR';
-    if (/\b(ayuda|ayudame|que puedes hacer|como funciona|como te uso|instrucciones|comandos)\b/.test(t)) return 'AYUDA';
-    if (/\b(cuantos|cuantas|cantidad|total de resultados|cuantos hay)\b/.test(t)) return 'CONTAR';
-    if (/\b(mas barato|mas economico|menor precio|el barato|los baratos)\b/.test(t)) return 'ORDEN_BARATO';
-    if (/\b(mas caro|mayor precio|el costoso|mas costoso|los caros)\b/.test(t)) return 'ORDEN_CARO';
-    if (/\b(mapa|abrir mapa|ver mapa|mostrar mapa|ver en mapa|ubicacion en mapa)\b/.test(t)) return 'MAPA';
-    if (/\b(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey|que tal|ola)\b/.test(t) && t.split(' ').length <= 4) return 'SALUDO';
-
-    // 3) Envíos masivos ("enviar todas", "mandar el lote")
-    if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo|el lote|las tres|los tres|las opciones|todo el lote|las fichas|los inmuebles|este lote|estas opciones)\b/.test(t)) return 'ENVIAR_LOTE';
-    if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo)\s+(a|al)\s+(whatsapp|wassap|cliente)\b/.test(t)) return 'ENVIAR_LOTE';
-
-    // 4) Acciones en fase de selección / lectura
-    if (fase === 'SELECCIONANDO' || fase === 'LEYENDO_FICHA') {
-      if (/\b(siguiente lote|siguiente grupo|siguientes opciones|mas opciones|otras opciones|ver mas|mostrar mas|hay mas|otros|siguientes|siguiente tanda|lote siguiente|grupo siguiente)\b/.test(t)) return 'SIGUIENTE_LOTE';
-      if (/\b(lote anterior|grupo anterior|anteriores|volver|regresar|previos|los de antes)\b/.test(t)) return 'ANTERIOR_LOTE';
-      if (/\b(leelas todas|leer todas|todas las fichas|todas las opciones|leeme todas)\b/.test(t)) return 'LEER_TODAS';
-      if (/\b(abrir y contactar|abrir y llamar|abrir y enviar al agente|abrir y contactar al agente|abrir ficha y contactar|abrir ficha y llamar)\b/.test(t)) return 'ABRIR_Y_CONTACTAR';
-      if (/\b(contactar|contacta|hablar con|comunicar|llamar|escribir al agente|whatsapp del agente|contacto del asesor|con el asesor|con el agente|al agente|al asesor|con el captador|contactar al agente|contactar al asesor)\b/.test(t)) return 'CONTACTAR_AGENTE';
-      if (/\b(enviar|envia|mandar|manda|compartir|comparte|whatsapp|wassap)\b/.test(t)) return 'ENVIAR_WHATSAPP';
-      if (/\b(abrir|abre|mostrar|muestra|ver ficha|ver detalle|abrir ficha|abreme|ficha completa)\b/.test(t)) return 'ABRIR_FICHA';
-      if (/\b(leer|leeme|leer ficha|cuentame|detalles|informacion completa|dime mas|ampliar|leer descripcion)\b/.test(t)) return 'LEER_FICHA';
-    }
-
-    if (/\b(si|dale|ok|okay|correcto|afirmativo|claro|hagamoslo)\b/.test(t) && t.split(' ').length <= 3) return 'CONFIRMAR';
-    if (/\b(no|cancelar|nel|para nada|no gracias)\b/.test(t) && t.split(' ').length <= 3) return 'NEGAR';
-
-    return 'BUSCAR';
+    // Prioridad 3: si tiene al menos una palabra de >=4 letras, asumir zona genérica
+    if (meaningful.some(w => w.length >= 4)) return candidate;
+    return null;
   }
 
   // ============================================================
-  // NÚMERO DE OPCIÓN
+  // INTENCIONES — usa S.fase (conversación), NO micOn
   // ============================================================
   const ORDINALES = {
     'primera':1,'primero':1,'uno':1,'un':1,
@@ -323,12 +328,98 @@
     'novena':9,'noveno':9,'nueve':9,
     'decima':10,'decimo':10,'diez':10
   };
+
+  const RE_LEER_VERBO = /\b(lee|leer|leeme|leemela|leemelas|leelas|leelos|leela|leelo|léela|léele|léelo|léelas|léelos|cuentame|cuéntame|detalla|detallame|describe|describeme|amplia|ampliar)\b/;
+  const RE_LEER_FRASE = /\b(leer ficha|info completa|informacion completa|dime mas|dime sobre|dime la info|dame la info|leer descripcion|lee la descripcion|cuentame mas|cuentame sobre|cuentame la ficha|detalla la ficha|describe la ficha)\b/;
+  const RE_SIGUIENTE_NUM = /^(siguiente|sigue|continua|proxima|proximo|next)(\s+(por\s+favor|opcion|ficha|inmueble|uno|una))?\s*$/;
+  const RE_ANTERIOR_NUM = /^(atras|anterior|la anterior|el anterior|previo|previa|regresa|regresar)(\s+(por\s+favor|opcion|ficha|inmueble))?\s*$/;
+  const RE_SOLO_NUMERO = /^(?:opcion|opcion numero|numero|la|el|la opcion|el numero)?\s*\d{1,2}$/;
+
+  function detectarIntencion(transcript) {
+    const t = norm(transcript);
+    const fase = S.fase;
+    const enConversacion = (fase === 'SELECCIONANDO' || fase === 'LEYENDO_FICHA');
+
+    // ============================================================
+    // CAPA 1: en modo conversación, comandos prioritarios
+    // ============================================================
+    if (enConversacion) {
+      // "2", "la 2", "opción 2" → LEER_FICHA
+      if (RE_SOLO_NUMERO.test(t)) return 'LEER_FICHA';
+      // "dos", "segunda", "la tercera" → LEER_FICHA
+      const words = t.split(' ');
+      if (words.length <= 3) {
+        for (const w of words) {
+          if (ORDINALES[w] !== undefined) return 'LEER_FICHA';
+        }
+      }
+    }
+
+    // ============================================================
+    // CAPA 2: comandos que dependen de la fase
+    // ============================================================
+    if (RE_SIGUIENTE_NUM.test(t)) {
+      if (fase === 'LEYENDO_FICHA') return 'LEER_SIGUIENTE';
+      if (fase === 'SELECCIONANDO') return 'SIGUIENTE_LOTE';
+      return S.resultados.length ? 'LEER_SIGUIENTE' : 'BUSCAR';
+    }
+    if (RE_ANTERIOR_NUM.test(t)) {
+      if (fase === 'LEYENDO_FICHA') return 'LEER_ANTERIOR';
+      if (fase === 'SELECCIONANDO') return 'ANTERIOR_LOTE';
+      return S.resultados.length ? 'LEER_ANTERIOR' : 'BUSCAR';
+    }
+
+    // ============================================================
+    // CAPA 3: comandos universales
+    // ============================================================
+    if (/\b(para|detente|deten|silencio|stop|cancelar|cancela|basta|quieto|salir)\b/.test(t) && t.split(' ').length <= 3) return 'DETENER';
+    if (/\b(repite|repetir|otra vez|de nuevo|como dijiste|que dijiste|no escuche)\b/.test(t)) return 'REPETIR';
+    if (/\b(limpiar|limpia|nuevo|nueva busqueda|reiniciar|borrar busqueda|resetear|empezar de nuevo|otra busqueda)\b/.test(t)) return 'LIMPIAR';
+    if (/\b(ayuda|ayudame|que puedes hacer|como funciona|como te uso|instrucciones|comandos)\b/.test(t)) return 'AYUDA';
+    if (/\b(cuantos|cuantas|cantidad|total de resultados|cuantos hay)\b/.test(t)) return 'CONTAR';
+    if (/\b(mas barato|mas economico|menor precio|el barato|los baratos)\b/.test(t)) return 'ORDEN_BARATO';
+    if (/\b(mas caro|mayor precio|el costoso|mas costoso|los caros)\b/.test(t)) return 'ORDEN_CARO';
+    if (/\b(mapa|abrir mapa|ver mapa|mostrar mapa|ver en mapa|ubicacion en mapa)\b/.test(t)) return 'MAPA';
+    if (/\b(hola|buenas|buenos dias|buenas tardes|buenas noches|saludos|hey|que tal|ola)\b/.test(t) && t.split(' ').length <= 4) return 'SALUDO';
+
+    // Envíos masivos
+    if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo|el lote|las tres|los tres|las opciones|todo el lote|las fichas|los inmuebles|este lote|estas opciones)\b/.test(t)) return 'ENVIAR_LOTE';
+    if (/\b(enviar|envia|mandar|manda|compartir|comparte)\s+(todas|todo)\s+(a|al)\s+(whatsapp|wassap|cliente)\b/.test(t)) return 'ENVIAR_LOTE';
+
+    // ============================================================
+    // CAPA 4: acciones sobre opción (solo en conversación)
+    // ============================================================
+    if (enConversacion) {
+      if (/\b(siguiente lote|siguiente grupo|siguientes opciones|mas opciones|otras opciones|ver mas|mostrar mas|hay mas|otros|siguientes|siguiente tanda|lote siguiente|grupo siguiente)\b/.test(t)) return 'SIGUIENTE_LOTE';
+      if (/\b(lote anterior|grupo anterior|anteriores|volver|regresar|previos|los de antes)\b/.test(t)) return 'ANTERIOR_LOTE';
+      if (/\b(leelas todas|leer todas|todas las fichas|todas las opciones|leeme todas)\b/.test(t)) return 'LEER_TODAS';
+      if (/\b(abrir y contactar|abrir y llamar|abrir y enviar al agente|abrir y contactar al agente|abrir ficha y contactar|abrir ficha y llamar)\b/.test(t)) return 'ABRIR_Y_CONTACTAR';
+      if (/\b(contactar|contacta|hablar con|comunicar|llamar|escribir al agente|whatsapp del agente|contacto del asesor|con el asesor|con el agente|al agente|al asesor|con el captador|contactar al agente|contactar al asesor)\b/.test(t)) return 'CONTACTAR_AGENTE';
+      if (/\b(enviar|envia|mandar|manda|compartir|comparte|whatsapp|wassap)\b/.test(t)) return 'ENVIAR_WHATSAPP';
+      // ABRIR FICHA con verbos imperativos
+      if (/\b(abrir|abre|abreme|abrir ficha|abre ficha|abreme la ficha|mostrar ficha|muestra ficha|ver ficha|ver detalle|ficha completa|abreme el inmueble|abrir el inmueble|muestra el inmueble)\b/.test(t)) return 'ABRIR_FICHA';
+      // LEER FICHA con verbos imperativos
+      if (RE_LEER_VERBO.test(t) || RE_LEER_FRASE.test(t)) return 'LEER_FICHA';
+    }
+
+    if (/\b(si|dale|ok|okay|correcto|afirmativo|claro|hagamoslo)\b/.test(t) && t.split(' ').length <= 3) return 'CONFIRMAR';
+    if (/\b(no|cancelar|nel|para nada|no gracias)\b/.test(t) && t.split(' ').length <= 3) return 'NEGAR';
+
+    return 'BUSCAR';
+  }
+
+  // ============================================================
+  // NÚMERO DE OPCIÓN
+  // ============================================================
   function extraerNumeroOpcion(transcript) {
     const t = norm(transcript);
-    let m = t.match(/\b(?:opcion|numero|la|el)\s+(\d{1,2})\b/);
+    // 1) "opción N / número N / la N / el N"
+    let m = t.match(/\b(?:opcion|opcion numero|numero|la|el)\s+(\d{1,2})\b/);
     if (m) return parseInt(m[1]);
-    m = t.match(/\b(\d{1,2})\b/);
+    // 2) "N" suelto SIN contexto de habitaciones/baños/metros
+    m = t.match(/\b(\d{1,2})\b(?!\s*(?:hab|habitacion|habitaciones|cuarto|cuartos|dormitorio|dormitorios|recamara|bano|banos|sanitario|sanitarios|metro|metros|m2|mts|puesto|puestos|estacionamiento|estacionamientos|carro|carros|mil|k|dolar|dolares)\b)/i);
     if (m) return parseInt(m[1]);
+    // 3) Ordinales
     for (const [k,v] of Object.entries(ORDINALES)) {
       if (new RegExp('\\b'+k+'\\b').test(t)) return v;
     }
@@ -399,20 +490,26 @@
   }
 
   // ============================================================
-  // RECONOCIMIENTO
+  // RECONOCIMIENTO — NO toca S.fase (solo S.micOn)
   // ============================================================
   function iniciarEscucha() {
     if (!S.rec) return;
-    S.fase = 'ESCUCHANDO';
+    S.micOn = true;
     setTimeout(() => {
       try { S.rec.start(); }
       catch (e) {
         console.warn('[Eco] rec.start retry:', e.message);
-        setTimeout(() => { try { S.rec.start(); } catch (e2) { console.error('[Eco] rec.start falló:', e2.message); } }, 250);
+        setTimeout(() => {
+          try { S.rec.start(); }
+          catch (e2) { console.error('[Eco] rec.start falló:', e2.message); S.micOn = false; }
+        }, 250);
       }
     }, 120);
   }
-  function detenerEscucha() { if (S.rec) { try { S.rec.abort(); } catch (e) {} } }
+  function detenerEscucha() {
+    if (S.rec) { try { S.rec.abort(); } catch (e) {} }
+    S.micOn = false;
+  }
 
   function initReconocimiento() {
     const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -424,14 +521,15 @@
     rec.maxAlternatives = 1;
 
     rec.onstart = () => {
+      S.micOn = true;
       solicitarWakeLock();
       const btn = document.getElementById('btnAsistenteVoz');
       if (btn) btn.classList.add('listening-mic');
     };
     rec.onresult = (event) => {
-      S.fase = 'PROCESANDO';
+      S.procesando = true;
       const transcript = event.results[0][0].transcript.trim();
-      procesarComando(transcript);
+      procesarComando(transcript).finally(() => { S.procesando = false; });
     };
     rec.onerror = (event) => {
       if (event.error !== 'no-speech' && event.error !== 'aborted') {
@@ -439,11 +537,13 @@
       }
     };
     rec.onend = () => {
+      S.micOn = false;
       const btn = document.getElementById('btnAsistenteVoz');
       if (btn) btn.classList.remove('listening-mic');
-      if (S.fase === 'ESCUCHANDO' && S.activo) {
+      // Cerrar sesión SOLO si no estamos procesando ni esperando respuesta
+      if (S.activo && !S.procesando) {
         setTimeout(() => {
-          if (S.fase === 'ESCUCHANDO' && S.activo) {
+          if (S.activo && !S.micOn && !S.procesando) {
             S.fase = 'IDLE'; S.activo = false; ocultarUI(); liberarWakeLock();
           }
         }, 900);
@@ -572,16 +672,21 @@
       '¿Deseas enviarla a tu WhatsApp, contactar al agente, o pasar a la siguiente?';
   }
 
-  function narrarLote(esInicial) {
+  function narrarLote(esInicial, prefijo) {
     const inicio = S.loteActual * CFG.TAMANO_LOTE;
     const fin = Math.min(inicio + CFG.TAMANO_LOTE, S.resultados.length);
     const lote = S.resultados.slice(inicio, fin);
     if (!lote.length) return;
 
     const total = S.resultados.length;
-    let msg = esInicial
-      ? `Encontré ${numeroAPalabrasEspanol(total)} inmuebles que coinciden. Te muestro los primeros ${lote.length}. `
-      : `Lote ${S.loteActual+1}. Del ${inicio+1} al ${fin}. `;
+    let msg = '';
+    if (prefijo) {
+      msg = prefijo + ' ';
+    } else if (esInicial) {
+      msg = `Encontré ${numeroAPalabrasEspanol(total)} inmuebles que coinciden. Te muestro los primeros ${lote.length}. `;
+    } else {
+      msg = `Lote ${S.loteActual+1}. Del ${inicio+1} al ${fin}. `;
+    }
     lote.forEach((p,i) => { msg += `Opción ${inicio+i+1}: ${describirCorto(p)}. `; });
     msg += '¿Cuál deseas leer, enviar o contactar al agente? Puedes decir "leer la uno", "siguiente", o "enviar todas a mi WhatsApp".';
 
@@ -638,7 +743,6 @@
     return msg.trim();
   }
 
-  // Modal de envío — usa <a href target="_blank"> (inmune a bloqueadores)
   function mostrarModalEnvioWhatsApp(items, modo) {
     if (!Array.isArray(items)) items = [items];
     detenerHabla(); detenerEscucha();
@@ -706,10 +810,11 @@
   // DISPATCHER PRINCIPAL
   // ============================================================
   async function procesarComando(transcript) {
-    console.log('[Eco] 🎤', transcript);
+    console.log('[Eco] 🎤', transcript, '| fase:', S.fase);
     try {
       const t = norm(transcript);
-      const intent = detectarIntencion(transcript, S.fase);
+      const intent = detectarIntencion(transcript);
+      console.log('[Eco] 🧠 intent:', intent);
 
       // ---- DETENER ----
       if (intent === 'DETENER') {
@@ -730,19 +835,20 @@
       }
       // ---- AYUDA ----
       if (intent === 'AYUDA') {
-        hablar('Soy Eco, tu estratega inmobiliario. Puedo buscar por zona, tipo, operación, precio, habitaciones, baños, metros, asesor o bondades como planta eléctrica, pozo o piscina. Ejemplo: "casa en venta en Prebo hasta cien mil con tres habitaciones". Cuando te muestre opciones puedes decir "leer la dos", "siguiente", "enviar la uno a mi WhatsApp", "enviar todas", "contactar al agente de la tres", "más barato" o "abrir mapa". ¿Qué deseas buscar?', () => iniciarEscucha());
+        hablar('Soy Eco, tu estratega inmobiliario. Puedo buscar por zona, tipo, operación, precio, habitaciones, baños, metros, asesor o bondades como planta eléctrica, pozo o piscina. Ejemplo: "casa en venta en Prebo hasta cien mil con tres habitaciones". Si solo dices una zona como "Prebo", busco todo lo disponible allí. Cuando te muestre opciones puedes decir "leer la dos", "siguiente", "enviar la uno a mi WhatsApp", "enviar todas", "contactar al agente de la tres", "más barato" o "abrir mapa". También puedes añadir filtros en medio: "y que tenga tres habitaciones". ¿Qué deseas buscar?', () => iniciarEscucha());
         return;
       }
       // ---- SALUDO ----
       if (intent === 'SALUDO' && S.fase !== 'SELECCIONANDO') {
-        hablar(`Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Dime qué inmueble buscas: zona, tipo, operación y presupuesto. Ejemplo: "casa en venta en Prebo hasta cien mil dólares".`, () => iniciarEscucha());
+        hablar(`Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Dime qué inmueble buscas: zona, tipo, operación y presupuesto. Ejemplo: "casa en venta en Prebo hasta cien mil dólares". Si solo te interesa una zona, dime solo "Prebo".`, () => iniciarEscucha());
         return;
       }
       // ---- LIMPIAR ----
       if (intent === 'LIMPIAR') {
         S.filtros = {}; S.resultados = []; S.loteActual = 0; S.indiceFichaEnResultados = -1;
+        S.fase = 'IDLE';
         cerrarCarrusel();
-        hablar('He limpiado la búsqueda. Dime qué inmueble buscas ahora.', () => iniciarEscucha());
+        hablar('He limpiado la búsqueda. Dime qué inmueble buscas ahora. Puedes empezar solo con una zona, un tipo, un precio o una operación.', () => iniciarEscucha());
         return;
       }
       // ---- CONTAR ----
@@ -758,7 +864,7 @@
           ? (a.precio||0) - (b.precio||0)
           : (b.precio||0) - (a.precio||0));
         S.loteActual = 0; renderCarrusel();
-        narrarLote(true);
+        narrarLote(true, intent === 'ORDEN_BARATO' ? 'Ordenado del más barato al más caro.' : 'Ordenado del más caro al más barato.');
         return;
       }
       // ---- MAPA ----
@@ -777,7 +883,7 @@
         if (!S.resultados.length) { hablar('No hay resultados activos. Dime qué buscas para empezar.', () => iniciarEscucha()); return; }
         const totalLotes = Math.ceil(S.resultados.length / CFG.TAMANO_LOTE);
         if (S.loteActual + 1 >= totalLotes) {
-          hablar(`Ya te mostré todas las ${numeroAPalabrasEspanol(S.resultados.length)} opciones. Puedes decir "volver al inicio" o cambiar de búsqueda.`);
+          hablar(`Ya te mostré todas las ${numeroAPalabrasEspanol(S.resultados.length)} opciones. Puedes decir "volver al inicio" o cambiar de búsqueda.`, () => iniciarEscucha());
           return;
         }
         S.loteActual++; renderCarrusel(); narrarLote(false);
@@ -807,7 +913,10 @@
       }
       // ---- ACCIONES SOBRE OPCIÓN ----
       if (['LEER_FICHA','ABRIR_FICHA','ENVIAR_WHATSAPP','CONTACTAR_AGENTE','ABRIR_Y_CONTACTAR','LEER_SIGUIENTE','LEER_ANTERIOR'].includes(intent)) {
-        if (!S.resultados.length) { hablar('Primero necesito que busques algo. Dime por ejemplo "casa en venta en Prebo".', () => iniciarEscucha()); return; }
+        if (!S.resultados.length) {
+          hablar('Primero necesito que busques algo. Dime por ejemplo "casa en venta en Prebo", o simplemente "Prebo".', () => iniciarEscucha());
+          return;
+        }
 
         let idx = null;
         if (intent === 'LEER_SIGUIENTE') {
@@ -822,8 +931,9 @@
           else idx = 0;
         }
 
+        // FIX: si no se pudo extraer número y el comando lo requería, preguntar
         if (idx === null || idx < 0 || idx >= S.resultados.length) {
-          hablar('No identifiqué el número de la opción. Dime por ejemplo "leer la uno" o "enviar la dos".');
+          hablar('¿Qué número de opción? Puedes decir "la uno", "la dos" o "la tres".', () => iniciarEscucha());
           return;
         }
         const inm = S.resultados[idx];
@@ -851,35 +961,82 @@
 
       // ---- FALLBACK: BUSCAR ----
       const nuevos = extraerFiltros(transcript);
+
+      // Si no hay filtros extraídos, intentar como zona suelta
+      if (Object.keys(nuevos).length === 0) {
+        const zona = detectarZonaSuelta(transcript);
+        if (zona) {
+          nuevos.ubicacion = zona;
+          console.log('[Eco] 📍 Zona suelta detectada:', zona);
+        }
+      }
+
       const tieneNuevos = Object.keys(nuevos).length > 0;
 
-      // ⚠️ Clave del fix: si NO hay filtros nuevos, NO reiniciar búsqueda
+      // ⚠️ Si NO hay filtros nuevos, no reiniciar búsqueda — guiar al usuario
       if (!tieneNuevos) {
         if (S.resultados.length > 0 && (S.fase === 'SELECCIONANDO' || S.fase === 'LEYENDO_FICHA')) {
-          hablar('No entendí. Puedes decir "leer la uno", "siguiente", "anterior", "enviar la dos a mi WhatsApp", "contactar al agente", "enviar todas", "más barato", "más caro", o dime nuevos filtros para buscar.');
+          hablar('No entendí ese comando. Puedes decir "leer la uno", "siguiente", "anterior", "enviar la dos a mi WhatsApp", "contactar al agente", "enviar todas", "más barato", "más caro", "abrir mapa", o dime nuevos filtros para añadir a la búsqueda actual. Por ejemplo: "que tenga tres habitaciones" o "con piscina".', () => iniciarEscucha());
         } else {
-          hablar('No entendí qué buscar. Dime por ejemplo: "casa en venta en Prebo hasta cien mil dólares con tres habitaciones".');
+          hablar('No entendí qué buscar. Puedes decir solo una zona como "Prebo", o combinar filtros: "casa en venta en Prebo hasta cien mil dólares con tres habitaciones". También puedes decir "ayuda" para escuchar todos los comandos.', () => iniciarEscucha());
         }
         return;
       }
 
+      // Filtros progresivos: si ya había resultados y estamos añadiendo filtros, anunciar
+      const habiaResultados = S.resultados.length > 0;
+      const filtrosAntes = { ...S.filtros };
       S.filtros = Object.assign({}, S.filtros, nuevos);
-      actualizarUI('Buscando inmuebles con esos criterios...');
+
+      actualizarUI(habiaResultados ? 'Añadiendo filtros a la búsqueda...' : 'Buscando inmuebles con esos criterios...');
       const resultados = await buscarInmuebles(S.filtros);
+
       if (!resultados.length) {
-        hablar('No encontré inmuebles con esos criterios. Intenta ampliar la zona o el presupuesto, o dime otra característica.', () => iniciarEscucha());
+        // Si no hay resultados, ofrecer quitar el último filtro
+        if (habiaResultados) {
+          S.filtros = filtrosAntes;
+          hablar('Con ese filtro no quedan inmuebles. Vuelvo a la búsqueda anterior. Puedes intentar otro filtro o cambiar de búsqueda.', () => iniciarEscucha());
+        } else {
+          hablar('No encontré inmuebles con esos criterios. Intenta ampliar la zona o el presupuesto, o dime otra característica.', () => iniciarEscucha());
+        }
         return;
       }
+
       S.resultados = resultados;
       S.loteActual = 0;
       S.indiceFichaEnResultados = -1;
       renderCarrusel();
-      narrarLote(true);
+
+      if (habiaResultados) {
+        const desc = describirFiltrosAñadidos(nuevos);
+        narrarLote(true, `Añadí ${desc}. Ahora tengo ${numeroAPalabrasEspanol(resultados.length)} inmuebles que coinciden.`);
+      } else {
+        narrarLote(true);
+      }
     } catch (err) {
       console.error('[Eco] Error procesando comando:', err);
-      S.fase = 'ESCUCHANDO';
       hablar('Tuve un problema procesando tu solicitud. ¿Puedes repetirlo?', () => iniciarEscucha());
     }
+  }
+
+  // Describir filtros añadidos para feedback hablado
+  function describirFiltrosAñadidos(f) {
+    const partes = [];
+    if (f.operacion) partes.push('operación ' + f.operacion.toLowerCase());
+    if (f.tipo) partes.push('tipo ' + f.tipo);
+    if (f.ubicacion) partes.push('zona ' + f.ubicacion);
+    if (f.precioMax) partes.push('precio máximo ' + numeroAPalabrasEspanol(f.precioMax) + ' dólares');
+    if (f.precioMin) partes.push('precio mínimo ' + numeroAPalabrasEspanol(f.precioMin) + ' dólares');
+    if (f.habitacionesMin) partes.push(f.habitacionesMin + ' habitaciones mínimo');
+    if (f.banosMin) partes.push(f.banosMin + ' baños mínimo');
+    if (f.estacionamientosMin) partes.push(f.estacionamientosMin + ' puestos mínimo');
+    if (f.metrosMin) partes.push(f.metrosMin + ' metros mínimo');
+    if (f.asesorNombre) partes.push('asesor ' + f.asesorNombre);
+    if (f.bondades && f.bondades.length) partes.push('bondades ' + f.bondades.join(', '));
+    if (f.vip) partes.push('solo VIP');
+    if (!partes.length) return 'el filtro';
+    if (partes.length === 1) return partes[0];
+    return partes.slice(0, -1).join(', ') + ' y ' + partes[partes.length - 1];
   }
 
   // ============================================================
@@ -917,7 +1074,6 @@
     if (S.synth && S.synth.speaking) {
       detenerHabla();
       S.activo = true;
-      S.fase = 'ESCUCHANDO';
       mostrarUI('Te escucho...');
       try { S.rec.abort(); } catch (e) {}
       setTimeout(() => iniciarEscucha(), 150);
@@ -926,7 +1082,6 @@
 
     // Reactivar sesión existente
     if (S.activo) {
-      S.fase = 'ESCUCHANDO';
       mostrarUI('Te escucho...');
       try { S.rec.abort(); } catch (e) {}
       setTimeout(() => iniciarEscucha(), 150);
@@ -934,9 +1089,9 @@
     }
 
     // Nueva sesión
-    S.activo = true; S.fase = 'ESCUCHANDO';
+    S.activo = true; S.fase = 'IDLE';
     mostrarUI(`${CFG.NOMBRE} te está escuchando...`);
-    const saludo = `Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Estoy listo para ayudarte. Dime por ejemplo: "casa en venta en Prebo hasta cien mil dólares", o "apartamento en alquiler en Naguanagua con tres habitaciones".`;
+    const saludo = `Hola, soy ${CFG.NOMBRE}, ${CFG.ROL}. Estoy listo para ayudarte. Puedes decirme solo una zona, como "Prebo", o combinar: "casa en venta en Prebo hasta cien mil dólares", o "apartamento en alquiler en Naguanagua con tres habitaciones".`;
     hablar(saludo, () => { if (S.activo) iniciarEscucha(); });
   };
 
@@ -951,13 +1106,12 @@
   // VISIBILITY RESUME (cuando el usuario vuelve de WhatsApp)
   // ============================================================
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && S.activo && S.fase === 'ESCUCHANDO') {
-      setTimeout(() => {
-        if (S.activo && S.fase === 'ESCUCHANDO') {
-          try { S.rec.abort(); } catch (e) {}
-          iniciarEscucha();
-        }
-      }, 300);
+    if (!document.hidden && S.activo && !S.micOn && !S.procesando) {
+      if (S.fase === 'SELECCIONANDO' || S.fase === 'LEYENDO_FICHA') {
+        setTimeout(() => {
+          if (S.activo && !S.micOn && !S.procesando) iniciarEscucha();
+        }, 300);
+      }
     }
   });
 
@@ -968,7 +1122,7 @@
     S.rec = initReconocimiento();
     if (!S.rec) console.warn('[Eco] Reconocimiento de voz NO soportado');
     getDb();
-    console.log('[Eco v3] Asistente listo — "tu estratega inmobiliario"');
+    console.log('[Eco v4] Asistente listo — motor conversacional blindado');
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
