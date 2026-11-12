@@ -13,6 +13,11 @@
    - enlaces: obtenerEnlaceShareInmueble, obtenerEnlaceShareAgente
    - texto: truncarTextoSimple
    - CDN cargados en <head>: pdfMake, html2canvas, QRious
+
+   NOTA (v2):
+   La Tarjeta de Presentación ya NO depende de HTML template. Su layout
+   completo se construye en JS y se inyecta en un contenedor auto-creado.
+   El HTML sólo necesita el botón "Mi Tarjeta (QR)".
    ========================================================================= */
 
 /* =========================================================
@@ -348,77 +353,7 @@ async function descargarPostInstagramCanvas(id) {
 }
 
 /* =========================================================
-   4. MI TARJETA DE PRESENTACIÓN (1080x1920) CON QR AL PORTAFOLIO
-   ========================================================= */
-async function descargarTarjetaPresentacionCanvas() {
-  const nombre = document.getElementById('perfilNombreAgente').value.trim() || document.getElementById('headerDisplayNombreAgente').textContent || 'Asesor Inmobiliario';
-  const telefono = document.getElementById('perfilTelefono').value.trim() || 'Disponible';
-  const tipo = document.getElementById('perfilTipoAsesor').value || 'Independiente';
-  const agencia = document.getElementById('perfilNombreAgencia').value.trim();
-  const sobreMi = document.getElementById('perfilSobreMi').value.trim() || 'Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, respaldo profesional y contacto directo.';
-
-  const { primario, secundario } = obtenerColoresMarcaActivos();
-  const esPrimarioClaro = esColorClaro(primario);
-  const fondoTop = esPrimarioClaro ? '#1e293b' : primario;
-  const fondoBottom = esPrimarioClaro ? '#0f172a' : oscurecerColorHex(primario, 58);
-
-  mostrarProgresoGeneracion("Creando Mi Tarjeta para Estados...", "Aplicando datos, colores, QR y contraste inteligente en 1080x1920 px.");
-
-  try {
-    const container = document.getElementById('card-presentacion-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
-
-    document.getElementById('card-pres-avatar-ring').style.background = `linear-gradient(135deg, #fde047, ${secundario})`;
-    const tipoBadge = document.getElementById('card-pres-tipo-badge');
-    tipoBadge.style.background = secundario;
-    tipoBadge.style.color = obtenerColorTextoContraste(secundario);
-    tipoBadge.textContent = tipo === 'Agencia' ? 'AGENCIA INMOBILIARIA' : 'AGENTE INDEPENDIENTE';
-
-    /* 1) QR al portafolio del agente (Worker /share?u=userId) */
-    const urlPortafolio = obtenerEnlaceShareAgente(usuarioActual?.id);
-    const qrDataUrl = generarQRDataUrl(urlPortafolio, 260, '#0f172a', '#ffffff');
-    const qrImgEl = document.getElementById('card-pres-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
-
-    /* 2) Avatar */
-    const avatarUrl = fotoPerfilActual || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-    const avatarB64 = await urlToBase64(avatarUrl);
-    document.getElementById('card-pres-foto').src = avatarB64 || avatarUrl;
-
-    /* 3) Datos */
-    document.getElementById('card-pres-nombre').textContent = truncarTextoSimple(nombre, 26);
-    document.getElementById('card-pres-agencia').textContent = truncarTextoSimple((tipo === 'Agencia' && agencia) ? `Agencia: ${agencia}` : 'Portafolio Oficial Verificado en EcoNexus', 42);
-    document.getElementById('card-pres-sobremi').textContent = `"${truncarTextoSimple(sobreMi, 220)}"`;
-    document.getElementById('card-pres-telefono').textContent = telefono;
-
-    const waBox = document.getElementById('card-pres-wa-box');
-    waBox.style.background = secundario;
-    waBox.style.color = obtenerColorTextoContraste(secundario);
-
-    await new Promise(r => setTimeout(r, 250));
-
-    const canvas = await html2canvas(container, {
-      useCORS: true, scale: 1, width: 1080, height: 1920, backgroundColor: null, logging: false
-    });
-
-    const link = document.createElement('a');
-    link.download = `Mi_Tarjeta_Presentacion_${nombre.replace(/\s+/g, '_')}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-
-    ocultarProgresoGeneracion();
-  } catch (e) {
-    console.error(e);
-    ocultarProgresoGeneracion();
-    mostrarAvisoElegante("Error al crear Tarjeta", "No se pudo generar tu tarjeta de presentación para estados.", "error");
-  }
-}
-
-/* =========================================================
-   HELPERS DE DIBUJO EN CANVAS
+   HELPERS DE DIBUJO EN CANVAS (USADOS POR REELS)
    ========================================================= */
 function dibujarRectanguloRedondeado(ctx, x, y, width, height, radius, fillColor, strokeColor = null, lineWidth = 2) {
   ctx.save();
@@ -446,6 +381,280 @@ function truncarTextoCanvas(ctx, texto, maxWidth) {
     recorte = recorte.slice(0, -1);
   }
   return recorte + '...';
+}
+/* =========================================================
+   4. TARJETA DE PRESENTACIÓN (1080x1920) — LAYOUT 100% JS
+   Auto-crea su propio contenedor. NO requiere HTML template.
+   ========================================================= */
+
+/* 4.1 — Asegura un contenedor oculto donde inyectar el layout */
+function asegurarContenedorTarjeta() {
+  let container = document.getElementById('card-presentacion-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'card-presentacion-container';
+    container.style.cssText = 'position:fixed; left:-99999px; top:0; pointer-events:none; width:1080px; height:1920px;';
+    document.body.appendChild(container);
+  }
+  return container;
+}
+
+/* 4.2 — Selecciona hasta 3 fichas: las de mayor valor, alternando Venta/Alquiler/Venta.
+   Si no hay de un tipo, se rellena con el otro. Si hay menos de 3, devuelve las que haya. */
+function seleccionarFichasParaTarjeta(propiedades) {
+  if (!Array.isArray(propiedades) || propiedades.length === 0) return [];
+  const ordenadas = [...propiedades].sort((a, b) => (Number(b.precio) || 0) - (Number(a.precio) || 0));
+  const ventas = ordenadas.filter(p => String(p.operacion || '').toLowerCase().includes('venta'));
+  const alquileres = ordenadas.filter(p => String(p.operacion || '').toLowerCase().includes('alquiler'));
+  const otros = ordenadas.filter(p =>
+    !String(p.operacion || '').toLowerCase().includes('venta') &&
+    !String(p.operacion || '').toLowerCase().includes('alquiler')
+  );
+  const result = [];
+  let vIdx = 0, aIdx = 0, oIdx = 0;
+  for (let i = 0; i < 3; i++) {
+    if (i % 2 === 0) {
+      if (vIdx < ventas.length) result.push(ventas[vIdx++]);
+      else if (aIdx < alquileres.length) result.push(alquileres[aIdx++]);
+      else if (oIdx < otros.length) result.push(otros[oIdx++]);
+    } else {
+      if (aIdx < alquileres.length) result.push(alquileres[aIdx++]);
+      else if (vIdx < ventas.length) result.push(ventas[vIdx++]);
+      else if (oIdx < otros.length) result.push(otros[oIdx++]);
+    }
+  }
+  return result;
+}
+
+/* 4.3 — Íconos SVG inline (control total, sin emojis) */
+const SVG_ICON_TARGET = (color) => `<svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="${color}" stroke-width="1.8"/><circle cx="12" cy="12" r="6" stroke="${color}" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4" fill="${color}"/></svg>`;
+const SVG_ICON_BOLT = (color) => `<svg width="46" height="46" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M13.2 2.2L3.4 14.1c-.4.5 0 1.2.6 1.2h6.4l-1 6.9c-.1.7.8 1.1 1.2.5l9.8-11.9c.4-.5 0-1.2-.6-1.2h-6.4l1-6.9c.1-.7-.8-1.1-1.2-.5z"/></svg>`;
+const SVG_ICON_NETWORK = (color) => `<svg width="46" height="46" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="4.2" r="2.6" fill="${color}"/><circle cx="4" cy="19.8" r="2.6" fill="${color}"/><circle cx="20" cy="19.8" r="2.6" fill="${color}"/><path d="M12 6.8L4 17.2M12 6.8L20 17.2M4 19.8L20 19.8" stroke="${color}" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const SVG_ICON_WHATSAPP = (color) => `<svg width="26" height="26" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 3.5A11.8 11.8 0 0 0 12 0C5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L.1 24l6.3-1.6a11.9 11.9 0 0 0 5.7 1.5c6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.5zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 0 1-1.5-5.3c0-5.4 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.5-4.5 9.9-10 9.9zm5.4-7.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.6.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.6-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5 0 1.5 1.1 2.9 1.2 3.1.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>`;
+const SVG_ICON_BED = (color) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M2 17V10.5A1.5 1.5 0 0 1 3.5 9H7v3h10V9h3.5A1.5 1.5 0 0 1 22 10.5V17h-2.5v-2h-15v2H2zm4.5-8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>`;
+const SVG_ICON_BATH = (color) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M21 12H3.5V6.5A2.5 2.5 0 0 1 8.5 6v.5h2V6a4.5 4.5 0 0 0-9 0v12a1 1 0 0 0 1 1h1v-2h14v2h1a1 1 0 0 0 1-1v-3h1.5v-3zM7 20v-2h10v2H7z"/></svg>`;
+const SVG_ICON_CAR = (color) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M5 17H3v-4l2-5h14l2 5v4h-2v-2H5v2zm2.5-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM5.7 10h12.6l-1.2-3H6.9l-1.2 3z"/></svg>`;
+const SVG_ICON_AREA = (color) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="${color}" xmlns="http://www.w3.org/2000/svg"><path d="M3 3h6v2H5v4H3V3zm18 0v6h-2V5h-4V3h6zM3 21v-6h2v4h4v2H3zm18 0h-6v-2h4v-4h2v6zM9 9h6v6H9V9z"/></svg>`;
+
+/* 4.4 — Construye el HTML completo del layout 1080x1920 */
+function construirHTMLTarjetaPresentacion(d) {
+  const {
+    nombreRec, agenciaRec, telefonoRec, sobreMiRecortado,
+    avatarB64, qrDataUrl, fichas,
+    primario, secundario, fondoTop, fondoBottom, colorAcento
+  } = d;
+
+  const itemsDominio = [
+    { icono: SVG_ICON_TARGET(colorAcento), texto: 'Encuentro tu propiedad ideal en tiempo récord' },
+    { icono: SVG_ICON_BOLT(colorAcento), texto: 'Respuesta inmediata y atención 100% personalizada' },
+    { icono: SVG_ICON_NETWORK(colorAcento), texto: 'Red EcoNexus interconectada para máxima exposición de mercado' }
+  ];
+
+  const bloqueFichas = fichas.length === 0
+    ? `<div style="width:100%;text-align:center;padding:34px;background:rgba(15,23,42,0.4);border:2px dashed rgba(255,255,255,0.25);border-radius:22px;">
+         <p style="font-size:22px;color:rgba(255,255,255,0.72);font-weight:700;margin:0;">Portafolio en crecimiento — próximas fichas disponibles</p>
+       </div>`
+    : `<div style="display:flex;gap:18px;width:100%;justify-content:${fichas.length < 3 ? 'center' : 'space-between'};align-items:stretch;">
+        ${fichas.map(p => {
+          const esAlq = String(p.operacion || '').toLowerCase().includes('alquiler');
+          const badgeBg = esAlq ? '#d97706' : secundario;
+          const badgeTxt = esAlq ? '#ffffff' : obtenerColorTextoContraste(secundario);
+          const precio = `$${Number(p.precio || 0).toLocaleString('en-US')}`;
+          const titulo = truncarTextoSimple(p.titulo || 'Inmueble', 46);
+          return `
+            <div style="flex:1;max-width:320px;min-width:0;background:rgba(15,23,42,0.58);border:2px solid rgba(255,255,255,0.22);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;">
+              <div style="width:100%;height:170px;background:#111827;overflow:hidden;position:relative;">
+                <img src="${p._foto}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+                <span style="position:absolute;top:10px;left:10px;background:${badgeBg};color:${badgeTxt};font-size:12px;font-weight:900;padding:5px 12px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;">${(p.operacion || 'VENTA').toUpperCase()}</span>
+              </div>
+              <div style="padding:14px 14px 16px 14px;display:flex;flex-direction:column;gap:9px;flex:1;">
+                <p style="font-size:17px;font-weight:800;color:#ffffff;line-height:1.28;margin:0;height:44px;overflow:hidden;">${titulo}</p>
+                <div style="display:flex;gap:8px;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,0.88);font-weight:800;background:rgba(0,0,0,0.35);padding:7px 10px;border-radius:10px;">
+                  <span style="display:flex;align-items:center;gap:4px;">${SVG_ICON_BED('#86efac')}${p.habitaciones || 0}</span>
+                  <span style="display:flex;align-items:center;gap:4px;">${SVG_ICON_BATH('#93c5fd')}${p.banos || 0}</span>
+                  <span style="display:flex;align-items:center;gap:4px;">${SVG_ICON_CAR('#fde047')}${p.estacionamientos || 0}</span>
+                  <span style="display:flex;align-items:center;gap:4px;">${SVG_ICON_AREA('#fca5a5')}${p.metros || 0}m²</span>
+                </div>
+                <p style="font-size:23px;font-weight:900;color:#4ade80;margin:0;line-height:1.15;">${precio}</p>
+              </div>
+            </div>`;
+        }).join('')}
+      </div>`;
+
+  return `
+    <div id="card-presentacion-template" class="crisp-render" style="
+      position: relative; width: 1080px; height: 1920px;
+      background: linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%);
+      color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      box-sizing: border-box; padding: 50px 54px;
+      display: flex; flex-direction: column; justify-content: space-between;
+      overflow: hidden;">
+
+      <!-- SECCIÓN 1: FOTO + NOMBRE / AGENCIA / TELÉFONO -->
+      <div style="display:flex; gap:34px; align-items:center; width:100%; flex-shrink:0;">
+        <div style="position:relative; width:268px; height:268px; flex-shrink:0;">
+          <div style="position:absolute; inset:0; border-radius:50%;
+               background: conic-gradient(from 210deg, #fde047 0deg, ${secundario} 120deg, ${primario} 240deg, #fde047 360deg);
+               padding: 7px; box-shadow: 0 18px 42px rgba(0,0,0,0.55);">
+            <div style="width:100%; height:100%; border-radius:50%; background:#ffffff; padding:5px; box-sizing:border-box;">
+              <img src="${avatarB64}" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;" />
+            </div>
+          </div>
+          <div style="position:absolute; width:34px; height:34px; border-radius:50%; background:#fde047; bottom:14px; right:18px; border:4px solid ${fondoTop}; box-shadow:0 6px 18px rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; font-size:18px; color:#0f172a; font-weight:900;">★</div>
+        </div>
+
+        <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:12px;">
+          <h1 style="font-size:52px; font-weight:900; margin:0; color:#ffffff; line-height:1.12; word-break:break-word; text-shadow:0 4px 18px rgba(0,0,0,0.4);">
+            ${nombreRec}
+          </h1>
+          <p style="font-size:26px; font-weight:800; color:#a7f3d0; margin:0; line-height:1.3; word-break:break-word;">
+            ${agenciaRec}
+          </p>
+          <div style="display:inline-flex; align-items:center; gap:10px; background:rgba(34,197,94,0.22); border:2px solid #22c55e; padding:12px 22px; border-radius:999px; align-self:flex-start; max-width:100%;">
+            ${SVG_ICON_WHATSAPP('#86efac')}
+            <span style="font-size:24px; font-weight:900; color:#bbf7d0; line-height:1.2; word-break:break-word;">${telefonoRec}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: SOBRE MÍ (sin recuadro) -->
+      <div style="width:100%; position:relative; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+          <span style="display:inline-block; width:52px; height:4px; background:${colorAcento}; border-radius:999px;"></span>
+          <h2 style="margin:0; font-size:22px; font-weight:900; color:${colorAcento}; letter-spacing:3.5px; text-transform:uppercase;">SOBRE MÍ</h2>
+        </div>
+        <div style="position:relative; padding-left:36px;">
+          <span style="position:absolute; top:-28px; left:0; font-size:120px; font-weight:900; color:${colorAcento}; opacity:0.22; line-height:1; font-family:Georgia, serif;">"</span>
+          <p style="margin:0; font-size:26px; line-height:1.42; color:#f8fafc; font-weight:500; word-break:break-word; text-align:justify;">
+            ${sobreMiRecortado}
+          </p>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: 3 ÍTEMS DE VALOR + QR PORTAFOLIO -->
+      <div style="display:flex; gap:32px; align-items:center; width:100%; flex-shrink:0;">
+        <div style="flex:1; display:flex; flex-direction:column; gap:18px; min-width:0;">
+          ${itemsDominio.map(it => `
+            <div style="display:flex; align-items:center; gap:16px;">
+              <div style="width:70px; height:70px; border-radius:20px; background:rgba(253,224,71,0.12); border:2px solid ${colorAcento}; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                ${it.icono}
+              </div>
+              <p style="flex:1; margin:0; font-size:23px; font-weight:700; color:#ffffff; line-height:1.32; word-break:break-word;">${it.texto}</p>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="display:flex; flex-direction:column; align-items:center; background:#ffffff; padding:16px 16px 14px 16px; border-radius:26px; flex-shrink:0; box-shadow:0 18px 40px rgba(0,0,0,0.4);">
+          <img src="${qrDataUrl}" alt="QR Portafolio" style="width:200px; height:200px; display:block; image-rendering:pixelated;" />
+          <span style="font-size:14px; font-weight:900; color:#0f172a; margin-top:10px; letter-spacing:1.2px; text-align:center;">MI PORTAFOLIO</span>
+          <span style="font-size:11px; font-weight:700; color:#64748b; margin-top:2px; letter-spacing:0.5px;">ESCANEA AQUÍ</span>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 4: 3 MINI FICHAS DESTACADAS -->
+      <div style="width:100%; flex-shrink:0;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <span style="display:inline-block; width:40px; height:3px; background:${colorAcento}; border-radius:999px;"></span>
+          <h2 style="margin:0; font-size:19px; font-weight:900; color:${colorAcento}; letter-spacing:3px; text-transform:uppercase;">FICHAS DESTACADAS</h2>
+        </div>
+        ${bloqueFichas}
+      </div>
+
+      <!-- FOOTER FIRMA -->
+      <div style="width:100%; text-align:center; flex-shrink:0;">
+        <p style="margin:0; font-size:19px; font-weight:700; color:rgba(255,255,255,0.86); letter-spacing:0.4px;">
+          Ficha generada a través de <strong style="color:${colorAcento};">econexusplatform.com/menu</strong>
+        </p>
+      </div>
+    </div>
+  `;
+}
+
+/* 4.5 — Función principal: descarga la tarjeta como PNG */
+async function descargarTarjetaPresentacionCanvas() {
+  const nombre = document.getElementById('perfilNombreAgente').value.trim() ||
+                 document.getElementById('headerDisplayNombreAgente').textContent ||
+                 'Asesor Inmobiliario';
+  const telefono = document.getElementById('perfilTelefono').value.trim() || 'Disponible';
+  const tipo = document.getElementById('perfilTipoAsesor').value || 'Independiente';
+  const agencia = document.getElementById('perfilNombreAgencia').value.trim();
+  const sobreMi = document.getElementById('perfilSobreMi').value.trim() ||
+    'Especialista en comercialización de inmuebles residenciales, comerciales e industriales. Atención personalizada, respaldo profesional y contacto directo.';
+
+  const { primario, secundario } = obtenerColoresMarcaActivos();
+  const esPrimarioClaro = esColorClaro(primario);
+  const fondoTop = esPrimarioClaro ? '#1e293b' : primario;
+  const fondoBottom = esPrimarioClaro ? '#0f172a' : oscurecerColorHex(primario, 58);
+  const colorAcento = '#fde047';
+
+  mostrarProgresoGeneracion("Creando Mi Tarjeta para Estados...",
+    "Aplicando datos, colores, QR y contraste inteligente en 1080x1920 px.");
+
+  try {
+    /* 1) Selección de hasta 3 fichas: mayor valor, alternando Venta/Alquiler */
+    const fichasBase = seleccionarFichasParaTarjeta(misInmueblesCargados);
+
+    /* 2) QR al portafolio del agente (mismo endpoint que WhatsApp) */
+    const urlPortafolio = obtenerEnlaceShareAgente(usuarioActual?.id);
+    const qrDataUrl = generarQRDataUrl(urlPortafolio, 400, '#0f172a', '#ffffff');
+
+    /* 3) Avatar */
+    const avatarUrl = fotoPerfilActual || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+    const avatarB64 = await urlToBase64(avatarUrl);
+
+    /* 4) Primera foto de cada ficha (b64) */
+    const fichasConFoto = await Promise.all(fichasBase.map(async (p) => {
+      const urlFoto = (Array.isArray(p.fotos) && p.fotos.length > 0)
+        ? p.fotos[0]
+        : 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=70';
+      const b64 = await urlToBase64(urlFoto);
+      return { ...p, _foto: b64 || urlFoto };
+    }));
+
+    /* 5) Textos finales */
+    const agenciaDisplay = (tipo === 'Agencia' && agencia) ? agencia : 'Agente Inmobiliario';
+    const sobreMiRecortado = sobreMi.length > 500 ? sobreMi.substring(0, 500) : sobreMi;
+
+    /* 6) Inyectar HTML en el contenedor (auto-creado si no existe) */
+    const container = asegurarContenedorTarjeta();
+    container.innerHTML = construirHTMLTarjetaPresentacion({
+      nombreRec: truncarTextoSimple(nombre, 50),
+      agenciaRec: truncarTextoSimple(agenciaDisplay, 55),
+      telefonoRec: truncarTextoSimple(telefono, 24),
+      sobreMiRecortado,
+      avatarB64: avatarB64 || avatarUrl,
+      qrDataUrl,
+      fichas: fichasConFoto,
+      primario, secundario, fondoTop, fondoBottom, colorAcento
+    });
+
+    /* 7) Esperar carga de todas las imágenes internas (avatar, QR, fichas) */
+    const imgsInternas = [...container.querySelectorAll('img')];
+    await Promise.all(imgsInternas.map(img => esperarImagenCargada(img, 2500)));
+
+    await new Promise(r => setTimeout(r, 300));
+
+    /* 8) Render + descarga */
+    const canvas = await html2canvas(container, {
+      useCORS: true, scale: 1, width: 1080, height: 1920,
+      backgroundColor: null, logging: false
+    });
+
+    const link = document.createElement('a');
+    link.download = `Mi_Tarjeta_Presentacion_${nombre.replace(/\s+/g, '_')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+
+    /* 9) Limpieza del contenedor para liberar DOM */
+    container.innerHTML = '';
+
+    ocultarProgresoGeneracion();
+  } catch (e) {
+    console.error("Error generando Tarjeta:", e);
+    ocultarProgresoGeneracion();
+    mostrarAvisoElegante("Error al crear Tarjeta",
+      "No se pudo generar tu tarjeta de presentación para estados.", "error");
+  }
 }
 
 /* =========================================================
