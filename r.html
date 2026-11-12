@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Redirigiendo a EcoNexus Platform...</title>
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id') || params.get('u');
+      if (id) {
+        window.location.replace('/perfil-agente.html?u=' + encodeURIComponent(id));
+      } else {
+        window.location.replace('/busqueda-agente.html');
+      }
+    })();
+  </script>
+  <style>
+    body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #1E3F20; color: #fff; }
+    .box { text-align: center; }
+    .spinner { border: 3px solid rgba(255,255,255,.2); border-top-color: #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="spinner"></div>
+    <p style="font-size: 14px;">Redirigiendo a EcoNexus Platform...</p>
+    <p style="font-size: 11px; opacity: .6; margin-top: 1rem;">Si no se redirige, <a href="/busqueda-agente.html" style="color: #fff;">haz clic aquí</a>.</p>
+  </div>
+</body>
+</html>
