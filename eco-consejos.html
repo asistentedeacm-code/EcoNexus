@@ -1,4 +1,406 @@
+
+---
+
+# 📄 ARCHIVO 2 — `eco-consejos.html` optimizado
+
+> Branding EcoNexus + SEO completo + JSON-LD FAQPage + Web Share API + deep links + responsive + header/footer consistentes.
+
+## ✅ Parte 1 / 3 — `<head>` completo (SEO + JSON-LD + librerías)
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- ═══════════════ SEO PRIMARIO ═══════════════ -->
+    <title>Eco-Consejos | Asesoría Legal e Inmobiliaria en Venezuela - EcoNexus</title>
+    <meta name="description" content="Guía interactiva con requisitos legales, documentos y consejos clave para comprar, vender o alquilar inmuebles en Venezuela. Respaldado por EcoNexus Platform.">
+    <meta name="keywords" content="asesoría legal inmobiliaria Venezuela, requisitos comprar inmueble, vender casa Carabobo, alquilar apartamento Venezuela, ficha catastral, solvencia municipal, registro público, derecho de frente, EcoNexus Platform, guía inmobiliaria">
+    <meta name="author" content="EcoNexus Platform">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://econexusplatform.com/eco-consejos.html" id="canonicalUrl">
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="es-ve" href="https://econexusplatform.com/eco-consejos.html">
+    <link rel="alternate" hreflang="x-default" href="https://econexusplatform.com/eco-consejos.html">
+
+    <!-- Geopresencia -->
+    <meta name="geo.region" content="VE">
+    <meta name="geo.placename" content="Venezuela">
+    <meta name="geo.position" content="10.1620;-68.0077">
+    <meta name="ICBM" content="10.1620, -68.0077">
+    <meta name="DC.coverage" content="Venezuela">
+    <meta name="DC.language" content="es-VE">
+
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://wa.me">
+
+    <!-- ═══════════════ OPEN GRAPH ═══════════════ -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="EcoNexus Real Estate">
+    <meta property="og:locale" content="es_VE">
+    <meta property="og:title" content="Eco-Consejos: Asesoría Inmobiliaria Inteligente | EcoNexus" id="ogTitle">
+    <meta property="og:description" content="Guía interactiva con requisitos legales y recomendaciones para comprar, vender o alquilar en el mercado inmobiliario venezolano. Respaldado por EcoNexus Platform." id="ogDescription">
+    <meta property="og:image" content="https://econexusplatform.com/logo.png.png" id="ogImage">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Eco-Consejos - Guía Inmobiliaria Venezuela">
+    <meta property="og:url" content="https://econexusplatform.com/eco-consejos.html" id="ogUrl">
+
+    <!-- ═══════════════ TWITTER / X ═══════════════ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@econexusplatform">
+    <meta name="twitter:title" content="Eco-Consejos: Asesoría Inmobiliaria Inteligente | EcoNexus" id="twTitle">
+    <meta name="twitter:description" content="Guía interactiva con requisitos legales para comprar, vender o alquilar inmuebles en Venezuela." id="twDescription">
+    <meta name="twitter:image" content="https://econexusplatform.com/logo.png.png" id="twImage">
+
+    <!-- ═══════════════ JSON-LD: ORGANIZATION ═══════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EcoNexus Platform",
+      "url": "https://econexusplatform.com",
+      "logo": "https://econexusplatform.com/logo.png.png",
+      "areaServed": { "@type": "Country", "name": "Venezuela" }
+    }
+    </script>
+
+    <!-- ═══════════════ JSON-LD: FAQPage (Google muestra las preguntas en SERP) ═══════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué documentos necesito para comprar un inmueble en Venezuela?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Debes exigir: copia del documento de propiedad registrado, ficha catastral y cédula catastral actualizadas, solvencia municipal (derecho de frente), y registro de vivienda principal si aplica. Siempre hazte acompañar de un abogado para verificar la tradición legal en el Registro Público."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué requisitos legales necesito para vender una casa o apartamento en Venezuela?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Debes tener: documento de propiedad registrado, cédula catastral actualizada, solvencias de servicios públicos (Hidrocentro / Corpoelec), solvencia del derecho de frente municipal, RIF actualizado y pago de impuestos (Forma 33 / SENIAT)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo funciona el alquiler de inmuebles en Venezuela?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Debes definir si es uso residencial o comercial. El contrato debe ser redactado y visado por un abogado, preferiblemente notariado o autenticado. Realiza un inventario fotográfico detallado y establece claramente las garantías permitidas por la ley."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué es indispensable un abogado en una negociación inmobiliaria?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El abogado revisa el expediente en el Registro Público para descartar hipotecas, prohibiciones de enajenar y gravar, o medidas de embargo preventivo que recaigan sobre el inmueble, evitando así posibles estafas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué es la Ficha Catastral y por qué debe estar actualizada?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Es el documento emitido por la Alcaldía (Dirección de Catastro) que describe física y jurídicamente el inmueble. En Venezuela es obligatorio que esté actualizada y a nombre del propietario actual para poder registrar la compraventa."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué se revisa en el Registro Público antes de comprar un inmueble?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Se verifica la 'Tradición Legal': el historial del inmueble que demuestra quiénes han sido los dueños anteriores de forma ininterrumpida, certificando que quien vende es el único titular legal de los derechos de propiedad."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════ LIBRERÍAS ═══════════════ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animaciones y utilidades */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(56, 142, 60, 0.4), 0 4px 12px rgba(0,0,0,.15); } 50% { box-shadow: 0 0 18px 4px rgba(74, 222, 128, 0.55), 0 4px 15px rgba(0,0,0,.25); } }
+        .btn-glow { animation: pulse-glow 3s infinite ease-in-out; }
+
+        /* Cursor parpadeante del typewriter */
+        .tw-cursor::after {
+            content: '|';
+            display: inline-block;
+            margin-left: 2px;
+            animation: blink-caret 0.75s step-end infinite;
+            color: #f59e0b;
+            font-weight: 900;
+        }
+        @keyframes blink-caret { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* Fondo con gradiente muy suave verde corporativo */
+        .bg-econexus-gradient {
+            background:
+                radial-gradient(1200px 600px at 10% 0%, rgba(30,63,32,0.08), transparent 60%),
+                radial-gradient(1200px 600px at 90% 100%, rgba(56,142,60,0.06), transparent 60%),
+                #f8faf8;
+        }
+
+        /* Tarjetas con hover elevado */
+        .card-hover { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(30,63,32,.12); border-color: #388E3C; }
+
+        /* Scrollbar suave dentro del modal */
+        .modal-scroll::-webkit-scrollbar { width: 6px; }
+        .modal-scroll::-webkit-scrollbar-thumb { background: rgba(30,63,32,.3); border-radius: 4px; }
+        .modal-scroll::-webkit-scrollbar-track { background: transparent; }
+    </style>
+</head>
+<body class="bg-econexus-gradient text-gray-800 font-sans antialiased min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header class="bg-econexus text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-3 py-3 flex flex-wrap justify-between items-center gap-y-2">
+            <a href="/index.html" class="flex items-center space-x-2.5 cursor-pointer flex-shrink-0 group">
+                <img src="logo.png.png" alt="EcoNexus Logo" class="h-9 md:h-10 w-auto object-contain drop-shadow group-hover:scale-105 transition" onerror="this.src='logo.png'">
+                <div class="flex flex-col">
+                    <span class="text-xl md:text-2xl font-extrabold tracking-wide text-white leading-none">EcoNexus</span>
+                    <span class="text-[9px] md:text-[11px] text-green-200 tracking-wider font-light mt-0.5 leading-none">ECO-CONSEJOS</span>
+                </div>
+            </a>
+            <nav class="flex items-center gap-2 sm:gap-3 ml-auto">
+                <a href="/index.html" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-white/10 transition">
+                    <i class="fa-solid fa-house-chimney text-xs"></i>
+                    <span class="hidden sm:inline">Inmuebles</span>
+                </a>
+                <a href="/busqueda-agente.html" class="text-green-100 hover:text-white text-[10px] md:text-xs font-semibold flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-white/10 transition">
+                    <i class="fa-solid fa-user-tie text-xs"></i>
+                    <span class="hidden sm:inline">Agentes</span>
+                </a>
+                <a href="/captacion.html" class="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-gray-900 text-[10px] md:text-xs font-extrabold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1.5 transition hover:scale-105">
+                    <i class="fa-solid fa-rocket text-[10px]"></i>
+                    <span>Publicar</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="max-w-5xl mx-auto w-full px-4 pt-10 pb-6 text-center">
+        <div class="inline-flex items-center gap-2 bg-econexus/10 border border-econexus/20 text-econexus px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-widest mb-5">
+            <i class="fa-solid fa-graduation-cap"></i> Guía Interactiva
+        </div>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4 tracking-tight">
+            Eco-Consejos <span class="text-econexus">Inteligentes</span>
+        </h1>
+        <p class="text-base md:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Requisitos legales, documentos y pasos seguros para <strong class="text-econexus">comprar, vender o alquilar</strong> tu inmueble en Venezuela.
+        </p>
+        <p class="text-xs md:text-sm text-gray-500 mt-3">
+            <i class="fa-solid fa-shield-halved text-econexus mr-1"></i>
+            Respaldado por EcoNexus Platform · Actualizado 2026
+        </p>
+    </section>
+
+    <!-- ═══════════════ TARJETAS PRINCIPALES ═══════════════ -->
+    <main class="max-w-6xl mx-auto w-full px-4 pb-10 flex-grow">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Card: Comprar -->
+            <div class="card-hover bg-white rounded-2xl border border-gray-200 p-6 shadow-sm cursor-pointer relative group" onclick="openAdvice('comprar')">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-xl bg-econexus/10 text-econexus flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <button onclick="event.stopPropagation(); shareAdvice('comprar')" title="Compartir este consejo" aria-label="Compartir consejo"
+                            class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-econexus hover:text-white text-gray-600 transition border border-gray-200 hover:border-econexus flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-share-nodes text-sm"></i>
+                    </button>
+                </div>
+                <h3 class="font-extrabold text-lg text-gray-900 mb-2 group-hover:text-econexus transition">Quiero Comprar</h3>
+                <p class="text-sm text-gray-600 leading-relaxed mb-4">Descubre los requisitos legales y pasos seguros para adquirir tu propiedad ideal.</p>
+                <div class="flex items-center text-econexus text-xs font-bold">
+                    Ver guía completa <i class="fa-solid fa-arrow-right ml-1.5 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card: Vender -->
+            <div class="card-hover bg-white rounded-2xl border border-gray-200 p-6 shadow-sm cursor-pointer relative group" onclick="openAdvice('vender')">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <button onclick="event.stopPropagation(); shareAdvice('vender')" title="Compartir este consejo" aria-label="Compartir consejo"
+                            class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-econexus hover:text-white text-gray-600 transition border border-gray-200 hover:border-econexus flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-share-nodes text-sm"></i>
+                    </button>
+                </div>
+                <h3 class="font-extrabold text-lg text-gray-900 mb-2 group-hover:text-econexus transition">Quiero Vender</h3>
+                <p class="text-sm text-gray-600 leading-relaxed mb-4">Documentación y solvencias necesarias para comercializar tu inmueble sin demoras.</p>
+                <div class="flex items-center text-econexus text-xs font-bold">
+                    Ver guía completa <i class="fa-solid fa-arrow-right ml-1.5 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+
+            <!-- Card: Alquilar -->
+            <div class="card-hover bg-white rounded-2xl border border-gray-200 p-6 shadow-sm cursor-pointer relative group" onclick="openAdvice('alquilar')">
+                <div class="flex items-start justify-between mb-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-700 flex items-center justify-center text-2xl">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <button onclick="event.stopPropagation(); shareAdvice('alquilar')" title="Compartir este consejo" aria-label="Compartir consejo"
+                            class="w-9 h-9 rounded-xl bg-gray-100 hover:bg-econexus hover:text-white text-gray-600 transition border border-gray-200 hover:border-econexus flex items-center justify-center shadow-sm">
+                        <i class="fa-solid fa-share-nodes text-sm"></i>
+                    </button>
+                </div>
+                <h3 class="font-extrabold text-lg text-gray-900 mb-2 group-hover:text-econexus transition">Quiero Alquilar</h3>
+                <p class="text-sm text-gray-600 leading-relaxed mb-4">Conoce la regulación de arrendamientos, contratos visados y garantías aplicables.</p>
+                <div class="flex items-center text-econexus text-xs font-bold">
+                    Ver guía completa <i class="fa-solid fa-arrow-right ml-1.5 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════ FAQ ═══════════════ -->
+        <div class="mt-12 max-w-3xl mx-auto">
+            <h2 class="text-xl md:text-2xl font-black text-gray-900 mb-1 text-center">Preguntas Frecuentes</h2>
+            <p class="text-sm text-gray-500 text-center mb-6">Las dudas más comunes al negociar un inmueble en Venezuela.</p>
+
+            <div class="space-y-3">
+                <div class="bg-white border border-gray-200 rounded-xl p-4 hover:border-econexus hover:shadow-md transition cursor-pointer group" onclick="openAdvice('abogado')">
+                    <div class="flex justify-between items-center gap-3">
+                        <div class="flex items-start gap-3 flex-1">
+                            <i class="fa-solid fa-circle-question text-econexus text-lg mt-0.5 flex-shrink-0"></i>
+                            <span class="font-bold text-sm text-gray-800 group-hover:text-econexus transition">¿Por qué es indispensable un abogado en la negociación?</span>
+                        </div>
+                        <button onclick="event.stopPropagation(); shareAdvice('abogado')" title="Compartir esta pregunta" aria-label="Compartir pregunta"
+                                class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-econexus hover:text-white text-gray-500 transition flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-share-nodes text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl p-4 hover:border-econexus hover:shadow-md transition cursor-pointer group" onclick="openAdvice('catastro')">
+                    <div class="flex justify-between items-center gap-3">
+                        <div class="flex items-start gap-3 flex-1">
+                            <i class="fa-solid fa-circle-question text-econexus text-lg mt-0.5 flex-shrink-0"></i>
+                            <span class="font-bold text-sm text-gray-800 group-hover:text-econexus transition">¿Qué es la Ficha Catastral y por qué debe estar actualizada?</span>
+                        </div>
+                        <button onclick="event.stopPropagation(); shareAdvice('catastro')" title="Compartir esta pregunta" aria-label="Compartir pregunta"
+                                class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-econexus hover:text-white text-gray-500 transition flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-share-nodes text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl p-4 hover:border-econexus hover:shadow-md transition cursor-pointer group" onclick="openAdvice('registro')">
+                    <div class="flex justify-between items-center gap-3">
+                        <div class="flex items-start gap-3 flex-1">
+                            <i class="fa-solid fa-circle-question text-econexus text-lg mt-0.5 flex-shrink-0"></i>
+                            <span class="font-bold text-sm text-gray-800 group-hover:text-econexus transition">¿Qué se revisa en el Registro Público antes de comprar?</span>
+                        </div>
+                        <button onclick="event.stopPropagation(); shareAdvice('registro')" title="Compartir esta pregunta" aria-label="Compartir pregunta"
+                                class="w-8 h-8 rounded-lg bg-gray-100 hover:bg-econexus hover:text-white text-gray-500 transition flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-share-nodes text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════ CTA FINAL ═══════════════ -->
+        <div class="mt-12 max-w-3xl mx-auto bg-gradient-to-br from-econexus via-econexus-light to-emerald-800 text-white rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-amber-400/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-left">
+                <div>
+                    <p class="text-[11px] uppercase tracking-widest text-amber-300 font-extrabold mb-1">Asesoría Profesional</p>
+                    <h3 class="text-xl md:text-2xl font-extrabold mb-2">¿Listo para dar el siguiente paso?</h3>
+                    <p class="text-sm text-green-100/90">Conecta con un agente inmobiliario verificado en tu zona.</p>
+                </div>
+                <a href="/busqueda-agente.html" class="btn-glow bg-amber-500 hover:bg-amber-400 text-gray-900 font-extrabold px-6 py-3 rounded-xl shadow-lg whitespace-nowrap transition hover:scale-105 flex items-center gap-2">
+                    <i class="fa-solid fa-user-tie"></i> Buscar Agentes
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- ═══════════════ MODAL DINÁMICO ═══════════════ -->
+    <div id="adviceModal" class="fixed inset-0 bg-gray-900/80 backdrop-blur-md z-[100] flex items-center justify-center p-3 md:p-4 hidden">
+        <div class="bg-white rounded-2xl md:rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl relative border border-white/20 flex flex-col">
+            <!-- Header del modal -->
+            <div class="bg-econexus text-white p-4 md:p-5 flex items-center justify-between flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center">
+                        <i class="fa-solid fa-lightbulb text-amber-300"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase tracking-widest text-amber-300 font-extrabold leading-none mb-1">EcoNexus · Consejo</p>
+                        <h2 class="font-extrabold text-sm md:text-base leading-tight" id="modalTitle">Cargando...</h2>
+                    </div>
+                </div>
+                <button onclick="closeAdvice()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-red-500 text-white flex items-center justify-center transition" aria-label="Cerrar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Contenido typewriter -->
+            <div class="p-5 md:p-6 overflow-y-auto modal-scroll flex-grow">
+                <div id="typewriterText" class="tw-cursor text-sm md:text-base text-gray-700 leading-relaxed whitespace-pre-wrap min-h-[200px] font-medium"></div>
+            </div>
+
+            <!-- Footer modal: compartir -->
+            <div class="p-4 border-t border-gray-100 bg-gray-50 flex gap-2 flex-shrink-0">
+                <button onclick="shareCurrentAdvice()" class="flex-1 bg-[#25D366] hover:bg-[#20b858] text-white font-extrabold py-3 rounded-xl text-xs md:text-sm shadow-md transition flex items-center justify-center gap-2 hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Compartir con WhatsApp
+                </button>
+                <button onclick="copyAdviceLink()" title="Copiar enlace" aria-label="Copiar enlace"
+                        class="bg-gray-200 hover:bg-econexus hover:text-white text-gray-700 px-4 rounded-xl transition flex items-center justify-center">
+                    <i class="fa-solid fa-link"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ FOOTER ═══════════════ -->
+    <footer class="bg-econexus-dark text-white py-6 mt-auto border-t border-green-900">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-2">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-shield-halved text-econexus-accent"></i>
+                <p class="text-[11px] text-green-300 font-semibold">EcoNexus Platform · Asesoría legal informativa</p>
+            </div>
+            <p class="text-[10px] text-gray-400 text-center max-w-xl">
+                La información aquí contenida es orientativa y no sustituye la consulta con un abogado o notario. EcoNexus no se responsabiliza por decisiones tomadas únicamente con base en esta guía.
+            </p>
+            <p class="text-[10px] text-gray-400">© 2026 EcoNexus Real Estate / Inmoinnova. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+        <script>
     (function () {
         'use strict';
 
