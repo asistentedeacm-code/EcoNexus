@@ -14,15 +14,21 @@
    - texto: truncarTextoSimple
    - CDN cargados en <head>: pdfMake, html2canvas, QRious
 
-   NOTA (v2):
-   La Tarjeta de Presentación ya NO depende de HTML template. Su layout
-   completo se construye en JS y se inyecta en un contenedor auto-creado.
-   El HTML sólo necesita el botón "Mi Tarjeta (QR)".
+   NOTA (v3):
+   TODAS las plantillas HTML (Historia, Post, Tarjeta) fueron migradas al JS.
+   Cada generador auto-crea su propio contenedor oculto, inyecta el layout
+   dinámicamente y lo elimina al terminar. El HTML sólo necesita los BOTONES
+   "Ficha PDF / Historia IG / Post IG / Crear Reel / Mi Tarjeta (QR)".
 
-   NOTA (v2.1):
-   La Tarjeta precarga sus inmuebles vía asegurarInmueblesCargados() si
-   el array global misInmueblesCargados está vacío (caso típico: el asesor
-   pulsa el botón sin haber abierto el acordeón "Mis Inmuebles Publicados").
+     El canvas de Reels (`<canvas id="reel-canvas-render">`) también se auto-crea
+   vía `asegurarCanvasReel()`. captacion.html puede quedar 100% limpio de
+   cualquier template o canvas multimedia — sólo los botones.
+
+   NOTA (v3.1):
+   `asegurarInmueblesCargados()` es un helper compartido por Historia, Post
+   y Tarjeta: si el asesor pulsa el botón antes de abrir el acordeón de
+   "Mis Inmuebles", precarga el inventario desde Supabase para evitar que
+   el array global esté vacío y los generadores digan "Propiedad no encontrada".
    ========================================================================= */
 
 /* =========================================================
@@ -38,6 +44,40 @@ function esperarImagenCargada(imgEl, timeoutMs = 1800) {
     imgEl.onerror = finish;
     setTimeout(finish, timeoutMs);
   });
+}
+
+/* =========================================================
+   HELPER COMPARTIDO: ASEGURAR INMUEBLES CARGADOS
+   Usado por Historia, Post y Tarjeta. Si `misInmueblesCargados`
+   llega vacío (asesor no abrió el acordeón de "Mis Inmuebles"),
+   precarga desde Supabase antes de buscar el inmueble por id.
+   ========================================================= */
+async function asegurarInmueblesCargados() {
+  if (Array.isArray(misInmueblesCargados) && misInmueblesCargados.length > 0) {
+    return misInmueblesCargados;
+  }
+  try {
+    if (!usuarioActual || !usuarioActual.id) {
+      console.warn('[Multimedia] usuarioActual no disponible.');
+      return [];
+    }
+    if (typeof dbClient === 'undefined') {
+      console.warn('[Multimedia] dbClient no disponible en este contexto.');
+      return [];
+    }
+    const { data, error } = await dbClient
+      .from('propiedades')
+      .select('*')
+      .eq('user_id', usuarioActual.id)
+      .order('id', { ascending: false });
+    if (error) throw error;
+    misInmueblesCargados = data || [];
+    console.log('[Multimedia] Precarga desde Supabase:', misInmueblesCargados.length, 'inmuebles.');
+    return misInmueblesCargados;
+  } catch (e) {
+    console.warn('[Multimedia] No se pudo precargar inmuebles:', e);
+    return [];
+  }
 }
 
 /* =========================================================
@@ -164,8 +204,83 @@ async function descargarPDFFormal(id) {
 
 /* =========================================================
    2. GENERADOR HISTORIA IG (1080x1920 - 9:16 CON QR)
+   Layout 100% JS — auto-crea su propio contenedor.
+   NO requiere <div id="story-canvas-template"> en el HTML.
    ========================================================= */
+
+/* 2.1 — Asegura contenedor oculto para la Historia */
+function asegurarContenedorHistoria() {
+  let container = document.getElementById('historia-canvas-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'historia-canvas-container';
+    container.style.cssText = 'position:fixed; left:-99999px; top:0; pointer-events:none; width:1080px; height:1920px;';
+    document.body.appendChild(container);
+  }
+  return container;
+}
+
+/* 2.2 — Construye el HTML completo del layout 1080x1920 */
+function construirHTMLHistoria(d) {
+  const {
+    nombreRec, telefonoRec, agenciaBadge,
+    avatarSrc, operacionTexto, operacionBg, operacionTxtColor,
+    precioTexto, tituloRec, ubicacionTexto, specsTexto,
+    imagenes, qrDataUrl, ctaTexto, ctaBg, ctaColor,
+    fondoTop, fondoBottom, secundario, txtFirma
+  } = d;
+
+  return `
+<div id="story-canvas-template" class="crisp-render" style="
+  position: relative; width: 1080px; height: 1920px;
+  background: linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%);
+  color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box; padding: 44px 52px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;">
+
+  <div id="story-header-box" style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.55); border: 2px solid rgba(255,255,255,0.24); border-radius: 28px; padding: 20px 28px; box-sizing: border-box; width: 100%; height: 150px; flex-shrink: 0;">
+    <div style="display: flex; align-items: center; gap: 20px; flex: 1; padding-right: 16px; min-width: 0;">
+      <img id="story-agente-foto" src="${avatarSrc}" style="width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 4px solid ${secundario}; flex-shrink: 0; ${avatarSrc ? '' : 'display:none;'} background: #ffffff;" />
+      <div style="flex: 1; min-width: 0;">
+        <div id="story-agencia-badge" style="font-size: 18px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1.2px; line-height: 1.3; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${agenciaBadge}</div>
+        <h3 id="story-agente" style="margin: 0 0 4px 0; font-size: 32px; color: #ffffff; font-weight: 900; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nombreRec}</h3>
+        <p id="story-telefono" style="margin: 0; font-size: 24px; color: #fde047; font-weight: 800; line-height: 1.25; word-break: break-word;">${telefonoRec}</p>
+      </div>
+    </div>
+    <div id="story-badge-operacion" style="padding: 16px 32px; border-radius: 999px; font-size: 25px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: ${operacionTxtColor}; background: ${operacionBg}; flex-shrink: 0; line-height: 1.2; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.3); white-space: nowrap;">${operacionTexto}</div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; width: 976px; height: 900px; border-radius: 30px; overflow: hidden; background: rgba(15, 23, 42, 0.48); padding: 14px; box-sizing: border-box; border: 2px solid rgba(255,255,255,0.22); margin: 0 auto; flex-shrink: 0;">
+    ${imagenes.map((src, i) => `<div style="width: 100%; height: 100%; border-radius: 18px; overflow: hidden; background: #111827;"><img id="story-img-${i + 1}" src="${src}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>`).join('')}
+  </div>
+
+  <div id="story-info-card" style="background: rgba(15, 23, 42, 0.58); border: 2px solid rgba(255,255,255,0.24); padding: 28px 34px; border-radius: 30px; box-sizing: border-box; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-shrink: 0;">
+    <div style="flex: 1; min-width: 0;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 14px; border-bottom: 2px solid rgba(255,255,255,0.18); padding-bottom: 14px;">
+        <div id="story-precio" style="font-size: 54px; margin: 0; color: #4ade80; font-weight: 900; line-height: 1.15; white-space: nowrap;">${precioTexto}</div>
+        <div id="story-specs" style="font-size: 22px; color: #ffffff; font-weight: 800; background: rgba(0,0,0,0.48); padding: 12px 20px; border-radius: 16px; line-height: 1.2; white-space: nowrap;">${specsTexto}</div>
+      </div>
+      <h2 id="story-titulo" style="font-size: 31px; margin: 0 0 10px 0; color: #ffffff; font-weight: 900; line-height: 1.3; word-break: break-word; overflow: hidden;">${tituloRec}</h2>
+      <p id="story-ubicacion" style="font-size: 24px; color: #fde047; margin: 0; font-weight: 700; line-height: 1.3; word-break: break-word; overflow: hidden;">${ubicacionTexto}</p>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; background: #ffffff; padding: 12px; border-radius: 20px; flex-shrink: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+      <img id="story-qr-img" src="${qrDataUrl}" alt="QR Ficha" style="width: 138px; height: 138px; display: block; image-rendering: pixelated;" />
+      <span style="font-size: 13px; font-weight: 900; color: #0f172a; margin-top: 6px; letter-spacing: 0.5px;">VER FICHA WEB</span>
+    </div>
+  </div>
+
+  <div style="text-align: center; flex-shrink: 0;">
+    <div id="story-cta-bar" style="display: inline-block; background: ${ctaBg}; color: ${ctaColor}; padding: 16px 44px; border-radius: 999px; font-size: 25px; font-weight: 900; margin-bottom: 12px; line-height: 1.2; box-shadow: 0 6px 18px rgba(0,0,0,0.3);">${ctaTexto}</div>
+    <p id="story-footer-signature" style="margin: 0; font-size: 21px; color: ${txtFirma}; font-weight: 700; letter-spacing: 0.5px; line-height: 1.3;">Ficha generada a través de econexusplatform.com/menu</p>
+  </div>
+</div>
+  `;
+}
+
+/* 2.3 — Función principal: descarga Historia IG 9:16 */
 async function descargarHistoriaCanvas(id) {
+  await asegurarInmueblesCargados();
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
 
@@ -178,19 +293,10 @@ async function descargarHistoriaCanvas(id) {
   mostrarProgresoGeneracion("Creando Historia IG (9:16)...", "Sincronizando colores corporativos, contraste inteligente, fotografías y QR.");
 
   try {
-    const container = document.getElementById('story-canvas-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
-
-    /* 1) QR PRIMERO */
+    /* 1) QR + fotos en paralelo */
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
     const qrDataUrl = generarQRDataUrl(urlShare, 300, '#0f172a', '#ffffff');
-    const qrImgEl = document.getElementById('story-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
 
-    /* 2) Fotos del mosaico */
     const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
     const urlsMosaico = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
     const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
@@ -201,47 +307,44 @@ async function descargarHistoriaCanvas(id) {
       fotoPerfilActual ? urlToBase64(fotoPerfilActual) : Promise.resolve(null)
     ]);
 
-    document.getElementById('story-img-1').src = b64_1 || urlsMosaico[0];
-    document.getElementById('story-img-2').src = b64_2 || urlsMosaico[1];
-    document.getElementById('story-img-3').src = b64_3 || urlsMosaico[2];
-    document.getElementById('story-img-4').src = b64_4 || urlsMosaico[3];
+    const imagenes = [b64_1 || urlsMosaico[0], b64_2 || urlsMosaico[1], b64_3 || urlsMosaico[2], b64_4 || urlsMosaico[3]];
+    const avatarSrc = b64Avatar || fotoPerfilActual || '';
 
-    /* 3) Avatar */
-    const imgAgente = document.getElementById('story-agente-foto');
-    if (b64Avatar || fotoPerfilActual) {
-      imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.borderColor = secundario;
-      imgAgente.style.display = 'block';
-    } else {
-      imgAgente.style.display = 'none';
-    }
-
-    /* 4) Datos */
+    /* 2) Datos */
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-    document.getElementById('story-agencia-badge').textContent = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
-    document.getElementById('story-agente').textContent = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
-    document.getElementById('story-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
+    const agenciaBadge = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
+    const nombreRec = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
+    const telefonoRec = `WhatsApp: ${p.telefono_asesor || ''}`;
 
     const bgOperacion = p.operacion === 'Alquiler' ? '#d97706' : secundario;
-    const badge = document.getElementById('story-badge-operacion');
-    badge.textContent = p.operacion || 'VENTA';
-    badge.style.background = bgOperacion;
-    badge.style.color = obtenerColorTextoContraste(bgOperacion);
+    const operacionTxtColor = obtenerColorTextoContraste(bgOperacion);
+    const operacionTexto = p.operacion || 'VENTA';
 
-    const ctaBar = document.getElementById('story-cta-bar');
-    ctaBar.style.background = secundario;
-    ctaBar.style.color = obtenerColorTextoContraste(secundario);
+    const ctaBg = secundario;
+    const ctaColor = obtenerColorTextoContraste(secundario);
+    const ctaTexto = 'Contáctame al WhatsApp o escanea el QR para ver más fotos';
 
-    const footerSig = document.getElementById('story-footer-signature');
-    if (footerSig) footerSig.style.color = txtFirma;
+    const precioTexto = `$${Number(p.precio).toLocaleString('en-US')}`;
+    const tituloRec = truncarTextoSimple(p.titulo, 52);
+    const ubicacionTexto = `📍 ${truncarTextoSimple(p.ubicacion, 36)} • ID: ${p.codigo_eco}`;
+    const specsTexto = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
 
-    document.getElementById('story-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    document.getElementById('story-titulo').textContent = truncarTextoSimple(p.titulo, 52);
-    document.getElementById('story-ubicacion').textContent = `📍 ${truncarTextoSimple(p.ubicacion, 36)} • ID: ${p.codigo_eco}`;
-    document.getElementById('story-specs').textContent = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
+    /* 3) Inyectar HTML en el contenedor auto-creado */
+    const container = asegurarContenedorHistoria();
+    container.innerHTML = construirHTMLHistoria({
+      nombreRec, telefonoRec, agenciaBadge,
+      avatarSrc, operacionTexto, operacionBg: bgOperacion, operacionTxtColor,
+      precioTexto, tituloRec, ubicacionTexto, specsTexto,
+      imagenes, qrDataUrl, ctaTexto, ctaBg, ctaColor,
+      fondoTop, fondoBottom, secundario, txtFirma
+    });
 
+    /* 4) Esperar carga de imágenes internas */
+    const imgsInternas = [...container.querySelectorAll('img')];
+    await Promise.all(imgsInternas.map(img => esperarImagenCargada(img, 2500)));
     await new Promise(r => setTimeout(r, 250));
 
+    /* 5) Render + descarga */
     const canvas = await html2canvas(container, {
       useCORS: true, scale: 1, width: 1080, height: 1920, backgroundColor: null, logging: false
     });
@@ -251,6 +354,7 @@ async function descargarHistoriaCanvas(id) {
     link.href = canvas.toDataURL('image/png');
     link.click();
 
+    container.innerHTML = '';
     ocultarProgresoGeneracion();
   } catch (e) {
     console.error(e);
@@ -258,11 +362,92 @@ async function descargarHistoriaCanvas(id) {
     mostrarAvisoElegante("Error al generar Historia", "Ocurrió un inconveniente procesando la imagen.", "error");
   }
 }
-
 /* =========================================================
    3. GENERADOR POST IG 3:4 (1080x1440 CON QR)
+   Layout 100% JS — auto-crea su propio contenedor.
+   NO requiere <div id="post-canvas-template"> en el HTML.
    ========================================================= */
+
+/* 3.1 — Asegura contenedor oculto para el Post */
+function asegurarContenedorPost() {
+  let container = document.getElementById('post-canvas-container');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'post-canvas-container';
+    container.style.cssText = 'position:fixed; left:-99999px; top:0; pointer-events:none; width:1080px; height:1440px;';
+    document.body.appendChild(container);
+  }
+  return container;
+}
+
+/* 3.2 — Construye el HTML completo del layout 1080x1440 */
+function construirHTMLPost(d) {
+  const {
+    nombreRec, telefonoRec, agenciaBadge,
+    avatarSrc, operacionTexto, operacionBg, operacionTxtColor,
+    precioTexto, tituloRec, ubicacionTexto, specsTexto, codigoPillTexto,
+    imagenes, qrDataUrl, secundario, codigoPillBg, codigoPillColor,
+    fondoTop, fondoBottom, txtFirma
+  } = d;
+
+  return `
+<div id="post-canvas-template" class="crisp-render" style="
+  position: relative; width: 1080px; height: 1440px;
+  background: linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%);
+  color: #ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  box-sizing: border-box; padding: 34px 46px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  overflow: hidden;">
+
+  <div id="post-header-box" style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.55); border: 2px solid rgba(255,255,255,0.22); border-radius: 24px; padding: 16px 24px; box-sizing: border-box; width: 100%; height: 124px; flex-shrink: 0;">
+    <div style="display: flex; align-items: center; gap: 18px; flex: 1; padding-right: 14px; min-width: 0;">
+      <img id="post-agente-foto" src="${avatarSrc}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid ${secundario}; flex-shrink: 0; ${avatarSrc ? '' : 'display:none;'} background: #ffffff;" />
+      <div style="flex: 1; min-width: 0;">
+        <div id="post-agencia-badge" style="font-size: 16px; font-weight: 800; color: #a7f3d0; text-transform: uppercase; letter-spacing: 1px; line-height: 1.3; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${agenciaBadge}</div>
+        <h3 id="post-agente" style="margin: 0 0 3px 0; font-size: 27px; color: #ffffff; font-weight: 900; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${nombreRec}</h3>
+        <p id="post-telefono" style="margin: 0; font-size: 21px; color: #fde047; font-weight: 800; line-height: 1.25; word-break: break-word;">${telefonoRec}</p>
+      </div>
+    </div>
+    <div id="post-badge-operacion" style="padding: 14px 28px; border-radius: 999px; font-size: 23px; font-weight: 900; text-transform: uppercase; color: ${operacionTxtColor}; background: ${operacionBg}; flex-shrink: 0; line-height: 1.2; text-align: center; white-space: nowrap;">${operacionTexto}</div>
+  </div>
+
+  <div style="width: 984px; height: 620px; display: flex; flex-direction: column; gap: 12px; background: rgba(15, 23, 42, 0.45); padding: 12px; border-radius: 26px; border: 2px solid rgba(255,255,255,0.22); box-sizing: border-box; margin: 0 auto; flex-shrink: 0;">
+    <div style="width: 100%; height: 390px; border-radius: 16px; overflow: hidden; background: #111827; position: relative;">
+      <img id="post-img-1" src="${imagenes[0]}" style="width: 100%; height: 100%; object-fit: cover; display: block;" />
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; width: 100%; height: 194px;">
+      <div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-2" src="${imagenes[1]}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+      <div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-3" src="${imagenes[2]}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+      <div style="border-radius: 12px; overflow: hidden; background: #111827;"><img id="post-img-4" src="${imagenes[3]}" style="width: 100%; height: 100%; object-fit: cover; display: block;" /></div>
+    </div>
+  </div>
+
+  <div id="post-info-card" style="background: rgba(15, 23, 42, 0.58); border: 2px solid rgba(255,255,255,0.24); padding: 22px 28px; border-radius: 24px; box-sizing: border-box; width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-shrink: 0;">
+    <div style="flex: 1; min-width: 0;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 2px solid rgba(255,255,255,0.18); padding-bottom: 12px;">
+        <div id="post-precio" style="font-size: 46px; margin: 0; color: #4ade80; font-weight: 900; line-height: 1.15; white-space: nowrap;">${precioTexto}</div>
+        <div id="post-specs" style="font-size: 20px; color: #ffffff; font-weight: 800; background: rgba(0,0,0,0.48); padding: 10px 18px; border-radius: 14px; line-height: 1.2; white-space: nowrap;">${specsTexto}</div>
+      </div>
+      <h2 id="post-titulo" style="font-size: 27px; margin: 0 0 8px 0; color: #ffffff; font-weight: 900; line-height: 1.3; word-break: break-word; overflow: hidden;">${tituloRec}</h2>
+      <p id="post-ubicacion" style="font-size: 21px; color: #fde047; margin: 0; font-weight: 700; line-height: 1.3; word-break: break-word; overflow: hidden;">${ubicacionTexto}</p>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; background: #ffffff; padding: 10px; border-radius: 18px; flex-shrink: 0; box-shadow: 0 8px 20px rgba(0,0,0,0.35);">
+      <img id="post-qr-img" src="${qrDataUrl}" alt="QR Ficha" style="width: 120px; height: 120px; display: block; image-rendering: pixelated;" />
+      <span style="font-size: 12px; font-weight: 900; color: #0f172a; margin-top: 5px; letter-spacing: 0.5px;">VER FICHA</span>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 4px; flex-shrink: 0; gap: 14px;">
+    <span id="post-codigo-pill" style="background: ${codigoPillBg}; color: ${codigoPillColor}; padding: 12px 26px; border-radius: 999px; font-size: 20px; font-weight: 900; line-height: 1.2; white-space: nowrap;">${codigoPillTexto}</span>
+    <p id="post-footer-signature" style="margin: 0; font-size: 19px; color: ${txtFirma}; font-weight: 700; line-height: 1.3; text-align: right; word-break: break-word;">Ficha generada a través de econexusplatform.com/menu</p>
+  </div>
+</div>
+  `;
+}
+
+/* 3.3 — Función principal: descarga Post IG 3:4 */
 async function descargarPostInstagramCanvas(id) {
+  await asegurarInmueblesCargados();
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
 
@@ -275,19 +460,10 @@ async function descargarPostInstagramCanvas(id) {
   mostrarProgresoGeneracion("Creando Post IG (1080x1440)...", "Renderizando formato vertical 3:4 con contraste inteligente y QR.");
 
   try {
-    const container = document.getElementById('post-canvas-template');
-    container.style.background = `linear-gradient(165deg, ${fondoTop} 0%, ${fondoBottom} 100%)`;
-
-    /* 1) QR primero */
+    /* 1) QR + fotos en paralelo */
     const urlShare = obtenerEnlaceShareInmueble(p.codigo_eco);
     const qrDataUrl = generarQRDataUrl(urlShare, 240, '#0f172a', '#ffffff');
-    const qrImgEl = document.getElementById('post-qr-img');
-    if (qrImgEl && qrDataUrl) {
-      qrImgEl.src = qrDataUrl;
-      await esperarImagenCargada(qrImgEl);
-    }
 
-    /* 2) Fotos */
     const fotos = (p.fotos && p.fotos.length > 0) ? p.fotos : ["https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"];
     const urlsPost = [fotos[0], fotos[1] || fotos[0], fotos[2] || fotos[0], fotos[3] || fotos[1] || fotos[0]];
     const [b64_1, b64_2, b64_3, b64_4, b64Avatar] = await Promise.all([
@@ -298,48 +474,44 @@ async function descargarPostInstagramCanvas(id) {
       fotoPerfilActual ? urlToBase64(fotoPerfilActual) : Promise.resolve(null)
     ]);
 
-    document.getElementById('post-img-1').src = b64_1 || urlsPost[0];
-    document.getElementById('post-img-2').src = b64_2 || urlsPost[1];
-    document.getElementById('post-img-3').src = b64_3 || urlsPost[2];
-    document.getElementById('post-img-4').src = b64_4 || urlsPost[3];
+    const imagenes = [b64_1 || urlsPost[0], b64_2 || urlsPost[1], b64_3 || urlsPost[2], b64_4 || urlsPost[3]];
+    const avatarSrc = b64Avatar || fotoPerfilActual || '';
 
-    /* 3) Avatar */
-    const imgAgente = document.getElementById('post-agente-foto');
-    if (b64Avatar || fotoPerfilActual) {
-      imgAgente.src = b64Avatar || fotoPerfilActual;
-      imgAgente.style.borderColor = secundario;
-      imgAgente.style.display = 'block';
-    } else {
-      imgAgente.style.display = 'none';
-    }
-
-    /* 4) Datos */
+    /* 2) Datos */
     const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
-    document.getElementById('post-agencia-badge').textContent = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
-    document.getElementById('post-agente').textContent = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
-    document.getElementById('post-telefono').textContent = `WhatsApp: ${p.telefono_asesor || ''}`;
+    const agenciaBadge = truncarTextoSimple(esAgencia ? p.nombre_agencia : 'ASESOR INMOBILIARIO', 34);
+    const nombreRec = truncarTextoSimple(p.nombre_asesor || "Asesor Inmobiliario", 26);
+    const telefonoRec = `WhatsApp: ${p.telefono_asesor || ''}`;
 
     const bgOperacion = p.operacion === 'Alquiler' ? '#d97706' : secundario;
-    const badge = document.getElementById('post-badge-operacion');
-    badge.textContent = p.operacion || 'VENTA';
-    badge.style.background = bgOperacion;
-    badge.style.color = obtenerColorTextoContraste(bgOperacion);
+    const operacionTxtColor = obtenerColorTextoContraste(bgOperacion);
+    const operacionTexto = p.operacion || 'VENTA';
 
-    const codPill = document.getElementById('post-codigo-pill');
-    codPill.textContent = `CÓDIGO: ${p.codigo_eco}`;
-    codPill.style.background = secundario;
-    codPill.style.color = obtenerColorTextoContraste(secundario);
+    const codigoPillBg = secundario;
+    const codigoPillColor = obtenerColorTextoContraste(secundario);
+    const codigoPillTexto = `CÓDIGO: ${p.codigo_eco}`;
 
-    const footerSig = document.getElementById('post-footer-signature');
-    if (footerSig) footerSig.style.color = txtFirma;
+    const precioTexto = `$${Number(p.precio).toLocaleString('en-US')}`;
+    const tituloRec = truncarTextoSimple(p.titulo, 46);
+    const ubicacionTexto = `📍 ${truncarTextoSimple(p.tipo + ' en ' + p.ubicacion, 50)}`;
+    const specsTexto = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
 
-    document.getElementById('post-precio').textContent = `$${Number(p.precio).toLocaleString('en-US')}`;
-    document.getElementById('post-titulo').textContent = truncarTextoSimple(p.titulo, 46);
-    document.getElementById('post-ubicacion').textContent = `📍 ${truncarTextoSimple(p.tipo + ' en ' + p.ubicacion, 50)}`;
-    document.getElementById('post-specs').textContent = `${p.habitaciones || 0} Hab | ${p.banos || 0} Baños | ${p.metros || 0}m²`;
+    /* 3) Inyectar HTML en el contenedor auto-creado */
+    const container = asegurarContenedorPost();
+    container.innerHTML = construirHTMLPost({
+      nombreRec, telefonoRec, agenciaBadge,
+      avatarSrc, operacionTexto, operacionBg: bgOperacion, operacionTxtColor,
+      precioTexto, tituloRec, ubicacionTexto, specsTexto, codigoPillTexto,
+      imagenes, qrDataUrl, secundario, codigoPillBg, codigoPillColor,
+      fondoTop, fondoBottom, txtFirma
+    });
 
+    /* 4) Esperar carga de imágenes internas */
+    const imgsInternas = [...container.querySelectorAll('img')];
+    await Promise.all(imgsInternas.map(img => esperarImagenCargada(img, 2500)));
     await new Promise(r => setTimeout(r, 250));
 
+    /* 5) Render + descarga */
     const canvas = await html2canvas(container, {
       useCORS: true, scale: 1, width: 1080, height: 1440, backgroundColor: null, logging: false
     });
@@ -349,6 +521,7 @@ async function descargarPostInstagramCanvas(id) {
     link.href = canvas.toDataURL('image/png');
     link.click();
 
+    container.innerHTML = '';
     ocultarProgresoGeneracion();
   } catch (e) {
     console.error(e);
@@ -387,10 +560,10 @@ function truncarTextoCanvas(ctx, texto, maxWidth) {
   }
   return recorte + '...';
 }
-
 /* =========================================================
    4. TARJETA DE PRESENTACIÓN (1080x1920) — LAYOUT 100% JS
    Auto-crea su propio contenedor. NO requiere HTML template.
+   (asegurarInmueblesCargados vive en el bloque de helpers compartidos)
    ========================================================= */
 
 /* 4.1 — Asegura un contenedor oculto donde inyectar el layout */
@@ -496,7 +669,6 @@ function construirHTMLTarjetaPresentacion(d) {
       display: flex; flex-direction: column; justify-content: space-between;
       overflow: hidden;">
 
-      <!-- SECCIÓN 1: FOTO + NOMBRE / AGENCIA / TELÉFONO -->
       <div style="display:flex; gap:34px; align-items:center; width:100%; flex-shrink:0;">
         <div style="position:relative; width:268px; height:268px; flex-shrink:0;">
           <div style="position:absolute; inset:0; border-radius:50%;
@@ -523,7 +695,6 @@ function construirHTMLTarjetaPresentacion(d) {
         </div>
       </div>
 
-      <!-- SECCIÓN 2: SOBRE MÍ (sin recuadro) -->
       <div style="width:100%; position:relative; flex-shrink:0;">
         <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
           <span style="display:inline-block; width:52px; height:4px; background:${colorAcento}; border-radius:999px;"></span>
@@ -537,7 +708,6 @@ function construirHTMLTarjetaPresentacion(d) {
         </div>
       </div>
 
-      <!-- SECCIÓN 3: 3 ÍTEMS DE VALOR + QR PORTAFOLIO -->
       <div style="display:flex; gap:32px; align-items:center; width:100%; flex-shrink:0;">
         <div style="flex:1; display:flex; flex-direction:column; gap:18px; min-width:0;">
           ${itemsDominio.map(it => `
@@ -557,7 +727,6 @@ function construirHTMLTarjetaPresentacion(d) {
         </div>
       </div>
 
-      <!-- SECCIÓN 4: 3 MINI FICHAS DESTACADAS -->
       <div style="width:100%; flex-shrink:0;">
         <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
           <span style="display:inline-block; width:40px; height:3px; background:${colorAcento}; border-radius:999px;"></span>
@@ -566,7 +735,6 @@ function construirHTMLTarjetaPresentacion(d) {
         ${bloqueFichas}
       </div>
 
-      <!-- FOOTER FIRMA -->
       <div style="width:100%; text-align:center; flex-shrink:0;">
         <p style="margin:0; font-size:19px; font-weight:700; color:rgba(255,255,255,0.86); letter-spacing:0.4px;">
           Ficha generada a través de <strong style="color:${colorAcento};">econexusplatform.com/menu</strong>
@@ -576,38 +744,7 @@ function construirHTMLTarjetaPresentacion(d) {
   `;
 }
 
-/* 4.5 — Asegura que misInmueblesCargados esté poblado antes de la tarjeta.
-   Si el asesor nunca abrió el acordeón "Mis Inmuebles", el array global
-   llega vacío. Aquí lo precargamos directo desde Supabase. */
-async function asegurarInmueblesCargados() {
-  if (Array.isArray(misInmueblesCargados) && misInmueblesCargados.length > 0) {
-    return misInmueblesCargados;
-  }
-  try {
-    if (!usuarioActual || !usuarioActual.id) {
-      console.warn('[Tarjeta] usuarioActual no disponible.');
-      return [];
-    }
-    if (typeof dbClient === 'undefined') {
-      console.warn('[Tarjeta] dbClient no disponible en este contexto.');
-      return [];
-    }
-    const { data, error } = await dbClient
-      .from('propiedades')
-      .select('*')
-      .eq('user_id', usuarioActual.id)
-      .order('id', { ascending: false });
-    if (error) throw error;
-    misInmueblesCargados = data || [];
-    console.log('[Tarjeta] Precarga desde Supabase:', misInmueblesCargados.length, 'inmuebles.');
-    return misInmueblesCargados;
-  } catch (e) {
-    console.warn('[Tarjeta] No se pudo precargar inmuebles:', e);
-    return [];
-  }
-}
-
-/* 4.6 — Función principal: descarga la tarjeta como PNG */
+/* 4.5 — Función principal: descarga la tarjeta como PNG */
 async function descargarTarjetaPresentacionCanvas() {
   const nombre = document.getElementById('perfilNombreAgente').value.trim() ||
                  document.getElementById('headerDisplayNombreAgente').textContent ||
@@ -702,6 +839,22 @@ async function descargarTarjetaPresentacionCanvas() {
 /* =========================================================
    5. MOTOR DE REELS ANIMADOS (1080x1920 @ 30fps CON QR)
    ========================================================= */
+
+/* 5.0 — Asegura el canvas oculto donde MediaRecorder graba los Reels.
+   Si el HTML ya tiene <canvas id="reel-canvas-render">, lo reutiliza.
+   Si no existe (HTML limpio), lo auto-crea. */
+function asegurarCanvasReel() {
+  let canvas = document.getElementById('reel-canvas-render');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'reel-canvas-render';
+    canvas.width = 1080;
+    canvas.height = 1920;
+    canvas.style.cssText = 'position:fixed; left:-99999px; top:0; pointer-events:none; display:block;';
+    document.body.appendChild(canvas);
+  }
+  return canvas;
+}
 async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tus publicaciones e intenta nuevamente.", "error");
@@ -750,7 +903,7 @@ async function generarReelAnimadoInmueble(id, fotosElegidas = null) {
     const imgQR = qrDataUrl ? await cargarElementoImagen(qrDataUrl) : null;
 
     /* 4) Canvas y MediaRecorder */
-    const canvas = document.getElementById('reel-canvas-render');
+    const canvas = asegurarCanvasReel();
     const ctx = canvas.getContext('2d');
     const mimeTypes = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
     let mimeElegido = '';
