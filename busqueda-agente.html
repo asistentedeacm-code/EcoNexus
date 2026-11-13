@@ -244,11 +244,15 @@
       const agentIdParam = urlParams.get('id') || urlParams.get('agente');
 
       if (agentIdParam) {
-        const canonical = document.getElementById('canonicalUrl');
-        if (canonical) canonical.setAttribute('href', window.location.href);
-        const ogUrl = document.getElementById('ogUrl');
-        if (ogUrl) ogUrl.setAttribute('content', window.location.href);
-      }
+    // El canonical SIEMPRE apunta a la URL limpia del directorio.
+    // El ?id= solo abre el modal, no es una página indexable distinta.
+    const canonical = document.getElementById('canonicalUrl');
+    if (canonical) canonical.setAttribute('href', 'https://econexusplatform.com/busqueda-agente.html');
+
+    // El og:url SÍ mantiene el ?id= para que WhatsApp muestre al agente correcto.
+    const ogUrl = document.getElementById('ogUrl');
+    if (ogUrl) ogUrl.setAttribute('content', window.location.href);
+}
 
       await cargarDatosDirectorio();
 
