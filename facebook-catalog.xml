@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listings>
   <listing>
-    <home_listing_id>ECO-984949</home_listing_id>
-    <name>Alquilo local comercial en cc prisma </name>
-    <description>🔷Local Comercial . Centro Comercial Prisma . Ciudad Alianza . Edo Carabobo .   370$ Canon + Condominio 70$   1 mes de deposito 2 mes de adelanto 1 mes de comisión + documento   Pago de Servicios por </description>
-    <url>https://econexusplatform.com/inmueble/eco-984949.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/95d5c9e5-76f9-4a90-aea2-45ee5bb7b395/ECO-984949/1791934521195_0.jpg</url>
-    </image>
-    <price>370 USD</price>
-    <property_type>commercial</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>63</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Guacara </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-221195</home_listing_id>
     <name>Vendo hermoso apartamento  listo para habitar amoblado y equipado </name>
     <description>Hermoso apartamento amoblado y equipado listo para empezar a crear momentos  Planta baja de 60mts2  Con protector de voltaje para todo el apartamento Sistema de filtro de agua ósmosis para que no comp</description>
@@ -79,27 +58,6 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Valencia urb los colorados </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-596605</home_listing_id>
-    <name>Hermoso apartamento en valle de oro</name>
-    <description>En venta apartamento en valle de oro flor amarillo   Cuenta con:  48,54 mt²  2 habitaciones  1 baño  1 puesto de estaciónamiento  Gas directo    En trámite liberación de hipoteca   Inversión:    23.00</description>
-    <url>https://econexusplatform.com/inmueble/eco-596605.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/508e6b8a-6c09-47aa-9277-aca60d78e265/ECO-596605/1791934549845_0.jpg</url>
-    </image>
-    <price>23000 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>1</num_baths>
-    <area_size>48</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Valencia</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
@@ -184,27 +142,6 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Estado yaracuy </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-200624</home_listing_id>
-    <name>Hermosa casa de esquina</name>
-    <description>Se vende hermosa casa de esquina en la urbanización Rafael Urdaneta, flor amarillo   452,74 mt²  4 habitaciónes con closet  1 habitacion tipo estudio  2 baños y medio  1cocina  1sala  1 lavandero 1 ga</description>
-    <url>https://econexusplatform.com/inmueble/eco-200624.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/508e6b8a-6c09-47aa-9277-aca60d78e265/ECO-200624/1791932974720_0.jpg</url>
-    </image>
-    <price>55000 USD</price>
-    <property_type>house</property_type>
-    <num_beds>5</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>452</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Valencia</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>

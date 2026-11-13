@@ -1,0 +1,1637 @@
+{
+  "meta": {
+    "platform": "EcoNexus Platform",
+    "description": "Catálogo inmobiliario verificado en Venezuela. Compra, venta y alquiler con contacto directo al WhatsApp del asesor.",
+    "base_url": "https://econexusplatform.com",
+    "catalog_url": "https://econexusplatform.com/",
+    "country": "Venezuela",
+    "currency": "USD",
+    "generated_at": "2026-11-13T05:15:15.252Z",
+    "total_properties": 43,
+    "license": "Public data for AI indexing. Attribution to econexusplatform.com appreciated.",
+    "contact": "https://econexusplatform.com/"
+  },
+  "properties": [
+    {
+      "id": "73ae0635-6f0e-4ec2-81cb-87bc5227481c",
+      "code": "ECO-221195",
+      "title": "Vendo hermoso apartamento  listo para habitar amoblado y equipado ",
+      "type": "Apartamento ",
+      "operation": "Venta",
+      "price": 78800,
+      "currency": "USD",
+      "location": {
+        "text": "Terraza de Mañongo  Naguanagua Valencia ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 60,
+      "description": "Hermoso apartamento amoblado y equipado listo para empezar a crear momentos \nPlanta baja de 60mts2 \nCon protector de voltaje para todo el apartamento\nSistema de filtro de agua ósmosis para que no compren botellones de agua\nvigilancia 24/7\nCaney y parque infantil \nDocumentos listos para firmar ",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931782039_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931783545_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931784647_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931785687_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931786530_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-221195.html",
+      "video_url": null,
+      "agent": {
+        "name": "Carolina Avinazar ",
+        "phone": "04244519529",
+        "type": "Agencia",
+        "agency": "Faith Real Estate ",
+        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
+        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-221195%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-13T22:49:47.462759+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "2a18c208-5a84-4fe4-a4a8-cec1bbc89a81",
+      "code": "ECO-830126",
+      "title": "Apartamento Bello de Oportunidad ",
+      "type": "Apartamento ",
+      "operation": "Venta",
+      "price": 35000,
+      "currency": "USD",
+      "location": {
+        "text": "Residencias Valle de San Francisco, Municipio libertador Tocuyito, Valencia Estado Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 50,
+      "description": "🏠INMOINNOVA REAL ESTATE OFRECE🏠:\n ♦️ NUEVA CAPTACIÓN♦️\nApartamento En Venta. Una Excelente Oportunidad Para Invertir en Tu Tranquilidad Familiar.\n\nUbicación: En Valles de San Francisco, Tocuyito. Estado Carabobo \n\nMetraje 50 (m²):\n🛏️Habitaciones: 2\n🚽Baños:2\n🚗Puestos de estacionamiento:1\n\nDescripción:\nExcelente apartamento de Oportunidad.\n1 er piso, con\n2 habitaciones con aire \nSala con aire \nCocina empotadra..\nCalentador \nPiso de porcelanato \nProtectores en todas las ventanas, Agua de pozo\n",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955299278_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955300053_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955300833_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955301566_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-830126/1790955302293_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-830126.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos ",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE ",
+        "user_id": "6608c7a0-8035-48c9-8240-7d925e8259c3",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-830126%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-02T15:35:03.890466+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "bc9968d1-c9ca-4574-a867-3772e25f8d00",
+      "code": "ECO-674084",
+      "title": "Vendo apartamento en la zona norte ",
+      "type": "Apartamento ",
+      "operation": "Venta",
+      "price": 63000,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia urb los colorados ",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 93,
+      "description": "🔵 MILENIO BIENES RAICES 🔵\n    VENDE \n\nApartamento en Venta – Los Colorados, Valencia\nResidencias\nEdue\n\nPrecio de Venta: $63.000\nCaracterísticas de la Propiedad\n\n * Área de Construcción: 95,71 m² perfectamente distribuidos para el máximo aprovechamiento de cada espacio.\n\n * Ubicación: Piso 1, situado en Los Colorados, con cercanía a vías principales, comercios, farmacias y centros de servicio.\n\n * Habitaciones: 3 amplias habitaciones con cómodos espacios de almacenamiento.\n\n * Baños: 2 baños co",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142008994_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142010041_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142010997_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142011993_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-674084/1791142012962_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-674084.html",
+      "video_url": null,
+      "agent": {
+        "name": "Arturo centeno ",
+        "phone": "04124318197",
+        "type": "Agencia",
+        "agency": "Milenio bienes raices ",
+        "user_id": "b83b41b5-1ebb-4869-9fc0-6e04d9f606d2",
+        "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-674084%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-04T19:26:53.85964+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "662e114c-7fb9-4fbf-9844-76af5dd40dbe",
+      "code": "ECO-526049",
+      "title": "Galpón de Oportunidad en Alquiler",
+      "type": "Galpon",
+      "operation": "Alquiler",
+      "price": 3000,
+      "currency": "USD",
+      "location": {
+        "text": "Bella Florida",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 5,
+      "parking_spots": 6,
+      "area_m2": 3000,
+      "description": "Inmoinnova Real Estate\n\nofrece:\nGalpón / Depósito\nEn alquiler\n\nUbicación / Zona: Bella Florida, Valencia, Carabobo.\n\nMetraje (m²): 3000 m²\nBaños: 5(3en Planta Baja y 2 en Planta Alta)\nPuestos de estacionamiento: 6 vehículos aproximadamente \n\nDescripción:\nAmplio galpón/depósito de 3.000 m² distribuido en dos niveles. Planta Baja cuenta con 3 baños ( con ducha). Planta Alta dispone de 2 baños ( áreas sanitarias). Equipado con sistema eléctrico de alta capacidad respaldado por 3 transformadores pro",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956250891_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956253396_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956255866_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956258183_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/57a59c34-da2f-452e-96d4-2b377591eec7/ECO-526049/1790956260830_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-526049.html",
+      "video_url": null,
+      "agent": {
+        "name": "Romina Pérez ",
+        "phone": "04127466816",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "57a59c34-da2f-452e-96d4-2b377591eec7",
+        "whatsapp_url": "https://wa.me/04127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-526049%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-02T15:51:02.507176+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "b46d74b4-7069-4109-8a58-5286bbfa4b1f",
+      "code": "ECO-800340",
+      "title": "Finca ganadera ",
+      "type": "Finca en producción ",
+      "operation": "Venta",
+      "price": 3500000,
+      "currency": "USD",
+      "location": {
+        "text": "Guarico ",
+        "country": "VE"
+      },
+      "bedrooms": 6,
+      "bathrooms": 5,
+      "parking_spots": 3,
+      "area_m2": 5,
+      "description": "🔵 MILENIO BIENES RAÍCES 🔵\n✨ OPORTUNIDAD DE INVERSIÓN: FINCA GANADERA (2.000 HECTÁREAS) ✨\n📍 Edo. Guárico\n\n🚜 ¡OPERATIVIDAD TOTAL CON MAQUINARIA PESADA Y REBAÑO!\nUna unidad de producción consolidada, totalmente cerrada y lista para continuar su ciclo productivo.\n\n📐 SUPERFICIE: 2.000 Hectáreas.\n▫️ 1.690 Ha totalmente deforestadas.\n▫️ 16 Potreros fundados con pastos de alta calidad.\n💧 RECURSOS HÍDRICOS:\n✅ 20 Lagunas estratégicamente distribuidas.\n✅ 1 Represa de gran capacidad para garantizar ag",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143508113_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143508962_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143509774_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143510717_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-800340/1791143511549_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-800340.html",
+      "video_url": null,
+      "agent": {
+        "name": "Arturo centeno ",
+        "phone": "04124318197",
+        "type": "Agencia",
+        "agency": "Milenio bienes raices ",
+        "user_id": "b83b41b5-1ebb-4869-9fc0-6e04d9f606d2",
+        "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-800340%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-04T19:51:52.531955+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "e4e74f0d-2ed1-45d6-8cbe-1f6dad313e30",
+      "code": "ECO-294102",
+      "title": "Finca bufalera ",
+      "type": "Finca en producción ",
+      "operation": "Venta",
+      "price": 290000,
+      "currency": "USD",
+      "location": {
+        "text": "Tinaquillo ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 2,
+      "area_m2": 23,
+      "description": "✨ EXCELENTE FINCA. OPORTUNIDAD DE INVERSIÓN ✨\n📍 Ubicación: Sector La Aguadita, entre Tinaco y Tinaquillo, Estado Cojedes.\n🌾 Extensión: 130 hectáreas.\n🏗️ Infraestructura y Maquinaria\n• Casa Principal: Dos plantas, totalmente equipada y amoblada.\n• Casa para Obreros: Con techo de platabanda.\n• Maquinaria: 1 retroexcavadora y 2 tractores agrícolas.\n• Galpones Especializados: Ganadería con romana, porcinocultura, avicultura, cunicultura y ovinos.\n• Áreas: Para corte de pasto.\n💧 Sistema Hídrico (",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143238712_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143240191_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143241096_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143241952_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-294102/1791143242802_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-294102.html",
+      "video_url": null,
+      "agent": {
+        "name": "Arturo centeno ",
+        "phone": "04124318197",
+        "type": "Agencia",
+        "agency": "Milenio bienes raices ",
+        "user_id": "b83b41b5-1ebb-4869-9fc0-6e04d9f606d2",
+        "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-294102%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-04T19:47:23.829503+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "7a30cf80-0dc8-4289-b433-4efdeb4be8ba",
+      "code": "ECO-194193",
+      "title": "Finca cafetalera y cacaotera ",
+      "type": "Finca ",
+      "operation": "Venta",
+      "price": 580000,
+      "currency": "USD",
+      "location": {
+        "text": "Estado yaracuy ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "🔵 MILENIO BIENES RAICES 🔵\n\n🌟 VENDE FINCA \n\nEstado Carabobo \nMontalban\nSector Temerla\n\n📐Área,; 40 hectáreas \n\n⚡ Topografía \nPlanas Cerros y Mesetas \n\nConsta de ;\n\n🏡 Casa de bahareque\n      2 Habitaciones \n      1 Baño \n      1 Fogón \n      2 Habitaciones de\n       Depósito \n   \n  🛣️ Carreteras Internas  \n         Externas \n\n💦. Riego con manguera por gravedad \n2 Rios Agua durante todo el año\n2 tanques\nLinderos cercados\n\n🥦3.500 matas de café \n      Plátanos \n\n\n⚡⚡Muy Importante \nEn invierno ",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-194193/1791145747779_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-194193/1791145748760_1.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-194193.html",
+      "video_url": null,
+      "agent": {
+        "name": "Rubén Centeno",
+        "phone": "04124318197",
+        "type": "Agencia",
+        "agency": "Milenio bienes raices ",
+        "user_id": "b83b41b5-1ebb-4869-9fc0-6e04d9f606d2",
+        "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-194193%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-04T20:29:09.761464+00:00",
+      "updated_at": "2026-11-13T05:15:15.251Z"
+    },
+    {
+      "id": "9b1810be-0c5b-4b3a-b794-07f6bb1f0b26",
+      "code": "ECO-693453",
+      "title": "Local de oportunidad para inversión ",
+      "type": "Local ",
+      "operation": "Venta",
+      "price": 18000,
+      "currency": "USD",
+      "location": {
+        "text": "Los Guayos/Valencia ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 10,
+      "description": "🏘️ Inmoinnova Real State 🏘️\n\n¡TÚ PRÓXIMO NEGOCIO EN EL C.C. BUENAVENTURA PLAZA!\n\nSi estás buscando un espació seguro, estratégico y con todo listo para empezar a trabajar, está es la oportunidad que esperabas.\n\nDETALLES DEL\n INMUEBLE\n\n📍Ubicación: C.C. Buenaventura Plaza, Módulo A, Paraparal, Los Guayos.\n\n📐Superficie: 9,26 m²\n\n⚡Servicios: Luz 110/220V (ideal para cualquier tipo de equipos).\n\n🔐Seguridad: Santa María, enrejado de protección.\n\nComodidades: 🚽 Acceso a baño (compartido).\n🚗 1 pu",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/07cca1d7-52d1-4e56-b5f0-e5619cc00d6c/ECO-693453/1790956310994_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/07cca1d7-52d1-4e56-b5f0-e5619cc00d6c/ECO-693453/1790956311752_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/07cca1d7-52d1-4e56-b5f0-e5619cc00d6c/ECO-693453/1790956312417_2.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-693453.html",
+      "video_url": null,
+      "agent": {
+        "name": "Eliana Duran",
+        "phone": "04128709000",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "07cca1d7-52d1-4e56-b5f0-e5619cc00d6c",
+        "whatsapp_url": "https://wa.me/04128709000?text=Hola%2C%20vi%20el%20inmueble%20ECO-693453%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-02T15:51:52.864522+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "fb165286-7c74-4cc4-82e7-509b3d6483a4",
+      "code": "ECO-280549",
+      "title": "Se vende casa a pocos metros de la panamericana ",
+      "type": "Casona",
+      "operation": "Venta",
+      "price": 30000,
+      "currency": "USD",
+      "location": {
+        "text": "Bejuma sector tucupido ",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "parking_spots": 4,
+      "area_m2": 950,
+      "description": "🔵 Milenio Bienes Raíces 🔵\n               VENDE \n\nCasa en la zona de Bejuma \n\n987 mtrs2 📐\nEn construcción \nUn estacionamiento \nPara para 3 vehículos \n\n3 habitaciones \nCada una con baño\nY closet \nCada habitación tiene agua caliente \n\nSala \nComedor \nCocina tipo construcción.\nLavandero \nUn porche con jardinería \n4 corredores\nPuertas con protector \nVentanas con protector \nLa casa tiene piso de tablilla \nBuenas ubicación \nA 2 minutos \nDe la autopista panamericana \n\nPapeles en regla\n\nRef\n30.000\n\nAse",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144240309_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144241724_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144242773_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144243738_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/b83b41b5-1ebb-4869-9fc0-6e04d9f606d2/ECO-280549/1791144244629_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-280549.html",
+      "video_url": null,
+      "agent": {
+        "name": "Rubén Centeno",
+        "phone": "04124318197",
+        "type": "Agencia",
+        "agency": "Milenio bienes raices ",
+        "user_id": "b83b41b5-1ebb-4869-9fc0-6e04d9f606d2",
+        "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-280549%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-04T20:04:05.6388+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "0fa688cc-83cb-4ba1-b5ec-1cd4b3f1ed53",
+      "code": "ECO-822731",
+      "title": "Vendo Bodegon Fondo de Comercio excelente punto ",
+      "type": "Bodegón Fondo de Comercio ",
+      "operation": "Venta",
+      "price": 60000,
+      "currency": "USD",
+      "location": {
+        "text": "Santa Rosa Valencia ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "Faith Real Estate \nCaptación exclusiva\n\nBodegón Fondo de Comercio \nEn Santa Rosa \nAvenida transitada \nLicencia de bodegón \nHorario : desde las 9am hasta las 1am \n\n1 cava cuarto 160 x 160\nCapacidad para 100 cajas de cervezas \n\n1 barra de 4 MTS con 8 bancos \n7 mesas de madera con sus 4 sillas\n2 bancas de hierro de 3mts \n\n1  cava hielera capacidad para 80 bolsas de hielo \n1 enfriador de 3 divisiones operativa 100%\n1 enfriador de 3 divisiones ( para reparar) motor dañado vale 100$ repararlo \n1 conge",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982719759_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982721409_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982722418_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982723545_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982724772_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-822731.html",
+      "video_url": null,
+      "agent": {
+        "name": "Carolina Avinazar ",
+        "phone": "04244519529",
+        "type": "Agencia",
+        "agency": "Faith Real Estate ",
+        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
+        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-822731%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-14T12:58:45.492727+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "2071340a-acc5-4458-bc47-340d1f15d68c",
+      "code": "ECO-451134",
+      "title": "Vendo Apartamento en Prebo ",
+      "type": "Apartamento",
+      "operation": "Venta",
+      "price": 75000,
+      "currency": "USD",
+      "location": {
+        "text": "Res. Florida. Urb. Prebo, Calle 133 Lopez Latouche. Diagonal al Colegio Calasanz. Cercano a la Av. Bolivar Norte. Valencia, Edo.Carabobo.",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "parking_spots": 1,
+      "area_m2": 150,
+      "description": "𝗩𝗘𝗡𝗗𝗢 Apartamento \n𝗥𝗲𝗺𝗼𝗱𝗲𝗹𝗮𝗱𝗼\nRes. Florida.\nUrb. Prebo, Calle 133 Lopez Latouche.\nDiagonal al Colegio Calasanz.\nCercano a la Av. Bolivar Norte.\nValencia, Edo.Carabobo.\n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲 𝘁𝗼𝘁𝗮𝗹 𝗱𝗲 150𝗠²\n𝗖𝗼𝗻 2 𝗔𝗽𝗮𝗿𝘁𝗮𝗺𝗲𝗻𝘁𝗼𝘀, 1 𝗣𝗿𝗶𝗻𝗰𝗶𝗽𝗮𝗹 (𝗴𝗿𝗮𝗻𝗱𝗲), 𝗲𝗹 𝘀𝗶𝗴𝘂𝗶𝗲𝗻𝘁𝗲 𝘁𝗶𝗽𝗼 𝗮𝗻𝗲𝘅𝗼.\n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲\n\n𝗔𝗽𝘁𝗼 𝗣𝗿𝗶𝗻𝗰𝗶𝗽𝗮𝗹 \n120 M2 Aprox \n3 Amplias Habitaciónes (01 Con Baño Interno, la Otra Con Balcón Terraza ) Quedan 2 A/A Split de 12",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-451134/1792458914483_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-451134/1792458916674_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-451134/1792458918152_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-451134/1792458919220_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-451134/1792458920684_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-451134.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-451134%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T01:15:22.255754+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "df2b8d39-4c00-4a1e-af15-dc20b7eb6f2b",
+      "code": "ECO-498513",
+      "title": "Vendo Apartamento Res. Alessandria. Mañongo",
+      "type": "Apartamento",
+      "operation": "Venta",
+      "price": 78000,
+      "currency": "USD",
+      "location": {
+        "text": "Mañongo, Naguanagua. Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 2,
+      "area_m2": 81,
+      "description": "𝗩𝗘𝗡𝗗𝗢\n𝗔𝗽𝗮𝗿𝘁𝗮𝗺𝗲𝗻𝘁𝗼\nRes. Alessandria. Jardin Mañongo.\nNaguanagua, Edo Carabobo.\n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲:\n81.36M² Construcción\nPiso Bajo \n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲:\n3Habitaciones.\n2Baños.\nCocina.\nSala.\nComedor.\nÁrea de Faena.\n2PE. (Lineal/techado).\n1 Maletero.\n\n𝗦𝗲𝗺𝗶 𝗔𝗺𝗼𝗯𝗹𝗮𝗱𝗼\n\n𝗕𝗼𝗻𝗱𝗮𝗱𝗲𝘀 𝗱𝗲 𝗰𝗼𝗻𝗷𝘂𝗻𝘁𝗼:\nCaney con área social amplia.\nAscensores.\nPozo.\nPlanta 50%.\nVigilancia 24/7.\nConjunto cerrado.\n\n𝗣𝗿𝗲𝗰𝗶𝗼: 78.000$",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-498513/1792467470483_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-498513/1792467472989_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-498513/1792467474867_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-498513/1792467477368_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-498513/1792467479265_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-498513.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-498513%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T03:38:01.055367+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "9a553460-b942-4ea0-9166-0cdfb35fdd9d",
+      "code": "ECO-383406",
+      "title": "Vendo Apartamento Res. Puerto Alegre",
+      "type": "Apartamento",
+      "operation": "Venta",
+      "price": 79000,
+      "currency": "USD",
+      "location": {
+        "text": "Valles de Camoruco, Valencia. Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 2,
+      "area_m2": 85,
+      "description": "𝗩𝗘𝗡𝗗𝗢 en Obra limpia.\n𝗔𝗽𝗮𝗿𝘁𝗮𝗺𝗲𝗻𝘁𝗼\nRes. Puerto Alegre\nValles de Camoruco, Valencia. Edo Carabobo.\n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲:\n85M² Construcción\nPiso Alto\n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲:\n3Habitaciones.\n2Baños.\nÁrea de Cocina.\nSala.\nComedor.\nÁrea de Faena.\n2PE.\n\n- 𝗢𝗯𝗿𝗮 𝗕𝗹𝗮𝗻𝗰𝗮.\n- 𝗩𝗲𝗻𝘁𝗮𝗻𝗮𝘀 𝗽𝗮𝗻𝗼𝗿𝗮́𝗺𝗶𝗰𝗮𝘀 (𝘀𝗶𝗻 𝗽𝗿𝗼𝘁𝗲𝗰𝘁𝗼𝗿𝗲𝘀).\n\n𝗕𝗼𝗻𝗱𝗮𝗱𝗲𝘀 𝗱𝗲 𝗰𝗼𝗻𝗷𝘂𝗻𝘁𝗼:\nPozo.\nPlanta 50%.\nSalón de Fiesta.\nVigilancia 24/7.\nCircuito cerrado \nFacil Acceso.\n\n𝗣𝗿𝗲𝗰𝗶𝗼: 79.00",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-383406/1792474396275_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-383406/1792474398617_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-383406/1792474399775_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-383406/1792474401260_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-383406/1792474402423_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-383406.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-383406%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T05:33:23.936021+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "7c696b21-af9c-4382-b2c5-8a29d6373ee8",
+      "code": "ECO-871643",
+      "title": "Vendo casa Conj. Res. Villas Laguna club",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 350000,
+      "currency": "USD",
+      "location": {
+        "text": "Guataparo, Colinas de Guataparo. Valencia. Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 5,
+      "bathrooms": 6,
+      "parking_spots": 4,
+      "area_m2": 600,
+      "description": "𝗩𝗘𝗡𝗗𝗢\n𝗖𝗮𝘀𝗮 \nConj. Res. Villas Laguna Club. Guataparo, Valencia. Edo Carabobo.\n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲:\n382M² Construcción\n600M² Terreno\n\n2NIVEL\n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲:\n4 Habitaciones.\n1 Habitación Servicio.\n6 Baños.\nCocina (Equipada)\nSala.\nComedor.\nEstar.\nFamily Room.\nÁrea de Faena.\nDepósito.\n4 P. Estacionamiento. (Techados) \nSemi Amoblado.\nPatio (Gran espacio de Área verde)\n\n𝗣𝗹𝘂𝘀\nSemi-Amoblado. (Empotrado).\nTanque de Agua. (Subterráneo).\n\n𝗕𝗼𝗻𝗱𝗮𝗱𝗲𝘀 𝗱𝗲 𝗰𝗼𝗻𝗷𝘂𝗻𝘁𝗼:\nPozo\nVigilanci",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-871643/1792474941823_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-871643/1792474944026_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-871643/1792474945465_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-871643/1792474947092_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-871643/1792474948280_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-871643.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-871643%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T05:42:29.622613+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "06042056-e68e-4184-8f93-05e93600626f",
+      "code": "ECO-323756",
+      "title": "Vendo Casa Urb. Parque Mirador. El Bosque",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 200000,
+      "currency": "USD",
+      "location": {
+        "text": "El Bosque, Valencia. Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "parking_spots": 2,
+      "area_m2": 314,
+      "description": "𝗩𝗘𝗡𝗗𝗢\n𝗖𝗔𝗦𝗔\nAv. Paseo Cuatricentenario, Urb. Parque Mirador. \n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲:\n314 Mts² De Construcción.\n2 Niveles\n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗗𝗲:\n5 Habitaciones \n5 Baños\nCocina Concepto Abierto, Mesón de Granito Y Madera. \nSala.\ncomedor.\nÁrea de Lavandería (Espacioso). \nPatio/ más Caney, con Cocina a  Gas y Eléctrica.\n2 Puestos de Estacionamientos.\nMaleteros.\nPisos de Ceramica-Parquet.\nA/A Individuales.\nCalentador de Agua.\nGas.\nTanque de Agua 10.000 Lts, Con Hidroneumatico.\n\n𝗘𝗹 𝗖𝗼𝗻𝗷𝘂𝗻𝘁𝗼 \ud835",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-323756/1792476502354_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-323756/1792476504487_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-323756/1792476505899_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-323756/1792476507515_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-323756/1792476508765_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-323756.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-323756%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T06:08:30.150656+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "7508b88a-971c-4db0-a6d3-b06088d29d06",
+      "code": "ECO-559984",
+      "title": "Alquilo Casa Comercial o Residencial en Agua Blanca",
+      "type": "Casa comercial o Residencial",
+      "operation": "Alquiler",
+      "price": 900,
+      "currency": "USD",
+      "location": {
+        "text": "Agua blanca, Valencia. Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "parking_spots": 2,
+      "area_m2": 366,
+      "description": "𝗔𝗟𝗤𝗨𝗜𝗟𝗢\n𝗖𝗮𝘀𝗮 \nAgua Blanca\nValencia. Edo Carabobo.\n\n𝗨𝗦𝗢 𝗖𝗼𝗺𝗲𝗿𝗰𝗶𝗮𝗹 𝗼 𝗥𝗲𝘀𝗶𝗱𝗲𝗻𝗰𝗶𝗮𝗹 \n\n𝗠𝗲𝘁𝗿𝗮𝗷𝗲:\n366M² Construcción\n2 NIVELES\n\n𝗖𝗼𝗻𝘀𝘁𝗮 𝗱𝗲:\n3 Habitaciones.\n3 Baños.\nCocina.\nSala.\nComedor.\nFamily Room.\nÁrea de Faena.\n2PE.\n1 Habitacion de servicio.\nPatio\n\nSIN 𝗔𝗺𝗼𝗯𝗹𝗮𝗿\n\n𝗕𝗼𝗻𝗱𝗮𝗱𝗲𝘀 𝗱𝗲 𝗰𝗼𝗻𝗷𝘂𝗻𝘁𝗼:\nCalle abierta.\nTanque de agua\nFacil Acceso.\n\n𝗡𝗲𝗴𝗼𝗰𝗶𝗮𝗰𝗶𝗼́𝗻\n3 Meses de depósito \n1 Mes de adelanto \n1 Mes de comisión \nContrato\n\n𝗣𝗲𝗿",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-559984/1792477239516_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-559984/1792477244003_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-559984/1792477247958_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-559984/1792477251983_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/42b5eee5-1e0f-43fe-be7d-26071c88b46e/ECO-559984/1792477255623_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-559984.html",
+      "video_url": null,
+      "agent": {
+        "name": "Estefania Ropero",
+        "phone": "04141854761",
+        "type": "Agencia",
+        "agency": "Abre, Bienes Raíces",
+        "user_id": "42b5eee5-1e0f-43fe-be7d-26071c88b46e",
+        "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-559984%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-20T06:20:56.757259+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "c1a6a754-417c-4d53-9e0f-c124901acda2",
+      "code": "ECO-570178",
+      "title": "Hermosa casa de Arquitectura Asiática y Americana",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 368000,
+      "currency": "USD",
+      "location": {
+        "text": "Barrera campo de Carabobo tocuyito el libertador",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "parking_spots": 20,
+      "area_m2": 6500,
+      "description": "🏡 Faith Real Estate ✨🔑\n       Captación \n\n✨Hermosa Casa de 2 plantas con amplio terreno ubicada en Barrera \n\n      Un diseño exclusivo arquitectónico donde cada detalle de la casa tiene un concepto diferente y muy especial \n\n* 6.500m2 de Terreno\n* 1500m2 de Construcción\n* 2 Plantas con la Siguiente Distribución:\n\n* Sala\n* Recibo de Estar\n* Comedor\n* Cocina\n* 3 Habitaciones con aires acondicionados, camas closets \n* 3 baños\n* Ámolio Salón de Star \n* ⁠Casa de vigilancia con cocina habitación y b",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615840226_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615841938_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615843196_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615844558_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-570178/1792615845888_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-570178.html",
+      "video_url": null,
+      "agent": {
+        "name": "Carolina Avinazar",
+        "phone": "04244519529",
+        "type": "Agencia",
+        "agency": "Faith Real Estate",
+        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
+        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-570178%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-21T20:50:46.588795+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "96d5ec4a-dc4a-4652-96d1-b59f37213f9f",
+      "code": "ECO-472172",
+      "title": "Alquilo Oficina punto Comercial Av Las Ferias Carabobo ",
+      "type": "Oficina/local",
+      "operation": "Alquiler",
+      "price": 220,
+      "currency": "USD",
+      "location": {
+        "text": "Av Las Ferias ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 3,
+      "parking_spots": 0,
+      "area_m2": 35,
+      "description": "Inmoinnova Real Estate:\n\nofrece:\nLocal / Oficina\nEn alquiler\n\nUbicación / Zona: Avenida Las Ferias, 1er Piso, Valencia, Estado Carabobo.\n\nMetraje (m²): 35 m²\nHabitaciones: 0 (Cubículo / Planta Libre)\nBaños: 3 (Uso común en áreas compartidas)\nPuestos de estacionamiento: 0\n\nDescripción:\nLocal u oficina en 1er piso de 35 m² con pisos de cerámica, conexiones para aire acondicionado y excelente iluminación natural. Dispone de acceso a áreas comunes que incluyen 3 baños y sala de estar.\n\nBondades:\nUbi",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-472172/1793267690521_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-472172/1793267692250_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-472172/1793267693354_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-472172/1793267694379_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-472172/1793267695519_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-472172.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ludaisi Moreno",
+        "phone": "0584149418126",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "e252527d-736d-4799-bd45-de45930f0ca0",
+        "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-472172%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-29T09:54:56.838247+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "ff0a1e91-66a8-473f-bada-e57ebc7039ee",
+      "code": "ECO-700707",
+      "title": "Galpón Industrial ",
+      "type": "Galpón ",
+      "operation": "Venta",
+      "price": 890000,
+      "currency": "USD",
+      "location": {
+        "text": "Autopista Los Caobos Valencia Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 810,
+      "description": "Inmoinnova Real Estate ofrece:\n\nVenta de Galpón .\n\nUbicación/ Zona: Los Caobos  Valencia Edo. Carabobo.\n\nMetraje terreno (m²): 686 m² + 124 adicional \nMetraje Galpón  de dos pisos  (m2) total 560 m2\nOficinas: 3\nBaños: 3\nCasa de 2 habitaciones y baños\nPuestos de estacionamiento: 10.\nTerreno 420 mt2 todo con piso de cemento y tanque de 12 mil litros.\n\nDescripción: Galpón con ubicación estratégica y comercial para todo tipo de negocio.\n\nUbicación: Orillas de la autopista con fácil acceso y cerca ti",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-700707/1790955083613_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-700707/1790955084860_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-700707/1790955085740_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-700707/1790955086970_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-700707/1790955088141_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-700707.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ludaisi Moreno ",
+        "phone": "0589418126",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "e252527d-736d-4799-bd45-de45930f0ca0",
+        "whatsapp_url": "https://wa.me/0589418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-700707%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-02T15:31:29.297389+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "608d6d1c-3d21-4d9b-9176-b9d6f2d329ca",
+      "code": "ECO-946183",
+      "title": "Venta o alquiler de hermosa casa en Naguanagua Altamira 1 la entrada ",
+      "type": "Casa ",
+      "operation": "Venta",
+      "price": 300,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Carabobo Naguanagua Altamira 1 ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 2,
+      "area_m2": 0,
+      "description": "🔑 FAITH REAL ESTATE 🔑 \n\nExclusiva Casa de Montaña con Diseño Moderno y Vista Panorámica\nEn alquiler o venta \n\n¡El refugio perfecto que combina el lujo moderno con la serenidad de la naturaleza! Esta espectacular propiedad de tres niveles destaca por su arquitectura de concepto abierto, acabados contemporáneos y una vista inigualable hacia toda la ciudad. Se entrega completamente amoblada y lista para habitar en alquiler \n📍 Ubicación Privilegiada\n\n• Zona:  Naguanagua la entrada 1 Altamira ( Ár",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/fc909670-305a-4533-891a-947e8ecbf193/ECO-946183/1793284235277_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/fc909670-305a-4533-891a-947e8ecbf193/ECO-946183/1793284236470_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/fc909670-305a-4533-891a-947e8ecbf193/ECO-946183/1793284238365_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/fc909670-305a-4533-891a-947e8ecbf193/ECO-946183/1793284238836_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/fc909670-305a-4533-891a-947e8ecbf193/ECO-946183/1793284239365_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-946183.html",
+      "video_url": null,
+      "agent": {
+        "name": "Alejandro Alcántara",
+        "phone": "04144049940",
+        "type": "Agencia",
+        "agency": "Faith real estate",
+        "user_id": "fc909670-305a-4533-891a-947e8ecbf193",
+        "whatsapp_url": "https://wa.me/04144049940?text=Hola%2C%20vi%20el%20inmueble%20ECO-946183%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-29T14:30:39.933492+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "065d4c3c-b56b-46f5-99ac-82c9c9e80eb4",
+      "code": "ECO-890447",
+      "title": "Galpon industrial",
+      "type": "Galpon",
+      "operation": "Alquiler",
+      "price": 600,
+      "currency": "USD",
+      "location": {
+        "text": "valencia",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 650,
+      "description": "prueba",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/96be26d8-154e-4675-8d1e-f25245ebf969/ECO-890447/1793395456522_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/96be26d8-154e-4675-8d1e-f25245ebf969/ECO-890447/1793395457824_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/96be26d8-154e-4675-8d1e-f25245ebf969/ECO-890447/1793395458822_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/96be26d8-154e-4675-8d1e-f25245ebf969/ECO-890447/1793395460138_3.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-890447.html",
+      "video_url": null,
+      "agent": {
+        "name": "Josue Guerrero",
+        "phone": "34624652830",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "96be26d8-154e-4675-8d1e-f25245ebf969",
+        "whatsapp_url": "https://wa.me/34624652830?text=Hola%2C%20vi%20el%20inmueble%20ECO-890447%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-30T21:24:23.384101+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "64c1104c-ff36-4032-9e7a-168aef18cc11",
+      "code": "ECO-392780",
+      "title": "Cubículos para consultas médicas ",
+      "type": "Cubículos en alquiler",
+      "operation": "Alquiler",
+      "price": 110,
+      "currency": "USD",
+      "location": {
+        "text": "Avenida Pedro Meleán Valencia Estado Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 16,
+      "description": "Inmoinnova Real Estate ofrece:\n\nConsultorios Médicos listos para trabajar\nEn Alquiler. (Turno Completo). \n\nUbicación: Entre Avenida Pedro Meleán y la  Urbanización La Isabelica, Valencia.\n\n Metraje (m²): A consultar. \n Cubículos Individuales. \n Baños: 2 (Uso común) Para Damas y Caballeros. \n\nDescripción:\nConsultorios equipados con 2 sillas para visitantes, escritorio y silla para el profesional, y camilla sencilla opcional. El área general cuenta con: amplia recepción con personal de atención, a",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/9b18300f-e397-4275-974e-0549f2144e9a/ECO-392780/1790300124092_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/9b18300f-e397-4275-974e-0549f2144e9a/ECO-392780/1790300125268_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/9b18300f-e397-4275-974e-0549f2144e9a/ECO-392780/1790300126205_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/9b18300f-e397-4275-974e-0549f2144e9a/ECO-392780/1790300127198_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/9b18300f-e397-4275-974e-0549f2144e9a/ECO-392780/1790300128162_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-392780.html",
+      "video_url": "https://vt.tiktok.com/ZSgbLcEFr/",
+      "agent": {
+        "name": "MARTIN NAVA",
+        "phone": "584121634256",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "9b18300f-e397-4275-974e-0549f2144e9a",
+        "whatsapp_url": "https://wa.me/584121634256?text=Hola%2C%20vi%20el%20inmueble%20ECO-392780%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-09-25T01:35:29.218472+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "22ff039a-51a0-45c5-ad98-b3044b91787c",
+      "code": "ECO-58477",
+      "title": "A la Venta Casa con Local Comercial No Está en Avenida, Ubicada en Las Parcelas del Socorro 02",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 18000,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 100,
+      "description": "BC Bienes Raices \nNueva Captación \n\nSe Vende Casa con Local\nUbicada en las Parcelas del  Socorro 02\ncerca del CDI, \n\"NO ESTÁ EN AVENIDA \"\n\nSe Firma por \nDocumento Privado \n\nFicha Descriptiva:\n1 Habitación Principal con Baño Interno \n(Obra Gris)\n3 Habitaciones\n1 Baño Visita \n(Obra Gris)\nSala \nComedor \nCocina Sencilla \nÁrea de Lavandero \nDisponible: \nAGUA DE POZO 24/7\nLuz 110 Wtts\nNota: La Casa es Mitad Platabanda  \nY Mitad de Zinc\nPiso Cemento Pulido\nNo Tiene Patio\nNo Tiene Garage\nTiene Porche\nDe",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-58477/1793446930208_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-58477/1793446932061_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-58477/1793446933123_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-58477/1793446934160_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-58477/1793446935313_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-58477.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ana Suárez ",
+        "phone": "04144013538",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "0092f954-ede4-4329-9670-011f1c953060",
+        "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-58477%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-31T11:42:16.618867+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "0c4aa7fe-b683-4016-b3dc-61ea09dec85e",
+      "code": "ECO-503273",
+      "title": "Se Vende Casa Amplia Ubicada en La Urbanización TACARIGUA Paraparal ",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 21000,
+      "currency": "USD",
+      "location": {
+        "text": "Paraparal Los Guayos ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "parking_spots": 3,
+      "area_m2": 300,
+      "description": "BC Bienes Raices \nNueva Captación \n\nSe Vende Casa Amplia \nConsta de 300 mts2 \nUbicada en \n Urb TACARIGUA  \nParaparal Los Guayos \n\nSe Firma por \nDocumento Privado\n\nFicha Descriptiva: \n2 Habitaciones con sus \nPuertas de Madera \n1 Baño Amplio \ncon Cerámica \nSala-Comedor \nCocina en Mampostería  \nCon Mesa Desayunador \nÁrea de Lavandero \nAGUA 24/7 \nToda la Casa es de \nTecho de Zinc \nSin Filtraciones\nPISO DE LOSA\nLuz 110/220wtts\nVentanas Panorámicas\nPatio Amplio \nNo Tiene Paredes \nPerimetrales Propias ",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-503273/1793446085022_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-503273/1793446087293_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-503273/1793446089088_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-503273/1793446090772_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-503273/1793446093126_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-503273.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ana Suárez ",
+        "phone": "04144013538",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "0092f954-ede4-4329-9670-011f1c953060",
+        "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-503273%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-31T11:28:14.11016+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "2ad5d4f0-f3ca-4dc2-b9ae-8e6258b0300b",
+      "code": "ECO-873572",
+      "title": "A la Venta Casa con Local Ubicada en La Vivienda de Los Guayos 2da Etapa Sector José Ignacio Acevedo ",
+      "type": "Casa ",
+      "operation": "Venta",
+      "price": 27000,
+      "currency": "USD",
+      "location": {
+        "text": "Los Guayos Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "parking_spots": 2,
+      "area_m2": 80,
+      "description": "BC Bienes Raíces \nNueva Captación \n\nSe Vende Casa Amplia \nCon Local Comercial \nConsta de 80 mts2 \nUbicada en la \nVivienda de Los Guayos  \n2da Etapa \nSector \"José \n Ignacio Acevedo \"\n\nSe Firma por el INTU\nDocumentos al Día \n\nFicha Descriptiva: \n1 Habitación Principal \nCon Baño Interno \n3 Habitaciones \n1 Baño de Visita \nSala\nComedor \nCocina en Mampostería \nDisponible: \nGAS DIRECTO \nPatio con Rejas de Seguridad y \nTecho de Acerolit \nLuz 110/220 watts\nAgua Constante \nPunto de Internet: \nNetcom \nPiso",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-873572/1793445639948_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-873572/1793445642281_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-873572/1793445644766_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-873572/1793445646655_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-873572/1793445647936_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-873572.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ana Suárez",
+        "phone": "04144013538",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "0092f954-ede4-4329-9670-011f1c953060",
+        "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-873572%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-31T11:20:49.333084+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "6610d1c4-8d37-4ff3-ba32-6589a590a579",
+      "code": "ECO-717590",
+      "title": "Se Vende Apartamento 6to Piso Ubicado Conj Residencial Graciela \"Súper Bloque\" Paraparal Los Guayos ",
+      "type": "Apartamento ",
+      "operation": "Venta",
+      "price": 32000,
+      "currency": "USD",
+      "location": {
+        "text": "Paraparal Los Guayos ",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 80,
+      "description": "BC Bienes Raices \nNueva Captación \n\nSe Vende Apartamento \n6to Piso \nConsta de 80,20 mts2 \nUbicado en Conjunto \nResidencial Graciela \n\"SUPER BLOQUE\"\nParaparal Los Guayos \n\nSe Firma por \nDocumento Privado \n\nSe está Gestionando Documentos \npara Firmar  por  Registro \n\nFicha Descriptiva: \n01 Habitación Principal \nCon Baño Interno \n+ Clóset \n02 Habitaciones \n01 Baño de Visitas \nSala - Comedor \nMini Área Sala Room\nCocina Sencilla \nBalcón \nÁrea de Lavandero \nDisponible: \nTanque del Edificio \nAgua 24/7\n",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-717590/1793510591550_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-717590/1793510593630_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-717590/1793510594698_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-717590/1793510595873_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-717590/1793510597328_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-717590.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ana Suárez",
+        "phone": "04144013538",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "0092f954-ede4-4329-9670-011f1c953060",
+        "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-717590%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-01T05:23:18.516996+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "e86b112d-232d-41b0-b7d5-288a8a2fa7b8",
+      "code": "ECO-532915",
+      "title": "Local en los Taladros con mercancía ",
+      "type": "Local",
+      "operation": "Venta",
+      "price": 130000,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Edo Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "Inmoinnova Real Estate ofrece:\nVenta de Local con terreno.\n\nUbicación/ Zona: Los Taladros Valencia Edo. Carabobo.\n\nMetraje terreno (m²): 224m²\nMetraje Local (m2) 56 m2\nBaños: \nPuestos de estacionamiento:\n\nDescripción: Local comercial pequeño con terreno. Cuenta con luz 110V , Porton doble ala.\nReja protectora \nCon materiales de ferretería se puede apreciar en fotografía \n\nBondades: ubicado cerca de colegios y sitios residencial.\nEl terreno llega a la calle de atrás \n\n\nVenta\n\nVenta: 130.000$ nego",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-532915/1793617239501_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-532915/1793617241221_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-532915/1793617242408_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-532915/1793617243657_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-532915/1793617244838_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-532915.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ludaisi Moreno",
+        "phone": "0584149418126",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "e252527d-736d-4799-bd45-de45930f0ca0",
+        "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-532915%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T11:00:46.723749+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "d4387eca-5c92-4eb6-b7b0-faade3ea16ac",
+      "code": "ECO-743913",
+      "title": "Alquilo Excelente local buena ubicación ",
+      "type": "Local",
+      "operation": "Alquiler",
+      "price": 800,
+      "currency": "USD",
+      "location": {
+        "text": "La Candelaria Valencia Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 160,
+      "description": "Inmoinnova Real Estate ofrece:\nLocal comercial en alquiler.\n\nUbicación/ Zona: Candelaria Valencia Edo. Carabobo.\n\nMetraje (m²): 160 m²\nBaños: 2\nPuestos de estacionamiento:\n\nDescripción: Local comercial grande. Cuenta con luz 110/220V (ideal para cualquier tipo de equipos), puerta Santa María negra. \n\nBondades: ubicado cerca de la calle Michelena con negocio de repuestos alrededor.\n\nAlquiler\n\n(Canon): 800$ negociables\nCondiciones: 3 meses de depósito,  1 mes de comisión). Contrato 170$\n\nAsesor Ca",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-743913/1793618374590_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-743913/1793618376109_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-743913/1793618377057_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-743913/1793618378001_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/e252527d-736d-4799-bd45-de45930f0ca0/ECO-743913/1793618379115_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-743913.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ludaisi Moreno",
+        "phone": "0584149418126",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "e252527d-736d-4799-bd45-de45930f0ca0",
+        "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-743913%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T11:19:39.778619+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "744a42b1-a90f-4b22-bf5f-aa2d0dae782d",
+      "code": "ECO-862402",
+      "title": "Venta de Oportunidad Casa a Remodelar precio accesible ",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 30000,
+      "currency": "USD",
+      "location": {
+        "text": "Tocuyito Estado Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "parking_spots": 10,
+      "area_m2": 0,
+      "description": "🏠INMOINNOVA REAL ESTATE OFRECE🏠:\n\n ♦️ NUEVA CAPTACIÓN♦️\n\nCasa  En Venta. \n\nUna Excelente Oportunidad Para Invertir en Tu Tranquilidad Familiar.\n\nUbicación: cerca del Trujillano, Autopista, Tocuyito. Estado Carabobo \n\nMetraje 400 (m²): Terreno \n🛏️Habitaciones: 3\n🚽Baños: 1\n🚗Puestos de estacionamiento:10\n\nDescripción:\nExcelente Casa en pleno centro de Tocuyito cerca pasan camionetas que van a Valencia\nPiso de granito\nÁrea de cocina y lavandería \nGaraje\nAmplio patio \n\nBondades:\nCercanías Que De",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-862402/1793634122099_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-862402/1793634124026_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-862402/1793634125144_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-862402/1793634126286_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-862402/1793634127291_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-862402.html",
+      "video_url": null,
+      "agent": {
+        "name": "Víctoria Vargas",
+        "phone": "0584244339234",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "98ab6a95-4b4f-4fc8-a040-c572b81574fc",
+        "whatsapp_url": "https://wa.me/0584244339234?text=Hola%2C%20vi%20el%20inmueble%20ECO-862402%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T15:42:08.093657+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "729e934b-325a-4b2e-9b38-3a2078c4b4c9",
+      "code": "ECO-683095",
+      "title": "Se Alquila Habitación Sólo para Caballero Ubicado en La Isabelica ",
+      "type": "Habitación ",
+      "operation": "Alquiler",
+      "price": 70,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "BC Bienes Raices\n\"NUEVA CAPTACIÓN\"\n\nSe Alquila Habitación \nA CABALLERO SÓLO \nDentro de un Apartamento \nen 1er Piso \nUbicado en La Isabelica \nCerca del Liceo \nBernardo Nuñez \n\nAceptan Visitas \n(Sólo Pernoctar los \nFines de Semana)\nNo Aceptan Niños \nNo Aceptan Personas Mayores (3era Edad)\nNo Aceptan Mascotas \n\nFicha Descriptiva:\n1 Habitación \nIncluye: \nCama Individual \nSin Colchón \n1 Baño Compartido\nTiene Derecho a:\nCocina con \nGAS DIRECTO \nNEVERA \nAGUA DE POZO 24/7\nTanque de Agua \nÁrea de Lavande",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-683095/1793647303592_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-683095/1793647305416_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-683095/1793647306409_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-683095/1793647307476_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/0092f954-ede4-4329-9670-011f1c953060/ECO-683095/1793647308472_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-683095.html",
+      "video_url": null,
+      "agent": {
+        "name": "Ana Suárez",
+        "phone": "04144013538",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "0092f954-ede4-4329-9670-011f1c953060",
+        "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-683095%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T19:21:49.768034+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "39f68734-228a-4ec5-9b11-9b847c3fdf7f",
+      "code": "ECO-620311",
+      "title": "Apartamento Bello de Oportunidad ",
+      "type": "Apartamento En Valle de San Francisco ",
+      "operation": "Venta",
+      "price": 35000,
+      "currency": "USD",
+      "location": {
+        "text": "Residencias Valle de San Francisco, Municipio libertador Tocuyito, Valencia Estado Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 50,
+      "description": "🏠INMOINNOVA REAL ESTATE OFRECE🏠:\n ♦️ NUEVA CAPTACIÓN♦️\nApartamento En Venta. Una Excelente Oportunidad Para Invertir en Tu Tranquilidad Familiar.\n\nUbicación: En Valles de San Francisco, Tocuyito. Estado Carabobo \n\nMetraje 50 (m²):\n🛏️Habitaciones: 2\n🚽Baños:2\n🚗Puestos de estacionamiento:1\n\nDescripción:\nExcelente apartamento de Oportunidad.\n1 er piso, con\n2 habitaciones con aire \nSala con aire \nCocina empotadra..\nCalentador \nPiso de porcelanato \nProtectores en todas las ventanas, Agua de pozo\n",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-620311/1793652871395_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-620311/1793652875115_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-620311/1793652876044_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-620311/1793652876893_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-620311/1793652877781_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-620311.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "5aec9939-9ad1-41c3-926d-2e163aac11a5",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-620311%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T20:54:39.962118+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "8670782c-3e3f-4006-ac1c-f2765739712b",
+      "code": "ECO-300379",
+      "title": "Casa De 2 Plantas De Oportunidad en Venta ",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 35000,
+      "currency": "USD",
+      "location": {
+        "text": "Urbanización Villa Jardín Tocuyito ",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "parking_spots": 1,
+      "area_m2": 200,
+      "description": "🏡INMOINNOVA REAL ESTATE 🏡. OFRECE EN VENTA\n\nCASA DE 2 PLANTAS DE OPORTUNIDAD EN URB. VILLA JARDIN. TOCUYITO \n *\n *Antes *37.000 $\n *AHORA \nBAJANDO* PRECIO  A *35.000$* Raya* \n\nUbicación: Urbanización Villa Jardín de Tocuyito, Municipio Libertador.\n\n📐 Metraje (m²): 157,50 m² de terreno / 200 m² aproximadamente de construcción.\n🛏️ Habitaciones: 4\n🚽Baños: 3\n🚘Puestos de estacionamiento: 2\n\nDescripción:\nSólida propiedad de 2 niveles construida en concreto armado.\nCon techo de platabanda.\nElegan",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-300379/1793653138760_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-300379/1793653140772_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-300379/1793653142291_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-300379/1793653143905_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-300379/1793653145484_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-300379.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "5aec9939-9ad1-41c3-926d-2e163aac11a5",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-300379%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T20:59:07.529644+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "006acafa-58a9-43c0-9a79-fc4d2e6b8fef",
+      "code": "ECO-337214",
+      "title": "Casa En Venta de Oportunidad En Los Guayos",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 16000,
+      "currency": "USD",
+      "location": {
+        "text": "Las Agüitas Sector 2 de los Guayos, Valencia Estado Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 152,
+      "description": "🏡INMOINNOVA REAL ESTATE 🏡 \nOFRECE EN VENTA 📌\n🔶Bajando De Precio 16.000🔶\n\nUbicación: Casa ubicada En sector 2 de las aguitas, En los Guayos\n\nDescripción:\nContiene\n🛌🏼3 habitaciones \n🚽2 Baños\n🛋️Sala amplia, \nPorche\nComedor\nCocina.\nPatio\nTiene Tanque Subterráneo \n\nBondades:\n\nCasa de Ezquina y de oportunidad, Con Comercios Cerca, Escuelas y Buena Ubicación Muy Céntrica. Una Inversión Ideal para Tu familia, Y a un Precio inigualable, Y Lo Mejor es Negociable.\n\nEn 16.000$ \n\nAsesor Capacitador:",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-337214/1793653350904_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-337214/1793653354276_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-337214/1793653357375_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-337214/1793653359056_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/5aec9939-9ad1-41c3-926d-2e163aac11a5/ECO-337214/1793653362201_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-337214.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "5aec9939-9ad1-41c3-926d-2e163aac11a5",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-337214%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T21:02:44.211033+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "205ff30a-e289-4570-968c-c5a4f57fc097",
+      "code": "ECO-482934",
+      "title": "Vendo hermoso Townhouse en Tazajal Villa Florencia II",
+      "type": "Townhouse en Villa Florencia II Tazajal",
+      "operation": "Venta",
+      "price": 130000,
+      "currency": "USD",
+      "location": {
+        "text": "Mañongo Tazajal Valencia",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 3,
+      "parking_spots": 1,
+      "area_m2": 0,
+      "description": "🔑FAITH REAL ESTATE 🔑\n\nCaptación Exclusiva \nTownhouse en Villa Florencia II amoblado y equipado se entrega con todo \n\n2 plantas \n\nDISTRIBUCIÓN:\n2 habitaciones amplias con closets y aire acondicionado  cada una con su baño equipado \n1 baño en planta baja para visitas \nSala \nComedor \nCocina equipada \n Área de Servicios: Lavandero independiente\nCuenta con Patio\nUn puesto de Estacionamiento\n \nVigilancia 24/7\nEstacionamiento para visitantes \nCaney \nConjunto cerrado \n\n Estatus Legal: pendiente la lib",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-1-1794235760075.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-2-1794235761221.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-3-1794235762444.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-4-1794235763867.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-5-1794235765262.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-6-1794235766707.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-7-1794235768066.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-8-1794235769170.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-9-1794235770471.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-10-1794235771409.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-11-1794235772558.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-482934/venta-vendo-hermoso-townhouse-en-tazajal-villa-florencia-ii--eco-482934-foto-12-1794235773817.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-482934.html",
+      "video_url": null,
+      "agent": {
+        "name": "Carolina Avinazar",
+        "phone": "04244519529",
+        "type": "Agencia",
+        "agency": "Faith Real Estate",
+        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
+        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-482934%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-09T14:42:51.011719+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "a318322b-12c5-446d-8049-8ac1ba972ae8",
+      "code": "ECO-620393",
+      "title": "Casa en Venta de 2 Plantas Una Oportunidad ideal para tu Inversión ",
+      "type": "Casa de 2 Plantas",
+      "operation": "Venta",
+      "price": 37000,
+      "currency": "USD",
+      "location": {
+        "text": "Urbanización Villa Jardín, Tocuyito, Valencia estado Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "parking_spots": 1,
+      "area_m2": 200,
+      "description": "🏡INMOINNOVA REAL ESTATE 🏡. OFRECE EN VENTA O ALQUILER CON OPCIÓN A COMPRA\n\nCASA DE 2 PLANTAS DE OPORTUNIDAD EN URB. VILLA JARDIN.\n\n *BAJANDO PRECIO  A 37.000$* \n *Canon 350$ c/mes* \n\nUbicación: Urbanización Villa Jardín de Tocuyito, Municipio Libertador.\n\n📐 Metraje (m²): 157,50 m² de terreno / 200 m² aproximadamente de construcción.\n🛏️ Habitaciones: 4\n🚽Baños: 3\n🚘Puestos de estacionamiento: 2\n\nDescripción:\nSólida propiedad de 2 niveles construida en concreto armado.\nCon techo de platabanda.",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955987748_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955989148_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955990887_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955992451_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-620393/1790955993759_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-620393.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos ",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE ",
+        "user_id": "6608c7a0-8035-48c9-8240-7d925e8259c3",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-620393%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-02T15:46:35.905205+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "7227a416-72ee-40c8-97cc-f94799888b10",
+      "code": "ECO-682319",
+      "title": "Casa En Venta de Oportunidad En Los Guayos",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 16000,
+      "currency": "USD",
+      "location": {
+        "text": "Las Agüitas Sector 2 de los Guayos, Valencia Estado Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 0,
+      "area_m2": 115,
+      "description": "🏡INMOINNOVA REAL ESTATE 🏡 \nOFRECE EN VENTA 📌\n\n🔶NUEVA CAPTACIÓN 🔶\n\nUbicación: Casa ubicada En sector 2 de las agüitas, En los Guayos\n\nDescripción:\nContiene\n🛌🏼3 habitaciones \n🚽2 Baños\n🛋️Sala amplia, \nPorche\nComedor\nCocina.\nPatio\nTiene Tanque Subterráneo \n\nBondades:\n\nCasa de Ezquina y de oportunidad, Con Comercios Cerca, Escuelas y Buena Ubicación Muy Céntrica. Una Inversión Ideal para Tu familia, Y a un Precio inigualable, Y Lo Mejor es Negociable.\n\nEn 16.000$ \n\nAsesor Capacitador: María ",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236051506_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236052726_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236053454_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236054250_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/6608c7a0-8035-48c9-8240-7d925e8259c3/ECO-682319/1791236055027_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-682319.html",
+      "video_url": null,
+      "agent": {
+        "name": "María Castellanos ",
+        "phone": "04128461283",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE ",
+        "user_id": "6608c7a0-8035-48c9-8240-7d925e8259c3",
+        "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-682319%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-05T21:34:16.389442+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "dd21b1b1-0c22-43d6-b5a2-2d9ab3b676a4",
+      "code": "ECO-730156",
+      "title": "Hermosa casa en  Mini Granja ",
+      "type": "Casa de dos niveles",
+      "operation": "Venta",
+      "price": 130000,
+      "currency": "USD",
+      "location": {
+        "text": "San Diego Estado Carabobo ",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "parking_spots": 6,
+      "area_m2": 351,
+      "description": "🏛️🔵Inmoinnova Real Estate🏛️🔵\n\n*Venta* Casa de dos niveles, ubicacada en Mini Granjas, San Diego Carabobo\n\nVive en los suburbios... en la tranquilidad de una zona fresca y campestre.... a solo minutos de la Ciudad.🚉 \n\nMts² 351,84 Terreno📏 221,90 mt²📏 Construccion\nHabitaciones: 4\nBaños: 3\n6 Puestos de Estacionamientos.\n\nBondades:\nAgua de Pozo 24/7\nIluminación alrededor de la Casa. \n\n📜Documentos: Firma Por Registro \n\nREF. Venta: 130,000💵\nAsesor Captador: Irene Pinzón \nContacto: 04125023269",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-730156/1793634899375_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-730156/1793634900839_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-730156/1793634901942_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-730156/1793634903082_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-730156/1793634904046_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-730156.html",
+      "video_url": null,
+      "agent": {
+        "name": "Irene Pinzon",
+        "phone": "0584125023269",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "2049ab88-bf3a-4eaf-af4a-2b844775e72c",
+        "whatsapp_url": "https://wa.me/0584125023269?text=Hola%2C%20vi%20el%20inmueble%20ECO-730156%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-02T15:55:04.803857+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "cc259c65-8ef5-4fd4-8b6c-fb17be782bf8",
+      "code": "ECO-425399",
+      "title": "Bello apartamento listo para habitar  con vista al mar y cayos",
+      "type": "Apartamento Vacacional Chichiriviche",
+      "operation": "Venta",
+      "price": 60000,
+      "currency": "USD",
+      "location": {
+        "text": "Estado Falcon",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 64,
+      "description": "🏘️ *INMOINNOVA REAL ESTATE* 🏘️\n\n🏖️¡TÚ APARTAMENTO EN CHICHIRIVICHE TE ESPERA! | RESIDENCIAS ALBORADA MAR 🌊\n\nDisfruta de la mejor vista al mar  y a los cayos y la tranquilidad que buscas en el Estado Falcón.\n\n🔹 1 Habitación con vestier\n🔹balcón con vista al mar \n🔹facilidad de realizar otra habitación \n🔹 1 Baño\n🔹 Cocina moderna con tope de granito\n🔹 Excelente vista panorámica a la playa\n🔹 Conjunto Residencial con Piscina\n📍 Chichiriviche, Edo. Falcón\n\nPrecio de inversión 60.000$\n\nAsesor ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-1-1794012301777.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-2-1794012302979.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-3-1794012303885.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-4-1794012305041.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-5-1794012306150.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-6-1794012307228.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-7-1794012308611.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-8-1794012309957.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-9-1794012310989.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-10-1794012311878.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-11-1794012312966.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-12-1794012314071.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-13-1794012315140.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/5b5115fa-eae2-40c5-9a2d-0791bacfc61c/ECO-425399/venta-bello-apartamento-vacio-al-con-vista-al-mar-y-cayos-es-eco-425399-foto-14-1794012316330.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-425399.html",
+      "video_url": null,
+      "agent": {
+        "name": "Emil Collazo de Carmona",
+        "phone": "04124024829",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "5b5115fa-eae2-40c5-9a2d-0791bacfc61c",
+        "whatsapp_url": "https://wa.me/04124024829?text=Hola%2C%20vi%20el%20inmueble%20ECO-425399%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-07T00:45:16.838459+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "62020d33-88d7-4139-a3b1-8b76db8efd21",
+      "code": "ECO-368259",
+      "title": "Vendo hermoso apartamento listo para habitar con planta 100% en Monte alto",
+      "type": "Hermoso apartamento en Monte alto Mañongo Valencia",
+      "operation": "Venta",
+      "price": 84,
+      "currency": "USD",
+      "location": {
+        "text": "Monte Alto Mañongo Naguanagua Valencia",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 63,
+      "description": "Faith Real Estate 🔑✨🔑\nCaptación exclusiva \n Venta de apartamento en Monte Alto de Mañongo con planta 100% con una vista hermosa 63 mts2\n\nVive en una zona privilegiada y segura de Valencia. Este apartamento recien remodelado y listo para estrenar está ubicado en Mañongo, cerca del Sambil, Kromi Market.\n\nConjunto Residencial Monte Alto\nPiso 11\n\t- 1 habitación con aire acondicionado y closets\n       - 1 habitación con aire acondicionado \n       - 1 vestier\n       1 cocina queda con tope, campana ",
+      "images": [
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976445547_0.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976447063_1.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976448070_2.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976449138_3.jpg",
+        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976449981_4.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-368259.html",
+      "video_url": null,
+      "agent": {
+        "name": "Carolina Avinazar",
+        "phone": "04244519529",
+        "type": "Agencia",
+        "agency": "Faith Real Estate",
+        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
+        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-368259%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-10-14T11:14:10.846819+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "57972c40-2e40-41a4-b16d-943a7d1b1e62",
+      "code": "ECO-514660",
+      "title": "Acogedora casa para vivir tranquilo",
+      "type": "Casa",
+      "operation": "Venta",
+      "price": 24500,
+      "currency": "USD",
+      "location": {
+        "text": "Sesquicentenario, Valencia",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 218,
+      "description": "Inmoinnova Real Estate \nOfrece\nVenta de Casa \n\nUbicación: Miguel Ache - Zona Sesquicentenario - Edo, Carabobo \n\nMetraje de Terreno 218.18 (m² ) \n3 Habitaciones \n1 Baño\n Sala \n Cocina\nComedor\nTecho aseroli\nPorche techo Plata Banda \nDepósito Pequeño \nPatio\n\nDescripción: Casa con Ubicación, cerca de  avenida Principal y comercio \n\nBondades: A dos cuadras de  avenida principal acceso fácil, cerca de comercios, escuelas, farmacias, transporte público, zona tranquila.\n\nVenta  por  Documento privado, p",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-1-1794309587292.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-2-1794309589874.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-3-1794309592144.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-4-1794309595060.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-5-1794309597280.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-6-1794309599318.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-7-1794309601878.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-514660/venta-acogedora-casa-para-vivir-tranquilo-sesquicentenario-v-eco-514660-foto-8-1794309605210.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-514660.html",
+      "video_url": null,
+      "agent": {
+        "name": "Yolimar Sulbaran",
+        "phone": "04244035532",
+        "type": "Agencia",
+        "agency": "Inmoinnova real estate",
+        "user_id": "6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c",
+        "whatsapp_url": "https://wa.me/04244035532?text=Hola%2C%20vi%20el%20inmueble%20ECO-514660%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-10T11:20:05.992041+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "221c1b9d-c382-4f8c-9f38-c8364c3f97dc",
+      "code": "ECO-878223",
+      "title": "Venta de apartamento las Quintas de Naguanagua con Planta de 10000w",
+      "type": "Apartamento",
+      "operation": "Venta",
+      "price": 55000,
+      "currency": "USD",
+      "location": {
+        "text": "Las Quintas Naguanagua Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "parking_spots": 1,
+      "area_m2": 82,
+      "description": "Inmoinnova Real Estate \n\nOfrece: Apartamento \nEn Venta\n\nUbicación / Zona: Urbanización Quintas de Naguanagua; Conjunto Residencial Las Quintas \n\nMetraje (m²): 81,26\nHabitaciones: 3\nBaños: 2\nPuesto estacionamiento: 1 \n*Consta de:*\n81,26mt2  \n3 Habitaciones \n2 Baños \nCocina empotrada, totalmente equipada \n1 puesto estacionamiento \n\n*Bondades* \nInmueble con ubicación estratégica, cercano a escuelas, universidades, centros comerciales, gimnasio y súper mercados.\n\n*Cuenta con:*                       ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-1-1794328893992.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-2-1794328895268.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-3-1794328896285.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-4-1794328897538.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-5-1794328898653.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-6-1794328899697.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/2049ab88-bf3a-4eaf-af4a-2b844775e72c/ECO-878223/venta-venta-de-apartamento-las-quintas-de-naguanagua-con-pla-eco-878223-foto-7-1794328900949.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-878223.html",
+      "video_url": null,
+      "agent": {
+        "name": "Irene Pinzon",
+        "phone": "0584125023269",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "2049ab88-bf3a-4eaf-af4a-2b844775e72c",
+        "whatsapp_url": "https://wa.me/0584125023269?text=Hola%2C%20vi%20el%20inmueble%20ECO-878223%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-10T16:41:41.766953+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "306fabb3-3936-40ef-96bd-c902d90417f3",
+      "code": "ECO-980149",
+      "title": "PRE VENTA ANTONELLA VALENTINA GARDEN",
+      "type": "APARTAMENTO ZONA COSTERA",
+      "operation": "Venta",
+      "price": 55000,
+      "currency": "USD",
+      "location": {
+        "text": "Chichiriviche Falcón",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 49,
+      "description": "INMOINNOVA REAL ESTATE\n\nOFRECE EN PREVENTA EXCLUSIVA:.\n\nCONJUNTO ANTONELLA VALENTINA GARDEN\n\nUn proyecto de lujo y vanguardia que no te puedes perder. \n\nUbicacion: CHICHIRIVICHE FALCON \n\nTenemos disponibles los siguientes apartamentos:\n\nAptos de 40 m2 planta alta financiamiento a 5 años \nContiene:\n 2 habitaciones, 1 baño, área de sala cocina comedor. \n\nAptos de 40 m2 planta alta financiamiento a 3 años \nContiene:\n 2 habitaciones, 1 \nbaño, área de sala cocina comedor.\n\nAptos de 40 m2 planta baja ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-1-1793964178410.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-2-1793964179473.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-3-1793964180397.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-4-1793964181327.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-5-1793964182174.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-6-1793964183129.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-7-1793964184127.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-8-1793964184981.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-9-1793964185853.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-10-1793964186711.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-11-1793964187536.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-12-1793964188508.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-13-1793964189303.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-14-1793964190227.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-15-1793964191069.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-16-1793964192084.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-17-1793964192889.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-18-1793964193658.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-19-1793964194361.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/9b18300f-e397-4275-974e-0549f2144e9a/ECO-980149/venta-pre-venta-antonella-valentina-garden-chichiriviche-fal-eco-980149-foto-20-1793964195293.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-980149.html",
+      "video_url": "https://www.instagram.com/reel/DVocNIwEREV/?obrf=cjZzM3Y5ZzBlMHR6",
+      "agent": {
+        "name": "MARTIN NAVA",
+        "phone": "584121634256",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "9b18300f-e397-4275-974e-0549f2144e9a",
+        "whatsapp_url": "https://wa.me/584121634256?text=Hola%2C%20vi%20el%20inmueble%20ECO-980149%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-06T11:23:15.974181+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    },
+    {
+      "id": "5dec993e-2e30-4d8c-bc95-270126d91f13",
+      "code": "ECO-756873",
+      "title": "Anexo en alquiler, confort, seguridad y privacidad en un solo lugar",
+      "type": "Anexo",
+      "operation": "Alquiler",
+      "price": 130,
+      "currency": "USD",
+      "location": {
+        "text": "Michelena",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "parking_spots": 0,
+      "area_m2": 47,
+      "description": "Inmoinnova Real Estate Ofrece, en Alquiler ANEXO en la MICHELENA \n\nNO AMOBLADOS\n\nMedidas: 47mts2 \n\nLuz 110\n1 Habitación con aire split\n1 Baño\n\nBondades \nExcelente ubicación recidencial, servicios de agua e internet \n\nNo acepta niños \nNo acepta mascotas\n\nCANON : 130$\n\nNegociación \n1 Mes de Depósito \n1 Mes de adelantado \n1 Mes Comisión (Compartida) \n20$ de contrato\n \nNegociación total: 410$\n\nAsesor Captador \nLcda Yolimar Sulbaran \nContacto: 0424 4035532",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-1-1794355747687.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-2-1794355749549.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-3-1794355751547.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-4-1794355753621.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c/ECO-756873/alquiler-anexo-en-alquiler-confort-seguridad-y-privacidad-en-eco-756873-foto-5-1794355755946.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-756873.html",
+      "video_url": null,
+      "agent": {
+        "name": "Yolimar Sulbaran",
+        "phone": "04244035532",
+        "type": "Agencia",
+        "agency": "Inmoinnova real estate",
+        "user_id": "6e1ca84f-0fb2-4f07-82ef-f2ec9a45396c",
+        "whatsapp_url": "https://wa.me/04244035532?text=Hola%2C%20vi%20el%20inmueble%20ECO-756873%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-11T00:09:16.85545+00:00",
+      "updated_at": "2026-11-13T05:15:15.252Z"
+    }
+  ]
+}
