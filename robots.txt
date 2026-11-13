@@ -1,8 +1,47 @@
+# ═══════════════════════════════════════════════════════════════
+# ECONEXUS PLATFORM - ROBOTS.TXT
+# ═══════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────
+# BOTS DE INTELIGENCIA ARTIFICIAL (ACCESO AL FEED DE DATOS)
+# ───────────────────────────────────────────────────────────────
+# Permitir explícitamente a los bots de IA leer el feed JSON
+# invisible que contiene el catálogo completo de inmuebles.
+# Este feed es la "puerta trasera" para que ChatGPT, Perplexity,
+# Claude y Google AI recomienden a EcoNexus.
+
+User-agent: GPTBot
+Allow: /api/ai-feed.json
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /api/ai-feed.json
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /api/ai-feed.json
+Allow: /
+
+User-agent: Google-Extended
+Allow: /api/ai-feed.json
+Allow: /
+
+# ───────────────────────────────────────────────────────────────
+# REGLAS GENERALES (TODOS LOS DEMÁS BOTS Y USUARIOS)
+# ───────────────────────────────────────────────────────────────
+# Bloquear el acceso al feed de IA para evitar scraping masivo
+# o competencia curiosa, pero permitir el resto del sitio.
+
 User-agent: *
+Disallow: /api/ai-feed.json
 Allow: /
 Allow: /index.html
 Allow: /captacion.html
 Allow: /menu.html
 Allow: /busqueda-agente.html
 Allow: /saai.html
+
+# ───────────────────────────────────────────────────────────────
+# SITEMAP
+# ───────────────────────────────────────────────────────────────
 Sitemap: https://econexusplatform.com/sitemap.xml
