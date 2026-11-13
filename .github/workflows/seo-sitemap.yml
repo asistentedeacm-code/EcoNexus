@@ -13,12 +13,14 @@ jobs:
 
     steps:
       - name: Descargar Repositorio
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Descarga todo el historial para evitar conflictos de Git
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20' # Node 20 es requerido por las versiones modernas de Wrangler
 
       - name: Ejecutar Generador SEO y Catalogo Meta
         env:
@@ -30,7 +32,7 @@ jobs:
           git config --global user.name "EcoNexus SEO Bot"
           git config --global user.email "seo-bot@econexus.com"
           git add inmueble/ sitemap.xml facebook-catalog.xml ai-feed.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO & AI Feed: sitemap, catalog XML y ai-feed.json actualizados" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO & AI Feed: sitemap, catalog XML y ai-feed.json actualizados" && git pull --rebase origin main && git push)
 
       - name: Subir ai-feed.json a Cloudflare R2
         env:
@@ -38,5 +40,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "🚀 Iniciando subida de ai-feed.json al bucket econexus-media..."
-          npx wrangler@latest r2 object put econexus-media/ai-feed.json --file=ai-feed.json --remote
+          npx wrangler@3 r2 object put econexus-media/ai-feed.json --file=ai-feed.json --remote
           echo "✅ ai-feed.json subido a R2 correctamente. Los bots de IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) podrán leerlo en las próximas horas."
