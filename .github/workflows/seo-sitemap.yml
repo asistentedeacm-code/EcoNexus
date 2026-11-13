@@ -40,5 +40,5 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "🚀 Iniciando subida de ai-feed.json al bucket econexus-media..."
-          npx wrangler@3 r2 object put econexus-media/ai-feed.json --file=ai-feed.json --remote
-          echo "✅ ai-feed.json subido a R2 correctamente. Los bots de IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) podrán leerlo en las próximas horas."
+          cat ai-feed.json | npx wrangler@3 r2 object put econexus-media/ai-feed.json --pipe --remote
+          echo "✅ ai-feed.json subido a R2 correctamente. Los bots de IA ya pueden leerlo."
