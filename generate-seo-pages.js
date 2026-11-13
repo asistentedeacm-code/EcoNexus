@@ -36,6 +36,64 @@ function mapPropertyTypeMeta(tipo) {
     return 'other';
 }
 
+// ✅ NUEVO: Genera el schema Product (Venta) o Accommodation (Alquiler)
+// para que Google muestre rich snippets tipo Mercado Libre.
+function generarRichSnippetSchema(prop, fotoPrincipal, urlFicha, descLimpia) {
+    const tituloEscapado = escapeXML(prop.titulo);
+    const precioStr = String(prop.precio || 0);
+    const esAlquiler = String(prop.operacion || '').toLowerCase().includes('alquiler');
+
+    if (esAlquiler) {
+        // ─── Accommodation (Alquiler) ───
+        return {
+            '@context': 'https://schema.org',
+            '@type': 'Accommodation',
+            'name': tituloEscapado,
+            'description': escapeXML(descLimpia),
+            'image': [fotoPrincipal],
+            'url': urlFicha,
+            'numberOfRooms': Number(prop.habitaciones) || 0,
+            'numberOfBathroomsTotal': Number(prop.banos) || 0,
+            'floorSize': { '@type': 'QuantitativeValue', 'value': Number(prop.metros) || 0, 'unitCode': 'MTK' },
+            'address': {
+                '@type': 'PostalAddress',
+                'addressLocality': escapeXML(prop.ubicacion),
+                'addressCountry': 'VE'
+            },
+            'offers': {
+                '@type': 'Offer',
+                'url': urlFicha,
+                'price': precioStr,
+                'priceCurrency': 'USD',
+                'availability': 'https://schema.org/InStock'
+            }
+        };
+    } else {
+        // ─── Product (Venta) ───
+        return {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            'name': tituloEscapado,
+            'description': escapeXML(descLimpia),
+            'image': [fotoPrincipal],
+            'url': urlFicha,
+            'sku': prop.codigo_eco,
+            'brand': { '@type': 'Organization', 'name': 'EcoNexus Platform' },
+            'offers': {
+                '@type': 'Offer',
+                'url': urlFicha,
+                'price': precioStr,
+                'priceCurrency': 'USD',
+                'availability': 'https://schema.org/InStock',
+                'seller': {
+                    '@type': 'RealEstateAgent',
+                    'name': escapeXML(prop.nombre_asesor || 'Asesor EcoNexus')
+                }
+            }
+        };
+    }
+}
+
 function generateHTML(prop) {
     const fotoPrincipal = prop.fotos && prop.fotos.length > 0 ? prop.fotos[0] : `${BASE_URL}/og-brand.jpg`;
     const precio = Number(prop.precio).toLocaleString('en-US');
@@ -45,6 +103,9 @@ function generateHTML(prop) {
     const tipoEscapado = escapeXML(prop.tipo);
     const operacionEscapada = escapeXML(prop.operacion);
     const urlFicha = `${BASE_URL}/inmueble/${prop.codigo_eco.toLowerCase()}.html`;
+
+    // ✅ NUEVO: Rich snippet (Product o Accommodation)
+    const richSnippet = generarRichSnippetSchema(prop, fotoPrincipal, urlFicha, descLimpia);
 
     return `<!DOCTYPE html>
 <html lang="es">
@@ -73,7 +134,7 @@ function generateHTML(prop) {
     <meta name="twitter:description" content="💰 $${precio} USD • 📍 ${ubicacionEscapada}">
     <meta name="twitter:image" content="${fotoPrincipal}">
 
-    <!-- SCHEMA.ORG / JSON-LD PARA GOOGLE -->
+    <!-- SCHEMA.ORG / JSON-LD #1: RealEstateListing (para BOTS DE IA) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -90,6 +151,11 @@ function generateHTML(prop) {
     }
     </script>
 
+    <!-- SCHEMA.ORG / JSON-LD #2: Product o Accommodation (para GOOGLE RICH SNIPPETS) -->
+    <script type="application/ld+json">
+    ${JSON.stringify(richSnippet)}
+    </script>
+
     <!-- REDIRECCIÓN PWA PARA VISITANTES HUMANOS -->
     <script>
         window.location.replace("${BASE_URL}/index.html?codigo=${prop.codigo_eco}");
@@ -102,10 +168,69 @@ function generateHTML(prop) {
 </html>`;
 }
 
+// ✅ NUEVO: Genera el feed JSON limpio para bots de IA
+// Estructura optimizada para ser consumida por LLMs (RAG, indexación, comparación).
+function generarAiFeed(propiedades) {
+    const properties = (propiedades || []).map(p => {
+        const phoneClean = (p.telefono_asesor || '').replace(/[^0-9]/g, '');
+        const waText = encodeURIComponent(`Hola, vi el inmueble ${p.codigo_eco} en EcoNexus y quiero más información.`);
+        const urlFicha = `${BASE_URL}/inmueble/${p.codigo_eco.toLowerCase()}.html`;
+
+        return {
+            id: p.id || null,
+            code: p.codigo_eco,
+            title: p.titulo,
+            type: p.tipo,
+            operation: p.operacion,
+            price: Number(p.precio) || 0,
+            currency: 'USD',
+            location: {
+                text: p.ubicacion || 'Venezuela',
+                country: 'VE'
+            },
+            bedrooms: Number(p.habitaciones) || 0,
+            bathrooms: Number(p.banos) || 0,
+            parking_spots: Number(p.estacionamientos) || 0,
+            area_m2: Number(p.metros) || 0,
+            description: (p.descripcion || '').substring(0, 500),
+            images: Array.isArray(p.fotos) ? p.fotos : [],
+            url: urlFicha,
+            video_url: p.enlace_video || null,
+            agent: {
+                name: p.nombre_asesor || 'Asesor EcoNexus',
+                phone: phoneClean || null,
+                type: p.tipo_asesor || 'Independiente',
+                agency: p.nombre_agencia || null,
+                user_id: p.user_id || null,
+                whatsapp_url: phoneClean ? `https://wa.me/${phoneClean}?text=${waText}` : null
+            },
+            published_at: p.fecha_publicacion || null,
+            updated_at: new Date().toISOString()
+        };
+    });
+
+    return {
+        meta: {
+            platform: 'EcoNexus Platform',
+            description: 'Catálogo inmobiliario verificado en Venezuela. Compra, venta y alquiler con contacto directo al WhatsApp del asesor.',
+            base_url: BASE_URL,
+            catalog_url: `${BASE_URL}/`,
+            country: 'Venezuela',
+            currency: 'USD',
+            generated_at: new Date().toISOString(),
+            total_properties: properties.length,
+            license: 'Public data for AI indexing. Attribution to econexusplatform.com appreciated.',
+            contact: 'https://econexusplatform.com/'
+        },
+        properties
+    };
+}
+
 async function run() {
     console.log("Iniciando generación con dominio propio econexusplatform.com...");
     
-    const propiedades = await fetchSupabase('v_propiedades_catalogo?select=codigo_eco,titulo,precio,operacion,tipo,ubicacion,habitaciones,banos,metros,descripcion,fotos,fecha_publicacion&estatus=eq.Disponible');
+    // ✅ SELECT expandido para incluir datos de agente y campos necesarios para el feed IA
+    const propiedades = await fetchSupabase('v_propiedades_catalogo?select=id,codigo_eco,titulo,precio,operacion,tipo,ubicacion,habitaciones,banos,estacionamientos,metros,descripcion,fotos,fecha_publicacion,telefono_asesor,nombre_asesor,tipo_asesor,nombre_agencia,user_id,enlace_video&estatus=eq.Disponible');
 
     const dirInmuebles = path.join(__dirname, 'inmueble');
     if (!fs.existsSync(dirInmuebles)) {
@@ -169,7 +294,14 @@ async function run() {
     fs.writeFileSync('sitemap.xml', sitemapXML);
     fs.writeFileSync('facebook-catalog.xml', metaXML);
 
-    console.log(`Completado. Landings y XMLs generados para ${BASE_URL}.`);
+    // ✅ NUEVO: Generar feed JSON para bots de IA
+    const aiFeed = generarAiFeed(propiedades);
+    fs.writeFileSync('ai-feed.json', JSON.stringify(aiFeed, null, 2));
+
+    console.log(`Completado. Landings, XMLs y AI feed generados para ${BASE_URL}.`);
+    console.log(`- ${(propiedades || []).length} inmuebles procesados`);
+    console.log(`- ai-feed.json generado (${JSON.stringify(aiFeed).length} bytes)`);
+    console.log(`- ⚠️  IMPORTANTE: el workflow debe subir ai-feed.json a R2 con wrangler (ver siguiente paso)`);
 }
 
 run();
