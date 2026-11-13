@@ -135,7 +135,7 @@ async function run() {
             const fecha = p.fecha_publicacion ? p.fecha_publicacion.split('T')[0] : new Date().toISOString().split('T')[0];
             sitemapXML += `  <url>\n    <loc>${BASE_URL}/inmueble/${fileName}</loc>\n    <lastmod>${fecha}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.9</priority>\n  </url>\n`;
 
-            const fotoPrincipal = p.fotos && p.fotos.length > 0 ? p.fotos[0] : `${BASE_URL}/logo.png.png`;
+            const fotoPrincipal = p.fotos && p.fotos.length > 0 ? p.fotos[0] : `${BASE_URL}/og-brand.jpg`;
             const propTypeMeta = mapPropertyTypeMeta(p.tipo);
             const urlInmueble = `${BASE_URL}/inmueble/${fileName}`;
 
