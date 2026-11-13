@@ -37,7 +37,7 @@ function mapPropertyTypeMeta(tipo) {
 }
 
 function generateHTML(prop) {
-    const fotoPrincipal = prop.fotos && prop.fotos.length > 0 ? prop.fotos[0] : `${BASE_URL}/logo.png.png`;
+    const fotoPrincipal = prop.fotos && prop.fotos.length > 0 ? prop.fotos[0] : `${BASE_URL}/og-brand.jpg`;
     const precio = Number(prop.precio).toLocaleString('en-US');
     const descLimpia = prop.descripcion ? prop.descripcion.substring(0, 150).replace(/"/g, '').replace(/\n/g, ' ') : 'Inmueble disponible en EcoNexus';
     const tituloEscapado = escapeXML(prop.titulo);
