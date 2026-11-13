@@ -40,10 +40,12 @@
   <meta property="og:locale" content="es_VE" />
   <meta property="og:title" content="Directorio de Agentes Inmobiliarios en Venezuela | EcoNexus" id="ogTitle" />
   <meta property="og:description" content="Encuentra y contacta a los mejores asesores inmobiliarios de Venezuela. Directorio verificado con reseñas reales y respaldo tecnológico de EcoNexus Platform." id="ogDescription" />
-  <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" id="ogImage" />
+  <meta property="og:image" content="https://econexusplatform.com/og-brand.jpg" id="ogImage" />
+  <meta property="og:image:secure_url" content="https://econexusplatform.com/og-brand.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Directorio de Agentes Inmobiliarios EcoNexus" />
+  <meta property="og:image:alt" content="EcoNexus — Directorio de Agentes Inmobiliarios" />
   <meta property="og:url" content="https://econexusplatform.com/busqueda-agente.html" id="ogUrl" />
 
   <!-- TWITTER / X -->
@@ -52,7 +54,7 @@
   <meta name="twitter:creator" content="@econexusplatform" />
   <meta name="twitter:title" content="Directorio de Agentes Inmobiliarios | EcoNexus" id="twTitle" />
   <meta name="twitter:description" content="Conecta con asesores inmobiliarios verificados en Venezuela. Reseñas reales, contacto directo." id="twDescription" />
-  <meta name="twitter:image" content="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
+  <meta name="twitter:image" content="https://econexusplatform.com/og-brand.jpg" />
 
   <!-- JSON-LD ESTÁTICO: ORGANIZACIÓN -->
   <script type="application/ld+json">
@@ -222,7 +224,7 @@
       <p class="text-[10px] text-gray-400">© 2026 Todos los derechos reservados.</p>
     </div>
   </footer>
-    <script>
+      <script>
     const SUPABASE_URL = 'https://gvcklmqldswxfweliuio.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_Yu3I-FpcjU44dHsPs9pPDQ_9TEC9fKa';
     const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -464,17 +466,16 @@
     }
 
     // ============================================================
-    // 🆕 COMPARTIR AGENTE (WEB SHARE API + FALLBACK WHATSAPP)
+    // COMPARTIR AGENTE (WEB SHARE API + FALLBACK WHATSAPP)
     // ============================================================
     async function compartirAgente(event, id) {
-      if (event) event.stopPropagation(); // evita que se abra el modal al tocar
+      if (event) event.stopPropagation();
       const agente = todosLosAgentes.find(a => a.id === id);
       if (!agente) return;
 
       const url = `https://econexusplatform.com/perfil-agente.html?u=${id}`;
       const textoWA = `🏠 ${agente.nombre} — Asesor Inmobiliario en EcoNexus Platform (Venezuela).\nConsulta su portafolio verificado aquí:`;
 
-      // Intento 1: Web Share API (nativo móvil → WhatsApp, Instagram, Telegram, etc.)
       if (navigator.share) {
         try {
           await navigator.share({
@@ -484,12 +485,10 @@
           });
           return;
         } catch (e) {
-          if (e.name === 'AbortError') return; // usuario canceló
-          // cualquier otro error → fallback
+          if (e.name === 'AbortError') return;
         }
       }
 
-      // Fallback 2: WhatsApp Web / desktop directo
       window.open(`https://wa.me/?text=${encodeURIComponent(textoWA + '\n' + url)}`, '_blank', 'noopener');
     }
 
