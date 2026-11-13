@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-<title>EcoNexus | Registro de Inmuebles y Centro de Marketing</title>
+<title>EcoNexus | Centro de Mando y Publicación Inmobiliaria</title>
 
 <!-- ============================================================
 METAETIQUETAS BASE SEO & OPENGRAPH (INYECCIÓN DINÁMICA)
@@ -21,14 +21,19 @@ METAETIQUETAS BASE SEO & OPENGRAPH (INYECCIÓN DINÁMICA)
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="EcoNexus Real Estate" />
 <meta property="og:locale" content="es_VE" />
-<meta property="og:title" content="EcoNexus | Vitrina Inmobiliaria Inteligente" />
-<meta property="og:description" content="Publica, comparte y visualiza inmuebles con geolocalización, QR inteligente y contacto directo al WhatsApp del asesor." />
-<meta property="og:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80" />
+<meta property="og:title" content="EcoNexus | Centro de Mando y Publicación Inmobiliaria" />
+<meta property="og:description" content="Publica tus inmuebles con geolocalización y genera fichas PDF, Historias, Posts y Reels automáticamente. La herramienta definitiva para asesores." />
+<meta property="og:image" content="https://econexusplatform.com/og-brand.jpg" />
+<meta property="og:image:secure_url" content="https://econexusplatform.com/og-brand.jpg" />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="EcoNexus — Ecosistema Inmobiliario Inteligente" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="EcoNexus | Vitrina Inmobiliaria Inteligente" />
-<meta name="twitter:description" content="Publica, comparte y visualiza inmuebles con geolocalización, QR inteligente y contacto directo." />
-<meta name="twitter:image" content="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&q=80" />
+<meta name="twitter:title" content="EcoNexus | Centro de Mando y Publicación Inmobiliaria" />
+<meta name="twitter:description" content="Publica tus inmuebles con geolocalización y genera fichas PDF, Historias, Posts y Reels automáticamente." />
+<meta name="twitter:image" content="https://econexusplatform.com/og-brand.jpg" />
 
 <!-- Tailwind + Supabase -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -268,7 +273,6 @@ MAIN: AUTENTICACIÓN
 <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
 </div>
 </div>
-
 <!-- CONTENEDOR PRINCIPAL DE LA APP (post-login) -->
 <div id="mainAppContainer" class="hidden space-y-4 sm:space-y-5">
 
@@ -674,12 +678,6 @@ BANNER FLOTANTE DE TÉRMINOS
 <button type="button" id="btnBannerTerminos" onclick="accionBannerTerminos()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-2.5 sm:px-3 py-2 rounded-xl text-[10px] sm:text-xs whitespace-nowrap transition shadow flex-shrink-0 cursor-pointer">Al Ingresar Ver Términos</button>
 </div>
 </div>
-
-<!-- =========================================================
-   LOS TEMPLATES MULTIMEDIA (Historia, Post, Tarjeta, Reel Canvas)
-   AHORA SE CREAN DINÁMICAMENTE EN econexus-multimedia.js
-   ========================================================= -->
-
 <script>
 /* =========================================================
 CONSTANTES GLOBALES & WORKER
@@ -1216,7 +1214,8 @@ function copiarEnlaceMiniWebSilencioso() {
 function obtenerEnlaceMiniWeb() {
   desplegarBotonInteligenteMiniWeb();
 }
-
+</script>
+<script>
 /* =========================================================
 SESIÓN SUPABASE
 ========================================================= */
