@@ -25,9 +25,18 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: node generate-seo-pages.js
 
-      - name: Guardar Cambios Automáticos
+      - name: Guardar Cambios Automáticos (sitemap, catalog XML y ai-feed.json)
         run: |
           git config --global user.name "EcoNexus SEO Bot"
           git config --global user.email "seo-bot@econexus.com"
-          git add inmueble/ sitemap.xml facebook-catalog.xml
-          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO & Meta Catalog: Generación de landings, sitemap y catalog XML actualizados" && git push)
+          git add inmueble/ sitemap.xml facebook-catalog.xml ai-feed.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "SEO & AI Feed: sitemap, catalog XML y ai-feed.json actualizados" && git push)
+
+      - name: Subir ai-feed.json a Cloudflare R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "🚀 Iniciando subida de ai-feed.json al bucket econexus-media..."
+          npx wrangler@latest r2 object put econexus-media/ai-feed.json --file=ai-feed.json --remote
+          echo "✅ ai-feed.json subido a R2 correctamente. Los bots de IA (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) podrán leerlo en las próximas horas."
