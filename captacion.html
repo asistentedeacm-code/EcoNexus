@@ -154,38 +154,20 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 <option value="">Cargando inmuebles...</option>
 </select>
 </div>
+<div id="copysBatchStatus" class="hidden mb-3 p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-[11px] text-emerald-900 flex items-start gap-2">
+<i class="fa-solid fa-circle-check text-emerald-600 mt-0.5"></i>
+<span id="copysBatchStatusText" class="leading-snug"></span>
+</div>
 <div id="loadingCopys" class="hidden text-center py-8">
 <i class="fa-solid fa-circle-notch fa-spin text-2xl text-purple-500 mb-2 block"></i>
-<p class="text-xs text-gray-500">Generando copys optimizados...</p>
+<p class="text-xs text-gray-500">Cargando inmuebles...</p>
 </div>
 <div id="emptyCopys" class="text-center py-8">
 <i class="fa-solid fa-wand-magic-sparkles text-3xl text-gray-300 mb-2 block"></i>
-<p class="text-sm text-gray-500 font-semibold">Selecciona un inmueble para generar sus copys</p>
-<p class="text-xs text-gray-400 mt-1">Se generarán 4 variantes + hashtags</p>
+<p class="text-sm text-gray-500 font-semibold">Selecciona un inmueble para ver sus copys</p>
+<p class="text-xs text-gray-400 mt-1">4 variantes + hashtags pre-generados en lote</p>
 </div>
 <div id="contenidoCopys" class="hidden overflow-y-auto flex-1 space-y-3 pr-1"></div>
-</div>
-</div>
-
-<div id="modalTopPopulares" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
-<div class="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border-t-4 border-yellow-500 animate-modal-in flex flex-col max-h-[90vh]">
-<div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
-<div class="flex items-center gap-2">
-<div class="w-9 h-9 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center font-bold"><i class="fa-solid fa-fire"></i></div>
-<div><h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Top 5 Populares del Día</h3><p class="text-[11px] text-gray-500">Los inmuebles con más clics hoy en el ecosistema</p></div>
-</div>
-<button onclick="cerrarModalTopPopulares()" class="text-gray-400 hover:text-red-500 text-sm font-bold px-2 py-1 rounded-lg hover:bg-gray-100">✕</button>
-</div>
-<div id="loadingTop" class="hidden text-center py-8">
-<i class="fa-solid fa-circle-notch fa-spin text-2xl text-yellow-500 mb-2 block"></i>
-<p class="text-xs text-gray-500">Cargando ranking del día...</p>
-</div>
-<div id="emptyTop" class="hidden text-center py-8">
-<i class="fa-solid fa-fire text-3xl text-gray-300 mb-2 block"></i>
-<p class="text-sm text-gray-500 font-semibold">Aún no hay suficientes clics hoy</p>
-<p class="text-xs text-gray-400 mt-1">Los rankings se activan con 3+ clics por inmueble</p>
-</div>
-<div id="listaTopPopulares" class="overflow-y-auto flex-1 space-y-2 min-h-[200px] max-h-[65vh]"></div>
 </div>
 </div>
 
@@ -244,19 +226,18 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 <div class="min-w-0 flex-1">
 <span id="txtPerfilFotoEstado" class="inline-block text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider bg-emerald-50 text-econexus px-2.5 py-0.5 rounded-full border border-emerald-200 mb-0.5">Perfil de Asesor</span>
 <h3 id="headerDisplayNombreAgente" class="text-sm sm:text-lg font-extrabold text-gray-900 break-words leading-tight">Asesor Inmobiliario</h3>
-<p id="txtPerfilFotoDesc" class="text-[11px] text-gray-500 leading-snug mt-0.5 break-words">Tus datos y colores alimentan tu Mini Web, PDF, Historias, Posts, Reels y Tarjeta QR.</p>
+<p id="txtPerfilFotoDesc" class="text-[11px] text-gray-500 leading-snug mt-0.5 break-words">Tus datos y colores alimentan tu Mini Web, PDF, Historias, Posts y Reels.</p>
 </div>
 </div>
-<div class="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
-<button type="button" onclick="descargarTarjetaPresentacionCanvas()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center" title="Descargar Mi Tarjeta de Presentación con QR para Estados"><i class="fa-solid fa-id-badge shrink-0"></i> <span>Mi Tarjeta (QR)</span></button>
-<button type="button" onclick="toggleAcordeonPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center"><i class="fa-solid fa-user-pen shrink-0"></i> <span id="lblBtnAcordeonPerfil">Edita o llena tu perfil</span><i id="iconoAcordeonPerfil" class="fa-solid fa-chevron-down transition-transform text-[10px] shrink-0"></i></button>
+<div class="flex items-center gap-2 w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
+<button type="button" onclick="toggleAcordeonPerfil()" class="w-full bg-econexus hover:bg-econexus-light text-white text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center"><i class="fa-solid fa-user-pen shrink-0"></i> <span id="lblBtnAcordeonPerfil">Edita o llena tu perfil</span><i id="iconoAcordeonPerfil" class="fa-solid fa-chevron-down transition-transform text-[10px] shrink-0"></i></button>
 </div>
 </div>
 <div id="cuerpoAcordeonPerfil" class="hidden px-4 sm:px-5 pb-5 pt-4 border-t border-gray-200 bg-gray-50/70 space-y-4">
 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200">
 <div>
 <h4 class="text-xs font-extrabold text-gray-800 uppercase"><i class="fa-solid fa-camera text-econexus mr-1.5"></i> Fotografía Profesional del Asesor</h4>
-<p class="text-[11px] text-gray-500">Se alojará en Cloudflare R2 con metadatos SEO y se mostrará en tu Mini Web, PDF, Posts, Historias, Reels y Tarjeta QR.</p>
+<p class="text-[11px] text-gray-500">Se alojará en Cloudflare R2 con metadatos SEO y se mostrará en tu Mini Web, PDF, Posts, Historias y Reels.</p>
 </div>
 <div class="w-full sm:w-auto shrink-0">
 <label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="w-full sm:w-auto text-center justify-center bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="lblBtnFotoText">Subir Foto</span></label>
@@ -340,10 +321,9 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 <p class="text-[11px] sm:text-xs text-slate-300 mt-1 leading-relaxed">Herramientas funcionales que aumentan tu productividad sin salir de este panel.</p>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-<button onclick="window.location.href='https://econexusplatform.com/crmerp.html'" class="btn-crmerp-glow bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-filter-circle-dollar"></i><span>Fases de Prospectos</span></button>
+<button onclick="window.location.href='https://econexusplatform.com/crmerp.html'" class="btn-crmerp-glow bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer sm:col-span-2"><i class="fa-solid fa-filter-circle-dollar"></i><span>Fases de Prospectos</span></button>
 <button onclick="abrirModalNotasRapidas()" class="bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 hover:from-amber-500 hover:to-orange-500 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-note-sticky"></i><span>Notas Rápidas 24h</span></button>
 <button onclick="abrirModalCopys()" class="bg-gradient-to-r from-pink-500 via-fuchsia-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-pen-nib"></i><span>Generador de Copys</span></button>
-<button onclick="abrirModalTopPopulares()" class="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-fire"></i><span>Top 5 Populares</span></button>
 </div>
 </div>
 </div>
@@ -355,8 +335,8 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 </button>
 <div id="cuerpoAcordeonGestion" class="hidden p-3.5 sm:p-6 bg-gray-50 border-t border-gray-200 space-y-4">
 <div class="flex flex-col sm:flex-row gap-2.5">
-<button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer"><i class="fa-solid fa-rotate-right mr-2"></i> Actualizar Mis Publicaciones</button>
-<button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo OpenGraph</button>
+<button type="button" onclick="buscarMisInmuebles(true)" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer" title="Fuerza la sincronización desde Supabase (útil en multi-dispositivo)"><i class="fa-solid fa-rotate-right mr-2"></i> Actualizar Mis Publicaciones</button>
+<button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo</button>
 </div>
 <div id="resultadoMisInmuebles" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3"></div>
 </div>
@@ -377,7 +357,7 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600">
 <div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-images mr-1"></i> 1. Hasta 20 Fotos + Cloudflare R2:</strong> Sube hasta 20 fotos por inmueble (el sistema las comprime e inyecta coordenadas GPS y metadatos SEO automáticamente) y pega opcionalmente el link de YouTube, TikTok o IG Reels.</div>
-<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes con QR y Reels:</strong> En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4 y Reels cinematográficos (eligiendo tus 4 fotos favoritas) con código QR inteligente hacia la ficha pública.</div>
+<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes:</strong> En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4 y Reels cinematográficos (eligiendo tus 4 fotos favoritas).</div>
 <div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 3. Vigencia de 30 Días:</strong> Toda propiedad dura 30 días activa para garantizar cero inventario fantasma. Puedes extenderla en cualquier momento con el botón <em>Renovar</em>.</div>
 <div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-pen-to-square mr-1"></i> 4. Edición sin Archivos Huérfanos:</strong> Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un inmueble, el Worker limpia automáticamente las fotos antiguas en Cloudflare R2.</div>
 </div>
@@ -484,7 +464,7 @@ html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
 </div>
 </div>
 
-<!-- SCRIPTS: continúan en Parte 2/2 -->
+<!-- SCRIPTS: continúan en Parte 2/3 -->
   <script>
 /* =========================================================
 CONSTANTES GLOBALES & WORKER
@@ -498,11 +478,55 @@ const dbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const URL_BASE_FRONTEND = window.location.origin + window.location.pathname.replace(/captacion\.html$/i, '') + 'index.html';
 
 /* =========================================================
+CACHÉ LOCAL (localStorage helper)
+========================================================= */
+const CACHE_PREFIX = 'eco_cache_v1_';
+const CACHE_TTL_24H = 24 * 60 * 60 * 1000;
+
+function getCache(key, ttl = CACHE_TTL_24H) {
+  try {
+    const raw = localStorage.getItem(CACHE_PREFIX + key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (Date.now() - obj.ts > ttl) { localStorage.removeItem(CACHE_PREFIX + key); return null; }
+    return obj.data;
+  } catch (e) { return null; }
+}
+
+function setCache(key, data) {
+  try {
+    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data }));
+  } catch (e) {
+    console.warn('Cache lleno:', e);
+    limpiarCacheViejo();
+  }
+}
+
+function limpiarCacheViejo() {
+  try {
+    const ahora = Date.now();
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(CACHE_PREFIX)) {
+        try {
+          const obj = JSON.parse(localStorage.getItem(k));
+          if (ahora - obj.ts > CACHE_TTL_24H) keysToRemove.push(k);
+        } catch {}
+      }
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch {}
+}
+
+/* =========================================================
 ESTADO GLOBAL
 ========================================================= */
 let usuarioActual = null;
 let fotosActualesEdicion = [];
-let misInmueblesCargados = [];
+let misInmueblesCargados = null; // null = nunca cargado; [] = cargado vacío
+let misInmueblesCacheTime = 0;
+const MIS_INMUEBLES_TTL_MS = 8 * 60 * 60 * 1000; // 8 horas
 let fotoPerfilActual = null;
 let colorPrimarioActual = '#1E3F20';
 let colorSecundarioActual = '#388E3C';
@@ -617,16 +641,17 @@ function cargarElementoImagen(srcBase64OrUrl) {
 }
 
 /* =========================================================
-GENERADOR QR
+GENERADOR QR — DESHABILITADO (ahorro de cuotas del Worker)
+Devuelve un PNG transparente 1x1 para que cualquier diseño
+(PDF, Historia, Post, Reel, Tarjeta) no renderice código QR.
+Cuando el Worker /share tenga caché KV, se puede reactivar.
 ========================================================= */
+const _QR_TRANSPARENTE_1X1 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 function generarQRDataUrl(texto, size = 300, dark = '#0f172a', light = '#ffffff') {
-  try {
-    if (typeof QRious === 'undefined') { console.warn('QRious no cargado'); return ''; }
-    const qr = new QRious({ value: texto, size: size, level: 'M', background: light, foreground: dark });
-    return qr.toDataURL('image/png');
-  } catch (e) { console.error('Error generando QR:', e); return ''; }
+  return _QR_TRANSPARENTE_1X1;
 }
 
+/* URL de compartir (texto, no QR). Necesaria para que el prospecto abra la ficha. */
 function obtenerEnlaceShareInmueble(codigoEco) {
   if (!codigoEco) return `${FRONTEND_ORIGIN}`;
   return `${WORKER_URL}/share?codigo=${encodeURIComponent(codigoEco)}`;
@@ -820,13 +845,13 @@ function ocultarProgresoGeneracion() {
 /* =========================================================
 TOUR GUIADO
 ========================================================= */
-const TOUR_STORAGE_KEY = 'econexus_captacion_tour_v3_seen';
+const TOUR_STORAGE_KEY = 'econexus_captacion_tour_v4_seen';
 let pasoTourActual = 0;
 const PASOS_TOUR = [
-  { targetId: 'containerPerfilFoto', titulo: '1. Tu Perfil y Tarjeta con QR', texto: 'Aquí verás tu foto y nombre. Al pulsar "Edita o llena tu perfil" podrás configurar tus datos, colores corporativos y actualizar tu contraseña. También puedes descargar en 1 clic "Mi Tarjeta (QR)" con código escaneable hacia tu portafolio.' },
-  { targetId: 'containerCtaMiniWeb', titulo: '2. Crea tu Web Profesional en un Clic', texto: 'Con este botón externo generas tu propia página web inmobiliaria. Al pulsarlo se desplegará el acceso directo para abrirla en el navegador, personalizar colores y compartirla en tus redes sociales con OpenGraph.' },
-  { targetId: 'containerCtaCrmErp', titulo: '3. Suite Proptech de Productividad', texto: 'Ahora tienes 4 herramientas funcionales: Fases de Prospectos (abre el CRM completo), Notas Rápidas 24h (privadas, locales), Generador de Copys (4 variantes + 5 hashtags) y Top 5 Populares del día.' },
-  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4 y Video Reel animado — todos con QR dinámico hacia la ficha pública.' },
+  { targetId: 'containerPerfilFoto', titulo: '1. Tu Perfil de Asesor', texto: 'Aquí verás tu foto y nombre. Al pulsar "Edita o llena tu perfil" podrás configurar tus datos, colores corporativos y actualizar tu contraseña.' },
+  { targetId: 'containerCtaMiniWeb', titulo: '2. Crea tu Web Profesional en un Clic', texto: 'Con este botón externo generas tu propia página web inmobiliaria. Al pulsarlo se desplegará el acceso directo para abrirla en el navegador, personalizar colores y compartirla en tus redes sociales.' },
+  { targetId: 'containerCtaCrmErp', titulo: '3. Suite Proptech de Productividad', texto: 'Ahora tienes 3 herramientas funcionales: Fases de Prospectos (abre el CRM completo), Notas Rápidas 24h (privadas, locales) y Generador de Copys (4 variantes + 5 hashtags, pre-generados en lote para máximo rendimiento).' },
+  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas. El botón "Actualizar Mis Publicaciones" sincroniza manualmente cuando uses varios dispositivos. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4 y Video Reel animado.' },
   { targetId: 'containerTutorialGuia', titulo: '5. Tutorial Interactivo con Transcripción', texto: '¿Tienes dudas sobre cómo sacar el máximo provecho al sistema? Abre este desplegable cuando quieras para ver la guía paso a paso redactándose en vivo.' },
   { targetId: 'containerAcordeonFormulario', titulo: '6. Publicar o Editar Propiedades', texto: 'En este acordeón subes tus inmuebles con hasta 20 fotos comprimidas, GPS inyectado y enlace opcional de video. ¡Ya estás listo para dominar el mercado con EcoNexus!' }
 ];
@@ -880,7 +905,7 @@ function finalizarTourGuiado() {
 TUTORIAL TYPEWRITER
 ========================================================= */
 let tutorialTimer = null;
-const TEXTO_TUTORIAL_GUIADO = "👋 ¡Hola Asesor! Sigue estos pasos para publicar con éxito:\n1️⃣ Despliega 'Publicar / Editar Inmueble', completa las características y selecciona hasta 20 fotografías. El sistema las comprime, les inyecta GPS y metadatos SEO, y las sube a Cloudflare R2.\n2️⃣ Si tienes un video en YouTube, TikTok o Instagram Reels, pega el enlace para que aparezca el botón de reproducción en tu ficha.\n3️⃣ Una vez publicado, abre 'Mis Inmuebles Publicados' y pulsa en 'Herramientas de Ficha Técnica': podrás descargar al instante la Ficha PDF, Historia IG (9:16), Post de Instagram (3:4) y un Video Reel Animado (eligiendo hasta 4 fotos) con QR escaneable y tus colores corporativos.";
+const TEXTO_TUTORIAL_GUIADO = "👋 ¡Hola Asesor! Sigue estos pasos para publicar con éxito:\n1️⃣ Despliega 'Publicar / Editar Inmueble', completa las características y selecciona hasta 20 fotografías. El sistema las comprime, les inyecta GPS y metadatos SEO, y las sube a Cloudflare R2.\n2️⃣ Si tienes un video en YouTube, TikTok o Instagram Reels, pega el enlace para que aparezca el botón de reproducción en tu ficha.\n3️⃣ Una vez publicado, abre 'Mis Inmuebles Publicados' y pulsa en 'Herramientas de Ficha Técnica': podrás descargar al instante la Ficha PDF, Historia IG (9:16), Post de Instagram (3:4) y un Video Reel Animado (eligiendo hasta 4 fotos) con tus colores corporativos.\n\n💡 Tip multi-dispositivo: si publicaste desde otro teléfono o PC, pulsa 'Actualizar Mis Publicaciones' para sincronizar tu inventario al instante.";
 
 function toggleAcordeonTutorial() {
   const cuerpo = document.getElementById('cuerpoAcordeonTutorial');
@@ -974,55 +999,71 @@ function togglePerfilTipoAsesor() {
 }
 
 /* =========================================================
-VERIFICACIÓN ESTATUS Y CARGA PERFIL
+VERIFICACIÓN ESTATUS Y CARGA PERFIL (con caché 10min)
 ========================================================= */
 async function verificarEstatusYMostrar(user) {
   const msg = document.getElementById('authMessage');
-  try {
-    const { data: perfil } = await dbClient
-      .from('perfiles')
-      .select('estatus_agente, foto_perfil, sobre_mi, nombre_agente, telefono, tipo_asesor, nombre_agencia, color_primario, color_secundario')
-      .eq('id', user.id)
-      .single();
-    const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
-    if (estatus === 'Aprobado') {
-      usuarioActual = user;
-      msg.classList.add('hidden');
-      mostrarApp();
-      if (perfil && perfil.foto_perfil) {
-        fotoPerfilActual = perfil.foto_perfil;
-        document.getElementById('imgPerfilPreview').src = fotoPerfilActual;
-        document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil de Asesor Activo';
-        document.getElementById('lblBtnFotoText').textContent = 'Cambiar Foto';
-        localStorage.setItem('econexus_agent_photo_url', fotoPerfilActual);
-      } else {
-        fotoPerfilActual = null;
-        document.getElementById('imgPerfilPreview').src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-        document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil por Completar';
-        document.getElementById('lblBtnFotoText').textContent = 'Subir Foto';
-      }
-      if (perfil) {
-        const nombreMostrar = perfil.nombre_agente || (user.email ? user.email.split('@')[0] : 'Asesor Inmobiliario');
-        document.getElementById('headerDisplayNombreAgente').textContent = nombreMostrar;
-        if (perfil.nombre_agente) { document.getElementById('perfilNombreAgente').value = perfil.nombre_agente; document.getElementById('nombreAsesor').value = perfil.nombre_agente; }
-        if (perfil.telefono) { document.getElementById('perfilTelefono').value = perfil.telefono; document.getElementById('telefonoAsesor').value = perfil.telefono; }
-        if (perfil.tipo_asesor) { document.getElementById('perfilTipoAsesor').value = perfil.tipo_asesor; togglePerfilTipoAsesor(); document.getElementById('tipoAsesor').value = perfil.tipo_asesor; toggleTipoAsesor(); }
-        if (perfil.nombre_agencia) { document.getElementById('perfilNombreAgencia').value = perfil.nombre_agencia; document.getElementById('nombreAgencia').value = perfil.nombre_agencia; }
-        if (perfil.sobre_mi) document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
-        if (perfil.color_primario) { colorPrimarioActual = perfil.color_primario; document.getElementById('perfilColorPrimario').value = perfil.color_primario; const dot = document.getElementById('dotColorPrimario'); if (dot) dot.style.backgroundColor = colorPrimarioActual; }
-        if (perfil.color_secundario) { colorSecundarioActual = perfil.color_secundario; document.getElementById('perfilColorSecundario').value = perfil.color_secundario; }
-      }
-      verificarInicioTourAutomatico();
-    } else {
-      await dbClient.auth.signOut();
-      usuarioActual = null;
-      ocultarApp();
-      msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-amber-50 border-amber-300 text-amber-900';
-      const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${user.email}. Solicito la aprobación de mi cuenta de Asesor.`);
-      msg.innerHTML = `<div class="font-bold text-sm mb-1 flex items-center text-amber-800"><i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación</div><p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${escapeHTML(estatus)}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p><a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition"><i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar</a>`;
-      msg.classList.remove('hidden');
+  const cacheKey = `perfil_${user.id}`;
+  const PERFIL_TTL = 10 * 60 * 1000;
+
+  let perfil = getCache(cacheKey, PERFIL_TTL);
+
+  if (!perfil) {
+    try {
+      const { data } = await dbClient
+        .from('perfiles')
+        .select('estatus_agente, foto_perfil, sobre_mi, nombre_agente, telefono, tipo_asesor, nombre_agencia, color_primario, color_secundario')
+        .eq('id', user.id)
+        .single();
+      perfil = data;
+      if (perfil) setCache(cacheKey, perfil);
+    } catch (err) {
+      console.error('Error leyendo perfil:', err);
+      return;
     }
-  } catch (err) { console.error('Error en validación de perfil:', err); }
+  }
+
+  const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
+
+  if (estatus === 'Aprobado') {
+    usuarioActual = user;
+    msg.classList.add('hidden');
+    mostrarApp();
+
+    if (perfil && perfil.foto_perfil) {
+      fotoPerfilActual = perfil.foto_perfil;
+      document.getElementById('imgPerfilPreview').src = fotoPerfilActual;
+      document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil de Asesor Activo';
+      document.getElementById('lblBtnFotoText').textContent = 'Cambiar Foto';
+      localStorage.setItem('econexus_agent_photo_url', fotoPerfilActual);
+    } else {
+      fotoPerfilActual = null;
+      document.getElementById('imgPerfilPreview').src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+      document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil por Completar';
+      document.getElementById('lblBtnFotoText').textContent = 'Subir Foto';
+    }
+
+    if (perfil) {
+      const nombreMostrar = perfil.nombre_agente || (user.email ? user.email.split('@')[0] : 'Asesor Inmobiliario');
+      document.getElementById('headerDisplayNombreAgente').textContent = nombreMostrar;
+      if (perfil.nombre_agente) { document.getElementById('perfilNombreAgente').value = perfil.nombre_agente; document.getElementById('nombreAsesor').value = perfil.nombre_agente; }
+      if (perfil.telefono) { document.getElementById('perfilTelefono').value = perfil.telefono; document.getElementById('telefonoAsesor').value = perfil.telefono; }
+      if (perfil.tipo_asesor) { document.getElementById('perfilTipoAsesor').value = perfil.tipo_asesor; togglePerfilTipoAsesor(); document.getElementById('tipoAsesor').value = perfil.tipo_asesor; toggleTipoAsesor(); }
+      if (perfil.nombre_agencia) { document.getElementById('perfilNombreAgencia').value = perfil.nombre_agencia; document.getElementById('nombreAgencia').value = perfil.nombre_agencia; }
+      if (perfil.sobre_mi) document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
+      if (perfil.color_primario) { colorPrimarioActual = perfil.color_primario; document.getElementById('perfilColorPrimario').value = perfil.color_primario; const dot = document.getElementById('dotColorPrimario'); if (dot) dot.style.backgroundColor = colorPrimarioActual; }
+      if (perfil.color_secundario) { colorSecundarioActual = perfil.color_secundario; document.getElementById('perfilColorSecundario').value = perfil.color_secundario; }
+    }
+    verificarInicioTourAutomatico();
+  } else {
+    await dbClient.auth.signOut();
+    usuarioActual = null;
+    ocultarApp();
+    msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-amber-50 border-amber-300 text-amber-900';
+    const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${user.email}. Solicito la aprobación de mi cuenta de Asesor.`);
+    msg.innerHTML = `<div class="font-bold text-sm mb-1 flex items-center text-amber-800"><i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación</div><p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${escapeHTML(estatus)}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p><a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition"><i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar</a>`;
+    msg.classList.remove('hidden');
+  }
 }
 
 /* =========================================================
@@ -1043,13 +1084,14 @@ async function guardarFotoPerfilAgente(input) {
     const nuevaUrlFoto = res.publicUrl;
     const { error: dbError } = await dbClient.from('perfiles').update({ foto_perfil: nuevaUrlFoto }).eq('id', usuarioActual.id);
     if (dbError) throw dbError;
+    try { localStorage.removeItem(CACHE_PREFIX + `perfil_${usuarioActual.id}`); } catch {}
     fotoPerfilActual = nuevaUrlFoto;
     localStorage.setItem('econexus_agent_photo_url', nuevaUrlFoto);
     document.getElementById('imgPerfilPreview').src = nuevaUrlFoto;
     document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil de Asesor Activo';
     document.getElementById('lblBtnFotoText').textContent = 'Cambiar Foto';
     ocultarProgresoGeneracion();
-    mostrarAvisoElegante('¡Fotografía Actualizada!', 'Tu nueva foto de perfil ya está activa en tu Mini Web, Fichas PDF, Historias, Posts, Reels y Tarjeta QR.');
+    mostrarAvisoElegante('¡Fotografía Actualizada!', 'Tu nueva foto de perfil ya está activa en tu Mini Web, Fichas PDF, Historias, Posts y Reels.');
   } catch (err) {
     ocultarProgresoGeneracion();
     mostrarAvisoElegante('Error al subir foto', 'No pudimos actualizar tu fotografía. Intenta con otra imagen. ' + (err.message || ''), 'error');
@@ -1074,6 +1116,7 @@ async function guardarDatosPerfil() {
   try {
     const { error } = await dbClient.from('perfiles').update({ nombre_agente: nombre, telefono: telefono, tipo_asesor: tipo, nombre_agencia: agencia, sobre_mi: sobreMi, color_primario: colPri, color_secundario: colSec }).eq('id', usuarioActual.id);
     if (error) throw error;
+    try { localStorage.removeItem(CACHE_PREFIX + `perfil_${usuarioActual.id}`); } catch {}
     colorPrimarioActual = colPri;
     colorSecundarioActual = colSec;
     const dot = document.getElementById('dotColorPrimario');
@@ -1085,7 +1128,7 @@ async function guardarDatosPerfil() {
     toggleTipoAsesor();
     if (agencia) document.getElementById('nombreAgencia').value = agencia;
     toggleAcordeonPerfil();
-    mostrarAvisoElegante('¡Perfil y Colores Guardados!', 'Tus datos y colores personalizados con contraste inteligente están listos para usarse en tu Mini Web, Historias IG, Posts 3:4, Tarjeta QR y Reels.');
+    mostrarAvisoElegante('¡Perfil y Colores Guardados!', 'Tus datos y colores personalizados con contraste inteligente están listos para usarse en tu Mini Web, Historias IG, Posts 3:4 y Reels.');
   } catch (err) {
     mostrarAvisoElegante('Error al guardar', 'Ocurrió un inconveniente al guardar la configuración de tu perfil.', 'error');
     console.error(err);
@@ -1213,7 +1256,7 @@ function toggleAcordeonGestion() {
   const estabaOculto = cuerpo.classList.contains('hidden');
   cuerpo.classList.toggle('hidden');
   icono.classList.toggle('rotate-180');
-  if (estabaOculto && (!misInmueblesCargados || misInmueblesCargados.length === 0)) { buscarMisInmuebles(); }
+  if (estabaOculto) { buscarMisInmuebles(); }
 }
 
 function toggleAcordeonFormulario() {
@@ -1263,7 +1306,7 @@ function toggleHerramientasFicha(id) {
 SELECTOR REEL
 ========================================================= */
 function abrirSelectorFotosReel(itemId) {
-  const inmueble = misInmueblesCargados.find(item => String(item.id) === String(itemId));
+  const inmueble = (misInmueblesCargados || []).find(item => String(item.id) === String(itemId));
   if (!inmueble) return mostrarAvisoElegante('Propiedad no encontrada', 'Actualiza tus publicaciones e intenta nuevamente.', 'error');
   const fotos = Array.isArray(inmueble.fotos) ? inmueble.fotos : [];
   if (fotos.length === 0) { return mostrarAvisoElegante('Sin fotografías', 'Este inmueble no tiene fotos cargadas para generar el Reel.', 'info'); }
@@ -1324,96 +1367,151 @@ function confirmarYRenderizarReel() {
   if (typeof generarReelAnimadoInmueble === 'function') { generarReelAnimadoInmueble(itemId, fotosElegidas); }
 }
 </script>
-
 <script>
 /* =========================================================
-LISTADO DE INMUEBLES
+LISTADO DE INMUEBLES — CACHÉ 8H + MUTACIÓN LOCAL (v3)
+Cero re-fetch tras writes. Botón "Actualizar" fuerza refresco real.
+Preserva select('*') para que PDF/IG/Reel lean descripcion y fotos.
 ========================================================= */
-async function buscarMisInmuebles() {
+
+function renderizarListaInmuebles(data) {
   const contenedor = document.getElementById("resultadoMisInmuebles");
+  if (!contenedor) return;
+  contenedor.innerHTML = "";
+  if (!data || data.length === 0) {
+    contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-6 font-semibold col-span-full bg-white rounded-xl border border-gray-200">Aún no tienes propiedades registradas en tu inventario.</p>`;
+    return;
+  }
+  data.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between text-xs";
+    const fotoTop = (item.fotos && item.fotos.length > 0) ? item.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
+    const esAgencia = item.tipo_asesor === 'Agencia';
+    const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
+    const vigencia = calcularTiempoRestante(item.fecha_expiracion);
+    const vigenciaTexto = vigencia ? (vigencia.expirado ? `<span class="bg-red-600 text-white px-2.5 py-0.5 rounded-full font-bold text-[10px]">Expirado</span>` : `<span class="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]"><i class="fa-solid fa-clock mr-1"></i>${vigencia.texto}</span>`) : '';
+    let vipBadge = '';
+    if (item.destacado && item.fecha_fin_vip) {
+      const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
+      if (vipTime && !vipTime.expirado) { vipBadge = `<span class="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-full font-extrabold text-[10px] shadow-sm"><i class="fa-solid fa-crown mr-1"></i>VIP: ${vipTime.texto}</span>`; }
+    }
+    card.innerHTML = `
+      <div>
+        <div class="relative h-44 w-full bg-gray-900 overflow-hidden">
+          <img src="${fotoTop}" alt="${escapeHTML(item.titulo)}" class="w-full h-full object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25"></div>
+          <span class="absolute top-2.5 left-2.5 bg-econexus text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase shadow">${escapeHTML(item.operacion)}</span>
+          <span class="absolute top-2.5 right-2.5 bg-black/75 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm">${escapeHTML(item.codigo_eco)}</span>
+          <div class="absolute bottom-2.5 left-3 right-3 flex justify-between items-end">
+            <span class="text-white font-black text-lg drop-shadow">$${Number(item.precio).toLocaleString('en-US')}</span>
+            <span class="text-green-200 text-[10px] font-bold bg-black/50 px-2 py-0.5 rounded">${escapeHTML(item.tipo)}</span>
+          </div>
+        </div>
+        <div class="p-4 space-y-2">
+          <div class="flex flex-wrap items-center gap-1.5">${vigenciaTexto}${vipBadge}</div>
+          <p class="font-extrabold text-gray-900 text-sm line-clamp-1" title="${escapeHTML(item.titulo)}">${escapeHTML(item.titulo)}</p>
+          <p class="text-gray-500 text-[11px] truncate"><i class="fa-solid fa-location-dot text-econexus mr-1"></i>${escapeHTML(item.ubicacion)}</p>
+          <p class="text-[11px] font-semibold text-gray-700 pt-0.5"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i>${infoAsesor}</p>
+        </div>
+      </div>
+      <div class="px-4 pb-4 pt-1">
+        <button type="button" onclick="toggleHerramientasFicha('${item.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-extrabold py-2.5 px-3.5 rounded-xl transition flex items-center justify-between shadow-sm cursor-pointer">
+          <span class="flex items-center gap-2 text-xs"><i class="fa-solid fa-toolbox text-amber-300"></i> Herramientas de Ficha Técnica</span>
+          <i id="tools-icon-${item.id}" class="fa-solid fa-chevron-down transition-transform text-[10px]"></i>
+        </button>
+        <div id="tools-panel-${item.id}" class="hidden mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-1.5 animate-modal-in">
+          <button type="button" onclick="descargarPDFFormal('${item.id}')" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-file-pdf"></i> Ficha PDF</button>
+          <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-mobile-screen"></i> Historia IG</button>
+          <button type="button" onclick="descargarPostInstagramCanvas('${item.id}')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-instagram"></i> Post IG (3:4)</button>
+          <button type="button" onclick="abrirSelectorFotosReel('${item.id}')" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-film"></i> Crear Reel</button>
+          <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-whatsapp"></i> Compartir WA</button>
+          <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-star"></i> Destacar VIP</button>
+          <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-rotate"></i> Renovar 30D</button>
+          ${item.external_source === 'SAAI' ? `
+            <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1"><i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI</div>
+            <button type="button" onclick="renovarInmuebleSAAI('${item.id}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Renovar 30 días (SAAI)"><i class="fa-solid fa-rotate mr-1"></i> Renovar</button>
+            <button type="button" onclick="eliminarInmuebleSAAI('${item.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Eliminar Inmueble (SAAI)"><i class="fa-solid fa-trash-can mr-1"></i> Borrar</button>
+          ` : `
+            <div class="flex gap-1.5 col-span-2 mt-1">
+              <button type="button" onclick="editarInmueble('${item.id}')" title="Editar Inmueble" class="flex-1 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
+              <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Eliminar Inmueble" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+    contenedor.appendChild(card);
+  });
+}
+
+async function buscarMisInmuebles(forzarRefresco = false) {
+  if (!usuarioActual) return;
+  const contenedor = document.getElementById("resultadoMisInmuebles");
+  if (!contenedor) return;
+
+  /* 1) Caché en memoria */
+  if (!forzarRefresco && misInmueblesCargados !== null && (Date.now() - misInmueblesCacheTime < MIS_INMUEBLES_TTL_MS)) {
+    renderizarListaInmuebles(misInmueblesCargados);
+    return;
+  }
+
+  /* 2) Caché en localStorage (8h) */
+  if (!forzarRefresco) {
+    const cached = getCache(`inmuebles_lista_${usuarioActual.id}`, MIS_INMUEBLES_TTL_MS);
+    if (cached !== null && Array.isArray(cached)) {
+      misInmueblesCargados = cached;
+      misInmueblesCacheTime = Date.now();
+      renderizarListaInmuebles(cached);
+      return;
+    }
+  }
+
+  /* 3) Fetch real */
   contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-4 col-span-full"><i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> Buscando tus propiedades...</p>`;
   try {
     const { data, error } = await dbClient.from('propiedades').select('*').eq('user_id', usuarioActual.id).order('id', { ascending: false });
     if (error) throw error;
     misInmueblesCargados = data || [];
-    contenedor.innerHTML = "";
-    if (!data || data.length === 0) {
-      contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-6 font-semibold col-span-full bg-white rounded-xl border border-gray-200">Aún no tienes propiedades registradas en tu inventario.</p>`;
-      return;
-    }
-    data.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between text-xs";
-      const fotoTop = (item.fotos && item.fotos.length > 0) ? item.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
-      const esAgencia = item.tipo_asesor === 'Agencia';
-      const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
-      const vigencia = calcularTiempoRestante(item.fecha_expiracion);
-      const vigenciaTexto = vigencia ? (vigencia.expirado ? `<span class="bg-red-600 text-white px-2.5 py-0.5 rounded-full font-bold text-[10px]">Expirado</span>` : `<span class="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]"><i class="fa-solid fa-clock mr-1"></i>${vigencia.texto}</span>`) : '';
-      let vipBadge = '';
-      if (item.destacado && item.fecha_fin_vip) {
-        const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
-        if (vipTime && !vipTime.expirado) { vipBadge = `<span class="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-full font-extrabold text-[10px] shadow-sm"><i class="fa-solid fa-crown mr-1"></i>VIP: ${vipTime.texto}</span>`; }
-      }
-      card.innerHTML = `
-        <div>
-          <div class="relative h-44 w-full bg-gray-900 overflow-hidden">
-            <img src="${fotoTop}" alt="${escapeHTML(item.titulo)}" class="w-full h-full object-cover" loading="lazy" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/25"></div>
-            <span class="absolute top-2.5 left-2.5 bg-econexus text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase shadow">${escapeHTML(item.operacion)}</span>
-            <span class="absolute top-2.5 right-2.5 bg-black/75 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg backdrop-blur-sm">${escapeHTML(item.codigo_eco)}</span>
-            <div class="absolute bottom-2.5 left-3 right-3 flex justify-between items-end">
-              <span class="text-white font-black text-lg drop-shadow">$${Number(item.precio).toLocaleString('en-US')}</span>
-              <span class="text-green-200 text-[10px] font-bold bg-black/50 px-2 py-0.5 rounded">${escapeHTML(item.tipo)}</span>
-            </div>
-          </div>
-          <div class="p-4 space-y-2">
-            <div class="flex flex-wrap items-center gap-1.5">${vigenciaTexto}${vipBadge}</div>
-            <p class="font-extrabold text-gray-900 text-sm line-clamp-1" title="${escapeHTML(item.titulo)}">${escapeHTML(item.titulo)}</p>
-            <p class="text-gray-500 text-[11px] truncate"><i class="fa-solid fa-location-dot text-econexus mr-1"></i>${escapeHTML(item.ubicacion)}</p>
-            <p class="text-[11px] font-semibold text-gray-700 pt-0.5"><i class="fa-solid fa-user-tag mr-1 text-econexus-accent"></i>${infoAsesor}</p>
-          </div>
-        </div>
-        <div class="px-4 pb-4 pt-1">
-          <button type="button" onclick="toggleHerramientasFicha('${item.id}')" class="w-full bg-econexus hover:bg-econexus-light text-white font-extrabold py-2.5 px-3.5 rounded-xl transition flex items-center justify-between shadow-sm cursor-pointer">
-            <span class="flex items-center gap-2 text-xs"><i class="fa-solid fa-toolbox text-amber-300"></i> Herramientas de Ficha Técnica</span>
-            <i id="tools-icon-${item.id}" class="fa-solid fa-chevron-down transition-transform text-[10px]"></i>
-          </button>
-          <div id="tools-panel-${item.id}" class="hidden mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-1.5 animate-modal-in">
-            <button type="button" onclick="descargarPDFFormal('${item.id}')" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-file-pdf"></i> Ficha PDF</button>
-            <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-mobile-screen"></i> Historia IG</button>
-            <button type="button" onclick="descargarPostInstagramCanvas('${item.id}')" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-instagram"></i> Post IG (3:4)</button>
-            <button type="button" onclick="abrirSelectorFotosReel('${item.id}')" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-film"></i> Crear Reel</button>
-            <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-whatsapp"></i> Compartir WA</button>
-            <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-star"></i> Destacar VIP</button>
-            <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-rotate"></i> Renovar 30D</button>
-            ${item.external_source === 'SAAI' ? `
-              <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1"><i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI</div>
-              <button type="button" onclick="renovarInmuebleSAAI('${item.id}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Renovar 30 días (SAAI)"><i class="fa-solid fa-rotate mr-1"></i> Renovar</button>
-              <button type="button" onclick="eliminarInmuebleSAAI('${item.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Eliminar Inmueble (SAAI)"><i class="fa-solid fa-trash-can mr-1"></i> Borrar</button>
-            ` : `
-              <div class="flex gap-1.5 col-span-2 mt-1">
-                <button type="button" onclick="editarInmueble('${item.id}')" title="Editar Inmueble" class="flex-1 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Eliminar Inmueble" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
-              </div>
-            `}
-          </div>
-        </div>
-      `;
-      contenedor.appendChild(card);
-    });
+    misInmueblesCacheTime = Date.now();
+    setCache(`inmuebles_lista_${usuarioActual.id}`, misInmueblesCargados);
+    renderizarListaInmuebles(misInmueblesCargados);
   } catch (err) {
     contenedor.innerHTML = `<p class="text-xs text-red-600 text-center py-4 font-semibold col-span-full">Error de conexión al cargar tus propiedades.</p>`;
     console.error(err);
   }
 }
 
+/* Aplica cambio local sin re-fetch. Solo limpia la caché del batch de copys
+   para que en el próximo open se detecte el nuevo fingerprint. */
+function aplicarCambioLocalInmueble(action, payload) {
+  if (!usuarioActual) return;
+  if (misInmueblesCargados === null) misInmueblesCargados = [];
+
+  if (action === 'insert' && payload) {
+    misInmueblesCargados = [payload, ...misInmueblesCargados];
+  } else if (action === 'update' && payload && payload.id) {
+    const idx = misInmueblesCargados.findIndex(i => String(i.id) === String(payload.id));
+    if (idx >= 0) misInmueblesCargados[idx] = { ...misInmueblesCargados[idx], ...payload };
+  } else if (action === 'delete' && payload && payload.id) {
+    misInmueblesCargados = misInmueblesCargados.filter(i => String(i.id) !== String(payload.id));
+  }
+
+  misInmueblesCacheTime = Date.now();
+  setCache(`inmuebles_lista_${usuarioActual.id}`, misInmueblesCargados);
+  try { localStorage.removeItem(CACHE_PREFIX + `inmuebles_copys_${usuarioActual.id}`); } catch {}
+  renderizarListaInmuebles(misInmueblesCargados);
+}
+
+/* =========================================================
+SAAI (preservado)
+========================================================= */
 async function renovarInmuebleSAAI(id) {
   if (!confirm('¿Deseas renovar este inmueble por 30 días más en EcoNexus?')) return;
   try {
     const { error } = await dbClient.rpc('renovar_propiedad_saai', { p_id: id, p_dias: 30 });
     if (error) throw error;
     alert('Inmueble renovado con éxito.');
-    buscarMisInmuebles();
+    buscarMisInmuebles(true);
   } catch (e) { console.error(e); alert('Error al renovar: ' + e.message); }
 }
 
@@ -1423,12 +1521,12 @@ async function eliminarInmuebleSAAI(id) {
     const { error } = await dbClient.rpc('borrar_propiedad_saai', { p_id: id });
     if (error) throw error;
     alert('Inmueble eliminado de EcoNexus. Se sincronizará el borrado en SAAI.');
-    buscarMisInmuebles();
+    buscarMisInmuebles(true);
   } catch (e) { console.error(e); alert('Error al eliminar: ' + e.message); }
 }
 
 /* =========================================================
-PROCESAR CARGA (COMPRESIÓN + SUBIDA R2)
+PROCESAR CARGA (COMPRESIÓN + SUBIDA R2) — mutación local
 ========================================================= */
 async function procesarCarga(e) {
   e.preventDefault();
@@ -1472,24 +1570,24 @@ async function procesarCarga(e) {
     const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
     const payload = { titulo, tipo, operacion, precio, ubicacion, habitaciones: Number(document.getElementById("habitaciones").value) || 0, banos: Number(document.getElementById("banos").value) || 0, estacionamientos: Number(document.getElementById("estacionamientos").value) || 0, metros: Number(document.getElementById("metros").value) || 0, descripcion: document.getElementById("descripcion").value, enlace_video: document.getElementById("enlaceVideo").value.trim(), nombre_asesor: nombreAsesor, telefono_asesor: telefonoAsesor, tipo_asesor: tipoAsesorSel, nombre_agencia: nombreAgenciaVal, fotos: urlsPublicas };
     if (esEdicion) {
-      const { error: updateError } = await dbClient.from('propiedades').update(payload).eq('id', editId);
+      const { data: updated, error: updateError } = await dbClient.from('propiedades').update(payload).eq('id', editId).select().single();
       if (updateError) throw updateError;
       actualizarBarraProgreso(100, "¡Cambios guardados!");
       ocultarProgresoGeneracion();
       mostrarAvisoElegante("¡Publicación Actualizada!", `Los cambios en el inmueble (${codigoUnico}) se guardaron correctamente.`);
+      aplicarCambioLocalInmueble('update', updated);
     } else {
       payload.codigo_eco = codigoUnico;
       payload.user_id = usuarioActual.id;
       payload.fecha_expiracion = expiracionCalculada;
-      const { error: dbError } = await dbClient.from('propiedades').insert([payload]);
+      const { data: inserted, error: dbError } = await dbClient.from('propiedades').insert([payload]).select().single();
       if (dbError) throw dbError;
       actualizarBarraProgreso(100, "¡Publicación creada!");
       ocultarProgresoGeneracion();
-      mostrarAvisoElegante("¡Inmueble Publicado!", `Tu propiedad (${codigoUnico}) ya está activa por 30 días en EcoNexus y lista para descargar sus piezas de marketing con QR.`);
+      mostrarAvisoElegante("¡Inmueble Publicado!", `Tu propiedad (${codigoUnico}) ya está activa por 30 días en EcoNexus y lista para descargar sus piezas de marketing.`);
+      aplicarCambioLocalInmueble('insert', inserted);
     }
     cancelarEdicion();
-    const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
-    if (!cuerpoGestion.classList.contains("hidden")) { buscarMisInmuebles(); }
   } catch (err) {
     ocultarProgresoGeneracion();
     mostrarAvisoElegante("Error al publicar", "Ocurrió un inconveniente al procesar la publicación. " + (err.message || 'Verifica tu conexión e intenta nuevamente.'), "error");
@@ -1583,7 +1681,7 @@ function eliminarInmueble(id, codigoEco) {
       if (error) throw error;
       ocultarProgresoGeneracion();
       mostrarAvisoElegante("Inmueble Retirado", `La propiedad ${codigoEco} fue eliminada con éxito.`);
-      buscarMisInmuebles();
+      aplicarCambioLocalInmueble('delete', { id });
     } catch (err) {
       ocultarProgresoGeneracion();
       mostrarAvisoElegante("Error al eliminar", "Ocurrió un inconveniente al intentar retirar la propiedad. " + (err.message || ''), "error");
@@ -1595,10 +1693,10 @@ function eliminarInmueble(id, codigoEco) {
 async function renovarInmueble(id, codigoEco) {
   try {
     const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await dbClient.from('propiedades').update({ fecha_expiracion: nuevaExpiracion }).eq('id', id);
+    const { data: updated, error } = await dbClient.from('propiedades').update({ fecha_expiracion: nuevaExpiracion }).eq('id', id).select().single();
     if (error) throw error;
     mostrarAvisoElegante("¡Vigencia Renovada!", `El inmueble ${codigoEco} ha sido renovado con éxito por 30 días adicionales.`);
-    buscarMisInmuebles();
+    aplicarCambioLocalInmueble('update', updated);
   } catch (err) {
     mostrarAvisoElegante("Error al renovar", "Ocurrió un inconveniente al intentar renovar la publicación.", "error");
     console.error(err);
@@ -1606,14 +1704,14 @@ async function renovarInmueble(id, codigoEco) {
 }
 
 function solicitarVIPWA(id) {
-  const p = misInmueblesCargados.find(item => item.id == id);
+  const p = (misInmueblesCargados || []).find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
   const msjVIP = encodeURIComponent(`Hola EcoNexus, deseo solicitar la activación de destacamiento VIP para mi inmueble:\n\n🏡 *${p.titulo}*\n🆔 *Código:* ${p.codigo_eco}\n💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}\n\nPor favor indíquenme las opciones disponibles para promover esta propiedad.`);
   window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
 }
 
 function compartirInmuebleWA(id) {
-  const p = misInmueblesCargados.find(item => item.id == id);
+  const p = (misInmueblesCargados || []).find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
   const urlInmueble = obtenerEnlaceShareInmueble(p.codigo_eco);
   const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
@@ -1625,11 +1723,8 @@ function compartirInmuebleWA(id) {
 async function compartirInventarioWA() {
   let lista = misInmueblesCargados;
   if (!lista || lista.length === 0) {
-    try {
-      const { data } = await dbClient.from('propiedades').select('*').eq('user_id', usuarioActual.id).order('id', { ascending: false });
-      lista = data || [];
-      misInmueblesCargados = lista;
-    } catch (err) { console.error("Error al cargar inventario:", err); }
+    await buscarMisInmuebles();
+    lista = misInmueblesCargados || [];
   }
   if (!lista || lista.length === 0) { return mostrarAvisoElegante("Catálogo Vacío", "No tienes propiedades cargadas actualmente para compartir.", "info"); }
   const primerInmueble = lista[0];
@@ -1647,49 +1742,8 @@ async function compartirInventarioWA() {
 
 <script>
 /* =========================================================
-NUEVAS HERRAMIENTAS CRM: NOTAS + COPYS + TOP 5
+NOTAS RÁPIDAS (local, 24h)
 ========================================================= */
-
-const CACHE_PREFIX = 'eco_cache_v1_';
-const CACHE_TTL_24H = 24 * 60 * 60 * 1000;
-
-function getCache(key, ttl = CACHE_TTL_24H) {
-  try {
-    const raw = localStorage.getItem(CACHE_PREFIX + key);
-    if (!raw) return null;
-    const obj = JSON.parse(raw);
-    if (Date.now() - obj.ts > ttl) { localStorage.removeItem(CACHE_PREFIX + key); return null; }
-    return obj.data;
-  } catch (e) { return null; }
-}
-
-function setCache(key, data) {
-  try {
-    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data }));
-  } catch (e) {
-    console.warn('Cache lleno:', e);
-    limpiarCacheViejo();
-  }
-}
-
-function limpiarCacheViejo() {
-  try {
-    const ahora = Date.now();
-    const keysToRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.startsWith(CACHE_PREFIX)) {
-        try {
-          const obj = JSON.parse(localStorage.getItem(k));
-          if (ahora - obj.ts > CACHE_TTL_24H) keysToRemove.push(k);
-        } catch {}
-      }
-    }
-    keysToRemove.forEach(k => localStorage.removeItem(k));
-  } catch {}
-}
-
-/* NOTAS RÁPIDAS */
 function getNotasKeyHoy() {
   const hoy = new Date().toISOString().split('T')[0];
   return `eco_notas_${hoy}`;
@@ -1775,7 +1829,36 @@ function renderizarNotasRapidas() {
   }).join('');
 }
 
-/* GENERADOR DE COPYS */
+/* =========================================================
+GENERADOR DE COPYS — BATCH MODE (v2)
+1 sola query a Supabase (cache 24h). 0 llamadas al Worker.
+Pre-genera TODOS los copys en un pase. Solo regenera los nuevos.
+========================================================= */
+const COPYS_BATCH_VERSION = 2;
+
+function getCopysBatchKey(userId) {
+  return `copys_batch_v${COPYS_BATCH_VERSION}_${userId}`;
+}
+
+function getFingerprintListaPropiedades(lista) {
+  if (!Array.isArray(lista) || lista.length === 0) return '';
+  return lista.map(p => p.codigo_eco).filter(Boolean).sort().join('|');
+}
+
+function limpiarCachesCopysViejos() {
+  try {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!k) continue;
+      if (k.startsWith(CACHE_PREFIX + 'copys_') && !k.startsWith(CACHE_PREFIX + 'copys_batch')) {
+        keysToRemove.push(k);
+      }
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch {}
+}
+
 const FEATURES_DETECTABLES = [
   { keys: ['planta electrica', 'planta eléctrica', 'generador'], tag: 'PlantaElectrica', label: 'Planta eléctrica', emoji: '⚡' },
   { keys: ['pozo', 'pozo de agua'], tag: 'AguaConstante', label: 'Agua constante', emoji: '💧' },
@@ -1898,10 +1981,18 @@ function generarCopysInmueble(inm) {
 
 async function abrirModalCopys() {
   if (!usuarioActual) return mostrarAvisoElegante('Sesión requerida', 'Inicia sesión para usar el generador.', 'info');
+
+  limpiarCachesCopysViejos();
+
   document.getElementById('modalCopys').classList.remove('hidden');
   document.getElementById('emptyCopys').classList.remove('hidden');
   document.getElementById('contenidoCopys').classList.add('hidden');
-  document.getElementById('loadingCopys').classList.add('hidden');
+  document.getElementById('copysBatchStatus').classList.add('hidden');
+
+  const loading = document.getElementById('loadingCopys');
+  loading.classList.remove('hidden');
+  const loadingText = loading.querySelector('p');
+  if (loadingText) loadingText.textContent = 'Cargando tus inmuebles...';
 
   const select = document.getElementById('selectInmuebleCopys');
   select.innerHTML = '<option value="">Cargando inmuebles...</option>';
@@ -1919,16 +2010,66 @@ async function abrirModalCopys() {
       lista = (data || []).map(inm => ({ ...inm, descripcion: String(inm.descripcion || '').substring(0, 500) }));
       if (lista.length > 0 && lista.length <= 150) setCache(cacheKey, lista);
     }
-    if (lista.length === 0) {
+
+    if (!lista || lista.length === 0) {
       select.innerHTML = '<option value="">No tienes inmuebles publicados</option>';
+      loading.classList.add('hidden');
+      document.getElementById('emptyCopys').classList.remove('hidden');
       return;
     }
+
     select.innerHTML = '<option value="">Selecciona un inmueble...</option>' +
       lista.map(inm => `<option value="${escapeHTML(inm.codigo_eco)}">${escapeHTML(inm.codigo_eco)} · ${escapeHTML(inm.titulo)}</option>`).join('');
     window._inmueblesCopysCache = lista;
+
+    const batchKey = getCopysBatchKey(usuarioActual.id);
+    const fingerprintActual = getFingerprintListaPropiedades(lista);
+    const batch = getCache(batchKey);
+    let copysMap = {};
+    let generados = 0;
+
+    if (batch && batch.fingerprint === fingerprintActual && batch.copys) {
+      copysMap = batch.copys;
+    } else {
+      copysMap = (batch && batch.copys) ? { ...batch.copys } : {};
+      const codigosExistentes = new Set(Object.keys(copysMap));
+
+      if (loadingText) {
+        loadingText.textContent = `Generando copys para ${lista.length} inmueble${lista.length !== 1 ? 's' : ''}...`;
+      }
+
+      lista.forEach(inm => {
+        if (!codigosExistentes.has(inm.codigo_eco)) {
+          copysMap[inm.codigo_eco] = generarCopysInmueble(inm);
+          generados++;
+        }
+      });
+
+      const codigosActuales = new Set(lista.map(i => i.codigo_eco));
+      Object.keys(copysMap).forEach(cod => {
+        if (!codigosActuales.has(cod)) delete copysMap[cod];
+      });
+
+      setCache(batchKey, { fingerprint: fingerprintActual, copys: copysMap });
+    }
+
+    window._copysBatchMap = copysMap;
+    loading.classList.add('hidden');
+
+    const totalListos = Object.keys(copysMap).length;
+    const statusEl = document.getElementById('copysBatchStatus');
+    const statusText = document.getElementById('copysBatchStatusText');
+    if (statusEl && statusText) {
+      statusText.textContent = generados > 0
+        ? `${totalListos} inmueble${totalListos !== 1 ? 's' : ''} listo${totalListos !== 1 ? 's' : ''} (${generados} nuevo${generados !== 1 ? 's' : ''} pre-generado${generados !== 1 ? 's' : ''}). Caché válida 24h.`
+        : `${totalListos} inmueble${totalListos !== 1 ? 's' : ''} con copys en caché (24h). Selecciona uno para ver sus 4 variantes.`;
+      statusEl.classList.remove('hidden');
+    }
   } catch (e) {
-    console.error(e);
+    console.error('Error abriendo copys:', e);
+    loading.classList.add('hidden');
     select.innerHTML = '<option value="">Error cargando inmuebles</option>';
+    document.getElementById('emptyCopys').classList.remove('hidden');
   }
 }
 
@@ -1938,7 +2079,6 @@ function cerrarModalCopys() {
 
 function cargarCopysInmueble() {
   const codigo = document.getElementById('selectInmuebleCopys').value;
-  const loading = document.getElementById('loadingCopys');
   const empty = document.getElementById('emptyCopys');
   const contenido = document.getElementById('contenidoCopys');
 
@@ -1949,29 +2089,28 @@ function cargarCopysInmueble() {
   }
 
   empty.classList.add('hidden');
-  loading.classList.remove('hidden');
   contenido.classList.add('hidden');
 
-  setTimeout(() => {
-    try {
-      const lista = window._inmueblesCopysCache || [];
-      const inm = lista.find(i => i.codigo_eco === codigo);
-      if (!inm) throw new Error('Inmueble no encontrado');
-      const copysCacheKey = `copys_${codigo}`;
-      let copys = getCache(copysCacheKey);
-      if (!copys) {
-        copys = generarCopysInmueble(inm);
-        setCache(copysCacheKey, copys);
-      }
-      renderizarCopys(copys);
-      loading.classList.add('hidden');
-      contenido.classList.remove('hidden');
-    } catch (e) {
-      console.error(e);
-      loading.classList.add('hidden');
-      empty.classList.remove('hidden');
+  try {
+    let copys = (window._copysBatchMap || {})[codigo];
+
+    if (!copys) {
+      const inm = (window._inmueblesCopysCache || []).find(i => i.codigo_eco === codigo);
+      if (!inm) throw new Error('Inmueble no encontrado en caché');
+      copys = generarCopysInmueble(inm);
+      window._copysBatchMap = window._copysBatchMap || {};
+      window._copysBatchMap[codigo] = copys;
+      const batchKey = getCopysBatchKey(usuarioActual.id);
+      const fingerprint = getFingerprintListaPropiedades(window._inmueblesCopysCache || []);
+      setCache(batchKey, { fingerprint, copys: window._copysBatchMap });
     }
-  }, 300);
+
+    renderizarCopys(copys);
+    contenido.classList.remove('hidden');
+  } catch (e) {
+    console.error(e);
+    empty.classList.remove('hidden');
+  }
 }
 
 function renderizarCopys(copys) {
@@ -2031,68 +2170,19 @@ async function copiarHashtags() {
   } catch (e) {}
 }
 
-/* TOP 5 POPULARES */
+/* =========================================================
+TOP 5 POPULARES — DESHABILITADO
+Ahorra 1 RPC/día por agente. Se neutraliza sin eliminar handlers.
+========================================================= */
 async function abrirModalTopPopulares() {
-  document.getElementById('modalTopPopulares').classList.remove('hidden');
-  document.getElementById('loadingTop').classList.remove('hidden');
-  document.getElementById('emptyTop').classList.add('hidden');
-  document.getElementById('listaTopPopulares').innerHTML = '';
-
-  try {
-    const hoy = new Date().toISOString().split('T')[0];
-    const cacheKey = `top5_${hoy}`;
-    let lista = getCache(cacheKey);
-
-    if (!lista) {
-      const { data, error } = await dbClient.rpc('top_inmuebles_populares_hoy', { p_limite: 5 });
-      if (error) throw error;
-      lista = data || [];
-      setCache(cacheKey, lista);
-    }
-
-    document.getElementById('loadingTop').classList.add('hidden');
-
-    const conMinimo = lista.filter(item => Number(item.vistas) >= 3);
-    if (conMinimo.length === 0) {
-      document.getElementById('emptyTop').classList.remove('hidden');
-      return;
-    }
-    renderizarTopPopulares(conMinimo);
-  } catch (e) {
-    console.error('Error cargando top populares:', e);
-    document.getElementById('loadingTop').classList.add('hidden');
-    document.getElementById('emptyTop').classList.remove('hidden');
-  }
+  mostrarAvisoElegante('Módulo deshabilitado', 'El ranking de populares se retiró temporalmente para optimizar recursos de la plataforma.', 'info');
 }
+function cerrarModalTopPopulares() {}
+function renderizarTopPopulares() {}
 
-function cerrarModalTopPopulares() {
-  document.getElementById('modalTopPopulares').classList.add('hidden');
-}
-
-function renderizarTopPopulares(lista) {
-  const cont = document.getElementById('listaTopPopulares');
-  cont.innerHTML = lista.map((item, idx) => {
-    const medallas = ['🥇', '🥈', '🥉'];
-    const medalla = medallas[idx] || `${idx + 1}°`;
-    const foto = item.foto_principal || 'https://via.placeholder.com/120x90/1e293b/10b981?text=EcoNexus';
-    const urlIndex = `https://econexusplatform.com/index.html?codigo=${encodeURIComponent(item.codigo_eco)}`;
-    return `<div class="bg-white border border-yellow-200 rounded-xl p-3 flex items-center gap-3 hover:shadow-md transition">
-      <div class="text-2xl w-8 text-center shrink-0">${medalla}</div>
-      <img src="${escapeHTML(foto)}" class="w-16 h-12 rounded-lg object-cover border border-slate-200 shrink-0" alt="" onerror="this.src='https://via.placeholder.com/64x48/1e293b/10b981?text=E'"/>
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2 mb-0.5">
-          <span class="text-[10px] font-bold bg-econexus text-white px-2 py-0.5 rounded">${escapeHTML(item.codigo_eco || '')}</span>
-          <span class="text-[10px] text-gray-500 font-semibold">${Number(item.vistas || 0)} clics hoy</span>
-        </div>
-        <p class="text-xs font-extrabold text-gray-900 truncate">${escapeHTML(item.titulo || '')}</p>
-        <p class="text-[11px] text-gray-500 truncate"><i class="fa-solid fa-location-dot text-econexus mr-1"></i>${escapeHTML(item.ubicacion || '')} · <span class="text-econexus font-bold">$${Number(item.precio || 0).toLocaleString('en-US')}</span></p>
-      </div>
-      <a href="${urlIndex}" target="_blank" rel="noopener" class="bg-econexus hover:bg-econexus-light text-white text-[11px] font-extrabold px-3 py-2 rounded-lg shrink-0 flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-external-link-alt text-[10px]"></i>Ver</a>
-    </div>`;
-  }).join('');
-}
-
-/* Limpieza inicial */
+/* =========================================================
+LIMPIEZA INICIAL
+========================================================= */
 document.addEventListener('DOMContentLoaded', function() {
   limpiarCacheViejo();
   limpiarNotasViejas();
