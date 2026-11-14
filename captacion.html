@@ -4,10 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
 <title>EcoNexus | Centro de Mando y Publicación Inmobiliaria</title>
-
-<!-- ============================================================
-METAETIQUETAS BASE SEO & OPENGRAPH (INYECCIÓN DINÁMICA)
-============================================================ -->
 <meta name="description" content="Centro de Mando Inmobiliario EcoNexus. Publicación con geolocalización, fichas PDF, Historias, Posts y Reels automatizados." />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="author" content="EcoNexus Platform" />
@@ -16,8 +12,6 @@ METAETIQUETAS BASE SEO & OPENGRAPH (INYECCIÓN DINÁMICA)
 <meta name="geo.placename" content="Valencia, Carabobo, Venezuela" />
 <meta name="geo.position" content="10.1620;-68.0077" />
 <meta name="ICBM" content="10.1620, -68.0077" />
-
-<!-- OpenGraph base para el portal -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="EcoNexus Real Estate" />
 <meta property="og:locale" content="es_VE" />
@@ -29,132 +23,58 @@ METAETIQUETAS BASE SEO & OPENGRAPH (INYECCIÓN DINÁMICA)
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="EcoNexus — Ecosistema Inmobiliario Inteligente" />
-
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="EcoNexus | Centro de Mando y Publicación Inmobiliaria" />
 <meta name="twitter:description" content="Publica tus inmuebles con geolocalización y genera fichas PDF, Historias, Posts y Reels automáticamente." />
 <meta name="twitter:image" content="https://econexusplatform.com/og-brand.jpg" />
-
-<!-- Tailwind + Supabase -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- Compresión cliente -->
 <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.min.js"></script>
-<!-- PDF & Canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<!-- QR Generator -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-<!-- EXIF / GPS Inyector -->
 <script src="https://cdn.jsdelivr.net/npm/piexifjs@1.0.6/piexif.min.js"></script>
-
 <script>
 tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        econexus: {
-          DEFAULT: '#1E3F20',
-          dark: '#142B16',
-          light: '#2E5E32',
-          accent: '#388E3C',
-          soft: '#F4F7F4'
-        }
-      }
-    }
-  }
+  theme: { extend: { colors: { econexus: { DEFAULT: '#1E3F20', dark: '#142B16', light: '#2E5E32', accent: '#388E3C', soft: '#F4F7F4' } } } }
 }
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
 <style>
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-  word-break: break-word;
-}
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.96) translateY(6px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
+html, body { max-width: 100%; overflow-x: hidden; word-break: break-word; }
+@keyframes fadeInScale { from { opacity: 0; transform: scale(0.96) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 .animate-modal-in { animation: fadeInScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.typewriter-cursor::after {
-  content: '|';
-  display: inline-block;
-  margin-left: 2px;
-  animation: blink-caret 0.75s step-end infinite;
-  color: #1E3F20;
-  font-weight: 900;
-}
-@keyframes blink-caret {
-  from, to { opacity: 1; }
-  50% { opacity: 0; }
-}
-.tour-active-target {
-  position: relative !important;
-  z-index: 9998 !important;
-  box-shadow: 0 0 0 4px #f59e0b, 0 0 28px rgba(245, 158, 11, 0.7) !important;
-  border-radius: 1rem !important;
-  transition: all 0.35s ease !important;
-}
-@keyframes web-cta-glow {
-  0%, 100% { box-shadow: 0 4px 15px rgba(30, 63, 32, 0.25), 0 0 0 0 rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 8px 25px rgba(30, 63, 32, 0.4), 0 0 18px 2px rgba(245, 158, 11, 0.55); }
-}
+.typewriter-cursor::after { content: '|'; display: inline-block; margin-left: 2px; animation: blink-caret 0.75s step-end infinite; color: #1E3F20; font-weight: 900; }
+@keyframes blink-caret { from, to { opacity: 1; } 50% { opacity: 0; } }
+.tour-active-target { position: relative !important; z-index: 9998 !important; box-shadow: 0 0 0 4px #f59e0b, 0 0 28px rgba(245, 158, 11, 0.7) !important; border-radius: 1rem !important; transition: all 0.35s ease !important; }
+@keyframes web-cta-glow { 0%, 100% { box-shadow: 0 4px 15px rgba(30, 63, 32, 0.25), 0 0 0 0 rgba(245, 158, 11, 0.4); } 50% { box-shadow: 0 8px 25px rgba(30, 63, 32, 0.4), 0 0 18px 2px rgba(245, 158, 11, 0.55); } }
 .btn-web-glow { animation: web-cta-glow 3s infinite ease-in-out; }
-@keyframes crm-erp-glow {
-  0%, 100% { box-shadow: 0 4px 18px rgba(15, 23, 42, 0.35), 0 0 0 0 rgba(56, 189, 248, 0.4); }
-  50% { box-shadow: 0 8px 28px rgba(15, 23, 42, 0.55), 0 0 20px 3px rgba(52, 211, 153, 0.55); }
-}
+@keyframes crm-erp-glow { 0%, 100% { box-shadow: 0 4px 18px rgba(15, 23, 42, 0.35), 0 0 0 0 rgba(56, 189, 248, 0.4); } 50% { box-shadow: 0 8px 28px rgba(15, 23, 42, 0.55), 0 0 20px 3px rgba(52, 211, 153, 0.55); } }
 .btn-crmerp-glow { animation: crm-erp-glow 3s infinite ease-in-out; }
-.crisp-render {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: geometricPrecision;
-}
-.foto-reel-card {
-  position: relative;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-  border: 3px solid transparent;
-}
+.crisp-render { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: geometricPrecision; }
+.foto-reel-card { position: relative; cursor: pointer; transition: transform 0.18s ease, box-shadow 0.18s ease; border: 3px solid transparent; }
 .foto-reel-card:hover { transform: scale(1.02); }
-.foto-reel-card.seleccionada {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-}
-.foto-reel-card .badge-orden {
-  position: absolute;
-  top: 6px; left: 6px;
-  background: #6366f1;
-  color: #ffffff;
-  font-weight: 900;
-  font-size: 11px;
-  min-width: 22px; height: 22px;
-  border-radius: 999px;
-  display: none;
-  align-items: center; justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-  z-index: 3;
-}
+.foto-reel-card.seleccionada { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25); }
+.foto-reel-card .badge-orden { position: absolute; top: 6px; left: 6px; background: #6366f1; color: #ffffff; font-weight: 900; font-size: 11px; min-width: 22px; height: 22px; border-radius: 999px; display: none; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.4); z-index: 3; }
 .foto-reel-card.seleccionada .badge-orden { display: flex; }
-.foto-reel-card.deshabilitada {
-  opacity: 0.4;
-  pointer-events: none;
-}
+.foto-reel-card.deshabilitada { opacity: 0.4; pointer-events: none; }
+.copy-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; }
+.copy-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.copy-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 999px; }
+.copy-badge-wa { background: #dcfce7; color: #166534; }
+.copy-badge-ig { background: #fce7f3; color: #9d174d; }
+.copy-badge-st { background: #ede9fe; color: #5b21b6; }
+.copy-badge-ur { background: #fef3c7; color: #92400e; }
+.copy-texto { font-size: 12px; line-height: 1.55; white-space: pre-line; color: #1e293b; background: #ffffff; padding: 10px; border-radius: 8px; border: 1px solid #e2e8f0; max-height: 240px; overflow-y: auto; }
+.hashtag-pill { display: inline-block; background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 700; margin: 2px 3px 0 0; }
 </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col justify-between relative pb-28 overflow-x-hidden">
 
-<!-- =========================================================
-SISTEMA DE AVISOS Y CONFIRMACIONES ELEGANTES
-========================================================= -->
 <div id="customNoticeModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[10000] hidden items-center justify-center p-4">
 <div id="customNoticeBox" class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-t-4 border-econexus animate-modal-in text-center relative">
-<div id="customNoticeIconWrap" class="w-14 h-14 rounded-full bg-econexus-soft text-econexus flex items-center justify-center mx-auto mb-3 text-2xl shadow-sm border border-green-200">
-<i id="customNoticeIcon" class="fa-solid fa-circle-check"></i>
-</div>
+<div id="customNoticeIconWrap" class="w-14 h-14 rounded-full bg-econexus-soft text-econexus flex items-center justify-center mx-auto mb-3 text-2xl shadow-sm border border-green-200"><i id="customNoticeIcon" class="fa-solid fa-circle-check"></i></div>
 <h3 id="customNoticeTitle" class="text-base sm:text-lg font-extrabold text-gray-900 mb-2">Aviso del Sistema</h3>
 <p id="customNoticeMessage" class="text-xs sm:text-sm text-gray-600 leading-relaxed mb-6 whitespace-pre-line break-words"></p>
 <div id="customNoticeButtons" class="flex flex-col sm:flex-row gap-2.5 justify-center">
@@ -164,7 +84,6 @@ SISTEMA DE AVISOS Y CONFIRMACIONES ELEGANTES
 </div>
 </div>
 
-<!-- MODAL DE PROGRESO (PDF / IMÁGENES / REELS / SUBIDAS R2) -->
 <div id="customLoadingModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[10001] hidden items-center justify-center p-4">
 <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl border-t-4 border-amber-500 animate-modal-in text-center">
 <div class="relative w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -174,26 +93,16 @@ SISTEMA DE AVISOS Y CONFIRMACIONES ELEGANTES
 </div>
 <h4 id="loadingModalTitle" class="text-base font-extrabold text-gray-900 mb-1">Generando Diseño...</h4>
 <p id="loadingModalDesc" class="text-xs text-gray-500 mb-3">Aplicando tus colores corporativos y contraste inteligente.</p>
-<div id="loadingProgressBarWrap" class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden hidden">
-<div id="loadingProgressBar" class="bg-gradient-to-r from-econexus to-amber-500 h-full w-0 transition-all duration-200"></div>
-</div>
+<div id="loadingProgressBarWrap" class="w-full bg-gray-200 h-2.5 rounded-full overflow-hidden hidden"><div id="loadingProgressBar" class="bg-gradient-to-r from-econexus to-amber-500 h-full w-0 transition-all duration-200"></div></div>
 </div>
 </div>
 
-<!-- =========================================================
-MODAL SELECTOR DE FOTOS PARA EL REEL (MÁXIMO 4)
-========================================================= -->
 <div id="modalSelectorFotosReel" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[10002] hidden items-center justify-center p-3 sm:p-4">
 <div class="bg-white rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl border-t-4 border-indigo-600 animate-modal-in flex flex-col max-h-[90vh]">
 <div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
 <div class="flex items-center gap-2">
-<div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
-<i class="fa-solid fa-film"></i>
-</div>
-<div>
-<h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Estudio de Producción de Reel</h3>
-<p class="text-[11px] text-gray-500">Selecciona hasta <strong>4 fotografías</strong> estelares para tu video animado</p>
-</div>
+<div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold"><i class="fa-solid fa-film"></i></div>
+<div><h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Estudio de Producción de Reel</h3><p class="text-[11px] text-gray-500">Selecciona hasta <strong>4 fotografías</strong> estelares para tu video animado</p></div>
 </div>
 <button type="button" onclick="cerrarSelectorFotosReel()" class="text-gray-400 hover:text-red-500 text-sm font-bold px-2 py-1 rounded-lg hover:bg-gray-100 cursor-pointer">✕</button>
 </div>
@@ -204,16 +113,82 @@ MODAL SELECTOR DE FOTOS PARA EL REEL (MÁXIMO 4)
 <div id="gridSelectorFotosReel" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 overflow-y-auto pr-1 flex-1 min-h-[180px] max-h-[52vh]"></div>
 <div class="flex flex-col sm:flex-row gap-2 pt-4 mt-3 border-t border-gray-100">
 <button type="button" onclick="cerrarSelectorFotosReel()" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-2.5 px-4 rounded-xl text-xs transition cursor-pointer">Cancelar</button>
-<button type="button" id="btnConfirmarGenerarReel" onclick="confirmarYRenderizarReel()" class="flex-1 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2.5 px-5 rounded-xl text-xs transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
-<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Producir Video Reel HD</span>
-</button>
+<button type="button" id="btnConfirmarGenerarReel" onclick="confirmarYRenderizarReel()" class="flex-1 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-extrabold py-2.5 px-5 rounded-xl text-xs transition shadow-md flex items-center justify-center gap-1.5 cursor-pointer"><i class="fa-solid fa-wand-magic-sparkles"></i> <span>Producir Video Reel HD</span></button>
 </div>
 </div>
 </div>
 
-<!-- =========================================================
-RECORRIDO GUIADO INTERACTIVO
-========================================================= -->
+<div id="modalNotasRapidas" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
+<div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border-t-4 border-amber-500 animate-modal-in flex flex-col max-h-[88vh]">
+<div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold"><i class="fa-solid fa-note-sticky"></i></div>
+<div><h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Notas Rápidas 24h</h3><p class="text-[11px] text-gray-500">Apuntes privados · Se borran solos en 24h · 100% local</p></div>
+</div>
+<button onclick="cerrarModalNotasRapidas()" class="text-gray-400 hover:text-red-500 text-sm font-bold px-2 py-1 rounded-lg hover:bg-gray-100">✕</button>
+</div>
+<div class="flex gap-2 mb-3">
+<input type="text" id="inputNotaRapida" maxlength="300" placeholder="Escribe una nota rápida..." onkeydown="if(event.key==='Enter') agregarNotaRapida()" class="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-500 outline-none">
+<button onclick="agregarNotaRapida()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-4 py-2 rounded-xl text-xs shadow"><i class="fa-solid fa-plus"></i></button>
+</div>
+<div class="text-[11px] text-gray-500 bg-amber-50 border border-amber-200 p-2.5 rounded-lg mb-3 flex items-start gap-2">
+<i class="fa-solid fa-shield-halved text-amber-600 mt-0.5"></i>
+<span>Tus notas se guardan solo en este dispositivo. Se auto-eliminan al día siguiente. No se envían a ningún servidor.</span>
+</div>
+<div id="listaNotasRapidas" class="overflow-y-auto flex-1 space-y-2 min-h-[120px] max-h-[50vh]"></div>
+</div>
+</div>
+
+<div id="modalCopys" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
+<div class="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border-t-4 border-purple-500 animate-modal-in flex flex-col max-h-[90vh]">
+<div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold"><i class="fa-solid fa-pen-nib"></i></div>
+<div><h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Generador de Copys</h3><p class="text-[11px] text-gray-500">4 variantes optimizadas por canal + 5 hashtags estratégicos</p></div>
+</div>
+<button onclick="cerrarModalCopys()" class="text-gray-400 hover:text-red-500 text-sm font-bold px-2 py-1 rounded-lg hover:bg-gray-100">✕</button>
+</div>
+<div class="mb-3">
+<label class="block text-[11px] font-extrabold uppercase tracking-wide text-gray-600 mb-1">Selecciona el inmueble</label>
+<select id="selectInmuebleCopys" onchange="cargarCopysInmueble()" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-purple-500 outline-none bg-white">
+<option value="">Cargando inmuebles...</option>
+</select>
+</div>
+<div id="loadingCopys" class="hidden text-center py-8">
+<i class="fa-solid fa-circle-notch fa-spin text-2xl text-purple-500 mb-2 block"></i>
+<p class="text-xs text-gray-500">Generando copys optimizados...</p>
+</div>
+<div id="emptyCopys" class="text-center py-8">
+<i class="fa-solid fa-wand-magic-sparkles text-3xl text-gray-300 mb-2 block"></i>
+<p class="text-sm text-gray-500 font-semibold">Selecciona un inmueble para generar sus copys</p>
+<p class="text-xs text-gray-400 mt-1">Se generarán 4 variantes + hashtags</p>
+</div>
+<div id="contenidoCopys" class="hidden overflow-y-auto flex-1 space-y-3 pr-1"></div>
+</div>
+</div>
+
+<div id="modalTopPopulares" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-[10003] hidden items-center justify-center p-3 sm:p-4">
+<div class="bg-white rounded-2xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl border-t-4 border-yellow-500 animate-modal-in flex flex-col max-h-[90vh]">
+<div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+<div class="flex items-center gap-2">
+<div class="w-9 h-9 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center font-bold"><i class="fa-solid fa-fire"></i></div>
+<div><h3 class="text-sm sm:text-base font-extrabold text-gray-900 leading-tight">Top 5 Populares del Día</h3><p class="text-[11px] text-gray-500">Los inmuebles con más clics hoy en el ecosistema</p></div>
+</div>
+<button onclick="cerrarModalTopPopulares()" class="text-gray-400 hover:text-red-500 text-sm font-bold px-2 py-1 rounded-lg hover:bg-gray-100">✕</button>
+</div>
+<div id="loadingTop" class="hidden text-center py-8">
+<i class="fa-solid fa-circle-notch fa-spin text-2xl text-yellow-500 mb-2 block"></i>
+<p class="text-xs text-gray-500">Cargando ranking del día...</p>
+</div>
+<div id="emptyTop" class="hidden text-center py-8">
+<i class="fa-solid fa-fire text-3xl text-gray-300 mb-2 block"></i>
+<p class="text-sm text-gray-500 font-semibold">Aún no hay suficientes clics hoy</p>
+<p class="text-xs text-gray-400 mt-1">Los rankings se activan con 3+ clics por inmueble</p>
+</div>
+<div id="listaTopPopulares" class="overflow-y-auto flex-1 space-y-2 min-h-[200px] max-h-[65vh]"></div>
+</div>
+</div>
+
 <div id="guidedTourBackdrop" class="fixed inset-0 bg-slate-950/75 backdrop-blur-[2px] z-[9995] hidden transition-opacity"></div>
 <div id="guidedTourCard" class="fixed z-[9999] hidden left-3 right-3 sm:left-6 sm:right-6 mx-auto max-w-md bg-white rounded-2xl shadow-2xl border-2 border-amber-400 p-4 sm:p-5 text-gray-800 animate-modal-in bottom-4 sm:bottom-6 box-border">
 <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-2.5 gap-2">
@@ -223,42 +198,26 @@ RECORRIDO GUIADO INTERACTIVO
 </div>
 <button type="button" onclick="finalizarTourGuiado()" class="text-gray-400 hover:text-red-500 text-xs font-bold px-2 py-0.5 rounded hover:bg-gray-100 transition cursor-pointer shrink-0">Omitir ✕</button>
 </div>
-<h4 id="tourStepTitle" class="text-xs sm:text-base font-extrabold text-gray-900 mb-1.5 flex items-center gap-2 leading-snug">
-<i class="fa-solid fa-compass text-amber-500 shrink-0"></i> <span>Bienvenido a tu Centro de Mando</span>
-</h4>
+<h4 id="tourStepTitle" class="text-xs sm:text-base font-extrabold text-gray-900 mb-1.5 flex items-center gap-2 leading-snug"><i class="fa-solid fa-compass text-amber-500 shrink-0"></i> <span>Bienvenido a tu Centro de Mando</span></h4>
 <p id="tourStepText" class="text-[11px] sm:text-xs text-gray-600 leading-relaxed mb-3.5 break-words"></p>
 <div class="flex items-center justify-between gap-2 pt-1">
-<button type="button" id="btnTourPrev" onclick="cambiarPasoTour(-1)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-xl text-[11px] sm:text-xs transition cursor-pointer shrink-0">
-<i class="fa-solid fa-arrow-left mr-1"></i> Anterior
-</button>
-<button type="button" id="btnTourNext" onclick="cambiarPasoTour(1)" class="bg-econexus hover:bg-econexus-light text-white font-extrabold px-4 py-2 rounded-xl text-[11px] sm:text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer ml-auto shrink-0">
-<span>Entendido, avanzar</span> <i class="fa-solid fa-arrow-right"></i>
-</button>
+<button type="button" id="btnTourPrev" onclick="cambiarPasoTour(-1)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-xl text-[11px] sm:text-xs transition cursor-pointer shrink-0"><i class="fa-solid fa-arrow-left mr-1"></i> Anterior</button>
+<button type="button" id="btnTourNext" onclick="cambiarPasoTour(1)" class="bg-econexus hover:bg-econexus-light text-white font-extrabold px-4 py-2 rounded-xl text-[11px] sm:text-xs transition shadow-md flex items-center gap-1.5 cursor-pointer ml-auto shrink-0"><span>Entendido, avanzar</span> <i class="fa-solid fa-arrow-right"></i></button>
 </div>
 </div>
 
-<!-- =========================================================
-HEADER RESPONSIVO
-========================================================= -->
 <header class="bg-econexus text-white py-3 px-3.5 sm:px-6 shadow-md flex justify-between items-center sticky top-0 z-40 gap-2">
 <div class="flex items-center space-x-2 min-w-0">
-<a href="/menu.html" class="text-green-200 hover:text-white transition shrink-0 p-1" title="Volver al Menú">
-<i class="fa-solid fa-arrow-left text-sm sm:text-base"></i>
-</a>
+<a href="/menu.html" class="text-green-200 hover:text-white transition shrink-0 p-1" title="Volver al Menú"><i class="fa-solid fa-arrow-left text-sm sm:text-base"></i></a>
 <span class="text-sm sm:text-xl font-extrabold tracking-wide truncate">EcoNexus Agent Portal</span>
 </div>
 <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-<button id="btnIniciarTourHeader" onclick="iniciarTourGuiado(true)" class="hidden text-[10px] sm:text-[11px] bg-amber-400 hover:bg-amber-500 text-gray-900 px-2.5 sm:px-3 py-1.5 rounded-full font-extrabold transition shadow-sm items-center gap-1 cursor-pointer">
-<i class="fa-solid fa-route"></i> <span class="hidden sm:inline">Ver Tour Guiado</span><span class="sm:hidden">Tour</span>
-</button>
+<button id="btnIniciarTourHeader" onclick="iniciarTourGuiado(true)" class="hidden text-[10px] sm:text-[11px] bg-amber-400 hover:bg-amber-500 text-gray-900 px-2.5 sm:px-3 py-1.5 rounded-full font-extrabold transition shadow-sm items-center gap-1 cursor-pointer"><i class="fa-solid fa-route"></i> <span class="hidden sm:inline">Ver Tour Guiado</span><span class="sm:hidden">Tour</span></button>
 <span class="text-xs bg-green-800 text-green-200 px-3 py-1 rounded-full font-semibold hidden lg:inline-block">Business Agent Command Center</span>
 <button id="btnLogout" onclick="cerrarSesion()" class="hidden text-[10px] sm:text-xs bg-red-600 text-white px-2.5 sm:px-3 py-1.5 rounded-full font-bold hover:bg-red-700 transition cursor-pointer whitespace-nowrap">Cerrar Sesión</button>
 </div>
 </header>
 
-<!-- =========================================================
-MAIN: AUTENTICACIÓN
-========================================================= -->
 <main class="max-w-3xl mx-auto w-full p-3 sm:p-6 my-3 sm:my-4 space-y-4 sm:space-y-5 box-border">
 <div id="authContainer" class="bg-white rounded-2xl p-5 sm:p-8 shadow-lg border border-gray-200 text-center mb-6">
 <h2 class="text-lg sm:text-xl font-bold text-econexus mb-2">Acceso de Asesores</h2>
@@ -273,14 +232,9 @@ MAIN: AUTENTICACIÓN
 <div id="authMessage" class="hidden text-xs p-3 rounded-xl border mt-3 text-left"></div>
 </div>
 </div>
-<!-- CONTENEDOR PRINCIPAL DE LA APP (post-login) -->
 <div id="mainAppContainer" class="hidden space-y-4 sm:space-y-5">
 
-<!-- =========================================================
-1. PERFIL COMPACTO CON ACORDEÓN + MÓDULO CONTRASEÑA
-========================================================= -->
 <div id="containerPerfilFoto" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden transition-all">
-<!-- Vista compacta -->
 <div class="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5">
 <div class="flex items-center gap-3 w-full sm:w-auto min-w-0">
 <div class="relative shrink-0">
@@ -294,42 +248,25 @@ MAIN: AUTENTICACIÓN
 </div>
 </div>
 <div class="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
-<button type="button" onclick="descargarTarjetaPresentacionCanvas()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center" title="Descargar Mi Tarjeta de Presentación con QR para Estados">
-<i class="fa-solid fa-id-badge shrink-0"></i> <span>Mi Tarjeta (QR)</span>
-</button>
-<button type="button" onclick="toggleAcordeonPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center">
-<i class="fa-solid fa-user-pen shrink-0"></i> <span id="lblBtnAcordeonPerfil">Edita o llena tu perfil</span>
-<i id="iconoAcordeonPerfil" class="fa-solid fa-chevron-down transition-transform text-[10px] shrink-0"></i>
-</button>
+<button type="button" onclick="descargarTarjetaPresentacionCanvas()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center" title="Descargar Mi Tarjeta de Presentación con QR para Estados"><i class="fa-solid fa-id-badge shrink-0"></i> <span>Mi Tarjeta (QR)</span></button>
+<button type="button" onclick="toggleAcordeonPerfil()" class="bg-econexus hover:bg-econexus-light text-white text-[11px] sm:text-xs font-extrabold px-3 py-2.5 rounded-xl transition shadow-sm flex items-center justify-center gap-1.5 cursor-pointer text-center"><i class="fa-solid fa-user-pen shrink-0"></i> <span id="lblBtnAcordeonPerfil">Edita o llena tu perfil</span><i id="iconoAcordeonPerfil" class="fa-solid fa-chevron-down transition-transform text-[10px] shrink-0"></i></button>
 </div>
 </div>
-<!-- Cuerpo desplegable -->
 <div id="cuerpoAcordeonPerfil" class="hidden px-4 sm:px-5 pb-5 pt-4 border-t border-gray-200 bg-gray-50/70 space-y-4">
-<!-- Fotografía perfil -->
 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-3.5 rounded-xl border border-gray-200">
 <div>
 <h4 class="text-xs font-extrabold text-gray-800 uppercase"><i class="fa-solid fa-camera text-econexus mr-1.5"></i> Fotografía Profesional del Asesor</h4>
 <p class="text-[11px] text-gray-500">Se alojará en Cloudflare R2 con metadatos SEO y se mostrará en tu Mini Web, PDF, Posts, Historias, Reels y Tarjeta QR.</p>
 </div>
 <div class="w-full sm:w-auto shrink-0">
-<label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="w-full sm:w-auto text-center justify-center bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm">
-<i class="fa-solid fa-cloud-arrow-up"></i> <span id="lblBtnFotoText">Subir Foto</span>
-</label>
+<label for="inputFotoPerfilAgente" id="btnPerfilFotoAction" class="w-full sm:w-auto text-center justify-center bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition cursor-pointer inline-flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-cloud-arrow-up"></i> <span id="lblBtnFotoText">Subir Foto</span></label>
 <input type="file" id="inputFotoPerfilAgente" accept="image/png, image/jpeg, image/jpg, image/webp" class="hidden" onchange="guardarFotoPerfilAgente(this)" />
 </div>
 </div>
-<!-- Nombre + WhatsApp -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div>
-<label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre y Apellido *</label>
-<input type="text" id="perfilNombreAgente" placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+<div><label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre y Apellido *</label><input type="text" id="perfilNombreAgente" placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white"></div>
+<div><label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">WhatsApp de Contacto *</label><input type="tel" id="perfilTelefono" placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white"></div>
 </div>
-<div>
-<label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">WhatsApp de Contacto *</label>
-<input type="tel" id="perfilTelefono" placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
-</div>
-</div>
-<!-- Tipo + Agencia -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
 <label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Tipo de Agente *</label>
@@ -338,91 +275,54 @@ MAIN: AUTENTICACIÓN
 <option value="Agencia">Agencia Inmobiliaria</option>
 </select>
 </div>
-<div id="containerPerfilAgencia" class="hidden">
-<label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
-<input type="text" id="perfilNombreAgencia" placeholder="Ej: INMOINNOVA / Century 21" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white">
+<div id="containerPerfilAgencia" class="hidden"><label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label><input type="text" id="perfilNombreAgencia" placeholder="Ej: INMOINNOVA / Century 21" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none bg-white"></div>
 </div>
-</div>
-<!-- Colores Marca -->
 <div class="bg-white p-3.5 rounded-xl border border-gray-200">
 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-<div>
-<label class="block text-[11px] font-extrabold uppercase text-econexus"><i class="fa-solid fa-palette mr-1"></i> Colores de tu Marca Personal / Agencia</label>
-<p class="text-[10px] text-gray-500">Si eliges blanco o colores claros, el sistema ajustará las letras a negro automáticamente.</p>
-</div>
+<div><label class="block text-[11px] font-extrabold uppercase text-econexus"><i class="fa-solid fa-palette mr-1"></i> Colores de tu Marca Personal / Agencia</label><p class="text-[10px] text-gray-500">Si eliges blanco o colores claros, el sistema ajustará las letras a negro automáticamente.</p></div>
 <button type="button" onclick="restablecerColoresPerfilDefault()" class="text-[10px] text-blue-600 font-bold hover:underline self-start sm:self-center cursor-pointer">Usar colores EcoNexus por defecto</button>
 </div>
 <div class="grid grid-cols-2 gap-4">
-<div>
-<label class="block text-[10px] font-semibold text-gray-600 mb-1">Color Principal (Fondo / Marca)</label>
-<input type="color" id="perfilColorPrimario" value="#1E3F20" class="w-full h-9 rounded-lg cursor-pointer border border-gray-300 bg-white p-0.5">
-</div>
-<div>
-<label class="block text-[10px] font-semibold text-gray-600 mb-1">Color Secundario (Acentos / Botones)</label>
-<input type="color" id="perfilColorSecundario" value="#388E3C" class="w-full h-9 rounded-lg cursor-pointer border border-gray-300 bg-white p-0.5">
+<div><label class="block text-[10px] font-semibold text-gray-600 mb-1">Color Principal (Fondo / Marca)</label><input type="color" id="perfilColorPrimario" value="#1E3F20" class="w-full h-9 rounded-lg cursor-pointer border border-gray-300 bg-white p-0.5"></div>
+<div><label class="block text-[10px] font-semibold text-gray-600 mb-1">Color Secundario (Acentos / Botones)</label><input type="color" id="perfilColorSecundario" value="#388E3C" class="w-full h-9 rounded-lg cursor-pointer border border-gray-300 bg-white p-0.5"></div>
 </div>
 </div>
-</div>
-<!-- Sobre Mí -->
-<div>
-<label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Presentación Corta / Sobre Mí</label>
-<textarea id="perfilSobreMi" rows="3" maxlength="500" placeholder="Ej: Abogado y Asesor Inmobiliario especializado en inmuebles residenciales y comerciales..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none resize-none bg-white"></textarea>
-</div>
-<!-- MÓDULO DE CAMBIO DE CONTRASEÑA -->
+<div><label class="block text-[11px] font-bold uppercase text-gray-600 mb-1">Presentación Corta / Sobre Mí</label><textarea id="perfilSobreMi" rows="3" maxlength="500" placeholder="Ej: Abogado y Asesor Inmobiliario especializado en inmuebles residenciales y comerciales..." class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none resize-none bg-white"></textarea></div>
 <div class="bg-white p-3.5 rounded-xl border border-gray-200 mt-3">
-<h4 class="text-xs font-extrabold text-gray-800 uppercase mb-1">
-<i class="fa-solid fa-lock text-econexus mr-1.5"></i> Seguridades de la Cuenta
-</h4>
+<h4 class="text-xs font-extrabold text-gray-800 uppercase mb-1"><i class="fa-solid fa-lock text-econexus mr-1.5"></i> Seguridades de la Cuenta</h4>
 <p class="text-[11px] text-gray-500 mb-3">Si estás usando una contraseña temporal o deseas actualizar tu clave de acceso, ingrésala a continuación.</p>
 <div class="flex flex-col sm:flex-row gap-2">
 <input type="password" id="inputNuevaClavePerfil" placeholder="Nueva Contraseña (mínimo 6 caracteres)" class="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-econexus outline-none">
 <button type="button" onclick="cambiarMiContrasenaAutenticado()" class="bg-econexus hover:bg-econexus-light text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-sm cursor-pointer whitespace-nowrap">Actualizar Contraseña</button>
 </div>
 </div>
-<!-- Botones -->
 <div class="flex flex-wrap justify-between items-center gap-2 pt-2">
 <button type="button" onclick="toggleAcordeonPerfil()" class="bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold px-4 py-2.5 rounded-xl transition cursor-pointer">Cerrar Panel</button>
-<button type="button" onclick="guardarDatosPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl transition shadow-md inline-flex items-center cursor-pointer">
-<i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Configuración de Perfil
-</button>
+<button type="button" onclick="guardarDatosPerfil()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold px-5 py-2.5 rounded-xl transition shadow-md inline-flex items-center cursor-pointer"><i class="fa-solid fa-floppy-disk mr-1.5"></i> Guardar Configuración de Perfil</button>
 </div>
 </div>
 </div>
 
-<!-- =========================================================
-2. CTA MINI WEB
-========================================================= -->
 <div id="containerCtaMiniWeb" class="bg-gradient-to-r from-econexus-dark via-econexus to-emerald-800 rounded-2xl p-4 sm:p-5 text-white shadow-lg border-2 border-amber-400/80 relative overflow-hidden">
 <div class="flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
 <div class="text-center sm:text-left">
-<span class="inline-flex items-center gap-1 bg-amber-400 text-gray-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1">
-<i class="fa-solid fa-bolt"></i> Tecnología White-Label
-</span>
+<span class="inline-flex items-center gap-1 bg-amber-400 text-gray-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-1"><i class="fa-solid fa-bolt"></i> Tecnología White-Label</span>
 <h3 class="text-sm sm:text-lg font-extrabold text-white leading-tight">¿Aún no compartes tu propio portal inmobiliario?</h3>
 <p class="text-xs text-green-100/90 mt-0.5">Sincroniza tu inventario, colores corporativos y contacto directo a tu WhatsApp.</p>
 </div>
-<button type="button" id="btnCrearWebUnClic" onclick="desplegarBotonInteligenteMiniWeb()" class="btn-web-glow w-full sm:w-auto bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-gray-950 font-black px-4 sm:px-5 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-xl text-center">
-<i class="fa-solid fa-globe text-base shrink-0"></i>
-<span>Crea tu web profesional en un solo clic</span>
-</button>
+<button type="button" id="btnCrearWebUnClic" onclick="desplegarBotonInteligenteMiniWeb()" class="btn-web-glow w-full sm:w-auto bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 hover:from-amber-500 hover:to-yellow-400 text-gray-950 font-black px-4 sm:px-5 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-xl text-center"><i class="fa-solid fa-globe text-base shrink-0"></i><span>Crea tu web profesional en un solo clic</span></button>
 </div>
 <div id="panelInteligenteMiniWeb" class="hidden mt-4 pt-4 border-t border-white/20 animate-modal-in">
 <div class="bg-white/95 backdrop-blur-md text-gray-800 rounded-xl p-4 border-l-4 border-amber-500 shadow-inner">
 <div class="flex items-start gap-3">
-<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-100 text-econexus flex items-center justify-center shrink-0 font-bold text-base sm:text-lg mt-0.5">
-<i class="fa-solid fa-wand-magic-sparkles"></i>
-</div>
+<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-100 text-econexus flex items-center justify-center shrink-0 font-bold text-base sm:text-lg mt-0.5"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
 <div class="flex-1 min-w-0">
 <h4 class="text-xs sm:text-sm font-extrabold text-econexus mb-1">¡Tu página web ya está creada y lista para usar!</h4>
 <p class="text-xs text-gray-600 leading-relaxed mb-3 break-words">Ve, ábrela en tu navegador, edita los colores, tu saludo personalizado y pégala en tus redes sociales. <strong>Y no te preocupes: el botón de edición no será visible para los usuarios</strong> (solo aparece cuando tú estás conectado desde tu dispositivo).</p>
 <div class="bg-gray-100 px-3 py-2 rounded-lg border border-gray-200 text-[11px] font-mono text-gray-700 break-all mb-3" id="txtUrlMiniWebGenerada">https://econexusplatform.com/agente.html</div>
 <div class="flex flex-wrap gap-2">
-<a id="linkAbrirMiniWebDirecto" href="#" target="_blank" class="flex-1 min-w-[150px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-2.5 px-3.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow cursor-pointer text-center">
-<i class="fa-solid fa-up-right-from-square"></i> Abrir mi Web en el Navegador
-</a>
-<button type="button" onclick="copiarEnlaceMiniWebSilencioso()" class="flex-1 min-w-[140px] bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2.5 px-3.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow cursor-pointer text-center">
-<i class="fa-solid fa-copy"></i> <span id="lblBtnCopiarMiniWeb">Copiar Enlace OpenGraph</span>
-</button>
+<a id="linkAbrirMiniWebDirecto" href="#" target="_blank" class="flex-1 min-w-[150px] bg-econexus hover:bg-econexus-light text-white font-extrabold py-2.5 px-3.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow cursor-pointer text-center"><i class="fa-solid fa-up-right-from-square"></i> Abrir mi Web en el Navegador</a>
+<button type="button" onclick="copiarEnlaceMiniWebSilencioso()" class="flex-1 min-w-[140px] bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2.5 px-3.5 rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow cursor-pointer text-center"><i class="fa-solid fa-copy"></i> <span id="lblBtnCopiarMiniWeb">Copiar Enlace OpenGraph</span></button>
 </div>
 </div>
 </div>
@@ -430,36 +330,24 @@ MAIN: AUTENTICACIÓN
 </div>
 </div>
 
-<!-- =========================================================
-2.5 CTA CRM / ERP
-========================================================= -->
 <div id="containerCtaCrmErp" class="bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950 rounded-2xl p-4 sm:p-5 text-white shadow-xl border-2 border-cyan-400/60 relative overflow-hidden">
 <div class="absolute -right-10 -top-10 w-36 h-36 bg-cyan-500/15 rounded-full blur-2xl pointer-events-none"></div>
 <div class="absolute -left-10 -bottom-10 w-36 h-36 bg-emerald-500/15 rounded-full blur-2xl pointer-events-none"></div>
-<div class="flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
-<div class="text-center sm:text-left flex-1">
-<div class="inline-flex items-center gap-1.5 bg-cyan-400/15 border border-cyan-400/40 text-cyan-300 text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider mb-1.5">
-<span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Suite Proptech de Productividad
-</div>
+<div class="relative z-10">
+<div class="text-center sm:text-left mb-4">
+<div class="inline-flex items-center gap-1.5 bg-cyan-400/15 border border-cyan-400/40 text-cyan-300 text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider mb-1.5"><span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span> Suite Proptech de Productividad</div>
 <h3 class="text-sm sm:text-lg font-extrabold text-white leading-tight">Centro de Operaciones CRM / ERP Inmobiliario</h3>
-<p class="text-[11px] sm:text-xs text-slate-300 mt-1 leading-relaxed">Gestiona fases de prospectos (Pipeline), geolocalización con Maps, agenda interactiva de citas, redacción inteligente de copys y más.</p>
-<div class="flex flex-wrap justify-center sm:justify-start gap-1.5 mt-2.5">
-<span class="text-[9px] sm:text-[10px] bg-white/10 border border-white/15 px-2 py-0.5 rounded-md text-emerald-300 font-bold"><i class="fa-solid fa-filter-circle-dollar mr-1"></i>Fases de Prospectos</span>
-<span class="text-[9px] sm:text-[10px] bg-white/10 border border-white/15 px-2 py-0.5 rounded-md text-cyan-300 font-bold"><i class="fa-solid fa-map-location-dot mr-1"></i>Trabajo con Maps</span>
-<span class="text-[9px] sm:text-[10px] bg-white/10 border border-white/15 px-2 py-0.5 rounded-md text-amber-300 font-bold"><i class="fa-solid fa-calendar-check mr-1"></i>Agenda Interactiva</span>
-<span class="text-[9px] sm:text-[10px] bg-white/10 border border-white/15 px-2 py-0.5 rounded-md text-pink-300 font-bold"><i class="fa-solid fa-pen-nib mr-1"></i>Generador de Copys</span>
+<p class="text-[11px] sm:text-xs text-slate-300 mt-1 leading-relaxed">Herramientas funcionales que aumentan tu productividad sin salir de este panel.</p>
 </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+<button onclick="window.location.href='https://econexusplatform.com/crmerp.html'" class="btn-crmerp-glow bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-filter-circle-dollar"></i><span>Fases de Prospectos</span></button>
+<button onclick="abrirModalNotasRapidas()" class="bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 hover:from-amber-500 hover:to-orange-500 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-note-sticky"></i><span>Notas Rápidas 24h</span></button>
+<button onclick="abrirModalCopys()" class="bg-gradient-to-r from-pink-500 via-fuchsia-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-pen-nib"></i><span>Generador de Copys</span></button>
+<button onclick="abrirModalTopPopulares()" class="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black px-4 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shadow-xl text-center cursor-pointer"><i class="fa-solid fa-fire"></i><span>Top 5 Populares</span></button>
 </div>
-<a href="https://econexusplatform.com/crmerp.html" id="btnHerramientasAvanzadas" class="btn-crmerp-glow w-full sm:w-auto bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 hover:from-cyan-300 hover:to-emerald-300 text-slate-950 font-black px-5 py-3.5 rounded-xl text-xs sm:text-sm transition transform active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-xl text-center no-underline">
-<i class="fa-solid fa-microchip text-base shrink-0"></i>
-<span>Herramientas Avanzadas para Agentes</span>
-</a>
 </div>
 </div>
 
-<!-- =========================================================
-3. GESTIÓN (MIS INMUEBLES)
-========================================================= -->
 <div id="containerAcordeonGestion" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 <button type="button" onclick="toggleAcordeonGestion()" class="w-full p-4 sm:p-5 bg-econexus-light text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus cursor-pointer">
 <span class="flex items-center text-xs sm:text-base"><i class="fa-solid fa-folder-open mr-2.5 shrink-0"></i> <span>Mis Inmuebles Publicados y Herramientas</span></span>
@@ -467,66 +355,35 @@ MAIN: AUTENTICACIÓN
 </button>
 <div id="cuerpoAcordeonGestion" class="hidden p-3.5 sm:p-6 bg-gray-50 border-t border-gray-200 space-y-4">
 <div class="flex flex-col sm:flex-row gap-2.5">
-<button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer">
-<i class="fa-solid fa-rotate-right mr-2"></i> Actualizar Mis Publicaciones
-</button>
-<button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer">
-<i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo OpenGraph
-</button>
+<button type="button" onclick="buscarMisInmuebles()" class="bg-econexus hover:bg-econexus-light text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer"><i class="fa-solid fa-rotate-right mr-2"></i> Actualizar Mis Publicaciones</button>
+<button type="button" onclick="compartirInventarioWA()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition flex-1 flex items-center justify-center shadow-sm cursor-pointer"><i class="fa-brands fa-whatsapp text-base mr-2"></i> Compartir Mi Catálogo OpenGraph</button>
 </div>
 <div id="resultadoMisInmuebles" class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3"></div>
 </div>
 </div>
 
-<!-- =========================================================
-4. TUTORIAL
-========================================================= -->
 <div id="containerTutorialGuia" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 <button type="button" onclick="toggleAcordeonTutorial()" class="w-full p-4 sm:p-5 bg-white hover:bg-gray-50 text-econexus font-extrabold text-left flex justify-between items-center transition cursor-pointer gap-2">
-<span class="flex items-center text-xs sm:text-base">
-<i class="fa-solid fa-graduation-cap mr-2.5 text-econexus-accent text-base sm:text-lg shrink-0"></i> <span>Tutorial Interactivo de Publicación y Marketing</span>
-</span>
-<div class="flex items-center gap-1.5 shrink-0">
-<span class="text-[9px] sm:text-[10px] bg-econexus-soft text-econexus px-2 py-0.5 rounded-full border border-green-200 font-bold">Paso a paso</span>
-<i id="iconoAcordeonTutorial" class="fa-solid fa-chevron-down transition-transform text-gray-500"></i>
-</div>
+<span class="flex items-center text-xs sm:text-base"><i class="fa-solid fa-graduation-cap mr-2.5 text-econexus-accent text-base sm:text-lg shrink-0"></i> <span>Tutorial Interactivo de Publicación y Marketing</span></span>
+<div class="flex items-center gap-1.5 shrink-0"><span class="text-[9px] sm:text-[10px] bg-econexus-soft text-econexus px-2 py-0.5 rounded-full border border-green-200 font-bold">Paso a paso</span><i id="iconoAcordeonTutorial" class="fa-solid fa-chevron-down transition-transform text-gray-500"></i></div>
 </button>
 <div id="cuerpoAcordeonTutorial" class="hidden p-4 sm:p-5 border-t border-gray-200 bg-econexus-soft/50">
 <div class="bg-white p-3.5 sm:p-4 rounded-xl border border-green-200 shadow-inner mb-4">
 <div class="flex items-center justify-between mb-2 border-b border-gray-100 pb-1.5">
-<span class="text-[10px] font-extrabold uppercase tracking-wider text-econexus flex items-center gap-1.5">
-<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Asistente de Entrenamiento EcoNexus
-</span>
-<button type="button" onclick="iniciarTranscripcionTutorial(true)" class="text-[10px] text-blue-600 hover:underline font-bold cursor-pointer">
-<i class="fa-solid fa-rotate-left"></i> Repetir lectura
-</button>
+<span class="text-[10px] font-extrabold uppercase tracking-wider text-econexus flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Asistente de Entrenamiento EcoNexus</span>
+<button type="button" onclick="iniciarTranscripcionTutorial(true)" class="text-[10px] text-blue-600 hover:underline font-bold cursor-pointer"><i class="fa-solid fa-rotate-left"></i> Repetir lectura</button>
 </div>
 <div id="tutorialTypewriterBox" class="text-xs sm:text-sm text-gray-700 leading-relaxed whitespace-pre-line font-medium typewriter-cursor min-h-[110px] break-words"></div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600">
-<div class="bg-white p-3 rounded-xl border border-gray-200">
-<strong class="text-econexus block mb-1"><i class="fa-solid fa-images mr-1"></i> 1. Hasta 20 Fotos + Cloudflare R2:</strong>
-Sube hasta 20 fotos por inmueble (el sistema las comprime e inyecta coordenadas GPS y metadatos SEO automáticamente) y pega opcionalmente el link de YouTube, TikTok o IG Reels.
-</div>
-<div class="bg-white p-3 rounded-xl border border-gray-200">
-<strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes con QR y Reels:</strong>
-En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4 y Reels cinematográficos (eligiendo tus 4 fotos favoritas) con código QR inteligente hacia la ficha pública.
-</div>
-<div class="bg-white p-3 rounded-xl border border-gray-200">
-<strong class="text-econexus block mb-1"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 3. Vigencia de 30 Días:</strong>
-Toda propiedad dura 30 días activa para garantizar cero inventario fantasma. Puedes extenderla en cualquier momento con el botón <em>Renovar</em>.
-</div>
-<div class="bg-white p-3 rounded-xl border border-gray-200">
-<strong class="text-econexus block mb-1"><i class="fa-solid fa-pen-to-square mr-1"></i> 4. Edición sin Archivos Huérfanos:</strong>
-Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un inmueble, el Worker limpia automáticamente las fotos antiguas en Cloudflare R2.
-</div>
+<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-images mr-1"></i> 1. Hasta 20 Fotos + Cloudflare R2:</strong> Sube hasta 20 fotos por inmueble (el sistema las comprime e inyecta coordenadas GPS y metadatos SEO automáticamente) y pega opcionalmente el link de YouTube, TikTok o IG Reels.</div>
+<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> 2. Kit de Redes con QR y Reels:</strong> En cada inmueble encontrarás <em>Herramientas de Ficha Técnica</em> para crear PDF, Historia IG, Post 3:4 y Reels cinematográficos (eligiendo tus 4 fotos favoritas) con código QR inteligente hacia la ficha pública.</div>
+<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-clock-rotate-left mr-1"></i> 3. Vigencia de 30 Días:</strong> Toda propiedad dura 30 días activa para garantizar cero inventario fantasma. Puedes extenderla en cualquier momento con el botón <em>Renovar</em>.</div>
+<div class="bg-white p-3 rounded-xl border border-gray-200"><strong class="text-econexus block mb-1"><i class="fa-solid fa-pen-to-square mr-1"></i> 4. Edición sin Archivos Huérfanos:</strong> Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un inmueble, el Worker limpia automáticamente las fotos antiguas en Cloudflare R2.</div>
 </div>
 </div>
 </div>
 
-<!-- =========================================================
-5. DECLARACIÓN JURADA / LEGAL
-========================================================= -->
 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
 <button type="button" onclick="toggleLegalDropdown()" class="w-full p-4 bg-gray-50 hover:bg-gray-100 font-bold text-gray-800 text-left flex justify-between items-center text-xs sm:text-sm transition cursor-pointer gap-2">
 <span>⚖️ Declaración Jurada del Asesor, Términos y Protocolos de Ciberseguridad</span>
@@ -534,9 +391,7 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 </button>
 <div id="bodyLegalDropdown" class="hidden p-4 sm:p-5 border-t border-gray-200 bg-white">
 <div class="legal-disclaimer-dropdown">
-<p class="font-bold text-red-600 mb-2 text-xs sm:text-sm">
-"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."
-</p>
+<p class="font-bold text-red-600 mb-2 text-xs sm:text-sm">"EcoNexus opera exclusivamente como vitrina publicitaria independiente y no participa, avala ni se responsabiliza por las negociaciones, acuerdos, pagos o citas acordadas entre las partes."</p>
 <div class="legal-text-body space-y-3 text-xs text-gray-700 leading-relaxed">
 <p><strong>1. Naturaleza Jurídica del Servicio:</strong> EcoNexus constituye única y exclusivamente un espacio digital de catálogo e intermediación publicitaria (vitrina digital). EcoNexus NO es una agencia inmobiliaria, NO actúa como corredor, intermediario civil ni comercial, ni presta servicios de corretaje o asesoría inmobiliaria.</p>
 <p><strong>2. Ausencia de Vínculo Económico y Comisiones:</strong> EcoNexus no percibe, exige ni cobra comisiones, porcentajes ni remuneraciones de ningún tipo sobre las transacciones, contratos de arrendamiento, compraventas o promesas bilaterales pactadas entre los usuarios, anunciantes o agentes. En consecuencia, la plataforma está plenamente exenta del cumplimiento de normativas de remuneración inmobiliaria, así como de los deberes formales estipulados para los sujetos obligados bajo la Ley Orgánica contra la Delincuencia Organizada y Financiamiento al Terrorismo (LODOFT), la Unidad Nacional de Inteligencia Financiera (UNIF), las normativas del Órgano de Control Inmobiliario nacional e internacional, y la Ley de Regulación del Arrendamiento Inmobiliario para Uso Comercial o Vivienda.</p>
@@ -548,9 +403,6 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 </div>
 </div>
 
-<!-- =========================================================
-6. FORMULARIO DE CARGA / EDICIÓN (HASTA 20 FOTOS)
-========================================================= -->
 <div id="containerAcordeonFormulario" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
 <button type="button" onclick="toggleAcordeonFormulario()" class="w-full p-4 sm:p-5 bg-econexus text-white font-bold text-left flex justify-between items-center transition hover:bg-econexus-light cursor-pointer">
 <span class="flex items-center text-xs sm:text-base"><i class="fa-solid fa-house-medical mr-2.5 shrink-0"></i> <span>Publicar / Editar Inmueble (Hasta 20 Fotos en R2)</span></span>
@@ -561,19 +413,11 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 <input type="hidden" id="editInmuebleId" value="" />
 <div class="flex justify-between items-center border-b pb-3 gap-2">
 <h2 id="tituloFormulario" class="text-base sm:text-xl font-bold text-gray-900">Datos de la Propiedad</h2>
-<button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition cursor-pointer shrink-0">
-<i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición
-</button>
+<button type="button" id="btnCancelarEdicion" onclick="cancelarEdicion()" class="hidden text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold px-3 py-1.5 rounded-lg transition cursor-pointer shrink-0"><i class="fa-solid fa-xmark mr-1"></i> Cancelar Edición</button>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label>
-<input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label>
-<input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-</div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre del Asesor *</label><input type="text" id="nombreAsesor" required placeholder="Ej: Pedro Pérez" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none"></div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">WhatsApp del Asesor *</label><input type="tel" id="telefonoAsesor" required placeholder="Ej: 584121234567" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none"></div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
@@ -583,10 +427,7 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 <option value="Agencia">Agencia Inmobiliaria</option>
 </select>
 </div>
-<div id="containerNombreAgencia" class="hidden">
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label>
-<input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none">
-</div>
+<div id="containerNombreAgencia" class="hidden"><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Nombre de la Agencia *</label><input type="text" id="nombreAgencia" placeholder="Ej: Century 21 / Rent-A-House" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-econexus outline-none"></div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
@@ -596,47 +437,20 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 <option value="Alquiler">Alquiler</option>
 </select>
 </div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label>
-<input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-</div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Tipo de Inmueble *</label><input type="text" id="tipo" required placeholder="Ej: Galpón, Casa, Apartamento..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" /></div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label>
-<input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Precio ($ USD) *</label><input type="number" id="precio" required placeholder="Ej: 45000" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" /></div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label><input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" /></div>
 </div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Ubicación Exacta / Ciudad *</label>
-<input type="text" id="ubicacion" required placeholder="Ej: Valencia, Carabobo" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label>
-<input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
-</div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Título Publicitario *</label><input type="text" id="titulo" required placeholder="Ej: Espectacular Galpón Industrial" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" /></div>
 <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label>
-<input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Habitaciones</label><input type="number" id="habitaciones" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" /></div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label><input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" /></div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label><input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" /></div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label><input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" /></div>
 </div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Baños</label>
-<input type="number" id="banos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Puestos Estac.</label>
-<input type="number" id="estacionamientos" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Área (m² / Ha)</label>
-<input type="number" id="metros" value="0" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-sm outline-none" />
-</div>
-</div>
-<div>
-<label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label>
-<textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea>
-</div>
+<div><label class="block text-xs font-bold uppercase text-gray-600 mb-1">Descripción Detallada *</label><textarea id="descripcion" rows="4" required class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none"></textarea></div>
 <div>
 <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Enlace de Video (Opcional)</label>
 <input type="url" id="enlaceVideo" placeholder="Ej: https://youtube.com/..." class="w-full border border-gray-300 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-econexus outline-none" />
@@ -650,35 +464,28 @@ Modifica precios o detalles cuando quieras. Si reemplazas fotos o eliminas un in
 <div class="bg-gray-50 p-4 rounded-xl border border-gray-300 text-xs text-gray-700 space-y-2">
 <label class="flex items-start space-x-2 cursor-pointer">
 <input type="checkbox" id="checkAcepto" required class="mt-0.5 rounded text-econexus focus:ring-econexus flex-shrink-0" />
-<span class="leading-relaxed">
-<strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.
-</span>
+<span class="leading-relaxed"><strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con las autorizaciones legales para la comercialización del inmueble. 2) Las imágenes y datos suministrados no infringen derechos de autor ni marcas registradas. 3) Actúa de manera autónoma sin vínculo de subordinación laboral con la plataforma EcoNexus.</span>
 </label>
-<div class="pt-1">
-<button type="button" onclick="toggleLegalDropdown()" class="text-econexus hover:underline font-bold text-xs cursor-pointer">[Ver términos y protocolos de ciberseguridad completos]</button>
-</div>
+<div class="pt-1"><button type="button" onclick="toggleLegalDropdown()" class="text-econexus hover:underline font-bold text-xs cursor-pointer">[Ver términos y protocolos de ciberseguridad completos]</button></div>
 </div>
 <button type="submit" id="btnSubmit" class="w-full bg-econexus hover:bg-econexus-light text-white font-bold py-3.5 rounded-xl transition text-base shadow-lg cursor-pointer">Publicar Inmueble en EcoNexus</button>
 </form>
 </div>
 </div>
 
-</div><!-- /mainAppContainer -->
+</div>
 </main>
 
-<!-- =========================================================
-BANNER FLOTANTE DE TÉRMINOS
-========================================================= -->
 <div id="bannerFlotanteContainer" class="fixed bottom-3 left-3 right-3 z-40 max-w-2xl mx-auto">
 <div class="bg-econexus-dark/95 backdrop-blur-md text-white p-3 md:p-4 rounded-2xl shadow-2xl border border-green-800 flex items-center justify-between gap-2.5 text-[11px] md:text-sm relative">
 <button type="button" id="btnCloseBanner" onclick="cerrarBannerFlotante()" class="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center font-bold text-xs shadow-md border border-white transition z-50 cursor-pointer">&times;</button>
-<p class="leading-tight flex-grow pr-1">
-<strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con autorizaciones legales. 2) Las imágenes no infringen derechos. 3) Actúa de forma autónoma sin subordinación laboral con EcoNexus.
-</p>
+<p class="leading-tight flex-grow pr-1"><strong>El Asesor declara bajo fe de juramento que:</strong> 1) Cuenta con autorizaciones legales. 2) Las imágenes no infringen derechos. 3) Actúa de forma autónoma sin subordinación laboral con EcoNexus.</p>
 <button type="button" id="btnBannerTerminos" onclick="accionBannerTerminos()" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold px-2.5 sm:px-3 py-2 rounded-xl text-[10px] sm:text-xs whitespace-nowrap transition shadow flex-shrink-0 cursor-pointer">Al Ingresar Ver Términos</button>
 </div>
 </div>
-<script>
+
+<!-- SCRIPTS: continúan en Parte 2/2 -->
+  <script>
 /* =========================================================
 CONSTANTES GLOBALES & WORKER
 ========================================================= */
@@ -700,7 +507,6 @@ let fotoPerfilActual = null;
 let colorPrimarioActual = '#1E3F20';
 let colorSecundarioActual = '#388E3C';
 
-/* Estado del selector de fotos para Reel */
 let reelInmuebleId = null;
 let reelFotosSeleccionadas = [];
 
@@ -709,12 +515,7 @@ UTILIDADES BÁSICAS
 ========================================================= */
 function escapeHTML(str) {
   if (str === null || str === undefined) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
 }
 
 function truncarTextoSimple(str, maxLen) {
@@ -737,7 +538,7 @@ function calcularTiempoRestante(fechaFuturaStr) {
 }
 
 /* =========================================================
-MOTOR DE COLORES & CONTRASTE INTELIGENTE
+MOTOR DE COLORES & CONTRASTE
 ========================================================= */
 function esColorClaro(hex) {
   try {
@@ -784,7 +585,7 @@ function oscurecerColorHex(hex, porcentaje = 45) {
 }
 
 /* =========================================================
-CONVERSIÓN DE FOTO A BASE64 (PARA PDF / CANVAS / REELS)
+CONVERSIÓN BASE64 / CARGA IMAGEN
 ========================================================= */
 async function urlToBase64(url) {
   if (!url) return null;
@@ -816,42 +617,28 @@ function cargarElementoImagen(srcBase64OrUrl) {
 }
 
 /* =========================================================
-GENERADOR DE QR (QRious) → data:image/png
+GENERADOR QR
 ========================================================= */
 function generarQRDataUrl(texto, size = 300, dark = '#0f172a', light = '#ffffff') {
   try {
-    if (typeof QRious === 'undefined') {
-      console.warn('QRious no cargado');
-      return '';
-    }
-    const qr = new QRious({
-      value: texto,
-      size: size,
-      level: 'M',
-      background: light,
-      foreground: dark
-    });
+    if (typeof QRious === 'undefined') { console.warn('QRious no cargado'); return ''; }
+    const qr = new QRious({ value: texto, size: size, level: 'M', background: light, foreground: dark });
     return qr.toDataURL('image/png');
-  } catch (e) {
-    console.error('Error generando QR:', e);
-    return '';
-  }
+  } catch (e) { console.error('Error generando QR:', e); return ''; }
 }
 
-/* Construye el enlace público de share (Worker /share) para un inmueble */
 function obtenerEnlaceShareInmueble(codigoEco) {
   if (!codigoEco) return `${FRONTEND_ORIGIN}`;
   return `${WORKER_URL}/share?codigo=${encodeURIComponent(codigoEco)}`;
 }
 
-/* Construye el enlace público de share para un agente (portafolio) */
 function obtenerEnlaceShareAgente(userId) {
   if (!userId) return `${FRONTEND_ORIGIN}`;
   return `${WORKER_URL}/share?u=${encodeURIComponent(userId)}`;
 }
 
 /* =========================================================
-INYECCIÓN DE EXIF / GPS (piexifjs)
+EXIF / GPS
 ========================================================= */
 function inyectarExifGPS(blob, lat, lng, ubicacionTexto) {
   return new Promise((resolve) => {
@@ -862,45 +649,34 @@ function inyectarExifGPS(blob, lat, lng, ubicacionTexto) {
       try {
         const dataUrl = ev.target.result;
         if (!dataUrl.startsWith('data:image/jpeg') && !dataUrl.startsWith('data:image/jpg')) return resolve(blob);
-        
-        const zeroth = {};
-        const exif = {};
-        const gps = {};
-        
+        const zeroth = {}, exif = {}, gps = {};
         const toDMS = (n) => {
           const d = Math.floor(n);
           const m = Math.floor((n - d) * 60);
           const s = Math.round(((n - d) * 60 - m) * 60 * 100);
           return [[d, 1], [m, 1], [s, 100]];
         };
-        
         const latNum = Number(lat);
         const lngNum = Number(lng);
-        
         if (!isNaN(latNum) && !isNaN(lngNum) && (latNum !== 0 || lngNum !== 0)) {
           gps[piexif.GPSIFD.GPSLatitudeRef] = latNum >= 0 ? 'N' : 'S';
           gps[piexif.GPSIFD.GPSLatitude] = toDMS(Math.abs(latNum));
           gps[piexif.GPSIFD.GPSLongitudeRef] = lngNum >= 0 ? 'E' : 'W';
           gps[piexif.GPSIFD.GPSLongitude] = toDMS(Math.abs(lngNum));
         }
-        
         if (ubicacionTexto) {
           gps[piexif.GPSIFD.GPSAreaInformation] = [String(ubicacionTexto).substring(0, 60)];
           exif[piexif.ExifIFD.UserComment] = 'ASCII\0\0\0' + String(ubicacionTexto).substring(0, 200);
         }
-        
         zeroth[piexif.ImageIFD.Software] = 'EcoNexus Platform';
         zeroth[piexif.ImageIFD.Make] = 'EcoNexus';
         zeroth[piexif.ImageIFD.Artist] = 'econexusplatform.com';
-        
         const exifStr = piexif.dump({ '0th': zeroth, 'Exif': exif, 'GPS': gps });
         const newDataUrl = piexif.insert(exifStr, dataUrl);
-        
         const arr = newDataUrl.split(',');
         const bstr = atob(arr[1]);
         const u8 = new Uint8Array(bstr.length);
         for (let i = 0; i < bstr.length; i++) u8[i] = bstr.charCodeAt(i);
-        
         resolve(new Blob([u8], { type: 'image/jpeg' }));
       } catch (err) {
         console.warn('EXIF injection skipped:', err);
@@ -913,13 +689,12 @@ function inyectarExifGPS(blob, lat, lng, ubicacionTexto) {
 }
 
 /* =========================================================
-SUBIDA AL WORKER R2 (con Bearer JWT Supabase)
+SUBIDA AL WORKER R2
 ========================================================= */
 async function subirArchivoAlWorker(blob, meta) {
   if (!usuarioActual) throw new Error('No autenticado');
   const { data: { session } } = await dbClient.auth.getSession();
   if (!session || !session.access_token) throw new Error('Sesión expirada');
-  
   const fd = new FormData();
   fd.append('file', blob, meta.fileName || 'foto.jpg');
   fd.append('category', meta.category || 'inmueble');
@@ -932,39 +707,31 @@ async function subirArchivoAlWorker(blob, meta) {
   if (meta.lat) fd.append('lat', String(meta.lat));
   if (meta.lng) fd.append('lng', String(meta.lng));
   if (meta.cleanPrevious) fd.append('clean_previous', 'true');
-  
   const res = await fetch(`${WORKER_URL}/upload`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${session.access_token}` },
     body: fd
   });
-  
   const json = await res.json().catch(() => ({}));
   if (!res.ok || !json.ok) throw new Error(json.error || `Error subiendo archivo (${res.status})`);
-  return json; // { ok, key, publicUrl }
+  return json;
 }
 
 async function eliminarArchivoInmuebleWorker(codigoEco) {
   if (!usuarioActual) return;
   const { data: { session } } = await dbClient.auth.getSession();
   if (!session || !session.access_token) return;
-  
   try {
     await fetch(`${WORKER_URL}/delete`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
       body: JSON.stringify({ codigo_eco: codigoEco })
     });
-  } catch (e) {
-    console.warn('Worker /delete falló (no bloqueante):', e);
-  }
+  } catch (e) { console.warn('Worker /delete falló (no bloqueante):', e); }
 }
 
 /* =========================================================
-SISTEMA DE AVISOS Y CONFIRMACIONES ELEGANTES (CERO ALERT)
+SISTEMA DE AVISOS
 ========================================================= */
 function mostrarAvisoElegante(titulo, mensaje, tipo = 'success', callback = null) {
   const modal = document.getElementById('customNoticeModal');
@@ -975,12 +742,10 @@ function mostrarAvisoElegante(titulo, mensaje, tipo = 'success', callback = null
   const msgEl = document.getElementById('customNoticeMessage');
   const btnCancel = document.getElementById('btnNoticeCancel');
   const btnConfirm = document.getElementById('btnNoticeConfirm');
-  
   btnCancel.classList.add('hidden');
   titleEl.textContent = titulo;
   msgEl.textContent = mensaje;
   btnConfirm.textContent = 'Entendido';
-  
   if (tipo === 'error') {
     box.className = 'bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-t-4 border-red-600 animate-modal-in text-center relative';
     iconWrap.className = 'w-14 h-14 rounded-full bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-sm border border-red-200';
@@ -997,7 +762,6 @@ function mostrarAvisoElegante(titulo, mensaje, tipo = 'success', callback = null
     icon.className = 'fa-solid fa-circle-check';
     btnConfirm.className = 'flex-1 bg-econexus hover:bg-econexus-light text-white font-bold py-2.5 px-5 rounded-xl transition text-xs shadow-md cursor-pointer';
   }
-  
   modal.classList.remove('hidden');
   modal.classList.add('flex');
   btnConfirm.onclick = () => {
@@ -1016,29 +780,18 @@ function mostrarConfirmacionElegante(titulo, mensaje, onConfirm) {
   const msgEl = document.getElementById('customNoticeMessage');
   const btnCancel = document.getElementById('btnNoticeCancel');
   const btnConfirm = document.getElementById('btnNoticeConfirm');
-  
   box.className = 'bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border-t-4 border-amber-500 animate-modal-in text-center relative';
   iconWrap.className = 'w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3 text-2xl shadow-sm border border-amber-200';
   icon.className = 'fa-solid fa-circle-question';
   titleEl.textContent = titulo;
   msgEl.textContent = mensaje;
-  
   btnCancel.classList.remove('hidden');
   btnConfirm.textContent = 'Sí, confirmar';
   btnConfirm.className = 'flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-5 rounded-xl transition text-xs shadow-md cursor-pointer';
-  
   modal.classList.remove('hidden');
   modal.classList.add('flex');
-  
-  btnCancel.onclick = () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  };
-  btnConfirm.onclick = () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    if (onConfirm) onConfirm();
-  };
+  btnCancel.onclick = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
+  btnConfirm.onclick = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); if (onConfirm) onConfirm(); };
 }
 
 function mostrarProgresoGeneracion(titulo, subtitulo, conBarra = false) {
@@ -1047,14 +800,7 @@ function mostrarProgresoGeneracion(titulo, subtitulo, conBarra = false) {
   document.getElementById('loadingModalDesc').textContent = subtitulo;
   const barWrap = document.getElementById('loadingProgressBarWrap');
   const bar = document.getElementById('loadingProgressBar');
-  
-  if (conBarra) {
-    barWrap.classList.remove('hidden');
-    bar.style.width = '5%';
-  } else {
-    barWrap.classList.add('hidden');
-  }
-  
+  if (conBarra) { barWrap.classList.remove('hidden'); bar.style.width = '5%'; } else { barWrap.classList.add('hidden'); }
   modal.classList.remove('hidden');
   modal.classList.add('flex');
 }
@@ -1072,15 +818,15 @@ function ocultarProgresoGeneracion() {
 }
 
 /* =========================================================
-RECORRIDO GUIADO INTERACTIVO
+TOUR GUIADO
 ========================================================= */
 const TOUR_STORAGE_KEY = 'econexus_captacion_tour_v3_seen';
 let pasoTourActual = 0;
 const PASOS_TOUR = [
   { targetId: 'containerPerfilFoto', titulo: '1. Tu Perfil y Tarjeta con QR', texto: 'Aquí verás tu foto y nombre. Al pulsar "Edita o llena tu perfil" podrás configurar tus datos, colores corporativos y actualizar tu contraseña. También puedes descargar en 1 clic "Mi Tarjeta (QR)" con código escaneable hacia tu portafolio.' },
   { targetId: 'containerCtaMiniWeb', titulo: '2. Crea tu Web Profesional en un Clic', texto: 'Con este botón externo generas tu propia página web inmobiliaria. Al pulsarlo se desplegará el acceso directo para abrirla en el navegador, personalizar colores y compartirla en tus redes sociales con OpenGraph.' },
-  { targetId: 'containerCtaCrmErp', titulo: '3. Herramientas Avanzadas CRM / ERP', texto: 'Accede a tu nuevo centro avanzado (crmerp.html) para gestionar fases de prospectos, trabajar con geolocalización en Maps, llevar tu agenda interactiva y redactar copys inmobiliarios.' },
-  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas con su foto principal arriba. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4 y Video Reel animado — todos con QR dinámico hacia la ficha pública.' },
+  { targetId: 'containerCtaCrmErp', titulo: '3. Suite Proptech de Productividad', texto: 'Ahora tienes 4 herramientas funcionales: Fases de Prospectos (abre el CRM completo), Notas Rápidas 24h (privadas, locales), Generador de Copys (4 variantes + 5 hashtags) y Top 5 Populares del día.' },
+  { targetId: 'containerAcordeonGestion', titulo: '4. Tus Inmuebles y Kit de Ficha Técnica', texto: 'Aquí administras tus propiedades publicadas. Cada inmueble incluye "Herramientas de Ficha Técnica" para generar PDF, Historia IG, Post 3:4 y Video Reel animado — todos con QR dinámico hacia la ficha pública.' },
   { targetId: 'containerTutorialGuia', titulo: '5. Tutorial Interactivo con Transcripción', texto: '¿Tienes dudas sobre cómo sacar el máximo provecho al sistema? Abre este desplegable cuando quieras para ver la guía paso a paso redactándose en vivo.' },
   { targetId: 'containerAcordeonFormulario', titulo: '6. Publicar o Editar Propiedades', texto: 'En este acordeón subes tus inmuebles con hasta 20 fotos comprimidas, GPS inyectado y enlace opcional de video. ¡Ya estás listo para dominar el mercado con EcoNexus!' }
 ];
@@ -1099,26 +845,16 @@ function iniciarTourGuiado(forzadoManual = false) {
 }
 
 function renderizarPasoTour() {
-  PASOS_TOUR.forEach(p => {
-    const el = document.getElementById(p.targetId);
-    if (el) el.classList.remove('tour-active-target');
-  });
+  PASOS_TOUR.forEach(p => { const el = document.getElementById(p.targetId); if (el) el.classList.remove('tour-active-target'); });
   const paso = PASOS_TOUR[pasoTourActual];
   const targetEl = document.getElementById(paso.targetId);
-  
-  if (targetEl) {
-    targetEl.classList.add('tour-active-target');
-    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  
+  if (targetEl) { targetEl.classList.add('tour-active-target'); targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   document.getElementById('tourBadgeStep').textContent = `Paso ${pasoTourActual + 1} de ${PASOS_TOUR.length}`;
   document.getElementById('tourStepTitle').innerHTML = `<i class="fa-solid fa-compass text-amber-500 shrink-0"></i> <span>${paso.titulo}</span>`;
   document.getElementById('tourStepText').textContent = paso.texto;
-  
   const btnPrev = document.getElementById('btnTourPrev');
   const btnNext = document.getElementById('btnTourNext');
   btnPrev.style.visibility = pasoTourActual === 0 ? 'hidden' : 'visible';
-  
   if (pasoTourActual === PASOS_TOUR.length - 1) {
     btnNext.innerHTML = `<span>¡Comenzar Ahora!</span> <i class="fa-solid fa-check"></i>`;
   } else {
@@ -1134,17 +870,14 @@ function cambiarPasoTour(direccion) {
 }
 
 function finalizarTourGuiado() {
-  PASOS_TOUR.forEach(p => {
-    const el = document.getElementById(p.targetId);
-    if (el) el.classList.remove('tour-active-target');
-  });
+  PASOS_TOUR.forEach(p => { const el = document.getElementById(p.targetId); if (el) el.classList.remove('tour-active-target'); });
   document.getElementById('guidedTourBackdrop').classList.add('hidden');
   document.getElementById('guidedTourCard').classList.add('hidden');
   localStorage.setItem(TOUR_STORAGE_KEY, 'true');
 }
 
 /* =========================================================
-TUTORIAL INTERACTIVO (TYPEWRITER)
+TUTORIAL TYPEWRITER
 ========================================================= */
 let tutorialTimer = null;
 const TEXTO_TUTORIAL_GUIADO = "👋 ¡Hola Asesor! Sigue estos pasos para publicar con éxito:\n1️⃣ Despliega 'Publicar / Editar Inmueble', completa las características y selecciona hasta 20 fotografías. El sistema las comprime, les inyecta GPS y metadatos SEO, y las sube a Cloudflare R2.\n2️⃣ Si tienes un video en YouTube, TikTok o Instagram Reels, pega el enlace para que aparezca el botón de reproducción en tu ficha.\n3️⃣ Una vez publicado, abre 'Mis Inmuebles Publicados' y pulsa en 'Herramientas de Ficha Técnica': podrás descargar al instante la Ficha PDF, Historia IG (9:16), Post de Instagram (3:4) y un Video Reel Animado (eligiendo hasta 4 fotos) con QR escaneable y tus colores corporativos.";
@@ -1166,7 +899,6 @@ function iniciarTranscripcionTutorial(reiniciar = false) {
   box.textContent = '';
   box.setAttribute('data-done', 'true');
   let idx = 0;
-  
   tutorialTimer = setInterval(() => {
     idx += 2;
     box.textContent = TEXTO_TUTORIAL_GUIADO.substring(0, idx);
@@ -1175,7 +907,7 @@ function iniciarTranscripcionTutorial(reiniciar = false) {
 }
 
 /* =========================================================
-MINI WEB (BOTÓN INTELIGENTE)
+MINI WEB
 ========================================================= */
 function obtenerUrlMiniWebActual() {
   if (!usuarioActual) return '';
@@ -1189,14 +921,9 @@ function desplegarBotonInteligenteMiniWeb() {
   const panel = document.getElementById('panelInteligenteMiniWeb');
   const txtUrl = document.getElementById('txtUrlMiniWebGenerada');
   const link = document.getElementById('linkAbrirMiniWebDirecto');
-  
   if (txtUrl) txtUrl.textContent = urlMiniWeb;
   if (link) link.href = urlMiniWeb;
-  
-  if (panel) {
-    panel.classList.remove('hidden');
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+  if (panel) { panel.classList.remove('hidden'); panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
 }
 
 function copiarEnlaceMiniWebSilencioso() {
@@ -1204,36 +931,24 @@ function copiarEnlaceMiniWebSilencioso() {
   if (!urlMiniWeb) return;
   navigator.clipboard.writeText(urlMiniWeb);
   const lbl = document.getElementById('lblBtnCopiarMiniWeb');
-  
-  if (lbl) {
-    lbl.textContent = '¡Enlace Copiado!';
-    setTimeout(() => { lbl.textContent = 'Copiar Enlace OpenGraph'; }, 2500);
-  }
+  if (lbl) { lbl.textContent = '¡Enlace Copiado!'; setTimeout(() => { lbl.textContent = 'Copiar Enlace OpenGraph'; }, 2500); }
 }
 
-function obtenerEnlaceMiniWeb() {
-  desplegarBotonInteligenteMiniWeb();
-}
+function obtenerEnlaceMiniWeb() { desplegarBotonInteligenteMiniWeb(); }
 </script>
+
 <script>
 /* =========================================================
 SESIÓN SUPABASE
 ========================================================= */
-dbClient.auth.getSession().then(({ data: { session } }) => {
-  if (session) verificarEstatusYMostrar(session.user);
-});
-
+dbClient.auth.getSession().then(({ data: { session } }) => { if (session) verificarEstatusYMostrar(session.user); });
 dbClient.auth.onAuthStateChange((_event, session) => {
-  if (session) {
-    verificarEstatusYMostrar(session.user);
-  } else {
-    usuarioActual = null;
-    ocultarApp();
-  }
+  if (session) { verificarEstatusYMostrar(session.user); }
+  else { usuarioActual = null; ocultarApp(); }
 });
 
 /* =========================================================
-PERFIL: ACORDEÓN, COLORES, TIPO ASESOR
+PERFIL: ACORDEÓN, COLORES
 ========================================================= */
 function toggleAcordeonPerfil() {
   const cuerpo = document.getElementById('cuerpoAcordeonPerfil');
@@ -1254,16 +969,12 @@ function restablecerColoresPerfilDefault() {
 function togglePerfilTipoAsesor() {
   const selectTipo = document.getElementById('perfilTipoAsesor').value;
   const containerAgencia = document.getElementById('containerPerfilAgencia');
-  if (selectTipo === 'Agencia') {
-    containerAgencia.classList.remove('hidden');
-  } else {
-    containerAgencia.classList.add('hidden');
-    document.getElementById('perfilNombreAgencia').value = '';
-  }
+  if (selectTipo === 'Agencia') { containerAgencia.classList.remove('hidden'); }
+  else { containerAgencia.classList.add('hidden'); document.getElementById('perfilNombreAgencia').value = ''; }
 }
 
 /* =========================================================
-VERIFICACIÓN DE ESTATUS Y CARGA DE PERFIL
+VERIFICACIÓN ESTATUS Y CARGA PERFIL
 ========================================================= */
 async function verificarEstatusYMostrar(user) {
   const msg = document.getElementById('authMessage');
@@ -1273,14 +984,11 @@ async function verificarEstatusYMostrar(user) {
       .select('estatus_agente, foto_perfil, sobre_mi, nombre_agente, telefono, tipo_asesor, nombre_agencia, color_primario, color_secundario')
       .eq('id', user.id)
       .single();
-      
     const estatus = perfil ? perfil.estatus_agente : 'Pendiente';
-    
     if (estatus === 'Aprobado') {
       usuarioActual = user;
       msg.classList.add('hidden');
       mostrarApp();
-      
       if (perfil && perfil.foto_perfil) {
         fotoPerfilActual = perfil.foto_perfil;
         document.getElementById('imgPerfilPreview').src = fotoPerfilActual;
@@ -1293,42 +1001,16 @@ async function verificarEstatusYMostrar(user) {
         document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil por Completar';
         document.getElementById('lblBtnFotoText').textContent = 'Subir Foto';
       }
-      
       if (perfil) {
         const nombreMostrar = perfil.nombre_agente || (user.email ? user.email.split('@')[0] : 'Asesor Inmobiliario');
         document.getElementById('headerDisplayNombreAgente').textContent = nombreMostrar;
-        
-        if (perfil.nombre_agente) {
-          document.getElementById('perfilNombreAgente').value = perfil.nombre_agente;
-          document.getElementById('nombreAsesor').value = perfil.nombre_agente;
-        }
-        if (perfil.telefono) {
-          document.getElementById('perfilTelefono').value = perfil.telefono;
-          document.getElementById('telefonoAsesor').value = perfil.telefono;
-        }
-        if (perfil.tipo_asesor) {
-          document.getElementById('perfilTipoAsesor').value = perfil.tipo_asesor;
-          togglePerfilTipoAsesor();
-          document.getElementById('tipoAsesor').value = perfil.tipo_asesor;
-          toggleTipoAsesor();
-        }
-        if (perfil.nombre_agencia) {
-          document.getElementById('perfilNombreAgencia').value = perfil.nombre_agencia;
-          document.getElementById('nombreAgencia').value = perfil.nombre_agencia;
-        }
-        if (perfil.sobre_mi) {
-          document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
-        }
-        if (perfil.color_primario) {
-          colorPrimarioActual = perfil.color_primario;
-          document.getElementById('perfilColorPrimario').value = perfil.color_primario;
-          const dot = document.getElementById('dotColorPrimario');
-          if (dot) dot.style.backgroundColor = colorPrimarioActual;
-        }
-        if (perfil.color_secundario) {
-          colorSecundarioActual = perfil.color_secundario;
-          document.getElementById('perfilColorSecundario').value = perfil.color_secundario;
-        }
+        if (perfil.nombre_agente) { document.getElementById('perfilNombreAgente').value = perfil.nombre_agente; document.getElementById('nombreAsesor').value = perfil.nombre_agente; }
+        if (perfil.telefono) { document.getElementById('perfilTelefono').value = perfil.telefono; document.getElementById('telefonoAsesor').value = perfil.telefono; }
+        if (perfil.tipo_asesor) { document.getElementById('perfilTipoAsesor').value = perfil.tipo_asesor; togglePerfilTipoAsesor(); document.getElementById('tipoAsesor').value = perfil.tipo_asesor; toggleTipoAsesor(); }
+        if (perfil.nombre_agencia) { document.getElementById('perfilNombreAgencia').value = perfil.nombre_agencia; document.getElementById('nombreAgencia').value = perfil.nombre_agencia; }
+        if (perfil.sobre_mi) document.getElementById('perfilSobreMi').value = perfil.sobre_mi;
+        if (perfil.color_primario) { colorPrimarioActual = perfil.color_primario; document.getElementById('perfilColorPrimario').value = perfil.color_primario; const dot = document.getElementById('dotColorPrimario'); if (dot) dot.style.backgroundColor = colorPrimarioActual; }
+        if (perfil.color_secundario) { colorSecundarioActual = perfil.color_secundario; document.getElementById('perfilColorSecundario').value = perfil.color_secundario; }
       }
       verificarInicioTourAutomatico();
     } else {
@@ -1337,25 +1019,14 @@ async function verificarEstatusYMostrar(user) {
       ocultarApp();
       msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-amber-50 border-amber-300 text-amber-900';
       const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${user.email}. Solicito la aprobación de mi cuenta de Asesor.`);
-      
-      msg.innerHTML = `
-        <div class="font-bold text-sm mb-1 flex items-center text-amber-800">
-          <i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación
-        </div>
-        <p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${escapeHTML(estatus)}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p>
-        <a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition">
-          <i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar
-        </a>
-      `;
+      msg.innerHTML = `<div class="font-bold text-sm mb-1 flex items-center text-amber-800"><i class="fa-solid fa-clock mr-1.5"></i> Cuenta Pendiente de Aprobación</div><p class="mb-2">Tu cuenta de asesor actualmente tiene estatus: <strong>${escapeHTML(estatus)}</strong>. Para activar tu acceso a la plataforma de carga, por favor contáctanos vía WhatsApp.</p><a href="https://wa.me/584244466115?text=${msjWA}" target="_blank" class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white px-3 py-1.5 rounded-lg font-bold text-xs shadow transition"><i class="fa-brands fa-whatsapp text-sm mr-1.5"></i> Contactar por WhatsApp para Activar</a>`;
       msg.classList.remove('hidden');
     }
-  } catch (err) {
-    console.error('Error en validación de perfil:', err);
-  }
+  } catch (err) { console.error('Error en validación de perfil:', err); }
 }
 
 /* =========================================================
-SUBIDA DE FOTO DE PERFIL AL WORKER R2
+FOTO PERFIL
 ========================================================= */
 async function guardarFotoPerfilAgente(input) {
   if (!input.files || input.files.length === 0) return;
@@ -1363,46 +1034,31 @@ async function guardarFotoPerfilAgente(input) {
   const btnText = document.getElementById('lblBtnFotoText');
   btnText.textContent = 'Procesando...';
   mostrarProgresoGeneracion('Subiendo foto de perfil...', 'Comprimiendo, inyectando metadatos SEO y guardando en Cloudflare R2.');
-  
   try {
     const options = { maxSizeMB: 0.25, maxWidthOrHeight: 800, useWebWorker: true };
     let fileComprimido = await imageCompression(fileOriginal, options);
     const nombreAgente = document.getElementById('perfilNombreAgente').value.trim() || 'Asesor EcoNexus';
-    
     fileComprimido = await inyectarExifGPS(fileComprimido, 10.1620, -68.0077, `Perfil ${nombreAgente} - Econexus`);
-    const res = await subirArchivoAlWorker(fileComprimido, {
-      category: 'perfil',
-      titulo: nombreAgente,
-      fileName: 'avatar.jpg'
-    });
-    
+    const res = await subirArchivoAlWorker(fileComprimido, { category: 'perfil', titulo: nombreAgente, fileName: 'avatar.jpg' });
     const nuevaUrlFoto = res.publicUrl;
-    const { error: dbError } = await dbClient
-      .from('perfiles')
-      .update({ foto_perfil: nuevaUrlFoto })
-      .eq('id', usuarioActual.id);
-      
+    const { error: dbError } = await dbClient.from('perfiles').update({ foto_perfil: nuevaUrlFoto }).eq('id', usuarioActual.id);
     if (dbError) throw dbError;
     fotoPerfilActual = nuevaUrlFoto;
     localStorage.setItem('econexus_agent_photo_url', nuevaUrlFoto);
-    
     document.getElementById('imgPerfilPreview').src = nuevaUrlFoto;
     document.getElementById('txtPerfilFotoEstado').textContent = 'Perfil de Asesor Activo';
     document.getElementById('lblBtnFotoText').textContent = 'Cambiar Foto';
-    
     ocultarProgresoGeneracion();
     mostrarAvisoElegante('¡Fotografía Actualizada!', 'Tu nueva foto de perfil ya está activa en tu Mini Web, Fichas PDF, Historias, Posts, Reels y Tarjeta QR.');
   } catch (err) {
     ocultarProgresoGeneracion();
     mostrarAvisoElegante('Error al subir foto', 'No pudimos actualizar tu fotografía. Intenta con otra imagen. ' + (err.message || ''), 'error');
     console.error(err);
-  } finally {
-    input.value = '';
-  }
+  } finally { input.value = ''; }
 }
 
 /* =========================================================
-GUARDAR CONFIGURACIÓN DE PERFIL
+GUARDAR PERFIL
 ========================================================= */
 async function guardarDatosPerfil() {
   const nombre = document.getElementById('perfilNombreAgente').value.trim();
@@ -1412,38 +1068,21 @@ async function guardarDatosPerfil() {
   const sobreMi = document.getElementById('perfilSobreMi').value.trim();
   const colPri = document.getElementById('perfilColorPrimario').value || '#1E3F20';
   const colSec = document.getElementById('perfilColorSecundario').value || '#388E3C';
-  
   if (!nombre) return mostrarAvisoElegante('Campo requerido', 'Por favor ingresa tu nombre y apellido.', 'info');
   if (!telefono) return mostrarAvisoElegante('Campo requerido', 'Por favor ingresa tu número de WhatsApp de contacto.', 'info');
   if (tipo === 'Agencia' && !agencia) return mostrarAvisoElegante('Campo requerido', "Has seleccionado 'Agencia', por favor ingresa el nombre de la misma.", 'info');
-  
   try {
-    const { error } = await dbClient
-      .from('perfiles')
-      .update({
-        nombre_agente: nombre,
-        telefono: telefono,
-        tipo_asesor: tipo,
-        nombre_agencia: agencia,
-        sobre_mi: sobreMi,
-        color_primario: colPri,
-        color_secundario: colSec
-      })
-      .eq('id', usuarioActual.id);
-      
+    const { error } = await dbClient.from('perfiles').update({ nombre_agente: nombre, telefono: telefono, tipo_asesor: tipo, nombre_agencia: agencia, sobre_mi: sobreMi, color_primario: colPri, color_secundario: colSec }).eq('id', usuarioActual.id);
     if (error) throw error;
-    
     colorPrimarioActual = colPri;
     colorSecundarioActual = colSec;
     const dot = document.getElementById('dotColorPrimario');
     if (dot) dot.style.backgroundColor = colorPrimarioActual;
-    
     document.getElementById('headerDisplayNombreAgente').textContent = nombre;
     document.getElementById('nombreAsesor').value = nombre;
     document.getElementById('telefonoAsesor').value = telefono;
     document.getElementById('tipoAsesor').value = tipo;
     toggleTipoAsesor();
-    
     if (agencia) document.getElementById('nombreAgencia').value = agencia;
     toggleAcordeonPerfil();
     mostrarAvisoElegante('¡Perfil y Colores Guardados!', 'Tus datos y colores personalizados con contraste inteligente están listos para usarse en tu Mini Web, Historias IG, Posts 3:4, Tarjeta QR y Reels.');
@@ -1454,16 +1093,14 @@ async function guardarDatosPerfil() {
 }
 
 /* =========================================================
-CAMBIO DE CONTRASEÑA (JWT, SÓLO EL PROPIO USUARIO)
+CAMBIO CONTRASEÑA
 ========================================================= */
 async function cambiarMiContrasenaAutenticado() {
   const inputClave = document.getElementById('inputNuevaClavePerfil');
   const nuevaClave = inputClave.value.trim();
   if (!nuevaClave) return mostrarAvisoElegante('Campo requerido', 'Por favor ingresa la nueva contraseña que deseas asignar.', 'info');
   if (nuevaClave.length < 6) return mostrarAvisoElegante('Contraseña muy corta', 'Por seguridad, la contraseña debe tener al menos 6 caracteres.', 'info');
-  
   mostrarProgresoGeneracion('Actualizando credenciales...', 'Registrando tu nueva contraseña de forma segura en Supabase.');
-  
   try {
     const { error } = await dbClient.auth.updateUser({ password: nuevaClave });
     if (error) throw error;
@@ -1484,7 +1121,6 @@ function mostrarApp() {
   document.getElementById('authContainer').classList.add('hidden');
   document.getElementById('mainAppContainer').classList.remove('hidden');
   document.getElementById('btnLogout').classList.remove('hidden');
-  
   const btnTour = document.getElementById('btnIniciarTourHeader');
   if (btnTour) { btnTour.classList.remove('hidden'); btnTour.classList.add('inline-flex'); }
   const btnBanner = document.getElementById('btnBannerTerminos');
@@ -1495,7 +1131,6 @@ function ocultarApp() {
   document.getElementById('authContainer').classList.remove('hidden');
   document.getElementById('mainAppContainer').classList.add('hidden');
   document.getElementById('btnLogout').classList.add('hidden');
-  
   const btnTour = document.getElementById('btnIniciarTourHeader');
   if (btnTour) { btnTour.classList.add('hidden'); btnTour.classList.remove('inline-flex'); }
   const btnBanner = document.getElementById('btnBannerTerminos');
@@ -1516,42 +1151,31 @@ function accionBannerTerminos() {
   cerrarBannerFlotante();
   const bodyLegal = document.getElementById('bodyLegalDropdown');
   const iconoLegal = document.getElementById('iconoLegalDropdown');
-  
-  if (bodyLegal.classList.contains('hidden')) {
-    bodyLegal.classList.remove('hidden');
-    iconoLegal.classList.add('rotate-180');
-  }
+  if (bodyLegal.classList.contains('hidden')) { bodyLegal.classList.remove('hidden'); iconoLegal.classList.add('rotate-180'); }
   bodyLegal.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  
-  if (!usuarioActual) {
-    document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+  if (!usuarioActual) { document.getElementById('authContainer').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 }
 
 /* =========================================================
-AUTH: LOGIN / REGISTRO / LOGOUT
+AUTH
 ========================================================= */
 async function iniciarSesion() {
   const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value;
   const msg = document.getElementById('authMessage');
   msg.classList.add('hidden');
-  
   if (!email || !password) {
     msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold';
     msg.textContent = 'Por favor, ingresa correo y contraseña.';
     msg.classList.remove('hidden');
     return;
   }
-  
   const { data, error } = await dbClient.auth.signInWithPassword({ email, password });
   if (error) {
     msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold';
     msg.textContent = 'Error: ' + error.message;
     msg.classList.remove('hidden');
-  } else if (data.user) {
-    await verificarEstatusYMostrar(data.user);
-  }
+  } else if (data.user) { await verificarEstatusYMostrar(data.user); }
 }
 
 async function registrarse() {
@@ -1559,14 +1183,12 @@ async function registrarse() {
   const password = document.getElementById('authPassword').value;
   const msg = document.getElementById('authMessage');
   msg.classList.add('hidden');
-  
   if (!email || !password) {
     msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold';
     msg.textContent = 'Por favor, ingresa correo y contraseña.';
     msg.classList.remove('hidden');
     return;
   }
-  
   const { data, error } = await dbClient.auth.signUp({ email, password });
   if (error) {
     msg.className = 'text-xs p-3 rounded-xl border mt-3 text-left bg-red-50 border-red-200 text-red-700 font-semibold';
@@ -1575,23 +1197,15 @@ async function registrarse() {
   } else if (data.user) {
     await dbClient.from('perfiles').insert([{ id: data.user.id, email: email, estatus_agente: 'Pendiente' }]);
     const msjWA = encodeURIComponent(`Hola EcoNexus, me he registrado en la plataforma con el correo: ${email}. Solicito la aprobación de mi cuenta de Asesor.`);
-    
-    mostrarAvisoElegante(
-      '¡Registro Completado!',
-      'Serás redirigido a nuestro WhatsApp oficial para validar y activar tu cuenta de asesor.',
-      'success',
-      () => { window.open(`https://wa.me/584244466115?text=${msjWA}`, '_blank'); }
-    );
+    mostrarAvisoElegante('¡Registro Completado!', 'Serás redirigido a nuestro WhatsApp oficial para validar y activar tu cuenta de asesor.', 'success', () => { window.open(`https://wa.me/584244466115?text=${msjWA}`, '_blank'); });
     await verificarEstatusYMostrar(data.user);
   }
 }
 
-async function cerrarSesion() {
-  await dbClient.auth.signOut();
-}
+async function cerrarSesion() { await dbClient.auth.signOut(); }
 
 /* =========================================================
-ACORDEONES Y TOGGLES GENERALES
+ACORDEONES
 ========================================================= */
 function toggleAcordeonGestion() {
   const cuerpo = document.getElementById('cuerpoAcordeonGestion');
@@ -1599,9 +1213,7 @@ function toggleAcordeonGestion() {
   const estabaOculto = cuerpo.classList.contains('hidden');
   cuerpo.classList.toggle('hidden');
   icono.classList.toggle('rotate-180');
-  if (estabaOculto && (!misInmueblesCargados || misInmueblesCargados.length === 0)) {
-    buscarMisInmuebles();
-  }
+  if (estabaOculto && (!misInmueblesCargados || misInmueblesCargados.length === 0)) { buscarMisInmuebles(); }
 }
 
 function toggleAcordeonFormulario() {
@@ -1616,24 +1228,15 @@ function toggleLegalDropdown() {
   const icono = document.getElementById('iconoLegalDropdown');
   body.classList.toggle('hidden');
   if (icono) icono.classList.toggle('rotate-180');
-  if (!body.classList.contains('hidden')) {
-    body.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+  if (!body.classList.contains('hidden')) { body.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 }
 
 function toggleTipoAsesor() {
   const selectTipo = document.getElementById('tipoAsesor').value;
   const containerAgencia = document.getElementById('containerNombreAgencia');
   const inputAgencia = document.getElementById('nombreAgencia');
-  
-  if (selectTipo === 'Agencia') {
-    containerAgencia.classList.remove('hidden');
-    inputAgencia.setAttribute('required', 'true');
-  } else {
-    containerAgencia.classList.add('hidden');
-    inputAgencia.removeAttribute('required');
-    inputAgencia.value = '';
-  }
+  if (selectTipo === 'Agencia') { containerAgencia.classList.remove('hidden'); inputAgencia.setAttribute('required', 'true'); }
+  else { containerAgencia.classList.add('hidden'); inputAgencia.removeAttribute('required'); inputAgencia.value = ''; }
 }
 
 function validarLimiteFotos(input) {
@@ -1657,36 +1260,26 @@ function toggleHerramientasFicha(id) {
 }
 
 /* =========================================================
-SELECTOR DE FOTOS PARA REEL (MÁXIMO 4)
+SELECTOR REEL
 ========================================================= */
 function abrirSelectorFotosReel(itemId) {
   const inmueble = misInmueblesCargados.find(item => String(item.id) === String(itemId));
   if (!inmueble) return mostrarAvisoElegante('Propiedad no encontrada', 'Actualiza tus publicaciones e intenta nuevamente.', 'error');
-  
   const fotos = Array.isArray(inmueble.fotos) ? inmueble.fotos : [];
-  if (fotos.length === 0) {
-    return mostrarAvisoElegante('Sin fotografías', 'Este inmueble no tiene fotos cargadas para generar el Reel.', 'info');
-  }
-  
+  if (fotos.length === 0) { return mostrarAvisoElegante('Sin fotografías', 'Este inmueble no tiene fotos cargadas para generar el Reel.', 'info'); }
   reelInmuebleId = itemId;
   reelFotosSeleccionadas = [];
   const grid = document.getElementById('gridSelectorFotosReel');
   grid.innerHTML = '';
-  
   fotos.forEach((url, idx) => {
     const card = document.createElement('div');
     card.className = 'foto-reel-card rounded-xl overflow-hidden bg-gray-900 aspect-square';
     card.dataset.url = url;
     card.dataset.idx = idx;
-    card.innerHTML = `
-      <span class="badge-orden">✓</span>
-      <img src="${url}" alt="Foto ${idx + 1}" class="w-full h-full object-cover" loading="lazy" />
-      <span class="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">${idx + 1}</span>
-    `;
+    card.innerHTML = `<span class="badge-orden">✓</span><img src="${url}" alt="Foto ${idx + 1}" class="w-full h-full object-cover" loading="lazy" /><span class="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">${idx + 1}</span>`;
     card.onclick = () => toggleFotoReelSeleccion(card, url);
     grid.appendChild(card);
   });
-  
   document.getElementById('contadorFotosReelSeleccionadas').textContent = '0 / 4';
   document.getElementById('modalSelectorFotosReel').classList.remove('hidden');
   document.getElementById('modalSelectorFotosReel').classList.add('flex');
@@ -1698,37 +1291,19 @@ function toggleFotoReelSeleccion(card, url) {
     card.classList.remove('seleccionada');
     reelFotosSeleccionadas = reelFotosSeleccionadas.filter(u => u !== url);
   } else {
-    if (reelFotosSeleccionadas.length >= 4) {
-      mostrarAvisoElegante('Máximo 4 fotos', 'Para mantener el Reel ligero y estético, selecciona solo 4 fotografías.', 'info');
-      return;
-    }
+    if (reelFotosSeleccionadas.length >= 4) { mostrarAvisoElegante('Máximo 4 fotos', 'Para mantener el Reel ligero y estético, selecciona solo 4 fotografías.', 'info'); return; }
     card.classList.add('seleccionada');
     reelFotosSeleccionadas.push(url);
   }
-  
-  /* Refrescar badges de orden */
   const todasLasCards = document.querySelectorAll('#gridSelectorFotosReel .foto-reel-card');
   todasLasCards.forEach(c => {
     const urlCard = c.dataset.url;
     const idx = reelFotosSeleccionadas.indexOf(urlCard);
     const badge = c.querySelector('.badge-orden');
-    
-    if (idx >= 0) {
-      c.classList.add('seleccionada');
-      if (badge) badge.textContent = idx + 1;
-    } else {
-      c.classList.remove('seleccionada');
-      if (badge) badge.textContent = '✓';
-    }
-    
-    /* Deshabilitar visualmente las no seleccionadas cuando ya hay 4 */
-    if (reelFotosSeleccionadas.length >= 4 && idx < 0) {
-      c.classList.add('deshabilitada');
-    } else {
-      c.classList.remove('deshabilitada');
-    }
+    if (idx >= 0) { c.classList.add('seleccionada'); if (badge) badge.textContent = idx + 1; }
+    else { c.classList.remove('seleccionada'); if (badge) badge.textContent = '✓'; }
+    if (reelFotosSeleccionadas.length >= 4 && idx < 0) { c.classList.add('deshabilitada'); } else { c.classList.remove('deshabilitada'); }
   });
-  
   document.getElementById('contadorFotosReelSeleccionadas').textContent = `${reelFotosSeleccionadas.length} / 4`;
 }
 
@@ -1741,68 +1316,44 @@ function cerrarSelectorFotosReel() {
 
 function confirmarYRenderizarReel() {
   if (!reelInmuebleId) return;
-  if (reelFotosSeleccionadas.length === 0) {
-    return mostrarAvisoElegante('Sin fotos', 'Selecciona al menos 1 foto para producir tu Reel.', 'info');
-  }
-  if (reelFotosSeleccionadas.length > 4) {
-    return mostrarAvisoElegante('Máximo 4 fotos', 'Solo puedes seleccionar hasta 4 fotografías para el Reel.', 'info');
-  }
-  
+  if (reelFotosSeleccionadas.length === 0) { return mostrarAvisoElegante('Sin fotos', 'Selecciona al menos 1 foto para producir tu Reel.', 'info'); }
+  if (reelFotosSeleccionadas.length > 4) { return mostrarAvisoElegante('Máximo 4 fotos', 'Solo puedes seleccionar hasta 4 fotografías para el Reel.', 'info'); }
   const itemId = reelInmuebleId;
   const fotosElegidas = [...reelFotosSeleccionadas];
   cerrarSelectorFotosReel();
-  
-  /* La función de render vive en econexus-multimedia.js */
-  if (typeof generarReelAnimadoInmueble === 'function') {
-    generarReelAnimadoInmueble(itemId, fotosElegidas);
-  }
+  if (typeof generarReelAnimadoInmueble === 'function') { generarReelAnimadoInmueble(itemId, fotosElegidas); }
 }
 </script>
+
 <script>
 /* =========================================================
-LISTADO DE INMUEBLES CON FOTO SUPERIOR Y DESPLEGABLE TOOLS
+LISTADO DE INMUEBLES
 ========================================================= */
 async function buscarMisInmuebles() {
   const contenedor = document.getElementById("resultadoMisInmuebles");
   contenedor.innerHTML = `<p class="text-xs text-gray-500 text-center py-4 col-span-full"><i class="fa-solid fa-circle-notch fa-spin mr-1.5"></i> Buscando tus propiedades...</p>`;
-  
   try {
-    const { data, error } = await dbClient
-      .from('propiedades')
-      .select('*')
-      .eq('user_id', usuarioActual.id)
-      .order('id', { ascending: false });
-      
+    const { data, error } = await dbClient.from('propiedades').select('*').eq('user_id', usuarioActual.id).order('id', { ascending: false });
     if (error) throw error;
     misInmueblesCargados = data || [];
     contenedor.innerHTML = "";
-    
     if (!data || data.length === 0) {
       contenedor.innerHTML = `<p class="text-xs text-gray-600 text-center py-6 font-semibold col-span-full bg-white rounded-xl border border-gray-200">Aún no tienes propiedades registradas en tu inventario.</p>`;
       return;
     }
-    
     data.forEach(item => {
       const card = document.createElement("div");
       card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between text-xs";
-      
       const fotoTop = (item.fotos && item.fotos.length > 0) ? item.fotos[0] : "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80";
       const esAgencia = item.tipo_asesor === 'Agencia';
       const infoAsesor = esAgencia ? `Agencia: ${escapeHTML(item.nombre_agencia || 'Sin Nombre')}` : `Agente Independiente`;
-      
       const vigencia = calcularTiempoRestante(item.fecha_expiracion);
-      const vigenciaTexto = vigencia ? (vigencia.expirado
-        ? `<span class="bg-red-600 text-white px-2.5 py-0.5 rounded-full font-bold text-[10px]">Expirado</span>`
-        : `<span class="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]"><i class="fa-solid fa-clock mr-1"></i>${vigencia.texto}</span>`) : '';
-        
+      const vigenciaTexto = vigencia ? (vigencia.expirado ? `<span class="bg-red-600 text-white px-2.5 py-0.5 rounded-full font-bold text-[10px]">Expirado</span>` : `<span class="bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-full font-bold text-[10px]"><i class="fa-solid fa-clock mr-1"></i>${vigencia.texto}</span>`) : '';
       let vipBadge = '';
       if (item.destacado && item.fecha_fin_vip) {
         const vipTime = calcularTiempoRestante(item.fecha_fin_vip);
-        if (vipTime && !vipTime.expirado) {
-          vipBadge = `<span class="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-full font-extrabold text-[10px] shadow-sm"><i class="fa-solid fa-crown mr-1"></i>VIP: ${vipTime.texto}</span>`;
-        }
+        if (vipTime && !vipTime.expirado) { vipBadge = `<span class="bg-amber-400 text-gray-900 px-2.5 py-0.5 rounded-full font-extrabold text-[10px] shadow-sm"><i class="fa-solid fa-crown mr-1"></i>VIP: ${vipTime.texto}</span>`; }
       }
-      
       card.innerHTML = `
         <div>
           <div class="relative h-44 w-full bg-gray-900 overflow-hidden">
@@ -1827,7 +1378,6 @@ async function buscarMisInmuebles() {
             <span class="flex items-center gap-2 text-xs"><i class="fa-solid fa-toolbox text-amber-300"></i> Herramientas de Ficha Técnica</span>
             <i id="tools-icon-${item.id}" class="fa-solid fa-chevron-down transition-transform text-[10px]"></i>
           </button>
-          
           <div id="tools-panel-${item.id}" class="hidden mt-2.5 pt-2.5 border-t border-gray-100 grid grid-cols-2 gap-1.5 animate-modal-in">
             <button type="button" onclick="descargarPDFFormal('${item.id}')" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-file-pdf"></i> Ficha PDF</button>
             <button type="button" onclick="descargarHistoriaCanvas('${item.id}')" class="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-mobile-screen"></i> Historia IG</button>
@@ -1836,25 +1386,16 @@ async function buscarMisInmuebles() {
             <button type="button" onclick="compartirInmuebleWA('${item.id}')" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-brands fa-whatsapp"></i> Compartir WA</button>
             <button type="button" onclick="solicitarVIPWA('${item.id}')" class="bg-amber-500 hover:bg-amber-600 text-gray-900 font-extrabold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-star"></i> Destacar VIP</button>
             <button type="button" onclick="renovarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2.5 rounded-lg transition text-[11px] flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"><i class="fa-solid fa-rotate"></i> Renovar 30D</button>
-            
-            <!-- BOTONES CONDICIONALES: SAAI VS ECONEXUS -->
             ${item.external_source === 'SAAI' ? `
-              <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1">
-                <i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI
-              </div>
-              <button type="button" onclick="renovarInmuebleSAAI('${item.id}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Renovar 30 días (SAAI)">
-                <i class="fa-solid fa-rotate mr-1"></i> Renovar
-              </button>
-              <button type="button" onclick="eliminarInmuebleSAAI('${item.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Eliminar Inmueble (SAAI)">
-                <i class="fa-solid fa-trash-can mr-1"></i> Borrar
-              </button>
+              <div class="col-span-2 text-center text-[10px] text-blue-600 font-bold bg-blue-50 py-1.5 rounded-lg border border-blue-200 mb-1"><i class="fa-solid fa-link mr-1"></i> Sincronizado desde SAAI</div>
+              <button type="button" onclick="renovarInmuebleSAAI('${item.id}')" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Renovar 30 días (SAAI)"><i class="fa-solid fa-rotate mr-1"></i> Renovar</button>
+              <button type="button" onclick="eliminarInmuebleSAAI('${item.id}')" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer" title="Eliminar Inmueble (SAAI)"><i class="fa-solid fa-trash-can mr-1"></i> Borrar</button>
             ` : `
               <div class="flex gap-1.5 col-span-2 mt-1">
                 <button type="button" onclick="editarInmueble('${item.id}')" title="Editar Inmueble" class="flex-1 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-pen-to-square"></i></button>
                 <button type="button" onclick="eliminarInmueble('${item.id}', '${escapeHTML(item.codigo_eco)}')" title="Eliminar Inmueble" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg transition text-[11px] flex items-center justify-center cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
               </div>
             `}
-            
           </div>
         </div>
       `;
@@ -1866,9 +1407,6 @@ async function buscarMisInmuebles() {
   }
 }
 
-/* =========================================================
-FUNCIONES RPC PARA INMUEBLES VINCULADOS A SAAI
-========================================================= */
 async function renovarInmuebleSAAI(id) {
   if (!confirm('¿Deseas renovar este inmueble por 30 días más en EcoNexus?')) return;
   try {
@@ -1876,10 +1414,7 @@ async function renovarInmuebleSAAI(id) {
     if (error) throw error;
     alert('Inmueble renovado con éxito.');
     buscarMisInmuebles();
-  } catch (e) {
-    console.error(e);
-    alert('Error al renovar: ' + e.message);
-  }
+  } catch (e) { console.error(e); alert('Error al renovar: ' + e.message); }
 }
 
 async function eliminarInmuebleSAAI(id) {
@@ -1889,53 +1424,29 @@ async function eliminarInmuebleSAAI(id) {
     if (error) throw error;
     alert('Inmueble eliminado de EcoNexus. Se sincronizará el borrado en SAAI.');
     buscarMisInmuebles();
-  } catch (e) {
-    console.error(e);
-    alert('Error al eliminar: ' + e.message);
-  }
+  } catch (e) { console.error(e); alert('Error al eliminar: ' + e.message); }
 }
 
 /* =========================================================
-PROCESAR CARGA / EDICIÓN → WORKER R2 SIN HUÉRFANOS
+PROCESAR CARGA (COMPRESIÓN + SUBIDA R2)
 ========================================================= */
 async function procesarCarga(e) {
   e.preventDefault();
   const editId = document.getElementById("editInmuebleId").value;
   const esEdicion = Boolean(editId);
   const filesInput = document.getElementById("fotosFiles").files;
-  
-  if (!esEdicion && (filesInput.length === 0 || filesInput.length > 20)) {
-    return mostrarAvisoElegante("Fotografías requeridas", "Por favor selecciona entre 1 y 20 fotografías del inmueble.", "info");
-  }
-  if (esEdicion && filesInput.length > 20) {
-    return mostrarAvisoElegante("Límite de fotos", "Puedes subir un máximo de 20 fotografías por propiedad.", "info");
-  }
-  
+  if (!esEdicion && (filesInput.length === 0 || filesInput.length > 20)) { return mostrarAvisoElegante("Fotografías requeridas", "Por favor selecciona entre 1 y 20 fotografías del inmueble.", "info"); }
+  if (esEdicion && filesInput.length > 20) { return mostrarAvisoElegante("Límite de fotos", "Puedes subir un máximo de 20 fotografías por propiedad.", "info"); }
   const btn = document.getElementById("btnSubmit");
   btn.disabled = true;
   btn.textContent = esEdicion ? "Guardando cambios..." : "Comprimiendo y subiendo imágenes...";
-  
-  mostrarProgresoGeneracion(
-    esEdicion ? "Guardando Cambios..." : "Publicando Inmueble...",
-    "Comprimiendo imágenes, inyectando GPS y subiendo a Cloudflare R2.",
-    true
-  );
-  
+  mostrarProgresoGeneracion(esEdicion ? "Guardando Cambios..." : "Publicando Inmueble...", "Comprimiendo imágenes, inyectando GPS y subiendo a Cloudflare R2.", true);
   try {
-    /* 1. Determinar código único (en edición se respeta el original) */
     let codigoUnico = '';
     if (esEdicion) {
-      const { data: propActual } = await dbClient
-        .from('propiedades')
-        .select('codigo_eco')
-        .eq('id', editId)
-        .single();
+      const { data: propActual } = await dbClient.from('propiedades').select('codigo_eco').eq('id', editId).single();
       codigoUnico = propActual ? propActual.codigo_eco : ('ECO-' + Math.floor(Math.random() * 1000000));
-    } else {
-      codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000);
-    }
-    
-    /* 2. Recoger datos del formulario */
+    } else { codigoUnico = 'ECO-' + Math.floor(Math.random() * 1000000); }
     const titulo = document.getElementById("titulo").value.trim();
     const tipo = document.getElementById("tipo").value.trim();
     const operacion = document.getElementById("operacion").value;
@@ -1945,70 +1456,23 @@ async function procesarCarga(e) {
     const telefonoAsesor = document.getElementById("telefonoAsesor").value.replace(/[^0-9]/g, '');
     const tipoAsesorSel = document.getElementById("tipoAsesor").value;
     const nombreAgenciaVal = tipoAsesorSel === 'Agencia' ? document.getElementById("nombreAgencia").value.trim() : null;
-    
-    /* 3. Subida de fotos al Worker R2 (con EXIF GPS) */
     let urlsPublicas = [];
     if (filesInput.length > 0) {
       const options = { maxSizeMB: 0.35, maxWidthOrHeight: 1600, useWebWorker: true };
       for (let i = 0; i < filesInput.length; i++) {
         const fileOriginal = filesInput[i];
-        actualizarBarraProgreso(
-          Math.round((i / filesInput.length) * 90),
-          `Procesando foto ${i + 1} de ${filesInput.length}...`
-        );
-        
+        actualizarBarraProgreso(Math.round((i / filesInput.length) * 90), `Procesando foto ${i + 1} de ${filesInput.length}...`);
         let fileComprimido = await imageCompression(fileOriginal, options);
-        fileComprimido = await inyectarExifGPS(
-          fileComprimido,
-          10.1620,
-          -68.0077,
-          `EcoNexus - ${titulo} - ${ubicacion}`
-        );
-        
-        const res = await subirArchivoAlWorker(fileComprimido, {
-          category: 'inmueble',
-          codigoEco: codigoUnico,
-          index: i,
-          titulo: titulo,
-          ubicacion: ubicacion,
-          operacion: operacion,
-          precio: precio,
-          lat: 10.1620,
-          lng: -68.0077,
-          cleanPrevious: esEdicion && i === 0, /* Solo la primera foto nueva dispara el borrado de las viejas en R2 */
-          fileName: `foto-${i + 1}.jpg`
-        });
+        fileComprimido = await inyectarExifGPS(fileComprimido, 10.1620, -68.0077, `EcoNexus - ${titulo} - ${ubicacion}`);
+        const res = await subirArchivoAlWorker(fileComprimido, { category: 'inmueble', codigoEco: codigoUnico, index: i, titulo: titulo, ubicacion: ubicacion, operacion: operacion, precio: precio, lat: 10.1620, lng: -68.0077, cleanPrevious: esEdicion && i === 0, fileName: `foto-${i + 1}.jpg` });
         urlsPublicas.push(res.publicUrl);
       }
-    } else if (esEdicion) {
-      /* Edición sin nuevas fotos: conservar exactamente las actuales */
-      urlsPublicas = fotosActualesEdicion;
-    }
-    
+    } else if (esEdicion) { urlsPublicas = fotosActualesEdicion; }
     actualizarBarraProgreso(95, "Guardando registro en Supabase...");
-    
-    /* 4. Payload final */
     const expiracionCalculada = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    const payload = {
-      titulo, tipo, operacion, precio, ubicacion,
-      habitaciones: Number(document.getElementById("habitaciones").value) || 0,
-      banos: Number(document.getElementById("banos").value) || 0,
-      estacionamientos: Number(document.getElementById("estacionamientos").value) || 0,
-      metros: Number(document.getElementById("metros").value) || 0,
-      descripcion: document.getElementById("descripcion").value,
-      enlace_video: document.getElementById("enlaceVideo").value.trim(),
-      nombre_asesor: nombreAsesor,
-      telefono_asesor: telefonoAsesor,
-      tipo_asesor: tipoAsesorSel,
-      nombre_agencia: nombreAgenciaVal,
-      fotos: urlsPublicas
-    };
-    
+    const payload = { titulo, tipo, operacion, precio, ubicacion, habitaciones: Number(document.getElementById("habitaciones").value) || 0, banos: Number(document.getElementById("banos").value) || 0, estacionamientos: Number(document.getElementById("estacionamientos").value) || 0, metros: Number(document.getElementById("metros").value) || 0, descripcion: document.getElementById("descripcion").value, enlace_video: document.getElementById("enlaceVideo").value.trim(), nombre_asesor: nombreAsesor, telefono_asesor: telefonoAsesor, tipo_asesor: tipoAsesorSel, nombre_agencia: nombreAgenciaVal, fotos: urlsPublicas };
     if (esEdicion) {
-      const { error: updateError } = await dbClient
-        .from('propiedades')
-        .update(payload)
-        .eq('id', editId);
+      const { error: updateError } = await dbClient.from('propiedades').update(payload).eq('id', editId);
       if (updateError) throw updateError;
       actualizarBarraProgreso(100, "¡Cambios guardados!");
       ocultarProgresoGeneracion();
@@ -2023,12 +1487,9 @@ async function procesarCarga(e) {
       ocultarProgresoGeneracion();
       mostrarAvisoElegante("¡Inmueble Publicado!", `Tu propiedad (${codigoUnico}) ya está activa por 30 días en EcoNexus y lista para descargar sus piezas de marketing con QR.`);
     }
-    
     cancelarEdicion();
     const cuerpoGestion = document.getElementById("cuerpoAcordeonGestion");
-    if (!cuerpoGestion.classList.contains("hidden")) {
-      buscarMisInmuebles();
-    }
+    if (!cuerpoGestion.classList.contains("hidden")) { buscarMisInmuebles(); }
   } catch (err) {
     ocultarProgresoGeneracion();
     mostrarAvisoElegante("Error al publicar", "Ocurrió un inconveniente al procesar la publicación. " + (err.message || 'Verifica tu conexión e intenta nuevamente.'), "error");
@@ -2039,32 +1500,21 @@ async function procesarCarga(e) {
   }
 }
 
-/* =========================================================
-EDITAR INMUEBLE (PRELLENADO)
-========================================================= */
 async function editarInmueble(id) {
   try {
-    const { data, error } = await dbClient
-      .from('propiedades')
-      .select('*')
-      .eq('id', id)
-      .single();
+    const { data, error } = await dbClient.from('propiedades').select('*').eq('id', id).single();
     if (error) throw error;
     if (!data) return;
-    
     const cuerpoForm = document.getElementById("cuerpoAcordeonFormulario");
     const iconoForm = document.getElementById("iconoAcordeonFormulario");
     cuerpoForm.classList.remove("hidden");
     iconoForm.classList.add("rotate-180");
-    
     document.getElementById("editInmuebleId").value = data.id;
     document.getElementById("nombreAsesor").value = data.nombre_asesor || '';
     document.getElementById("telefonoAsesor").value = data.telefono_asesor || '';
     document.getElementById("tipoAsesor").value = data.tipo_asesor || 'Independiente';
     toggleTipoAsesor();
-    if (data.tipo_asesor === 'Agencia') {
-      document.getElementById("nombreAgencia").value = data.nombre_agencia || '';
-    }
+    if (data.tipo_asesor === 'Agencia') { document.getElementById("nombreAgencia").value = data.nombre_agencia || ''; }
     document.getElementById("operacion").value = data.operacion || 'Venta';
     document.getElementById("tipo").value = data.tipo || '';
     document.getElementById("precio").value = data.precio || '';
@@ -2076,13 +1526,10 @@ async function editarInmueble(id) {
     document.getElementById("metros").value = data.metros || 0;
     document.getElementById("descripcion").value = data.descripcion || '';
     document.getElementById("enlaceVideo").value = data.enlace_video || '';
-    
-    /* Conservar fotos actuales para no perderlas si el asesor no sube nuevas */
     fotosActualesEdicion = Array.isArray(data.fotos) ? data.fotos : [];
     const fotosInput = document.getElementById("fotosFiles");
     fotosInput.removeAttribute("required");
     fotosInput.value = "";
-    
     document.getElementById("labelFotosTitle").innerHTML = `Fotos del Inmueble (Opcional) <span class="text-xs text-gray-500 font-normal">(Si no seleccionas fotos, se conservarán las ${fotosActualesEdicion.length} actuales)</span>`;
     document.getElementById("labelFotosCount").textContent = "Puedes seleccionar hasta 20 fotos para reemplazar las actuales (se limpiarán las anteriores en R2).";
     document.getElementById("checkAcepto").checked = true;
@@ -2096,15 +1543,11 @@ async function editarInmueble(id) {
   }
 }
 
-/* =========================================================
-CANCELAR EDICIÓN
-========================================================= */
 function cancelarEdicion() {
   document.getElementById("formCaptacion").reset();
   document.getElementById("editInmuebleId").value = "";
   document.getElementById("enlaceVideo").value = "";
   fotosActualesEdicion = [];
-  
   const fotosInput = document.getElementById("fotosFiles");
   fotosInput.setAttribute("required", "true");
   document.getElementById("labelFotosTitle").textContent = "Fotos del Inmueble (Máximo 20) *";
@@ -2113,13 +1556,10 @@ function cancelarEdicion() {
   document.getElementById("tituloFormulario").textContent = "Datos de la Propiedad";
   document.getElementById("btnSubmit").textContent = "Publicar Inmueble en EcoNexus";
   document.getElementById("btnCancelarEdicion").classList.add("hidden");
-  
-  /* Re-inyectar datos del perfil para comodidad */
   const nomPerfil = document.getElementById('perfilNombreAgente').value.trim();
   const telPerfil = document.getElementById('perfilTelefono').value.trim();
   const tipoPerfil = document.getElementById('perfilTipoAsesor').value;
   const agPerfil = document.getElementById('perfilNombreAgencia').value.trim();
-  
   if (nomPerfil) document.getElementById('nombreAsesor').value = nomPerfil;
   if (telPerfil) document.getElementById('telefonoAsesor').value = telPerfil;
   if (tipoPerfil) document.getElementById('tipoAsesor').value = tipoPerfil;
@@ -2127,59 +1567,35 @@ function cancelarEdicion() {
   if (agPerfil) document.getElementById('nombreAgencia').value = agPerfil;
 }
 
-/* =========================================================
-ELIMINAR INMUEBLE (WORKER /delete → SUPABASE legacy → FILA)
-========================================================= */
 function eliminarInmueble(id, codigoEco) {
-  mostrarConfirmacionElegante(
-    "Retirar Inmueble",
-    `¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente? Se eliminarán todas sus fotos de Cloudflare R2 y del Storage legacy de Supabase.`,
-    async () => {
-      mostrarProgresoGeneracion("Eliminando Inmueble...", "Limpiando archivos en Cloudflare R2 y Supabase Storage.");
+  mostrarConfirmacionElegante("Retirar Inmueble", `¿Estás seguro de retirar el inmueble ${codigoEco} de forma permanente? Se eliminarán todas sus fotos de Cloudflare R2 y del Storage legacy de Supabase.`, async () => {
+    mostrarProgresoGeneracion("Eliminando Inmueble...", "Limpiando archivos en Cloudflare R2 y Supabase Storage.");
+    try {
+      await eliminarArchivoInmuebleWorker(codigoEco);
       try {
-        /* 1. Worker /delete → limpia carpeta completa en R2 */
-        await eliminarArchivoInmuebleWorker(codigoEco);
-        
-        /* 2. Limpieza legacy en Supabase Storage (por si quedan fotos viejas) */
-        try {
-          const { data: files } = await dbClient
-            .storage
-            .from('econexus-fotos')
-            .list(`${usuarioActual.id}/${codigoEco}`);
-          if (files && files.length > 0) {
-            const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
-            await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
-          }
-        } catch (e) {
-          console.warn('Limpieza legacy Supabase omitida:', e);
+        const { data: files } = await dbClient.storage.from('econexus-fotos').list(`${usuarioActual.id}/${codigoEco}`);
+        if (files && files.length > 0) {
+          const rutasFiles = files.map(f => `${usuarioActual.id}/${codigoEco}/${f.name}`);
+          await dbClient.storage.from('econexus-fotos').remove(rutasFiles);
         }
-        
-        /* 3. Borrar la fila en Supabase */
-        const { error } = await dbClient.from('propiedades').delete().eq('id', id);
-        if (error) throw error;
-        
-        ocultarProgresoGeneracion();
-        mostrarAvisoElegante("Inmueble Retirado", `La propiedad ${codigoEco} fue eliminada con éxito.`);
-        buscarMisInmuebles();
-      } catch (err) {
-        ocultarProgresoGeneracion();
-        mostrarAvisoElegante("Error al eliminar", "Ocurrió un inconveniente al intentar retirar la propiedad. " + (err.message || ''), "error");
-        console.error(err);
-      }
+      } catch (e) { console.warn('Limpieza legacy Supabase omitida:', e); }
+      const { error } = await dbClient.from('propiedades').delete().eq('id', id);
+      if (error) throw error;
+      ocultarProgresoGeneracion();
+      mostrarAvisoElegante("Inmueble Retirado", `La propiedad ${codigoEco} fue eliminada con éxito.`);
+      buscarMisInmuebles();
+    } catch (err) {
+      ocultarProgresoGeneracion();
+      mostrarAvisoElegante("Error al eliminar", "Ocurrió un inconveniente al intentar retirar la propiedad. " + (err.message || ''), "error");
+      console.error(err);
     }
-  );
+  });
 }
 
-/* =========================================================
-RENOVAR VIGENCIA 30 DÍAS (NORMAL)
-========================================================= */
 async function renovarInmueble(id, codigoEco) {
   try {
     const nuevaExpiracion = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await dbClient
-      .from('propiedades')
-      .update({ fecha_expiracion: nuevaExpiracion })
-      .eq('id', id);
+    const { error } = await dbClient.from('propiedades').update({ fecha_expiracion: nuevaExpiracion }).eq('id', id);
     if (error) throw error;
     mostrarAvisoElegante("¡Vigencia Renovada!", `El inmueble ${codigoEco} ha sido renovado con éxito por 30 días adicionales.`);
     buscarMisInmuebles();
@@ -2189,72 +1605,500 @@ async function renovarInmueble(id, codigoEco) {
   }
 }
 
-/* =========================================================
-SOLICITAR VIP POR WHATSAPP
-========================================================= */
 function solicitarVIPWA(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
-  
   const msjVIP = encodeURIComponent(`Hola EcoNexus, deseo solicitar la activación de destacamiento VIP para mi inmueble:\n\n🏡 *${p.titulo}*\n🆔 *Código:* ${p.codigo_eco}\n💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}\n\nPor favor indíquenme las opciones disponibles para promover esta propiedad.`);
   window.open(`https://wa.me/584244466115?text=${msjVIP}`, '_blank');
 }
 
-/* =========================================================
-COMPARTIR INMUEBLE POR WHATSAPP (LINK WORKER /share)
-========================================================= */
 function compartirInmuebleWA(id) {
   const p = misInmueblesCargados.find(item => item.id == id);
   if (!p) return mostrarAvisoElegante("Propiedad no encontrada", "Actualiza tu lista de publicaciones.", "error");
-  
   const urlInmueble = obtenerEnlaceShareInmueble(p.codigo_eco);
   const esAgencia = p.tipo_asesor === 'Agencia' && p.nombre_agencia;
   const agenciaStr = esAgencia ? p.nombre_agencia : 'Independiente';
-  
   const texto = `📌 *FICHA TÉCNICA DE INMUEBLE - ECONEXUS*\n\n--------------------------\n🏡 *${p.titulo}*\n🆔 *Código:* ${p.codigo_eco}\n💰 *Precio:* $${Number(p.precio).toLocaleString('en-US')}\n📍 *Ubicación:* ${p.ubicacion}\n🏷️ *Operación:* ${p.operacion}\n📐 *Construcción:* ${p.metros || 0} m²\n🛏️ *Habitaciones:* ${p.habitaciones || 0} | 🚿 *Baños:* ${p.banos || 0} | 🚗 *Puestos:* ${p.estacionamientos || 0}\n👤 *Asesor:* ${p.nombre_asesor || 'Asesor EcoNexus'}\n🏢 *Agencia/Estatus:* ${agenciaStr}\n\n🔗 *Ver ficha interactiva, galería de fotos y descripción completa:*\n${urlInmueble}\n\n--------------------------\n*Ficha generada a través de econexusplatform.com/menu*`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
 }
 
-/* =========================================================
-COMPARTIR CATÁLOGO COMPLETO (WORKER /share?asesor=...)
-========================================================= */
 async function compartirInventarioWA() {
   let lista = misInmueblesCargados;
   if (!lista || lista.length === 0) {
     try {
-      const { data } = await dbClient
-        .from('propiedades')
-        .select('*')
-        .eq('user_id', usuarioActual.id)
-        .order('id', { ascending: false });
+      const { data } = await dbClient.from('propiedades').select('*').eq('user_id', usuarioActual.id).order('id', { ascending: false });
       lista = data || [];
       misInmueblesCargados = lista;
-    } catch (err) {
-      console.error("Error al cargar inventario:", err);
-    }
+    } catch (err) { console.error("Error al cargar inventario:", err); }
   }
-  
-  if (!lista || lista.length === 0) {
-    return mostrarAvisoElegante("Catálogo Vacío", "No tienes propiedades cargadas actualmente para compartir.", "info");
-  }
-  
+  if (!lista || lista.length === 0) { return mostrarAvisoElegante("Catálogo Vacío", "No tienes propiedades cargadas actualmente para compartir.", "info"); }
   const primerInmueble = lista[0];
   const numLimpio = primerInmueble.telefono_asesor ? primerInmueble.telefono_asesor.replace(/[^0-9]/g, '') : '';
   const nombreAsesor = primerInmueble.nombre_asesor || "Asesor EcoNexus";
   const esAgencia = primerInmueble.tipo_asesor === 'Agencia' && primerInmueble.nombre_agencia;
   const agencia = esAgencia ? primerInmueble.nombre_agencia : "Independiente";
-  
   const urlCatalogo = `${WORKER_URL}/share?asesor=${encodeURIComponent(numLimpio)}`;
-  
   let listaTexto = "";
-  lista.forEach((item, index) => {
-    listaTexto += `${index + 1}. *[${item.codigo_eco}]* ${item.titulo}\n 💰 $${Number(item.precio).toLocaleString('en-US')} - 📍 ${item.ubicacion} (${item.operacion})\n\n`;
-  });
-  
+  lista.forEach((item, index) => { listaTexto += `${index + 1}. *[${item.codigo_eco}]* ${item.titulo}\n 💰 $${Number(item.precio).toLocaleString('en-US')} - 📍 ${item.ubicacion} (${item.operacion})\n\n`; });
   const texto = `📋 *CATÁLOGO INMOBILIARIO EXCLUSIVO*\n\n--------------------------\n👤 *Asesor:* ${nombreAsesor}\n🏢 *Agencia/Estatus:* ${agencia}\n📊 *Total Propiedades Disponibles:* ${lista.length}\n--------------------------\n\n${listaTexto}🌐 *Ver catálogo interactivo filtrado en la web:*\n${urlCatalogo}\n\n--------------------------\n*Ficha generada a través de econexusplatform.com/menu*`;
   window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`, '_blank');
 }
 </script>
+
+<script>
+/* =========================================================
+NUEVAS HERRAMIENTAS CRM: NOTAS + COPYS + TOP 5
+========================================================= */
+
+const CACHE_PREFIX = 'eco_cache_v1_';
+const CACHE_TTL_24H = 24 * 60 * 60 * 1000;
+
+function getCache(key, ttl = CACHE_TTL_24H) {
+  try {
+    const raw = localStorage.getItem(CACHE_PREFIX + key);
+    if (!raw) return null;
+    const obj = JSON.parse(raw);
+    if (Date.now() - obj.ts > ttl) { localStorage.removeItem(CACHE_PREFIX + key); return null; }
+    return obj.data;
+  } catch (e) { return null; }
+}
+
+function setCache(key, data) {
+  try {
+    localStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ ts: Date.now(), data }));
+  } catch (e) {
+    console.warn('Cache lleno:', e);
+    limpiarCacheViejo();
+  }
+}
+
+function limpiarCacheViejo() {
+  try {
+    const ahora = Date.now();
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(CACHE_PREFIX)) {
+        try {
+          const obj = JSON.parse(localStorage.getItem(k));
+          if (ahora - obj.ts > CACHE_TTL_24H) keysToRemove.push(k);
+        } catch {}
+      }
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch {}
+}
+
+/* NOTAS RÁPIDAS */
+function getNotasKeyHoy() {
+  const hoy = new Date().toISOString().split('T')[0];
+  return `eco_notas_${hoy}`;
+}
+
+function limpiarNotasViejas() {
+  try {
+    const hoy = new Date().toISOString().split('T')[0];
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('eco_notas_') && !k.endsWith(hoy)) keysToRemove.push(k);
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch {}
+}
+
+function abrirModalNotasRapidas() {
+  limpiarNotasViejas();
+  document.getElementById('modalNotasRapidas').classList.remove('hidden');
+  renderizarNotasRapidas();
+  setTimeout(() => document.getElementById('inputNotaRapida').focus(), 100);
+}
+
+function cerrarModalNotasRapidas() {
+  document.getElementById('modalNotasRapidas').classList.add('hidden');
+  document.getElementById('inputNotaRapida').value = '';
+}
+
+function cargarNotasRapidas() {
+  try {
+    const raw = localStorage.getItem(getNotasKeyHoy());
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+}
+
+function guardarNotasRapidas(notas) {
+  try {
+    localStorage.setItem(getNotasKeyHoy(), JSON.stringify(notas));
+  } catch (e) {
+    mostrarAvisoElegante('Almacenamiento lleno', 'No se pudo guardar la nota. Libera espacio en tu navegador.', 'error');
+  }
+}
+
+function agregarNotaRapida() {
+  const input = document.getElementById('inputNotaRapida');
+  const texto = input.value.trim();
+  if (!texto) return;
+  const notas = cargarNotasRapidas();
+  notas.unshift({
+    id: 'n_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    texto: escapeHTML(texto),
+    ts: new Date().toISOString()
+  });
+  guardarNotasRapidas(notas);
+  input.value = '';
+  renderizarNotasRapidas();
+}
+
+function eliminarNotaRapida(id) {
+  const notas = cargarNotasRapidas().filter(n => n.id !== id);
+  guardarNotasRapidas(notas);
+  renderizarNotasRapidas();
+}
+
+function renderizarNotasRapidas() {
+  const cont = document.getElementById('listaNotasRapidas');
+  const notas = cargarNotasRapidas();
+  if (notas.length === 0) {
+    cont.innerHTML = `<div class="text-center py-8 text-gray-400"><i class="fa-solid fa-note-sticky text-3xl mb-2 block opacity-40"></i><p class="text-xs font-semibold">Aún no tienes notas hoy</p><p class="text-[10px] mt-1">Escribe arriba para empezar</p></div>`;
+    return;
+  }
+  cont.innerHTML = notas.map(n => {
+    const hora = new Date(n.ts).toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit' });
+    return `<div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2.5">
+      <div class="w-6 h-6 rounded-lg bg-amber-400 text-amber-900 flex items-center justify-center text-[10px] font-bold shrink-0">${hora.split(':')[0]}</div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs text-gray-800 leading-snug break-words">${n.texto}</p>
+        <p class="text-[10px] text-gray-500 mt-1">${hora}</p>
+      </div>
+      <button onclick="eliminarNotaRapida('${n.id}')" class="text-gray-400 hover:text-red-500 shrink-0 p-1"><i class="fa-solid fa-xmark text-xs"></i></button>
+    </div>`;
+  }).join('');
+}
+
+/* GENERADOR DE COPYS */
+const FEATURES_DETECTABLES = [
+  { keys: ['planta electrica', 'planta eléctrica', 'generador'], tag: 'PlantaElectrica', label: 'Planta eléctrica', emoji: '⚡' },
+  { keys: ['pozo', 'pozo de agua'], tag: 'AguaConstante', label: 'Agua constante', emoji: '💧' },
+  { keys: ['piscina'], tag: 'Piscina', label: 'Piscina', emoji: '🏊' },
+  { keys: ['amoblado', 'equipado', 'linea blanca', 'línea blanca'], tag: 'Amoblado', label: 'Amoblado', emoji: '🛋️' },
+  { keys: ['terraza'], tag: 'Terraza', label: 'Terraza', emoji: '🌿' },
+  { keys: ['balcon', 'balcón'], tag: 'Balcon', label: 'Balcón', emoji: '🌿' },
+  { keys: ['vigilancia', 'seguridad 24'], tag: 'Seguridad24', label: 'Vigilancia 24/7', emoji: '🛡️' },
+  { keys: ['financiamiento', 'credito', 'crédito', 'inicial'], tag: 'Financiamiento', label: 'Financiamiento directo', emoji: '💰' },
+  { keys: ['maletero'], tag: 'Maletero', label: 'Maletero', emoji: '📦' },
+  { keys: ['parrillera', 'caney'], tag: 'Parrillera', label: 'Parrillera', emoji: '🔥' },
+  { keys: ['areas sociales', 'áreas sociales', 'area social'], tag: 'AreasSociales', label: 'Áreas sociales', emoji: '🎉' },
+  { keys: ['vista panoramica', 'vista panorámica'], tag: 'VistaPanoramica', label: 'Vista panorámica', emoji: '🌅' },
+  { keys: ['penthouse', 'ph'], tag: 'Penthouse', label: 'Penthouse', emoji: '🏙️' }
+];
+
+function normalizarTextoCopy(str) {
+  if (!str) return '';
+  return String(str).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function detectarFeatures(inm) {
+  const fichaCompleta = normalizarTextoCopy((inm.titulo || '') + ' ' + (inm.descripcion || '') + ' ' + (inm.tipo || ''));
+  const encontradas = [];
+  FEATURES_DETECTABLES.forEach(f => {
+    if (f.keys.some(k => fichaCompleta.includes(normalizarTextoCopy(k)))) encontradas.push(f);
+  });
+  return {
+    todas: encontradas,
+    principal: encontradas[0]?.label || null,
+    principalTag: encontradas[0]?.tag || null,
+    secundarias: encontradas.slice(1, 3).map(f => f.label),
+    emojiPrincipal: encontradas[0]?.emoji || '✨'
+  };
+}
+
+function extraerZona(ubicacion) {
+  if (!ubicacion) return 'Venezuela';
+  const primeraParte = String(ubicacion).split(',')[0].trim();
+  return primeraParte || 'Venezuela';
+}
+
+function pluralizarTipo(tipo) {
+  if (!tipo) return 'Inmuebles';
+  const t = String(tipo).trim().toLowerCase();
+  const map = { 'apartamento': 'Apartamentos', 'apto': 'Apartamentos', 'casa': 'Casas', 'quinta': 'Quintas', 'townhouse': 'Townhouses', 'local': 'Locales', 'oficina': 'Oficinas', 'galpon': 'Galpones', 'galpón': 'Galpones', 'terreno': 'Terrenos', 'parcela': 'Parcelas' };
+  return map[t] || (tipo.charAt(0).toUpperCase() + tipo.slice(1) + 's');
+}
+
+function limpiarParaTag(txt) {
+  if (!txt) return 'Inmueble';
+  return String(txt).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]/g, '');
+}
+
+function generarCopysInmueble(inm) {
+  const features = detectarFeatures(inm);
+  const zona = extraerZona(inm.ubicacion);
+  const tipoPlural = pluralizarTipo(inm.tipo);
+  const operacion = inm.operacion || 'Venta';
+  const precio = '$' + Number(inm.precio || 0).toLocaleString('en-US');
+  const specs = `${inm.habitaciones || 0} Hab · ${inm.banos || 0} Baños · ${inm.metros || 0} m²`;
+  const featureTxt = features.principal || 'Detalles premium';
+  const urlFicha = obtenerEnlaceShareInmueble(inm.codigo_eco);
+  const nombreAgente = inm.nombre_asesor || document.getElementById('perfilNombreAgente')?.value || 'Tu Asesor';
+  const nombreAgencia = inm.tipo_asesor === 'Agencia' && inm.nombre_agencia ? inm.nombre_agencia : null;
+  const firmaAgente = nombreAgencia ? `${nombreAgente} · ${nombreAgencia}` : nombreAgente;
+
+  const hashtags = [
+    '#BienesRaices',
+    '#' + limpiarParaTag(zona),
+    '#' + tipoPlural + 'En' + limpiarParaTag(operacion),
+    '#' + (features.principalTag || 'InversionInmobiliaria'),
+    '#EcoNexus'
+  ];
+
+  const copyWhatsApp = `🏡 *¡Oportunidad única en ${zona}!*\n\n` +
+    `*${inm.titulo || tipoPlural + ' en ' + operacion}*\n` +
+    `📍 ${inm.ubicacion}\n` +
+    `💰 ${precio} · ${operacion}\n` +
+    `📐 ${specs}\n\n` +
+    `${features.emojiPrincipal} ${featureTxt}${features.secundarias.length ? '\n✅ ' + features.secundarias.join(' · ') : ''}\n\n` +
+    `¿Te gustaría conocerla? Agenda tu visita hoy 👇\n${urlFicha}\n\n` +
+    `👤 ${firmaAgente}\n\n` +
+    `${hashtags.join(' ')}`;
+
+  const copyInstagram = `✨ *Imagina despertar aquí* ✨\n\n` +
+    `${inm.titulo || tipoPlural}\n` +
+    `📍 ${zona}\n` +
+    `💰 ${precio}\n\n` +
+    `Tu próximo capítulo empieza con esta decisión. ${features.emojiPrincipal} ${featureTxt}${features.secundarias.length ? ', ' + features.secundarias.join(' y ') : ''}.\n\n` +
+    `📲 Toca el enlace para ver la galería completa y agendar tu visita:\n${urlFicha}\n\n` +
+    `👤 ${firmaAgente}\n\n` +
+    `${hashtags.join(' ')}`;
+
+  const copyStory = `🔥 ${tipoPlural} en ${zona}\n` +
+    `💰 ${precio} · ${operacion}\n` +
+    `📐 ${specs}\n` +
+    `${features.emojiPrincipal} ${featureTxt}\n\n` +
+    `Ver ficha completa 👉 ${urlFicha}\n\n` +
+    `${hashtags.slice(0, 3).join(' ')}`;
+
+  const copyUrgencia = `🚨 *ATENCIÓN INVERSIONISTAS* 🚨\n\n` +
+    `Propiedad en ${zona} con alta demanda este mes.\n\n` +
+    `*${inm.titulo || tipoPlural}*\n` +
+    `💰 ${precio} · ${operacion}\n` +
+    `📐 ${specs}\n` +
+    `${features.emojiPrincipal} ${featureTxt}\n\n` +
+    `⚡ Inmuebles así no duran mucho. Solicita tu visita ahora:\n${urlFicha}\n\n` +
+    `👤 ${firmaAgente}\n\n` +
+    `${hashtags.join(' ')}`;
+
+  return {
+    whatsapp: { titulo: 'WhatsApp Directo', texto: copyWhatsApp, badge: 'wa' },
+    instagram: { titulo: 'Instagram Aspiracional', texto: copyInstagram, badge: 'ig' },
+    story: { titulo: 'Story / Reel', texto: copyStory, badge: 'st' },
+    urgencia: { titulo: 'Llamado de Urgencia', texto: copyUrgencia, badge: 'ur' },
+    hashtags
+  };
+}
+
+async function abrirModalCopys() {
+  if (!usuarioActual) return mostrarAvisoElegante('Sesión requerida', 'Inicia sesión para usar el generador.', 'info');
+  document.getElementById('modalCopys').classList.remove('hidden');
+  document.getElementById('emptyCopys').classList.remove('hidden');
+  document.getElementById('contenidoCopys').classList.add('hidden');
+  document.getElementById('loadingCopys').classList.add('hidden');
+
+  const select = document.getElementById('selectInmuebleCopys');
+  select.innerHTML = '<option value="">Cargando inmuebles...</option>';
+
+  try {
+    const cacheKey = `inmuebles_copys_${usuarioActual.id}`;
+    let lista = getCache(cacheKey);
+    if (!lista) {
+      const { data } = await dbClient
+        .from('propiedades')
+        .select('id,codigo_eco,titulo,tipo,operacion,precio,ubicacion,habitaciones,banos,metros,descripcion,nombre_asesor,tipo_asesor,nombre_agencia')
+        .eq('user_id', usuarioActual.id)
+        .order('id', { ascending: false })
+        .limit(150);
+      lista = (data || []).map(inm => ({ ...inm, descripcion: String(inm.descripcion || '').substring(0, 500) }));
+      if (lista.length > 0 && lista.length <= 150) setCache(cacheKey, lista);
+    }
+    if (lista.length === 0) {
+      select.innerHTML = '<option value="">No tienes inmuebles publicados</option>';
+      return;
+    }
+    select.innerHTML = '<option value="">Selecciona un inmueble...</option>' +
+      lista.map(inm => `<option value="${escapeHTML(inm.codigo_eco)}">${escapeHTML(inm.codigo_eco)} · ${escapeHTML(inm.titulo)}</option>`).join('');
+    window._inmueblesCopysCache = lista;
+  } catch (e) {
+    console.error(e);
+    select.innerHTML = '<option value="">Error cargando inmuebles</option>';
+  }
+}
+
+function cerrarModalCopys() {
+  document.getElementById('modalCopys').classList.add('hidden');
+}
+
+function cargarCopysInmueble() {
+  const codigo = document.getElementById('selectInmuebleCopys').value;
+  const loading = document.getElementById('loadingCopys');
+  const empty = document.getElementById('emptyCopys');
+  const contenido = document.getElementById('contenidoCopys');
+
+  if (!codigo) {
+    contenido.classList.add('hidden');
+    empty.classList.remove('hidden');
+    return;
+  }
+
+  empty.classList.add('hidden');
+  loading.classList.remove('hidden');
+  contenido.classList.add('hidden');
+
+  setTimeout(() => {
+    try {
+      const lista = window._inmueblesCopysCache || [];
+      const inm = lista.find(i => i.codigo_eco === codigo);
+      if (!inm) throw new Error('Inmueble no encontrado');
+      const copysCacheKey = `copys_${codigo}`;
+      let copys = getCache(copysCacheKey);
+      if (!copys) {
+        copys = generarCopysInmueble(inm);
+        setCache(copysCacheKey, copys);
+      }
+      renderizarCopys(copys);
+      loading.classList.add('hidden');
+      contenido.classList.remove('hidden');
+    } catch (e) {
+      console.error(e);
+      loading.classList.add('hidden');
+      empty.classList.remove('hidden');
+    }
+  }, 300);
+}
+
+function renderizarCopys(copys) {
+  const cont = document.getElementById('contenidoCopys');
+  const variantes = [
+    { key: 'whatsapp', badgeClass: 'copy-badge-wa', iconClass: 'fa-brands fa-whatsapp', iconColor: '#16a34a' },
+    { key: 'instagram', badgeClass: 'copy-badge-ig', iconClass: 'fa-brands fa-instagram', iconColor: '#c026d3' },
+    { key: 'story', badgeClass: 'copy-badge-st', iconClass: 'fa-solid fa-mobile-screen', iconColor: '#7c3aed' },
+    { key: 'urgencia', badgeClass: 'copy-badge-ur', iconClass: 'fa-solid fa-fire', iconColor: '#d97706' }
+  ];
+  cont.innerHTML = variantes.map(v => {
+    const data = copys[v.key];
+    return `<div class="copy-card">
+      <div class="copy-card-header">
+        <div class="flex items-center gap-2">
+          <i class="${v.iconClass}" style="color: ${v.iconColor}; font-size: 14px;"></i>
+          <span class="copy-badge ${v.badgeClass}">${data.titulo}</span>
+        </div>
+        <button onclick="copiarCopy('${v.key}')" class="text-[11px] bg-slate-800 hover:bg-slate-900 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 cursor-pointer"><i class="fa-solid fa-copy"></i> Copiar</button>
+      </div>
+      <div class="copy-texto">${escapeHTML(data.texto)}</div>
+    </div>`;
+  }).join('') +
+  `<div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[10px] font-extrabold uppercase text-blue-800 tracking-wider">Hashtags estratégicos (5)</span>
+      <button onclick="copiarHashtags()" class="text-[10px] bg-blue-600 hover:bg-blue-700 text-white font-bold px-2.5 py-1 rounded-lg cursor-pointer"><i class="fa-solid fa-copy mr-1"></i>Copiar</button>
+    </div>
+    <div>${copys.hashtags.map(h => `<span class="hashtag-pill">${escapeHTML(h)}</span>`).join('')}</div>
+  </div>`;
+  window._copysActuales = copys;
+}
+
+async function copiarCopy(key) {
+  if (!window._copysActuales) return;
+  const data = window._copysActuales[key];
+  if (!data) return;
+  try {
+    await navigator.clipboard.writeText(data.texto);
+    mostrarAvisoElegante('¡Copy Copiado!', 'Ya puedes pegarlo en ' + data.titulo + '. Listo para captar leads.', 'success');
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = data.texto;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    mostrarAvisoElegante('¡Copy Copiado!', 'Ya puedes pegarlo en ' + data.titulo + '.', 'success');
+  }
+}
+
+async function copiarHashtags() {
+  if (!window._copysActuales) return;
+  try {
+    await navigator.clipboard.writeText(window._copysActuales.hashtags.join(' '));
+    mostrarAvisoElegante('¡Hashtags Copiados!', 'Pégalos al final de tu publicación.', 'success');
+  } catch (e) {}
+}
+
+/* TOP 5 POPULARES */
+async function abrirModalTopPopulares() {
+  document.getElementById('modalTopPopulares').classList.remove('hidden');
+  document.getElementById('loadingTop').classList.remove('hidden');
+  document.getElementById('emptyTop').classList.add('hidden');
+  document.getElementById('listaTopPopulares').innerHTML = '';
+
+  try {
+    const hoy = new Date().toISOString().split('T')[0];
+    const cacheKey = `top5_${hoy}`;
+    let lista = getCache(cacheKey);
+
+    if (!lista) {
+      const { data, error } = await dbClient.rpc('top_inmuebles_populares_hoy', { p_limite: 5 });
+      if (error) throw error;
+      lista = data || [];
+      setCache(cacheKey, lista);
+    }
+
+    document.getElementById('loadingTop').classList.add('hidden');
+
+    const conMinimo = lista.filter(item => Number(item.vistas) >= 3);
+    if (conMinimo.length === 0) {
+      document.getElementById('emptyTop').classList.remove('hidden');
+      return;
+    }
+    renderizarTopPopulares(conMinimo);
+  } catch (e) {
+    console.error('Error cargando top populares:', e);
+    document.getElementById('loadingTop').classList.add('hidden');
+    document.getElementById('emptyTop').classList.remove('hidden');
+  }
+}
+
+function cerrarModalTopPopulares() {
+  document.getElementById('modalTopPopulares').classList.add('hidden');
+}
+
+function renderizarTopPopulares(lista) {
+  const cont = document.getElementById('listaTopPopulares');
+  cont.innerHTML = lista.map((item, idx) => {
+    const medallas = ['🥇', '🥈', '🥉'];
+    const medalla = medallas[idx] || `${idx + 1}°`;
+    const foto = item.foto_principal || 'https://via.placeholder.com/120x90/1e293b/10b981?text=EcoNexus';
+    const urlIndex = `https://econexusplatform.com/index.html?codigo=${encodeURIComponent(item.codigo_eco)}`;
+    return `<div class="bg-white border border-yellow-200 rounded-xl p-3 flex items-center gap-3 hover:shadow-md transition">
+      <div class="text-2xl w-8 text-center shrink-0">${medalla}</div>
+      <img src="${escapeHTML(foto)}" class="w-16 h-12 rounded-lg object-cover border border-slate-200 shrink-0" alt="" onerror="this.src='https://via.placeholder.com/64x48/1e293b/10b981?text=E'"/>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 mb-0.5">
+          <span class="text-[10px] font-bold bg-econexus text-white px-2 py-0.5 rounded">${escapeHTML(item.codigo_eco || '')}</span>
+          <span class="text-[10px] text-gray-500 font-semibold">${Number(item.vistas || 0)} clics hoy</span>
+        </div>
+        <p class="text-xs font-extrabold text-gray-900 truncate">${escapeHTML(item.titulo || '')}</p>
+        <p class="text-[11px] text-gray-500 truncate"><i class="fa-solid fa-location-dot text-econexus mr-1"></i>${escapeHTML(item.ubicacion || '')} · <span class="text-econexus font-bold">$${Number(item.precio || 0).toLocaleString('en-US')}</span></p>
+      </div>
+      <a href="${urlIndex}" target="_blank" rel="noopener" class="bg-econexus hover:bg-econexus-light text-white text-[11px] font-extrabold px-3 py-2 rounded-lg shrink-0 flex items-center gap-1.5 shadow-sm"><i class="fa-solid fa-external-link-alt text-[10px]"></i>Ver</a>
+    </div>`;
+  }).join('');
+}
+
+/* Limpieza inicial */
+document.addEventListener('DOMContentLoaded', function() {
+  limpiarCacheViejo();
+  limpiarNotasViejas();
+});
+</script>
+
 <script src="econexus-multimedia.js"></script>
 </body>
 </html>
