@@ -1,0 +1,48 @@
+# ============================================================
+# EcoNexus CRM — Daily Summary Workflow
+# Corre 1×/día a las 11:00 UTC = 7:00 AM Venezuela (UTC-4)
+# Responsable: matching engine + resúmenes diarios + limpieza
+# ============================================================
+
+name: CRM Daily Summary
+
+on:
+  schedule:
+    # 11:00 UTC = 7:00 AM Venezuela (UTC-4)
+    - cron: '0 11 * * *'
+  # Permite ejecución manual desde la pestaña "Actions" del repo
+  workflow_dispatch:
+
+# Permisos mínimos: no escribimos en el repo, solo leemos el código
+permissions:
+  contents: read
+
+jobs:
+  daily-summary:
+    name: Ejecutar resumen diario CRM
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ejecutar motor de matching + resúmenes
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/crm-daily-summary.mjs
+
+      - name: Notificar fallo (solo si algo explota)
+        if: failure()
+        run: |
+          echo "::error::El resumen diario CRM falló. Revisar logs arriba."
+          echo "Si el error es persistente, revisar:"
+          echo "  1. Secrets SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY configurados"
+          echo "  2. Tablas crm_* creadas en Supabase"
+          echo "  3. Conectividad con Supabase"
