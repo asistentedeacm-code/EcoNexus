@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <listings>
   <listing>
-    <home_listing_id>ECO-221195</home_listing_id>
-    <name>Vendo hermoso apartamento  listo para habitar amoblado y equipado </name>
-    <description>Hermoso apartamento amoblado y equipado listo para empezar a crear momentos  Planta baja de 60mts2  Con protector de voltaje para todo el apartamento Sistema de filtro de agua ósmosis para que no comp</description>
-    <url>https://econexusplatform.com/inmueble/eco-221195.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931782039_0.jpg</url>
-    </image>
-    <price>78800 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>60</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Terraza de Mañongo  Naguanagua Valencia </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-830126</home_listing_id>
     <name>Apartamento Bello de Oportunidad </name>
     <description>🏠INMOINNOVA REAL ESTATE OFRECE🏠:  ♦️ NUEVA CAPTACIÓN♦️ Apartamento En Venta. Una Excelente Oportunidad Para Invertir en Tu Tranquilidad Familiar.  Ubicación: En Valles de San Francisco, Tocuyito. Es</description>
@@ -184,27 +163,6 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Bejuma sector tucupido </component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
-    <home_listing_id>ECO-822731</home_listing_id>
-    <name>Vendo Bodegon Fondo de Comercio excelente punto </name>
-    <description>Faith Real Estate  Captación exclusiva  Bodegón Fondo de Comercio  En Santa Rosa  Avenida transitada  Licencia de bodegón  Horario : desde las 9am hasta las 1am   1 cava cuarto 160 x 160 Capacidad par</description>
-    <url>https://econexusplatform.com/inmueble/eco-822731.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982719759_0.jpg</url>
-    </image>
-    <price>60000 USD</price>
-    <property_type>other</property_type>
-    <num_beds>0</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>0</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Santa Rosa Valencia </component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>
@@ -799,27 +757,6 @@
     </address>
   </listing>
   <listing>
-    <home_listing_id>ECO-368259</home_listing_id>
-    <name>Vendo hermoso apartamento listo para habitar con planta 100% en Monte alto</name>
-    <description>Faith Real Estate 🔑✨🔑 Captación exclusiva   Venta de apartamento en Monte Alto de Mañongo con planta 100% con una vista hermosa 63 mts2  Vive en una zona privilegiada y segura de Valencia. Este apar</description>
-    <url>https://econexusplatform.com/inmueble/eco-368259.html</url>
-    <image>
-      <url>https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976445547_0.jpg</url>
-    </image>
-    <price>84 USD</price>
-    <property_type>apartment</property_type>
-    <num_beds>2</num_beds>
-    <num_baths>2</num_baths>
-    <area_size>63</area_size>
-    <area_unit>SQ_M</area_unit>
-    <address format="simple">
-      <component name="addr1">Monte Alto Mañongo Naguanagua Valencia</component>
-      <component name="city">Valencia</component>
-      <component name="region">Carabobo</component>
-      <component name="country">Venezuela</component>
-    </address>
-  </listing>
-  <listing>
     <home_listing_id>ECO-514660</home_listing_id>
     <name>Acogedora casa para vivir tranquilo</name>
     <description>Inmoinnova Real Estate  Ofrece Venta de Casa   Ubicación: Miguel Ache - Zona Sesquicentenario - Edo, Carabobo   Metraje de Terreno 218.18 (m² )  3 Habitaciones  1 Baño  Sala   Cocina Comedor Techo ase</description>
@@ -898,6 +835,195 @@
     <area_unit>SQ_M</area_unit>
     <address format="simple">
       <component name="addr1">Michelena</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-142058</home_listing_id>
+    <name>Alquilo Local en La Candelaria para depósito</name>
+    <description>Inmoinnova Real Estate  ofrece: Local Comercial En alquiler  Ubicación / Zona: C.C. La Candelaria, Calle Rangel, Valencia, Estado Carabobo.  Metraje (m²): 76 m² (Planta Libre / Sin divisiones) Baños: </description>
+    <url>https://econexusplatform.com/inmueble/eco-142058.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-1-1794594110778.jpg</url>
+    </image>
+    <price>250 USD</price>
+    <property_type>commercial</property_type>
+    <num_beds>0</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>76</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Candelaria, Valencia, Carabobo</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-635263</home_listing_id>
+    <name>Venta de Oportunidad Apartamento con Planta en el Parral Valencia</name>
+    <description>Inmoinnova Real Estate  ofrece: Apartamento En venta  Ubicación / Zona: Residencias Golden Building, El Parral, Valencia Norte, Carabobo  Metraje (m²): 207 Habitaciones: 4 (Principal con Jacuzzi) Baño</description>
+    <url>https://econexusplatform.com/inmueble/eco-635263.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-1-1794595144435.jpg</url>
+    </image>
+    <price>129000 USD</price>
+    <property_type>apartment</property_type>
+    <num_beds>4</num_beds>
+    <num_baths>5</num_baths>
+    <area_size>207</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Parral Valencia Carabobo</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-345107</home_listing_id>
+    <name>Alquiler Local Comercial URB. La Isabelica 🏛️</name>
+    <description>🏛️🔵 INMOINNOVA REAL ESTATE 🏛️🔵  LES OFRECEMOS ALQULER LOCAL COMERCIAL:    💰 *Precio:* $150 📍 *Ubicación:*  Urb. La Isabelica Valencia Estado Carabobo 🏷️ *Operación:* Alquiler 📐 *Construcción:*</description>
+    <url>https://econexusplatform.com/inmueble/eco-345107.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-1-1794595814562.jpg</url>
+    </image>
+    <price>150 USD</price>
+    <property_type>commercial</property_type>
+    <num_beds>0</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>22</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Urb. La Isabelica / Sector 10 Calle 08/ A pocos Metros En Av. Principal</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-103320</home_listing_id>
+    <name>Alquilo Habitación cerca del periférico Valencia Carabobo</name>
+    <description>Inmoinnova Real Estate  ofrece: Habitaciones en Alquiler En alquiler (Solo Damas)  Ubicación / Zona: Eutimio Rivas, cercano al Periférico de La Candelaria, Valencia  Metraje (m²): 12 Habitaciones: 1 (</description>
+    <url>https://econexusplatform.com/inmueble/eco-103320.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-1-1794595865279.jpg</url>
+    </image>
+    <price>50 USD</price>
+    <property_type>other</property_type>
+    <num_beds>1</num_beds>
+    <num_baths>0</num_baths>
+    <area_size>12</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Valencia</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-126041</home_listing_id>
+    <name>Alquilo Habitación Centrica</name>
+    <description>Inmoinnova Real Estate ofrece: Habitación en alquiler para Caballeros   Ubicación/ Zona: Candelaria Valencia Edo. Carabobo.  Metraje (m²): 12 m² Baños: 1 Puestos de estacionamiento: No  Descripción:  </description>
+    <url>https://econexusplatform.com/inmueble/eco-126041.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-126041/venta-alquilo-habitacion-centrica-calle-michelena-eco-126041-foto-1-1794596154694.jpg</url>
+    </image>
+    <price>70 USD</price>
+    <property_type>other</property_type>
+    <num_beds>12</num_beds>
+    <num_baths>0</num_baths>
+    <area_size>1</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Calle Michelena</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-361985</home_listing_id>
+    <name>&quot;EXCELENTE VENTA FONDO (COMERCIO REGISTRO) VEHICULOS&quot;</name>
+    <description>‎🏛️🚘 INMOINNOVA REAL ESTATE 🏛️🚘 ‎ ‎LES OFRECEMOS EN VENTA: ‎📍Fondo Comercio Registro: @uto Repuesto E Accesorios y Lubricantes Vehículos  Marca Exclusivamente  ( Toyota 🛻 ) ‎ ‎Documento Mercanti</description>
+    <url>https://econexusplatform.com/inmueble/eco-361985.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-361985/venta-excelente-venta-fondo-comercio-registro-vehiculos-vale-eco-361985-foto-1-1794596690043.jpg</url>
+    </image>
+    <price>1100 USD</price>
+    <property_type>other</property_type>
+    <num_beds>0</num_beds>
+    <num_baths>0</num_baths>
+    <area_size>0</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Valencia Edo. Carabobo</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-378328</home_listing_id>
+    <name>&quot;Excelente Alquiler (Mini Local) URB. La. Isabelica &quot;</name>
+    <description>‎🏛️🔵 INMOINNOVA REAL ESTATE 🏛️🔵  Les ofrecemos Oportunidad: Alquiler Mini Local Comercial URB. La Isabelica  Sector (09)  📍Canon Alquiler: 110💵 📍Cierre Negociación 📍 01 Mes.Deposito  01 Mes Ad</description>
+    <url>https://econexusplatform.com/inmueble/eco-378328.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-378328/alquiler-excelente-alquiler-mini-local-urb-la-isabelica-vale-eco-378328-foto-1-1794597230590.jpg</url>
+    </image>
+    <price>110 USD</price>
+    <property_type>commercial</property_type>
+    <num_beds>0</num_beds>
+    <num_baths>1</num_baths>
+    <area_size>7</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Valencia Edo. Carabobo</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-795745</home_listing_id>
+    <name>Hotel en Venta</name>
+    <description>INMOINNOVA REAL ESTATE   OFRECE EN VENTA  HERMOSO HOTEL   Ubicado en: Taguanes, Cojedes  📐 10.000 m² de Terreno (50 metros de ancho por 200 metros de largo / 1 Hectárea)  5.000 m² de Construcción* (a</description>
+    <url>https://econexusplatform.com/inmueble/eco-795745.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-1-1794601325084.jpg</url>
+    </image>
+    <price>168000 USD</price>
+    <property_type>other</property_type>
+    <num_beds>0</num_beds>
+    <num_baths>0</num_baths>
+    <area_size>0</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Taguanes Cojedes</component>
+      <component name="city">Valencia</component>
+      <component name="region">Carabobo</component>
+      <component name="country">Venezuela</component>
+    </address>
+  </listing>
+  <listing>
+    <home_listing_id>ECO-637764</home_listing_id>
+    <name>En Venta Tonwhouse de esquina y remodelado Parque Valencia de  Res Villas del sol</name>
+    <description>🔑FAITH REAL ESTATE 🔑  En Venta Tonwhouse de esquina y remodelado Parque Valencia de  Res Villas del sol   123.60 mtrs² Terreno  77.40 mtrs² Contrucción   *Primer Nivel* Sala/ Comedor  Cocina Empotra</description>
+    <url>https://econexusplatform.com/inmueble/eco-637764.html</url>
+    <image>
+      <url>https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-1-1794601648705.jpg</url>
+    </image>
+    <price>60000 USD</price>
+    <property_type>house</property_type>
+    <num_beds>2</num_beds>
+    <num_baths>2</num_baths>
+    <area_size>124</area_size>
+    <area_unit>SQ_M</area_unit>
+    <address format="simple">
+      <component name="addr1">Parque Valencia, Valencia Edo Carabobo</component>
       <component name="city">Valencia</component>
       <component name="region">Carabobo</component>
       <component name="country">Venezuela</component>

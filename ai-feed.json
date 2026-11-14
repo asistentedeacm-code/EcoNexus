@@ -6,49 +6,12 @@
     "catalog_url": "https://econexusplatform.com/",
     "country": "Venezuela",
     "currency": "USD",
-    "generated_at": "2026-11-13T09:11:16.081Z",
-    "total_properties": 43,
+    "generated_at": "2026-11-14T08:41:08.887Z",
+    "total_properties": 49,
     "license": "Public data for AI indexing. Attribution to econexusplatform.com appreciated.",
     "contact": "https://econexusplatform.com/"
   },
   "properties": [
-    {
-      "id": "73ae0635-6f0e-4ec2-81cb-87bc5227481c",
-      "code": "ECO-221195",
-      "title": "Vendo hermoso apartamento  listo para habitar amoblado y equipado ",
-      "type": "Apartamento ",
-      "operation": "Venta",
-      "price": 78800,
-      "currency": "USD",
-      "location": {
-        "text": "Terraza de Mañongo  Naguanagua Valencia ",
-        "country": "VE"
-      },
-      "bedrooms": 2,
-      "bathrooms": 2,
-      "parking_spots": 1,
-      "area_m2": 60,
-      "description": "Hermoso apartamento amoblado y equipado listo para empezar a crear momentos \nPlanta baja de 60mts2 \nCon protector de voltaje para todo el apartamento\nSistema de filtro de agua ósmosis para que no compren botellones de agua\nvigilancia 24/7\nCaney y parque infantil \nDocumentos listos para firmar ",
-      "images": [
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931782039_0.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931783545_1.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931784647_2.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931785687_3.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-221195/1791931786530_4.jpg"
-      ],
-      "url": "https://econexusplatform.com/inmueble/eco-221195.html",
-      "video_url": null,
-      "agent": {
-        "name": "Carolina Avinazar ",
-        "phone": "04244519529",
-        "type": "Agencia",
-        "agency": "Faith Real Estate ",
-        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
-        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-221195%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
-      },
-      "published_at": "2026-10-13T22:49:47.462759+00:00",
-      "updated_at": "2026-11-13T09:11:16.080Z"
-    },
     {
       "id": "2a18c208-5a84-4fe4-a4a8-cec1bbc89a81",
       "code": "ECO-830126",
@@ -84,7 +47,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-830126%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-02T15:35:03.890466+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "bc9968d1-c9ca-4574-a867-3772e25f8d00",
@@ -121,7 +84,7 @@
         "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-674084%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-04T19:26:53.85964+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "662e114c-7fb9-4fbf-9844-76af5dd40dbe",
@@ -158,7 +121,7 @@
         "whatsapp_url": "https://wa.me/04127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-526049%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-02T15:51:02.507176+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "b46d74b4-7069-4109-8a58-5286bbfa4b1f",
@@ -195,7 +158,7 @@
         "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-800340%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-04T19:51:52.531955+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "e4e74f0d-2ed1-45d6-8cbe-1f6dad313e30",
@@ -232,7 +195,7 @@
         "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-294102%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-04T19:47:23.829503+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "7a30cf80-0dc8-4289-b433-4efdeb4be8ba",
@@ -266,7 +229,7 @@
         "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-194193%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-04T20:29:09.761464+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "9b1810be-0c5b-4b3a-b794-07f6bb1f0b26",
@@ -301,7 +264,7 @@
         "whatsapp_url": "https://wa.me/04128709000?text=Hola%2C%20vi%20el%20inmueble%20ECO-693453%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-02T15:51:52.864522+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "fb165286-7c74-4cc4-82e7-509b3d6483a4",
@@ -338,44 +301,7 @@
         "whatsapp_url": "https://wa.me/04124318197?text=Hola%2C%20vi%20el%20inmueble%20ECO-280549%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-04T20:04:05.6388+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
-    },
-    {
-      "id": "0fa688cc-83cb-4ba1-b5ec-1cd4b3f1ed53",
-      "code": "ECO-822731",
-      "title": "Vendo Bodegon Fondo de Comercio excelente punto ",
-      "type": "Bodegón Fondo de Comercio ",
-      "operation": "Venta",
-      "price": 60000,
-      "currency": "USD",
-      "location": {
-        "text": "Santa Rosa Valencia ",
-        "country": "VE"
-      },
-      "bedrooms": 0,
-      "bathrooms": 2,
-      "parking_spots": 0,
-      "area_m2": 0,
-      "description": "Faith Real Estate \nCaptación exclusiva\n\nBodegón Fondo de Comercio \nEn Santa Rosa \nAvenida transitada \nLicencia de bodegón \nHorario : desde las 9am hasta las 1am \n\n1 cava cuarto 160 x 160\nCapacidad para 100 cajas de cervezas \n\n1 barra de 4 MTS con 8 bancos \n7 mesas de madera con sus 4 sillas\n2 bancas de hierro de 3mts \n\n1  cava hielera capacidad para 80 bolsas de hielo \n1 enfriador de 3 divisiones operativa 100%\n1 enfriador de 3 divisiones ( para reparar) motor dañado vale 100$ repararlo \n1 conge",
-      "images": [
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982719759_0.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982721409_1.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982722418_2.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982723545_3.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-822731/1791982724772_4.jpg"
-      ],
-      "url": "https://econexusplatform.com/inmueble/eco-822731.html",
-      "video_url": null,
-      "agent": {
-        "name": "Carolina Avinazar ",
-        "phone": "04244519529",
-        "type": "Agencia",
-        "agency": "Faith Real Estate ",
-        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
-        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-822731%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
-      },
-      "published_at": "2026-10-14T12:58:45.492727+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "2071340a-acc5-4458-bc47-340d1f15d68c",
@@ -412,7 +338,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-451134%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T01:15:22.255754+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "df2b8d39-4c00-4a1e-af15-dc20b7eb6f2b",
@@ -449,7 +375,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-498513%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T03:38:01.055367+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "9a553460-b942-4ea0-9166-0cdfb35fdd9d",
@@ -486,7 +412,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-383406%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T05:33:23.936021+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "7c696b21-af9c-4382-b2c5-8a29d6373ee8",
@@ -523,7 +449,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-871643%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T05:42:29.622613+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "06042056-e68e-4184-8f93-05e93600626f",
@@ -560,7 +486,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-323756%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T06:08:30.150656+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "7508b88a-971c-4db0-a6d3-b06088d29d06",
@@ -597,7 +523,7 @@
         "whatsapp_url": "https://wa.me/04141854761?text=Hola%2C%20vi%20el%20inmueble%20ECO-559984%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-20T06:20:56.757259+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "c1a6a754-417c-4d53-9e0f-c124901acda2",
@@ -634,7 +560,7 @@
         "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-570178%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-21T20:50:46.588795+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "96d5ec4a-dc4a-4652-96d1-b59f37213f9f",
@@ -671,7 +597,7 @@
         "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-472172%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-29T09:54:56.838247+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "ff0a1e91-66a8-473f-bada-e57ebc7039ee",
@@ -708,7 +634,7 @@
         "whatsapp_url": "https://wa.me/0589418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-700707%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-02T15:31:29.297389+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "608d6d1c-3d21-4d9b-9176-b9d6f2d329ca",
@@ -745,7 +671,7 @@
         "whatsapp_url": "https://wa.me/04144049940?text=Hola%2C%20vi%20el%20inmueble%20ECO-946183%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-29T14:30:39.933492+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "065d4c3c-b56b-46f5-99ac-82c9c9e80eb4",
@@ -781,7 +707,7 @@
         "whatsapp_url": "https://wa.me/34624652830?text=Hola%2C%20vi%20el%20inmueble%20ECO-890447%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-30T21:24:23.384101+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "64c1104c-ff36-4032-9e7a-168aef18cc11",
@@ -818,7 +744,7 @@
         "whatsapp_url": "https://wa.me/584121634256?text=Hola%2C%20vi%20el%20inmueble%20ECO-392780%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-09-25T01:35:29.218472+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "22ff039a-51a0-45c5-ad98-b3044b91787c",
@@ -855,7 +781,7 @@
         "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-58477%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-31T11:42:16.618867+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "0c4aa7fe-b683-4016-b3dc-61ea09dec85e",
@@ -892,7 +818,7 @@
         "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-503273%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-31T11:28:14.11016+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "2ad5d4f0-f3ca-4dc2-b9ae-8e6258b0300b",
@@ -929,7 +855,7 @@
         "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-873572%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-31T11:20:49.333084+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "6610d1c4-8d37-4ff3-ba32-6589a590a579",
@@ -966,7 +892,7 @@
         "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-717590%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-01T05:23:18.516996+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "e86b112d-232d-41b0-b7d5-288a8a2fa7b8",
@@ -1003,7 +929,7 @@
         "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-532915%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T11:00:46.723749+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "d4387eca-5c92-4eb6-b7b0-faade3ea16ac",
@@ -1040,7 +966,7 @@
         "whatsapp_url": "https://wa.me/0584149418126?text=Hola%2C%20vi%20el%20inmueble%20ECO-743913%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T11:19:39.778619+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "744a42b1-a90f-4b22-bf5f-aa2d0dae782d",
@@ -1077,7 +1003,7 @@
         "whatsapp_url": "https://wa.me/0584244339234?text=Hola%2C%20vi%20el%20inmueble%20ECO-862402%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T15:42:08.093657+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "729e934b-325a-4b2e-9b38-3a2078c4b4c9",
@@ -1114,7 +1040,7 @@
         "whatsapp_url": "https://wa.me/04144013538?text=Hola%2C%20vi%20el%20inmueble%20ECO-683095%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T19:21:49.768034+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "39f68734-228a-4ec5-9b11-9b847c3fdf7f",
@@ -1151,7 +1077,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-620311%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T20:54:39.962118+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "8670782c-3e3f-4006-ac1c-f2765739712b",
@@ -1188,7 +1114,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-300379%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T20:59:07.529644+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "006acafa-58a9-43c0-9a79-fc4d2e6b8fef",
@@ -1225,7 +1151,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-337214%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T21:02:44.211033+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "205ff30a-e289-4570-968c-c5a4f57fc097",
@@ -1269,7 +1195,7 @@
         "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-482934%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-09T14:42:51.011719+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.886Z"
     },
     {
       "id": "a318322b-12c5-446d-8049-8ac1ba972ae8",
@@ -1306,7 +1232,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-620393%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-02T15:46:35.905205+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "7227a416-72ee-40c8-97cc-f94799888b10",
@@ -1343,7 +1269,7 @@
         "whatsapp_url": "https://wa.me/04128461283?text=Hola%2C%20vi%20el%20inmueble%20ECO-682319%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-10-05T21:34:16.389442+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "dd21b1b1-0c22-43d6-b5a2-2d9ab3b676a4",
@@ -1380,7 +1306,7 @@
         "whatsapp_url": "https://wa.me/0584125023269?text=Hola%2C%20vi%20el%20inmueble%20ECO-730156%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-02T15:55:04.803857+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "cc259c65-8ef5-4fd4-8b6c-fb17be782bf8",
@@ -1426,44 +1352,7 @@
         "whatsapp_url": "https://wa.me/04124024829?text=Hola%2C%20vi%20el%20inmueble%20ECO-425399%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-07T00:45:16.838459+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
-    },
-    {
-      "id": "62020d33-88d7-4139-a3b1-8b76db8efd21",
-      "code": "ECO-368259",
-      "title": "Vendo hermoso apartamento listo para habitar con planta 100% en Monte alto",
-      "type": "Hermoso apartamento en Monte alto Mañongo Valencia",
-      "operation": "Venta",
-      "price": 84,
-      "currency": "USD",
-      "location": {
-        "text": "Monte Alto Mañongo Naguanagua Valencia",
-        "country": "VE"
-      },
-      "bedrooms": 2,
-      "bathrooms": 2,
-      "parking_spots": 1,
-      "area_m2": 63,
-      "description": "Faith Real Estate 🔑✨🔑\nCaptación exclusiva \n Venta de apartamento en Monte Alto de Mañongo con planta 100% con una vista hermosa 63 mts2\n\nVive en una zona privilegiada y segura de Valencia. Este apartamento recien remodelado y listo para estrenar está ubicado en Mañongo, cerca del Sambil, Kromi Market.\n\nConjunto Residencial Monte Alto\nPiso 11\n\t- 1 habitación con aire acondicionado y closets\n       - 1 habitación con aire acondicionado \n       - 1 vestier\n       1 cocina queda con tope, campana ",
-      "images": [
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976445547_0.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976447063_1.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976448070_2.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976449138_3.jpg",
-        "https://gvcklmqldswxfweliuio.supabase.co/storage/v1/object/public/econexus-fotos/20c8fc0c-f847-44fb-8635-0757d41c648f/ECO-368259/1791976449981_4.jpg"
-      ],
-      "url": "https://econexusplatform.com/inmueble/eco-368259.html",
-      "video_url": null,
-      "agent": {
-        "name": "Carolina Avinazar",
-        "phone": "04244519529",
-        "type": "Agencia",
-        "agency": "Faith Real Estate",
-        "user_id": "20c8fc0c-f847-44fb-8635-0757d41c648f",
-        "whatsapp_url": "https://wa.me/04244519529?text=Hola%2C%20vi%20el%20inmueble%20ECO-368259%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
-      },
-      "published_at": "2026-10-14T11:14:10.846819+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "57972c40-2e40-41a4-b16d-943a7d1b1e62",
@@ -1503,7 +1392,7 @@
         "whatsapp_url": "https://wa.me/04244035532?text=Hola%2C%20vi%20el%20inmueble%20ECO-514660%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-10T11:20:05.992041+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "221c1b9d-c382-4f8c-9f38-c8364c3f97dc",
@@ -1542,7 +1431,7 @@
         "whatsapp_url": "https://wa.me/0584125023269?text=Hola%2C%20vi%20el%20inmueble%20ECO-878223%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-10T16:41:41.766953+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "306fabb3-3936-40ef-96bd-c902d90417f3",
@@ -1594,7 +1483,7 @@
         "whatsapp_url": "https://wa.me/584121634256?text=Hola%2C%20vi%20el%20inmueble%20ECO-980149%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-06T11:23:15.974181+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
     },
     {
       "id": "5dec993e-2e30-4d8c-bc95-270126d91f13",
@@ -1631,7 +1520,355 @@
         "whatsapp_url": "https://wa.me/04244035532?text=Hola%2C%20vi%20el%20inmueble%20ECO-756873%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
       },
       "published_at": "2026-11-11T00:09:16.85545+00:00",
-      "updated_at": "2026-11-13T09:11:16.081Z"
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "2daa36dc-a775-48fd-b44b-6e93c6c1b900",
+      "code": "ECO-142058",
+      "title": "Alquilo Local en La Candelaria para depósito",
+      "type": "Local",
+      "operation": "Venta",
+      "price": 250,
+      "currency": "USD",
+      "location": {
+        "text": "Candelaria, Valencia, Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "parking_spots": 0,
+      "area_m2": 76,
+      "description": "Inmoinnova Real Estate\n\nofrece:\nLocal Comercial\nEn alquiler\n\nUbicación / Zona: C.C. La Candelaria, Calle Rangel, Valencia, Estado Carabobo.\n\nMetraje (m²): 76 m²\n(Planta Libre / Sin divisiones)\nBaños: 1 baño privado\nPuestos de estacionamiento: 0\n\nDescripción:\nAmplio local comercial de 76 m²  recién remodelado y desocupado (ideal para depósito o almacén). Cuenta con servicios de agua y luz al día.\n\n No está inscrito en el IMA (trámite a cargo del arrendatario).\n\nBondades:\nUbicación estratégica en ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-1-1794594110778.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-2-1794594113328.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-3-1794594115177.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-4-1794594116724.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-142058/venta-alquilo-local-en-la-candelaria-para-deposito-candelari-eco-142058-foto-5-1794594118206.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-142058.html",
+      "video_url": null,
+      "agent": {
+        "name": "Romina Pérez",
+        "phone": "0584127466816",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "704cbdb9-0faa-4403-9766-d77b5849485d",
+        "whatsapp_url": "https://wa.me/0584127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-142058%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T18:21:59.967717+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "a1e45fda-bd6b-442b-b9d1-2af67ec24a20",
+      "code": "ECO-635263",
+      "title": "Venta de Oportunidad Apartamento con Planta en el Parral Valencia",
+      "type": "Apartamento",
+      "operation": "Venta",
+      "price": 129000,
+      "currency": "USD",
+      "location": {
+        "text": "Parral Valencia Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 4,
+      "bathrooms": 5,
+      "parking_spots": 2,
+      "area_m2": 207,
+      "description": "Inmoinnova Real Estate\n\nofrece:\nApartamento\nEn venta\n\nUbicación / Zona: Residencias Golden Building, El Parral, Valencia Norte, Carabobo\n\nMetraje (m²): 207\nHabitaciones: 4 (Principal con Jacuzzi)\nBaños: 5\nPuestos de estacionamiento: 2 (+ 2 Maleteros)\n\nDescripción:\nEspectacular apartamento de 207 m² distribuidos a la perfección. Cuenta con ascensor privado directo al apartamento, amplia cocina tipo pantry, área de lavandero y aire acondicionado central de 5 toneladas.\n\nBondades:\nEdificio de lujo ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-1-1794595144435.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-2-1794595146467.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-3-1794595148231.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-4-1794595150050.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-5-1794595151874.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-6-1794595153775.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-7-1794595156271.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-635263/venta-venta-de-oportunidad-apartamento-con-planta-en-el-parr-eco-635263-foto-8-1794595158369.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-635263.html",
+      "video_url": null,
+      "agent": {
+        "name": "Romina Pérez",
+        "phone": "0584127466816",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "704cbdb9-0faa-4403-9766-d77b5849485d",
+        "whatsapp_url": "https://wa.me/0584127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-635263%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T18:39:19.874242+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "033470b2-b302-4ae9-a200-50e5606ad746",
+      "code": "ECO-345107",
+      "title": "Alquiler Local Comercial URB. La Isabelica 🏛️",
+      "type": "\"ALQUILER LOCAL COMERCIAL URB. LA ISABELICA\"",
+      "operation": "Alquiler",
+      "price": 150,
+      "currency": "USD",
+      "location": {
+        "text": "Urb. La Isabelica / Sector 10 Calle 08/ A pocos Metros En Av. Principal",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 22,
+      "description": "🏛️🔵 INMOINNOVA REAL ESTATE 🏛️🔵\n\nLES OFRECEMOS ALQULER LOCAL COMERCIAL: \n\n\n💰 *Precio:* $150\n📍 *Ubicación:*  Urb. La Isabelica Valencia Estado Carabobo\n🏷️ *Operación:* Alquiler\n📐 *Construcción:* 22 m²\n🛏️ *Habitaciones: 0 | 🚿 *Baños:* 01| 🚗 *Puestos:* 01\n\n📍CIERRE NEGOCIACION:\n02 MESES DEPOSITO\n01 MES COMISION \n🧾 CONTRATO ARRENDAMIENTO 100💵\n👤 *Asesor:* JUAN NATERA \n0416-1499606 📱\n\n🏢 *Agencia/Estatus:* INMOINNOVA REAL ESTATE\n\n#DISPONIBLE #LOCAL #ALQUILER #ISABELICA #150$ ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-1-1794595814562.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-2-1794595818118.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-3-1794595821109.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-4-1794595824562.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-5-1794595827841.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-6-1794595832891.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-7-1794595836361.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-345107/alquiler-alquiler-local-comercial-urb-la-isabelica-urb-la-is-eco-345107-foto-8-1794595839620.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-345107.html",
+      "video_url": null,
+      "agent": {
+        "name": "Juan Natera",
+        "phone": "04161499606",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "59f9a06d-0205-4ea5-89ae-4a643ce05b40",
+        "whatsapp_url": "https://wa.me/04161499606?text=Hola%2C%20vi%20el%20inmueble%20ECO-345107%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T18:50:41.407415+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "64c3112a-957d-4e6b-8de4-54cbba6612f2",
+      "code": "ECO-103320",
+      "title": "Alquilo Habitación cerca del periférico Valencia Carabobo",
+      "type": "Habitación",
+      "operation": "Venta",
+      "price": 50,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia",
+        "country": "VE"
+      },
+      "bedrooms": 1,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 12,
+      "description": "Inmoinnova Real Estate\n\nofrece:\nHabitaciones en Alquiler\nEn alquiler (Solo Damas)\n\nUbicación / Zona: Eutimio Rivas, cercano al Periférico de La Candelaria, Valencia\n\nMetraje (m²): 12\nHabitaciones: 1 (Habitación 2)\nBaños: 1\nPuestos de estacionamiento: 0\n\nDescripción:\nHabitación de 12 m² con techo de placa, piso de cerámica y cama de cerámica. Dispone de baño privado y luz 110V. El inmueble cuenta con tanque de agua para suministro constante. Áreas comunes de uso compartido: cocina, sala de estar ",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-1-1794595865279.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-2-1794595866954.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-3-1794595868875.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-4-1794595870593.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-5-1794595872611.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-6-1794595874516.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-7-1794595876573.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-103320/venta-alquilo-habitacion-cerca-del-periferico-valencia-carab-eco-103320-foto-8-1794595879188.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-103320.html",
+      "video_url": null,
+      "agent": {
+        "name": "Romina Pérez",
+        "phone": "0584127466816",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "704cbdb9-0faa-4403-9766-d77b5849485d",
+        "whatsapp_url": "https://wa.me/0584127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-103320%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T18:51:20.317475+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "5194bc89-2e91-4adc-9f18-4aadf0cb5adf",
+      "code": "ECO-126041",
+      "title": "Alquilo Habitación Centrica",
+      "type": "Habitación en la Candelaria cerca adel metro la Michelena",
+      "operation": "Venta",
+      "price": 70,
+      "currency": "USD",
+      "location": {
+        "text": "Calle Michelena",
+        "country": "VE"
+      },
+      "bedrooms": 12,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 1,
+      "description": "Inmoinnova Real Estate ofrece:\nHabitación en alquiler para Caballeros \n\nUbicación/ Zona: Candelaria Valencia Edo. Carabobo.\n\nMetraje (m²): 12 m²\nBaños: 1\nPuestos de estacionamiento: No\n\nDescripción: \nHabitación con baño interno solo para caballeros, tiene que traer su colchón \n\nBondades: ubicado cerca de la Av las Ferias \nInternet, por ahora no tiene \n\nAlquiler\n\n(Canon): 70$ negociables\nCondiciones: 1  mes de depósito, 1 mes adelantado, 1 mes de comisión). La mensualidad en Bolívares tasa Euro C",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-126041/venta-alquilo-habitacion-centrica-calle-michelena-eco-126041-foto-1-1794596154694.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-126041/venta-alquilo-habitacion-centrica-calle-michelena-eco-126041-foto-2-1794596156901.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-126041/venta-alquilo-habitacion-centrica-calle-michelena-eco-126041-foto-3-1794596158929.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/704cbdb9-0faa-4403-9766-d77b5849485d/ECO-126041/venta-alquilo-habitacion-centrica-calle-michelena-eco-126041-foto-4-1794596160959.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-126041.html",
+      "video_url": null,
+      "agent": {
+        "name": "Romina Pérez",
+        "phone": "0584127466816",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "704cbdb9-0faa-4403-9766-d77b5849485d",
+        "whatsapp_url": "https://wa.me/0584127466816?text=Hola%2C%20vi%20el%20inmueble%20ECO-126041%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T18:56:02.118967+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "e68fbee3-5b81-400d-ab60-25034aee4c0d",
+      "code": "ECO-361985",
+      "title": "\"EXCELENTE VENTA FONDO (COMERCIO REGISTRO) VEHICULOS\"",
+      "type": "\"FONDO COMERCIO (REGISTRO AUTOPARTES)🛻",
+      "operation": "Venta",
+      "price": 1100,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "‎🏛️🚘 INMOINNOVA REAL ESTATE 🏛️🚘\n‎\n‎LES OFRECEMOS EN VENTA:\n‎📍Fondo Comercio Registro: @uto Repuesto E Accesorios y Lubricantes Vehículos  Marca Exclusivamente  ( Toyota 🛻 )\n‎\n‎Documento Mercantil Notariado.\n‎Registrado en SENIAT🧾\n‎\n‎Consta: Con Sellos, Talonarios Factura, Cuenta Jurídica, Máquinas  Para-Fiscales Impresión Factura O Recibos Nueva *A Estrenar* 🧾\n‎\n‎Ideal Para Comerciantes Independientes:  Pequeños Repuesteros Prestigiosa Marca Comercial. *Toyota* Auto> Partes y Lubricantes",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-361985/venta-excelente-venta-fondo-comercio-registro-vehiculos-vale-eco-361985-foto-1-1794596690043.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-361985.html",
+      "video_url": null,
+      "agent": {
+        "name": "Juan Natera",
+        "phone": "04161499606",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "59f9a06d-0205-4ea5-89ae-4a643ce05b40",
+        "whatsapp_url": "https://wa.me/04161499606?text=Hola%2C%20vi%20el%20inmueble%20ECO-361985%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T19:04:51.327511+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "8719cd2f-e5aa-41d6-bcda-adf009df5fb1",
+      "code": "ECO-378328",
+      "title": "\"Excelente Alquiler (Mini Local) URB. La. Isabelica \"",
+      "type": "\"MINI LOCAL COMERCIAL\"",
+      "operation": "Alquiler",
+      "price": 110,
+      "currency": "USD",
+      "location": {
+        "text": "Valencia Edo. Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "parking_spots": 1,
+      "area_m2": 7,
+      "description": "‎🏛️🔵 INMOINNOVA REAL ESTATE 🏛️🔵\n\nLes ofrecemos Oportunidad: Alquiler Mini Local Comercial URB. La Isabelica \nSector (09)\n\n📍Canon Alquiler: 110💵\n📍Cierre Negociación 📍\n01 Mes.Deposito \n01 Mes Adelanto \n01 Mes Comisión \n🧾Documento 50💵\n\n‎CAPTADOR: JUAN NATERA \n‎📱 04161499606 \n‎COD. OFVJEN \n‎\n‎#Venta #Alquileres  #Inmuebles #Inmoinnova #Apartamentos #Casas #Locales  #110\n\n*Captador*: Juan Natera/ COD. OFVJEN \n0416-1499606 📱\nInmoinnovaRealEstate 🏛️ \n\n#Disponible #Local #Alquiler #110$ \n#I",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/59f9a06d-0205-4ea5-89ae-4a643ce05b40/ECO-378328/alquiler-excelente-alquiler-mini-local-urb-la-isabelica-vale-eco-378328-foto-1-1794597230590.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-378328.html",
+      "video_url": null,
+      "agent": {
+        "name": "Juan Natera",
+        "phone": "04161499606",
+        "type": "Agencia",
+        "agency": "INMOINNOVA REAL ESTATE",
+        "user_id": "59f9a06d-0205-4ea5-89ae-4a643ce05b40",
+        "whatsapp_url": "https://wa.me/04161499606?text=Hola%2C%20vi%20el%20inmueble%20ECO-378328%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T19:13:51.762796+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "8176e712-da78-4f01-9cf1-e4aa181feedc",
+      "code": "ECO-795745",
+      "title": "Hotel en Venta",
+      "type": "Hermoso Hotel en Taguanes Cojedes",
+      "operation": "Venta",
+      "price": 168000,
+      "currency": "USD",
+      "location": {
+        "text": "Taguanes Cojedes",
+        "country": "VE"
+      },
+      "bedrooms": 0,
+      "bathrooms": 0,
+      "parking_spots": 0,
+      "area_m2": 0,
+      "description": "INMOINNOVA REAL ESTATE \n\nOFRECE EN VENTA \nHERMOSO HOTEL \n\nUbicado en: Taguanes, Cojedes\n\n📐 10.000 m² de Terreno (50 metros de ancho por 200 metros de largo / 1 Hectárea)\n 5.000 m² de Construcción* (aproximada)\n\n DISTRIBUCIÓN Y COMODIDADES:\n\n• 26 Habitaciones operativas, cómodas y amplias.\n• Amplia área de cocina.\n• Amplia área de oficina.\n• Estacionamiento privado para vehículos y autobuses.\n\n🌿 BONDADES Y EQUIPAMIENTO:\n\n• 95 matas de aguacate en producción.\n• 1 Transformador propio de 75 kVA.\n",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-1-1794601325084.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-2-1794601327100.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-3-1794601328739.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-4-1794601330304.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-5-1794601332060.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-6-1794601333807.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-7-1794601335462.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-8-1794601336951.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/98ab6a95-4b4f-4fc8-a040-c572b81574fc/ECO-795745/venta-hotel-en-venta-taguanes-cojedes-eco-795745-foto-9-1794601339057.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-795745.html",
+      "video_url": null,
+      "agent": {
+        "name": "Víctoria Vargas",
+        "phone": "0584244339234",
+        "type": "Agencia",
+        "agency": "Inmoinnova Real Estate",
+        "user_id": "98ab6a95-4b4f-4fc8-a040-c572b81574fc",
+        "whatsapp_url": "https://wa.me/0584244339234?text=Hola%2C%20vi%20el%20inmueble%20ECO-795745%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T20:22:20.341439+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
+    },
+    {
+      "id": "bc1858f0-4bd6-4df4-940a-d7b2c79f9b17",
+      "code": "ECO-637764",
+      "title": "En Venta Tonwhouse de esquina y remodelado Parque Valencia de  Res Villas del sol",
+      "type": "Townhouse",
+      "operation": "Venta",
+      "price": 60000,
+      "currency": "USD",
+      "location": {
+        "text": "Parque Valencia, Valencia Edo Carabobo",
+        "country": "VE"
+      },
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "parking_spots": 3,
+      "area_m2": 124,
+      "description": "🔑FAITH REAL ESTATE 🔑 \nEn Venta Tonwhouse de esquina y remodelado Parque Valencia de  Res Villas del sol \n\n123.60 mtrs² Terreno \n77.40 mtrs² Contrucción \n\n*Primer Nivel*\nSala/ Comedor \nCocina Empotrada, Moderna Con Tope en Cuarzo \nMesón desayunador en cuarzo \nFamily Room \n\n*2 Nivel*\n2 Habitaciones con closet \n2 Baños \nÁrea de Parrillera \nÁrea de lavado con batea \n3  Puestos de Estacionamiento \nTanque Subterráneo de 5000 ltrs\nMaletero \nReja Multi look \nPuertas y Ventanas Con protectores \n\n*Queda",
+      "images": [
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-1-1794601648705.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-2-1794601650514.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-3-1794601652403.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-4-1794601654242.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-5-1794601656035.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-6-1794601657916.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-7-1794601659564.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-8-1794601661241.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-9-1794601663363.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-10-1794601665677.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-11-1794601667840.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-12-1794601669920.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-13-1794601671782.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-14-1794601673933.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-15-1794601676126.jpg",
+        "https://pub-e237a806501748aeb401b95d3a04b18b.r2.dev/7d2c729a-dfb6-4959-9e00-347a00ef7c79/ECO-637764/venta-en-venta-tonwhouse-de-esquina-y-remodelado-parque-vale-eco-637764-foto-16-1794601678288.jpg"
+      ],
+      "url": "https://econexusplatform.com/inmueble/eco-637764.html",
+      "video_url": null,
+      "agent": {
+        "name": "Margis Lemus",
+        "phone": "584243266179",
+        "type": "Independiente",
+        "agency": null,
+        "user_id": "7d2c729a-dfb6-4959-9e00-347a00ef7c79",
+        "whatsapp_url": "https://wa.me/584243266179?text=Hola%2C%20vi%20el%20inmueble%20ECO-637764%20en%20EcoNexus%20y%20quiero%20m%C3%A1s%20informaci%C3%B3n."
+      },
+      "published_at": "2026-11-13T20:27:59.435067+00:00",
+      "updated_at": "2026-11-14T08:41:08.887Z"
     }
   ]
 }
