@@ -1282,8 +1282,19 @@
         redStats.classList.add('hidden');
       }
 
-      // Top inmueble: se activará en el Paso 7
-      document.getElementById('boletinTopInmueble').classList.add('hidden');
+      // Top inmueble del día (solo si tiene >= 3 vistas para evitar ruido)
+const topBlock = document.getElementById('boletinTopInmueble');
+dbClient.rpc('top_inmueble_hoy').then(({ data, error }) => {
+  if (error || !data || data.length === 0 || Number(data[0].vistas) < 3) {
+    topBlock.classList.add('hidden');
+    return;
+  }
+  const t = data[0];
+  document.getElementById('boletinTopInmuebleTitulo').textContent = t.titulo;
+  document.getElementById('boletinTopInmuebleMeta').textContent = 
+    `${t.codigo_eco} · ${t.ubicacion} · ${t.vistas} clic(s) hoy`;
+  topBlock.classList.remove('hidden');
+}).catch(() => topBlock.classList.add('hidden'));
     }
 
     // ============================================================
